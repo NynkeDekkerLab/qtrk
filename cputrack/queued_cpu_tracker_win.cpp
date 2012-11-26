@@ -1,9 +1,12 @@
 
-#include "queued_cpu_tracker.h"
-#ifdef WIN32
-#include <Windows.h>
-#undef AddJob
-#endif
+#include "queued_cpu_tracker_win.h"
+
+void MutexLock(HANDLE mutex) {
+	WaitForSingleObject(mutex, INFINITE);
+}
+void MutexUnlock(HANDLE mutex) {
+	ReleaseMutex(mutex);
+}
 
 QueuedTracker* CreateQueuedTracker(QTrkSettings* s) {
 	return new QueuedCPUTracker(s);
@@ -16,60 +19,60 @@ static int PDT_BytesPerPixel(QTRK_PixelDataType pdt) {
 
 int QueuedCPUTracker::GetResultCount()
 {
-	pthread_mutex_lock(&results_mutex);
+	MutexLock(results_mutex);
 	int rc = resultCount;
-	pthread_mutex_unlock(&results_mutex);
-	return resultCount;
+	MutexUnlock(results_mutex);
+	return rc;
 }
 
 
 void QueuedCPUTracker::JobFinished(QueuedCPUTracker::Job* j)
 {
-	pthread_mutex_lock(&jobs_buffer_mutex);
+	MutexLock(jobs_buffer_mutex);
 	jobs_buffer.push_back(j);
-	pthread_mutex_unlock(&jobs_buffer_mutex);
+	MutexUnlock(jobs_buffer_mutex);
 }
 
 QueuedCPUTracker::Job* QueuedCPUTracker::GetNextJob()
 {
 	QueuedCPUTracker::Job *j = 0;
-	pthread_mutex_lock(&jobs_mutex);
+	MutexLock(&jobs_mutex);
 	if (!jobs.empty()) {
 		j = jobs.front();
 		jobs.pop_front();
 		jobCount --;
 	}
-	pthread_mutex_unlock(&jobs_mutex);
+	MutexUnlock(jobs_mutex);
 	return j;
 }
 
 QueuedCPUTracker::Job* QueuedCPUTracker::AllocateJob()
 {
 	QueuedCPUTracker::Job *j;
-	pthread_mutex_lock(&jobs_buffer_mutex);
+	MutexLock(jobs_buffer_mutex);
 	if (!jobs_buffer.empty()) {
 		j = jobs_buffer.back();
 		jobs_buffer.pop_back();
 	} else 
 		j = new Job;
-	pthread_mutex_unlock(&jobs_buffer_mutex);
+	MutexUnlock(jobs_buffer_mutex);
 	return j;
 }
 
 void QueuedCPUTracker::AddJob(Job* j)
 {
-	pthread_mutex_lock(&jobs_mutex);
+	MutexLock(jobs_mutex);
 	jobs.push_back(j);
 	jobCount++;
-	pthread_mutex_unlock(&jobs_mutex);
+	MutexUnlock(jobs_mutex);
 }
 
 int QueuedCPUTracker::GetJobCount()
 {
 	int jc;
-	pthread_mutex_lock(&jobs_mutex);
+	MutexLock(jobs_mutex);
 	jc = jobCount;
-	pthread_mutex_unlock(&jobs_mutex);
+	MutexUnlock(jobs_mutex);
 	return jc;
 }
 
@@ -90,12 +93,9 @@ QueuedCPUTracker::QueuedCPUTracker(QTrkSettings* pcfg)
 		dbgprintf("Using %d threads\n", cfg.numThreads);
 	}
 
-	pthread_attr_init(&joinable_attr);
-	pthread_attr_setdetachstate(&joinable_attr, PTHREAD_CREATE_JOINABLE);
-
-	pthread_mutex_init(&jobs_mutex,0);
-	pthread_mutex_init(&results_mutex,0);
-	pthread_mutex_init(&jobs_buffer_mutex,0);
+	jobs_mutex = CreateMutex(0, FALSE, 0);
+	results_mutex = CreateMutex(0, FALSE, 0);
+	jobs_buffer_mutex = CreateMutex(0, FALSE, 0);
 	jobCount = 0;
 	resultCount = 0;
 
@@ -109,13 +109,14 @@ QueuedCPUTracker::~QueuedCPUTracker()
 	quitWork = true;
 
 	for (int k=0;k<threads.size();k++) {
-		pthread_join(threads[k].thread, 0);
+		WaitForSingleObject(threads[k].thread, INFINITE);
+		CloseHandle(threads[k].thread);
 		delete threads[k].tracker;
 	}
-	pthread_attr_destroy(&joinable_attr);
-	pthread_mutex_destroy(&jobs_mutex);
-	pthread_mutex_destroy(&jobs_buffer_mutex);
-	pthread_mutex_destroy(&results_mutex);
+
+	CloseHandle(jobs_mutex);
+	CloseHandle(jobs_buffer_mutex);
+	CloseHandle(results_mutex);
 
 	// free job memory
 	DeleteAllElems(jobs);
@@ -133,11 +134,15 @@ void QueuedCPUTracker::Start()
 	}
 
 	for (int k=0;k<threads.size();k++) {
-		pthread_create(&threads[k].thread, &joinable_attr, WorkerThreadMain, (void*)&threads[k]);
+		DWORD threadID;
+		threads[k].thread = CreateThread(0, 0, WorkerThreadMain, &threads[k], 0, &threadID);
+		if (!threads[k].thread) {
+			throw std::runtime_error("Failed to create processing thread.");
+		}
 	}
 }
 
-void* QueuedCPUTracker::WorkerThreadMain(void* arg)
+DWORD QueuedCPUTracker::WorkerThreadMain(void* arg)
 {
 	Thread* th = (Thread*)arg;
 	QueuedCPUTracker* this_ = th->manager;
@@ -153,6 +158,7 @@ void* QueuedCPUTracker::WorkerThreadMain(void* arg)
 			#endif
 		}
 	}
+	dbgprintf("Thread %p ending.\n", arg);
 	return 0;
 }
 
@@ -196,10 +202,10 @@ void QueuedCPUTracker::ProcessJob(Thread* th, Job* j)
 		result.z = th->tracker->ComputeZ(result.pos, cfg.zlut_angularsteps, j->zlut);
 	}
 
-	pthread_mutex_lock(&results_mutex);
+	MutexLock(results_mutex);
 	results.push_back(result);
 	resultCount++;
-	pthread_mutex_unlock(&results_mutex);
+	MutexUnlock(results_mutex);
 }
 
 void QueuedCPUTracker::SetZLUT(float* data, int planes, int res, int num_zluts)
@@ -213,7 +219,9 @@ void QueuedCPUTracker::SetZLUT(float* data, int planes, int res, int num_zluts)
 
 void QueuedCPUTracker::ComputeRadialProfile(float *image, int width, int height, float* dst, int profileLen, vector2f center)
 {
-	::ComputeRadialProfile(dst, profileLen, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, center, image, width,height);
+	ImageData imgData (image,  width,height);
+
+	::ComputeRadialProfile(dst, profileLen, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, center, &imgData);
 }
 
 
@@ -241,20 +249,21 @@ void QueuedCPUTracker::ScheduleLocalization(uchar* data, int pitch, QTRK_PixelDa
 int QueuedCPUTracker::PollFinished(LocalizationResult* dstResults, int maxResults)
 {
 	int numResults = 0;
-	pthread_mutex_lock(&results_mutex);
+	MutexLock(results_mutex);
 	while (numResults < maxResults && !results.empty()) {
 		dstResults[numResults++] = results.front();
 		results.pop_front();
 		resultCount--;
 	}
-	pthread_mutex_unlock(&results_mutex);
+	MutexUnlock(results_mutex);
 	return numResults;
 }
 
 
 void QueuedCPUTracker::GenerateTestImage(float* dst, float xp,float yp, float z, float photoncount)
 {
-	::GenerateTestImage(dst, cfg.width,cfg.height,xp,yp,z,photoncount);
+	ImageData img(dst,cfg.width,cfg.height);
+	::GenerateTestImage(img,xp,yp,z,photoncount);
 }
 
 

@@ -1,5 +1,9 @@
 #pragma once
-#include "pthread.h"
+#include <Windows.h>
+#undef AddJob
+#undef max
+#undef min
+
 #include "QueuedTracker.h"
 #include "cpu_tracker.h"
 
@@ -25,9 +29,9 @@ public:
 
 private:
 	struct Thread {
-		Thread() { tracker=0; manager=0; }
+		Thread() { tracker=0; manager=0; thread=0;}
 		CPUTracker *tracker;
-		pthread_t thread;
+		HANDLE thread;
 		QueuedCPUTracker* manager;
 	};
 
@@ -42,8 +46,7 @@ private:
 		uint zlut;
 	};
 
-	pthread_attr_t joinable_attr;
-	pthread_mutex_t jobs_mutex, jobs_buffer_mutex, results_mutex;
+	HANDLE jobs_mutex, jobs_buffer_mutex, results_mutex;
 	std::list<Job*> jobs;
 	int jobCount;
 	std::vector<Job*> jobs_buffer; // stores memory
@@ -63,5 +66,6 @@ private:
 	void AddJob(Job* j);
 	void ProcessJob(Thread* th, Job* j);
 
-	static void* WorkerThreadMain(void* arg);
+	static DWORD WINAPI WorkerThreadMain(void* arg);
 };
+
