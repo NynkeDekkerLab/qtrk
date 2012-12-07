@@ -19,10 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{6F4803EC-15BB-459B-95A7-75F475B0928E}</ProjectGuid>
+    <ProjectGuid>{727850D5-40C4-4532-A7BA-540BE8344F0C}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>cputrack</RootNamespace>
-    <ProjectName>lvcputrack</ProjectName>
+    <ProjectName>lvcputrack-nothreads</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -78,7 +78,7 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;</IncludePath>
     <OutDir>$(SolutionDir)\bin</OutDir>
-    <TargetName>jtrkd-labview</TargetName>
+    <TargetName>jtrkd-labview-nt</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug-Single|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -93,7 +93,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-Single|Win32'">
     <OutDir>$(SolutionDir)\bin</OutDir>
-    <TargetName>jtrk-labview</TargetName>
+    <TargetName>jtrk-labview-nt</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -119,14 +119,14 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;CPUTRACK_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../libs/math;../cudatrack;../libs/labview/cintools;../libs/labview/imaq/Include;../libs/pthreads/include;</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>../libs/math;../libs/fftw;../cudatrack;../libs/labview/cintools;../libs/labview/vision/Include;../libs/labview/imaq/Include;../libs/pthreads/include</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>../libs/labview/cvi;../libs/labview/vision/Lib/MSVC;../libs/labview/imaq/Lib;../libs/labview/cintools;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>labview.lib;../libs/pthreads/lib/x86/pthreadVSE2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../libs/labview/vision/Lib/MSVC;../libs/labview/imaq/Lib;../libs/labview/cintools;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>labview.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug-Single|x64'">
@@ -173,7 +173,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release-Single|Win32'">
     <Link>
       <AdditionalLibraryDirectories>../libs/labview/vision/Lib/MSVC;../libs/labview/imaq/Lib;../libs/labview/cintools;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>labview.lib;../libs/pthreads/lib/x86/pthreadVSE2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>labview.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
@@ -181,7 +181,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;CPUTRACK_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>../libs/math;../libs/labview/cintools;../libs/labview/vision/Include;../libs/labview/imaq/Include;../libs/pthreads/include</AdditionalIncludeDirectories>
       <Optimization>MaxSpeed</Optimization>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -189,7 +189,7 @@
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="lv_cputrack_api.cpp" />
     <ClCompile Include="lv_queuetrk_api.cpp" />
-    <ClCompile Include="queued_cpu_tracker.cpp" />
+    <ClCompile Include="queued_cpu_tracker_nothread.cpp" />
     <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -197,10 +197,9 @@
     <ClInclude Include="labview.h" />
     <ClInclude Include="LsqQuadraticFit.h" />
     <ClInclude Include="QueuedTracker.h" />
-    <ClInclude Include="queued_cpu_tracker.h" />
+    <ClInclude Include="queued_cpu_tracker_nothread.h" />
     <ClInclude Include="random_distr.h" />
     <ClInclude Include="scalar_types.h" />
-    <ClInclude Include="threads.h" />
     <ClInclude Include="utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
