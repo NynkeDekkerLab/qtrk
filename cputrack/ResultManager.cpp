@@ -22,6 +22,12 @@ ResultManager::ResultManager(const char *outfile, const char* frameInfoFile, Res
 	remove(outfile);
 	remove(frameInfoFile);
 
+	if(config.binaryOutput) {
+		FILE *f = fopen(outfile, "w");
+		fwrite(&cfg->numBeads, sizeof(int), 1, f);
+		fclose(f);
+	}
+
 	dbgprintf("Allocating ResultManager with %d beads and writeinterval %d\n", cfg->numBeads, cfg->writeInterval);
 }
 
