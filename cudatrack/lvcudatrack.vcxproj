@@ -41,11 +41,11 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)\lv</OutDir>
-    <TargetName>jtrkcudad-labview</TargetName>
+    <TargetName>qtrkcudad-labview</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <TargetName>jtrkcuda-labview</TargetName>
+    <TargetName>qtrkcuda-labview</TargetName>
     <OutDir>$(SolutionDir)\lv</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
