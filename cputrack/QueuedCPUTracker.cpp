@@ -106,11 +106,6 @@ QueuedCPUTracker::QueuedCPUTracker(const QTrkComputedConfig& cc)
 		dbgprintf("Using %d threads\n", cfg.numThreads);
 	} 
 
-	if (cfg.numThreads == 0) {
-		noThreadTracker = new CPUTracker(cfg.width, cfg.height, cfg.xc1_profileLength);
-	} else
-		noThreadTracker = 0;
-
 	maxQueueSize = std::max(2,cfg.numThreads) * 50;
 	jobCount = 0;
 	resultCount = 0;
@@ -129,12 +124,10 @@ QueuedCPUTracker::~QueuedCPUTracker()
 	quitWork = true;
 
 	for (int k=0;k<threads.size();k++) {
+		delete threads[k].mutex;
 		Threads::WaitAndClose(threads[k].thread);
 		delete threads[k].tracker;
 	}
-
-	if (noThreadTracker)
-		delete noThreadTracker;
 
 	// free job memory
 	DeleteAllElems(jobs);
@@ -154,11 +147,15 @@ void QueuedCPUTracker::Break(bool brk)
 void QueuedCPUTracker::Start()
 {
 	quitWork = false;
-	if (noThreadTracker) 
-		return;
 
 	threads.resize(cfg.numThreads);
 	for (int k=0;k<cfg.numThreads;k++) {
+
+		threads[k].mutex = new Threads::Mutex();
+#if 0
+		threads[k].mutex->name = SPrintf("thread%d", k);
+		threads[k].mutex->trace = true;
+#endif
 		threads[k].tracker = new CPUTracker(cfg.width, cfg.height, cfg.xc1_profileLength);
 		threads[k].manager = this;
 	}
@@ -182,7 +179,7 @@ void QueuedCPUTracker::WorkerThreadMain(void* arg)
 			j = this_->GetNextJob();
 
 		if (j) {
-			this_->ProcessJob(th->tracker, j);
+			this_->ProcessJob(th, j);
 			this_->JobFinished(j);
 		} else {
 			Threads::Sleep(1);
@@ -191,8 +188,11 @@ void QueuedCPUTracker::WorkerThreadMain(void* arg)
 	dbgprintf("Thread %p ending.\n", arg);
 }
 
-void QueuedCPUTracker::ProcessJob(CPUTracker* trk, Job* j)
+void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 {
+	CPUTracker* trk = th->tracker;
+	th->lock();
+
 	if (j->dataType == QTrkU8) {
 		trk->SetImage8Bit(j->data, cfg.width);
 	} else if (j->dataType == QTrkU16) {
@@ -249,6 +249,8 @@ void QueuedCPUTracker::ProcessJob(CPUTracker* trk, Job* j)
 	dbgprintf("fr:%d, bead: %d: x=%f, y=%f, z=%f\n",result.job.frame, result.job.zlutIndex, result.pos.x, result.pos.y, result.pos.z);
 #endif
 
+	th->unlock();
+
 	result.error = boundaryHit ? 1 : 0;
 
 	results_mutex.lock();
@@ -290,7 +292,9 @@ void QueuedCPUTracker::SetZLUT(float* data, int num_zluts, int planes, float* zc
 void QueuedCPUTracker::UpdateZLUTs()
 {
 	for (int i=0;i<threads.size();i++){
+		threads[i].lock();
 		threads[i].tracker->SetZLUT(zluts, zlut_planes, cfg.zlut_radialsteps, zlut_count, cfg.zlut_minradius, cfg.zlut_maxradius, cfg.zlut_angularsteps, false, false, zcmp.empty() ? 0 : &zcmp[0]);
+		threads[i].unlock();
 	}
 }
 
@@ -338,12 +342,6 @@ void QueuedCPUTracker::ScheduleLocalization(uchar* data, int pitch, QTRK_PixelDa
 	}
 
 	AddJob(j);
-
-	if (noThreadTracker) {
-		Job* j_ = GetNextJob();
-		ProcessJob(noThreadTracker, j_);
-		JobFinished(j_);
-	}
 }
 
 int QueuedCPUTracker::PollFinished(LocalizationResult* dstResults, int maxResults)
@@ -388,3 +386,23 @@ int QueuedCPUTracker::ScheduleFrame(uchar *imgptr, int pitch, int width, int hei
 	}
 	return count;
 }
+
+
+bool QueuedCPUTracker::GetDebugImage(int id, int *w, int *h,float** data)
+{
+	if (id >= 0 && id < threads.size()) {
+		threads[id].lock();
+
+		*w = cfg.width;
+		*h = cfg.height;
+
+		*data = new float [cfg.width*cfg.height];
+		memcpy(*data, threads[id].tracker->GetDebugImage(), sizeof(float)* cfg.width*cfg.height );
+		
+		threads[id].unlock();
+		return true;
+	}
+
+	return false;
+}
+

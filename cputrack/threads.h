@@ -61,10 +61,25 @@ struct Threads
 		HANDLE h;
 		std::string name;
 		bool trace;
-		Mutex(const char*name=0) : name(name?name:"") { msg("create"); h=CreateMutex(0,FALSE,0); trace=false;}
+		int lockCount;
+
+		Mutex(const char*name=0) : name(name?name:"") { 
+			msg("create"); 
+			h=CreateMutex(0,FALSE,0); 
+			trace=false;
+			lockCount=0;
+		}
 		~Mutex() { msg("end");  CloseHandle(h); }
-		void lock() { msg("lock"); WaitForSingleObject(h, INFINITE); }
-		void unlock() { msg("unlock"); ReleaseMutex(h); }
+		void lock() { 
+			msg("lock"); 
+			WaitForSingleObject(h, INFINITE);
+			lockCount++;
+		}
+		void unlock() { 
+			msg("unlock"); 
+			lockCount--;
+			ReleaseMutex(h); 
+		}
 		void msg(const char* m) {
 			if(name.length()>0 && trace) {
 				char buf[32];

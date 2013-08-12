@@ -8,6 +8,7 @@ template<typename T> T distance(T x, T y) { return sqrt(x*x+y*y); }
 
 float distance(vector2f a,vector2f b) { return distance(a.x-b.x,a.y-b.y); }
 
+const float ANGSTEPF = 1.5f;
 
 void SpeedTest()
 {
@@ -65,7 +66,7 @@ void SpeedTest()
 		xcordist.y +=fabsf(xcor.y - yp);
 		double t3 = GetPreciseTime();
 		boundaryHit = false;
-		vector2f qi = tracker->ComputeQI(initial, qi_iterations, 64, 16, 5,50, boundaryHit);
+		vector2f qi = tracker->ComputeQI(initial, qi_iterations, 64, 16,ANGSTEPF, 5,50, boundaryHit);
 		qidist.x += fabsf(qi.x - xp);
 		qidist.y += fabsf(qi.y - yp);
 		double t4 = GetPreciseTime();
@@ -162,7 +163,7 @@ void OutputProfileImg()
 		dbgprintf("XCor: %f,%f. Err: %d\n", xcor.x-xp, xcor.y-yp, boundaryHit);
 
 		boundaryHit=false;
-		vector2f qi = tracker->ComputeQI(initial, 3, 64, 32, 1, 10, boundaryHit);
+		vector2f qi = tracker->ComputeQI(initial, 3, 64, 32, ANGSTEPF, 1, 10, boundaryHit);
 		dbgprintf("QI: %f,%f. Err: %d\n", qi.x-xp, qi.y-yp, boundaryHit);
 	}
 
@@ -191,7 +192,7 @@ void TestBoundCheck()
 		dbgprintf("XCor: %f,%f. Err: %d\n", xcor.x-xp, xcor.y-yp, boundaryHit);
 
 		boundaryHit=false;
-		vector2f qi = tracker->ComputeQI(initial, 3, 64, 32, 1, 10, boundaryHit);
+		vector2f qi = tracker->ComputeQI(initial, 3, 64, 32, ANGSTEPF, 1, 10, boundaryHit);
 		dbgprintf("QI: %f,%f. Err: %d\n", qi.x-xp, qi.y-yp, boundaryHit);
 	}
 
@@ -331,7 +332,7 @@ void QTrkTest()
 	cfg.xc1_profileLength = 64;
 	cfg.numThreads = -1; // direct processing, dont use queue
 	//cfg.numThreads = 6;
-	QueuedCPUTracker qtrk(&cfg);
+	QueuedCPUTracker qtrk(cfg);
 	float *image = new float[cfg.width*cfg.height];
 
 	// Generate ZLUT
@@ -452,7 +453,7 @@ void BuildConvergenceMap(int iterations)
 	trk.SetImage8Bit((uchar*)data,W);
 	vector2f com = trk.ComputeBgCorrectedCOM();
 	bool boundaryHit;
-	vector2f cmp = trk.ComputeQI(com,8,80,64,2,25,boundaryHit);
+	vector2f cmp = trk.ComputeQI(com,8,80,64,ANGSTEPF,2,25,boundaryHit);
 
 	float *xcorErrMap = new float[steps*steps];
 	float *qiErrMap = new float[steps*steps];
@@ -462,7 +463,7 @@ void BuildConvergenceMap(int iterations)
 		{
 			vector2f initial (cmp.x+step*(x-steps/2), cmp.y+step*(y-steps/2) );
 			vector2f xcor = trk.ComputeXCorInterpolated(initial, iterations, 64, boundaryHit);
-			vector2f qi = trk.ComputeQI(initial, iterations, 80, 64,2,30,boundaryHit);
+			vector2f qi = trk.ComputeQI(initial, iterations, 80, 64,ANGSTEPF,2,30,boundaryHit);
 
 			errXCor.x += fabs(xcor.x-cmp.x);
 			errXCor.y += fabs(xcor.y-cmp.y);
@@ -526,7 +527,7 @@ void CorrectedRadialProfileTest()
 	trk.SetImageFloat(img.data);
 	vector2f com = trk.ComputeBgCorrectedCOM();
 	bool boundaryHit;
-	vector2f qi = trk.ComputeQI(com, 4, 64, 64, 1, 30, boundaryHit);
+	vector2f qi = trk.ComputeQI(com, 4, 64, 64,ANGSTEPF, 1, 30, boundaryHit);
 	dbgprintf("%s: COM: %f, %f. QI: %f, %f\n", imgname, com.x, com.y, qi.x, qi.y);
 
 	std::vector<float> angularProfile(128);
@@ -554,7 +555,7 @@ void WriteRadialProf(const char *file, ImageData& d)
 	trk.SetImageFloat(d.data);
 	vector2f com = trk.ComputeBgCorrectedCOM();
 	bool bhit;
-	vector2f qipos = trk.ComputeQI(com, 4, 64, 64, 5, 50, bhit);
+	vector2f qipos = trk.ComputeQI(com, 4, 64, 64,ANGSTEPF, 5, 50, bhit);
 
 	const int radialsteps=64;
 	float radprof[radialsteps];
@@ -565,13 +566,13 @@ void WriteRadialProf(const char *file, ImageData& d)
 
 int main()
 {
-	SpeedTest();
+	//SpeedTest();
 	//SmallImageTest();
 	PixelationErrorTest();
 	//ZTrackingTest();
 	//Test2DTracking();
 	//TestBoundCheck();
-//	QTrkTest();
+	QTrkTest();
 	//for (int i=1;i<8;i++)
 //		BuildConvergenceMap(i);
 

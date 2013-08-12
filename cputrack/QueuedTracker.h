@@ -157,6 +157,8 @@ public:
 
 	virtual std::string GetProfileReport() { return ""; }
 
+	virtual bool GetDebugImage(int ID, int *w, int *h, float** pData) { return false; } // deallocate result with delete[] 
+
 	QTrkComputedConfig cfg;
 
 	void ScheduleLocalization(uchar* data, int pitch, QTRK_PixelDataType pdt, LocalizeType locType, uint frame, uint timestamp, vector3f* initial, uint zlutIndex, uint zlutPlane);

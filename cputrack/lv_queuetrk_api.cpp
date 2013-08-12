@@ -58,6 +58,22 @@ bool ValidateTracker(QueuedTracker* tracker, ErrorCluster* e, const char *funcna
 	return true;
 }
 
+CDLL_EXPORT int qtrk_get_debug_image(QueuedTracker* qtrk, int id, LVArray2D<float>** data, ErrorCluster* e)
+{
+	int w,h;
+	if (ValidateTracker(qtrk, e, "qtrk_get_debug_image")) {
+		float* img;
+		if (qtrk->GetDebugImage(id, &w,&h, &img)) {
+			ResizeLVArray2D(data, h, w);
+			for (int i=0;i<w*h;i++) (*data)->elem[i]=img[i];
+			delete[] img;
+			return 1;
+		}
+	}
+	return 0;
+}
+
+
 CDLL_EXPORT void DLL_CALLCONV qtrk_get_computed_config(QueuedTracker* qtrk, QTrkComputedConfig* cc, ErrorCluster *err)
 {
 	if (ValidateTracker(qtrk, err, "get computed config"))

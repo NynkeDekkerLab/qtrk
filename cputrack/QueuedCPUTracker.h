@@ -31,15 +31,20 @@ public:
 
 	bool IsIdle() override;
 	int GetResultCount() override;
+	bool GetDebugImage(int id, int *w, int*h, float** data);
 
 	std::string GetProfileReport() { return "CPU tracker currently has no profile reporting"; }
 
 private:
 	struct Thread {
-		Thread() { tracker=0; manager=0; thread=0;}
+		Thread() { tracker=0; manager=0; thread=0;  mutex=0; }
 		CPUTracker *tracker;
 		Threads::Handle* thread;
 		QueuedCPUTracker* manager;
+		Threads::Mutex *mutex;
+
+		void lock() { mutex->lock(); }
+		void unlock(){ mutex->unlock(); }
 	};
 
 	struct Job {
@@ -50,9 +55,6 @@ private:
 		QTRK_PixelDataType dataType;
 		LocalizationJob job;
 	};
-
-	// Special no-threads mode for debugging
-	CPUTracker* noThreadTracker;
 
 	Threads::Mutex jobs_mutex, jobs_buffer_mutex, results_mutex;
 	std::deque<Job*> jobs;
@@ -77,7 +79,7 @@ private:
 	Job* GetNextJob();
 	Job* AllocateJob();
 	void AddJob(Job* j);
-	void ProcessJob(CPUTracker* trk, Job* j);
+	void ProcessJob(Thread* th, Job* j);
 
 	static void WorkerThreadMain(void* arg);
 };
