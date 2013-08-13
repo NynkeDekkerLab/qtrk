@@ -355,7 +355,7 @@ void QTrkTest()
 			Sleep(100);
 			dbgprintf(".");
 		}
-		float* zlut = qtrk.GetZLUT(0,0);
+		float* zlut = qtrk.GetZLUT();
 		qtrk.ClearResults();
 		uchar* zlut_bytes = floatToNormalizedInt(zlut, qtrk.cfg.zlut_radialsteps, zplanes, (uchar)255);
 		WriteJPEGFile(zlut_bytes, qtrk.cfg.zlut_radialsteps, zplanes, "qtrkzlut.jpg", 99);
@@ -475,7 +475,7 @@ void BuildConvergenceMap(int iterations)
 		}
 		dbgprintf("y=%d\n", y);
 	}
-
+	
 
 	WriteImageAsCSV(SPrintf("xcor-err-i%d.csv", iterations).c_str(), xcorErrMap, steps,steps);
 	WriteImageAsCSV(SPrintf("qi-err-i%d.csv", iterations).c_str(), qiErrMap, steps,steps);
@@ -564,15 +564,30 @@ void WriteRadialProf(const char *file, ImageData& d)
 	WriteImageAsCSV(file, radprof, radialsteps, 1);
 }
 
+
+void TestImageFromLUT(const char *lutfile)
+{
+	ImageData lut = ReadJPEGFile(lutfile);
+	ImageData dstimg = ImageData::alloc(80,80);
+
+	GenerateImageFromLUT(&dstimg, &lut, 1.0f, 30.0f, vector2f(dstimg.w/2,dstimg.h/2), 20.0f, 1.0f);
+
+	dstimg.free();
+	lut.free();
+}
+
+
 int main()
 {
+	TestImageFromLUT("LUTexample25X.jpg");
+
 	//SpeedTest();
 	//SmallImageTest();
 	PixelationErrorTest();
 	//ZTrackingTest();
 	//Test2DTracking();
 	//TestBoundCheck();
-	QTrkTest();
+	//QTrkTest();
 	//for (int i=1;i<8;i++)
 //		BuildConvergenceMap(i);
 

@@ -52,7 +52,7 @@ struct QIParamWrapper {
 	float2* d_result;
 };
 
-struct ZLUTMapping {
+struct LocalizationParams {
 	int zlutIndex, zlutPlane; // if <0 then, no zlut for this job
 	LocalizeType locType;
 };
@@ -67,12 +67,12 @@ public:
 	
 	// Schedule an entire frame at once, allowing for further optimizations
 	int ScheduleFrame(uchar *imgptr, int pitch, int width, int height, ROIPosition *positions, int numROI, QTRK_PixelDataType pdt, const LocalizationJob *jobInfo) override;
-
 	void ClearResults() override;
 
 	// data can be zero to allocate ZLUT data.
 	void SetZLUT(float* data,  int numLUTs, int planes, float* zcmp=0) override; 
-	float* GetZLUT(int *count=0, int* planes=0) override; // delete[] memory afterwards
+	float* GetZLUT() override; // delete[] memory afterwards
+	void GetZLUTSize(int& count, int& planes) override;
 	int PollFinished(LocalizationResult* results, int maxResults) override;
 
 	std::string GetProfileReport() override;
@@ -84,17 +84,23 @@ public:
 	bool IsIdle() override;
 	int GetResultCount() override;
 
+	void SetPixelCalibrationImages(float* offset,float* gain) override;
+
 protected:
 
 	struct Device {
-		Device(int index) {this->index=index; zlut=cudaImageListf::emptyList(); }
+		Device(int index) {
+			this->index=index; 
+			zlut=calib_offset=calib_gain=cudaImageListf::emptyList(); 
+		}
 		~Device(); 
 		void SetZLUT(float *data, int radialsteps, int planes, int numLUTs, float* zcmp);
 
 		cudaImageListf zlut;
+		cudaImageListf calib_offset, calib_gain;
 		device_vec<float> zcompareWindow;
-		device_vec<float2> d_qi_trigtable;
-		device_vec<float2> d_zlut_trigtable;
+		device_vec<float2> qi_trigtable;
+		device_vec<float2> zlut_trigtable;
 		int index;
 	};
 
@@ -107,8 +113,8 @@ protected:
 		
 		pinned_array<float3> results;
 		pinned_array<float3> com;
-		pinned_array<ZLUTMapping> zlutmapping;
-		device_vec<ZLUTMapping> d_zlutmapping;
+		pinned_array<LocalizationParams> locParams;
+		device_vec<LocalizationParams> d_locParams;
 		std::vector<LocalizationJob> jobs;
 		
 		cudaImageListf images; 

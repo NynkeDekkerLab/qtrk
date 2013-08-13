@@ -115,6 +115,8 @@ QueuedCPUTracker::QueuedCPUTracker(const QTrkComputedConfig& cc)
 	processJobs = false;
 	jobsInProgress = 0;
 
+	calib_gain = calib_offset = 0;
+
 	Start();
 }
 
@@ -133,8 +135,16 @@ QueuedCPUTracker::~QueuedCPUTracker()
 	DeleteAllElems(jobs);
 	DeleteAllElems(jobs_buffer);
 
-	if (zluts) {
-		delete[] zluts;
+	delete[] calib_gain;
+	delete[] calib_offset;
+	delete[] zluts;
+}
+
+void QueuedCPUTracker::SetPixelCalibrationImages(float* offset, float* gain)
+{
+	if (zlut_count > 0) {
+		calib_gain = new float[cfg.width*cfg.height*zlut_count];
+		calib_offset = new float[cfg.width*cfg.height*zlut_count];
 	}
 }
 
@@ -199,6 +209,11 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 		trk->SetImage16Bit((ushort*)j->data, cfg.width*2);
 	} else {
 		trk->SetImageFloat((float*)j->data);
+	}
+
+	if (calib_offset && calib_gain) {
+		int index = cfg.width*cfg.height*j->job.zlutIndex;
+		trk->ApplyOffsetGain(&calib_offset[index], &calib_gain[index] );
 	}
 
 //	dbgprintf("Job: id %d, bead %d\n", j->id, j->zlut);
@@ -298,9 +313,14 @@ void QueuedCPUTracker::UpdateZLUTs()
 	}
 }
 
+void QueuedCPUTracker::GetZLUTSize(int &count, int& planes)
+{
+	count = zlut_count;
+	planes = zlut_planes;
+}
 
 
-float* QueuedCPUTracker::GetZLUT(int *count, int* planes)
+float* QueuedCPUTracker::GetZLUT()
 {
 	float* cp = 0;
 	if (zlut_planes*cfg.zlut_radialsteps*zlut_count>0) {
@@ -309,9 +329,6 @@ float* QueuedCPUTracker::GetZLUT(int *count, int* planes)
 		std::copy(zluts, zluts+(zlut_planes*cfg.zlut_radialsteps*zlut_count), cp);
 		results_mutex.unlock();
 	}
-
-	if(count) *count = zlut_count;
-	if(planes) *planes = zlut_planes;
 
 	return cp;
 }

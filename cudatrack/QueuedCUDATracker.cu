@@ -54,7 +54,7 @@ Issues:
 #define TRK_PROFILE
 
 #ifdef TRK_PROFILE
-	class ProfileBlock
+	class ScopedCPUProfiler
 	{
 		double* time;
 		double start;
@@ -62,18 +62,18 @@ Issues:
 		typedef std::pair<int, double> Item;
 		static std::map<const char*, Item> results;
 
-		ProfileBlock(double *time) :  time(time) {
+		ScopedCPUProfiler(double *time) :  time(time) {
 			start = GetPreciseTime();
 		}
-		~ProfileBlock() {
+		~ScopedCPUProfiler() {
 			double end = GetPreciseTime();
 			*time += start-end;
 		}
 	};
 #else
-	class ProfileBlock {
+	class ScopedCPUProfiler {
 	public:
-		ProfileBlock(double* time) {}
+		ScopedCPUProfiler(double* time) {}
 	};
 #endif
 
@@ -205,8 +205,8 @@ QueuedCUDATracker::QueuedCUDATracker(const QTrkComputedConfig& cc, int batchSize
 	for (uint i=0;i<devices.size();i++) {
 		Device* d = devices[i];
 		cudaSetDevice(d->index);
-		d->d_qi_trigtable = qi_radialgrid;
-		d->d_zlut_trigtable = zlut_radialgrid;
+		d->qi_trigtable = qi_radialgrid;
+		d->zlut_trigtable = zlut_radialgrid;
 	}
 	kernelParams.zlut.img = cudaImageListf::emptyList();
 	
@@ -337,10 +337,10 @@ bool QueuedCUDATracker::Stream::IsExecutionDone()
 
 void QueuedCUDATracker::Stream::OutputMemoryUse()
 {
-	int deviceMem = d_com.memsize() + d_zlutmapping.memsize() + d_QIprofiles.memsize() + d_QIprofiles_reverse.memsize() + d_radialprofiles.memsize() +
+	int deviceMem = d_com.memsize() + d_locParams.memsize() + d_QIprofiles.memsize() + d_QIprofiles_reverse.memsize() + d_radialprofiles.memsize() +
 		d_quadrants.memsize() + d_resultpos.memsize() + d_zlutcmpscores.memsize() + images.totalNumBytes();
 
-	int hostMem = hostImageBuf.memsize() + com.memsize() + zlutmapping.memsize() + results.memsize();
+	int hostMem = hostImageBuf.memsize() + com.memsize() + locParams.memsize() + results.memsize();
 
 	dbgprintf("Stream memory use: %d kb pinned on host, %d kb device memory (%d for images). \n", hostMem / 1024, deviceMem/1024, images.totalNumBytes()/1024);
 }
@@ -364,9 +364,9 @@ QueuedCUDATracker::Stream* QueuedCUDATracker::CreateStream(Device* device, int s
 		s->d_com.init(batchSize);
 		s->d_resultpos.init(batchSize);
 		s->results.init(batchSize);
-		s->zlutmapping.init(batchSize);
+		s->locParams.init(batchSize);
 		s->d_imgmeans.init(batchSize);
-		s->d_zlutmapping.init(batchSize);
+		s->d_locParams.init(batchSize);
 		s->d_quadrants.init(qi_FFT_length*batchSize*2);
 		s->d_QIprofiles.init(batchSize*2*qi_FFT_length); // (2 axis) * (2 radialsteps) = 8 * nr = 2 * qi_FFT_length
 		s->d_QIprofiles_reverse.init(batchSize*2*qi_FFT_length);
@@ -459,9 +459,9 @@ void QueuedCUDATracker::ScheduleLocalization(uchar* data, int pitch, QTRK_PixelD
 		job.locType &= ~(LocalizeZ | LocalizeBuildZLUT);
 	s->jobs.push_back(job);
 	s->localizeFlags |= job.locType; // which kernels to run
-	s->zlutmapping[jobIndex].locType = job.LocType();
-	s->zlutmapping[jobIndex].zlutIndex = jobInfo->zlutIndex;
-	s->zlutmapping[jobIndex].zlutPlane = jobInfo->zlutPlane;
+	s->locParams[jobIndex].locType = job.LocType();
+	s->locParams[jobIndex].zlutIndex = jobInfo->zlutIndex;
+	s->locParams[jobIndex].zlutPlane = jobInfo->zlutPlane;
 
 	if (s->jobs.size() == batchSize)
 		s->state = Stream::StreamPendingExec;
@@ -605,31 +605,44 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 
 	Device *d = s->device;
 	cudaSetDevice(d->index);
-	kernelParams.qi.cos_sin_table = d->d_qi_trigtable.data;
+	kernelParams.qi.cos_sin_table = d->qi_trigtable.data;
 	kernelParams.zlut.img = d->zlut;
-	kernelParams.zlut.trigtable = d->d_zlut_trigtable.data;
+	kernelParams.zlut.trigtable = d->zlut_trigtable.data;
 	kernelParams.zlut.zcmpwindow = d->zcompareWindow.data;
 
 	cudaEventRecord(s->batchStart, s->stream);
-	
-	{ProfileBlock p(&cpu_time.imageCopy);
-	s->images.copyToDevice(s->hostImageBuf.data(), true, s->stream); }
+	s->d_locParams.copyToDevice(s->locParams.data(), s->JobCount(), true, s->stream);
+
+	{ScopedCPUProfiler p(&cpu_time.imageCopy);
+		s->images.copyToDevice(s->hostImageBuf.data(), true, s->stream); 
+	}
 	//cudaMemcpy2DAsync( s->images.data, s->images.pitch, s->hostImageBuf.data(), sizeof(float)*s->images.w, s->images.w*sizeof(float), s->images.h * s->JobCount(), cudaMemcpyHostToDevice, s->stream); }
 	//{ ProfileBlock p("jobs to gpu");
 	//s->d_jobs.copyToDevice(s->jobs.data(), s->jobCount, true, s->stream); }
+
+	if (!devices[0]->calib_gain.isEmpty()) {
+		dim3 numThreads(16, 16, 2);
+		dim3 numBlocks((cfg.width + numThreads.x - 1 ) / numThreads.x,
+				(cfg.height + numThreads.y - 1) / numThreads.y,
+				(s->JobCount() + numThreads.z - 1) / numThreads.z);
+
+		ApplyOffsetGain <<< numThreads, numBlocks, 0, s->stream >>>
+			(s->images, s->d_locParams.data, s->device->calib_gain, s->device->calib_offset);
+	}
+
 	cudaEventRecord(s->imageCopyDone, s->stream);
 
 	TImageSampler::BindTexture(s->images);
-	{ ProfileBlock p(&cpu_time.com);
-	BgCorrectedCOM<TImageSampler> <<< blocks(s->JobCount()), threads(), 0, s->stream >>> 
-		(s->JobCount(), s->images, s->d_com.data, cfg.com_bgcorrection, s->d_imgmeans.data);
-	checksum(s->d_com.data, 1, s->JobCount(), "com");
+	{ ScopedCPUProfiler p(&cpu_time.com);
+		BgCorrectedCOM<TImageSampler> <<< blocks(s->JobCount()), threads(), 0, s->stream >>> 
+			(s->JobCount(), s->images, s->d_com.data, cfg.com_bgcorrection, s->d_imgmeans.data);
+		checksum(s->d_com.data, 1, s->JobCount(), "com");
 	}
 	cudaEventRecord(s->comDone, s->stream);
 
 	device_vec<float3> *curpos = &s->d_com;
 	if (s->localizeFlags & LocalizeQI) {
-		ProfileBlock p(&cpu_time.qi);
+		ScopedCPUProfiler p(&cpu_time.qi);
 
 		float angsteps = cfg.qi_angstepspq / powf(cfg.qi_angstep_factor, cfg.qi_iterations);
 		
@@ -641,38 +654,36 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 	}
 	cudaEventRecord(s->qiDone, s->stream);
 
-	{ProfileBlock p(&cpu_time.zcompute);
+	{ScopedCPUProfiler p(&cpu_time.zcompute);
 
-	// Compute radial profiles
-	if (s->localizeFlags & (LocalizeZ | LocalizeBuildZLUT)) {
-		dim3 numThreads(16, 16);
-		dim3 numBlocks( (s->JobCount() + numThreads.x - 1) / numThreads.x, 
-				(cfg.zlut_radialsteps + numThreads.y - 1) / numThreads.y);
-		ZLUT_RadialProfileKernel<TImageSampler> <<< numBlocks , numThreads, 0, s->stream >>>
-			(s->JobCount(), s->images, kernelParams.zlut, curpos->data, s->d_radialprofiles.data, s->d_imgmeans.data);
-		ZLUT_NormalizeProfiles<<< blocks(s->JobCount()), threads(), 0, s->stream >>> (s->JobCount(), kernelParams.zlut, s->d_radialprofiles.data);
-
-		s->d_zlutmapping.copyToDevice(s->zlutmapping.data(), s->JobCount(), true, s->stream);
-	}
-	// Store profile in LUT
-	if (s->localizeFlags & LocalizeBuildZLUT) {
-		ZLUT_ProfilesToZLUT <<< blocks(s->JobCount()), threads(), 0, s->stream >>> (s->JobCount(), s->images, kernelParams.zlut, curpos->data, s->d_zlutmapping.data, s->d_radialprofiles.data);
-	}
-	// Compute Z 
-	if (s->localizeFlags & LocalizeZ) {
-		int zplanes = kernelParams.zlut.planes;
-		dim3 numThreads(8, 16);
-		ZLUT_ComputeProfileMatchScores <<< dim3( (s->JobCount() + numThreads.x - 1) / numThreads.x, (zplanes  + numThreads.y - 1) / numThreads.y), numThreads, 0, s->stream >>> 
-			(s->JobCount(), kernelParams.zlut, s->d_radialprofiles.data, s->d_zlutcmpscores.data, s->d_zlutmapping.data);
-		ZLUT_ComputeZ <<< blocks(s->JobCount()), threads(), 0, s->stream >>> (s->JobCount(), kernelParams.zlut, curpos->data, s->d_zlutcmpscores.data, s->d_zlutmapping.data);
-	}
+		// Compute radial profiles
+		if (s->localizeFlags & (LocalizeZ | LocalizeBuildZLUT)) {
+			dim3 numThreads(16, 16);
+			dim3 numBlocks( (s->JobCount() + numThreads.x - 1) / numThreads.x, 
+					(cfg.zlut_radialsteps + numThreads.y - 1) / numThreads.y);
+			ZLUT_RadialProfileKernel<TImageSampler> <<< numBlocks , numThreads, 0, s->stream >>>
+				(s->JobCount(), s->images, kernelParams.zlut, curpos->data, s->d_radialprofiles.data, s->d_imgmeans.data);
+			ZLUT_NormalizeProfiles<<< blocks(s->JobCount()), threads(), 0, s->stream >>> (s->JobCount(), kernelParams.zlut, s->d_radialprofiles.data);
+		}
+		// Store profile in LUT
+		if (s->localizeFlags & LocalizeBuildZLUT) {
+			ZLUT_ProfilesToZLUT <<< blocks(s->JobCount()), threads(), 0, s->stream >>> (s->JobCount(), s->images, kernelParams.zlut, curpos->data, s->d_locParams.data, s->d_radialprofiles.data);
+		}
+		// Compute Z 
+		if (s->localizeFlags & LocalizeZ) {
+			int zplanes = kernelParams.zlut.planes;
+			dim3 numThreads(8, 16);
+			ZLUT_ComputeProfileMatchScores <<< dim3( (s->JobCount() + numThreads.x - 1) / numThreads.x, (zplanes  + numThreads.y - 1) / numThreads.y), numThreads, 0, s->stream >>> 
+				(s->JobCount(), kernelParams.zlut, s->d_radialprofiles.data, s->d_zlutcmpscores.data, s->d_locParams.data);
+			ZLUT_ComputeZ <<< blocks(s->JobCount()), threads(), 0, s->stream >>> (s->JobCount(), kernelParams.zlut, curpos->data, s->d_zlutcmpscores.data, s->d_locParams.data);
+		}
 	}
 	TImageSampler::UnbindTexture(s->images);
 	cudaEventRecord(s->zcomputeDone, s->stream);
 
-	{ ProfileBlock p(&cpu_time.getResults);
-	s->d_com.copyToHost(s->com.data(), true, s->stream);
-	curpos->copyToHost(s->results.data(), true, s->stream);
+	{ ScopedCPUProfiler p(&cpu_time.getResults);
+		s->d_com.copyToHost(s->com.data(), true, s->stream);
+		curpos->copyToHost(s->results.data(), true, s->stream);
 	}
 
 	// Make sure we can query the all done signal
@@ -729,6 +740,26 @@ int QueuedCUDATracker::PollFinished(LocalizationResult* dstResults, int maxResul
 	return numResults;
 }
 
+void QueuedCUDATracker::SetPixelCalibrationImages(float* offset, float* gain)
+{
+	for (uint i=0;i<devices.size();i++) {
+		Device*d = devices[i];
+		if (offset == 0) {
+			d->calib_gain.free();
+			d->calib_offset.free();
+		}
+		else if (d->zlut.count > 0) {
+			d->calib_gain = cudaImageListf::alloc(cfg.width,cfg.height,d->zlut.count);
+			d->calib_offset = cudaImageListf::alloc(cfg.width,cfg.height,d->zlut.count);
+
+			for (int j=0;j<d->zlut.count;j++) {
+				d->calib_gain.copyImageToDevice(j, &gain[cfg.width*cfg.height*j]);
+				d->calib_offset.copyImageToDevice(j, &offset[cfg.width*cfg.height*j]);
+			}
+		}
+	}
+}
+
 // data can be zero to allocate ZLUT data
 void QueuedCUDATracker::SetZLUT(float* data,  int numLUTs, int planes, float* zcmp) 
 {
@@ -767,7 +798,7 @@ void QueuedCUDATracker::Device::SetZLUT(float *data, int radialsteps, int planes
 }
 
 // delete[] memory afterwards
-float* QueuedCUDATracker::GetZLUT(int *count, int* planes)
+float* QueuedCUDATracker::GetZLUT()
 {
 	cudaImageListf* zlut = &devices[0]->zlut;
 
@@ -786,10 +817,13 @@ float* QueuedCUDATracker::GetZLUT(int *count, int* planes)
 	} else
 		std::fill(data, data+(cfg.zlut_radialsteps*zlut->h*zlut->count), 0.0f);
 
-	if (planes) *planes = zlut->h;
-	if (count) *count = zlut->count;
-
 	return data;
+}
+
+void QueuedCUDATracker::GetZLUTSize(int& count, int &planes)
+{
+	count = devices[0]->zlut.count;
+	planes = devices[0]->zlut.h;
 }
 
 

@@ -295,12 +295,12 @@ __global__ void BgCorrectedCOM(int count, cudaImageListf images,float3* d_com, f
 	}
 }
 
-__global__ void ZLUT_ProfilesToZLUT(int njobs, cudaImageListf images, ZLUTParams params, float3* positions, ZLUTMapping* mapping, float* profiles)
+__global__ void ZLUT_ProfilesToZLUT(int njobs, cudaImageListf images, ZLUTParams params, float3* positions, LocalizationParams* locParams, float* profiles)
 {
 	int idx = threadIdx.x + blockDim.x * blockIdx.x;
 
 	if (idx < njobs) {
-		ZLUTMapping m = mapping[idx];
+		auto m = locParams[idx];
 		if (m.locType & LocalizeBuildZLUT) {
 			float* dst = params.GetZLUT(m.zlutIndex, m.zlutPlane );
 
@@ -391,11 +391,11 @@ __global__ void ZLUT_RadialProfileKernel(int njobs, cudaImageListf images, ZLUTP
 }
 
 
-__global__ void ZLUT_ComputeZ (int njobs, ZLUTParams params, float3* positions, float* compareScoreBuf, ZLUTMapping *mapping)
+__global__ void ZLUT_ComputeZ (int njobs, ZLUTParams params, float3* positions, float* compareScoreBuf, LocalizationParams *locParams)
 {
 	int jobIdx = threadIdx.x + blockIdx.x * blockDim.x;
 
-	if (jobIdx < njobs && (mapping[jobIdx].locType & LocalizeZ)) {
+	if (jobIdx < njobs && (locParams[jobIdx].locType & LocalizeZ)) {
 		float* cmp = &compareScoreBuf [params.planes * jobIdx];
 
 		float maxPos = ComputeMaxInterp<float>::Compute(cmp, params.planes);
@@ -403,7 +403,7 @@ __global__ void ZLUT_ComputeZ (int njobs, ZLUTParams params, float3* positions, 
 	}
 }
 
-__global__ void ZLUT_ComputeProfileMatchScores(int njobs, ZLUTParams params, float *profiles, float* compareScoreBuf, ZLUTMapping* zlutmap)
+__global__ void ZLUT_ComputeProfileMatchScores(int njobs, ZLUTParams params, float *profiles, float* compareScoreBuf, LocalizationParams *locParams)
 {
 	int jobIdx = threadIdx.x + blockIdx.x * blockDim.x;
 	int zPlaneIdx = threadIdx.y + blockIdx.y * blockDim.y;
@@ -412,11 +412,11 @@ __global__ void ZLUT_ComputeProfileMatchScores(int njobs, ZLUTParams params, flo
 		return;
 
 	float* prof = &profiles [jobIdx * params.radialSteps()];
-	ZLUTMapping mapping = zlutmap[jobIdx];
+	auto mapping = locParams[jobIdx];
 	if (mapping.locType & LocalizeZ) {
 		float diffsum = 0.0f;
 		for (int r=0;r<params.radialSteps();r++) {
-			float d = prof[r] - params.img.pixel(r, zPlaneIdx, zlutmap[jobIdx].zlutIndex);
+			float d = prof[r] - params.img.pixel(r, zPlaneIdx, mapping.zlutIndex);
 			if (params.zcmpwindow)
 				d *= params.zcmpwindow[r];
 			diffsum += d*d;
@@ -451,5 +451,18 @@ __global__ void ZLUT_NormalizeProfiles(int njobs, ZLUTParams params, float* prof
 		for (int i=0;i<params.radialSteps();i++)
 			prof[i] *= invTotalRms;
 	}
+}
+
+
+__global__ void ApplyOffsetGain (cudaImageListf images, LocalizationParams* locParams, cudaImageListf calib_gain, cudaImageListf calib_offset)
+{
+	int x = threadIdx.x + blockIdx.x * blockDim.x;
+	int y = threadIdx.y + blockIdx.y * blockDim.y;
+	int jobIdx = threadIdx.z + blockIdx.z * blockDim.z;
+
+	int bead = locParams[jobIdx].zlutIndex;
+
+	float value = images.pixel(x,y,jobIdx);
+	images.pixel(x,y,jobIdx) = calib_gain.pixel(x,y,bead) * value + calib_offset.pixel(x,y,bead);
 }
 

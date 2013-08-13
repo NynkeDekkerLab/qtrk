@@ -62,7 +62,7 @@ struct cudaImageList {
 		return row[x];
 	}
 
-	CUBOTH T pixel(int x,int y, int imgIndex) {
+	CUBOTH T& pixel(int x,int y, int imgIndex) {
 		computeImagePos(x,y,imgIndex);
 		T* row = (T*) ( (char*)data + y*pitch );
 		return row[x];
@@ -87,7 +87,10 @@ struct cudaImageList {
 
 	void free()
 	{
-		if(data) cudaFree(data);
+		if(data) {
+			cudaFree(data);
+			data=0;
+		}
 	}
 
 	// Copy a single subimage to the host

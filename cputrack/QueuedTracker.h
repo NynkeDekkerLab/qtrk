@@ -136,6 +136,10 @@ public:
 	QueuedTracker();
 	virtual ~QueuedTracker();
 
+	// These are per-bead! So both gain and offset are sized [width*height*numbeads], similar to ZLUT
+	// result=offset+gain*pixel
+	virtual void SetPixelCalibrationImages(float* offset, float* gain) = 0;
+
 	// Frame and timestamp are ignored by tracking code itself, but usable for the calling code
 	// Pitch: Distance in bytes between two successive rows of pixels (e.g. address of (0,0) -  address of (0,1) )
 	// ZlutIndex: Which ZLUT to use for ComputeZ/BuildZLUT
@@ -148,7 +152,8 @@ public:
 	
 	// data can be zero to allocate ZLUT data. zcmp has to have 'res' elements
 	virtual void SetZLUT(float* data, int count, int planes, float* zcmp=0) = 0; 
-	virtual float* GetZLUT(int *count=0, int* planes=0) = 0; // delete[] memory afterwards
+	virtual float* GetZLUT() = 0; // delete[] memory afterwards
+	virtual void GetZLUTSize(int& count, int& planes) = 0;
 	virtual int GetResultCount() = 0;
 	virtual int PollFinished(LocalizationResult* results, int maxResults) = 0;
 

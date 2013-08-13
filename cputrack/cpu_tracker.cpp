@@ -68,10 +68,17 @@ CPUTracker::~CPUTracker()
 	}
 }
 
-void CPUTracker::SetImageFloat(float *src) {
+void CPUTracker::SetImageFloat(float *src)
+{
 	for (int k=0;k<width*height;k++)
 		srcImage[k]=src[k];
 	mean=0.0f;
+}
+
+void CPUTracker::ApplyOffsetGain(float* offset, float *gain) 
+{
+	for (int i=0;i<width*height;i++)
+		srcImage[i] = (srcImage[i]+offset[i])*gain[i];
 }
 
 

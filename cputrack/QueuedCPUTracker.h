@@ -18,11 +18,14 @@ public:
 
 	// QueuedTracker interface
 	void SetZLUT(float* data, int num_zluts, int planes, float* zcmp=0) override;
-	float* GetZLUT(int *num_zluts, int* planes) override;
+	float* GetZLUT() override;
+	void GetZLUTSize(int& count ,int& planes) override;
 	void ScheduleLocalization(uchar* data, int pitch, QTRK_PixelDataType pdt, const LocalizationJob *jobInfo) override;
 	// Schedule an entire frame at once, allowing for further optimizations
 	int ScheduleFrame(uchar *imgptr, int pitch, int width, int height, ROIPosition *positions, int numROI, QTRK_PixelDataType pdt, 
 		const LocalizationJob *jobInfo) override;
+
+	void SetPixelCalibrationImages(float* offset, float* gain) override;
 	
 	int GetQueueLength(int *maxQueueLength=0) override; // In queue + in progress
 	int PollFinished(LocalizationResult* results, int maxResults) override;
@@ -64,6 +67,8 @@ private:
 	int resultCount;
 	int maxQueueSize;
 	int jobsInProgress;
+
+	float *calib_gain, *calib_offset;
 
 	std::vector<Thread> threads;
 	float* zluts;

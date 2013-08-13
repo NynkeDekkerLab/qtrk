@@ -69,6 +69,9 @@ struct ImageData {
 		return s/(w*h);
 	}
 	float& operator[](int i) { return data[i]; }
+
+	static ImageData alloc(int w,int h) { return ImageData(new float[w*h], w,h); }
+	void free() { delete[] data; }
 };
 
 float ComputeMostOccuringValue(ImageData& img); // a poor man's median
