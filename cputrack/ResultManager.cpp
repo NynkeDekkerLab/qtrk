@@ -22,12 +22,6 @@ ResultManager::ResultManager(const char *outfile, const char* frameInfoFile, Res
 	remove(outfile);
 	remove(frameInfoFile);
 
-	if(config.binaryOutput) {
-		FILE *f = fopen(outfile, "w");
-		fwrite(&cfg->numBeads, sizeof(int), 1, f);
-		fclose(f);
-	}
-
 	dbgprintf("Allocating ResultManager with %d beads and writeinterval %d\n", cfg->numBeads, cfg->writeInterval);
 }
 
@@ -73,6 +67,11 @@ void ResultManager::Write()
 	
 	resultMutex.lock();
 	if (config.binaryOutput) {
+		if (lastSaveFrame == 0) {
+			fwrite(&config.numBeads, sizeof(int), 1, f);
+			dbgprintf("writing %d beads into file %s\n", config.numBeads, outputFile.c_str());
+		}
+
 		for (uint j=lastSaveFrame; j<processedFrames;j++)
 		{
 			auto fr = frameResults[j-startFrame];
@@ -186,25 +185,26 @@ void ResultManager::ThreadLoop(void *param)
 
 int ResultManager::GetBeadPositions(int startFrame, int endFrame, int bead, LocalizationResult* results)
 {
-	frameCountMutex.lock();
-	int start = startFrame - this->startFrame;
+	int count = endFrame-startFrame;
 
+	frameCountMutex.lock();
 	if (endFrame > processedFrames)
 		endFrame = processedFrames;
 
-	int end = endFrame - this->startFrame;
+	int start = startFrame - this->startFrame;
+	if (start < 0) start = 0;
+	if (count > processedFrames-this->startFrame)
+		count = processedFrames-this->startFrame;
+
 	frameCountMutex.unlock();
 
-	if (start < 0)
-		return 0;
-
 	resultMutex.lock();
-	for (int i=start;i<end;i++){
-		results[i-start] = frameResults[i]->results[bead];
+	for (int i=0;i<count;i++){
+		results[i] = frameResults[i+start]->results[bead];
 	}
 	resultMutex.unlock();
 
-	return end-start;
+	return count;
 }
 
 
