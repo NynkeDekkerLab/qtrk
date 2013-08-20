@@ -79,11 +79,9 @@ void ResultManager::StoreResult(LocalizationResult *r)
 	fr->count++;
 
 	// Advance fullFrames
-	frameCountMutex.lock();
 	while (processedFrames - startFrame < frameResults.size() && frameResults[processedFrames-startFrame]->count == config.numBeads)
 		processedFrames ++;
 	localizationsDone ++;
-	frameCountMutex.unlock();
 }
 
 void ResultManager::Write()
@@ -140,13 +138,18 @@ void ResultManager::Write()
 
 	if(f) fclose(f);
 	if(finfo) fclose(finfo);
-	frameCountMutex.lock();
 	lastSaveFrame = processedFrames;
-	frameCountMutex.unlock();
 
 	resultMutex.unlock();
 }
 
+QueuedTracker* ResultManager::GetTracker()
+{
+	trackerMutex.lock();
+	QueuedTracker* trk = qtrk;
+	trackerMutex.unlock();
+	return trk;
+}
 
 void ResultManager::SetTracker(QueuedTracker *qtrk)
 {
@@ -172,10 +175,10 @@ bool ResultManager::Update()
 	resultMutex.lock();
 	for (int i=0;i<count;i++)
 		StoreResult(&resultbuf[i]);
-	resultMutex.unlock();
 
 	trackerMutex.unlock();
 
+	resultMutex.lock();
 	if (processedFrames - lastSaveFrame >= config.writeInterval) {
 		Write();
 	}
@@ -188,10 +191,9 @@ bool ResultManager::Update()
 			delete frameResults[i];
 		frameResults.erase(frameResults.begin(), frameResults.begin()+del);
 
-		frameCountMutex.lock();
 		startFrame += del;
-		frameCountMutex.unlock();
 	}
+	resultMutex.unlock();
 
 	return count>0;
 }
@@ -213,7 +215,7 @@ int ResultManager::GetBeadPositions(int startFrame, int endFrame, int bead, Loca
 {
 	int count = endFrame-startFrame;
 
-	frameCountMutex.lock();
+	resultMutex.lock();
 	if (endFrame > processedFrames)
 		endFrame = processedFrames;
 
@@ -222,9 +224,6 @@ int ResultManager::GetBeadPositions(int startFrame, int endFrame, int bead, Loca
 	if (count > processedFrames-this->startFrame)
 		count = processedFrames-this->startFrame;
 
-	frameCountMutex.unlock();
-
-	resultMutex.lock();
 	for (int i=0;i<count;i++){
 		results[i] = frameResults[i+start]->results[bead];
 	}
@@ -236,9 +235,9 @@ int ResultManager::GetBeadPositions(int startFrame, int endFrame, int bead, Loca
 
 void ResultManager::Flush()
 {
-	Write();
-
 	resultMutex.lock();
+
+	Write();
 
 	// Dump stats about unfinished frames for debugging
 	for (int i=0;i<frameResults.size();i++) {
@@ -259,35 +258,30 @@ void ResultManager::Flush()
 
 void ResultManager::GetFrameCounters(int* startFrame, int *processedFrames, int *lastSaveFrame, int *capturedFrames, int *localizationsDone)
 {
-	frameCountMutex.lock();
+	resultMutex.lock();
 	if (startFrame) *startFrame = this->startFrame;
 	if (processedFrames) *processedFrames = this->processedFrames;
 	if (lastSaveFrame) *lastSaveFrame = this->lastSaveFrame;
 	if (localizationsDone) *localizationsDone = this->localizationsDone;
-	frameCountMutex.unlock();
 
 	if (capturedFrames) {
-		resultMutex.lock();
 		*capturedFrames = this->capturedFrames;
-		resultMutex.unlock();
 	}
+	resultMutex.unlock();
 }
 
 int ResultManager::GetResults(LocalizationResult* results, int startFrame, int numFrames)
 {
-	frameCountMutex.lock();
+	resultMutex.lock();
 
 	if (startFrame >= this->startFrame && numFrames+startFrame <= processedFrames)  {
-		resultMutex.lock();
 		for (int f=0;f<numFrames;f++) {
 			int index = f + startFrame - this->startFrame;
 			for (int j=0;j<config.numBeads;j++)
 				results[config.numBeads*f+j] = frameResults[index]->results[j];
 		}
-
-		resultMutex.unlock();
 	}
-	frameCountMutex.unlock();
+	resultMutex.unlock();
 
 	return numFrames;
 }

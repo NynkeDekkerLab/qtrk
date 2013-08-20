@@ -91,14 +91,11 @@ CDLL_EXPORT int DLL_CALLCONV rm_getresults(ResultManager* rm, int startFrame, in
 CDLL_EXPORT int DLL_CALLCONV rm_removebead(ResultManager* rm, int bead, ErrorCluster* err)
 {
 	if (ValidRM(rm, err)) {
-
-		int start;
-		rm->GetFrameCounters(&start);
-
-		if (start > 0 && rm->Config().binaryOutput) {
-			ArgumentErrorMsg(err, "Removing a bead from the saved data is unsupported for text files");
+		if (rm->GetTracker()) {
+			ArgumentErrorMsg(err, "Cannot discard bead results while tracking in progress");
 		}
 
 		return rm->RemoveBeadResults(bead) ? 1 : 0;
 	}
+	return 0;
 }
