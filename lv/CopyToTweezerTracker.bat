@@ -5,4 +5,5 @@ copy /Y qtrkcuda-labview.dll %DSTPATH%
 copy /Y qtrk-labview.dll %DSTPATH%
 copy /Y qtrkd-labview.dll %DSTPATH%
 copy /Y QTrk.llb %DSTPATH%
+copy /Y QTrk.mnu %DSTPATH%
 pause

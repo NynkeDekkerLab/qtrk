@@ -2,6 +2,32 @@
 #include "ResultManager.h"
 #include "utils.h"
 
+
+TextResultFile::TextResultFile(const char *fn, bool write)
+{
+	f = fopen(fn, write?"w":"r");
+}
+
+void TextResultFile::LoadRow(std::vector<vector3f>& pos)
+{
+
+}
+
+void TextResultFile::SaveRow(std::vector<vector3f>& pos)
+{
+}
+
+void BinaryResultFile::LoadRow(std::vector<vector3f>& pos)
+{
+
+}
+
+void BinaryResultFile::SaveRow(std::vector<vector3f>& pos)
+{
+}
+
+
+
 ResultManager::ResultManager(const char *outfile, const char* frameInfoFile, ResultManagerConfig *cfg)
 {
 	config = *cfg;
@@ -287,5 +313,22 @@ int ResultManager::GetFrameCount()
 	int nfr = capturedFrames;
 	resultMutex.unlock();
 	return nfr;
+}
+
+bool ResultManager::RemoveBeadResults(int bead)
+{
+	if (startFrame > 0) {
+		// TODO: We need to modify the saved data file
+		return false;
+	}
+
+	for (int i=0;i<frameResults.size();i++) {
+		auto fr = frameResults[i];
+
+		fr->count--;
+		fr->results.erase(fr->results.begin()+bead);
+	}
+
+	return true;
 }
 

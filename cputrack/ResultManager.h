@@ -5,6 +5,37 @@
 #include <list>
 #include "threads.h"
 
+
+class ResultFile
+{
+public:
+	ResultFile() { }
+	virtual ~ResultFile() {}
+	virtual void LoadRow(std::vector<vector3f>& pos) = 0;
+	virtual void SaveRow(std::vector<vector3f>& pos) = 0;
+};
+
+class TextResultFile : public ResultFile
+{
+public:
+	TextResultFile(const char* fn, bool write);
+	void LoadRow(std::vector<vector3f>& pos);
+	void SaveRow(std::vector<vector3f>& pos);
+private:
+	FILE *f;
+};
+
+class BinaryResultFile : public ResultFile
+{
+public:
+	BinaryResultFile(const char* fn, bool write);
+	void LoadRow(std::vector<vector3f>& pos);
+	void SaveRow(std::vector<vector3f>& pos);
+protected:
+	FILE *f;
+};
+
+
 // Labview interface packing
 #pragma pack(push,1)
 struct ResultManagerConfig
@@ -36,6 +67,8 @@ public:
 	int StoreFrameInfo(double timestamp, float* columns); // return #frames
 	int GetFrameCount();
 
+	bool RemoveBeadResults(int bead);
+	
 	const ResultManagerConfig& Config() { return config; }
 
 protected:
@@ -60,6 +93,8 @@ protected:
 	volatile int capturedFrames;  // lock by resultMutex
 	volatile int localizationsDone;
 	ResultManagerConfig config;
+
+	ResultFile* resultFile;
 
 	QueuedTracker* qtrk;
 
