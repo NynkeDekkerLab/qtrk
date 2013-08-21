@@ -58,6 +58,7 @@ public:
 
 	void SaveSection(int start, int end, const char *beadposfile, const char *infofile);
 	void SetTracker(QueuedTracker *qtrk);
+	QueuedTracker* GetTracker();
 
 	int GetBeadPositions(int startFrame, int endFrame, int bead, LocalizationResult* r);
 	int GetResults(LocalizationResult* results, int startFrame, int numResults);
@@ -84,7 +85,7 @@ protected:
 		double timestamp;
 	};
 
-	Threads::Mutex frameCountMutex, resultMutex, trackerMutex;
+	Threads::Mutex resultMutex, trackerMutex;
 
 	std::deque< FrameResult* > frameResults;
 	volatile int startFrame; // startFrame for frameResults

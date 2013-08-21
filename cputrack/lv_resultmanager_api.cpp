@@ -91,6 +91,10 @@ CDLL_EXPORT int DLL_CALLCONV rm_getresults(ResultManager* rm, int startFrame, in
 CDLL_EXPORT void DLL_CALLCONV rm_removebead(ResultManager* rm, int bead, ErrorCluster* err)
 {
 	if (ValidRM(rm, err)) {
+		if (rm->GetTracker()) {
+			ArgumentErrorMsg(err, "Cannot discard bead results while tracking in progress");
+		}
+
 		rm->RemoveBeadResults(bead);
 	}
 }
