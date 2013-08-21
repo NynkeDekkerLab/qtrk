@@ -71,8 +71,8 @@ public:
 
 	// data can be zero to allocate ZLUT data.
 	void SetZLUT(float* data,  int numLUTs, int planes, float* zcmp=0) override; 
-	float* GetZLUT() override; // delete[] memory afterwards
-	void GetZLUTSize(int& count, int& planes) override;
+	void GetZLUT(float* data) override; // delete[] memory afterwards
+	void GetZLUTSize(int& count, int& planes, int &radialSteps) override;
 	int PollFinished(LocalizationResult* results, int maxResults) override;
 
 	std::string GetProfileReport() override;

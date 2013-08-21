@@ -313,24 +313,22 @@ void QueuedCPUTracker::UpdateZLUTs()
 	}
 }
 
-void QueuedCPUTracker::GetZLUTSize(int &count, int& planes)
+void QueuedCPUTracker::GetZLUTSize(int &count, int& planes, int &rsteps)
 {
 	count = zlut_count;
 	planes = zlut_planes;
+	rsteps = cfg.zlut_radialsteps;
 }
 
 
-float* QueuedCPUTracker::GetZLUT()
+void QueuedCPUTracker::GetZLUT(float *zlut)
 {
-	float* cp = 0;
-	if (zlut_planes*cfg.zlut_radialsteps*zlut_count>0) {
+	int nElem = zlut_planes*cfg.zlut_radialsteps*zlut_count;
+	if (nElem>0) {
 		results_mutex.lock();
-		cp = new float [zlut_planes*cfg.zlut_radialsteps*zlut_count];
-		std::copy(zluts, zluts+(zlut_planes*cfg.zlut_radialsteps*zlut_count), cp);
+		memcpy(zlut, zluts, sizeof(float)* nElem);
 		results_mutex.unlock();
 	}
-
-	return cp;
 }
 
 void QueuedCPUTracker::ScheduleLocalization(uchar* data, int pitch, QTRK_PixelDataType pdt, const LocalizationJob *jobInfo)

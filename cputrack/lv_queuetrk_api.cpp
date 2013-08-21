@@ -114,8 +114,8 @@ CDLL_EXPORT void DLL_CALLCONV qtrk_set_ZLUT(QueuedTracker* tracker, LVArray3D<fl
 CDLL_EXPORT void DLL_CALLCONV qtrk_set_pixel_calib(QueuedTracker* qtrk, LVArray3D<float>** offset, LVArray3D<float>** gain, ErrorCluster* e)
 {
 	if (ValidateTracker(qtrk, e, "set pixel calibration images")) {
-		int count ,planes;
-		qtrk->GetZLUTSize(count, planes);
+		int count ,planes, radialSteps;
+		qtrk->GetZLUTSize(count, planes, radialSteps);
 
 		if( (*offset)->dimSizes[0] == 0 ){
 			qtrk->SetPixelCalibrationImages(0,0);
@@ -145,13 +145,11 @@ CDLL_EXPORT void DLL_CALLCONV qtrk_get_ZLUT(QueuedTracker* tracker, LVArray3D<fl
 {
 	if (ValidateTracker(tracker, e, "get ZLUT")) {
 		int dims[3];
-		dims[2] = tracker->cfg.zlut_radialsteps;
-		tracker->GetZLUTSize(dims[0], dims[1]);
-		float* zlut = tracker->GetZLUT();
-		if (zlut) {
+
+		tracker->GetZLUTSize(dims[0], dims[1], dims[2]);
+		if(dims[0]*dims[1]*dims[2]>0) {
 			ResizeLVArray3D(pzlut, dims[0], dims[1], dims[2]);
-			memcpy((*pzlut)->elem, zlut, sizeof(float)*(*pzlut)->numElem());
-			delete[] zlut;
+			tracker->GetZLUT( (*pzlut)->elem );
 		}
 	}
 }

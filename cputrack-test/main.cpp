@@ -2,6 +2,7 @@
 #include "../cputrack/cpu_tracker.h"
 #include "../cputrack/random_distr.h"
 #include "../cputrack/QueuedCPUTracker.h"
+#include "../cputrack/FisherMatrix.h"
 
 template<typename T> T sq(T x) { return x*x; }
 template<typename T> T distance(T x, T y) { return sqrt(x*x+y*y); }
@@ -355,7 +356,8 @@ void QTrkTest()
 			Sleep(100);
 			dbgprintf(".");
 		}
-		float* zlut = qtrk.GetZLUT();
+		float* zlut = new float[qtrk.cfg.zlut_radialsteps * zplanes * 1];
+		qtrk.GetZLUT(zlut);
 		qtrk.ClearResults();
 		uchar* zlut_bytes = floatToNormalizedInt(zlut, qtrk.cfg.zlut_radialsteps, zplanes, (uchar)255);
 		WriteJPEGFile(zlut_bytes, qtrk.cfg.zlut_radialsteps, zplanes, "qtrkzlut.jpg", 99);
@@ -565,12 +567,20 @@ void WriteRadialProf(const char *file, ImageData& d)
 }
 
 
-void TestImageFromLUT(const char *lutfile)
+void TestFisher(const char *lutfile)
 {
 	ImageData lut = ReadJPEGFile(lutfile);
 	ImageData dstimg = ImageData::alloc(80,80);
 
-	GenerateImageFromLUT(&dstimg, &lut, 1.0f, 30.0f, vector2f(dstimg.w/2,dstimg.h/2), 20.0f, 1.0f);
+	GenerateImageFromLUT(&dstimg, &lut, 2.0f, 30.0f, vector2f(dstimg.w/2,dstimg.h/2), 20.0f, 1.0f);
+
+	LUTFisherMatrix fm(lut.data, lut.w, lut.h);
+	fm.Compute(dstimg.w,dstimg.h, vector3f(dstimg.w/2,dstimg.h/2,20), 2, 30);
+
+	WriteImageAsCSV("iprof.txt", fm.profile, fm.radialsteps, 1);
+	WriteImageAsCSV("iprofderiv.txt", fm.dzProfile, fm.radialsteps, 1);
+
+	FloatToJPEGFile("smpfromlut.jpg", dstimg.data, dstimg.w, dstimg.h);
 
 	dstimg.free();
 	lut.free();
@@ -579,11 +589,11 @@ void TestImageFromLUT(const char *lutfile)
 
 int main()
 {
-	TestImageFromLUT("LUTexample25X.jpg");
+	TestFisher("LUTexample25X.jpg");
 
 	//SpeedTest();
 	//SmallImageTest();
-	PixelationErrorTest();
+	//PixelationErrorTest();
 	//ZTrackingTest();
 	//Test2DTracking();
 	//TestBoundCheck();

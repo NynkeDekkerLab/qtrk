@@ -10,12 +10,14 @@ public:
 		this->lut = lut;
 		this->radialsteps = radialsteps;
 		this->planes = planes;
-		profile = 0;
-		dzProfile = 0;
+		profile = new float [radialsteps];
+		dzProfile = new float [radialsteps];
+		drProfile = new float [radialsteps];
 	}
 	~LUTFisherMatrix() {
 		delete[] profile;
 		delete[] dzProfile;
+		delete[] drProfile;
 	}
 
 	void Compute(int w, int h, vector3f pos, float zlutMinRadius, float zlutMaxRadius) 
@@ -40,6 +42,14 @@ public:
 					for (int sx=0;sx<SW;sx++) {
 						float x = xOffset + sx*xstep;
 						float y = yOffset + sy*ystep;
+
+						float difx = pos.x-x, dify = pos.y-y;
+						
+						float r = sqrtf(difx*difx + dify*dify);
+						// du/dx = d/dr * u(r) * 2x/r
+						
+						float dudr = ComputeDerivDr(r);
+						
 					}
 				}
 
@@ -50,6 +60,9 @@ public:
 		
 	}
 
+	float ComputeDerivDr(float r)
+	{
+	}
 
 	// Compute profile
 	void InterpolateProfile(float z)
@@ -71,9 +84,9 @@ public:
 		int maxZ = std::min(iz+(NumZPlanes-NumZPlanes/2), planes);
 
 		for(int r=0;r<radialsteps;r++) {
-			for (int p=minZ;p<maxZ;p++) {
-				zplanes[p]=p-minZ;
-				prof[p]=LUT(p,r);
+			for (int p=0;p<maxZ-minZ;p++) {
+				zplanes[p]=p;
+				prof[p]=LUT(p+minZ,r);
 			}
 
 			LsqSqQuadFit<float> qfit(NumZPlanes, zplanes, prof);
@@ -91,6 +104,7 @@ public:
 
 	float* profile;
 	float* dzProfile; // derivative of profile wrt Z plane
+	float *drProfile;
 
 	vector3f matrix[3];
 };

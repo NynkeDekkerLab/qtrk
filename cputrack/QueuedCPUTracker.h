@@ -18,8 +18,8 @@ public:
 
 	// QueuedTracker interface
 	void SetZLUT(float* data, int num_zluts, int planes, float* zcmp=0) override;
-	float* GetZLUT() override;
-	void GetZLUTSize(int& count ,int& planes) override;
+	void GetZLUT(float* zlut) override;
+	void GetZLUTSize(int& count ,int& planes, int& rsteps) override;
 	void ScheduleLocalization(uchar* data, int pitch, QTRK_PixelDataType pdt, const LocalizationJob *jobInfo) override;
 	// Schedule an entire frame at once, allowing for further optimizations
 	int ScheduleFrame(uchar *imgptr, int pitch, int width, int height, ROIPosition *positions, int numROI, QTRK_PixelDataType pdt, 

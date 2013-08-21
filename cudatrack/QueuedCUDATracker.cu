@@ -798,13 +798,11 @@ void QueuedCUDATracker::Device::SetZLUT(float *data, int radialsteps, int planes
 }
 
 // delete[] memory afterwards
-float* QueuedCUDATracker::GetZLUT()
+void QueuedCUDATracker::GetZLUT(float* data)
 {
 	cudaImageListf* zlut = &devices[0]->zlut;
 
-	float* data = new float[zlut->h * cfg.zlut_radialsteps * zlut->count];
 	if (zlut->data) {
-		//zlut->copyToHost(data, false);
 		for (int i=0;i<zlut->count;i++) {
 			float* img = &data[i*cfg.zlut_radialsteps*zlut->h];
 			zlut->copyImageToHost(i, img);
@@ -816,14 +814,13 @@ float* QueuedCUDATracker::GetZLUT()
 		}
 	} else
 		std::fill(data, data+(cfg.zlut_radialsteps*zlut->h*zlut->count), 0.0f);
-
-	return data;
 }
 
-void QueuedCUDATracker::GetZLUTSize(int& count, int &planes)
+void QueuedCUDATracker::GetZLUTSize(int& count, int &planes, int& rsteps)
 {
 	count = devices[0]->zlut.count;
 	planes = devices[0]->zlut.h;
+	rsteps = cfg.zlut_radialsteps;
 }
 
 

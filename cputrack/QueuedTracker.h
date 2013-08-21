@@ -152,8 +152,8 @@ public:
 	
 	// data can be zero to allocate ZLUT data. zcmp has to have 'res' elements
 	virtual void SetZLUT(float* data, int count, int planes, float* zcmp=0) = 0; 
-	virtual float* GetZLUT() = 0; // delete[] memory afterwards
-	virtual void GetZLUTSize(int& count, int& planes) = 0;
+	virtual void GetZLUT(float* dst) = 0; // delete[] memory afterwards
+	virtual void GetZLUTSize(int& count, int& planes, int& radialsteps) = 0;
 	virtual int GetResultCount() = 0;
 	virtual int PollFinished(LocalizationResult* results, int maxResults) = 0;
 
