@@ -317,10 +317,7 @@ int ResultManager::GetFrameCount()
 
 bool ResultManager::RemoveBeadResults(int bead)
 {
-	if (startFrame > 0) {
-		// TODO: We need to modify the saved data file
-		return false;
-	}
+	// TODO: We need to modify the saved data file
 
 	for (int i=0;i<frameResults.size();i++) {
 		auto fr = frameResults[i];
