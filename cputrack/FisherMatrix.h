@@ -5,7 +5,9 @@
 // Builds a fisher matrix for a localization ZLUT
 class LUTFisherMatrix
 {
+	static inline float sq(float v) { return v*v; }
 public:
+
 	LUTFisherMatrix(float* lut, int radialsteps, int planes)  {
 		this->lut = lut;
 		this->radialsteps = radialsteps;
@@ -49,11 +51,13 @@ public:
 						// du/dx = d/dr * u(r) * 2x/r
 						
 						float dudr = ComputeDerivDr(r);
+						float dudx = dudr * 2*difx/(r+1e-9f);
 						
+						// Ixx = 1/sigma^4 * ( du/dx )^2
+
+						Ixx += dudr*dudr;
 					}
 				}
-
-
 			}
 		}
 
@@ -62,6 +66,15 @@ public:
 
 	float ComputeDerivDr(float r)
 	{
+		int rounded = (int)(r+0.5f);
+		int rs = rounded-1;
+		float xval[] = { -1, 0, 1 };
+
+		if (rs < 0) rs = 0;
+		if (rs + 3 > radialsteps) rs = radialsteps-3;
+
+		LsqSqQuadFit<float> qfit(3, xval, &profile[rs]);
+		return qfit.computeDeriv( r-rounded );
 	}
 
 	// Compute profile
