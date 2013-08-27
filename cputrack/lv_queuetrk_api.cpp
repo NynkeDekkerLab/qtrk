@@ -364,14 +364,27 @@ CDLL_EXPORT void qtrk_get_profile_report(QueuedTracker* qtrk, LStrHandle str)
 }
 
 
-CDLL_EXPORT void qtrk_compute_fisher(LVArray2D<float> **lut, QTrkSettings* cfg, vector3f* pos, vector3f* fisherMatrix)
+CDLL_EXPORT void qtrk_compute_fisher(LVArray2D<float> **lut, QTrkSettings* cfg, vector3f* pos, LVArray2D<float> ** fisherMatrix, 
+		LVArray2D<float> ** inverseMatrix, vector3f* xyzVariance, float lutIntensityScale)
 {
-	for (int i=0;i<3;i++)
-		fisherMatrix[i] = vector3f();
-
 	QTrkComputedConfig cc (*cfg);
 	LUTFisherMatrix fm( (*lut)->elem, cc.zlut_radialsteps, (*lut)->dimSizes[1] );
-	fm.Compute(cc.width, cc.height, *pos, cc.zlut_minradius, cc.zlut_maxradius);
+	fm.Compute(cc.width, cc.height, *pos, cc.zlut_minradius, cc.zlut_maxradius, lutIntensityScale);
+
+	if (fisherMatrix) {
+		ResizeLVArray2D( fisherMatrix, 3, 3);
+		for (int i=0;i<9;i++)
+			(*fisherMatrix)->elem[i] = fm.matrix[i];
+	}
+
+	if (inverseMatrix) {
+		ResizeLVArray2D( inverseMatrix, 3, 3);
+		for (int i=0;i<9;i++)
+			(*inverseMatrix)->elem[i] = fm.inverse[i];
+	}
+
+	if (xyzVariance)
+		*xyzVariance = fm.MinVariance();
 }
 
 

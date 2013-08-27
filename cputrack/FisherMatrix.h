@@ -2,6 +2,7 @@
 
 #include "LsqQuadraticFit.h"
 
+
 // Builds a fisher matrix for a localization ZLUT
 class LUTFisherMatrix
 {
@@ -22,9 +23,9 @@ public:
 		delete[] drProfile;
 	}
 
-	void Compute(int w, int h, vector3f pos, float zlutMinRadius, float zlutMaxRadius) 
+	void Compute(int w, int h, vector3f pos, float zlutMinRadius, float zlutMaxRadius, float lutIntensityScale)
 	{
-		InterpolateProfile(pos.z);
+		InterpolateProfile(pos.z, lutIntensityScale);
 
 		// Subpixel grid size
 		const int SW=4;
@@ -32,7 +33,9 @@ public:
 		const float xstep = 1.0f/SW;
 		const float ystep = 1.0f/SH;
 
-		double Izz, Ixx , Iyy, Ixy, Ixz, Iyz;
+		int smp=0;
+		double Izz=0, Ixx=0 , Iyy=0, Ixy=0, Ixz=0, Iyz=0;
+		numPixels = 0;
 
 		for (int py=0;py<h;py++) {
 			for (int px=0;px<w;px++) {
@@ -50,21 +53,40 @@ public:
 						float r = sqrtf(difx*difx + dify*dify);
 						// du/dx = d/dr * u(r) * 2x/r
 						
-						float dudr = ComputeDerivDr(r);
-						float dudx = dudr * 2*difx/(r+1e-9f);
+						float dudr, dudz;
+						float u = SampleProfile(r, dudr, dudz);
+						float dudx = dudr * difx/(r+1e-9f);
+						float dudy = dudr * dify/(r+1e-9f);
 						
 						// Ixx = 1/sigma^4 * ( du/dx )^2
+						// Ixx = 1 / u * ( du/dx ) ^ 2  (Poisson case)
 
-						Ixx += dudr*dudr;
+						float invU = 1/u;
+						Ixx += invU * dudx*dudx;
+						Iyy += invU * dudy*dudy;
+						Ixy += invU * dudx*dudy;
+						Ixz += invU * dudx*dudz;
+						Iyz += invU * dudy*dudz;
+						Izz += invU * dudz*dudz;
+
+						this->numPixels++;
 					}
 				}
 			}
 		}
 
-		
+		matrix = Matrix3X3( 
+			vector3f(Ixx, Ixy, Ixz),
+			vector3f(Ixy, Iyy, Iyz),
+			vector3f(Ixz, Iyz, Izz));
+
+		matrix *= 1.0f/(SW*SH);
+
+		// Compute inverse 
+		inverse = matrix.Inverse();
 	}
 
-	float ComputeDerivDr(float r)
+	float SampleProfile(float r, float& deriv, float &dz)
 	{
 		int rounded = (int)(r+0.5f);
 		int rs = rounded-1;
@@ -73,20 +95,28 @@ public:
 		if (rs < 0) rs = 0;
 		if (rs + 3 > radialsteps) rs = radialsteps-3;
 
-		LsqSqQuadFit<float> qfit(3, xval, &profile[rs]);
-		return qfit.computeDeriv( r-rounded );
+		LsqSqQuadFit<float> u_fit(3, xval, &profile[rs]);
+		LsqSqQuadFit<float> dudz_fit(3, xval, &dzProfile[rs]);
+
+		float x = r-rounded; 
+		dz = dudz_fit.compute(x);
+
+		deriv = u_fit.computeDeriv(x);
+		return u_fit.compute(x);
 	}
 
 	// Compute profile
-	void InterpolateProfile(float z)
+	void InterpolateProfile(float z, float lutIntensityScale)
 	{
 		int iz = (int)z;
 		iz = std::max(0, std::min(planes-2, iz));
 		float *prof0 = &lut[iz*radialsteps];
 		float *prof1 = &lut[(iz+1)*radialsteps];
 
+		profileMaxValue = 0;
 		for (int r=0;r<radialsteps;r++) {
 			profile[r] = prof0[r] + (prof1[r] - prof0[r]) * (z-iz);
+			profileMaxValue = std::max(profileMaxValue, profile[r]);
 		}
 
 		// Compute derivative
@@ -105,7 +135,15 @@ public:
 			LsqSqQuadFit<float> qfit(NumZPlanes, zplanes, prof);
 //			dzProfile[r] = prof1[r] - prof0[r]; // TODO: interpolate this stuff
 			dzProfile[r] = qfit.computeDeriv(z-minZ);
+
+			if (lutIntensityScale > 0.0f) {
+				dzProfile[r] *= lutIntensityScale;
+				profile[r] *= lutIntensityScale;
+			}
 		}
+
+		if (lutIntensityScale>0.0f)
+			profileMaxValue *= lutIntensityScale;
 	}
 
 	float LUT(int pl, int r) {
@@ -119,5 +157,10 @@ public:
 	float* dzProfile; // derivative of profile wrt Z plane
 	float *drProfile;
 
-	vector3f matrix[3];
+	Matrix3X3 matrix;
+	Matrix3X3 inverse;
+	int numPixels;
+	float profileMaxValue;
+
+	vector3f MinVariance() { return vector3f(inverse(0,0), inverse(1,1), inverse(2,2)); }
 };

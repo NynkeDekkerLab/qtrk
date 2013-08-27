@@ -575,7 +575,22 @@ void TestFisher(const char *lutfile)
 	GenerateImageFromLUT(&dstimg, &lut, 2.0f, 30.0f, vector2f(dstimg.w/2,dstimg.h/2), 20.0f, 1.0f);
 
 	LUTFisherMatrix fm(lut.data, lut.w, lut.h);
-	fm.Compute(dstimg.w,dstimg.h, vector3f(dstimg.w/2,dstimg.h/2,20), 2, 30);
+
+	std::vector<float> stdv;
+
+	for (int i=1;i<lut.h-1;i++) {
+		fm.Compute(dstimg.w,dstimg.h, vector3f(dstimg.w/2,dstimg.h/2,i), 2, 30, 255);
+
+		vector3f var = fm.MinVariance();
+		vector3f stdev ( sqrtf(var.x), sqrtf(var.y), sqrtf(var.z));
+
+		stdv.push_back(stdev.z);
+		stdv.push_back(stdev.x);
+
+		dbgprintf("[%d] Min std deviation: X=%f, Y=%f, Z=%f. Npixels=%d. ProfileMax=%f\n", i, stdev.x,stdev.y,stdev.z, fm.numPixels, fm.profileMaxValue);
+	}
+
+	WriteImageAsCSV("stdev-xz.txt", &stdv[0], 2, stdv.size()/2);
 
 	WriteImageAsCSV("iprof.txt", fm.profile, fm.radialsteps, 1);
 	WriteImageAsCSV("iprofderiv.txt", fm.dzProfile, fm.radialsteps, 1);
@@ -590,6 +605,8 @@ void TestFisher(const char *lutfile)
 int main()
 {
 	TestFisher("LUTexample25X.jpg");
+
+
 
 	//SpeedTest();
 	//SmallImageTest();

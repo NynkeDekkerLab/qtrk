@@ -166,3 +166,80 @@ T ComputeMostOccuringValue(T* data, int size)
 }
 
 */
+
+class Matrix3X3
+{
+public:
+	Matrix3X3() { for(int i=0;i<9;i++) m[i]=0.0f; }
+	Matrix3X3(vector3f x,vector3f y,vector3f z) { 
+		row(0) = x;
+		row(1) = y;
+		row(2) = z;
+	}
+
+	float& operator[](int i) { return m[i]; }
+	const float& operator[](int i) const { return m[i]; }
+
+	vector3f& row(int i) { return *(vector3f*)&m[i*3]; }
+	const vector3f& row(int i) const { return *(vector3f*)&m[i*3]; }
+
+	float& operator()(int i, int j) { return m[3*i+j]; }
+	const float& operator()(int i, int j) const { return m[3*i+j]; }
+
+	float& at(int i,int j) {  return m[3*i+j]; }
+	const float& at(int i,int j) const { return m[3*i+j]; }
+
+	float Determinant() const 
+	{
+		return at(0,0)*(at(1,1)*at(2,2)-at(2,1)*at(1,2))
+							-at(0,1)*(at(1,0)*at(2,2)-at(1,2)*at(2,0))
+						+at(0,2)*(at(1,0)*at(2,1)-at(1,1)*at(2,0));
+	}
+
+	Matrix3X3 InverseTranspose() const
+	{
+		float det = Determinant();
+		if (det != 0.0f) {
+			float invdet = 1/det;
+			Matrix3X3 result;
+			result(0,0) =  (at(1,1)*at(2,2)-at(2,1)*at(1,2))*invdet;
+			result(1,0) = -(at(0,1)*at(2,2)-at(0,2)*at(2,1))*invdet;
+			result(2,0) =  (at(0,1)*at(1,2)-at(0,2)*at(1,1))*invdet;
+			result(0,1) = -(at(1,0)*at(2,2)-at(1,2)*at(2,0))*invdet;
+			result(1,1) =  (at(0,0)*at(2,2)-at(0,2)*at(2,0))*invdet;
+			result(2,1) = -(at(0,0)*at(1,2)-at(1,0)*at(0,2))*invdet;
+			result(0,2) =  (at(1,0)*at(2,1)-at(2,0)*at(1,1))*invdet;
+			result(1,2) = -(at(0,0)*at(2,1)-at(2,0)*at(0,1))*invdet;
+			result(2,2) =  (at(0,0)*at(1,1)-at(1,0)*at(0,1))*invdet;
+			return result;
+		}
+		return Matrix3X3();
+	}
+	Matrix3X3 Inverse() const
+	{
+		float det = Determinant();
+		if (det != 0.0f) {
+			float invdet = 1/det;
+			Matrix3X3 result;
+			result(0,0) =  (at(1,1)*at(2,2)-at(2,1)*at(1,2))*invdet;
+			result(0,1) = -(at(0,1)*at(2,2)-at(0,2)*at(2,1))*invdet;
+			result(0,2) =  (at(0,1)*at(1,2)-at(0,2)*at(1,1))*invdet;
+			result(1,0) = -(at(1,0)*at(2,2)-at(1,2)*at(2,0))*invdet;
+			result(1,1) =  (at(0,0)*at(2,2)-at(0,2)*at(2,0))*invdet;
+			result(1,2) = -(at(0,0)*at(1,2)-at(1,0)*at(0,2))*invdet;
+			result(2,0) =  (at(1,0)*at(2,1)-at(2,0)*at(1,1))*invdet;
+			result(2,1) = -(at(0,0)*at(2,1)-at(2,0)*at(0,1))*invdet;
+			result(2,2) =  (at(0,0)*at(1,1)-at(1,0)*at(0,1))*invdet;
+			return result;
+		}
+		return Matrix3X3();
+	}
+
+	Matrix3X3& operator*=(float a) {
+		for(int i=0;i<9;i++) 
+			m[i]*=a;
+		return *this;
+	}
+
+	float m[9];
+};
