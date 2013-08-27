@@ -574,18 +574,18 @@ void TestFisher(const char *lutfile)
 
 	GenerateImageFromLUT(&dstimg, &lut, 2.0f, 30.0f, vector2f(dstimg.w/2,dstimg.h/2), 20.0f, 1.0f);
 
-	LUTFisherMatrix fm(lut.data, lut.w, lut.h);
+	LUTFisherMatrix fm(lut.data, lut.w, lut.h, dstimg.w, dstimg.h, 2, 30, 255);
 
 	std::vector<float> stdv;
 
-	for (int i=1;i<lut.h-1;i++) {
-		fm.Compute(dstimg.w,dstimg.h, vector3f(dstimg.w/2,dstimg.h/2,i), 2, 30, 255);
+	for (int i=0;i<lut.h;i++) {
+		fm.Compute(vector3f(dstimg.w/2,dstimg.h/2,i), 40, vector3f(1,1,1) );
 
 		vector3f var = fm.MinVariance();
 		vector3f stdev ( sqrtf(var.x), sqrtf(var.y), sqrtf(var.z));
 
-		stdv.push_back(stdev.z);
 		stdv.push_back(stdev.x);
+		stdv.push_back(stdev.z);
 
 		dbgprintf("[%d] Min std deviation: X=%f, Y=%f, Z=%f. Npixels=%d. ProfileMax=%f\n", i, stdev.x,stdev.y,stdev.z, fm.numPixels, fm.profileMaxValue);
 	}

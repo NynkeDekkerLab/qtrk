@@ -96,7 +96,6 @@ void FloatToJPEGFile (const char *name, float* d, int w,int h);
 int NearestPowerOf2(int v);
 int NearestPowerOf3(int v);
 
-
 std::vector<uchar> ReadToByteBuffer(const char* filename);
 double GetPreciseTime();
 
@@ -241,5 +240,12 @@ public:
 		return *this;
 	}
 
+	Matrix3X3& operator+=(const Matrix3X3& b) {
+		for(int i=0;i<9;i++)
+			m[i]+=b[i];
+		return *this;
+	}
+
 	float m[9];
 };
+

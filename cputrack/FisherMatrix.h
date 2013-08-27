@@ -1,31 +1,65 @@
 #pragma once
-
+#include <functional>
 #include "LsqQuadraticFit.h"
-
+#include "threads.h"
+#include "random_distr.h"
 
 // Builds a fisher matrix for a localization ZLUT
 class LUTFisherMatrix
 {
 	static inline float sq(float v) { return v*v; }
-public:
 
-	LUTFisherMatrix(float* lut, int radialsteps, int planes)  {
+public:
+	LUTFisherMatrix(float* lut, int radialsteps, int planes, int w,int h, float zlutMin, float zlutMax, float lutIntensityScale )  {
 		this->lut = lut;
 		this->radialsteps = radialsteps;
 		this->planes = planes;
 		profile = new float [radialsteps];
 		dzProfile = new float [radialsteps];
 		drProfile = new float [radialsteps];
+
+		this->zlutMin = zlutMin;
+		this->zlutMax = zlutMax;
+		this->lutIntensityScale = lutIntensityScale;
+		roiW = w;
+		roiH = h;
 	}
 	~LUTFisherMatrix() {
 		delete[] profile;
 		delete[] dzProfile;
 		delete[] drProfile;
 	}
+	
 
-	void Compute(int w, int h, vector3f pos, float zlutMinRadius, float zlutMaxRadius, float lutIntensityScale)
+	void Compute(vector3f pos, int Nsamples, vector3f initialStDev)
 	{
-		InterpolateProfile(pos.z, lutIntensityScale);
+		Matrix3X3* results = new Matrix3X3[Nsamples];
+
+		ThreadPool<int, std::function<void (int index)> > pool(
+		[&] (int index) {
+			vector3f smpPos = pos + ( vector3f(rand_normal<float>(), rand_normal<float>(), rand_normal<float>()) * initialStDev);
+			results[index] = ComputeFisherSample(smpPos);
+	//		dbgprintf("%d done.\n", index);
+		});
+
+		for (int i=0;i<Nsamples;i++)
+			pool.AddWork(i);
+		pool.WaitUntilDone();
+
+		Matrix3X3 accum;
+		for (int i=0;i<Nsamples;i++) 
+			accum += results[i];
+		delete[] results;
+
+		// Compute inverse
+		matrix = accum;
+		matrix *= 1.0f/Nsamples;
+		inverse = matrix.Inverse();
+	}
+
+	Matrix3X3 ComputeFisherSample(vector3f pos)
+	{
+		InterpolateProfile(pos.z);
 
 		// Subpixel grid size
 		const int SW=4;
@@ -37,8 +71,8 @@ public:
 		double Izz=0, Ixx=0 , Iyy=0, Ixy=0, Ixz=0, Iyz=0;
 		numPixels = 0;
 
-		for (int py=0;py<h;py++) {
-			for (int px=0;px<w;px++) {
+		for (int py=0;py<roiH;py++) {
+			for (int px=0;px<roiW;px++) {
 				float xOffset = px + 0.5f/SW;
 				float yOffset = py + 0.5f/SH;
 
@@ -68,22 +102,29 @@ public:
 						Ixz += invU * dudx*dudz;
 						Iyz += invU * dudy*dudz;
 						Izz += invU * dudz*dudz;
-
-						this->numPixels++;
 					}
 				}
 			}
 		}
 
-		matrix = Matrix3X3( 
+		Matrix3X3 m = Matrix3X3( 
 			vector3f(Ixx, Ixy, Ixz),
 			vector3f(Ixy, Iyy, Iyz),
 			vector3f(Ixz, Iyz, Izz));
 
-		matrix *= 1.0f/(SW*SH);
+		m *= 1.0f/(SW*SH);
+		return m;
+	}
 
-		// Compute inverse 
-		inverse = matrix.Inverse();
+	float Quadratic3PointFit(float *y, float x, float& dydx)
+	{
+		float a = (y[0] - y[1]  -y[1]+y[2]) * 0.5f;
+		float b = (y[2]-y[1]) - a;// = (y[1]-y[0]) + a, 
+		float c = y[1];
+	  // y  = a * x^2+ b * x + c
+
+		dydx = 2*x*a+b;
+		return a*x*x+b*x+c;
 	}
 
 	float SampleProfile(float r, float& deriv, float &dz)
@@ -95,18 +136,21 @@ public:
 		if (rs < 0) rs = 0;
 		if (rs + 3 > radialsteps) rs = radialsteps-3;
 
-		LsqSqQuadFit<float> u_fit(3, xval, &profile[rs]);
+		float x = r-rounded; 
+/*		LsqSqQuadFit<float> u_fit(3, xval, &profile[rs]);
 		LsqSqQuadFit<float> dudz_fit(3, xval, &dzProfile[rs]);
 
-		float x = r-rounded; 
 		dz = dudz_fit.compute(x);
 
 		deriv = u_fit.computeDeriv(x);
-		return u_fit.compute(x);
+		return u_fit.compute(x);*/
+
+		dz = Quadratic3PointFit(&dzProfile[rs], x, deriv);
+		return Quadratic3PointFit(&profile[rs], x, deriv);
 	}
 
 	// Compute profile
-	void InterpolateProfile(float z, float lutIntensityScale)
+	void InterpolateProfile(float z)
 	{
 		int iz = (int)z;
 		iz = std::max(0, std::min(planes-2, iz));
@@ -116,7 +160,7 @@ public:
 		profileMaxValue = 0;
 		for (int r=0;r<radialsteps;r++) {
 			profile[r] = prof0[r] + (prof1[r] - prof0[r]) * (z-iz);
-			profileMaxValue = std::max(profileMaxValue, profile[r]);
+			if(profile[r] > profileMaxValue) profileMaxValue=profile[r];
 		}
 
 		// Compute derivative
@@ -152,6 +196,8 @@ public:
 
 	int radialsteps, planes;
 	float* lut;
+	float zlutMin,zlutMax, lutIntensityScale;
+	int roiW, roiH;
 
 	float* profile;
 	float* dzProfile; // derivative of profile wrt Z plane

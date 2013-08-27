@@ -39,6 +39,9 @@ struct vector3f {
 		return vector3f(x-o.x,y-o.y,z-o.z);
 	}
 };
+
+inline vector3f sqrt(const vector3f& a) { return vector3f(sqrtf(a.x),sqrtf(a.y),sqrtf(a.z)); }
+
 #pragma pack(pop)
 
 

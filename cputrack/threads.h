@@ -1,5 +1,6 @@
-// Thread OS related code is abstracted into a simple "Threads" struct
 #pragma once
+#include <list>
+// Thread OS related code is abstracted into a simple "Threads" struct
 #ifdef USE_PTHREADS
 
 #include "pthread.h"
@@ -150,3 +151,78 @@ typedef Threads::Handle ThreadHandle;
 
 
 #endif
+
+template<typename TWorkItem, typename TFunctor>
+class ThreadPool {
+public:
+	ThreadPool(TFunctor f, int Nthreads=-1) : worker(f) {
+		if (Nthreads<0) 
+			Nthreads = Threads::GetCPUCount();
+		threads.resize(Nthreads);
+		quit=false;
+		inProgress=0;
+		for (int i=0;i<Nthreads;i++)
+			threads[i]=Threads::Create(&ThreadEntryPoint,this);
+	}
+	~ThreadPool() {
+		Quit();
+	}
+	void ProcessArray(TWorkItem* items, int n) {
+		for(int i=0;i<n;i++)
+			AddWork(items[i]);
+	}
+	void AddWork(TWorkItem w) {
+		workMutex.lock();
+		work.push_back(w);
+		workMutex.unlock();
+	}
+	void WaitUntilDone() {
+		while(!IsDone());
+	}
+	bool IsDone() {
+		workMutex.lock();
+		bool r=work.empty() && inProgress==0;
+		workMutex.unlock();
+		return r;
+	}
+	void Quit() {
+		quit=true;
+		for(uint i=0;i<threads.size();i++)
+			Threads::WaitAndClose(threads[i]);
+		threads.clear();
+	}
+protected:
+	static void ThreadEntryPoint(void *param) {
+		ThreadPool* pool = ( ThreadPool *)param;
+		TWorkItem item;
+		while (!pool->quit) {
+			if ( pool->GetNewItem(item) ) {
+				pool->worker(item);
+				pool->ItemDone();
+			} else Threads::Sleep(1);
+		}
+	}
+	void ItemDone() {
+		workMutex.lock();
+		inProgress--;
+		workMutex.unlock();
+	}
+	bool GetNewItem(TWorkItem& item) {
+		workMutex.lock();
+		bool r = !work.empty();
+		if (r) {
+			item = work.front();
+			work.pop_front();
+			inProgress++;
+		}
+		workMutex.unlock();
+		return r;
+	}
+	std::vector<Threads::Handle*> threads;
+	Threads::Mutex workMutex;
+	std::list<TWorkItem> work;
+	int inProgress;
+	volatile bool quit;
+	TFunctor worker;
+};
+

@@ -365,11 +365,11 @@ CDLL_EXPORT void qtrk_get_profile_report(QueuedTracker* qtrk, LStrHandle str)
 
 
 CDLL_EXPORT void qtrk_compute_fisher(LVArray2D<float> **lut, QTrkSettings* cfg, vector3f* pos, LVArray2D<float> ** fisherMatrix, 
-		LVArray2D<float> ** inverseMatrix, vector3f* xyzVariance, float lutIntensityScale)
+		LVArray2D<float> ** inverseMatrix, vector3f* xyzVariance, int Nsamples, float lutIntensityScale)
 {
 	QTrkComputedConfig cc (*cfg);
-	LUTFisherMatrix fm( (*lut)->elem, cc.zlut_radialsteps, (*lut)->dimSizes[1] );
-	fm.Compute(cc.width, cc.height, *pos, cc.zlut_minradius, cc.zlut_maxradius, lutIntensityScale);
+	LUTFisherMatrix fm( (*lut)->elem, cc.zlut_radialsteps, (*lut)->dimSizes[1], cc.width, cc.height, cc.zlut_minradius, cc.zlut_maxradius, lutIntensityScale );
+	fm.Compute(*pos, Nsamples, *xyzVariance);
 
 	if (fisherMatrix) {
 		ResizeLVArray2D( fisherMatrix, 3, 3);
