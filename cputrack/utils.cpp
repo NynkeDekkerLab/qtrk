@@ -159,7 +159,7 @@ float ComputeBgCorrectedCOM1D(float *data, int len, float cf)
 }
 
 void ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float minradius, float maxradius,
-	vector2f center, ImageData* img, float mean)
+	vector2f center, ImageData* img, float mean, bool normalize)
 {
 	vector2f* radialDirs = (vector2f*)ALLOCA(sizeof(vector2f)*angularSteps);
 	for (int j=0;j<angularSteps;j++) {
@@ -201,18 +201,21 @@ void ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float m
 	}
 	if(trace)
 		dbgprintf("\n");
-	float substr = totalsum/totalsmp;
-	for (int i=0;i<radialSteps;i++)
-		dst[i] -= substr;
-	double sum=0.0f;
-	for (int i=0;i<radialSteps;i++)
-		totalrmssum2 += dst[i]*dst[i];
-//		sum += dst[i];
-	double invSum = 1.0/sum;
-	//	totalrmssum2 += dst[i]*dst[i];
-	double invTotalrms = 1.0f/sqrt(totalrmssum2/radialSteps);
-	for (int i=0;i<radialSteps;i++) {
-		dst[i] *= invTotalrms;
+
+	if (normalize) {
+		float substr = totalsum/totalsmp;
+		for (int i=0;i<radialSteps;i++)
+			dst[i] -= substr;
+		double sum=0.0f;
+		for (int i=0;i<radialSteps;i++)
+			totalrmssum2 += dst[i]*dst[i];
+	//		sum += dst[i];
+		double invSum = 1.0/sum;
+		//	totalrmssum2 += dst[i]*dst[i];
+		double invTotalrms = 1.0f/sqrt(totalrmssum2/radialSteps);
+		for (int i=0;i<radialSteps;i++) {
+			dst[i] *= invTotalrms;
+		}
 	}
 }
 

@@ -20,6 +20,7 @@ enum LocalizeType {
 	Localize2DMask = 15,
 	LocalizeZ = 16,
 	LocalizeBuildZLUT = 32,
+	LocalizeNormalizeProfile = 64,
 	Force32Bit = 0xffffffff
 };
 

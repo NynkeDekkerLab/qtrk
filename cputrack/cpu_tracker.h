@@ -70,12 +70,12 @@ public:
 	void SetImageFloat(float* srcImage);
 
 	vector2f ComputeBgCorrectedCOM(float bgcorrection=2.0f);
-	void ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float minradius, float maxradius, vector2f center, bool crp, bool* boundaryHit=0);
+	void ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float minradius, float maxradius, vector2f center, bool crp, bool* boundaryHit=0, bool normalize=true);
 	void ComputeQuadrantProfile(qi_t* dst, int radialSteps, int angularSteps, int quadrant, float minRadius, float maxRadius, vector2f center);
 
 	void Normalize(float *image=0);
 	void SetZLUT(float* data, int planes, int res, int num_zluts, float minradius, float maxradius, int angularSteps, bool copyMemory, bool useCorrelation, float* radialweights=0);
-	float ComputeZ(vector2f center, int angularSteps, int zlutIndex, bool crp, bool* boundaryHit=0, float* profile=0, float* cmpprof=0 ); // radialSteps is given by zlut_res
+	float ComputeZ(vector2f center, int angularSteps, int zlutIndex, bool crp, bool* boundaryHit=0, float* profile=0, float* cmpprof=0, bool normalizeProfile=true ); // radialSteps is given by zlut_res
 	float* GetDebugImage() { return debugImage; }
 
 	void ApplyOffsetGain(float *offset, float *gain);

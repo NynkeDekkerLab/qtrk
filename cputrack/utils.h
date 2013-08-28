@@ -58,7 +58,7 @@ struct ImageData;
 // Corrected Radial Profile
 float ComputeBgCorrectedCOM1D(float *data, int len, float cf=2.0f);
 void ComputeCRP(float* dst, int radialSteps, int angularSteps, float minradius, float maxradius, vector2f center, ImageData* src,float mean, float*crpmap=0);
-void ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float minradius, float maxradius, vector2f center, ImageData* src, float mean);
+void ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float minradius, float maxradius, vector2f center, ImageData* src, float mean, bool normalize);
 void GenerateImageFromLUT(ImageData* image, ImageData* zlut, float minRadius, float maxRadius, vector2f pos, float z, float M);
 void ApplyPoissonNoise(ImageData& img, float factor);
 void ApplyGaussianNoise(ImageData& img, float sigma);

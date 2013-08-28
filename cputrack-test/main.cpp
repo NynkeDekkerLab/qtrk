@@ -595,7 +595,7 @@ void TestFisher(const char *lutfile)
 	else {
 		LUTFisherMatrix fm(lut.data, lut.w, lut.h, dstimg.w, dstimg.h, 2, 30, 255);
 		for (int i=0;i<lut.h;i++) {
-			fm.Compute(vector3f(dstimg.w/2,dstimg.h/2,i), 20, vector3f(1,1,1) );
+			fm.Compute(vector3f(dstimg.w/2,dstimg.h/2,i), 1, vector3f());// 20, vector3f(1,1,1) );
 
 			vector3f var = fm.MinVariance();
 			vector3f stdev ( sqrtf(var.x), sqrtf(var.y), sqrtf(var.z));
@@ -624,8 +624,6 @@ void TestFisher(const char *lutfile)
 int main()
 {
 	TestFisher("lut000.jpg");
-
-
 
 	//SpeedTest();
 	//SmallImageTest();

@@ -498,7 +498,7 @@ void CPUTracker::Normalize(float* d)
 }
 
 
-void CPUTracker::ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float minradius, float maxradius, vector2f center, bool crp, bool* pBoundaryHit)
+void CPUTracker::ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float minradius, float maxradius, vector2f center, bool crp, bool* pBoundaryHit, bool normalize)
 {
 	bool boundaryHit = CheckBoundaries(center, maxradius);
 	if (pBoundaryHit) *pBoundaryHit = boundaryHit;
@@ -508,7 +508,7 @@ void CPUTracker::ComputeRadialProfile(float* dst, int radialSteps, int angularSt
 		ComputeCRP(dst, radialSteps, angularSteps, minradius, maxradius, center, &imgData, mean);
 	}
 	else {
-		::ComputeRadialProfile(dst, radialSteps, angularSteps, minradius, maxradius, center, &imgData, mean);
+		::ComputeRadialProfile(dst, radialSteps, angularSteps, minradius, maxradius, center, &imgData, mean, normalize);
 	}
 }
 
@@ -540,7 +540,7 @@ void CPUTracker::SetZLUT(float* data, int planes, int res, int numLUTs, float mi
 
 
 
-float CPUTracker::ComputeZ(vector2f center, int angularSteps, int zlutIndex, bool crp, bool* boundaryHit, float* profile, float* cmpProf)
+float CPUTracker::ComputeZ(vector2f center, int angularSteps, int zlutIndex, bool crp, bool* boundaryHit, float* profile, float* cmpProf, bool normalize)
 {
 	if (!zluts)
 		return 0.0f;
@@ -548,7 +548,7 @@ float CPUTracker::ComputeZ(vector2f center, int angularSteps, int zlutIndex, boo
 	float* rprof = ALLOCA_ARRAY(float, zlut_res);
 	float* rprof_diff = ALLOCA_ARRAY(float, zlut_planes);
 
-	ComputeRadialProfile(rprof, zlut_res, angularSteps, zlut_minradius, zlut_maxradius, center, crp, boundaryHit);
+	ComputeRadialProfile(rprof, zlut_res, angularSteps, zlut_minradius, zlut_maxradius, center, crp, boundaryHit, normalize);
 	if (profile) std::copy(rprof, rprof+zlut_res, profile);
 
 	//WriteImageAsCSV("zlutradprof-cpu.txt", rprof, zlut_res, 1);
