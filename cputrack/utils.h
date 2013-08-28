@@ -53,10 +53,22 @@ inline float Interpolate(float* image, int width, int height, float x,float y, b
 	return Lerp(v0, v1, y-ry);
 }
 
+struct ImageData;
+
+// Corrected Radial Profile
+float ComputeBgCorrectedCOM1D(float *data, int len, float cf=2.0f);
+void ComputeCRP(float* dst, int radialSteps, int angularSteps, float minradius, float maxradius, vector2f center, ImageData* src,float mean, float*crpmap=0);
+void ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float minradius, float maxradius, vector2f center, ImageData* src, float mean);
+void GenerateImageFromLUT(ImageData* image, ImageData* zlut, float minRadius, float maxRadius, vector2f pos, float z, float M);
+void ApplyPoissonNoise(ImageData& img, float factor);
+void ApplyGaussianNoise(ImageData& img, float sigma);
+void WriteImageAsCSV(const char* file, float* d, int w,int h, const char *labels[]=0);
+void WriteComplexImageAsCSV(const char* file, std::complex<float>* d, int w,int h, const char *labels[]=0);
 
 struct ImageData {
 	float* data;
 	int w,h;
+	ImageData() { data=0;w=h=0;}
 	ImageData(float *d, int w, int h) : data(d), w(w),h(h) {}
 	float& at(int x, int y) { return data[w*y+x]; }
 	float interpolate(float x, float y, bool *outside=0) { return Interpolate(data, w,h, x,y,outside); }
@@ -72,21 +84,12 @@ struct ImageData {
 
 	static ImageData alloc(int w,int h) { return ImageData(new float[w*h], w,h); }
 	void free() { delete[] data; }
+	void writeAsCSV(const char *filename, const char *labels[]=0) { WriteImageAsCSV(filename, data, w,h,labels); }
 };
 
 float ComputeMostOccuringValue(ImageData& img); // a poor man's median
 
 void GenerateTestImage(ImageData img, float xp, float yp, float size, float MaxPhotons);
-
-// Corrected Radial Profile
-float ComputeBgCorrectedCOM1D(float *data, int len, float cf=2.0f);
-void ComputeCRP(float* dst, int radialSteps, int angularSteps, float minradius, float maxradius, vector2f center, ImageData* src,float mean, float*crpmap=0);
-void ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float minradius, float maxradius, vector2f center, ImageData* src, float mean);
-void GenerateImageFromLUT(ImageData* image, ImageData* zlut, float minRadius, float maxRadius, vector2f pos, float z, float M);
-void ApplyPoissonNoise(ImageData& img, float factor);
-void ApplyGaussianNoise(ImageData& img, float sigma);
-void WriteImageAsCSV(const char* file, float* d, int w,int h, const char *labels[]=0);
-void WriteComplexImageAsCSV(const char* file, std::complex<float>* d, int w,int h, const char *labels[]=0);
 
 std::string GetLocalModuleFilename();
 

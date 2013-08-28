@@ -9,25 +9,18 @@ template<typename T>
 class LsqSqQuadFit
 {
 public:
-	T a,b,c;
+	T a,b,c,d;
 	float xoffset;
 
 	struct Coeff {
 		T s40, s30, s20, s10, s21, s11, s01, s00;
 
-        LSQFIT_FUNC void abc(float& a, float& b, float& c) {			
-			a = (s21*(s20 * s00 - s10 * s10) - s11*(s30 * s00 - s10 * s20) + s01*(s30 * s10 - s20 * s20))
-                /
-				(s40*(s20 * s00 - s10 * s10) - s30*(s30 * s00 - s10 * s20) + s20*(s30 * s10 - s20 * s20));
+        LSQFIT_FUNC void abc(float& a, float& b, float& c, float& d) {
+			d = s40 * (s20 * s00 - s10 * s10) - s30 * (s30 * s00 - s10 * s20) + s20 * (s30 * s10 - s20 * s20);
 
-			//b = Db/D
-			b = (s40*(s11 * s00 - s01 * s10) - s30*(s21 * s00 - s01 * s20) + s20*(s21 * s10 - s11 * s20))
-					/
-					(s40 * (s20 * s00 - s10 * s10) - s30 * (s30 * s00 - s10 * s20) + s20 * (s30 * s10 - s20 * s20));
-
-			c = (s40*(s20 * s01 - s10 * s11) - s30*(s30 * s01 - s10 * s21) + s20*(s30 * s11 - s20 * s21))
-					/
-					(s40 * (s20 * s00 - s10 * s10) - s30 * (s30 * s00 - s10 * s20) + s20 * (s30 * s10 - s20 * s20));
+			a = (s21*(s20 * s00 - s10 * s10) - s11*(s30 * s00 - s10 * s20) + s01*(s30 * s10 - s20 * s20)) / d;
+			b = (s40*(s11 * s00 - s01 * s10) - s30*(s21 * s00 - s01 * s20) + s20*(s21 * s10 - s11 * s20)) / d;
+			c = (s40*(s20 * s01 - s10 * s11) - s30*(s30 * s01 - s10 * s21) + s20*(s30 * s11 - s20 * s21)) / d;
 		}
 	};
 
@@ -39,14 +32,14 @@ public:
 
 	LSQFIT_FUNC LsqSqQuadFit()
 	{
-		a=b=c=0;
+		a=b=c=d=0;
 		xoffset =0;
 	}
 
 	LSQFIT_FUNC void calculate(uint numPts, const T* X, const T* Y)
 	{
 		Coeff co = computeSums(X, Y, numPts);
-		co.abc(a,b,c);
+		co.abc(a,b,c,d);
 	}
     
 	LSQFIT_FUNC T compute(T pos)

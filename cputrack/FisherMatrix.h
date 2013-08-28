@@ -16,18 +16,17 @@ public:
 		this->planes = planes;
 		profile = new float [radialsteps];
 		dzProfile = new float [radialsteps];
-		drProfile = new float [radialsteps];
 
 		this->zlutMin = zlutMin;
 		this->zlutMax = zlutMax;
 		this->lutIntensityScale = lutIntensityScale;
 		roiW = w;
 		roiH = h;
+		makeDebugImage = false;
 	}
 	~LUTFisherMatrix() {
 		delete[] profile;
 		delete[] dzProfile;
-		delete[] drProfile;
 	}
 	
 
@@ -35,17 +34,22 @@ public:
 	{
 		Matrix3X3* results = new Matrix3X3[Nsamples];
 
-		ThreadPool<int, std::function<void (int index)> > pool(
-		[&] (int index) {
+		auto f = [&] (int index) {
 			vector3f smpPos = pos + ( vector3f(rand_normal<float>(), rand_normal<float>(), rand_normal<float>()) * initialStDev);
 			results[index] = ComputeFisherSample(smpPos);
 	//		dbgprintf("%d done.\n", index);
-		});
+		};
 
-		for (int i=0;i<Nsamples;i++)
-			pool.AddWork(i);
-		pool.WaitUntilDone();
+		if (0) { 
+			ThreadPool<int, std::function<void (int index)> > pool(f);
 
+			for (int i=0;i<Nsamples;i++)
+				pool.AddWork(i);
+			pool.WaitUntilDone();
+		} else {
+			for (int i=0;i<Nsamples;i++)
+				f(i);
+		}
 		Matrix3X3 accum;
 		for (int i=0;i<Nsamples;i++) 
 			accum += results[i];
@@ -71,13 +75,20 @@ public:
 		double Izz=0, Ixx=0 , Iyy=0, Ixy=0, Ixz=0, Iyz=0;
 		numPixels = 0;
 
+		ImageData dbg_dudz,dbg_u,dbg_dudr;
+		if (makeDebugImage){
+			dbg_u = ImageData::alloc(SW*roiW,SH*roiH);
+			dbg_dudz = ImageData::alloc(SW*roiW,SH*roiH);
+			dbg_dudr = ImageData::alloc(SW*roiW,SH*roiH);
+		}
+
 		for (int py=0;py<roiH;py++) {
 			for (int px=0;px<roiW;px++) {
 				float xOffset = px + 0.5f/SW;
 				float yOffset = py + 0.5f/SH;
 
 				// 4x4 grid over each pixel, to approximate the integral
-				for (int sy=0;sy<SW;sy++) {
+				for (int sy=0;sy<SH;sy++) {
 					for (int sx=0;sx<SW;sx++) {
 						float x = xOffset + sx*xstep;
 						float y = yOffset + sy*ystep;
@@ -91,20 +102,34 @@ public:
 						float u = SampleProfile(r, dudr, dudz);
 						float dudx = dudr * difx/(r+1e-9f);
 						float dudy = dudr * dify/(r+1e-9f);
+
+						if (makeDebugImage) {
+							dbg_u.at(px*SW+sx,py*SH+sy) = u;
+							dbg_dudz.at(px*SW+sx,py*SH+sy) = dudz;
+							dbg_dudr.at(px*SW+sx,py*SH+sy) = dudr;
+						}
 						
 						// Ixx = 1/sigma^4 * ( du/dx )^2
 						// Ixx = 1 / u * ( du/dx ) ^ 2  (Poisson case)
 
-						float invU = 1/u;
-						Ixx += invU * dudx*dudx;
-						Iyy += invU * dudy*dudy;
-						Ixy += invU * dudx*dudy;
-						Ixz += invU * dudx*dudz;
-						Iyz += invU * dudy*dudz;
-						Izz += invU * dudz*dudz;
+						if (u > 1e-6f) {
+							float invU = 1/u;
+							Ixx += invU * dudx*dudx;
+							Iyy += invU * dudy*dudy;
+							Ixy += invU * dudx*dudy;
+							Ixz += invU * dudx*dudz;
+							Iyz += invU * dudy*dudz;
+							Izz += invU * dudz*dudz;
+						}
 					}
 				}
 			}
+		}
+
+		if (makeDebugImage) {
+			dbg_u.writeAsCSV("u.txt");
+			dbg_dudz.writeAsCSV("dudz.txt");
+			dbg_dudr.writeAsCSV("dudr.txt");
 		}
 
 		Matrix3X3 m = Matrix3X3( 
@@ -129,6 +154,9 @@ public:
 
 	float SampleProfile(float r, float& deriv, float &dz)
 	{
+		r -= zlutMin;
+		r *= radialsteps / ( zlutMax-zlutMin );
+
 		int rounded = (int)(r+0.5f);
 		int rs = rounded-1;
 		float xval[] = { -1, 0, 1 };
@@ -146,7 +174,11 @@ public:
 		return u_fit.compute(x);*/
 
 		dz = Quadratic3PointFit(&dzProfile[rs], x, deriv);
-		return Quadratic3PointFit(&profile[rs], x, deriv);
+		float u = Quadratic3PointFit(&profile[rs], x, deriv);
+		if (u < 0.0f)  {
+			dbgprintf("u = %f. at r=%f\n", u, r);
+		}
+		return u;
 	}
 
 	// Compute profile
@@ -168,7 +200,8 @@ public:
 		float zplanes[NumZPlanes];
 		float prof[NumZPlanes];
 		int minZ = std::max(iz-NumZPlanes/2, 0);
-		int maxZ = std::min(iz+(NumZPlanes-NumZPlanes/2), planes);
+		if (minZ+NumZPlanes > planes) minZ=planes-NumZPlanes;
+		int maxZ = minZ + NumZPlanes;
 
 		for(int r=0;r<radialsteps;r++) {
 			for (int p=0;p<maxZ-minZ;p++) {
@@ -201,12 +234,12 @@ public:
 
 	float* profile;
 	float* dzProfile; // derivative of profile wrt Z plane
-	float *drProfile;
 
 	Matrix3X3 matrix;
 	Matrix3X3 inverse;
 	int numPixels;
 	float profileMaxValue;
+	bool makeDebugImage;
 
 	vector3f MinVariance() { return vector3f(inverse(0,0), inverse(1,1), inverse(2,2)); }
 };

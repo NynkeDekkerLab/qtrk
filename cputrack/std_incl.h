@@ -38,6 +38,10 @@ struct vector3f {
 	vector3f operator-(const vector3f& o) const {
 		return vector3f(x-o.x,y-o.y,z-o.z);
 	}
+	vector3f& operator*=(const vector3f& o) { 
+		x*=o.x; y*=o.y; z*=o.z;
+		return *this;
+	}
 };
 
 inline vector3f sqrt(const vector3f& a) { return vector3f(sqrtf(a.x),sqrtf(a.y),sqrtf(a.z)); }

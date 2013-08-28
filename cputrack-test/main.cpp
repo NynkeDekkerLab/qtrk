@@ -572,31 +572,50 @@ void TestFisher(const char *lutfile)
 	ImageData lut = ReadJPEGFile(lutfile);
 	ImageData dstimg = ImageData::alloc(80,80);
 
-	GenerateImageFromLUT(&dstimg, &lut, 2.0f, 30.0f, vector2f(dstimg.w/2,dstimg.h/2), 20.0f, 1.0f);
+	float z = 10.0f;
+	GenerateImageFromLUT(&dstimg, &lut, 2.0f, 30.0f, vector2f(dstimg.w/2,dstimg.h/2), z, 1.0f);
 
-	LUTFisherMatrix fm(lut.data, lut.w, lut.h, dstimg.w, dstimg.h, 2, 30, 255);
+	vector3f scale (100,100,50); // nm
 
 	std::vector<float> stdv;
 
-	for (int i=0;i<lut.h;i++) {
-		fm.Compute(vector3f(dstimg.w/2,dstimg.h/2,i), 40, vector3f(1,1,1) );
-
+	if (1) {
+		LUTFisherMatrix fm(lut.data, lut.w, lut.h, dstimg.w, dstimg.h, 2, 40, 255);
+		fm.makeDebugImage=true;
+	
+		//float* dlutdplane = new float[lut.h*lut.w];
+		fm.Compute(vector3f(dstimg.w/2,dstimg.h/2,z), 1, vector3f(0,0,0) ); //vector3f(1,1,1) );
+	
 		vector3f var = fm.MinVariance();
 		vector3f stdev ( sqrtf(var.x), sqrtf(var.y), sqrtf(var.z));
+		dbgprintf("[0] Min std deviation (pixels): X=%f, Y=%f, Z=%f. Npixels=%d. ProfileMax=%f\n", stdev.x,stdev.y,stdev.z, fm.numPixels, fm.profileMaxValue);
+		stdev *= scale;
+		dbgprintf("[0] Min std deviation (nm): X=%f, Y=%f, Z=%f. Npixels=%d. ProfileMax=%f\n", stdev.x,stdev.y,stdev.z, fm.numPixels, fm.profileMaxValue);
+	}
+	else {
+		LUTFisherMatrix fm(lut.data, lut.w, lut.h, dstimg.w, dstimg.h, 2, 30, 255);
+		for (int i=0;i<lut.h;i++) {
+			fm.Compute(vector3f(dstimg.w/2,dstimg.h/2,i), 20, vector3f(1,1,1) );
 
-		stdv.push_back(stdev.x);
-		stdv.push_back(stdev.z);
+			vector3f var = fm.MinVariance();
+			vector3f stdev ( sqrtf(var.x), sqrtf(var.y), sqrtf(var.z));
 
-		dbgprintf("[%d] Min std deviation: X=%f, Y=%f, Z=%f. Npixels=%d. ProfileMax=%f\n", i, stdev.x,stdev.y,stdev.z, fm.numPixels, fm.profileMaxValue);
+			stdev *= scale;
+
+			stdv.push_back(stdev.x);
+			stdv.push_back(stdev.z);
+
+			dbgprintf("[%d] Min std deviation: X=%f nm, Y=%f nm, Z=%f nm. Npixels=%d. ProfileMax=%f\n", i, stdev.x,stdev.y,stdev.z, fm.numPixels, fm.profileMaxValue);
+		}
+		WriteImageAsCSV("stdev-xz.txt", &stdv[0], 2, stdv.size()/2);
+
+		WriteImageAsCSV("iprof.txt", fm.profile, fm.radialsteps, 1);
+		WriteImageAsCSV("iprofderiv.txt", fm.dzProfile, fm.radialsteps, 1);
 	}
 
-	WriteImageAsCSV("stdev-xz.txt", &stdv[0], 2, stdv.size()/2);
-
-	WriteImageAsCSV("iprof.txt", fm.profile, fm.radialsteps, 1);
-	WriteImageAsCSV("iprofderiv.txt", fm.dzProfile, fm.radialsteps, 1);
 
 	FloatToJPEGFile("smpfromlut.jpg", dstimg.data, dstimg.w, dstimg.h);
-
+	
 	dstimg.free();
 	lut.free();
 }
@@ -604,7 +623,7 @@ void TestFisher(const char *lutfile)
 
 int main()
 {
-	TestFisher("LUTexample25X.jpg");
+	TestFisher("lut000.jpg");
 
 
 
