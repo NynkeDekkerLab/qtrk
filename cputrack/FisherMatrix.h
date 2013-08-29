@@ -75,11 +75,12 @@ public:
 		double Izz=0, Ixx=0 , Iyy=0, Ixy=0, Ixz=0, Iyz=0;
 		numPixels = 0;
 
-		ImageData dbg_dudz,dbg_u,dbg_dudr;
+		ImageData dbg_dudz,dbg_u,dbg_dudr,dbg_dudx;
 		if (makeDebugImage){
 			dbg_u = ImageData::alloc(SW*roiW,SH*roiH);
 			dbg_dudz = ImageData::alloc(SW*roiW,SH*roiH);
 			dbg_dudr = ImageData::alloc(SW*roiW,SH*roiH);
+			dbg_dudx = ImageData::alloc(SW*roiW,SH*roiH);
 		}
 
 		for (int py=0;py<roiH;py++) {
@@ -107,6 +108,7 @@ public:
 							dbg_u.at(px*SW+sx,py*SH+sy) = u;
 							dbg_dudz.at(px*SW+sx,py*SH+sy) = dudz;
 							dbg_dudr.at(px*SW+sx,py*SH+sy) = dudr;
+							dbg_dudx.at(px*SW+sx,py*SH+sy) = dudx;
 						}
 						
 						// Ixx = 1/sigma^4 * ( du/dx )^2
@@ -130,6 +132,8 @@ public:
 			dbg_u.writeAsCSV("u.txt");
 			dbg_dudz.writeAsCSV("dudz.txt");
 			dbg_dudr.writeAsCSV("dudr.txt");
+			dbg_dudx.writeAsCSV("dudx.txt");
+			dbg_u.free(); dbg_dudz.free(); dbg_dudr.free(); dbg_dudx.free();
 		}
 
 		Matrix3X3 m = Matrix3X3( 
@@ -143,10 +147,9 @@ public:
 
 	float Quadratic3PointFit(float *y, float x, float& dydx)
 	{
-		float a = (y[0] - y[1]  -y[1]+y[2]) * 0.5f;
-		float b = (y[2]-y[1]) - a;// = (y[1]-y[0]) + a, 
+		float a = 0.5f * (y[0] - 2*y[1] + y[2]);
+		float b = a + y[1] - y[0];
 		float c = y[1];
-	  // y  = a * x^2+ b * x + c
 
 		dydx = 2*x*a+b;
 		return a*x*x+b*x+c;

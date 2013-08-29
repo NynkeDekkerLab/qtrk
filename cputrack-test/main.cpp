@@ -324,6 +324,35 @@ void Test2DTracking()
 }*/
 
 
+void GenerateZLUT(QueuedTracker* qtrk, float zmin, float zmax, int zplanes, const char *saveAs=0)
+{
+	QTrkComputedConfig& cfg = qtrk->cfg;
+	float *image = new float[cfg.width*cfg.height];
+	qtrk->SetZLUT(NULL, 1, zplanes, 0);
+	for (int x=0;x<zplanes;x++)  {
+		vector2f center(cfg.width/2, cfg.height/2 );
+		float s = zmin + (zmax-zmin) * x/(float)(zplanes-1);
+		GenerateTestImage(ImageData(image, cfg.width, cfg.height), center.x, center.y, s, 0.0f);
+		LocalizationJob job( (LocalizeType)(LocalizeBuildZLUT|LocalizeQI), x, 0, x, 0);
+		qtrk->ScheduleLocalization((uchar*)image, cfg.width*sizeof(float),QTrkFloat, &job);
+	}
+	// wait to finish ZLUT
+	while(true) {
+		int rc = qtrk->GetResultCount();
+		if (rc == zplanes) break;
+		Sleep(100);
+		dbgprintf(".");
+	}
+	float* zlut = new float[cfg.zlut_radialsteps * zplanes * 1];
+	qtrk->GetZLUT(zlut);
+	qtrk->ClearResults();
+	uchar* zlut_bytes = floatToNormalizedInt(zlut, cfg.zlut_radialsteps, zplanes, (uchar)255);
+	if (saveAs) WriteJPEGFile(zlut_bytes, cfg.zlut_radialsteps, zplanes, saveAs, 99);
+	delete[] zlut; delete[] zlut_bytes;
+
+	delete[] image;
+}
+
 void QTrkTest()
 {
 	QTrkSettings cfg;
@@ -336,34 +365,14 @@ void QTrkTest()
 	QueuedCPUTracker qtrk(cfg);
 	float *image = new float[cfg.width*cfg.height];
 
+	bool haveZLUT = false;
+
 	// Generate ZLUT
 	int zplanes=100;
 	float zmin=0.5,zmax=2.5;
-	bool haveZLUT = false;
-	qtrk.SetZLUT(NULL, 1, zplanes, 0);
-	if (haveZLUT) {
-		for (int x=0;x<zplanes;x++)  {
-			vector2f center(cfg.width/2, cfg.height/2 );
-			float s = zmin + (zmax-zmin) * x/(float)(zplanes-1);
-			GenerateTestImage(ImageData(image, cfg.width, cfg.height), center.x, center.y, s, 0.0f);
-			LocalizationJob job( (LocalizeType)(LocalizeBuildZLUT|LocalizeQI), x, 0, x, 0);
-			qtrk.ScheduleLocalization((uchar*)image, cfg.width*sizeof(float),QTrkFloat, &job);
-		}
-		// wait to finish ZLUT
-		while(true) {
-			int rc = qtrk.GetResultCount();
-			if (rc == zplanes) break;
-			Sleep(100);
-			dbgprintf(".");
-		}
-		float* zlut = new float[qtrk.cfg.zlut_radialsteps * zplanes * 1];
-		qtrk.GetZLUT(zlut);
-		qtrk.ClearResults();
-		uchar* zlut_bytes = floatToNormalizedInt(zlut, qtrk.cfg.zlut_radialsteps, zplanes, (uchar)255);
-		WriteJPEGFile(zlut_bytes, qtrk.cfg.zlut_radialsteps, zplanes, "qtrkzlut.jpg", 99);
-		delete[] zlut; delete[] zlut_bytes;
-		qtrk.Break(true);
-	}
+
+	if (haveZLUT)
+		GenerateZLUT(&qtrk, zmin, zmax, zplanes, "qtrkzlut.jpg");
 
 	// Schedule images to localize on
 #ifdef _DEBUG
@@ -621,9 +630,60 @@ void TestFisher(const char *lutfile)
 }
 
 
+void RandomFill (float* d,int size, float mean, float std_deviation)
+{
+	for (int i=0;i<size;i++)
+		d [i] = std::max(0.0f,  mean + rand_normal<float>() * std_deviation);
+}
+
+void TestCMOSNoiseInfluence(const char *lutfile)
+{
+	/*
+	This test runs a localization series with varying amounts of CMOS per-pixel gain variation:
+
+	- Simulate drift over some pixels
+	- Generate images with standard Poisson noise
+	- Repeat this with several amounts of CMOS per-pixel noise settings
+	*/
+
+	ImageData lut = ReadJPEGFile(lutfile);
+	ImageData dstimg = ImageData::alloc(80,80);
+
+	for (int i=0;i<lut.h;i++)
+		NormalizeRadialProfile(&lut.at(0,i), lut.w);
+
+	float z = 10.0f;
+	GenerateImageFromLUT(&dstimg, &lut, 2.0f, 30.0f, vector2f(dstimg.w/2,dstimg.h/2), z, 1.0f);
+
+	QTrkSettings cfg;
+	cfg.width = cfg.height = 80;
+	QueuedCPUTracker trk(cfg);
+
+
+	int zplanes=lut.h;
+	float zmin=0.5,zmax=2.5;
+	int nBeads=1;
+	trk.SetZLUT(lut.data, nBeads, lut.h);
+	
+	float *offset = new float [nBeads * cfg.width * cfg.height];
+	float *gain = new float [nBeads * cfg.width * cfg.height];
+
+	int nNoiseLevels = 2;
+	for (int nl=0;nl<nNoiseLevels;nl++) {
+
+		RandomFill(offset, nBeads * cfg.width * cfg.height, nl, nl);
+		RandomFill(gain, nBeads * cfg.width * cfg.height, 1, nl*0.1f);
+
+		trk.SetPixelCalibrationImages(offset, gain);
+	}
+}
+
+
 int main()
 {
-	TestFisher("lut000.jpg");
+	//TestFisher("lut000.jpg");
+
+	TestCMOSNoiseInfluence("lut000.jpg");
 
 	//SpeedTest();
 	//SmallImageTest();

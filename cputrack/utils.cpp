@@ -158,6 +158,25 @@ float ComputeBgCorrectedCOM1D(float *data, int len, float cf)
 	return moment / (float)sum;
 }
 
+void NormalizeRadialProfile(float* prof, int rsteps)
+{
+	double sum=0.0f;
+	for (int i=0;i<rsteps;i++)
+		sum += prof[i];
+
+	float mean =sum/rsteps;
+	double rmssum2 = 0.0;
+
+	for (int i=0;i<rsteps;i++) {
+		prof[i] -= mean;
+		rmssum2 += prof[i]*prof[i];
+	}
+	double invTotalrms = 1.0f/sqrt(rmssum2/rsteps);
+	for (int i=0;i<rsteps;i++)
+		prof[i] *= invTotalrms;
+}
+
+
 void ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float minradius, float maxradius,
 	vector2f center, ImageData* img, float mean, bool normalize)
 {
@@ -202,21 +221,8 @@ void ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float m
 	if(trace)
 		dbgprintf("\n");
 
-	if (normalize) {
-		float substr = totalsum/totalsmp;
-		for (int i=0;i<radialSteps;i++)
-			dst[i] -= substr;
-		double sum=0.0f;
-		for (int i=0;i<radialSteps;i++)
-			totalrmssum2 += dst[i]*dst[i];
-	//		sum += dst[i];
-		double invSum = 1.0/sum;
-		//	totalrmssum2 += dst[i]*dst[i];
-		double invTotalrms = 1.0f/sqrt(totalrmssum2/radialSteps);
-		for (int i=0;i<radialSteps;i++) {
-			dst[i] *= invTotalrms;
-		}
-	}
+	if (normalize) 
+		NormalizeRadialProfile(dst, radialSteps);
 }
 
 
