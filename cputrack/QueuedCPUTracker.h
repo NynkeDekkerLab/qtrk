@@ -28,7 +28,7 @@ public:
 	void SetPixelCalibrationImages(float* offset, float* gain) override;
 	
 	int GetQueueLength(int *maxQueueLength=0) override; // In queue + in progress
-	int PollFinished(LocalizationResult* results, int maxResults) override;
+	int FetchResults(LocalizationResult* results, int maxResults) override;
 	void ClearResults() override;
 	void Flush() override { };
 

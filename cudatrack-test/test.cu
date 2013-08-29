@@ -146,7 +146,7 @@ void QTrkCompareTest()
 			float s = zmin + (zmax-zmin) * x/(float)(zplanes-1);
 			GenerateTestImage(ImageData(image, cfg.width, cfg.height), center.x, center.y, s, 0.0f);
 			FloatToJPEGFile("qtrkzlutimg.jpg", image, cfg.width,cfg.height);
-			LocalizeType flags = (LocalizeType)(LocalizeBuildZLUT|LocalizeOnlyCOM);
+			LocalizeType flags = (LocalizeType)(LT_BuildZLUT|LT_OnlyCOM);
 			LocalizationJob jobInfo;
 			jobInfo.frame = jobInfo.zlutPlane = x;
 			jobInfo.locType = flags;
@@ -167,12 +167,15 @@ void QTrkCompareTest()
 			while(qtrkcpu.GetResultCount() != zplanes);
 		}
 	}
-	float* zlut = qtrk.GetZLUT(0,0);
+	float* zlut = new float[qtrk.cfg.zlut_radialsteps*zplanes];
+	qtrk.GetZLUT(zlut);
 	if (cpucmp) { 
-		float* zlutcpu = qtrkcpu.GetZLUT(0,0);
-
+		float* zlutcpu = new float[qtrkcpu.cfg.zlut_radialsteps*zplanes];
+		qtrkcpu.GetZLUT(zlutcpu);
+		
 		WriteImageAsCSV("zlut-cpu.txt", zlutcpu, qtrkcpu.cfg.zlut_radialsteps, zplanes);
 		WriteImageAsCSV("zlut-gpu.txt", zlut, qtrkcpu.cfg.zlut_radialsteps, zplanes);
+		delete[] zlutcpu;
 	}
 	qtrk.ClearResults();
 	if (cpucmp) qtrkcpu.ClearResults();
@@ -185,7 +188,7 @@ void QTrkCompareTest()
 	double tstart = GetPreciseTime();
 	int rc = 0, displayrc=0;
 	for (int n=0;n<total;n++) {
-		LocalizeType flags = (LocalizeType)(LocalizeQI| (haveZLUT ? LocalizeZ : 0) );
+		LocalizeType flags = (LocalizeType)(LT_NormalizeProfile |LT_QI| (haveZLUT ? LT_LocalizeZ : 0) );
 		LocalizationJob jobInfo;
 		jobInfo.frame = n;
 		jobInfo.locType = flags;
@@ -227,8 +230,8 @@ void QTrkCompareTest()
 	LocalizationResult results[NumResults], resultscpu[NumResults];
 	int rcount = std::min(NumResults,total);
 	for (int i=0;i<rcount;i++) {
-		qtrk.PollFinished(&results[i], 1);
-		if (cpucmp) qtrkcpu.PollFinished(&resultscpu[i], 1);
+		qtrk.FetchResults(&results[i], 1);
+		if (cpucmp) qtrkcpu.FetchResults(&resultscpu[i], 1);
 	}
 
 	// if you wonder about this syntax, google C++ lambda functions
@@ -323,7 +326,7 @@ float SpeedTest(const QTrkSettings& cfg, QueuedTracker* qtrk, int count, bool ha
 			GenerateTestImage(ImageData(image, cfg.width, cfg.height), center.x, center.y, s, 0.0f);
 			LocalizationJob job;
 			job.frame = 0;
-			job.locType = LocalizeBuildZLUT|LocalizeOnlyCOM;
+			job.locType = LT_BuildZLUT|LT_OnlyCOM;
 			job.zlutPlane = job.frame = x;
 			qtrk->ScheduleLocalization((uchar*)image, cfg.width*sizeof(float),QTrkFloat, &job);
 		}
@@ -347,7 +350,7 @@ float SpeedTest(const QTrkSettings& cfg, QueuedTracker* qtrk, int count, bool ha
 	double sumScheduleTime2 = 0.0f;
 	double sumScheduleTime = 0.0f;
 	for (int n=0;n<count;n++) {
-		LocalizeType flags = (LocalizeType)(locType| (haveZLUT ? LocalizeZ : 0) );
+		LocalizeType flags = (LocalizeType)(locType| (haveZLUT ? LT_LocalizeZ : 0) );
 
 		double t0 = GetPreciseTime();
 		///qtrk->ScheduleLocalization((uchar*)image, cfg.width*sizeof(float), QTrkFloat, flags, n, 0, 0, 0, 0);
@@ -424,7 +427,7 @@ SpeedInfo SpeedCompareTest(int w)
 	cudaBatchSize = 32;
 #endif
 	bool haveZLUT = false;
-	LocalizeType locType = LocalizeQI;
+	LocalizeType locType = (LocalizeType)( LT_QI|LT_NormalizeProfile );
 
 	QTrkComputedConfig cfg;
 	cfg.width = cfg.height = w;
@@ -486,7 +489,7 @@ std::vector<vector3f> LocalizeGeneratedImages(const QTrkSettings& cfg, QueuedTra
 			vector2f center( cfg.width/2, cfg.height/2 );
 			float s = zmin + (zmax-zmin) * x/(float)(zplanes-1);
 			GenerateTestImage(ImageData(image, cfg.width, cfg.height), center.x, center.y, s, 0.0f);
-			LocalizeType flags = (LocalizeType)(LocalizeBuildZLUT|LocalizeQI);
+			LocalizeType flags = (LocalizeType)(LT_BuildZLUT|LT_QI|LT_NormalizeProfile);
 			qtrk->ScheduleLocalization((uchar*)image, cfg.width*sizeof(float),QTrkFloat, flags , x, 0,0, 0, x);
 		}
 		qtrk->Flush();
@@ -499,7 +502,7 @@ std::vector<vector3f> LocalizeGeneratedImages(const QTrkSettings& cfg, QueuedTra
 	qtrk->ClearResults();
 	for (int n=0;n<count;n++) {
 		vector3f pos = positions[n];
-		LocalizeType flags = (LocalizeType)(locType| (haveZLUT ? LocalizeZ : 0) );
+		LocalizeType flags = (LocalizeType)(locType| (haveZLUT ? LT_LocalizeZ : 0) );
 		float s = zmin + (zmax-zmin) * pos.z/zplanes;
 		GenerateTestImage(ImageData(image, cfg.width, cfg.height), cfg.width/2 + pos.x, cfg.height/2 + pos.y, s, 0);
 		//if (n<5) FloatToJPEGFile(SPrintf("tracker-%d.jpg", n).c_str(), image, cfg.width,cfg.height);
@@ -509,7 +512,7 @@ std::vector<vector3f> LocalizeGeneratedImages(const QTrkSettings& cfg, QueuedTra
 	while (qtrk->GetResultCount() != count) Sleep(10);
 
 	std::vector<LocalizationResult> results (count);
-	qtrk->PollFinished( &results[0], count );
+	qtrk->FetchResults( &results[0], count );
 	std::sort (results.begin(), results.end(), 
 		[](LocalizationResult& a, LocalizationResult& b) { return a.job.frame < b.job.frame; } );
 
@@ -559,7 +562,7 @@ void CompareAccuracy ()
 
 	for (int i=0;i<trackers.size();i++) {
 		double t0 = GetPreciseTime();
-		auto r = LocalizeGeneratedImages(cfg, trackers[i], haveZLUT, LocalizeQI, truePos);
+		auto r = LocalizeGeneratedImages(cfg, trackers[i], haveZLUT, (LocalizeType)( LT_QI|LT_NormalizeProfile ), truePos);
 		for (int j=0;j<n;j++) 
 			results[j * trackers.size() + i] = r[j];
 		double t1 = GetPreciseTime();
@@ -630,7 +633,7 @@ void TestTextureFetch()
 
 
 
-void MultipleLUTTest(const QTrkSettings& cfg, QueuedTracker* qtrk, int numBeads, int count=100, LocalizeType locType=LocalizeQI)
+void MultipleLUTTest(const QTrkSettings& cfg, QueuedTracker* qtrk, int numBeads, int count=100, LocalizeType locType=(LocalizeType)(LT_QI|LT_NormalizeProfile))
 {
 	float *image = new float[cfg.width*cfg.height];
 	srand(1);
@@ -648,7 +651,7 @@ void MultipleLUTTest(const QTrkSettings& cfg, QueuedTracker* qtrk, int numBeads,
 			GenerateTestImage(ImageData(image, cfg.width, cfg.height), center.x, center.y, s, 0.0f);
 			LocalizationJob job;
 			job.frame = 0;
-			job.locType = LocalizeBuildZLUT|LocalizeOnlyCOM;
+			job.locType = LT_BuildZLUT|LT_OnlyCOM;
 			job.zlutPlane = job.frame = x;
 			job.zlutIndex = i;
 			qtrk->ScheduleLocalization((uchar*)image, cfg.width*sizeof(float),QTrkFloat, &job);
@@ -664,12 +667,14 @@ void MultipleLUTTest(const QTrkSettings& cfg, QueuedTracker* qtrk, int numBeads,
 	}
 	qtrk->ClearResults();
 
-	float* zlutData = qtrk->GetZLUT();
+	float* zlutData = new float[numBeads*qtrk->cfg.zlut_radialsteps*zplanes];
+	qtrk->GetZLUT(zlutData);
 	for (int i=0;i<numBeads;i++) {
 		float* beadlut = zlutData + i*qtrk->cfg.zlut_radialsteps * zplanes;
 		std::string filename=SPrintf("zlut-bead%d.jpg", i);
 		FloatToJPEGFile(filename.c_str(), beadlut, qtrk->cfg.zlut_radialsteps, zplanes);
 	}
+	delete[] zlutData;
 	
 	// Schedule images to localize on
 	dbgprintf("Benchmarking...\n", count);
@@ -684,7 +689,7 @@ void MultipleLUTTest(const QTrkSettings& cfg, QueuedTracker* qtrk, int numBeads,
 
 			GenerateTestImage(ImageData(image, cfg.width, cfg.height), pos.x, pos.y, pos.z, 0);
 			ROIPosition roipos[]={ {0,0} };
-			LocalizationJob job((LocalizeType)(locType| LocalizeZ), n, 0, 0, 0);
+			LocalizationJob job((LocalizeType)(locType| LT_LocalizeZ), n, 0, 0, 0);
 			qtrk->ScheduleFrame((uchar*)image, cfg.width*sizeof(float),cfg.width,cfg.height, roipos, 1, QTrkFloat, &job);
 			if (n % 10 == 0) {
 				rc = qtrk->GetResultCount();
@@ -745,7 +750,7 @@ void BasicQTrkTest()
 	int N=4000;
 	for (int i=0;i<N;i++)
 	{
-		LocalizationJob job (LocalizeQI, i, 0, 0, 0);
+		LocalizationJob job ( LocalizeType(LT_QI|LT_NormalizeProfile), i, 0, 0, 0);
 		qtrk.ScheduleLocalization((uchar*)image, sizeof(float)*cc.width, QTrkFloat, &job);
 	}
 

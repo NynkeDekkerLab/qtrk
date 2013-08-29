@@ -1,5 +1,5 @@
 
-function graphs()
+function fisher_graphs()
 
 figure(1);
 showcsvimg('u');

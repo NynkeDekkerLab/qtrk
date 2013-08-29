@@ -170,7 +170,7 @@ bool ResultManager::Update()
 	const int NResultBuf = 40;
 	LocalizationResult resultbuf[NResultBuf];
 
-	int count = qtrk->PollFinished( resultbuf, NResultBuf );
+	int count = qtrk->FetchResults( resultbuf, NResultBuf );
 
 	resultMutex.lock();
 	for (int i=0;i<count;i++)

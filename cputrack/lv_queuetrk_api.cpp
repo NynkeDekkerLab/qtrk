@@ -80,7 +80,7 @@ CDLL_EXPORT void DLL_CALLCONV qtrk_get_computed_config(QueuedTracker* qtrk, QTrk
 		*cc = qtrk->cfg;
 }
 
-CDLL_EXPORT void DLL_CALLCONV qtrk_set_ZLUT(QueuedTracker* tracker, LVArray3D<float>** pZlut, LVArray<float>** zcmpWindow, ErrorCluster* e)
+CDLL_EXPORT void DLL_CALLCONV qtrk_set_ZLUT(QueuedTracker* tracker, LVArray3D<float>** pZlut, LVArray<float>** zcmpWindow, int normalize, ErrorCluster* e)
 {
 	LVArray3D<float>* zlut = *pZlut;
 
@@ -105,8 +105,14 @@ CDLL_EXPORT void DLL_CALLCONV qtrk_set_ZLUT(QueuedTracker* tracker, LVArray3D<fl
 		} else {
 			if (res != tracker->cfg.zlut_radialsteps)
 				ArgumentErrorMsg(e, SPrintf("set_ZLUT: 3rd dimension should have size of zlut_radialsteps (%d instead of %d)", tracker->cfg.zlut_radialsteps, res));
-			else 
+			else {
+
+				if (normalize) {
+					NormalizeZLUT( zlut->elem, numLUTs, planes, res );
+				}
+
 				tracker->SetZLUT(zlut->elem, numLUTs, planes, zcmp);
+			}
 		}
 	}
 }
@@ -319,7 +325,7 @@ CDLL_EXPORT void qtrk_flush(QueuedTracker* qtrk, ErrorCluster* e)
 CDLL_EXPORT int qtrk_get_results(QueuedTracker* qtrk, LocalizationResult* results, int maxResults, int sortByID, ErrorCluster* e)
 {
 	if (ValidateTracker(qtrk, e, "get_results")) {
-		int resultCount = qtrk->PollFinished(results, maxResults);
+		int resultCount = qtrk->FetchResults(results, maxResults);
 
 		if (sortByID) {
 			std::sort(results, results+resultCount, [](decltype(*results) a, decltype(*results) b) { return a.job.frame<b.job.frame; } );

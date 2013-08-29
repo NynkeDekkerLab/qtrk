@@ -11,17 +11,17 @@
 
 enum LocalizeType {
 	// Flags for selecting 2D localization type
-	LocalizeOnlyCOM = 0, // use only COM
-	LocalizeXCor1D = 1, // COM+XCor1D
-	LocalizeQI = 2, // COM+QI
-	LocalizeXCor2D = 3,   // XCor2D
-	LocalizeGaussian2D = 4, // 2D Gaussian localization
+	LT_OnlyCOM = 0, // use only COM
+	LT_XCor1D = 1, // COM+XCor1D
+	LT_QI = 2, // COM+QI
+	LT_XCor2D = 3,   // XCor2D
+	LT_Gaussian2D = 4, // 2D Gaussian localization
 
-	Localize2DMask = 15,
-	LocalizeZ = 16,
-	LocalizeBuildZLUT = 32,
-	LocalizeNormalizeProfile = 64,
-	Force32Bit = 0xffffffff
+	LT_2DMask = 15,
+	LT_LocalizeZ = 16,
+	LT_BuildZLUT = 32,
+	LT_NormalizeProfile = 64,
+	LT_Force32Bit = 0xffffffff
 };
 
 enum QTRK_PixelDataType
@@ -151,12 +151,12 @@ public:
 	// Schedule an entire frame at once, allowing for further optimizations
 	virtual int ScheduleFrame(uchar *imgptr, int pitch, int width, int height, ROIPosition *positions, int numROI, QTRK_PixelDataType pdt, const LocalizationJob *jobInfo) = 0;
 	
-	// data can be zero to allocate ZLUT data. zcmp has to have 'res' elements
+	// data can be zero to allocate ZLUT data. zcmp has to have 'zlut_radialsteps' elements
 	virtual void SetZLUT(float* data, int count, int planes, float* zcmp=0) = 0; 
 	virtual void GetZLUT(float* dst) = 0; // delete[] memory afterwards
 	virtual void GetZLUTSize(int& count, int& planes, int& radialsteps) = 0;
 	virtual int GetResultCount() = 0;
-	virtual int PollFinished(LocalizationResult* results, int maxResults) = 0;
+	virtual int FetchResults(LocalizationResult* results, int maxResults) = 0;
 
 	virtual int GetQueueLength(int *maxQueueLen=0) = 0;
 	virtual bool IsIdle() = 0;

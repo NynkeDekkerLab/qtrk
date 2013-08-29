@@ -60,11 +60,15 @@ float ComputeBgCorrectedCOM1D(float *data, int len, float cf=2.0f);
 void ComputeCRP(float* dst, int radialSteps, int angularSteps, float minradius, float maxradius, vector2f center, ImageData* src,float mean, float*crpmap=0);
 void ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float minradius, float maxradius, vector2f center, ImageData* src, float mean, bool normalize);
 void NormalizeRadialProfile(float* prof, int rsteps);
+void NormalizeZLUT(float *zlut, int numLUTs, int planes, int radialsteps);
 void GenerateImageFromLUT(ImageData* image, ImageData* zlut, float minRadius, float maxRadius, vector2f pos, float z, float M);
 void ApplyPoissonNoise(ImageData& img, float factor);
 void ApplyGaussianNoise(ImageData& img, float sigma);
 void WriteImageAsCSV(const char* file, float* d, int w,int h, const char *labels[]=0);
 void WriteComplexImageAsCSV(const char* file, std::complex<float>* d, int w,int h, const char *labels[]=0);
+
+struct LocalizationResult;
+void WriteTrace(std::string file, LocalizationResult* results, int nResults);
 
 struct ImageData {
 	float* data;

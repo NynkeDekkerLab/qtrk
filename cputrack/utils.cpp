@@ -177,6 +177,13 @@ void NormalizeRadialProfile(float* prof, int rsteps)
 }
 
 
+void NormalizeZLUT(float* zlut ,int numBeads, int planes, int radialsteps)
+{
+	for(int i=0;i<numBeads;i++)
+		for (int j=0;j<planes;j++)
+			NormalizeRadialProfile(&zlut[radialsteps*planes*i + radialsteps*j], radialsteps);
+}
+
 void ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float minradius, float maxradius,
 	vector2f center, ImageData* img, float mean, bool normalize)
 {
@@ -190,8 +197,6 @@ void ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float m
 		dst[i]=0.0f;
 
 	bool trace=false;
-
-	double totalrmssum2 = 0.0f, totalsum=0.0;
 	float rstep = (maxradius-minradius) / radialSteps;
 	int totalsmp = 0;
 	for (int i=0;i<radialSteps; i++) {
@@ -215,8 +220,6 @@ void ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float m
 		}
 
 		dst[i] = nsamples > MIN_RADPROFILE_SMP_COUNT ? sum/nsamples : mean;
-		totalsum += sum;
-		totalsmp += nsamples;
 	}
 	if(trace)
 		dbgprintf("\n");
@@ -287,7 +290,21 @@ void ApplyGaussianNoise(ImageData& img, float sigma)
 }
 
 
+void WriteTrace(std::string filename, LocalizationResult* results, int nResults)
+{
+	FILE *f = fopen(filename.c_str(), "w");
 
+	if (!f) {
+		throw std::runtime_error(SPrintf("Can't open %s", filename.c_str()));
+	}
+
+	for (int i=0;i<nResults;i++)
+	{
+		fprintf(f, "%f\t%f\t%f\n", results[i].pos.x, results[i].pos.y, results[i].pos.z);
+	}
+
+	fclose(f);
+}
 
 void WriteImageAsCSV(const char* file, float* d, int w,int h, const char* labels[])
 {

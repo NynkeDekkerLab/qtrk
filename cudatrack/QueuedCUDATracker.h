@@ -4,7 +4,7 @@
 
 // We assume 2 threads concurrently accessing the tracker functions:
 //	- Queueing thread: ScheduleLocalization, SetZLUT, GetZLUT, Flush, IsQueueFilled, IsIdle
-//	- Fetching thread: PollFinished, GetResultCount, ClearResults
+//	- Fetching thread: FetchResults, GetResultCount, ClearResults
 
 #pragma once
 #include "QueuedTracker.h"
@@ -73,7 +73,7 @@ public:
 	void SetZLUT(float* data,  int numLUTs, int planes, float* zcmp=0) override; 
 	void GetZLUT(float* data) override; // delete[] memory afterwards
 	void GetZLUTSize(int& count, int& planes, int &radialSteps) override;
-	int PollFinished(LocalizationResult* results, int maxResults) override;
+	int FetchResults(LocalizationResult* results, int maxResults) override;
 
 	std::string GetProfileReport() override;
 
@@ -184,7 +184,6 @@ protected:
 	void SchedulingThreadMain();
 	static void SchedulingThreadEntryPoint(void *param);
 
-	int FetchResults();
 	template<typename TImageSampler> void ExecuteBatch(Stream *s);
 	Stream* GetReadyStream(); // get a stream that not currently executing, and still has room for images
 	template<typename TImageSampler> void QI_Iterate(device_vec<float3>* initial, device_vec<float3>* newpos, Stream *s, int angularSteps);

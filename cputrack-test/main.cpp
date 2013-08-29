@@ -4,12 +4,74 @@
 #include "../cputrack/QueuedCPUTracker.h"
 #include "../cputrack/FisherMatrix.h"
 
+#include <direct.h> // _mkdir()
+
 template<typename T> T sq(T x) { return x*x; }
 template<typename T> T distance(T x, T y) { return sqrt(x*x+y*y); }
 
 float distance(vector2f a,vector2f b) { return distance(a.x-b.x,a.y-b.y); }
 
 const float ANGSTEPF = 1.5f;
+
+
+// Generate a LUT by creating new image samples and using the tracker in BuildZLUT mode
+// This will ensure equal settings for radial profiles etc
+void ResampleLUT(QueuedTracker* qtrk, ImageData* lut, float zlutMinRadius, float zlutMaxRadius, int zplanes=100, const char *jpgfile=0)
+{
+	QTrkComputedConfig& cfg = qtrk->cfg;
+	ImageData img = ImageData::alloc(cfg.width,cfg.height);
+
+	qtrk->SetZLUT(0, 1, zplanes);
+
+	for (int i=0;i<zplanes;i++)
+	{
+		GenerateImageFromLUT(&img, lut, zlutMinRadius, zlutMaxRadius, vector2f(cfg.width/2, cfg.height/2), i/(float)zplanes * lut->h, 1.0f);
+		img.normalize();
+
+		LocalizationJob job((LocalizeType)(LT_QI|LT_BuildZLUT|LT_NormalizeProfile), i, 0, i,0);
+		qtrk->ScheduleLocalization((uchar*)img.data, sizeof(float)*img.w, QTrkFloat, &job);
+	}
+	img.free();
+
+	while(!qtrk->IsIdle());
+	qtrk->ClearResults();
+
+	if (jpgfile) {
+		float* zlut_result=new float[zplanes*cfg.zlut_radialsteps*1];
+		qtrk->GetZLUT(zlut_result);
+		FloatToJPEGFile(jpgfile, zlut_result, cfg.zlut_radialsteps, zplanes);
+		delete[] zlut_result;
+	}
+}
+
+void GenerateZLUT(QueuedTracker* qtrk, float zmin, float zmax, int zplanes, const char *saveAs=0)
+{
+	QTrkComputedConfig& cfg = qtrk->cfg;
+	float *image = new float[cfg.width*cfg.height];
+	qtrk->SetZLUT(NULL, 1, zplanes, 0);
+	for (int x=0;x<zplanes;x++)  {
+		vector2f center(cfg.width/2, cfg.height/2 );
+		float s = zmin + (zmax-zmin) * x/(float)(zplanes-1);
+		GenerateTestImage(ImageData(image, cfg.width, cfg.height), center.x, center.y, s, 0.0f);
+		LocalizationJob job( (LocalizeType)(LT_BuildZLUT|LT_NormalizeProfile |LT_QI), x, 0, x, 0);
+		qtrk->ScheduleLocalization((uchar*)image, cfg.width*sizeof(float),QTrkFloat, &job);
+	}
+	// wait to finish ZLUT
+	while(true) {
+		int rc = qtrk->GetResultCount();
+		if (rc == zplanes) break;
+		Sleep(100);
+		dbgprintf(".");
+	}
+	float* zlut = new float[cfg.zlut_radialsteps * zplanes * 1];
+	qtrk->GetZLUT(zlut);
+	qtrk->ClearResults();
+	uchar* zlut_bytes = floatToNormalizedInt(zlut, cfg.zlut_radialsteps, zplanes, (uchar)255);
+	if (saveAs) WriteJPEGFile(zlut_bytes, cfg.zlut_radialsteps, zplanes, saveAs, 99);
+	delete[] zlut; delete[] zlut_bytes;
+
+	delete[] image;
+}
 
 void SpeedTest()
 {
@@ -170,8 +232,6 @@ void OutputProfileImg()
 
 	delete tracker;
 }
-
-
  
 void TestBoundCheck()
 {
@@ -199,7 +259,6 @@ void TestBoundCheck()
 
 	delete tracker;
 }
-
 
 void PixelationErrorTest()
 {
@@ -266,7 +325,6 @@ float EstimateZError(int zplanes)
 	return zdist/N;
 }
 
-
 void ZTrackingTest()
 {
 	for (int k=20;k<100;k+=20)
@@ -275,7 +333,6 @@ void ZTrackingTest()
 		dbgout(SPrintf("average Z difference: %f. zplanes=%d\n", err, k));
 	}
 }
-
 
 /*
 void Test2DTracking()
@@ -324,35 +381,6 @@ void Test2DTracking()
 }*/
 
 
-void GenerateZLUT(QueuedTracker* qtrk, float zmin, float zmax, int zplanes, const char *saveAs=0)
-{
-	QTrkComputedConfig& cfg = qtrk->cfg;
-	float *image = new float[cfg.width*cfg.height];
-	qtrk->SetZLUT(NULL, 1, zplanes, 0);
-	for (int x=0;x<zplanes;x++)  {
-		vector2f center(cfg.width/2, cfg.height/2 );
-		float s = zmin + (zmax-zmin) * x/(float)(zplanes-1);
-		GenerateTestImage(ImageData(image, cfg.width, cfg.height), center.x, center.y, s, 0.0f);
-		LocalizationJob job( (LocalizeType)(LocalizeBuildZLUT|LocalizeQI), x, 0, x, 0);
-		qtrk->ScheduleLocalization((uchar*)image, cfg.width*sizeof(float),QTrkFloat, &job);
-	}
-	// wait to finish ZLUT
-	while(true) {
-		int rc = qtrk->GetResultCount();
-		if (rc == zplanes) break;
-		Sleep(100);
-		dbgprintf(".");
-	}
-	float* zlut = new float[cfg.zlut_radialsteps * zplanes * 1];
-	qtrk->GetZLUT(zlut);
-	qtrk->ClearResults();
-	uchar* zlut_bytes = floatToNormalizedInt(zlut, cfg.zlut_radialsteps, zplanes, (uchar)255);
-	if (saveAs) WriteJPEGFile(zlut_bytes, cfg.zlut_radialsteps, zplanes, saveAs, 99);
-	delete[] zlut; delete[] zlut_bytes;
-
-	delete[] image;
-}
-
 void QTrkTest()
 {
 	QTrkSettings cfg;
@@ -397,7 +425,7 @@ void QTrkTest()
 		GenerateTestImage(ImageData(image, cfg.width, cfg.height), xp, yp, z, 10000);
 		double t2 = GetPreciseTime();
 		for (int k=0;k<JobsPerImg;k++) {
-			LocalizationJob job( (LocalizeType)(LocalizeQI| (haveZLUT ? LocalizeZ : 0)),n,0,0,0);
+			LocalizationJob job( (LocalizeType)(LT_QI|LT_NormalizeProfile | (haveZLUT ? LT_LocalizeZ : 0)),n,0,0,0);
 			qtrk.ScheduleLocalization((uchar*)image, cfg.width*sizeof(float), QTrkFloat, &job);
 		}
 		double t3 = GetPreciseTime();
@@ -431,7 +459,7 @@ void QTrkTest()
 	while(rc>0) {
 		LocalizationResult result;
 
-		if (qtrk.PollFinished(&result, 1)) {
+		if (qtrk.FetchResults(&result, 1)) {
 			int iid = result.job.frame;
 			float x = fabs(truepos[iid*3+0]-result.pos.x);
 			float y = fabs(truepos[iid*3+1]-result.pos.y);
@@ -496,9 +524,6 @@ void BuildConvergenceMap(int iterations)
 	delete[] data;
 }
 
-
-
-
 void CRP_TestGeneratedData()
 {
 	int w=64,h=64;
@@ -558,8 +583,6 @@ void CorrectedRadialProfileTest()
 //	GenerateImageFromLUT(ImageData(img,w,h), ImageData
 }
 
-
-
 void WriteRadialProf(const char *file, ImageData& d)
 {
 	CPUTracker trk(d.w,d.h);
@@ -574,7 +597,6 @@ void WriteRadialProf(const char *file, ImageData& d)
 
 	WriteImageAsCSV(file, radprof, radialsteps, 1);
 }
-
 
 void TestFisher(const char *lutfile)
 {
@@ -629,53 +651,110 @@ void TestFisher(const char *lutfile)
 	lut.free();
 }
 
-
 void RandomFill (float* d,int size, float mean, float std_deviation)
 {
 	for (int i=0;i<size;i++)
 		d [i] = std::max(0.0f,  mean + rand_normal<float>() * std_deviation);
 }
 
+/*
+This test runs a localization series with varying amounts of CMOS per-pixel gain variation:
+
+- Simulate drift over some pixels
+- Generate images with standard Poisson noise
+- Repeat this with several amounts of CMOS per-pixel noise settings
+*/
 void TestCMOSNoiseInfluence(const char *lutfile)
 {
-	/*
-	This test runs a localization series with varying amounts of CMOS per-pixel gain variation:
-
-	- Simulate drift over some pixels
-	- Generate images with standard Poisson noise
-	- Repeat this with several amounts of CMOS per-pixel noise settings
-	*/
+	int nNoiseLevels = 5;
+	float gainStDevScale = 0.05f;
+#ifdef _DEBUG
+	int nDriftSteps = 100;
+#else
+	int nDriftSteps = 5000;
+#endif
+	float driftDistance = 4; // pixels
 
 	ImageData lut = ReadJPEGFile(lutfile);
-	ImageData dstimg = ImageData::alloc(80,80);
+	ImageData img = ImageData::alloc(120,120);
 
-	for (int i=0;i<lut.h;i++)
-		NormalizeRadialProfile(&lut.at(0,i), lut.w);
-
-	float z = 10.0f;
-	GenerateImageFromLUT(&dstimg, &lut, 2.0f, 30.0f, vector2f(dstimg.w/2,dstimg.h/2), z, 1.0f);
-
+	float z = 30.0f;
 	QTrkSettings cfg;
-	cfg.width = cfg.height = 80;
+	cfg.width = img.w; cfg.height = img.h;
 	QueuedCPUTracker trk(cfg);
 
-
-	int zplanes=lut.h;
-	float zmin=0.5,zmax=2.5;
 	int nBeads=1;
-	trk.SetZLUT(lut.data, nBeads, lut.h);
+	float zlutMinR=4,zlutMaxR = cfg.width/2-5;
+	ResampleLUT(&trk, &lut,100, zlutMinR,zlutMaxR, "resample-zlut.jpg");
+//	trk.SetZLUT(lut.data, nBeads, lut.h);
 	
 	float *offset = new float [nBeads * cfg.width * cfg.height];
 	float *gain = new float [nBeads * cfg.width * cfg.height];
 
-	int nNoiseLevels = 2;
+	bool useCalib = false;
+	bool saveImgs = true;
+
+	float *info = new float [nNoiseLevels*2];
+
 	for (int nl=0;nl<nNoiseLevels;nl++) {
 
-		RandomFill(offset, nBeads * cfg.width * cfg.height, nl, nl);
-		RandomFill(gain, nBeads * cfg.width * cfg.height, 1, nl*0.1f);
+		float offset_stdev = info[nl*2+0] = nl*0.01f;
+		float gain_stdev = info[nl*2+1] = nl*gainStDevScale;
 
-		trk.SetPixelCalibrationImages(offset, gain);
+		RandomFill(offset, nBeads * cfg.width * cfg.height, 0, offset_stdev);
+		RandomFill(gain, nBeads * cfg.width * cfg.height, 1, gain_stdev);
+
+
+		if (useCalib) trk.SetPixelCalibrationImages(offset, gain);
+
+		std::string dirname= SPrintf("noiselev%d", nl);
+		if (saveImgs) _mkdir(dirname.c_str());
+
+		// drift
+		float dx = driftDistance / (nDriftSteps-1);
+		for (int d=0;d<nDriftSteps;d++) {
+			GenerateImageFromLUT(&img, &lut, zlutMinR, zlutMaxR, vector2f(img.w/2+dx*d,img.h/2), 20, 1.0f);
+			img.normalize();
+
+			if (!useCalib) {
+				for (int i=0;i<cfg.width*cfg.height;i++)
+					img[i]*=gain[i];
+				ApplyPoissonNoise(img, 255);
+				for (int i=0;i<cfg.width*cfg.height;i++)
+					img[i]+=offset[i];
+			} else 
+				ApplyPoissonNoise(img, 255);
+
+			if (saveImgs && d<40) {
+				FloatToJPEGFile(SPrintf("%s\\nl%d-smp%d.jpg",dirname.c_str(),nl,d).c_str(),img.data, img.w,img.h);
+			}
+
+			if (d==0) {
+				FloatToJPEGFile(SPrintf("nl%d.jpg",nl).c_str(),img.data, img.w,img.h);
+			}
+
+
+			LocalizationJob job((LocalizeType)(LT_QI|LT_LocalizeZ|LT_NormalizeProfile),d, d,0,0);
+			trk.ScheduleLocalization((uchar*)img.data, sizeof(float)*img.w, QTrkFloat, &job);
+		}
+
+		while (!trk.IsIdle());
+		int nResults = trk.GetResultCount();
+		auto results = new LocalizationResult[nResults];
+		trk.FetchResults(results, nResults);
+		WriteTrace(SPrintf("%s\\trace.txt", dirname.c_str()), results, nResults);
+		delete[] results;
+
+		dbgprintf("noiselevel: %d\n", nl);
 	}
+	WriteImageAsCSV("offset_gain_stdev.txt", info, 2, nNoiseLevels);
+
+	img.free();
+	lut.free();
+
+	delete[] gain;
+	delete[] offset;
+	delete[] info;
 }
 
 
@@ -683,6 +762,7 @@ int main()
 {
 	//TestFisher("lut000.jpg");
 
+	QTrkTest();
 	TestCMOSNoiseInfluence("lut000.jpg");
 
 	//SpeedTest();

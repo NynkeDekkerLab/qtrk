@@ -301,7 +301,7 @@ __global__ void ZLUT_ProfilesToZLUT(int njobs, cudaImageListf images, ZLUTParams
 
 	if (idx < njobs) {
 		auto m = locParams[idx];
-		if (m.locType & LocalizeBuildZLUT) {
+		if (m.locType & LT_BuildZLUT) {
 			float* dst = params.GetZLUT(m.zlutIndex, m.zlutPlane );
 
 			for (int i=0;i<params.radialSteps();i++)
@@ -395,7 +395,7 @@ __global__ void ZLUT_ComputeZ (int njobs, ZLUTParams params, float3* positions, 
 {
 	int jobIdx = threadIdx.x + blockIdx.x * blockDim.x;
 
-	if (jobIdx < njobs && (locParams[jobIdx].locType & LocalizeZ)) {
+	if (jobIdx < njobs && (locParams[jobIdx].locType & LT_LocalizeZ)) {
 		float* cmp = &compareScoreBuf [params.planes * jobIdx];
 
 		float maxPos = ComputeMaxInterp<float>::Compute(cmp, params.planes);
@@ -413,7 +413,7 @@ __global__ void ZLUT_ComputeProfileMatchScores(int njobs, ZLUTParams params, flo
 
 	float* prof = &profiles [jobIdx * params.radialSteps()];
 	auto mapping = locParams[jobIdx];
-	if (mapping.locType & LocalizeZ) {
+	if (mapping.locType & LT_LocalizeZ) {
 		float diffsum = 0.0f;
 		for (int r=0;r<params.radialSteps();r++) {
 			float d = prof[r] - params.img.pixel(r, zPlaneIdx, mapping.zlutIndex);

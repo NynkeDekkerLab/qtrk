@@ -456,7 +456,7 @@ void QueuedCUDATracker::ScheduleLocalization(uchar* data, int pitch, QTRK_PixelD
 	LocalizationJob job = *jobInfo;
 	job.locType = jobInfo->LocType();
 	if (s->device->zlut.isEmpty())  // dont do ZLUT commands when no ZLUT has been set
-		job.locType &= ~(LocalizeZ | LocalizeBuildZLUT);
+		job.locType &= ~(LT_LocalizeZ | LT_BuildZLUT);
 	s->jobs.push_back(job);
 	s->localizeFlags |= job.locType; // which kernels to run
 	s->locParams[jobIndex].locType = job.LocType();
@@ -641,7 +641,7 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 	cudaEventRecord(s->comDone, s->stream);
 
 	device_vec<float3> *curpos = &s->d_com;
-	if (s->localizeFlags & LocalizeQI) {
+	if (s->localizeFlags & LT_QI) {
 		ScopedCPUProfiler p(&cpu_time.qi);
 
 		float angsteps = cfg.qi_angstepspq / powf(cfg.qi_angstep_factor, cfg.qi_iterations);
@@ -657,7 +657,7 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 	{ScopedCPUProfiler p(&cpu_time.zcompute);
 
 		// Compute radial profiles
-		if (s->localizeFlags & (LocalizeZ | LocalizeBuildZLUT)) {
+		if (s->localizeFlags & (LT_LocalizeZ | LT_BuildZLUT)) {
 			dim3 numThreads(16, 16);
 			dim3 numBlocks( (s->JobCount() + numThreads.x - 1) / numThreads.x, 
 					(cfg.zlut_radialsteps + numThreads.y - 1) / numThreads.y);
@@ -666,11 +666,11 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 			ZLUT_NormalizeProfiles<<< blocks(s->JobCount()), threads(), 0, s->stream >>> (s->JobCount(), kernelParams.zlut, s->d_radialprofiles.data);
 		}
 		// Store profile in LUT
-		if (s->localizeFlags & LocalizeBuildZLUT) {
+		if (s->localizeFlags & LT_BuildZLUT) {
 			ZLUT_ProfilesToZLUT <<< blocks(s->JobCount()), threads(), 0, s->stream >>> (s->JobCount(), s->images, kernelParams.zlut, curpos->data, s->d_locParams.data, s->d_radialprofiles.data);
 		}
 		// Compute Z 
-		if (s->localizeFlags & LocalizeZ) {
+		if (s->localizeFlags & LT_LocalizeZ) {
 			int zplanes = kernelParams.zlut.planes;
 			dim3 numThreads(8, 16);
 			ZLUT_ComputeProfileMatchScores <<< dim3( (s->JobCount() + numThreads.x - 1) / numThreads.x, (zplanes  + numThreads.y - 1) / numThreads.y), numThreads, 0, s->stream >>> 
@@ -700,7 +700,7 @@ void QueuedCUDATracker::CopyStreamResults(Stream *s)
 		r.job = j;
 		r.firstGuess =  vector2f( s->com[a].x, s->com[a].y );
 		r.pos = vector3f( s->results[a].x , s->results[a].y, s->results[a].z);
-		if(!(s->jobs[a].locType & LocalizeZ))
+		if(!(s->jobs[a].locType & LT_LocalizeZ))
 			r.pos.z = 0.0f;
 
 		results.push_back(r);
@@ -727,7 +727,7 @@ void QueuedCUDATracker::CopyStreamResults(Stream *s)
 	batchesDone ++;
 }
 
-int QueuedCUDATracker::PollFinished(LocalizationResult* dstResults, int maxResults)
+int QueuedCUDATracker::FetchResults(LocalizationResult* dstResults, int maxResults)
 {
 	resultMutex.lock();
 	int numResults = 0;
