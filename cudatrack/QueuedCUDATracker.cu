@@ -192,7 +192,7 @@ QueuedCUDATracker::QueuedCUDATracker(const QTrkComputedConfig& cc, int batchSize
 	qi.angularSteps = 0; // filled per iteration
 	std::vector<float2> qi_radialgrid(cfg.qi_angstepspq);
 	for (int i=0;i<cfg.qi_angstepspq;i++)  {
-		float ang = 0.5f*3.141593f*i/(float)cfg.qi_angstepspq;
+		float ang = 0.5f*3.141593f*(i+0.5f)/(float)cfg.qi_angstepspq;
 		qi_radialgrid[i]=make_float2(cos(ang), sin(ang));
 	}
 
@@ -634,7 +634,7 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 		float angsteps = cfg.qi_angstepspq / powf(cfg.qi_angstep_factor, cfg.qi_iterations);
 		
 		for (int a=0;a<cfg.qi_iterations;a++) {
-			QI_Iterate<TImageSampler> (curpos, &s->d_resultpos, s, angsteps);
+			QI_Iterate<TImageSampler> (curpos, &s->d_resultpos, s, std::max(MIN_RADPROFILE_SMP_COUNT, angsteps) );
 			curpos = &s->d_resultpos;
 			angsteps *= cfg.qi_angstep_factor;
 		}

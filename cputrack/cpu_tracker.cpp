@@ -242,7 +242,7 @@ vector2f CPUTracker::ComputeQI(vector2f initial, int iterations, int radialSteps
 	if (angularStepsPerQ != quadrantDirs.size()) {
 		quadrantDirs.resize(angularStepsPerQ);
 		for (int j=0;j<angularStepsPerQ;j++) {
-			float ang = 0.5*3.141593f*j/(float)angularStepsPerQ;
+			float ang = 0.5*3.141593f*(j+0.5f)/(float)angularStepsPerQ;
 			quadrantDirs[j] = vector2f( cosf(ang), sinf(ang) );
 		}
 	}
@@ -301,13 +301,13 @@ vector2f CPUTracker::ComputeQI(vector2f initial, int iterations, int radialSteps
 		for(int r=0;r<nr;r++) {
 			concat1[r] = q0[r]+q1[r];
 			concat0[nr-r-1] = q2[r]+q3[r];
-		}	
+		}
 		
 		float offsetY = QI_ComputeOffset(concat0, nr, 1);
 
 #ifdef QI_DBG_EXPORT
 		std::copy(concat0, concat0+nr*2,tmp.begin()+nr*2);
-		WriteComplexImageAsCSV("cpuprofxy.txt", &tmp[0], nr*4, 1);
+		WriteComplexImageAsCSV("cpuprofxy.txt", &tmp[0], nr, 4);
 		dbgprintf("[%d] OffsetX: %f, OffsetY: %f\n", k, offsetX, offsetY);
 #endif
 
@@ -418,6 +418,9 @@ void CPUTracker::ComputeQuadrantProfile(CPUTracker::qi_t* dst, int radialSteps, 
 	int mx = qmat[2*quadrant+0];
 	int my = qmat[2*quadrant+1];
 
+	if (angularSteps < MIN_RADPROFILE_SMP_COUNT)
+		angularSteps = MIN_RADPROFILE_SMP_COUNT;
+
 	for (int i=0;i<radialSteps;i++)
 		dst[i]=0.0f;
 
@@ -443,9 +446,12 @@ void CPUTracker::ComputeQuadrantProfile(CPUTracker::qi_t* dst, int radialSteps, 
 			}
 		}
 
-		dst[i] = nPixels>MIN_RADPROFILE_SMP_COUNT ? sum/nPixels : mean;
+		dst[i] = nPixels>=MIN_RADPROFILE_SMP_COUNT ? sum/nPixels : mean;
 		total += dst[i];
 	}
+	#ifdef QI_DBG_EXPORT
+	WriteImageAsCSV(SPrintf("qprof%d.txt", quadrant).c_str(), dst, 1, radialSteps);
+	#endif
 }
 
 
@@ -458,7 +464,7 @@ vector2f CPUTracker::ComputeBgCorrectedCOM(float bgcorrection)
 
 	for (int y=0;y<height;y++)
 		for (int x=0;x<width;x++) {
-			float v = getPixel(x,y);
+			float v = GetPixel(x,y);
 			sum += v;
 			sum2 += v*v;
 		}
@@ -471,7 +477,7 @@ vector2f CPUTracker::ComputeBgCorrectedCOM(float bgcorrection)
 	for (int y=0;y<height;y++)
 		for(int x=0;x<width;x++)
 		{
-			float v = getPixel(x,y);
+			float v = GetPixel(x,y);
 			v = std::max(0.0f, fabs(v-mean)-bgcorrection*stdev);
 			sum += v;
 			momentX += x*v;
@@ -548,7 +554,7 @@ float CPUTracker::ComputeZ(vector2f center, int angularSteps, int zlutIndex, boo
 
 	// Now compare the radial profile to the profiles stored in Z
 
-	float* zlut_sel = getZLUT(zlutIndex);
+	float* zlut_sel = GetZLUT(zlutIndex);
 
 	for (int k=0;k<zlut_planes;k++) {
 		float diffsum = 0.0f;
