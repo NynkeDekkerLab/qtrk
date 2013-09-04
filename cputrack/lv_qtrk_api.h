@@ -4,7 +4,7 @@
 
 #include "QueuedTracker.h"
 
-CDLL_EXPORT void DLL_CALLCONV qtrk_set_ZLUT(QueuedTracker* tracker, LVArray3D<float>** pZlut, LVArray<float>** zcmpWindow, ErrorCluster* e);
+CDLL_EXPORT void DLL_CALLCONV qtrk_set_ZLUT(QueuedTracker* tracker, LVArray3D<float>** pZlut, LVArray<float>** zcmpWindow, int normalize, ErrorCluster* e);
 CDLL_EXPORT void DLL_CALLCONV qtrk_get_ZLUT(QueuedTracker* tracker, LVArray3D<float>** pzlut, ErrorCluster* e);
 CDLL_EXPORT QueuedTracker* DLL_CALLCONV qtrk_create(QTrkSettings* settings, ErrorCluster* e);
 CDLL_EXPORT void DLL_CALLCONV qtrk_destroy(QueuedTracker* qtrk, ErrorCluster* error);

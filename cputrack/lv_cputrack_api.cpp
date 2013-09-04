@@ -175,7 +175,7 @@ CDLL_EXPORT void DLL_CALLCONV set_ZLUT(CPUTracker* tracker, LVArray3D<float>** p
 
 CDLL_EXPORT void DLL_CALLCONV get_ZLUT(CPUTracker* tracker, int zlutIndex, LVArray2D<float>** dst)
 {
-	 float* zlut = tracker->getZLUT(zlutIndex);
+	 float* zlut = tracker->GetZLUT(zlutIndex);
 	 ResizeLVArray2D(dst, tracker->zlut_planes, tracker->zlut_res);
 	 std::copy(zlut, zlut+(tracker->zlut_planes*tracker->zlut_res), (*dst)->elem);
 }
