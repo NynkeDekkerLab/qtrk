@@ -40,7 +40,7 @@ public:
 	bool zlut_useCorrelation;
 	std::vector<float> zlut_radialweights;
 
-	float* getZLUT(int index)  { return &zluts[zlut_res*zlut_planes*index]; }
+	float* GetZLUT(int index)  { return &zluts[zlut_res*zlut_planes*index]; }
 
 	XCor1DBuffer* xcorBuffer;
 	std::vector<vector2f> quadrantDirs; // single quadrant
@@ -49,7 +49,7 @@ public:
 	typedef std::complex<qi_t> qic_t;
 	kissfft<qi_t> *qi_fft_forward, *qi_fft_backward;
 
-	float& getPixel(int x, int y) { return srcImage[width*y+x]; }
+	float& GetPixel(int x, int y) { return srcImage[width*y+x]; }
 	int GetWidth() { return width; }
 	int GetHeight() { return height; }
 	CPUTracker(int w, int h, int xcorwindow=128);
@@ -69,8 +69,13 @@ public:
 	void SetImage8Bit(uchar* srcImage, uint srcpitch) { SetImage(srcImage, srcpitch); }
 	void SetImageFloat(float* srcImage);
 
+<<<<<<< HEAD
 	vector2f ComputeBgCorrectedCOM(float bgcorrection=2.0f);
 	void ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float minradius, float maxradius, vector2f center, bool crp, bool* boundaryHit=0, bool normalize=true);
+=======
+	vector2f ComputeBgCorrectedCOM(float bgcorrection=0.0f);
+	void ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float minradius, float maxradius, vector2f center, bool crp, bool* boundaryHit=0);
+>>>>>>> temp
 	void ComputeQuadrantProfile(qi_t* dst, int radialSteps, int angularSteps, int quadrant, float minRadius, float maxRadius, vector2f center);
 
 	void Normalize(float *image=0);

@@ -44,7 +44,7 @@ __device__ void ComputeQuadrantProfile(cudaImageListf& images, int idx, float* d
 			}
 		}
 
-		dst[i] = count > MIN_RADPROFILE_SMP_COUNT ? sum/count : mean;
+		dst[i] = count >= MIN_RADPROFILE_SMP_COUNT ? sum/count : mean;
 		total += dst[i];
 	}
 }

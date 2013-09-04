@@ -172,7 +172,7 @@ void OnePixelTest()
 {
 	CPUTracker* tracker = new CPUTracker(32,32, 16);
 
-	tracker->getPixel(15,15) = 1;
+	tracker->GetPixel(15,15) = 1;
 	dbgout(SPrintf("Pixel at 15,15\n"));
 	vector2f com = tracker->ComputeBgCorrectedCOM();
 	dbgout(SPrintf("COM: %f,%f\n", com.x, com.y));
@@ -188,19 +188,30 @@ void OnePixelTest()
  
 void SmallImageTest()
 {
-	CPUTracker *tracker = new CPUTracker(32,32, 16);
+	CPUTracker *tracker = new CPUTracker(50,50, 16);
 
-	GenerateTestImage(ImageData(tracker->srcImage, tracker->GetWidth(), tracker->GetHeight()), 15,15, 1, 0.0f);
+	GenerateTestImage(ImageData(tracker->srcImage, tracker->GetWidth(), tracker->GetHeight()), tracker->width/2,tracker->height/2, 9, 0.0f);
+	FloatToJPEGFile("smallimg.jpg", tracker->srcImage, tracker->width, tracker->height);
 
-	vector2f com = tracker->ComputeBgCorrectedCOM();
+	vector2f com = tracker->ComputeBgCorrectedCOM(0);
 	dbgout(SPrintf("COM: %f,%f\n", com.x, com.y));
 	
-	vector2f initial(15,15);
+	vector2f initial(25,25);
 	bool boundaryHit = false;
 	vector2f xcor = tracker->ComputeXCorInterpolated(initial, 2, 16, boundaryHit);
 	dbgout(SPrintf("XCor: %f,%f\n", xcor.x, xcor.y));
+	//assert(fabsf(xcor.x-15.0f) < 1e-6 && fabsf(xcor.y-15.0f) < 1e-6);
 
-	assert(fabsf(xcor.x-15.0f) < 1e-6 && fabsf(xcor.y-15.0f) < 1e-6);
+	int I=4;
+	vector2f pos = initial;
+	for (int i=0;i<I;i++) {
+		bool bhit;
+		vector2f np = tracker->ComputeQI(pos, 1, 32, 4, 1, 1, 16, bhit);
+		dbgprintf("qi[%d]. New=%.4f, %.4f;\tOld=%.4f, %.4f\n", i, np.x, np.y, pos.x, pos.y);
+	}
+
+
+	FloatToJPEGFile("debugimg.jpg", tracker->GetDebugImage(), tracker->width, tracker->height);
 	delete tracker;
 }
 

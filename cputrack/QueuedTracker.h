@@ -7,7 +7,7 @@
 #include "threads.h"
 
 // minimum number of samples for a profile radial bin. Below this the image mean will be used
-#define MIN_RADPROFILE_SMP_COUNT 8 
+#define MIN_RADPROFILE_SMP_COUNT 4
 
 enum LocalizeType {
 	// Flags for selecting 2D localization type
