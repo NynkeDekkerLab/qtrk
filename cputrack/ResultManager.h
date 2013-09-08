@@ -74,6 +74,9 @@ public:
 
 protected:
 	void Write();
+	void WriteBinaryResults();
+	void WriteTextResults();
+
 	void StoreResult(LocalizationResult* r);
 
 	struct FrameResult

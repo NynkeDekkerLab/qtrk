@@ -84,60 +84,73 @@ void ResultManager::StoreResult(LocalizationResult *r)
 	localizationsDone ++;
 }
 
-void ResultManager::Write()
+void ResultManager::WriteBinaryResults()
+{
+	FILE* f = outputFile.empty () ? 0 : fopen(outputFile.c_str(), "a");
+	if (!f) 
+		return;
+
+	if (lastSaveFrame == 0) {
+		fwrite(&config.numBeads, sizeof(int), 1, f);
+		fwrite(&config.numFrameInfoColumns, sizeof(int), 1, f);
+		dbgprintf("writing %d beads and %d frame-info columns into file %s\n", config.numBeads, config.numFrameInfoColumns, outputFile.c_str());
+	}
+
+	for (uint j=lastSaveFrame; j<processedFrames;j++)
+	{
+		auto fr = frameResults[j-startFrame];
+		if (f) {
+			fwrite(&j, sizeof(uint), 1, f);
+			fwrite(&fr->timestamp, sizeof(double), 1, f);
+			fwrite(&fr->frameInfo[0], sizeof(float), config.numFrameInfoColumns, f);
+			for (int i=0;i<config.numBeads;i++) 
+			{
+				LocalizationResult *r = &fr->results[i];
+				fwrite(&r->pos, sizeof(vector3f), 1, f);
+			}
+		}
+	}
+	fclose(f);
+}
+
+void ResultManager::WriteTextResults()
 {
 	FILE* f = outputFile.empty () ? 0 : fopen(outputFile.c_str(), "a");
 	FILE* finfo = frameInfoFile.empty() ? 0 : fopen(frameInfoFile.c_str(), "a");
-	
-	resultMutex.lock();
-	if (config.binaryOutput) {
-		if (lastSaveFrame == 0) {
-			fwrite(&config.numBeads, sizeof(int), 1, f);
-			dbgprintf("writing %d beads into file %s\n", config.numBeads, outputFile.c_str());
-		}
 
-		for (uint j=lastSaveFrame; j<processedFrames;j++)
-		{
-			auto fr = frameResults[j-startFrame];
-			if (f) {
-				fwrite(&j, sizeof(uint), 1, f);
-				fwrite(&fr->timestamp, sizeof(double), 1, f);
-				for (int i=0;i<config.numBeads;i++) 
-				{
-					LocalizationResult *r = &fr->results[i];
-					fwrite(&r->pos, sizeof(vector3f), 1, f);
-				}
+	for (uint k=lastSaveFrame; k<processedFrames;k++)
+	{
+		auto fr = frameResults[k-startFrame];
+		if (f) {
+			fprintf(f,"%d\t%f\t", k, fr->timestamp);
+			for (int i=0;i<config.numBeads;i++) 
+			{
+				LocalizationResult *r = &fr->results[i];
+				fprintf(f, "%.5f\t%.5f\t%.5f\t", r->pos.x,r->pos.y,r->pos.z);
 			}
-			if (finfo)
-				fwrite(&fr->timestamp, sizeof(double), 1, finfo);
+			fputs("\n", f);
+		}
+		if (finfo) {
+			fprintf(finfo,"%d\t%f\t", k, fr->timestamp);
+			for (int i=0;i<config.numFrameInfoColumns;i++)
+				fprintf(finfo, "%.5f\t", fr->frameInfo[i]);
+			fputs("\n", finfo);
 		}
 	}
-	else {
-		for (uint k=lastSaveFrame; k<processedFrames;k++)
-		{
-			auto fr = frameResults[k-startFrame];
-			if (f) {
-				fprintf(f,"%d\t%f\t", k, fr->timestamp);
-				for (int i=0;i<config.numBeads;i++) 
-				{
-					LocalizationResult *r = &fr->results[i];
-					fprintf(f, "%.5f\t%.5f\t%.5f\t", r->pos.x,r->pos.y,r->pos.z);
-				}
-				fputs("\n", f);
-			}
-			if (finfo) {
-				fprintf(finfo,"%d\t%f\t", k, fr->timestamp);
-				for (int i=0;i<config.numFrameInfoColumns;i++)
-					fprintf(finfo, "%.5f\t", fr->frameInfo[i]);
-				fputs("\n", finfo);
-			}
-		}
-	}
+	if(finfo) fclose(finfo);
+	if(f) fclose(f);
+
+}
+
+void ResultManager::Write()
+{
+	resultMutex.lock();
+	if (config.binaryOutput)
+		WriteBinaryResults();
+	else
+		WriteTextResults();
 
 	dbgprintf("Saved frame %d to %d\n", lastSaveFrame, processedFrames);
-
-	if(f) fclose(f);
-	if(finfo) fclose(finfo);
 	lastSaveFrame = processedFrames;
 
 	resultMutex.unlock();
