@@ -647,7 +647,7 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 		float angsteps = cfg.qi_angstepspq / powf(cfg.qi_angstep_factor, cfg.qi_iterations);
 		
 		for (int a=0;a<cfg.qi_iterations;a++) {
-			QI_Iterate<TImageSampler> (curpos, &s->d_resultpos, s, std::max(MIN_RADPROFILE_SMP_COUNT, angsteps) );
+			QI_Iterate<TImageSampler> (curpos, &s->d_resultpos, s, std::max(MIN_RADPROFILE_SMP_COUNT, (int)angsteps) );
 			curpos = &s->d_resultpos;
 			angsteps *= cfg.qi_angstep_factor;
 		}
