@@ -274,6 +274,17 @@ void GenerateImageFromLUT(ImageData* image, ImageData* zlut, float lutminRadius,
 }
 
 
+void GenerateGaussianSpotImage(ImageData* img, vector2f pos, float sigma, float I0, float Ibg)
+{
+    float edenom = 1/sqrt(2*sigma*sigma);
+	for (int y=0;y<img->h;y++)
+		for(int x=0;x<img->w;x++) {
+			float DeltaX = 0.5f * erf( (x-pos.x + .5f) * edenom ) - 0.5f * erf((x-pos.x - .5f) * edenom);
+			float DeltaY = 0.5f * erf( (y-pos.y + .5f) * edenom ) - 0.5f * erf((y-pos.y - .5f) * edenom);
+			img->at(x,y) = Ibg + I0 * DeltaX * DeltaY;
+		}
+}
+
 void ApplyPoissonNoise(ImageData& img, float factor)
 {
 	for (int k=0;k<img.numPixels();k++)
@@ -434,5 +445,3 @@ int NearestPowerOf3(int v)
 		return r;
 	return r/3;
 }
-
-

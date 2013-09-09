@@ -344,6 +344,16 @@ CDLL_EXPORT int qtrk_idle(QueuedTracker* qtrk, ErrorCluster* e)
 	return 0;
 }
 
+CDLL_EXPORT void DLL_CALLCONV qtrk_generate_gaussian_spot(LVArray2D<float>** image, vector2f* pos, float sigma, float I0, float Ibg, int applyNoise)
+{
+	ImageData img((*image)->elem, (*image)->dimSizes[1], (*image)->dimSizes[0]);
+
+	GenerateGaussianSpotImage(&img, *pos, sigma, I0, Ibg);
+
+	if (applyNoise)
+		ApplyPoissonNoise(img,1);
+}
+
 CDLL_EXPORT void DLL_CALLCONV qtrk_generate_image_from_lut(LVArray2D<float>** image, LVArray2D<float>** lut, 
 					float *LUTradii, vector2f* position, float z, float M, float sigma_noise)
 {

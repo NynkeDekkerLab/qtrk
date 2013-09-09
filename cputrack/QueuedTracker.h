@@ -16,6 +16,7 @@ enum LocalizeType {
 	LT_QI = 2, // COM+QI
 	LT_XCor2D = 3,   // XCor2D
 	LT_Gaussian2D = 4, // 2D Gaussian localization
+	LT_Gaussian2DSigmaFit = 5, // 2D Gaussian fit including sigma fitting
 
 	LT_2DMask = 15,
 	LT_LocalizeZ = 16,
@@ -76,7 +77,8 @@ struct QTrkSettings {
 		qi_angstep_factor = 1.0f;
 		cuda_device = -1;
 		com_bgcorrection = 0.0f;
-		gauss2D_iterations = 3;
+		gauss2D_iterations = 6;
+		gauss2D_sigma = 4;
 	}
 	int width, height;
 	int numThreads;
@@ -90,6 +92,7 @@ struct QTrkSettings {
 
 	float com_bgcorrection; // 0.0f to disable
 	int gauss2D_iterations;
+	float gauss2D_sigma;
 
 	float zlut_minradius;
 	float zlut_radial_coverage;

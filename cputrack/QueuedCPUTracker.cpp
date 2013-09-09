@@ -228,7 +228,7 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 	LocalizationResult result={};
 	result.job = j->job;
 
-	vector2f com = trk->ComputeBgCorrectedCOM(cfg.com_bgcorrection);
+	vector2f com = trk->ComputeMeanAndCOM(cfg.com_bgcorrection);
 
 	if (_isnan(com.x) || _isnan(com.y))
 		com = vector2f(cfg.width/2,cfg.height/2);
@@ -255,7 +255,8 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 		break;}
 	case LT_Gaussian2D:{
 		result.firstGuess = com;
-		vector2f xy = trk->Compute2DGaussianMLE(com, cfg.gauss2D_iterations);
+		CPUTracker::Gauss2DResult gr = trk->Compute2DGaussianMLE(com, cfg.gauss2D_iterations, cfg.gauss2D_sigma);
+		vector2f xy = gr.pos;
 		result.pos = vector3f(xy.x,xy.y,0.0f);
 		break;}
 	}

@@ -3,30 +3,46 @@ function mlegaussfit()
 
     % Parameters format: X, Y, Sigma, I_0, I_bg
 
-    W = 60; H =60;
-    Pcenter = [ W/2 H/2 4 10000 10 ];  %
+    W = 32; H =32;
+    Pcenter = [ W/2 H/2 4 3000 5 ];  %
     [img, imgcv] = makesample ([H W], Pcenter);
 
-    imshow([ normalize(img) normalize(imgcv) ]);
     
     % Localize
-    N = 0; 
-    iterations = 10;
+    N = 20;
+    iterations = 8;
     for k = 1 : N
         P = Pcenter+(rand(1,5)-.5).*[5 5 1 300 5 ];
-        Pinitial = P+(rand(1,5)-.5).*[10 10 2 300 10 ];
+        Pinitial = P+(rand(1,5)-.5).*[5 5 0 300 10 ];
         
-        [~,smp] = makesample([H W], P);
+        smp = makesample([H W], P);
+        figure(1);
+        imshow([ normalize(smp) normalize(makesample([H W], Pinitial)) ]);
+        figure(2);
+        Pinitial(1:2)=computeCOM(smp);
         Pestimate = fitgauss(smp, Pinitial, iterations);
 
         d=P-Pestimate;
         dist(k) = sqrt (dot( d(1:2), d(1:2) ));
-        fprintf('dist [%d]: %f\n', k, dist(k));
+        fprintf('dist[%d], xy: %f, sigma: %f, I0%%: %f\n', k, dist(k), abs(d(3)), abs(d(4))/P(4));
     end
     
+    fprintf('Mean xy dist: %f\n', mean(dist));
 end
 
-function Pestimate = fitgauss(smpimg, P, iterations)
+function COM = computeCOM(smp)
+    [h,w]=size(smp);
+    [X,Y] = meshgrid(1:w,1:h);
+    c = smp.*X; COMx = sum(c(:)) / sum(smp(:));
+    c = smp.*Y; COMy = sum(c(:)) / sum(smp(:));
+    COM = [COMx COMy];
+end
+
+function Pestimate = fitgauss(smpimg, P, iterations, dbgShow)
+
+    if nargin<4
+        dbgShow=0;
+    end
 
     dim = size(smpimg);
     [X,Y] = meshgrid(0:dim(2)-1,0:dim(1)-1);
@@ -49,8 +65,8 @@ function Pestimate = fitgauss(smpimg, P, iterations)
         dmu_dI0 = DeltaX.*DeltaY;
         dmu_dIbg = 1;
         
-        d2mu_dx = I0/(sqrt(2*pi)*Sigma.^3) * ( (X - Sx - .5) .* exp (Xexp1.^2) - (X - Sx + .5) .* exp (Xexp0.^2) ) .* DeltaY;
-        d2mu_dy = I0/(sqrt(2*pi)*Sigma.^3) * ( (Y - Sy - .5) .* exp (Yexp1.^2) - (Y - Sy + .5) .* exp (Yexp0.^2) ) .* DeltaX;
+        d2mu_dx = I0/(sqrt(2*pi)*Sigma.^3) * ( (X - Sx - .5) .* exp (-Xexp1.^2) - (X - Sx + .5) .* exp (-Xexp0.^2) ) .* DeltaY;
+        d2mu_dy = I0/(sqrt(2*pi)*Sigma.^3) * ( (Y - Sy - .5) .* exp (-Yexp1.^2) - (Y - Sy + .5) .* exp (-Yexp0.^2) ) .* DeltaX;
         %d2mu_dI0 = 0
         %d2mu_dIbg = 0
  
@@ -60,9 +76,6 @@ function Pestimate = fitgauss(smpimg, P, iterations)
         dL_dy = dmu_dy .* ( smpimg ./ mu - 1 );
         dL_dI0 = dmu_dI0 .* ( smpimg ./ mu - 1 );
         dL_dIbg = dmu_dIbg .* ( smpimg ./ mu - 1 );
-
-        imshow([ normalize(mu) normalize(dmu_dx) normalize(dmu_dy); ...
-            normalize(smpimg) normalize(dL_dx) normalize(dL_dy)] );
         
         dL = [ sum(dL_dx(:)) sum(dL_dy(:)) 0 sum(dL_dI0(:)) sum(dL_dIbg(:)) ];
       %  dL = [ sum(dL_dx(:)) sum(dL_dy(:)) 0 0 0 ];
@@ -74,8 +87,16 @@ function Pestimate = fitgauss(smpimg, P, iterations)
         
         dL2 = [ sum(dL2_dx(:)) sum(dL2_dy(:)) 1 sum(dL2_dI0(:)) sum(dL2_dIbg(:)) ];
         
-        DeltaP = 0.005*dL;% ./ dL2;
-      %  fprintf('dx: %f, dy: %f, dI0: %f\n', DeltaP(1), DeltaP(2), DeltaP(4));
+        % DeltaP = 0.005*dL;% ./ dL2; gradient descent
+        DeltaP = - dL./dL2; % Newton-raphson
+
+        if (dbgShow)
+            imshow([ normalize(mu) normalize(dmu_dx) normalize(dmu_dy); ...
+                normalize(dL_dI0) normalize(d2mu_dx) normalize(d2mu_dy); ...
+                normalize(smpimg) normalize(dL_dx) normalize(dL_dy)]);
+            drawnow;
+            fprintf('dx: %f, dy: %f, dI0: %f\n', DeltaP(1), DeltaP(2), DeltaP(4));
+        end
         P = P + DeltaP;
       %  pause
         

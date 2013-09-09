@@ -7,6 +7,7 @@ CPU only tracker
 
 #include "std_incl.h"
 #include <exception>
+#include <cmath>
 
 // 
 //#define QI_DBG_EXPORT
@@ -369,9 +370,75 @@ CPUTracker::qi_t CPUTracker::QI_ComputeOffset(CPUTracker::qic_t* profile, int nr
 	return (maxPos - nr) / (3.14159265359f * 0.5f);
 }
 
-vector2f CPUTracker::Compute2DGaussianMLE(vector2f initial, int iterations)
+CPUTracker::Gauss2DResult CPUTracker::Compute2DGaussianMLE(vector2f initial, int iterations, float sigma)
 {
-	return vector2f();
+	vector2f pos = initial;
+	float I0 = mean*0.5f*width*height;
+	float bg = mean*0.5f;
+
+	const float _1oSq2Sigma = 1.0f / (sqrtf(2) * sigma);
+	const float _1oSq2PiSigma = 1.0f / (sqrtf(2*3.14159265359f) * sigma);
+	const float _1oSq2PiSigma3 = 1.0f / (sqrtf(2*3.14159265359f) * sigma*sigma*sigma);
+
+	for (int i=0;i<iterations;i++)
+	{
+		double dL_dx = 0.0; 
+		double dL_dy = 0.0; 
+		double dL_dI0 = 0.0;
+		double dL_dIbg = 0.0;
+		double dL2_dx = 0.0;
+		double dL2_dy = 0.0;
+		double dL2_dI0 = 0.0;
+		double dL2_dIbg = 0.0;
+				
+		for (int y=0;y<height;y++)
+		{
+			for (int x=0;x<width;x++)
+			{
+		        float Xexp0 = (x-pos.x + .5f) * _1oSq2Sigma;
+				float Yexp0 = (y-pos.y + .5f) * _1oSq2Sigma;
+        
+				float Xexp1 = (x-pos.x - .5f) * _1oSq2Sigma;
+				float Yexp1 = (y-pos.y - .5f) * _1oSq2Sigma;
+				
+				float DeltaX = 0.5f * erf(Xexp0) - 0.5 * erf(Xexp1);
+				float DeltaY = 0.5f * erf(Yexp0) - 0.5 * erf(Yexp1);
+				float mu = bg + I0 * DeltaX * DeltaY;
+				
+				float dmu_dx = I0*_1oSq2PiSigma * ( expf(-Xexp1*Xexp1) - expf(-Xexp0*Xexp0)) * DeltaY;
+
+				float dmu_dy = I0*_1oSq2PiSigma * ( expf(-Yexp1*Yexp1) - expf(-Yexp0*Yexp0)) * DeltaX;
+				float dmu_dI0 = DeltaX*DeltaY;
+				float dmu_dIbg = 1;
+        
+				float smp = GetPixel(x,y);
+				float f = smp / mu - 1;
+				dL_dx += dmu_dx * f;
+				dL_dy += dmu_dy * f;
+				dL_dI0 += dmu_dI0 * f;
+				dL_dIbg += dmu_dIbg * f;
+
+				float d2mu_dx = I0*_1oSq2PiSigma3 * ( (x - pos.x - .5f) * expf (-Xexp1*Xexp1) - (x - pos.x + .5) * expf(-Xexp0*Xexp0) ) * DeltaY;
+				float d2mu_dy = I0*_1oSq2PiSigma3 * ( (y - pos.y - .5f) * expf (-Yexp1*Yexp1) - (y - pos.y + .5) * expf(-Yexp0*Yexp0) ) * DeltaX;
+				dL2_dx += d2mu_dx * f - dmu_dx*dmu_dx * smp / (mu*mu);
+				dL2_dy += d2mu_dy * f - dmu_dy*dmu_dy * smp / (mu*mu);
+				dL2_dI0 += -dmu_dI0*dmu_dI0 * smp / (mu*mu);
+				dL2_dIbg += -smp / (mu*mu);
+			}
+		}
+
+		pos.x -= dL_dx / dL2_dx;
+		pos.y -= dL_dy / dL2_dy;
+		I0 -= dL_dI0 / dL2_dI0;
+		bg -= dL_dIbg / dL2_dIbg;
+	}
+
+	Gauss2DResult r;
+	r.pos = pos;
+	r.I0 = I0;
+	r.bg = bg;
+
+	return r;
 }
 
 
@@ -463,7 +530,7 @@ void CPUTracker::ComputeQuadrantProfile(CPUTracker::qi_t* dst, int radialSteps, 
 
 
 
-vector2f CPUTracker::ComputeBgCorrectedCOM(float bgcorrection)
+vector2f CPUTracker::ComputeMeanAndCOM(float bgcorrection)
 {
 	float sum=0, sum2=0;
 	float momentX=0;
@@ -478,7 +545,7 @@ vector2f CPUTracker::ComputeBgCorrectedCOM(float bgcorrection)
 
 	float invN = 1.0f/(width*height);
 	mean = sum * invN;
-	float stdev = sqrtf(sum2 * invN - mean * mean);
+	stdev = sqrtf(sum2 * invN - mean * mean);
 	sum = 0.0f;
 
 	for (int y=0;y<height;y++)

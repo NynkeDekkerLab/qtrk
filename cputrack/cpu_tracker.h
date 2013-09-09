@@ -26,7 +26,7 @@ public:
 	int width, height, xcorw;
 
 	float *srcImage, *debugImage;
-	float mean; // Updated by ComputeBgCorrectedCOM()
+	float mean, stdev; // Updated by ComputeBgCorrectedCOM()
 #ifdef _DEBUG
 	float maxImageValue;
 #endif
@@ -58,7 +58,13 @@ public:
 	bool CheckBoundaries(vector2f center, float radius);
 	vector2f ComputeXCorInterpolated(vector2f initial, int iterations, int profileWidth, bool& boundaryHit);
 	vector2f ComputeQI(vector2f initial, int iterations, int radialSteps, int angularStepsPerQuadrant, float angStepIterationFactor, float minRadius, float maxRadius, bool& boundaryHit);
-	vector2f Compute2DGaussianMLE(vector2f initial ,int iterations);
+
+	struct Gauss2DResult {
+		vector2f pos;
+		float I0, bg;
+	};
+
+	Gauss2DResult Compute2DGaussianMLE(vector2f initial ,int iterations, float sigma);
 	vector2f Compute2DXCor();
 
 	qi_t QI_ComputeOffset(qic_t* qi_profile, int nr, int axisForDebug);
@@ -69,7 +75,7 @@ public:
 	void SetImage8Bit(uchar* srcImage, uint srcpitch) { SetImage(srcImage, srcpitch); }
 	void SetImageFloat(float* srcImage);
 
-	vector2f ComputeBgCorrectedCOM(float bgcorrection=0.0f);
+	vector2f ComputeMeanAndCOM(float bgcorrection=0.0f);
 	void ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float minradius, float maxradius, vector2f center, bool crp, bool* boundaryHit=0, bool normalize=true);
 	void ComputeQuadrantProfile(qi_t* dst, int radialSteps, int angularSteps, int quadrant, float minRadius, float maxRadius, vector2f center);
 

@@ -39,7 +39,7 @@ CDLL_EXPORT void DLL_CALLCONV destroy_tracker(CPUTracker* tracker)
 
 CDLL_EXPORT void DLL_CALLCONV compute_com(CPUTracker* tracker, float* out)
 {
-	vector2f com = tracker->ComputeBgCorrectedCOM();
+	vector2f com = tracker->ComputeMeanAndCOM();
 	out[0] = com.x;
 	out[1] = com.y;
 }

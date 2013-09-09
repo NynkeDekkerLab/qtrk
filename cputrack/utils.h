@@ -103,6 +103,7 @@ void WriteJPEGFile(uchar* data,int w,int h, const char * filename, int quality);
 void FloatToJPEGFile (const char *name, float* d, int w,int h);
 int NearestPowerOf2(int v);
 int NearestPowerOf3(int v);
+void GenerateGaussianSpotImage(ImageData* img, vector2f pos, float sigma, float I0, float Ibg);
 
 std::vector<uchar> ReadToByteBuffer(const char* filename);
 double GetPreciseTime();
@@ -256,4 +257,32 @@ public:
 
 	float m[9];
 };
+
+
+
+
+template<typename T>
+T erf(T x)
+{
+    // constants
+    T a1 =  0.254829592;
+    T a2 = -0.284496736;
+    T a3 =  1.421413741;
+    T a4 = -1.453152027;
+    T a5 =  1.061405429;
+    T p  =  0.3275911;
+
+    // Save the sign of x
+    int sign = 1;
+    if (x < 0)
+        sign = -1;
+    x = fabs(x);
+
+    // A&S formula 7.1.26
+    T t = 1.0f/(1.0f + p*x);
+    T y = 1.0f - (((((a5*t + a4)*t) + a3)*t + a2)*t + a1)*t*exp(-x*x);
+
+    return sign*y;
+}
+
 

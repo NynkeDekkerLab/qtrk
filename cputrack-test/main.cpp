@@ -4,6 +4,7 @@
 #include "../cputrack/QueuedCPUTracker.h"
 #include "../cputrack/FisherMatrix.h"
 
+#include <time.h>
 #include <direct.h> // _mkdir()
 
 template<typename T> T sq(T x) { return x*x; }
@@ -114,7 +115,7 @@ void SpeedTest()
 		GenerateTestImage(ImageData(tracker->srcImage, tracker->GetWidth(), tracker->GetHeight()), xp, yp, z, 0);
 
 		double t1 = GetPreciseTime();
-		vector2f com = tracker->ComputeBgCorrectedCOM();
+		vector2f com = tracker->ComputeMeanAndCOM();
 		vector2f initial(com.x, com.y);
 		double t2 = GetPreciseTime();
 		bool boundaryHit = false;
@@ -174,7 +175,7 @@ void OnePixelTest()
 
 	tracker->GetPixel(15,15) = 1;
 	dbgout(SPrintf("Pixel at 15,15\n"));
-	vector2f com = tracker->ComputeBgCorrectedCOM();
+	vector2f com = tracker->ComputeMeanAndCOM();
 	dbgout(SPrintf("COM: %f,%f\n", com.x, com.y));
 	
 	vector2f initial(15,15);
@@ -193,7 +194,7 @@ void SmallImageTest()
 	GenerateTestImage(ImageData(tracker->srcImage, tracker->GetWidth(), tracker->GetHeight()), tracker->width/2,tracker->height/2, 9, 0.0f);
 	FloatToJPEGFile("smallimg.jpg", tracker->srcImage, tracker->width, tracker->height);
 
-	vector2f com = tracker->ComputeBgCorrectedCOM(0);
+	vector2f com = tracker->ComputeMeanAndCOM(0);
 	dbgout(SPrintf("COM: %f,%f\n", com.x, com.y));
 	
 	vector2f initial(25,25);
@@ -228,7 +229,7 @@ void OutputProfileImg()
 		
 		GenerateTestImage(ImageData(tracker->srcImage, tracker->GetWidth(), tracker->GetHeight()), xp, yp, 1, 0.0f);
 
-		vector2f com = tracker->ComputeBgCorrectedCOM();
+		vector2f com = tracker->ComputeMeanAndCOM();
 		dbgout(SPrintf("COM: %f,%f\n", com.x-xp, com.y-yp));
 	
 		vector2f initial = com;
@@ -255,7 +256,7 @@ void TestBoundCheck()
 		
 		GenerateTestImage(ImageData(tracker->srcImage, tracker->GetWidth(), tracker->GetHeight()), xp, yp, 1, 0.0f);
 
-		vector2f com = tracker->ComputeBgCorrectedCOM();
+		vector2f com = tracker->ComputeMeanAndCOM();
 		dbgout(SPrintf("COM: %f,%f\n", com.x-xp, com.y-yp));
 	
 		vector2f initial = com;
@@ -282,7 +283,7 @@ void PixelationErrorTest()
 		float xpos = X + 2.0f * x / (float)N;
 		GenerateTestImage(ImageData(tracker->srcImage, tracker->GetWidth(), tracker->GetHeight()), xpos, X, 1, 0.0f);
 
-		vector2f com = tracker->ComputeBgCorrectedCOM();
+		vector2f com = tracker->ComputeMeanAndCOM();
 		//dbgout(SPrintf("COM: %f,%f\n", com.x, com.y));
 
 		vector2f initial(X,Y);
@@ -501,7 +502,7 @@ void BuildConvergenceMap(int iterations)
 
 	// Get a good starting estimate
 	trk.SetImage8Bit((uchar*)data,W);
-	vector2f com = trk.ComputeBgCorrectedCOM();
+	vector2f com = trk.ComputeMeanAndCOM();
 	bool boundaryHit;
 	vector2f cmp = trk.ComputeQI(com,8,80,64,ANGSTEPF,2,25,boundaryHit);
 
@@ -572,7 +573,7 @@ void CorrectedRadialProfileTest()
 	// localize
 	CPUTracker trk(img.w,img.h);
 	trk.SetImageFloat(img.data);
-	vector2f com = trk.ComputeBgCorrectedCOM();
+	vector2f com = trk.ComputeMeanAndCOM();
 	bool boundaryHit;
 	vector2f qi = trk.ComputeQI(com, 4, 64, 64,ANGSTEPF, 1, 30, boundaryHit);
 	dbgprintf("%s: COM: %f, %f. QI: %f, %f\n", imgname, com.x, com.y, qi.x, qi.y);
@@ -598,7 +599,7 @@ void WriteRadialProf(const char *file, ImageData& d)
 {
 	CPUTracker trk(d.w,d.h);
 	trk.SetImageFloat(d.data);
-	vector2f com = trk.ComputeBgCorrectedCOM();
+	vector2f com = trk.ComputeMeanAndCOM();
 	bool bhit;
 	vector2f qipos = trk.ComputeQI(com, 4, 64, 64,ANGSTEPF, 5, 50, bhit);
 
@@ -769,12 +770,97 @@ void TestCMOSNoiseInfluence(const char *lutfile)
 }
 
 
+
+void Gauss2DTest()
+{
+	QTrkSettings cfg;
+	cfg.width = cfg.height = 40;
+	cfg.gauss2D_iterations = 4;
+	LocalizeType lt = LT_QI;
+	QueuedCPUTracker qtrk(cfg);
+	float *image = new float[cfg.width*cfg.height];
+
+	// Schedule images to localize on
+#ifdef _DEBUG
+	int NumImages=10, JobsPerImg=10;
+#else
+	int NumImages=10, JobsPerImg=1000;
+#endif
+	dbgprintf("Gauss2D: Generating %d images...\n", NumImages);
+	double tgen = 0.0, tschedule = 0.0;
+	std::vector<float> truepos(NumImages*2);
+	qtrk.Break(true);
+	srand(time(0));
+	for (int n=0;n<NumImages;n++) {
+		double t1 = GetPreciseTime();
+		float xp = cfg.width/2+(rand_uniform<float>() - 0.5) * 5;
+		float yp = cfg.height/2+(rand_uniform<float>() - 0.5) * 5;
+		truepos[n*2+0] = xp;
+		truepos[n*2+1] = yp;
+
+		ImageData img(image,cfg.width,cfg.height);
+		GenerateGaussianSpotImage(&img, vector2f(xp,yp), cfg.gauss2D_sigma, 1000, 4);
+		ApplyPoissonNoise(img, 1.0f);
+
+		FloatToJPEGFile(SPrintf("gauss2d-%d.jpg", n).c_str(), image,cfg.width,cfg.height);
+
+		double t2 = GetPreciseTime();
+		for (int k=0;k<JobsPerImg;k++) {
+			LocalizationJob job(lt,n,0,0,0);
+			qtrk.ScheduleLocalization((uchar*)image, cfg.width*sizeof(float), QTrkFloat, &job);
+		}
+		double t3 = GetPreciseTime();
+		tgen += t2-t1;
+		tschedule += t3-t2;
+	}
+	delete[] image;
+	dbgprintf("Schedule time: %f, Generation time: %f\n", tschedule, tgen);
+
+	// Measure speed
+	dbgprintf("Localizing on %d images...\n", NumImages*JobsPerImg);
+	double tstart = GetPreciseTime();
+	int total = NumImages*JobsPerImg;
+	int rc = qtrk.GetResultCount(), displayrc=0;
+	qtrk.Break(false);
+	do {
+		rc = qtrk.GetResultCount();
+		while (displayrc<rc) {
+			if( displayrc%JobsPerImg==0) dbgprintf("Done: %d / %d\n", displayrc, total);
+			displayrc++;
+		}
+		Sleep(10);
+	} while (rc != total);
+
+	double tend = GetPreciseTime();
+
+	// Wait for last jobs
+	rc = NumImages*JobsPerImg;
+	double errX=0.0, errY=0.0;
+
+	while(rc>0) {
+		LocalizationResult result;
+
+		if (qtrk.FetchResults(&result, 1)) {
+			int iid = result.job.frame;
+			float x = fabs(truepos[iid*2+0]-result.pos.x);
+			float y = fabs(truepos[iid*2+1]-result.pos.y);
+			errX += x; errY += y;
+			rc--;
+		}
+	}
+	dbgprintf("Localization Speed: %d (img/s), using %d threads\n", (int)( total/(tend-tstart) ), qtrk.NumThreads());
+	dbgprintf("ErrX: %f, ErrY: %f\n", errX/total, errY/total);
+}
+
 int main()
 {
 	//TestFisher("lut000.jpg");
 
-	QTrkTest();
-	TestCMOSNoiseInfluence("lut000.jpg");
+//	QTrkTest();
+//	TestCMOSNoiseInfluence("lut000.jpg");
+
+	Gauss2DTest();
+
 
 	//SpeedTest();
 	//SmallImageTest();
