@@ -652,6 +652,7 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 			angsteps *= cfg.qi_angstep_factor;
 		}
 	}
+
 	cudaEventRecord(s->qiDone, s->stream);
 
 	{ScopedCPUProfiler p(&cpu_time.zcompute);

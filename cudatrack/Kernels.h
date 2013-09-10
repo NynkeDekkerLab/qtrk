@@ -466,3 +466,86 @@ __global__ void ApplyOffsetGain (cudaImageListf images, LocalizationParams* locP
 	images.pixel(x,y,jobIdx) = calib_gain.pixel(x,y,bead) * value + calib_offset.pixel(x,y,bead);
 }
 
+// Simple gaussian 2D MLE implementation. A better solution would be to distribute CUDA threads over each pixel, but this is a very straightforward implementation
+template<typename TImageSampler>
+__global__ void G2MLE_Compute(int njobs, cudaImageListf images, LocalizationParams* locParam, float sigma, int iterations, float* imgmeans, float3* initial, float3 *positions, float* I_bg, float* I_0)
+{
+	int jobIdx = threadIdx.x + blockIdx.x * blockDim.x;
+
+	if (jobIdx >= njobs)
+		return;
+	int loc2d = locParam[jobIdx].locType&LT_2DMask;
+	// this is based on the idea that usually, the localization type will be the same for each task. If not, this code will have really bad performance
+	if (loc2d != LT_Gaussian2D && loc2d != LT_Gaussian2DSigmaFit) 
+		return;
+
+	float2 pos = make_float2(initial[jobIdx].x, initial[jobIdx].y);
+	float mean = imgmeans[jobIdx];
+	float I0 = mean*0.5f*images.w*images.h;
+	float bg = mean*0.5f;
+
+	const float _1oSq2Sigma = 1.0f / (sqrtf(2) * sigma);
+	const float _1oSq2PiSigma = (1.0f / (sqrtf(2*3.14159265359f))) / sigma;
+	const float _1oSq2PiSigma3 = (1.0f / (sqrtf(2*3.14159265359f))) / (sigma*sigma*sigma);
+
+	for (int i=0;i<iterations;i++)
+	{
+		float dL_dx = 0.0; 
+		float dL_dy = 0.0; 
+		float dL_dI0 = 0.0;
+		float dL_dIbg = 0.0;
+		float dL2_dx = 0.0;
+		float dL2_dy = 0.0;
+		float dL2_dI0 = 0.0;
+		float dL2_dIbg = 0.0;
+				
+		for (int y=0;y<images.h;y++)
+		{
+			for (int x=0;x<images.w;x++)
+			{
+		        float Xexp0 = (x-pos.x + .5f) * _1oSq2Sigma;
+				float Yexp0 = (y-pos.y + .5f) * _1oSq2Sigma;
+        
+				float Xexp1 = (x-pos.x - .5f) * _1oSq2Sigma;
+				float Yexp1 = (y-pos.y - .5f) * _1oSq2Sigma;
+				
+				float DeltaX = 0.5f * erff(Xexp0) - 0.5f * erff(Xexp1);
+				float DeltaY = 0.5f * erff(Yexp0) - 0.5f * erff(Yexp1);
+				float mu = bg + I0 * DeltaX * DeltaY;
+				
+				float dmu_dx = I0*_1oSq2PiSigma * ( expf(-Xexp1*Xexp1) - expf(-Xexp0*Xexp0)) * DeltaY;
+
+				float dmu_dy = I0*_1oSq2PiSigma * ( expf(-Yexp1*Yexp1) - expf(-Yexp0*Yexp0)) * DeltaX;
+				float dmu_dI0 = DeltaX*DeltaY;
+				float dmu_dIbg = 1;
+        
+				float smp = TImageSampler::Index(images, x,y, jobIdx);
+				float f = smp / mu - 1;
+				dL_dx += dmu_dx * f;
+				dL_dy += dmu_dy * f;
+				dL_dI0 += dmu_dI0 * f;
+				dL_dIbg += dmu_dIbg * f;
+
+				float d2mu_dx = I0*_1oSq2PiSigma3 * ( (x - pos.x - .5f) * expf (-Xexp1*Xexp1) - (x - pos.x + .5) * expf(-Xexp0*Xexp0) ) * DeltaY;
+				float d2mu_dy = I0*_1oSq2PiSigma3 * ( (y - pos.y - .5f) * expf (-Yexp1*Yexp1) - (y - pos.y + .5) * expf(-Yexp0*Yexp0) ) * DeltaX;
+				dL2_dx += d2mu_dx * f - dmu_dx*dmu_dx * smp / (mu*mu);
+				dL2_dy += d2mu_dy * f - dmu_dy*dmu_dy * smp / (mu*mu);
+				dL2_dI0 += -dmu_dI0*dmu_dI0 * smp / (mu*mu);
+				dL2_dIbg += -smp / (mu*mu);
+			}
+		}
+
+		pos.x -= dL_dx / dL2_dx;
+		pos.y -= dL_dy / dL2_dy;
+		I0 -= dL_dI0 / dL2_dI0;
+		bg -= dL_dIbg / dL2_dIbg;
+	}
+	
+
+	positions[jobIdx].x = pos.x;
+	positions[jobIdx].y = pos.y;
+	if (I_bg) I_bg[jobIdx] = bg;
+	if (I_0) I_0[jobIdx] = I0;
+
+	return r;
+}

@@ -57,6 +57,7 @@ struct LocalizationParams {
 	LocalizeType locType;
 };
 
+
 class QueuedCUDATracker : public QueuedTracker {
 public:
 	QueuedCUDATracker(const QTrkComputedConfig& cc, int batchSize=-1);

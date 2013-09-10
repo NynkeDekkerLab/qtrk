@@ -401,8 +401,8 @@ CPUTracker::Gauss2DResult CPUTracker::Compute2DGaussianMLE(vector2f initial, int
 				float Xexp1 = (x-pos.x - .5f) * _1oSq2Sigma;
 				float Yexp1 = (y-pos.y - .5f) * _1oSq2Sigma;
 				
-				float DeltaX = 0.5f * erf(Xexp0) - 0.5 * erf(Xexp1);
-				float DeltaY = 0.5f * erf(Yexp0) - 0.5 * erf(Yexp1);
+				float DeltaX = 0.5f * erf(Xexp0) - 0.5f * erf(Xexp1);
+				float DeltaY = 0.5f * erf(Yexp0) - 0.5f * erf(Yexp1);
 				float mu = bg + I0 * DeltaX * DeltaY;
 				
 				float dmu_dx = I0*_1oSq2PiSigma * ( expf(-Xexp1*Xexp1) - expf(-Xexp0*Xexp0)) * DeltaY;
@@ -418,8 +418,8 @@ CPUTracker::Gauss2DResult CPUTracker::Compute2DGaussianMLE(vector2f initial, int
 				dL_dI0 += dmu_dI0 * f;
 				dL_dIbg += dmu_dIbg * f;
 
-				float d2mu_dx = I0*_1oSq2PiSigma3 * ( (x - pos.x - .5f) * expf (-Xexp1*Xexp1) - (x - pos.x + .5) * expf(-Xexp0*Xexp0) ) * DeltaY;
-				float d2mu_dy = I0*_1oSq2PiSigma3 * ( (y - pos.y - .5f) * expf (-Yexp1*Yexp1) - (y - pos.y + .5) * expf(-Yexp0*Yexp0) ) * DeltaX;
+				float d2mu_dx = I0*_1oSq2PiSigma3 * ( (x - pos.x - .5f) * expf (-Xexp1*Xexp1) - (x - pos.x + .5f) * expf(-Xexp0*Xexp0) ) * DeltaY;
+				float d2mu_dy = I0*_1oSq2PiSigma3 * ( (y - pos.y - .5f) * expf (-Yexp1*Yexp1) - (y - pos.y + .5f) * expf(-Yexp0*Yexp0) ) * DeltaX;
 				dL2_dx += d2mu_dx * f - dmu_dx*dmu_dx * smp / (mu*mu);
 				dL2_dy += d2mu_dy * f - dmu_dy*dmu_dy * smp / (mu*mu);
 				dL2_dI0 += -dmu_dI0*dmu_dI0 * smp / (mu*mu);
