@@ -14,8 +14,8 @@ enum LocalizeType {
 	LT_OnlyCOM = 0, // use only COM
 	LT_XCor1D = 1, // COM+XCor1D
 	LT_QI = 2, // COM+QI
-	LT_Gaussian2D = 3, // 2D Gaussian localization
-	LT_Gaussian2DSigmaFit = 4, // 2D Gaussian fit including sigma fitting
+	LT_Gaussian2D = 4, // 2D Gaussian localization
+	LT_Gaussian2DSigmaFit = 8, // 2D Gaussian fit including sigma fitting
 
 	LT_2DMask = 15,
 	LT_LocalizeZ = 16,
