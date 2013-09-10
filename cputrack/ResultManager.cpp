@@ -64,7 +64,7 @@ void ResultManager::StoreResult(LocalizationResult *r)
 {
 	int index = r->job.frame - startFrame;
 
-	if (index >= frameResults.size()) {
+	if (index >= (int) frameResults.size()) {
 		dbgprintf("dropping result. Result provided for unregistered frame %d. Current frames registered: %d\n", 
 			r->job.frame, startFrame + frameResults.size());
 		return; // add errors?
@@ -79,7 +79,7 @@ void ResultManager::StoreResult(LocalizationResult *r)
 	fr->count++;
 
 	// Advance fullFrames
-	while (processedFrames - startFrame < frameResults.size() && frameResults[processedFrames-startFrame]->count == config.numBeads)
+	while (processedFrames - startFrame < (int) frameResults.size() && frameResults[processedFrames-startFrame]->count == config.numBeads)
 		processedFrames ++;
 	localizationsDone ++;
 }
@@ -96,7 +96,7 @@ void ResultManager::WriteBinaryResults()
 		dbgprintf("writing %d beads and %d frame-info columns into file %s\n", config.numBeads, config.numFrameInfoColumns, outputFile.c_str());
 	}
 
-	for (uint j=lastSaveFrame; j<processedFrames;j++)
+	for (int j=lastSaveFrame; j<processedFrames;j++)
 	{
 		auto fr = frameResults[j-startFrame];
 		if (f) {
@@ -118,7 +118,7 @@ void ResultManager::WriteTextResults()
 	FILE* f = outputFile.empty () ? 0 : fopen(outputFile.c_str(), "a");
 	FILE* finfo = frameInfoFile.empty() ? 0 : fopen(frameInfoFile.c_str(), "a");
 
-	for (uint k=lastSaveFrame; k<processedFrames;k++)
+	for (int k=lastSaveFrame; k<processedFrames;k++)
 	{
 		auto fr = frameResults[k-startFrame];
 		if (f) {
@@ -252,7 +252,7 @@ void ResultManager::Flush()
 	Write();
 
 	// Dump stats about unfinished frames for debugging
-	for (int i=0;i<frameResults.size();i++) {
+	for (uint i=0;i<frameResults.size();i++) {
 		FrameResult *fr = frameResults[i];
 		dbgprintf("Frame %d. TS: %f, Count: %d\n", i, fr->timestamp, fr->count);
 		if (fr->count != config.numBeads) {
@@ -325,7 +325,7 @@ bool ResultManager::RemoveBeadResults(int bead)
 {
 	// TODO: We need to modify the saved data file
 
-	for (int i=0;i<frameResults.size();i++) {
+	for (uint i=0;i<frameResults.size();i++) {
 		auto fr = frameResults[i];
 
 		fr->count--;

@@ -54,7 +54,7 @@ int ReadJPEGFile(uchar* srcbuf, int srclen, uchar** data, int* width, int*height
 	if (cinfo.output_components == 1) {
 		memcpy(dst, src, cinfo.output_width);
 	} else {
-		for (int x=0;x<cinfo.output_width;x++)
+		for (uint x=0;x<cinfo.output_width;x++)
 			dst[x] = src[x * cinfo.output_components];
 	}
 	dst += cinfo.output_width;
@@ -105,7 +105,6 @@ void WriteJPEGFile(uchar* data,int w,int h, const char * filename, int quality)
    */
   struct jpeg_error_mgr jerr;
   /* More stuff */
-  FILE * outfile;		/* target file */
   JSAMPROW row_pointer[1];	/* pointer to JSAMPLE row[s] */
   int row_stride;		/* physical row width in image buffer */
 
