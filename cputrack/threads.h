@@ -152,6 +152,27 @@ typedef Threads::Handle ThreadHandle;
 
 #endif
 
+template<typename T> 
+class Atomic {
+	mutable Threads::Mutex m;
+	T data;
+public:
+	Atomic(const T& o=T()) : data(o) {} // no need for locking: the object is not allowed to be used before the constructor is done anyway
+	operator T() const { return get(); };
+	Atomic& operator=(const T& x) { set(x); return *this; }
+	void set(const T& x) {
+		m.lock();
+		data=x;
+		m.unlock();
+	}
+	T get() const {
+		m.lock();
+		T x=data;
+		m.unlock();
+		return x;
+	}
+};
+
 template<typename TWorkItem, typename TFunctor>
 class ThreadPool {
 public:
@@ -222,7 +243,7 @@ protected:
 	Threads::Mutex workMutex;
 	std::list<TWorkItem> work;
 	int inProgress;
-	volatile bool quit;
+	Atomic<bool> quit;
 	TFunctor worker;
 };
 

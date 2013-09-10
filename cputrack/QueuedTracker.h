@@ -14,9 +14,8 @@ enum LocalizeType {
 	LT_OnlyCOM = 0, // use only COM
 	LT_XCor1D = 1, // COM+XCor1D
 	LT_QI = 2, // COM+QI
-	LT_XCor2D = 3,   // XCor2D
-	LT_Gaussian2D = 4, // 2D Gaussian localization
-	LT_Gaussian2DSigmaFit = 5, // 2D Gaussian fit including sigma fitting
+	LT_Gaussian2D = 3, // 2D Gaussian localization
+	LT_Gaussian2DSigmaFit = 4, // 2D Gaussian fit including sigma fitting
 
 	LT_2DMask = 15,
 	LT_LocalizeZ = 16,
@@ -91,8 +90,6 @@ struct QTrkSettings {
 	int cuda_device;
 
 	float com_bgcorrection; // 0.0f to disable
-	int gauss2D_iterations;
-	float gauss2D_sigma;
 
 	float zlut_minradius;
 	float zlut_radial_coverage;
@@ -109,7 +106,11 @@ struct QTrkSettings {
 	int xc1_profileLength;
 	int xc1_profileWidth;
 	int xc1_iterations;
+
+	int gauss2D_iterations;
+	float gauss2D_sigma;
 };
+
 struct ROIPosition
 {
 	int x,y; // top-left coordinates. ROI is [ x .. x+w ; y .. y+h ]

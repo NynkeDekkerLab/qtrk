@@ -104,7 +104,7 @@ protected:
 
 	std::string outputFile, frameInfoFile;
 	Threads::Handle* thread;
-	bool quit;
+	Atomic<bool> quit;
 
 	static void ThreadLoop(void *param);
 	bool Update();
