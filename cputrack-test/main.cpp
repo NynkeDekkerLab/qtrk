@@ -774,9 +774,9 @@ void TestCMOSNoiseInfluence(const char *lutfile)
 void Gauss2DTest()
 {
 	QTrkSettings cfg;
-	cfg.width = cfg.height = 40;
+	cfg.width = cfg.height = 20;
 	cfg.gauss2D_iterations = 4;
-	LocalizeType lt = LT_QI;
+	LocalizeType lt = LT_Gaussian2D;
 	QueuedCPUTracker qtrk(cfg);
 	float *image = new float[cfg.width*cfg.height];
 
