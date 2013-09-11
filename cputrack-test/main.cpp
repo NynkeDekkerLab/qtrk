@@ -3,7 +3,7 @@
 #include "../cputrack/random_distr.h"
 #include "../cputrack/QueuedCPUTracker.h"
 #include "../cputrack/FisherMatrix.h"
-
+#include "../cputrack/AutoBeadFinder.h"
 #include <time.h>
 #include <direct.h> // _mkdir()
 
@@ -852,6 +852,21 @@ void Gauss2DTest()
 	dbgprintf("ErrX: %f, ErrY: %f\n", errX/total, errY/total);
 }
 
+void AutoBeadFindTest()
+{
+	auto img = ReadJPEGFile("00008153.jpg");
+	auto smp = ReadJPEGFile("00008153-s.jpg");
+	AutoFindConfig cfg;
+	cfg.img_distance = 0.5f;
+	cfg.roi = 80;
+	cfg.similarity = 1;
+
+	auto results=AutoBeadFinder(&img, smp.data, &cfg);
+
+	img.free();
+	smp.free();
+}
+
 int main()
 {
 	//TestFisher("lut000.jpg");
@@ -859,9 +874,9 @@ int main()
 //	QTrkTest();
 //	TestCMOSNoiseInfluence("lut000.jpg");
 
-	Gauss2DTest();
-
-
+	AutoBeadFindTest();
+	//Gauss2DTest();
+	
 	//SpeedTest();
 	//SmallImageTest();
 	//PixelationErrorTest();
