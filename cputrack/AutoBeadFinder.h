@@ -4,14 +4,17 @@
 
 
 struct AutoFind_BeadPos {
+	AutoFind_BeadPos(int x=0,int y=0) : x(x),y(y) {}
 	int x,y;
 };
 
 struct AutoFindConfig
 {
 	int roi;
-	float img_distance;
+	float img_distance; // relative to roi
 	float similarity; // min value of pixels in 2D convolution
+
+	float MinPixelDistance() { return 0.5f * img_distance * roi; }
 };
 
 // Performs automatic bead finding on a 2D float image

@@ -131,7 +131,6 @@
     <ClInclude Include="AutoBeadFinder.h" />
     <ClInclude Include="cpu_tracker.h" />
     <ClInclude Include="dllmacros.h" />
-    <ClInclude Include="fft2D.h" />
     <ClInclude Include="FisherMatrix.h" />
     <ClInclude Include="hash_templates.h" />
     <ClInclude Include="labview.h" />

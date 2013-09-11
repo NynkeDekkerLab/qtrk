@@ -19,7 +19,6 @@ CPU only tracker
 #include "cpu_tracker.h"
 #include "LsqQuadraticFit.h"
 #include "random_distr.h"
-#include "fft2D.h"
 
 #define SFFT_BOTH 
 #include "../cudatrack/simplefft.h"

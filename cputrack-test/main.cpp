@@ -859,9 +859,17 @@ void AutoBeadFindTest()
 	AutoFindConfig cfg;
 	cfg.img_distance = 0.5f;
 	cfg.roi = 80;
-	cfg.similarity = 1;
+	cfg.similarity = 0.5;
 
 	auto results=AutoBeadFinder(&img, smp.data, &cfg);
+
+	for (int i=0;i<results.size();i++) {
+		dbgprintf("beadpos: x=%d, y=%d\n", results[i].x, results[i].y);
+		img.at(results[i].x+cfg.roi/2, results[i].y+cfg.roi/2) = 1.0f;
+	}
+	dbgprintf("%d beads total\n", results.size());
+
+	FloatToJPEGFile("autobeadfind.jpg", img.data, img.w, img.h);
 
 	img.free();
 	smp.free();
