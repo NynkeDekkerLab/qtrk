@@ -7,9 +7,11 @@
 
 namespace fft2d {
 
-	inline bool Powerof2(int n) {
+	inline bool Powerof2(int n, int* e) {
 		int m = 1;
-		while (m < n) m*=2;
+		int p = 0;
+		while (m < n) { p++; m*=2; }
+		if (e) *e=p;
 		return m == n;
 	}
 
@@ -51,6 +53,7 @@ namespace fft2d {
 	   /* Do the bit reversal */
 	   i2 = nn >> 1;
 	   j = 0;
+
 	   for (i=0;i<nn-1;i++) {
 		  if (i < j) {
 			 tx = x[i];
@@ -68,7 +71,7 @@ namespace fft2d {
 		  j += k;
 	   }
 
-	   /* Compute the FFT */
+	   // Compute the FFT 
 	   c1 = -1.0;
 	   c2 = 0.0;
 	   l2 = 1;
@@ -91,10 +94,10 @@ namespace fft2d {
 			 u2 = u1 * c2 + u2 * c1;
 			 u1 = z;
 		  }
-		  c2 = sqrt((1.0 - c1) / 2.0);
+		  c2 = sqrt((1.0f - c1) / 2.0);
 		  if (dir == 1)
 			 c2 = -c2;
-		  c1 = sqrt((1.0 + c1) / 2.0);
+		  c1 = sqrt((1.0f + c1) / 2.0);
 	   }
 
 	   /* Scaling for forward transform */
@@ -104,6 +107,74 @@ namespace fft2d {
 			 y[i] /= (T)nn;
 		  }
 	   }
+
+	   /*
+int FFT(int dir,int m,double *x,double *y)
+{
+   long nn,i,i1,j,k,i2,l,l1,l2;
+   double c1,c2,tx,ty,t1,t2,u1,u2,z;
+
+   // Calculate the number of points 
+   nn = 1;
+   for (i=0;i<m;i++)
+      nn *= 2;
+
+   // Do the bit reversal 
+   i2 = nn >> 1;
+   j = 0;
+   for (i=0;i<nn-1;i++) {
+      if (i < j) {
+         tx = x[i];
+         ty = y[i];
+         x[i] = x[j];
+         y[i] = y[j];
+         x[j] = tx;
+         y[j] = ty;
+      }
+      k = i2;
+      while (k <= j) {
+         j -= k;
+         k >>= 1;
+      }
+      j += k;
+   }
+
+   // Compute the FFT 
+   c1 = -1.0;
+   c2 = 0.0;
+   l2 = 1;
+   for (l=0;l<m;l++) {
+      l1 = l2;
+      l2 <<= 1;
+      u1 = 1.0;
+      u2 = 0.0;
+      for (j=0;j<l1;j++) {
+         for (i=j;i<nn;i+=l2) {
+            i1 = i + l1;
+            t1 = u1 * x[i1] - u2 * y[i1];
+            t2 = u1 * y[i1] + u2 * x[i1];
+            x[i1] = x[i] - t1;
+            y[i1] = y[i] - t2;
+            x[i] += t1;
+            y[i] += t2;
+         }
+         z =  u1 * c1 - u2 * c2;
+         u2 = u1 * c2 + u2 * c1;
+         u1 = z;
+      }
+      c2 = sqrt((1.0 - c1) / 2.0);
+      if (dir == 1)
+         c2 = -c2;
+      c1 = sqrt((1.0 + c1) / 2.0);
+   }
+
+   // Scaling for forward transform 
+   if (dir == 1) {
+      for (i=0;i<nn;i++) {
+         x[i] /= (double)nn;
+         y[i] /= (double)nn;
+      }
+   }*/
 
 	   return true;
 	}
@@ -119,7 +190,6 @@ namespace fft2d {
 	bool FFT2D(std::complex<T> *c,int nx,int ny,int dir)
 	{
 	   int i,j;
-	   int m,twopm;
 	   T *real,*imag;
 
 	   /* Transform the rows */
@@ -127,14 +197,15 @@ namespace fft2d {
 	   imag = new T[nx];
 	   if (real == NULL || imag == NULL)
 		  return false;
-	   if (!Powerof2(nx))
-		  return false;
+	   int m=0;
+	   if (!Powerof2(nx, &m))
+		   throw std::runtime_error("FFT2D: #Columns not power-of-two");
 	   for (j=0;j<ny;j++) {
 		  for (i=0;i<nx;i++) {
 			 real[i] = c[j*nx+i].real();
 			 imag[i] = c[j*nx+i].imag();
 		  }
-		  FFT(dir,nx,real,imag);
+		  FFT(dir,m,real,imag);
 		  for (i=0;i<nx;i++) {
 			 c[j*nx+i] = std::complex<T>(real[i], imag[i]);
 		  }
@@ -145,22 +216,20 @@ namespace fft2d {
 	   /* Transform the columns */
 	   real = new T[ny];
 	   imag = new T[ny];
-	   if (real == NULL || imag == NULL)
-		  return false;
-	   if (!Powerof2(ny))
-		  return false;
+	   if (!Powerof2(ny, &m))
+		   throw std::runtime_error("FFT2D: #Columns not power-of-two");
 	   for (i=0;i<nx;i++) {
 		  for (j=0;j<ny;j++) {
 			 real[j] = c[j*nx+i].real();
 			 imag[j] = c[j*nx+i].imag();
 		  }
-		  FFT(dir,ny,real,imag);
+		  FFT(dir,m,real,imag);
 		  for (j=0;j<ny;j++)
 			 c[j*nx+i] = std::complex<T>(real[j], imag[j]);
 	   }
 	   delete[] real;
 	   delete[] imag;
-
+	   
 	   return true;
 	}
 
