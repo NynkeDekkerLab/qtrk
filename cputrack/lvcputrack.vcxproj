@@ -112,7 +112,7 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AutoBeadFinder.cpp" />
+    <ClCompile Include="BeadFinder.cpp" />
     <ClCompile Include="cpu_tracker.cpp" />
     <ClCompile Include="fastjpg.cpp" />
     <ClCompile Include="lv_cputrack_api.cpp" />
@@ -128,7 +128,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AsyncScheduler.h" />
-    <ClInclude Include="AutoBeadFinder.h" />
+    <ClInclude Include="BeadFinder.h" />
     <ClInclude Include="cpu_tracker.h" />
     <ClInclude Include="dllmacros.h" />
     <ClInclude Include="FisherMatrix.h" />

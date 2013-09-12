@@ -11,6 +11,7 @@ Labview API for the functionality in QueuedTracker.h
 
 #include "ResultManager.h"
 #include "FisherMatrix.h"
+#include "BeadFinder.h"
 
 static Threads::Mutex trackerListMutex;
 static std::vector<QueuedTracker*> trackerList;
@@ -403,6 +404,22 @@ CDLL_EXPORT void qtrk_compute_fisher(LVArray2D<float> **lut, QTrkSettings* cfg, 
 		*xyzVariance = fm.MinVariance();
 }
 
+
+CDLL_EXPORT void qtrk_find_beads(uint8_t* image, int pitch, int w,int h, int* smpCornerPos, int roi, float imgRelDist, float acceptance, LVArray2D<int> **output)
+{
+	BeadFinder::Config cfg;
+	cfg.img_distance = imgRelDist;
+	cfg.roi = roi;
+	cfg.similarity = acceptance;
+	auto results = BeadFinder::Find(image, pitch, w,h, smpCornerPos[0], smpCornerPos[1], &cfg);
+
+	ResizeLVArray2D(output, results.size(), 2);
+	for (int i=0;i<results.size();i++)
+	{
+		(*output)->at(0, i) = results[i].x;
+		(*output)->at(1, i) = results[i].y;
+	}
+}
 
 #ifdef CUDA_TRACK
 

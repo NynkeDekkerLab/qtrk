@@ -100,6 +100,7 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\cputrack\BeadFinder.cpp" />
     <ClCompile Include="..\cputrack\fastjpg.cpp" />
     <ClCompile Include="..\cputrack\lv_queuetrk_api.cpp" />
     <ClCompile Include="..\cputrack\lv_resultmanager_api.cpp" />
@@ -110,6 +111,7 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     <ClCompile Include="..\cputrack\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\cputrack\BeadFinder.h" />
     <ClInclude Include="..\cputrack\QueuedTracker.h" />
     <ClInclude Include="..\cputrack\ResultManager.h" />
     <ClInclude Include="..\cputrack\TeLibJpeg\jmemdstsrc.h" />

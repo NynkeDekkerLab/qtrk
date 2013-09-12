@@ -198,7 +198,7 @@ public:
 		workMutex.unlock();
 	}
 	void WaitUntilDone() {
-		while(!IsDone());
+		while(!IsDone()) Threads::Sleep(1);
 	}
 	bool IsDone() {
 		workMutex.lock();

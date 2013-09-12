@@ -1,8 +1,12 @@
 #include "std_incl.h"
 #include "utils.h"
-#include "AutoBeadFinder.h"
 #include "kissfft.h"
 #include <list>
+#include "threads.h"
+#include <functional>
+#include "BeadFinder.h"
+
+using namespace BeadFinder;
 
 int NextPowerOf2(int x)
 {
@@ -36,33 +40,42 @@ void ComplexToJPEGFile(const char* name, std::complex<float>* d, int w,int h, bo
 	delete[] img;
 }
 
-
+// Multithreaded 2D FFT
 void FFT2D(std::complex<float> *d , int w,int h, bool inverse)
 {
 	kissfft<float> xfft(w, inverse);
 	kissfft<float> yfft(h, inverse);
-	std::complex<float>* src = ALLOCA_ARRAY(std::complex<float>, h);
-	std::complex<float>* tmp = ALLOCA_ARRAY(std::complex<float>, std::max(w,h));
 
-	for (int y=0;y<h;y++) {
+	auto fx = [&] (int y) {
+		std::complex<float>* tmp = ALLOCA_ARRAY(std::complex<float>, std::max(w,h));
 		xfft.transform(&d[w*y], tmp);
 		for(int x=0;x<w;x++)
 			d[w*y+x]=tmp[x];
-	}
+	};
+	ThreadPool<int, std::function< void (int index) > > xfftPool(fx);
+	for (int y=0;y<h;y++)
+		xfftPool.AddWork(y);
+	xfftPool.WaitUntilDone();
 
-	for (int x=0;x<w;x++) {
+	auto fy = [&] (int x) {
+		std::complex<float>* src = ALLOCA_ARRAY(std::complex<float>, h);
+		std::complex<float>* tmp = ALLOCA_ARRAY(std::complex<float>, std::max(w,h));
 		for (int y=0;y<h;y++)
 			src[y] = d[y*w+x];
 		yfft.transform(src, tmp);
 		for(int y=0;y<h;y++)
 			d[w*y+x]=tmp[y];
-	}
+	};
+	ThreadPool<int, std::function<void (int x) > > yfftPool(fy);
+	for (int x=0;x<w;x++)
+		yfftPool.AddWork(x);
+	yfftPool.WaitUntilDone();
 }
 
 // Search in the neighbourhood of the given position, and mark visited spots (so the next run cannot mark it)
-AutoFind_BeadPos SearchArea(std::complex<float>* cimg, int w, int h,int px,int py, int dist)
+Position SearchArea(std::complex<float>* cimg, int w, int h,int px,int py, int dist)
 {
-	AutoFind_BeadPos best(px,py);
+	Position best(px,py);
 	float bestValue = cimg[py*w+px].real();
 
 	int minY = std::max(0,py-dist);
@@ -78,7 +91,7 @@ AutoFind_BeadPos SearchArea(std::complex<float>* cimg, int w, int h,int px,int p
 			{
 				float v = cimg[y*w+x].real();
 				if(v > bestValue) {
-					best = AutoFind_BeadPos(x,y);
+					best = Position(x,y);
 					bestValue = v;
 				}
 				cimg[y*w+x] = std::complex<float>();
@@ -88,10 +101,10 @@ AutoFind_BeadPos SearchArea(std::complex<float>* cimg, int w, int h,int px,int p
 }
 
 
-void RecenterAndFilter(ImageData* img, std::vector<AutoFind_BeadPos> & pts, AutoFindConfig *cfg )
+void RecenterAndFilter(ImageData* img, std::vector<Position> & pts, Config *cfg )
 {
-	int roi  =cfg->roi;
-	std::list<AutoFind_BeadPos> newlist;
+	int roi = cfg->roi;
+	std::list<Position> newlist;
 
 	for (int i=0;i<pts.size();i++) {
 
@@ -152,16 +165,18 @@ void RecenterAndFilter(ImageData* img, std::vector<AutoFind_BeadPos> & pts, Auto
 	pts.insert(pts.begin(), newlist.begin(),newlist.end());
 }
 
-std::vector<AutoFind_BeadPos> AutoBeadFinder(ImageData* img, float* sample, AutoFindConfig* cfg)
+std::vector<Position> BeadFinder::Find(ImageData* img, float* sample, Config* cfg)
 {
+	typedef std::complex<float> pixelc_t;
+
 	// Compute nearest power of two dimension
 	int w=NextPowerOf2(img->w);
 	int h=NextPowerOf2(img->h);
 
 	// Convert to std::complex and copy the image in there (subtract mean first)
 	float mean = img->mean();
-	std::complex<float>* cimg = new std::complex<float>[w*h];
-	std::fill(cimg, cimg+w*h, 0);
+	pixelc_t* cimg = new pixelc_t[w*h];
+	std::fill(cimg, cimg+w*h, pixelc_t());
 	for (int y=0;y<img->h;y++) {
 		for (int x=0;x<img->w;x++) {
 			cimg[y*w+x] = img->data[y*img->w+x]-mean;
@@ -172,8 +187,8 @@ std::vector<AutoFind_BeadPos> AutoBeadFinder(ImageData* img, float* sample, Auto
 	FFT2D(cimg,w,h,false);
 
 	// Create an image to put the sample in with size [w,h] as well
-	std::complex<float>* smpimg = new std::complex<float>[w*h];
-	std::fill(smpimg, smpimg+w*h, 0);
+	pixelc_t* smpimg = new pixelc_t[w*h];
+	std::fill(smpimg, smpimg+w*h, pixelc_t());
 	float smpmean = ImageData(sample,cfg->roi,cfg->roi).mean();
 	for (int y=0;y<cfg->roi;y++) 
 		for (int x=0;x<cfg->roi;x++) 
@@ -190,7 +205,7 @@ std::vector<AutoFind_BeadPos> AutoBeadFinder(ImageData* img, float* sample, Auto
 	for (int i=0;i<w*h;i++)
 		maxVal=std::max(maxVal, cimg[i].real());
 
-	std::vector<AutoFind_BeadPos> pts;
+	std::vector<Position> pts;
 	for (int y=0;y<img->h;y++) {
 		for (int x=0;x<img->w;x++) {
 			if (cimg[y*w+x].real()>maxVal*cfg->similarity )
@@ -206,7 +221,7 @@ std::vector<AutoFind_BeadPos> AutoBeadFinder(ImageData* img, float* sample, Auto
 	return pts;
 }
 
-std::vector<AutoFind_BeadPos> AutoBeadFinder(uint8_t* img, int pitch, int w,int h, int smpCornerX, int smpCornerY, AutoFindConfig* cfg)
+std::vector<Position> BeadFinder::Find(uint8_t* img, int pitch, int w,int h, int smpCornerX, int smpCornerY, BeadFinder::Config* cfg)
 {
 	ImageData fimg = ImageData::alloc(w,h);
 
@@ -221,7 +236,7 @@ std::vector<AutoFind_BeadPos> AutoBeadFinder(uint8_t* img, int pitch, int w,int 
 		}
 	}
 
-	std::vector<AutoFind_BeadPos> beads = AutoBeadFinder(&fimg, fsmp, cfg);
+	std::vector<Position> beads = Find(&fimg, fsmp, cfg);
 
 	delete[] fsmp;
 	fimg.free();
