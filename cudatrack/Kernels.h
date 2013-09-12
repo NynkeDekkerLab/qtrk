@@ -546,6 +546,4 @@ __global__ void G2MLE_Compute(int njobs, cudaImageListf images, LocalizationPara
 	positions[jobIdx].y = pos.y;
 	if (I_bg) I_bg[jobIdx] = bg;
 	if (I_0) I_0[jobIdx] = I0;
-
-	return r;
 }

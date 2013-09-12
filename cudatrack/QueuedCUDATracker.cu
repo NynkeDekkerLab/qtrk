@@ -653,6 +653,13 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 		}
 	}
 
+	if (s->localizeFlags & LT_Gaussian2D) {
+		//__global__ void G2MLE_Compute(int njobs, cudaImageListf images, LocalizationParams* locParam, float sigma, int iterations, float* imgmeans, float3* initial, float3 *positions, float* I_bg, float* I_0)
+
+		G2MLE_Compute<TImageSampler> <<< blocks(s->JobCount()), threads(), 0, s->stream >>>
+			(s->JobCount(), s->images, s->d_locParams.data, cfg.gauss2D_sigma, cfg.gauss2D_iterations, s->d_imgmeans.data, s->d_com.data, s->d_resultpos.data, 0, 0);
+	}
+
 	cudaEventRecord(s->qiDone, s->stream);
 
 	{ScopedCPUProfiler p(&cpu_time.zcompute);

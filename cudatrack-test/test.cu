@@ -19,7 +19,7 @@
 #include "QueuedCUDATracker.h"
 #include "QueuedCPUTracker.h"
 
-
+#include "../cputrack-test/SharedTests.h"
 
 std::string getPath(const char *file)
 {
@@ -775,7 +775,9 @@ int main(int argc, char *argv[])
 
 	//TestTextureFetch();
 
-	MultipleLUTTest();
+	Gauss2DTest<QueuedCUDATracker>();
+
+//	MultipleLUTTest();
 
 	//BasicQTrkTest();
 
