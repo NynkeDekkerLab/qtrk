@@ -142,38 +142,34 @@ T ComputeStdDev(T* data, int len)
 	return sqrt(sum2 / len- mean * mean);
 }
 
-
-/*
-template<typename T, T minval, T maxval, int NBins>
-T ComputeMostOccuringValue(T* data, int size)
+// finds the kth element in unsorted list 'data' with average O(n) complexity 
+template<typename T>
+int quickselect(T* data, int kth, int right, int left=0)
 {
-	T maxv,minv;
-	maxv=minv=img[0];
-	for (int i=1;i<size;i++) {
-		if (data[i] > maxv) maxv = data[i];
-		if (data[i] < minv) minv = data[i];
+	if (right<0) // no elements
+		return 0;
+
+	if (left == right)
+		return data[left];
+	// select the pivot
+	int pivot = left;
+	T pivotValue = data[pivot];
+	std::swap(data[pivot], data[right]);
+	// move all items smaller then the pivot value to the left
+	int storepos = left;
+	for (int i=left;i<right;i++) {
+		if (data[i] < pivotValue)
+			std::swap(data[storepos++], data[i]);
 	}
-	const int NBins=256;
-	int bins[NBins];
-	for (int i=0;i<NBins;i++)
-		bins[i]=0;
-	for (int i=0;i<size;i++) {
-		T v = data[i];
-		int bin = NBins * (v - minv) / (maxv-minv);
-		if (bin < 0) bin = 0;
-		if (bin >= NBins) bin--;
-		bins[bin]++;
-	}
-	int maxbinv= bins[0], maxbinIndex=0;
-	for (int i=0;i<NBins;i++)
-		if (bins[i]<maxbinv) {
-			maxbinIndex = i;
-			maxbinv = bins[i];
-		}
-	return 
+	std::swap(data[storepos], data[right]);
+	int d = storepos - left + 1;
+	if (d == kth)
+		return data[storepos];
+	else if (k < d)
+		return quickselect(data, k, storepos-1, left);
+	return quickselect(data, k-d, right, storepos+1);
 }
 
-*/
 
 class Matrix3X3
 {
