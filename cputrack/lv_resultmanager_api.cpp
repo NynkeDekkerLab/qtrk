@@ -98,3 +98,12 @@ CDLL_EXPORT void DLL_CALLCONV rm_removebead(ResultManager* rm, int bead, ErrorCl
 		rm->RemoveBeadResults(bead);
 	}
 }
+
+
+
+CDLL_EXPORT void DLL_CALLCONV rm_getconfig(ResultManager* rm, ResultManagerConfig* cfg, ErrorCluster* err)
+{
+	if (ValidRM(rm, err)) {
+		*cfg = rm->Config();
+	}
+}
