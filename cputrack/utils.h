@@ -92,8 +92,6 @@ struct ImageData {
 	void writeAsCSV(const char *filename, const char *labels[]=0) { WriteImageAsCSV(filename, data, w,h,labels); }
 };
 
-float ComputeMostOccuringValue(ImageData& img); // a poor man's median
-
 void GenerateTestImage(ImageData img, float xp, float yp, float size, float MaxPhotons);
 
 std::string GetLocalModuleFilename();
@@ -166,9 +164,9 @@ int quickselect(T* data, int kth, int right, int left=0)
 	int d = storepos - left + 1;
 	if (d == kth)
 		return data[storepos];
-	else if (k < d)
-		return quickselect(data, k, storepos-1, left);
-	return quickselect(data, k-d, right, storepos+1);
+	else if (kth < d)
+		return quickselect(data, kth, storepos-1, left);
+	return quickselect(data, kth-d, right, storepos+1);
 }
 
 
