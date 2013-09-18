@@ -672,6 +672,7 @@ void AutoBeadFindTest()
 	smp.free();
 }
 
+
 int main()
 {
 	//TestFisher("lut000.jpg");

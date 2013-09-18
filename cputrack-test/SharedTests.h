@@ -3,21 +3,6 @@
 
 
 
-ImageData ReadJPEGFile(const char*fn)
-{
-	int w, h;
-	uchar* imgdata;
-	std::vector<uchar> jpgdata = ReadToByteBuffer(fn);
-	ReadJPEGFile(&jpgdata[0], jpgdata.size(), &imgdata, &w,&h);
-
-	float* fbuf = new float[w*h];
-	for (int x=0;x<w*h;x++)
-		fbuf[x] = imgdata[x]/255.0f;
-	delete[] imgdata;
-
-	return ImageData(fbuf,w,h);
-}
-
 
 void RandomFill (float* d,int size, float mean, float std_deviation)
 {

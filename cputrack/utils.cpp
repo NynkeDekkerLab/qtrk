@@ -49,7 +49,7 @@ void dbgout(const std::string& s) {
 	printf(s.c_str());
 }
 
-CDLL_EXPORT void dbgprintf(const char *fmt,...) {
+void dbgprintf(const char *fmt,...) {
 	va_list ap;
 	va_start(ap, fmt);
 
@@ -382,6 +382,23 @@ std::vector<uchar> ReadToByteBuffer(const char *filename)
 	fclose(f);
 	return buf;
 }
+
+
+ImageData ReadJPEGFile(const char*fn)
+{
+	int w, h;
+	uchar* imgdata;
+	std::vector<uchar> jpgdata = ReadToByteBuffer(fn);
+	ReadJPEGFile(&jpgdata[0], jpgdata.size(), &imgdata, &w,&h);
+
+	float* fbuf = new float[w*h];
+	for (int x=0;x<w*h;x++)
+		fbuf[x] = imgdata[x]/255.0f;
+	delete[] imgdata;
+
+	return ImageData(fbuf,w,h);
+}
+
 
 void CopyImageToFloat(uchar* data, int width, int height, int pitch, QTRK_PixelDataType pdt, float* dst)
 {

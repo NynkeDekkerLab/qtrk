@@ -1,6 +1,6 @@
 #pragma once
 
-#include "std_incl.h" 
+#include "std_incl.h"
 
 template<typename T> bool isNAN(const T& v) { 
 	return !(v == v); 
@@ -8,7 +8,7 @@ template<typename T> bool isNAN(const T& v) {
 
 void dbgout(const std::string& s);
 std::string SPrintf(const char *fmt, ...);
-CDLL_EXPORT void dbgprintf(const char *fmt,...);
+void dbgprintf(const char *fmt,...);
 
 template<typename T>
 void DeleteAllElems(T& c) {
@@ -98,6 +98,7 @@ void GenerateTestImage(ImageData img, float xp, float yp, float size, float MaxP
 
 std::string GetLocalModuleFilename();
 
+ImageData ReadJPEGFile(const char *fn);
 int ReadJPEGFile(uchar* srcbuf, int srclen, uchar** data, int* width, int*height);
 void WriteJPEGFile(uchar* data,int w,int h, const char * filename, int quality);
 void FloatToJPEGFile (const char *name, float* d, int w,int h);
