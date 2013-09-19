@@ -194,7 +194,7 @@ std::vector<Position> BeadFinder::Find(ImageData* img, float* sample, Config* cf
 		for (int x=0;x<cfg->roi;x++) 
 			smpimg[ ((y-cfg->roi)&(h-1)) * w + ( (x-cfg->roi)&(w-1))] = sample[cfg->roi*y+x]-smpmean;
 
-	ComplexToJPEGFile("smpimg.jpg", smpimg, w,h);
+//	ComplexToJPEGFile("smpimg.jpg", smpimg, w,h);
 	FFT2D(smpimg,w,h,false);
 
 	for (int i=0;i<w*h;i++)

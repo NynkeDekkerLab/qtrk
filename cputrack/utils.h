@@ -141,34 +141,40 @@ T ComputeStdDev(T* data, int len)
 	return sqrt(sum2 / len- mean * mean);
 }
 
-// finds the kth element in unsorted list 'data' with average O(n) complexity 
 template<typename T>
-int quickselect(T* data, int kth, int right, int left=0)
+T qselect(T* data, int start, int end, int k)
 {
-	if (right<0) // no elements
-		return 0;
+	if (end-start==1)
+		return data[start];
 
-	if (left == right)
-		return data[left];
-	// select the pivot
-	int pivot = left;
-	T pivotValue = data[pivot];
-	std::swap(data[pivot], data[right]);
-	// move all items smaller then the pivot value to the left
-	int storepos = left;
-	for (int i=left;i<right;i++) {
-		if (data[i] < pivotValue)
-			std::swap(data[storepos++], data[i]);
-	}
-	std::swap(data[storepos], data[right]);
-	int d = storepos - left + 1;
-	if (d == kth)
-		return data[storepos];
-	else if (kth < d)
-		return quickselect(data, kth, storepos-1, left);
-	return quickselect(data, kth-d, right, storepos+1);
+	// select one of the elements as pivot
+	int p = 0;
+	T value = data[p+start];
+	// swap with last value
+	std::swap(data[p+start], data[end-1]);
+
+	// move all items < pivot to the left
+	int nSmallerItems=0;
+	for(int i=start;i<end-1;i++)
+		if(data[i]<value) {
+			std::swap(data[i], data[start+nSmallerItems]);
+			nSmallerItems++;
+		}
+	// pivot is now at [# items < pivot]
+	std::swap(data[start+nSmallerItems], data[end-1]);
+
+	// we are trying to find the kth element
+	// so if pivotpos == k, we found it
+	// if k < pivotpos, we need to recurse left side
+	// if k > pivotpos, we need to recurse right side
+	int pivotpos = start+nSmallerItems;
+	if (k == pivotpos)
+		return data[k];
+	else if (k < pivotpos)
+		return qselect(data, start, pivotpos, k);
+	else 
+		return qselect(data, pivotpos+1, end, k);
 }
-
 
 class Matrix3X3
 {
