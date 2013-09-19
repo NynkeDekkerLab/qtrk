@@ -5,6 +5,7 @@
 
 #include "std_incl.h" 
 #include "threads.h"
+#include <map>
 
 // minimum number of samples for a profile radial bin. Below this the image mean will be used
 #define MIN_RADPROFILE_SMP_COUNT 4
@@ -164,6 +165,10 @@ public:
 
 	virtual int GetQueueLength(int *maxQueueLen=0) = 0;
 	virtual bool IsIdle() = 0;
+
+	virtual void SetConfigValue(std::string name, std::string value) = 0;
+	typedef std::map<std::string, std::string> ConfigValueMap;
+	virtual ConfigValueMap GetConfigValues() = 0;
 
 	virtual std::string GetProfileReport() { return ""; }
 

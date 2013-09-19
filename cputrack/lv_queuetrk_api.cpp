@@ -460,6 +460,13 @@ CDLL_EXPORT void qtrkcuda_get_device(int device, CUDADeviceInfo *info, ErrorClus
 	}
 }
 
+CDLL_EXPORT void qtrkcuda_enable_texture_cache(QueuedTracker* qtrk, int enable, ErrorCluster* e)
+{
+	if (ValidateTracker(qtrk, e, "enable_texture_cache")) {
+		qtrk->SetConfigValue("use_texturecache", enable?"1":"0");
+	}
+}
+
 #else
 
 

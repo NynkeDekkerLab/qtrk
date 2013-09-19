@@ -36,6 +36,9 @@ public:
 	int GetResultCount() override;
 	bool GetDebugImage(int id, int *w, int*h, float** data);
 
+	ConfigValueMap GetConfigValues() override { return ConfigValueMap(); }
+	void SetConfigValue(std::string name, std::string value) override {}
+
 	std::string GetProfileReport() { return "CPU tracker currently has no profile reporting"; }
 
 private:

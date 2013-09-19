@@ -87,6 +87,9 @@ public:
 
 	void SetPixelCalibrationImages(float* offset,float* gain) override;
 
+	ConfigValueMap GetConfigValues() override;
+	void SetConfigValue(std::string name, std::string value) override;
+
 protected:
 
 	struct Device {
@@ -173,7 +176,7 @@ protected:
 	int resultCount;
 	Threads::Mutex resultMutex, jobQueueMutex;
 	std::vector<Device*> devices;
-	bool useTextureCache; // speed up, but more numerical errors
+	bool useTextureCache; // speed up using texture cache. Currently also modified by setting pixel calibration images
 	
 	// QI profiles need to have power-of-two dimensions. qiProfileLen stores the closest power-of-two value that is bigger than cfg.qi_radialsteps
 	int qi_FFT_length;

@@ -6,7 +6,7 @@
 
 #include "dllmacros.h"
 
-CDLL_EXPORT void dbgprintf(const char *fmt,...);
+void dbgprintf(const char *fmt,...);
 
 struct Allocation {
 	const char *srcfile;

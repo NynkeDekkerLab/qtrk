@@ -620,7 +620,7 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 	//{ ProfileBlock p("jobs to gpu");
 	//s->d_jobs.copyToDevice(s->jobs.data(), s->jobCount, true, s->stream); }
 
-	if (!devices[0]->calib_gain.isEmpty()) {
+	if (!d->calib_gain.isEmpty()) {
 		dim3 numThreads(16, 16, 2);
 		dim3 numBlocks((cfg.width + numThreads.x - 1 ) / numThreads.x,
 				(cfg.height + numThreads.y - 1) / numThreads.y,
@@ -766,6 +766,8 @@ void QueuedCUDATracker::SetPixelCalibrationImages(float* offset, float* gain)
 			}
 		}
 	}
+
+	useTextureCache = offset==0;
 }
 
 // data can be zero to allocate ZLUT data
@@ -881,5 +883,20 @@ std::string QueuedCUDATracker::GetProfileReport()
 		SPrintf("COM:           %.2f,\t%.2f ms\n", time.com*f, cpu_time.com*f) +
 		SPrintf("Z Computing:   %.2f,\t%.2f ms\n", time.zcompute*f, cpu_time.zcompute*f);
 }
+
+
+QueuedCUDATracker::ConfigValueMap QueuedCUDATracker::GetConfigValues()
+{
+	ConfigValueMap cvm;
+	cvm["use_texturecache"] = useTextureCache ? "1" : "0";
+	return cvm;
+}
+
+void QueuedCUDATracker::SetConfigValue(std::string name, std::string value)
+{
+	if (name == "use_texturecache")
+		useTextureCache = atoi(value.c_str()) != 0;
+}
+
 
 
