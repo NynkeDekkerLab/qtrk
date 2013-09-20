@@ -5,7 +5,6 @@
 #include "../cputrack/FisherMatrix.h"
 #include "../cputrack/BeadFinder.h"
 #include <time.h>
-#include <direct.h> // _mkdir()
 
 #include "SharedTests.h"
 
@@ -15,37 +14,6 @@ template<typename T> T distance(T x, T y) { return sqrt(x*x+y*y); }
 float distance(vector2f a,vector2f b) { return distance(a.x-b.x,a.y-b.y); }
 
 const float ANGSTEPF = 1.5f;
-
-
-// Generate a LUT by creating new image samples and using the tracker in BuildZLUT mode
-// This will ensure equal settings for radial profiles etc
-void ResampleLUT(QueuedTracker* qtrk, ImageData* lut, float zlutMinRadius, float zlutMaxRadius, int zplanes=100, const char *jpgfile=0)
-{
-	QTrkComputedConfig& cfg = qtrk->cfg;
-	ImageData img = ImageData::alloc(cfg.width,cfg.height);
-
-	qtrk->SetZLUT(0, 1, zplanes);
-
-	for (int i=0;i<zplanes;i++)
-	{
-		GenerateImageFromLUT(&img, lut, zlutMinRadius, zlutMaxRadius, vector2f(cfg.width/2, cfg.height/2), i/(float)zplanes * lut->h, 1.0f);
-		img.normalize();
-
-		LocalizationJob job((LocalizeType)(LT_QI|LT_BuildZLUT|LT_NormalizeProfile), i, 0, i,0);
-		qtrk->ScheduleLocalization((uchar*)img.data, sizeof(float)*img.w, QTrkFloat, &job);
-	}
-	img.free();
-
-	while(!qtrk->IsIdle());
-	qtrk->ClearResults();
-
-	if (jpgfile) {
-		float* zlut_result=new float[zplanes*cfg.zlut_radialsteps*1];
-		qtrk->GetZLUT(zlut_result);
-		FloatToJPEGFile(jpgfile, zlut_result, cfg.zlut_radialsteps, zplanes);
-		delete[] zlut_result;
-	}
-}
 
 void GenerateZLUT(QueuedTracker* qtrk, float zmin, float zmax, int zplanes, const char *saveAs=0)
 {

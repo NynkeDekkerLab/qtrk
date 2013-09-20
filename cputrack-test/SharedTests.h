@@ -1,10 +1,42 @@
 #pragma once
 
 
+#include <direct.h> // _mkdir()
+
+
+// Generate a LUT by creating new image samples and using the tracker in BuildZLUT mode
+// This will ensure equal settings for radial profiles etc
+static void ResampleLUT(QueuedTracker* qtrk, ImageData* lut, float zlutMinRadius, float zlutMaxRadius, int zplanes=100, const char *jpgfile=0)
+{
+	QTrkComputedConfig& cfg = qtrk->cfg;
+	ImageData img = ImageData::alloc(cfg.width,cfg.height);
+
+	qtrk->SetZLUT(0, 1, zplanes);
+
+	for (int i=0;i<zplanes;i++)
+	{
+		GenerateImageFromLUT(&img, lut, zlutMinRadius, zlutMaxRadius, vector2f(cfg.width/2, cfg.height/2), i/(float)zplanes * lut->h, 1.0f);
+		img.normalize();
+
+		LocalizationJob job((LocalizeType)(LT_QI|LT_BuildZLUT|LT_NormalizeProfile), i, 0, i,0);
+		qtrk->ScheduleLocalization((uchar*)img.data, sizeof(float)*img.w, QTrkFloat, &job);
+	}
+	img.free();
+
+	while(!qtrk->IsIdle());
+	qtrk->ClearResults();
+
+	if (jpgfile) {
+		float* zlut_result=new float[zplanes*cfg.zlut_radialsteps*1];
+		qtrk->GetZLUT(zlut_result);
+		FloatToJPEGFile(jpgfile, zlut_result, cfg.zlut_radialsteps, zplanes);
+		delete[] zlut_result;
+	}
+}
 
 
 
-void RandomFill (float* d,int size, float mean, float std_deviation)
+static void RandomFill (float* d,int size, float mean, float std_deviation)
 {
 	for (int i=0;i<size;i++)
 		d [i] = std::max(0.0f,  mean + rand_normal<float>() * std_deviation);
@@ -113,7 +145,13 @@ void TestCMOSNoiseInfluence(const char *lutfile)
 
 
 template<typename TrackerType>
-void Gauss2DTest()
+std::vector<vector3f> Gauss2DTest(
+#ifdef _DEBUG
+	int NumImages=10, int JobsPerImg=10
+#else
+	int NumImages=10, int JobsPerImg=1000
+#endif
+	)
 {
 	QTrkSettings cfg;
 	cfg.width = cfg.height = 20;
@@ -123,14 +161,12 @@ void Gauss2DTest()
 	std::vector<float*> images;
 	
 	// Schedule images to localize on
-#ifdef _DEBUG
-	int NumImages=10, JobsPerImg=10;
-#else
-	int NumImages=10, JobsPerImg=1000;
-#endif
+
 	dbgprintf("Gauss2D: Generating %d images...\n", NumImages);
 	std::vector<float> truepos(NumImages*2);
-	srand(time(0));
+//	srand(time(0));
+	srand(0);
+
 	for (int n=0;n<NumImages;n++) {
 		double t1 = GetPreciseTime();
 		float xp = cfg.width/2+(rand_uniform<float>() - 0.5) * 5;
@@ -178,6 +214,7 @@ void Gauss2DTest()
 	rc = NumImages*JobsPerImg;
 	double errX=0.0, errY=0.0;
 
+	std::vector<vector3f> results (NumImages);
 	while(rc>0) {
 		LocalizationResult result;
 
@@ -185,6 +222,9 @@ void Gauss2DTest()
 			int iid = result.job.frame;
 			float x = fabs(truepos[iid*2+0]-result.pos.x);
 			float y = fabs(truepos[iid*2+1]-result.pos.y);
+
+			results [result.job.frame] = result.pos;
+
 			errX += x; errY += y;
 			rc--;
 		}
@@ -192,6 +232,7 @@ void Gauss2DTest()
 	dbgprintf("Localization Speed: %d (img/s), using %d threads\n", (int)( total/(tend-tstart) ), qtrk.cfg.numThreads);
 	dbgprintf("ErrX: %f, ErrY: %f\n", errX/total, errY/total);
 	DeleteAllElems(images);
+	return results;
 }
 
 

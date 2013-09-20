@@ -1,10 +1,12 @@
 /*
-Quadrant Interpolation on CUDA
+CUDA implementations of a variety of tracking algorithms: COM, Quadrant Interpolation, 2D Gaussian with Max-Likelihood estimation.
+Copyright 2012-2013, Jelmer Cnossen
+
+It will automatically use all available CUDA devices if using the QTrkCUDA_UseAll value for QTrkSettings::cuda_device
 
 Method:
 
 -Load images into host-side image buffer
-
 -Scheduling thread executes any batch that is filled
 
 - Mutexes:
@@ -658,6 +660,7 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 
 		G2MLE_Compute<TImageSampler> <<< blocks(s->JobCount()), threads(), 0, s->stream >>>
 			(s->JobCount(), s->images, s->d_locParams.data, cfg.gauss2D_sigma, cfg.gauss2D_iterations, s->d_imgmeans.data, s->d_com.data, s->d_resultpos.data, 0, 0);
+		curpos = &s->d_resultpos;
 	}
 
 	cudaEventRecord(s->qiDone, s->stream);

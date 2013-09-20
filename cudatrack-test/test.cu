@@ -739,7 +739,7 @@ void MultipleLUTTest()
 void BasicQTrkTest()
 {
 	QTrkComputedConfig cc;
-	cc.width = cc.height = 80;
+	cc.width = cc.height = 100;
 	cc.Update();
 	QueuedCUDATracker qtrk(cc);
 
@@ -754,8 +754,8 @@ void BasicQTrkTest()
 		qtrk.ScheduleLocalization((uchar*)image, sizeof(float)*cc.width, QTrkFloat, &job);
 	}
 
+	double t0 = GetPreciseTime();
 	qtrk.Flush();
-
 	int displayrc=0,rc=0;
 	while ( (rc = qtrk.GetResultCount ()) != N) {
 		while (displayrc<rc) {
@@ -764,8 +764,25 @@ void BasicQTrkTest()
 		}
 		Threads::Sleep(50);
 	}
+	double t1 = GetPreciseTime();
 
+	dbgprintf("Speed: %d imgs/s (Only QI)", (int)(N / (t1-t0)));
 	delete[] image;
+}
+
+void TestGauss2D()
+{
+	int N=20, R=1000;
+#ifdef _DEBUG
+	R=1;
+#endif
+	std::vector<vector3f> rcpu = Gauss2DTest<QueuedCPUTracker>(N, R);
+	std::vector<vector3f> rgpu = Gauss2DTest<QueuedCUDATracker>(N, R);
+
+	for (int i=0;i<std::min(20,N);i++) {
+		dbgprintf("[%d] CPU: X:%.5f, Y:%.5f\t;\tGPU: X:%.5f, Y:%.5f. \tDiff: X:%.5f, Y:%.5f\n", 
+			i, rcpu[i].x, rcpu[i].y, rgpu[i].x, rgpu[i].y, rcpu[i].x-rgpu[i].x, rcpu[i].y-rgpu[i].y);
+	}
 }
 
 int main(int argc, char *argv[])
@@ -775,16 +792,17 @@ int main(int argc, char *argv[])
 
 	//TestTextureFetch();
 
-	Gauss2DTest<QueuedCUDATracker>();
+	TestGauss2D();
 
 //	MultipleLUTTest();
 
-	//BasicQTrkTest();
+//	BasicQTrkTest();
+//	TestCMOSNoiseInfluence<QueuedCUDATracker>("../cputrack-test/lut000.jpg");
 
 	//CompareAccuracy();
 	//QTrkCompareTest();
 //	ProfileSpeedVsROI();
-///	auto info = SpeedCompareTest(80);
-	//dbgprintf("CPU: %f, GPU: %f, GPU(tc): %f\n", info.cpu, info.gpu, info.gputex); 
+	//auto info = SpeedCompareTest(80);
+	//dbgprintf("CPU: %f, GPU: %f\n", info.speed_cpu, info.speed_gpu); 
 	return 0;
 }

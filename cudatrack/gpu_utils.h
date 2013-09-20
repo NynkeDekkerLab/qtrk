@@ -1,5 +1,5 @@
 #pragma once
-// Simple device side vector implementation. Thrust seems to end up in template errors, and I only need device_vector anyway.
+// Simple device side vector implementation. Thrust seems to end up in template errors, and I only need a device_vector anyway.
 #include <cuda_runtime.h>
 #include <vector>
 #include <cstdarg>
@@ -178,7 +178,7 @@ public:
 		if (d) free();
 		this->n = n;
 		if (cudaMallocHost(&d, sizeof(T)*n, flags) != cudaSuccess) {
-			throw std::bad_alloc(SPrintf("pinned_array<%s> init %d elements failed", typeid(T).name(), n).c_str());
+			throw std::bad_alloc(SPrintf("%s init %d elements failed", typeid(*this).name(), n).c_str());
 		}
 	}
 	T& operator[](int i) {  return d[i]; }
