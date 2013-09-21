@@ -11,21 +11,21 @@ struct cudaImageList {
 	T* data;
 	size_t pitch;
 	int w,h;
-	int rows, cols; // number of rows and columns [in images]
 	int count;
+
+	CUBOTH int fullwidth() { return w; }
+	CUBOTH int fullheight() { return h*count; }
 
 	enum { MaxImageWidth = 8192 };
 
-	CUBOTH int capacity() { return rows*cols; }
-	CUBOTH int fullwidth() { return cols * w; }
-	CUBOTH int fullheight() { return rows * h; }
-	CUBOTH int numpixels() { return w*h*rows*cols; }
+	CUBOTH int capacity() { return count; }
+	CUBOTH int numpixels() { return w*h*count; }
 
 	static cudaImageList<T> emptyList() {
 		cudaImageList imgl;
 		imgl.data = 0;
 		imgl.pitch = 0;
-		imgl.w = imgl.h = imgl.rows = imgl.cols = 0;
+		imgl.w = imgl.h = 0;
 		return imgl;
 	}
 
@@ -34,8 +34,6 @@ struct cudaImageList {
 	static cudaImageList<T> alloc(int w,int h, int amount) {
 		cudaImageList imgl;
 		imgl.w = w; imgl.h = h;
-		imgl.cols = 1;//MaxImageWidth / w;
-		imgl.rows = (amount + imgl.cols - 1) / imgl.cols;
 		imgl.count = amount;
 
 		if (cudaMallocPitch(&imgl.data, &imgl.pitch, sizeof(T)*imgl.fullwidth(), imgl.fullheight()) != cudaSuccess) {

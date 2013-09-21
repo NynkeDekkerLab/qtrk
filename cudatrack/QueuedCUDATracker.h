@@ -99,6 +99,7 @@ protected:
 		}
 		~Device(); 
 		void SetZLUT(float *data, int radialsteps, int planes, int numLUTs, float* zcmp);
+		void SetPixelCalibrationImages(float* offset, float* gain, int img_width, int img_height);
 
 		cudaImageListf zlut;
 		cudaImageListf calib_offset, calib_gain;
@@ -161,15 +162,9 @@ protected:
 	int numThreads;
 	int batchSize;
 
-	dim3 blocks(int workItems) {
-		return dim3((workItems+numThreads-1)/numThreads);
-	}
-	dim3 blocks() {
-		return dim3((batchSize+numThreads-1)/numThreads);
-	}
-	dim3 threads() {
-		return dim3(numThreads);
-	}
+	dim3 blocks(int workItems) { return dim3((workItems+numThreads-1)/numThreads); }
+	dim3 blocks() {	return dim3((batchSize+numThreads-1)/numThreads); }
+	dim3 threads() { return dim3(numThreads); }
 
 	std::vector<Stream*> streams;
 	std::list<LocalizationResult> results;
@@ -182,8 +177,6 @@ protected:
 	int qi_FFT_length;
 	cudaDeviceProp deviceProp;
 	KernelParams kernelParams;
-
-	float* h_pixelgain, *h_pixeloffset;
 
 	Threads::Handle *schedulingThread;
 	volatile bool quitScheduler;

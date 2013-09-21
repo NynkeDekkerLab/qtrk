@@ -228,8 +228,6 @@ QueuedCUDATracker::QueuedCUDATracker(const QTrkComputedConfig& cc, int batchSize
 	useTextureCache = true;
 	resultCount = 0;
 
-	h_pixelgain = h_pixeloffset = 0;
-
 	quitScheduler=false;
 	schedulingThread = Threads::Create(SchedulingThreadEntryPoint, this);
 }
@@ -241,11 +239,6 @@ QueuedCUDATracker::~QueuedCUDATracker()
 
 	DeleteAllElems(streams);
 	DeleteAllElems(devices);
-
-	if (h_pixelgain) {
-		delete[] h_pixelgain;
-		delete[] h_pixeloffset;
-	}
 }
 
 QueuedCUDATracker::Device::~Device()
@@ -533,7 +526,6 @@ void QueuedCUDATracker::QI_Iterate(device_vec<float3>* initial, device_vec<float
 	int njobs = s->jobs.size();
 	dim3 qdrThreads(16, 8);
 
-
 	if (0) {
 		dim3 qdrDim( (njobs + qdrThreads.x - 1) / qdrThreads.x, (cfg.qi_radialsteps + qdrThreads.y - 1) / qdrThreads.y, 4 );
 		QI_ComputeQuadrants<TImageSampler> <<< qdrDim , qdrThreads, 0, s->stream >>> 
@@ -604,19 +596,6 @@ void QueuedCUDATracker::QI_Iterate(device_vec<float3>* initial, device_vec<float
 		(njobs, initial->data, newpos->data, prof, qi_FFT_length, d_offsets, pixelsPerProfLen, s->d_shiftbuffer.data); 
 }
 
-void QueuedCUDATracker::CPU_ApplyGainCorrection(Stream* s)
-{
-	int wh=cfg.width*cfg.height;
-	for (int j = 0; j < s->JobCount(); j++) {
-		int idx = s->jobs[j].zlutIndex;
-		float *img = &s->hostImageBuf[wh*j];
-		const float *gain = &h_pixelgain[wh*idx];
-		const float *offset = &h_pixeloffset[wh*idx];
-		for (int p=0;p<wh;p++)
-			img[p] = (img[p]+offset[p]) * gain[p];
-	}
-}
-
 template<typename TImageSampler>
 void QueuedCUDATracker::ExecuteBatch(Stream *s)
 {
@@ -634,11 +613,6 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 	cudaEventRecord(s->batchStart, s->stream);
 	s->d_locParams.copyToDevice(s->locParams.data(), s->JobCount(), true, s->stream);
 
-	if (h_pixelgain) {
-		// cpu-side pixel gain correction
-		CPU_ApplyGainCorrection(s);
-	}
-
 	{ScopedCPUProfiler p(&cpu_time.imageCopy);
 		s->images.copyToDevice(s->hostImageBuf.data(), true, s->stream); 
 	}
@@ -646,16 +620,14 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 	//{ ProfileBlock p("jobs to gpu");
 	//s->d_jobs.copyToDevice(s->jobs.data(), s->jobCount, true, s->stream); }
 
-	/*
 	if (!d->calib_gain.isEmpty()) {
 		dim3 numThreads(16, 16, 2);
 		dim3 numBlocks((cfg.width + numThreads.x - 1 ) / numThreads.x,
 				(cfg.height + numThreads.y - 1) / numThreads.y,
 				(s->JobCount() + numThreads.z - 1) / numThreads.z);
 
-		ApplyOffsetGain <<< numThreads, numBlocks, 0, s->stream >>>
-			(s->images, s->d_locParams.data, s->device->calib_gain, s->device->calib_offset);
-	}*/
+		ApplyOffsetGain <<< numBlocks, numThreads, 0, s->stream >>>	(s->JobCount(), s->images, s->d_locParams.data, s->device->calib_gain, s->device->calib_offset);
+	}
 
 	cudaEventRecord(s->imageCopyDone, s->stream);
 
@@ -681,8 +653,6 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 	}
 
 	if (s->localizeFlags & LT_Gaussian2D) {
-		//__global__ void G2MLE_Compute(int njobs, cudaImageListf images, LocalizationParams* locParam, float sigma, int iterations, float* imgmeans, float3* initial, float3 *positions, float* I_bg, float* I_0)
-
 		G2MLE_Compute<TImageSampler> <<< blocks(s->JobCount()), threads(), 0, s->stream >>>
 			(s->JobCount(), s->images, s->d_locParams.data, cfg.gauss2D_sigma, cfg.gauss2D_iterations, s->d_imgmeans.data, s->d_com.data, s->d_resultpos.data, 0, 0);
 		curpos = &s->d_resultpos;
@@ -779,34 +749,27 @@ int QueuedCUDATracker::FetchResults(LocalizationResult* dstResults, int maxResul
 void QueuedCUDATracker::SetPixelCalibrationImages(float* offset, float* gain)
 {
 	for (uint i=0;i<devices.size();i++) {
-		Device*d = devices[i];
-		if (offset == 0) {
-			d->calib_gain.free();
-			d->calib_offset.free();
-		}
-		else if (d->zlut.count > 0) {
-			d->calib_gain = cudaImageListf::alloc(cfg.width,cfg.height,d->zlut.count);
-			d->calib_offset = cudaImageListf::alloc(cfg.width,cfg.height,d->zlut.count);
+		devices[i]->SetPixelCalibrationImages(offset, gain, cfg.width, cfg.height);
+	}
+}
 
-			for (int j=0;j<d->zlut.count;j++) {
-				d->calib_gain.copyImageToDevice(j, &gain[cfg.width*cfg.height*j]);
-				d->calib_offset.copyImageToDevice(j, &offset[cfg.width*cfg.height*j]);
-			}
+void QueuedCUDATracker::Device::SetPixelCalibrationImages(float* offset, float* gain, int img_width, int img_height)
+{
+	cudaSetDevice(index);
+
+	if (offset == 0) {
+		calib_gain.free();
+		calib_offset.free();
+	}
+	else if (zlut.count > 0) {
+		calib_gain = cudaImageListf::alloc(img_width,img_height,zlut.count);
+		calib_offset = cudaImageListf::alloc(img_width,img_height,zlut.count);
+
+		for (int j=0;j<zlut.count;j++) {
+			calib_gain.copyImageToDevice(j, &gain[img_width*img_height*j]);
+			calib_offset.copyImageToDevice(j, &offset[img_width*img_height*j]);
 		}
 	}
-
-	//useTextureCache = offset==0;
-
-	if (h_pixelgain) {
-		delete[] h_pixelgain;
-		delete[] h_pixeloffset;
-	}
-
-	int nzlut = devices[0]->zlut.count;
-	h_pixelgain = new float [cfg.width*cfg.height*nzlut];
-	h_pixeloffset = new float [cfg.width*cfg.height*nzlut];
-	memcpy(h_pixelgain, gain, cfg.width*cfg.height*nzlut*sizeof(float));
-	memcpy(h_pixeloffset, offset, cfg.width*cfg.height*nzlut*sizeof(float));
 }
 
 // data can be zero to allocate ZLUT data

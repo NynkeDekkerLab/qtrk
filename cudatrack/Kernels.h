@@ -454,17 +454,22 @@ __global__ void ZLUT_NormalizeProfiles(int njobs, ZLUTParams params, float* prof
 }
 
 
-__global__ void ApplyOffsetGain (cudaImageListf images, LocalizationParams* locParams, cudaImageListf calib_gain, cudaImageListf calib_offset)
+__global__ void ApplyOffsetGain (int njobs, cudaImageListf images, LocalizationParams* locParams, cudaImageListf calib_gain, cudaImageListf calib_offset)
 {
 	int x = threadIdx.x + blockIdx.x * blockDim.x;
 	int y = threadIdx.y + blockIdx.y * blockDim.y;
 	int jobIdx = threadIdx.z + blockIdx.z * blockDim.z;
 
-	int bead = locParams[jobIdx].zlutIndex;
+	if (x < images.w && y < images.h && jobIdx < njobs) {
+		int bead = locParams[jobIdx].zlutIndex;
 
-	float value = images.pixel(x,y,jobIdx);
-	images.pixel(x,y,jobIdx) = calib_gain.pixel(x,y,bead) * value + calib_offset.pixel(x,y,bead);
+		float value = images.pixel(x,y,jobIdx);
+		float offset = calib_offset.pixel(x,y,bead);
+		float gain = calib_gain.pixel(x,y,bead);
+		images.pixel(x,y,jobIdx) = (value + offset) * gain;
+	}
 }
+
 
 // Simple gaussian 2D MLE implementation. A better solution would be to distribute CUDA threads over each pixel, but this is a very straightforward implementation
 template<typename TImageSampler>

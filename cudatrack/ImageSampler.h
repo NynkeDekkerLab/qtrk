@@ -21,7 +21,7 @@ public:
 
 texture<float, cudaTextureType2D, cudaReadModeElementType> qi_image_texture_linear(0, cudaFilterModeLinear); // Un-normalized
 
-// Using the lower-accuracy interpolation of texture hardware
+// Using the lower-accuracy interpolation (14-bit) of texture hardware
 class ImageSampler_SimpleTextureRead {
 public:
 	static void BindTexture(cudaImageListf& images) { images.bind(qi_image_texture_linear); }

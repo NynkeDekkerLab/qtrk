@@ -310,7 +310,7 @@ void TestAsync()
 __global__ void emptyKernel()
 {}
 
-float SpeedTest(const QTrkSettings& cfg, QueuedTracker* qtrk, int count, bool haveZLUT, LocalizeType locType, float* scheduleTime)
+float SpeedTest(const QTrkSettings& cfg, QueuedTracker* qtrk, int count, bool haveZLUT, LocalizeType locType, float* scheduleTime, bool gaincorrection=false)
 {
 	float *image = new float[cfg.width*cfg.height];
 	srand(1);
@@ -319,6 +319,7 @@ float SpeedTest(const QTrkSettings& cfg, QueuedTracker* qtrk, int count, bool ha
 	int zplanes=100;
 	float zmin=0.5,zmax=3;
 	qtrk->SetZLUT(0, 1, zplanes);
+	if (gaincorrection) EnableGainCorrection(qtrk);
 	if (haveZLUT) {
 		for (int x=0;x<zplanes;x++)  {
 			vector2f center( cfg.width/2, cfg.height/2 );
@@ -417,10 +418,10 @@ struct SpeedInfo {
 	float sched_cpu, sched_gpu;
 };
 
-SpeedInfo SpeedCompareTest(int w)
+SpeedInfo SpeedCompareTest(int w,bool gc=false)
 {
 	int cudaBatchSize = 1024;
-	int count = 50000;
+	int count = 20000;
 
 #ifdef _DEBUG
 	count = 100;
@@ -442,11 +443,11 @@ SpeedInfo SpeedCompareTest(int w)
 
 	SpeedInfo info;
 	QueuedCPUTracker *cputrk = new QueuedCPUTracker(cfg);
-	info.speed_cpu = SpeedTest(cfg, cputrk, count, haveZLUT, locType, &info.sched_cpu);
+	info.speed_cpu = SpeedTest(cfg, cputrk, count, haveZLUT, locType, &info.sched_cpu, gc);
 	delete cputrk;
 
 	QueuedCUDATracker *cudatrk = new QueuedCUDATracker(cfg, cudaBatchSize);
-	info.speed_gpu = SpeedTest(cfg, cudatrk, count, haveZLUT, locType, &info.sched_gpu);
+	info.speed_gpu = SpeedTest(cfg, cudatrk, count, haveZLUT, locType, &info.sched_gpu, gc);
 	//info.speed_gpu = SpeedTest(cfg, cudatrk, count, haveZLUT, locType, &info.sched_gpu);
 	std::string report = cudatrk->GetProfileReport();
 	delete cudatrk;
@@ -801,8 +802,11 @@ int main(int argc, char *argv[])
 
 	//CompareAccuracy();
 	//QTrkCompareTest();
-//	ProfileSpeedVsROI();
-	//auto info = SpeedCompareTest(80);
-	//dbgprintf("CPU: %f, GPU: %f\n", info.speed_cpu, info.speed_gpu); 
+	//	ProfileSpeedVsROI();
+	auto info = SpeedCompareTest(80, false);
+	auto infogc = SpeedCompareTest(80, true);
+	dbgprintf("[gainc=false] CPU: %f, GPU: %f\n", info.speed_cpu, info.speed_gpu); 
+	dbgprintf("[gainc=true] CPU: %f, GPU: %f\n", infogc.speed_cpu, infogc.speed_gpu); 
+
 	return 0;
 }

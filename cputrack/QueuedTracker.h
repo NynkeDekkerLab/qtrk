@@ -143,7 +143,7 @@ public:
 	virtual ~QueuedTracker();
 
 	// These are per-bead! So both gain and offset are sized [width*height*numbeads], similar to ZLUT
-	// result=offset+gain*pixel
+	// result=gain*(pixel+offset)
 	virtual void SetPixelCalibrationImages(float* offset, float* gain) = 0;
 
 	// Frame and timestamp are ignored by tracking code itself, but usable for the calling code

@@ -143,6 +143,19 @@ void TestCMOSNoiseInfluence(const char *lutfile)
 	delete[] info;
 }
 
+void EnableGainCorrection(QueuedTracker* qtrk)
+{
+	int nb, _pl, _r;
+	qtrk->GetZLUTSize(nb, _pl, _r);
+
+	int w=qtrk->cfg.width, h=qtrk->cfg.height;
+	float *offset = new float [w*h*nb];
+	float *gain = new float [w*h*nb];
+	RandomFill(offset, w*h*nb, 0, 0.1f);
+	RandomFill(gain, w*h*nb, 1, 0.2f);
+	qtrk->SetPixelCalibrationImages(offset, gain);
+	delete[] offset; delete[] gain;
+}
 
 template<typename TrackerType>
 std::vector<vector3f> Gauss2DTest(
@@ -151,7 +164,7 @@ std::vector<vector3f> Gauss2DTest(
 #else
 	int NumImages=10, int JobsPerImg=1000
 #endif
-	,	bool useCalib = false )
+	,	bool useGC = false )
 {
 	QTrkSettings cfg;
 	cfg.width = cfg.height = 20;
@@ -162,15 +175,9 @@ std::vector<vector3f> Gauss2DTest(
 
 	srand(0);
 
-	float *offset = new float [cfg.width * cfg.height];
-	float *gain = new float [cfg.width * cfg.height];
-	if (useCalib) { 
-		RandomFill(offset, cfg.width * cfg.height, 0, 0.1f);
-		RandomFill(gain, cfg.width * cfg.height, 1, 0.2f);
-		qtrk.SetZLUT(0, 1, 1); // need to indicate 1 bead, as the pixel calibration images are per-bead
-		qtrk.SetPixelCalibrationImages(offset, gain);
-	}
-
+	qtrk.SetZLUT(0, 1, 1); // need to indicate 1 bead, as the pixel calibration images are per-bead
+	if (useGC) EnableGainCorrection(&qtrk);
+	
 	// Schedule images to localize on
 
 	dbgprintf("Gauss2D: Generating %d images...\n", NumImages);
@@ -242,7 +249,6 @@ std::vector<vector3f> Gauss2DTest(
 	dbgprintf("Localization Speed: %d (img/s), using %d threads\n", (int)( total/(tend-tstart) ), qtrk.cfg.numThreads);
 	dbgprintf("ErrX: %f, ErrY: %f\n", errX/total, errY/total);
 	DeleteAllElems(images);
-	delete[] offset; delete[] gain;
 	return results;
 }
 
