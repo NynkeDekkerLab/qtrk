@@ -122,8 +122,8 @@ protected:
 		std::vector<LocalizationJob> jobs;
 		
 		cudaImageListf images; 
-		pinned_array<float, cudaHostAllocWriteCombined> hostImageBuf; // original image format pixel buffer
-		//pinned_array<float> hostImageBuf; // original image format pixel buffer
+//		pinned_array<float, cudaHostAllocWriteCombined> hostImageBuf; // original image format pixel buffer
+		pinned_array<float> hostImageBuf; // original image format pixel buffer
 		Threads::Mutex imageBufMutex;
 
 		// CUDA objects
@@ -183,6 +183,8 @@ protected:
 	cudaDeviceProp deviceProp;
 	KernelParams kernelParams;
 
+	float* h_pixelgain, *h_pixeloffset;
+
 	Threads::Handle *schedulingThread;
 	volatile bool quitScheduler;
 	void SchedulingThreadMain();
@@ -195,6 +197,7 @@ protected:
 	Stream* CreateStream(Device* device, int streamIndex);
 	void CopyStreamResults(Stream* s);
 	void StreamUpdateZLUTSize(Stream *s);
+	void CPU_ApplyGainCorrection(Stream *s);
 
 public:
 	// Profiling
