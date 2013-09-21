@@ -151,7 +151,7 @@ std::vector<vector3f> Gauss2DTest(
 #else
 	int NumImages=10, int JobsPerImg=1000
 #endif
-	)
+	,	bool useCalib = false )
 {
 	QTrkSettings cfg;
 	cfg.width = cfg.height = 20;
@@ -159,13 +159,23 @@ std::vector<vector3f> Gauss2DTest(
 	LocalizeType lt = LT_Gaussian2D;
 	TrackerType qtrk(cfg);
 	std::vector<float*> images;
-	
+
+	srand(0);
+
+	float *offset = new float [cfg.width * cfg.height];
+	float *gain = new float [cfg.width * cfg.height];
+	if (useCalib) { 
+		RandomFill(offset, cfg.width * cfg.height, 0, 0.1f);
+		RandomFill(gain, cfg.width * cfg.height, 1, 0.2f);
+		qtrk.SetZLUT(0, 1, 1); // need to indicate 1 bead, as the pixel calibration images are per-bead
+		qtrk.SetPixelCalibrationImages(offset, gain);
+	}
+
 	// Schedule images to localize on
 
 	dbgprintf("Gauss2D: Generating %d images...\n", NumImages);
 	std::vector<float> truepos(NumImages*2);
 //	srand(time(0));
-	srand(0);
 
 	for (int n=0;n<NumImages;n++) {
 		double t1 = GetPreciseTime();
@@ -232,6 +242,7 @@ std::vector<vector3f> Gauss2DTest(
 	dbgprintf("Localization Speed: %d (img/s), using %d threads\n", (int)( total/(tend-tstart) ), qtrk.cfg.numThreads);
 	dbgprintf("ErrX: %f, ErrY: %f\n", errX/total, errY/total);
 	DeleteAllElems(images);
+	delete[] offset; delete[] gain;
 	return results;
 }
 

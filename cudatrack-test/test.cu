@@ -770,14 +770,14 @@ void BasicQTrkTest()
 	delete[] image;
 }
 
-void TestGauss2D()
+void TestGauss2D(bool calib)
 {
 	int N=20, R=1000;
 #ifdef _DEBUG
 	R=1;
 #endif
-	std::vector<vector3f> rcpu = Gauss2DTest<QueuedCPUTracker>(N, R);
-	std::vector<vector3f> rgpu = Gauss2DTest<QueuedCUDATracker>(N, R);
+	std::vector<vector3f> rcpu = Gauss2DTest<QueuedCPUTracker>(N, R, calib);
+	std::vector<vector3f> rgpu = Gauss2DTest<QueuedCUDATracker>(N, R, calib);
 
 	for (int i=0;i<std::min(20,N);i++) {
 		dbgprintf("[%d] CPU: X:%.5f, Y:%.5f\t;\tGPU: X:%.5f, Y:%.5f. \tDiff: X:%.5f, Y:%.5f\n", 
@@ -792,7 +792,7 @@ int main(int argc, char *argv[])
 
 	//TestTextureFetch();
 
-	TestGauss2D();
+	TestGauss2D(true);
 
 //	MultipleLUTTest();
 
