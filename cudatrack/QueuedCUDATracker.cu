@@ -245,6 +245,8 @@ QueuedCUDATracker::Device::~Device()
 {
 	cudaSetDevice(index);
 	zlut.free();
+	calib_gain.free();
+	calib_offset.free();
 }
 
 void QueuedCUDATracker::SchedulingThreadEntryPoint(void *param)
