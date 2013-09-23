@@ -527,55 +527,89 @@ std::vector<vector3f> LocalizeGeneratedImages(const QTrkSettings& cfg, QueuedTra
 }
 
 
-void CompareAccuracy ()
-{
-	QTrkSettings cfg;
-	cfg.width = cfg.height = 80;
-	cfg.qi_iterations = 4;
-	cfg.cuda_device = QTrkCUDA_UseBest;
-	cfg.numThreads = -1;
-	cfg.com_bgcorrection = 0.0f;
-
-	int n = 5000;
+template<typename TrkType>
+std::vector<vector3f> RunTracker(const char *lutfile, QTrkSettings *cfg, bool useGC, std::vector<vector3f> *truepos=0, int N=
 #ifdef _DEBUG
-	n = 2;
+	50
+#else
+	2000
 #endif
-	bool haveZLUT = true;
+	)
+{
+	std::vector<vector3f> results;
 
-	std::vector<vector3f> truePos (n);
-	for (int i=0;i<n;i++) {
-		vector3f p;
-		p.x = 5 * ( rand_uniform<float>() - 0.5f );
-		p.y = 5 * ( rand_uniform<float>() - 0.5f );
-		p.z = 10 + 90 * rand_uniform<float>(); // 100 planes
-		//p.z = 50;
-		truePos [i] = p;
+	ImageData lut = ReadJPEGFile(lutfile);
+	ImageData img = ImageData::alloc(cfg->width,cfg->height);
+
+	TrkType trk(*cfg);
+	ResampleLUT(&trk, &lut, 1, cfg->width/2-5);
+
+	if (useGC) EnableGainCorrection(&trk);
+
+	float R=5;
+	srand(0);
+	for (int i=0;i<N;i++)
+	{
+		vector3f pos(cfg->width/2 + R*(rand_uniform<float>()-0.5f),cfg->height/2 + R*(rand_uniform<float>()-0.5f), lut.h/4+rand_uniform<float>()*lut.h/2);
+		GenerateImageFromLUT(&img, &lut, 2.0f, cfg->width/2-3,vector2f( pos.x,pos.y), pos.z, 1.0f);
+		if (truepos) truepos->push_back(pos);
+
+		LocalizationJob job ( LocalizeType(LT_QI|LT_NormalizeProfile), i, 0, 0, 0);
+		trk.ScheduleLocalization((uchar*)img.data, sizeof(float)*cfg->width, QTrkFloat, &job);
 	}
 
-	std::vector<QueuedTracker*> trackers;
-	trackers.push_back (new QueuedCUDATracker(cfg));
-	((QueuedCUDATracker*) trackers.back())->EnableTextureCache(true);
-	trackers.push_back (new QueuedCUDATracker(cfg));
-	((QueuedCUDATracker*) trackers.back())->EnableTextureCache(false);
-	trackers.push_back(new QueuedCPUTracker(cfg));
+	trk.Flush();
+	int total = N;
+	int rc = trk.GetResultCount(), displayrc=0;
+	do {
+		rc = trk.GetResultCount();
+		while (displayrc<rc) {
+			if( displayrc%(N/10)==0) dbgprintf("Done: %d / %d\n", displayrc, total);
+			displayrc++;
+		}
+		Sleep(10);
+	} while (rc != total);
 
-	auto results = new vector3f[ trackers.size() * n ];
-
-	for (int i=0;i<trackers.size();i++) {
-		double t0 = GetPreciseTime();
-		auto r = LocalizeGeneratedImages(cfg, trackers[i], haveZLUT, (LocalizeType)( LT_QI|LT_NormalizeProfile ), truePos);
-		for (int j=0;j<n;j++) 
-			results[j * trackers.size() + i] = r[j];
-		double t1 = GetPreciseTime();
-		dbgprintf("tracker %d done. (%1.2f s) \n", i, t1-t0);
-		//dbgout( trackers[i]->GetProfileReport() );
+	results.resize(  trk.GetResultCount() );
+	for (int i=0;i<results.size();i++) {
+		LocalizationResult r;
+		trk.FetchResults(&r,1);
+		results[i] = r.pos;
 	}
-	const char *labels[] = { "cudatcx","cudatcy","cudatcz", "cudax","cuday","cudaz", "cpux", "cpuy", "cpuz"};
-	WriteImageAsCSV( "cmpresults.txt" , (float*)results, trackers.size()*3, n, labels );
 
-	DeleteAllElems(trackers);
+	double tend = GetPreciseTime();
+	img.free();
+	lut.free();
+
+	return results;
 }
 
+
+void CompareAccuracy (const char *lutfile)
+{
+	QTrkSettings cfg;
+
+	std::vector<vector3f> truepos;
+	auto cpu = RunTracker<QueuedCPUTracker> (lutfile, &cfg, false);
+	auto gpu = RunTracker<QueuedCUDATracker>(lutfile, &cfg, false);
+	auto cpugc = RunTracker<QueuedCPUTracker>(lutfile, &cfg, true);
+	auto gpugc = RunTracker<QueuedCUDATracker>(lutfile, &cfg, true, &truepos);
+
+	dbgprintf("CPU\tGPU\tCPU (gc)\tGPU (gc)\n");
+	auto Mean = [&] (const std::vector<vector3f>& v) -> vector3f {
+		vector3f s;
+		for (int i=0;i<v.size();i++) s+=v[i]-truepos[i]; s*=1.0f/v.size();
+		return s;
+	};
+	auto StDev = [&] (std::vector<vector3f>& v) -> vector3f {
+		vector3f r, m=Mean(v);
+		for (int i=0;i<v.size();i++) {
+			vector3f d = v[i]-m; r+= d*d;
+		}
+		return sqrt(r);
+	};
+	dbgprintf("%.2f\t%.2f\t%.2f\t%.2f\n", StDev(cpu).x, StDev(gpu).x, StDev(cpugc).x, StDev(gpugc).x); 
+}
 
 texture<float, cudaTextureType2D, cudaReadModeElementType> test_tex(0, cudaFilterModePoint); // Un-normalized
 texture<float, cudaTextureType2D, cudaReadModeElementType> test_tex_lin(0, cudaFilterModeLinear); // Un-normalized
@@ -634,108 +668,6 @@ void TestTextureFetch()
 
 
 
-void MultipleLUTTest(const QTrkSettings& cfg, QueuedTracker* qtrk, int numBeads, int count=100, LocalizeType locType=(LocalizeType)(LT_QI|LT_NormalizeProfile))
-{
-	float *image = new float[cfg.width*cfg.height];
-	srand(1);
-
-	// Generate ZLUT
-	int zplanes=100;
-	float zmin=0.5,zmax=3;
-	qtrk->SetZLUT(0, numBeads, zplanes);
-
-	std::vector< std::vector<vector3f> > positions(numBeads);
-	for (int i=0;i<numBeads;i++) {
-		for (int x=0;x<zplanes;x++)  {
-			vector2f center( cfg.width/2, cfg.height/2 );
-			float s = i+ zmin + (zmax-zmin) * x/(float)(zplanes-1);
-			GenerateTestImage(ImageData(image, cfg.width, cfg.height), center.x, center.y, s, 0.0f);
-			LocalizationJob job;
-			job.frame = 0;
-			job.locType = LT_BuildZLUT|LT_OnlyCOM;
-			job.zlutPlane = job.frame = x;
-			job.zlutIndex = i;
-			qtrk->ScheduleLocalization((uchar*)image, cfg.width*sizeof(float),QTrkFloat, &job);
-		}
-	}
-	qtrk->Flush();
-	// wait to finish ZLUT
-	while(true) {
-		int rc = qtrk->GetResultCount();
-		if (rc == zplanes*numBeads) break;
-		Sleep(100);
-		dbgprintf(".");
-	}
-	qtrk->ClearResults();
-
-	float* zlutData = new float[numBeads*qtrk->cfg.zlut_radialsteps*zplanes];
-	qtrk->GetZLUT(zlutData);
-	for (int i=0;i<numBeads;i++) {
-		float* beadlut = zlutData + i*qtrk->cfg.zlut_radialsteps * zplanes;
-		std::string filename=SPrintf("zlut-bead%d.jpg", i);
-		FloatToJPEGFile(filename.c_str(), beadlut, qtrk->cfg.zlut_radialsteps, zplanes);
-	}
-	delete[] zlutData;
-	
-	// Schedule images to localize on
-	dbgprintf("Benchmarking...\n", count);
-
-	int rc = 0, displayrc=0;
-	for (int i=0;i<numBeads;i++){
-		for (int n=0;n<count;n++) {
-
-			float z = i*3+ zmin + (zmax-zmin) * rand_uniform<float>();
-			vector3f pos(cfg.width/2+rand_uniform<float>(), cfg.width/2+rand_uniform<float>(), z);
-			positions[i].push_back(pos);
-
-			GenerateTestImage(ImageData(image, cfg.width, cfg.height), pos.x, pos.y, pos.z, 0);
-			ROIPosition roipos[]={ {0,0} };
-			LocalizationJob job((LocalizeType)(locType| LT_LocalizeZ), n, 0, 0, 0);
-			qtrk->ScheduleFrame((uchar*)image, cfg.width*sizeof(float),cfg.width,cfg.height, roipos, 1, QTrkFloat, &job);
-			if (n % 10 == 0) {
-				rc = qtrk->GetResultCount();
-				while (displayrc<rc) {
-					if( displayrc%(count/10)==0) dbgprintf("Done: %d / %d\n", displayrc, count);
-					displayrc++;
-				}
-			}
-		}
-	}
-	qtrk->Flush();
-	do {
-		rc = qtrk->GetResultCount();
-		while (displayrc<rc) {
-			if( displayrc%std::max(1,count/10)==0) dbgprintf("Done: %d / %d\n", displayrc, count);
-			displayrc++;
-		}
-		Sleep(10);
-	} while (rc != count*numBeads);
-	
-	// Measure speed
-	delete[] image;
-}
-
-
-void MultipleLUTTest()
-{
-	QTrkComputedConfig cfg;
-	cfg.width = cfg.height = 80;
-	cfg.qi_iterations = 4;
-	//std::vector<int> devices(1); devices[0]=1;
-	//SetCUDADevices(devices);
-	cfg.cuda_device = QTrkCUDA_UseBest;
-	cfg.numThreads = -1;
-	cfg.com_bgcorrection = 0.0f;
-	cfg.zlut_radial_coverage = 3;
-	cfg.Update();
-
-
-	QueuedCUDATracker* qtrk = new QueuedCUDATracker(cfg);
-	//QueuedCPUTracker* qtrk = new QueuedCPUTracker(&cfg);
-	MultipleLUTTest(cfg, qtrk,4);
-	delete qtrk;
-}
-
 
 void BasicQTrkTest()
 {
@@ -793,20 +725,20 @@ int main(int argc, char *argv[])
 
 	//TestTextureFetch();
 
-	TestGauss2D(true);
+	//TestGauss2D(true);
 
 //	MultipleLUTTest();
 
 //	BasicQTrkTest();
 //	TestCMOSNoiseInfluence<QueuedCUDATracker>("../cputrack-test/lut000.jpg");
 
-	//CompareAccuracy();
+	CompareAccuracy("../cputrack-test/lut000.jpg");
 	//QTrkCompareTest();
 	//	ProfileSpeedVsROI();
-	auto info = SpeedCompareTest(80, false);
+	/*auto info = SpeedCompareTest(80, false);
 	auto infogc = SpeedCompareTest(80, true);
 	dbgprintf("[gainc=false] CPU: %f, GPU: %f\n", info.speed_cpu, info.speed_gpu); 
 	dbgprintf("[gainc=true] CPU: %f, GPU: %f\n", infogc.speed_cpu, infogc.speed_gpu); 
-
+	*/
 	return 0;
 }

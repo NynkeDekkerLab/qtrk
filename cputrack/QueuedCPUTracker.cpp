@@ -221,6 +221,7 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 	if (calib_offset && calib_gain) {
 		int index = cfg.width*cfg.height*j->job.zlutIndex;
 		trk->ApplyOffsetGain(&calib_offset[index], &calib_gain[index] );
+//		if (j->job.frame%100==0)
 	}
 
 //	dbgprintf("Job: id %d, bead %d\n", j->id, j->zlut);

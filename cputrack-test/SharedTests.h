@@ -23,6 +23,8 @@ static void ResampleLUT(QueuedTracker* qtrk, ImageData* lut, float zlutMinRadius
 	}
 	img.free();
 
+	qtrk->Flush();
+
 	while(!qtrk->IsIdle());
 	qtrk->ClearResults();
 
@@ -71,7 +73,7 @@ void TestCMOSNoiseInfluence(const char *lutfile)
 
 	int nBeads=1;
 	float zlutMinR=4,zlutMaxR = cfg.width/2-5;
-	ResampleLUT(&trk, &lut,100, zlutMinR,zlutMaxR, "resample-zlut.jpg");
+	ResampleLUT(&trk, &lut,zlutMinR, zlutMaxR,100, "resample-zlut.jpg");
 //	trk.SetZLUT(lut.data, nBeads, lut.h);
 	
 	float *offset = new float [nBeads * cfg.width * cfg.height];

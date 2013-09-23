@@ -125,7 +125,7 @@ struct cudaImageList {
 	}
 
 	void clear() {
-		cudaMemset2D(data, pitch, 0, w*sizeof(T), count*h);
+		if(data) cudaMemset2D(data, pitch, 0, w*sizeof(T), count*h);
 	}
 
 	CUBOTH int totalNumPixels() { return pitch*h*count; }

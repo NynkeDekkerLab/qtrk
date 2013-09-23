@@ -35,11 +35,21 @@ struct vector3f {
 	vector3f operator+(const vector3f& o) const {
 		return vector3f(x+o.x,y+o.y,z+o.z);
 	}
+	vector3f& operator+=(const vector3f& o) {
+		x+=o.x; y+=o.y; z+=o.z; return *this;
+	}
+	vector3f& operator-=(const vector3f& o) {
+		x-=o.x; y-=o.y; z-=o.z; return *this;
+	}
 	vector3f operator-(const vector3f& o) const {
 		return vector3f(x-o.x,y-o.y,z-o.z);
 	}
 	vector3f& operator*=(const vector3f& o) { 
 		x*=o.x; y*=o.y; z*=o.z;
+		return *this;
+	}
+	vector3f& operator*=(float a) {
+		x*=a; y*=a; z*=a;
 		return *this;
 	}
 };
