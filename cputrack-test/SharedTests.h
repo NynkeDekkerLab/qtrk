@@ -12,7 +12,6 @@ static void ResampleLUT(QueuedTracker* qtrk, ImageData* lut, float zlutMinRadius
 	ImageData img = ImageData::alloc(cfg.width,cfg.height);
 
 	qtrk->SetZLUT(0, 1, zplanes);
-
 	for (int i=0;i<zplanes;i++)
 	{
 		GenerateImageFromLUT(&img, lut, zlutMinRadius, zlutMaxRadius, vector2f(cfg.width/2, cfg.height/2), i/(float)zplanes * lut->h, 1.0f);
@@ -24,7 +23,6 @@ static void ResampleLUT(QueuedTracker* qtrk, ImageData* lut, float zlutMinRadius
 	img.free();
 
 	qtrk->Flush();
-
 	while(!qtrk->IsIdle());
 	qtrk->ClearResults();
 

@@ -52,6 +52,16 @@ struct vector3f {
 		x*=a; y*=a; z*=a;
 		return *this;
 	}
+	vector3f& operator/=(float a) {
+		x/=a; y/=a; z/=a;
+		return *this;
+	}
+	vector3f operator/(float a) {
+		return vector3f(x/a,y/a,z/a);
+	}
+	friend vector3f operator/(float a, vector3f b) {
+		return vector3f(a/b.x,a/b.y,a/b.z);
+	}
 };
 
 inline vector3f sqrt(const vector3f& a) { return vector3f(sqrtf(a.x),sqrtf(a.y),sqrtf(a.z)); }

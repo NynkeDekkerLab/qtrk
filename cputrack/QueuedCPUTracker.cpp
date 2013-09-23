@@ -114,6 +114,7 @@ QueuedCPUTracker::QueuedCPUTracker(const QTrkComputedConfig& cc)
 	zlut_count = zlut_planes = 0;
 	processJobs = false;
 	jobsInProgress = 0;
+	dbgPrintResults = false;
 
 	calib_gain = calib_offset = 0;
 
@@ -270,9 +271,8 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 		trk->ComputeRadialProfile(&zlut[j->job.zlutPlane * cfg.zlut_radialsteps], cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, result.pos2D(), false, &boundaryHit, normalizeProfile);
 	}
 
-#ifdef _DEBUG
-	dbgprintf("fr:%d, bead: %d: x=%f, y=%f, z=%f\n",result.job.frame, result.job.zlutIndex, result.pos.x, result.pos.y, result.pos.z);
-#endif
+	if(dbgPrintResults)
+		dbgprintf("fr:%d, bead: %d: x=%f, y=%f, z=%f\n",result.job.frame, result.job.zlutIndex, result.pos.x, result.pos.y, result.pos.z);
 
 	th->unlock();
 
@@ -422,7 +422,7 @@ bool QueuedCPUTracker::GetDebugImage(int id, int *w, int *h,float** data)
 		*h = cfg.height;
 
 		*data = new float [cfg.width*cfg.height];
-		memcpy(*data, threads[id].tracker->GetDebugImage(), sizeof(float)* cfg.width*cfg.height );
+		memcpy(*data, threads[id].tracker->GetDebugImage(), sizeof(float)* cfg.width*cfg.height);
 		
 		threads[id].unlock();
 		return true;
@@ -432,4 +432,17 @@ bool QueuedCPUTracker::GetDebugImage(int id, int *w, int *h,float** data)
 }
 
 
+QueuedTracker::ConfigValueMap QueuedCPUTracker::GetConfigValues()
+{
+	ConfigValueMap cvm;
+	cvm["trace"] = dbgPrintResults ? "1" : "0";
+	return cvm;
+}
+
+
+void QueuedCPUTracker::SetConfigValue(std::string name, std::string value)
+{
+	if (name == "trace")
+		dbgPrintResults = !!atoi(value.c_str());
+}
 

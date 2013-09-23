@@ -528,7 +528,7 @@ std::vector<vector3f> LocalizeGeneratedImages(const QTrkSettings& cfg, QueuedTra
 
 
 template<typename TrkType>
-std::vector<vector3f> RunTracker(const char *lutfile, QTrkSettings *cfg, bool useGC, std::vector<vector3f> *truepos=0, int N=
+std::vector<vector3f> RunTracker(const char *lutfile, QTrkSettings *cfg, bool useGC, const char* name, int N=
 #ifdef _DEBUG
 	50
 #else
@@ -536,13 +536,13 @@ std::vector<vector3f> RunTracker(const char *lutfile, QTrkSettings *cfg, bool us
 #endif
 	)
 {
-	std::vector<vector3f> results;
+	std::vector<vector3f> results, truepos;
 
 	ImageData lut = ReadJPEGFile(lutfile);
 	ImageData img = ImageData::alloc(cfg->width,cfg->height);
 
 	TrkType trk(*cfg);
-	ResampleLUT(&trk, &lut, 1, cfg->width/2-5);
+	//ResampleLUT(&trk, &lut, 1, cfg->width/2-5);
 
 	if (useGC) EnableGainCorrection(&trk);
 
@@ -552,9 +552,9 @@ std::vector<vector3f> RunTracker(const char *lutfile, QTrkSettings *cfg, bool us
 	{
 		vector3f pos(cfg->width/2 + R*(rand_uniform<float>()-0.5f),cfg->height/2 + R*(rand_uniform<float>()-0.5f), lut.h/4+rand_uniform<float>()*lut.h/2);
 		GenerateImageFromLUT(&img, &lut, 2.0f, cfg->width/2-3,vector2f( pos.x,pos.y), pos.z, 1.0f);
-		if (truepos) truepos->push_back(pos);
+		truepos.push_back(pos);
 
-		LocalizationJob job ( LocalizeType(LT_QI|LT_NormalizeProfile), i, 0, 0, 0);
+		LocalizationJob job(LocalizeType(LT_OnlyCOM|LT_NormalizeProfile), i, 0, 0, 0);
 		trk.ScheduleLocalization((uchar*)img.data, sizeof(float)*cfg->width, QTrkFloat, &job);
 	}
 
@@ -564,22 +564,38 @@ std::vector<vector3f> RunTracker(const char *lutfile, QTrkSettings *cfg, bool us
 	do {
 		rc = trk.GetResultCount();
 		while (displayrc<rc) {
-			if( displayrc%(N/10)==0) dbgprintf("Done: %d / %d\n", displayrc, total);
+			if( displayrc%std::max(1,N/10)==0) dbgprintf("Done: %d / %d\n", displayrc, total);
 			displayrc++;
 		}
 		Sleep(10);
 	} while (rc != total);
 
-	results.resize(  trk.GetResultCount() );
+	results.resize(trk.GetResultCount());
 	for (int i=0;i<results.size();i++) {
 		LocalizationResult r;
 		trk.FetchResults(&r,1);
-		results[i] = r.pos;
+		results[r.job.frame]=r.pos;
 	}
 
 	double tend = GetPreciseTime();
 	img.free();
 	lut.free();
+
+	auto Mean = [&] (const std::vector<vector3f>& v) -> vector3f {
+		vector3f s;
+		for (int i=0;i<v.size();i++) s+=v[i]-truepos[i]; s*=1.0f/v.size();
+		return s;
+	};
+	auto StDev = [&] (std::vector<vector3f>& v) -> vector3f {
+		vector3f r;
+		for (int i=0;i<v.size();i++) {
+			vector3f d = v[i]-truepos[i]; r+= d*d;
+			dbgprintf("dx:%f,dy:%f\n", d.x,d.y);
+		}
+		return sqrt(r/v.size());
+	};
+
+	dbgprintf("Mean (%s): %f.  St. Dev: %f\n", name, Mean(results).x, StDev(results).x);
 
 	return results;
 }
@@ -588,27 +604,22 @@ std::vector<vector3f> RunTracker(const char *lutfile, QTrkSettings *cfg, bool us
 void CompareAccuracy (const char *lutfile)
 {
 	QTrkSettings cfg;
+	cfg.width=150;
+	cfg.height=150;
 
-	std::vector<vector3f> truepos;
-	auto cpu = RunTracker<QueuedCPUTracker> (lutfile, &cfg, false);
-	auto gpu = RunTracker<QueuedCUDATracker>(lutfile, &cfg, false);
-	auto cpugc = RunTracker<QueuedCPUTracker>(lutfile, &cfg, true);
-	auto gpugc = RunTracker<QueuedCUDATracker>(lutfile, &cfg, true, &truepos);
+	auto cpu = RunTracker<QueuedCPUTracker> (lutfile, &cfg, false, "cpu");
+	auto gpu = RunTracker<QueuedCUDATracker>(lutfile, &cfg, false, "gpu");
+	auto cpugc = RunTracker<QueuedCPUTracker>(lutfile, &cfg, true, "cpugc");
+	auto gpugc = RunTracker<QueuedCUDATracker>(lutfile, &cfg, true, "gpugc");
 
-	dbgprintf("CPU\tGPU\tCPU (gc)\tGPU (gc)\n");
-	auto Mean = [&] (const std::vector<vector3f>& v) -> vector3f {
-		vector3f s;
-		for (int i=0;i<v.size();i++) s+=v[i]-truepos[i]; s*=1.0f/v.size();
-		return s;
-	};
-	auto StDev = [&] (std::vector<vector3f>& v) -> vector3f {
-		vector3f r, m=Mean(v);
-		for (int i=0;i<v.size();i++) {
-			vector3f d = v[i]-m; r+= d*d;
-		}
-		return sqrt(r);
-	};
-	dbgprintf("%.2f\t%.2f\t%.2f\t%.2f\n", StDev(cpu).x, StDev(gpu).x, StDev(cpugc).x, StDev(gpugc).x); 
+	for (int i=0;i<std::min((int)cpu.size(),20);i++) {
+		dbgprintf("CPU-GPU: %f, %f\n", cpu[i].x-gpu[i].x,cpu[i].y-gpu[i].y);
+	}
+
+/*	dbgprintf("CPU\tGPU\tCPU(gc)\tGPU(gc)\n");
+	dbgprintf("St Dev. : CPU: %.2f\tGPU: %.2f\tCPU(gc)%.2f\tGPU(gc)%.2f\n", StDev(cpu).x, StDev(gpu).x, StDev(cpugc).x, StDev(gpugc).x); 
+	dbgprintf("Mean err: CPU: %.2f\tGPU: %.2f\tCPU(gc)%.2f\tGPU(gc)%.2f\n", Mean(cpu).x, Mean(gpu).x, Mean(cpugc).x, Mean(gpugc).x); 
+*/
 }
 
 texture<float, cudaTextureType2D, cudaReadModeElementType> test_tex(0, cudaFilterModePoint); // Un-normalized

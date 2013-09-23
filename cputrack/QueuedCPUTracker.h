@@ -36,8 +36,8 @@ public:
 	int GetResultCount() override;
 	bool GetDebugImage(int id, int *w, int*h, float** data);
 
-	ConfigValueMap GetConfigValues() override { return ConfigValueMap(); }
-	void SetConfigValue(std::string name, std::string value) override {}
+	ConfigValueMap GetConfigValues() override;
+	void SetConfigValue(std::string name, std::string value) override;
 
 	std::string GetProfileReport() { return "CPU tracker currently has no profile reporting"; }
 
@@ -81,7 +81,7 @@ private:
 	void UpdateZLUTs();
 
 	// signal threads to stop their work
-	bool quitWork, processJobs;
+	bool quitWork, processJobs, dbgPrintResults;
 
 	void JobFinished(Job* j);
 	Job* GetNextJob();
