@@ -26,6 +26,7 @@ struct cudaImageList {
 		imgl.data = 0;
 		imgl.pitch = 0;
 		imgl.w = imgl.h = 0;
+		imgl.count = 0;
 		return imgl;
 	}
 

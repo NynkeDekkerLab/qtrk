@@ -228,13 +228,13 @@ QueuedCUDATracker::QueuedCUDATracker(const QTrkComputedConfig& cc, int batchSize
 	useTextureCache = true;
 	resultCount = 0;
 
-	quitScheduler=false;
+	quitScheduler = false;
 	schedulingThread = Threads::Create(SchedulingThreadEntryPoint, this);
 }
 
 QueuedCUDATracker::~QueuedCUDATracker()
 {
-	quitScheduler=true;
+	quitScheduler = true;
 	Threads::WaitAndClose(schedulingThread);
 
 	DeleteAllElems(streams);
@@ -613,6 +613,7 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 	kernelParams.zlut.zcmpwindow = d->zcompareWindow.data;
 
 	cudaEventRecord(s->batchStart, s->stream);
+//	dbgprintf("copying %d jobs to gpu\n", s->JobCount());
 	s->d_locParams.copyToDevice(s->locParams.data(), s->JobCount(), true, s->stream);
 
 	{ScopedCPUProfiler p(&cpu_time.imageCopy);
