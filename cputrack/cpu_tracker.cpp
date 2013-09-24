@@ -25,6 +25,7 @@ CPU only tracker
 
 const float XCorScale = 1.0f; // keep this at 1, because linear oversampling was obviously a bad idea..
 
+#include "DebugResultCompare.h"
 
 static int round(xcor_t f) { return (int)(f+0.5f); }
 template<typename T>
@@ -287,6 +288,9 @@ vector2f CPUTracker::ComputeQI(vector2f initial, int iterations, int radialSteps
 		for (int q=0;q<4;q++) {
 			ComputeQuadrantProfile(buf+q*nr, nr, angsteps, q, minRadius, maxRadius, center);
 		}
+#ifdef QI_DEBUG
+		cmp_cpu_qi_prof.assign (buf,buf+4*nr);
+#endif
 
 		// Build Ix = [ qL(-r)  qR(r) ]
 		// qL = q1 + q2   (concat0)
@@ -296,10 +300,6 @@ vector2f CPUTracker::ComputeQI(vector2f initial, int iterations, int radialSteps
 			concat1[r] = q0[r]+q3[r];
 		}
 
-#ifdef QI_DBG_EXPORT
-		std::vector<std::complex<float> > tmp(nr*4);
-		std::copy(concat0, concat0+nr*2,tmp.begin());
-#endif
 		float offsetX = QI_ComputeOffset(concat0, nr, 0);
 
 		// Build Iy = [ qB(-r)  qT(r) ]
@@ -357,6 +357,10 @@ CPUTracker::qi_t CPUTracker::QI_ComputeOffset(CPUTracker::qic_t* profile, int nr
 		fft_out[x] *= conjugate(fft_out2[x]);
 
 	qi_fft_backward->transform(fft_out, fft_out2);
+
+#ifdef QI_DEBUG
+	cmp_cpu_qi_fft_out.assign(fft_out2, fft_out2+nr*2);
+#endif
 
 	// fft_out2 now contains the autoconvolution
 	// convert it to float

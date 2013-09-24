@@ -67,8 +67,7 @@ void ApplyGaussianNoise(ImageData& img, float sigma);
 void WriteImageAsCSV(const char* file, float* d, int w,int h, const char *labels[]=0);
 void WriteComplexImageAsCSV(const char* file, std::complex<float>* d, int w,int h, const char *labels[]=0);
 
-struct LocalizationResult;
-void WriteTrace(std::string file, LocalizationResult* results, int nResults);
+void WriteTrace(std::string file, vector3f* results, int nResults);
 
 struct ImageData {
 	float* data;

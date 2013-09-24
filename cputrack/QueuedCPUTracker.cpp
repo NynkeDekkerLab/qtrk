@@ -2,6 +2,8 @@
 #include "QueuedCPUTracker.h"
 #include <float.h>
 
+#include "DebugResultCompare.h"
+
 #ifndef CUDA_TRACK
 QueuedTracker* CreateQueuedTracker(const QTrkComputedConfig& cc){ 
 	return new QueuedCPUTracker(cc);

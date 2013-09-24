@@ -50,7 +50,26 @@ Issues:
 #include "LsqQuadraticFit.h"
 
 #include "Kernels.h"
+#include "DebugResultCompare.h"
 
+
+#ifdef QI_DEBUG
+void DbgCopyResult(device_vec<float2>& src, std::vector< std::complex<float> >& dst) {
+	cudaDeviceSynchronize();
+	std::vector<float2> x(src.size);
+	src.copyToHost(x,false,0);
+	dst.resize(src.size);
+	for(int i=0;i<x.size();i++)
+		dst[i]=std::complex<float>(x[i].x,x[i].y);
+}
+void DbgCopyResult(device_vec<float>& src, std::vector< float >& dst) {
+	cudaDeviceSynchronize();
+	src.copyToHost(dst,false,0);
+}
+#else
+void DbgCopyResult(device_vec<float2> src, std::vector< std::complex<float> >& dst) {} 
+void DbgCopyResult(device_vec<float> src, std::vector< float>& dst) {}
+#endif
 
 // Do CPU-side profiling of kernel launches?
 #define TRK_PROFILE
@@ -542,45 +561,11 @@ void QueuedCUDATracker::QI_Iterate(device_vec<float3>* initial, device_vec<float
 
 		QI_ComputeProfile <TImageSampler> <<< blocks(njobs), threads(), 0, s->stream >>> (njobs, s->images, initial->data, 
 			s->d_quadrants.data, s->d_QIprofiles.data, s->d_QIprofiles_reverse.data, qiparams, s->d_imgmeans.data);
+
+#ifdef QI_DEBUG
+		DbgCopyResult(s->d_quadrants, cmp_gpu_qi_prof);
+#endif
 	}
-	/*
-	cudaStreamSynchronize(s->stream);
-	auto q0 = s->d_quadrants.toVector();
-	auto p0 = s->d_QIprofiles.toVector();
-
-	WriteImageAsCSV("qi-qtc.txt", &q0[0], cfg.qi_radialsteps * 4, njobs);
-	WriteComplexImageAsCSV("qi-ptc.txt", (std::complex<float>*)&p0[0], 2*qi_FFT_length, njobs);
-
-	QI_ComputeProfile <TImageSampler> <<< blocks(njobs), threads(), 0, s->stream >>> (njobs, s->images, initial->data, 
-		s->d_quadrants.data, s->d_QIprofiles.data, s->d_QIprofiles_reverse.data, s->d_imgmeans.data,  kernelParams.qi);
-	cudaStreamSynchronize(s->stream);
-	auto q1 = s->d_quadrants.toVector();
-	auto p1 = s->d_QIprofiles.toVector();
-
-	WriteImageAsCSV("qi-q1.txt", &q1[0], cfg.qi_radialsteps * 4, njobs);
-	WriteComplexImageAsCSV("qi-p1.txt", (std::complex<float>*) &p1[0], 2*qi_FFT_length, njobs);
-
-	for (int j=0;j<njobs;j++) {
-		float2* r1 = &p1[j * cfg.qi_radialsteps * 4];
-		float2* r0 = &p0[j * cfg.qi_radialsteps * 4];
-
-		float* s1 = &q1[j * cfg.qi_radialsteps * 4];
-		float* s0 = &q0[j * cfg.qi_radialsteps * 4];
-
-		for (int q=0;q<4;q++) {
-			for (int r=0;r<cfg.qi_radialsteps;r++) {
-
-				s1 ++;
-				s0 ++;
-			}
-		}
-
-
-	}
-	*/
-	checksum(s->d_quadrants.data, qi_FFT_length * 2, njobs, "quadrant");
-	checksum(s->d_QIprofiles.data, qi_FFT_length * 2, njobs, "prof");
-	checksum(s->d_QIprofiles_reverse.data, qi_FFT_length * 2, njobs, "revprof");
 
 	cufftComplex* prof = (cufftComplex*)s->d_QIprofiles.data;
 	cufftComplex* revprof = (cufftComplex*)s->d_QIprofiles_reverse.data;
@@ -591,6 +576,10 @@ void QueuedCUDATracker::QI_Iterate(device_vec<float3>* initial, device_vec<float
 	int nval = qi_FFT_length * 2 * batchSize, nthread=256;
 	QI_MultiplyWithConjugate<<< dim3( (nval + nthread - 1)/nthread ), dim3(nthread), 0, s->stream >>>(nval, prof, revprof);
 	cufftExecC2C(s->fftPlan, prof, prof, CUFFT_INVERSE);
+
+#ifdef QI_DEBUG
+	DbgCopyResult(s->d_QIprofiles, cmp_gpu_qi_fft_out);
+#endif
 
 	float2* d_offsets=0;
 	float pixelsPerProfLen = (cfg.qi_maxradius-cfg.qi_minradius)/cfg.qi_radialsteps;
@@ -821,11 +810,6 @@ void QueuedCUDATracker::GetZLUT(float* data)
 		for (int i=0;i<zlut->count;i++) {
 			float* img = &data[i*cfg.zlut_radialsteps*zlut->h];
 			zlut->copyImageToHost(i, img);
-
-		#ifdef _DEBUG
-			std::string path = SPrintf("D:\\labview\\jelmer\\version ctrl\\bin\\zlut-bead%d.jpg",  i);
-			FloatToJPEGFile(path.c_str(), img, cfg.zlut_radialsteps, zlut->h);	
-		#endif
 		}
 	} else
 		std::fill(data, data+(cfg.zlut_radialsteps*zlut->h*zlut->count), 0.0f);

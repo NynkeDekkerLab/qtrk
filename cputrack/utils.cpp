@@ -301,7 +301,7 @@ void ApplyGaussianNoise(ImageData& img, float sigma)
 }
 
 
-void WriteTrace(std::string filename, LocalizationResult* results, int nResults)
+void WriteTrace(std::string filename, vector3f* results, int nResults)
 {
 	FILE *f = fopen(filename.c_str(), "w");
 
@@ -311,7 +311,7 @@ void WriteTrace(std::string filename, LocalizationResult* results, int nResults)
 
 	for (int i=0;i<nResults;i++)
 	{
-		fprintf(f, "%f\t%f\t%f\n", results[i].pos.x, results[i].pos.y, results[i].pos.z);
+		fprintf(f, "%f\t%f\t%f\n", results[i].x, results[i].y, results[i].z);
 	}
 
 	fclose(f);

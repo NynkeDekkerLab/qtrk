@@ -648,8 +648,8 @@ int main()
 //	QTrkTest();
 //	TestCMOSNoiseInfluence("lut000.jpg");
 
-	AutoBeadFindTest();
-	Gauss2DTest<QueuedCPUTracker>();
+	//AutoBeadFindTest();
+	//Gauss2DTest<QueuedCPUTracker>();
 	
 	//SpeedTest();
 	//SmallImageTest();
@@ -659,7 +659,7 @@ int main()
 	//TestBoundCheck();
 	//QTrkTest();
 	//for (int i=1;i<8;i++)
-//		BuildConvergenceMap(i);
+	//	BuildConvergenceMap(i);
 
 
 	//CorrectedRadialProfileTest();

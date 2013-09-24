@@ -35,6 +35,18 @@ static void ResampleLUT(QueuedTracker* qtrk, ImageData* lut, float zlutMinRadius
 }
 
 
+static std::vector<vector3f> FetchResults(QueuedTracker* trk)
+{
+	int N = trk->GetResultCount();
+	std::vector<vector3f> results (N);
+	for (int i=0;i<N;i++) {
+		LocalizationResult j;
+		trk->FetchResults(&j,1);
+		results[j.job.frame] = j.pos;
+	}
+	return results;
+}
+
 
 static void RandomFill (float* d,int size, float mean, float std_deviation)
 {
@@ -90,7 +102,6 @@ void TestCMOSNoiseInfluence(const char *lutfile)
 		RandomFill(offset, nBeads * cfg.width * cfg.height, 0, offset_stdev);
 		RandomFill(gain, nBeads * cfg.width * cfg.height, 1, gain_stdev);
 
-
 		if (useCalib) trk.SetPixelCalibrationImages(offset, gain);
 
 		std::string dirname= SPrintf("noiselev%d", nl);
@@ -123,13 +134,12 @@ void TestCMOSNoiseInfluence(const char *lutfile)
 			LocalizationJob job((LocalizeType)(LT_QI|LT_LocalizeZ|LT_NormalizeProfile),d, d,0,0);
 			trk.ScheduleLocalization((uchar*)img.data, sizeof(float)*img.w, QTrkFloat, &job);
 		}
+		trk.Flush();
 
 		while (!trk.IsIdle());
 		int nResults = trk.GetResultCount();
-		auto results = new LocalizationResult[nResults];
-		trk.FetchResults(results, nResults);
-		WriteTrace(SPrintf("%s\\trace.txt", dirname.c_str()), results, nResults);
-		delete[] results;
+		auto results = FetchResults(&trk);
+		WriteTrace(SPrintf("%s\\trace.txt", dirname.c_str()), &results[0], results.size());
 
 		dbgprintf("noiselevel: %d\n", nl);
 	}

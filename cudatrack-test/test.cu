@@ -554,7 +554,7 @@ std::vector<vector3f> RunTracker(const char *lutfile, QTrkSettings *cfg, bool us
 		GenerateImageFromLUT(&img, &lut, 2.0f, cfg->width/2-3,vector2f( pos.x,pos.y), pos.z, 1.0f);
 		truepos.push_back(pos);
 
-		LocalizationJob job(LocalizeType(LT_OnlyCOM|LT_NormalizeProfile), i, 0, 0, 0);
+		LocalizationJob job(LocalizeType(LT_QI|LT_NormalizeProfile), i, 0, 0, 0);
 		trk.ScheduleLocalization((uchar*)img.data, sizeof(float)*cfg->width, QTrkFloat, &job);
 	}
 
@@ -609,8 +609,8 @@ void CompareAccuracy (const char *lutfile)
 
 	auto cpu = RunTracker<QueuedCPUTracker> (lutfile, &cfg, false, "cpu");
 	auto gpu = RunTracker<QueuedCUDATracker>(lutfile, &cfg, false, "gpu");
-	auto cpugc = RunTracker<QueuedCPUTracker>(lutfile, &cfg, true, "cpugc");
-	auto gpugc = RunTracker<QueuedCUDATracker>(lutfile, &cfg, true, "gpugc");
+	//auto cpugc = RunTracker<QueuedCPUTracker>(lutfile, &cfg, true, "cpugc");
+	//auto gpugc = RunTracker<QueuedCUDATracker>(lutfile, &cfg, true, "gpugc");
 
 	for (int i=0;i<std::min((int)cpu.size(),20);i++) {
 		dbgprintf("CPU-GPU: %f, %f\n", cpu[i].x-gpu[i].x,cpu[i].y-gpu[i].y);
@@ -729,6 +729,64 @@ void TestGauss2D(bool calib)
 	}
 }
 
+
+std::vector< float > cmp_cpu_qi_prof;
+std::vector< float > cmp_gpu_qi_prof;
+
+std::vector< std::complex<float> > cmp_cpu_qi_fft_out;
+std::vector< std::complex<float> > cmp_gpu_qi_fft_out;
+
+
+void QICompare(const char *lutfile )
+{
+	QTrkSettings cfg;
+	cfg.qi_iterations=1;
+	cfg.width = 150;
+	cfg.height = 150;
+	cfg.numThreads=1;	
+	QueuedCUDATracker gpu(cfg, 1);
+	QueuedCPUTracker cpu(cfg);
+
+	ImageData lut=ReadJPEGFile(lutfile);
+	ImageData img=ImageData::alloc(cfg.width,cfg.height);
+
+	srand(0);
+	const int N=1;
+	for (int i=0;i<N;i++) {
+		LocalizationJob job(LT_QI, i, 0, 0, 0);
+		vector2f pos(cfg.width/2,cfg.height/2);
+		pos.x += rand_uniform<float>();
+		pos.y += rand_uniform<float>();
+		GenerateImageFromLUT(&img, &lut, 1, cfg.width/2, pos, lut.h/2,1.0f);
+		gpu.ScheduleLocalization( (uchar*)img.data, sizeof(float)*img.w, QTrkFloat, &job);
+		cpu.ScheduleLocalization( (uchar*)img.data, sizeof(float)*img.w, QTrkFloat, &job);
+	}
+	gpu.Flush();
+	cpu.Flush();
+	while(cpu.GetResultCount() != N || gpu.GetResultCount() != N );
+	
+	ImageData dbgImg = cpu.DebugImage(0);
+	FloatToJPEGFile("qidbgimg.jpg", dbgImg.data, dbgImg.w, dbgImg.h);
+
+	auto rcpu = FetchResults(&cpu), rgpu = FetchResults(&gpu);
+	for (int i=0;i<N;i++) {
+		vector3f d=rcpu[i]-rgpu[i];
+		dbgprintf("[%d]: CPU: x=%f, y=%f. GPU: x=%f, y=%f.\tGPU-CPU: x:%f, y:%f\n", i, rcpu[i].x, rcpu[i].y, rgpu[i].x, rgpu[i].y, d.x,d.y);
+	}
+
+	// Profiles
+	for(int i=0;i<cmp_cpu_qi_prof.size();i++) {
+		dbgprintf("QIPROF[%d]. CPU=%f, GPU=%f, Diff: %f\n", i, cmp_cpu_qi_prof[i], cmp_gpu_qi_prof[i], cmp_gpu_qi_prof[i]-cmp_cpu_qi_prof[i]);
+	}
+	// FFT out
+	for(int i=0;i<cmp_cpu_qi_fft_out.size();i++) {
+		dbgprintf("fft-out[%d]. CPU=%f, GPU=%f, Diff: %f\n", i, cmp_cpu_qi_fft_out[i], cmp_gpu_qi_fft_out[i], cmp_gpu_qi_fft_out[i]-cmp_cpu_qi_fft_out[i]);
+	}
+
+	img.free();
+	lut.free();
+}
+
 int main(int argc, char *argv[])
 {
 	listDevices();
@@ -741,10 +799,12 @@ int main(int argc, char *argv[])
 //	MultipleLUTTest();
 
 //	BasicQTrkTest();
-//	TestCMOSNoiseInfluence<QueuedCUDATracker>("../cputrack-test/lut000.jpg");
+	TestCMOSNoiseInfluence<QueuedCUDATracker>("../cputrack-test/lut000.jpg");
 
-	CompareAccuracy("../cputrack-test/lut000.jpg");
-	//QTrkCompareTest();
+	QICompare("../cputrack-test/lut000.jpg");
+
+	//CompareAccuracy("../cputrack-test/lut000.jpg");
+//	QTrkCompareTest();
 	//	ProfileSpeedVsROI();
 	/*auto info = SpeedCompareTest(80, false);
 	auto infogc = SpeedCompareTest(80, true);

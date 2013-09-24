@@ -7,6 +7,8 @@
 #include "threads.h"
 #include <map>
 
+struct ImageData;
+
 // minimum number of samples for a profile radial bin. Below this the image mean will be used
 #define MIN_RADPROFILE_SMP_COUNT 4
 
@@ -173,6 +175,7 @@ public:
 	virtual std::string GetProfileReport() { return ""; }
 
 	virtual bool GetDebugImage(int ID, int *w, int *h, float** pData) { return false; } // deallocate result with delete[] 
+	ImageData DebugImage(int ID);
 
 	QTrkComputedConfig cfg;
 
