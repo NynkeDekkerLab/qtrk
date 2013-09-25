@@ -249,6 +249,8 @@ QueuedCUDATracker::QueuedCUDATracker(const QTrkComputedConfig& cc, int batchSize
 
 	quitScheduler = false;
 	schedulingThread = Threads::Create(SchedulingThreadEntryPoint, this);
+
+	gc_offsetFactor = gc_gainFactor = 1.0f;
 }
 
 QueuedCUDATracker::~QueuedCUDATracker()
@@ -618,7 +620,8 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 				(cfg.height + numThreads.y - 1) / numThreads.y,
 				(s->JobCount() + numThreads.z - 1) / numThreads.z);
 
-		ApplyOffsetGain <<< numBlocks, numThreads, 0, s->stream >>>	(s->JobCount(), s->images, s->d_locParams.data, s->device->calib_gain, s->device->calib_offset);
+		ApplyOffsetGain <<< numBlocks, numThreads, 0, s->stream >>>	
+			(s->JobCount(), s->images, s->d_locParams.data, s->device->calib_gain, s->device->calib_offset, gc_gainFactor, gc_offsetFactor);
 	}
 
 	cudaEventRecord(s->imageCopyDone, s->stream);
@@ -732,7 +735,7 @@ int QueuedCUDATracker::FetchResults(LocalizationResult* dstResults, int maxResul
 	while (numResults < maxResults && !results.empty()) {
 		dstResults[numResults++] = results.front();
 		results.pop_front();
-		resultCount++;
+		resultCount--;
 	}
 	resultMutex.unlock();
 	return numResults;
@@ -743,6 +746,12 @@ void QueuedCUDATracker::SetPixelCalibrationImages(float* offset, float* gain)
 	for (uint i=0;i<devices.size();i++) {
 		devices[i]->SetPixelCalibrationImages(offset, gain, cfg.width, cfg.height);
 	}
+}
+
+void QueuedCUDATracker::SetPixelCalibrationFactors(float offsetFactor, float gainFactor)
+{
+	gc_gainFactor = gainFactor;
+	gc_offsetFactor = offsetFactor;
 }
 
 void QueuedCUDATracker::Device::SetPixelCalibrationImages(float* offset, float* gain, int img_width, int img_height)
@@ -765,12 +774,12 @@ void QueuedCUDATracker::Device::SetPixelCalibrationImages(float* offset, float* 
 }
 
 // data can be zero to allocate ZLUT data
-void QueuedCUDATracker::SetZLUT(float* data,  int numLUTs, int planes, float* zcmp) 
+void QueuedCUDATracker::SetRadialZLUT(float* data,  int numLUTs, int planes, float* zcmp) 
 {
 	kernelParams.zlut.planes = planes;
 	
 	for (uint i=0;i<devices.size();i++) {
-		devices[i]->SetZLUT(data, cfg.zlut_radialsteps, planes, numLUTs, zcmp);
+		devices[i]->SetRadialZLUT(data, cfg.zlut_radialsteps, planes, numLUTs, zcmp);
 	}
 
 	for (uint i=0;i<streams.size();i++) {
@@ -784,7 +793,7 @@ void QueuedCUDATracker::StreamUpdateZLUTSize(Stream* s)
 	s->d_zlutcmpscores.init(s->device->zlut.h * batchSize);
 }
 
-void QueuedCUDATracker::Device::SetZLUT(float *data, int radialsteps, int planes, int numLUTs, float* zcmp)
+void QueuedCUDATracker::Device::SetRadialZLUT(float *data, int radialsteps, int planes, int numLUTs, float* zcmp)
 {
 	cudaSetDevice(index);
 
@@ -802,7 +811,7 @@ void QueuedCUDATracker::Device::SetZLUT(float *data, int radialsteps, int planes
 }
 
 // delete[] memory afterwards
-void QueuedCUDATracker::GetZLUT(float* data)
+void QueuedCUDATracker::GetRadialZLUT(float* data)
 {
 	cudaImageListf* zlut = &devices[0]->zlut;
 
@@ -815,7 +824,7 @@ void QueuedCUDATracker::GetZLUT(float* data)
 		std::fill(data, data+(cfg.zlut_radialsteps*zlut->h*zlut->count), 0.0f);
 }
 
-void QueuedCUDATracker::GetZLUTSize(int& count, int &planes, int& rsteps)
+void QueuedCUDATracker::GetRadialZLUTSize(int& count, int &planes, int& rsteps)
 {
 	count = devices[0]->zlut.count;
 	planes = devices[0]->zlut.h;

@@ -56,7 +56,7 @@ void dbgprintf(const char *fmt,...) {
 	char buf[512];
 	VSNPRINTF(buf, sizeof(buf), fmt, ap);
 	OutputDebugString(buf);
-	puts(buf);
+	fputs(buf,stdout);
 
 	va_end(ap);
 }

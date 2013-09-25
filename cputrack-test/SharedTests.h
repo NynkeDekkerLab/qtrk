@@ -11,7 +11,7 @@ static void ResampleLUT(QueuedTracker* qtrk, ImageData* lut, float zlutMinRadius
 	QTrkComputedConfig& cfg = qtrk->cfg;
 	ImageData img = ImageData::alloc(cfg.width,cfg.height);
 
-	qtrk->SetZLUT(0, 1, zplanes);
+	qtrk->SetRadialZLUT(0, 1, zplanes);
 	for (int i=0;i<zplanes;i++)
 	{
 		GenerateImageFromLUT(&img, lut, zlutMinRadius, zlutMaxRadius, vector2f(cfg.width/2, cfg.height/2), i/(float)zplanes * lut->h, 1.0f);
@@ -28,7 +28,7 @@ static void ResampleLUT(QueuedTracker* qtrk, ImageData* lut, float zlutMinRadius
 
 	if (jpgfile) {
 		float* zlut_result=new float[zplanes*cfg.zlut_radialsteps*1];
-		qtrk->GetZLUT(zlut_result);
+		qtrk->GetRadialZLUT(zlut_result);
 		FloatToJPEGFile(jpgfile, zlut_result, cfg.zlut_radialsteps, zplanes);
 		delete[] zlut_result;
 	}
@@ -65,11 +65,11 @@ template<typename TrackerType>
 void TestCMOSNoiseInfluence(const char *lutfile)
 {
 	int nNoiseLevels = 5;
-	float gainStDevScale = 0.05f;
+	float gainStDevScale = 0.3f;
 #ifdef _DEBUG
 	int nDriftSteps = 100;
 #else
-	int nDriftSteps = 5000;
+	int nDriftSteps = 2000;
 #endif
 	float driftDistance = 4; // pixels
 
@@ -84,7 +84,6 @@ void TestCMOSNoiseInfluence(const char *lutfile)
 	int nBeads=1;
 	float zlutMinR=4,zlutMaxR = cfg.width/2-5;
 	ResampleLUT(&trk, &lut,zlutMinR, zlutMaxR,100, "resample-zlut.jpg");
-//	trk.SetZLUT(lut.data, nBeads, lut.h);
 	
 	float *offset = new float [nBeads * cfg.width * cfg.height];
 	float *gain = new float [nBeads * cfg.width * cfg.height];
@@ -99,6 +98,7 @@ void TestCMOSNoiseInfluence(const char *lutfile)
 		float offset_stdev = info[nl*2+0] = nl*0.01f;
 		float gain_stdev = info[nl*2+1] = nl*gainStDevScale;
 
+		srand(0);
 		RandomFill(offset, nBeads * cfg.width * cfg.height, 0, offset_stdev);
 		RandomFill(gain, nBeads * cfg.width * cfg.height, 1, gain_stdev);
 
@@ -130,6 +130,8 @@ void TestCMOSNoiseInfluence(const char *lutfile)
 				FloatToJPEGFile(SPrintf("nl%d.jpg",nl).c_str(),img.data, img.w,img.h);
 			}
 
+			if ( d%(std::max(1,nDriftSteps/10)) == 0 )
+				dbgprintf("Generating images for test %d...\n", d);
 
 			LocalizationJob job((LocalizeType)(LT_QI|LT_LocalizeZ|LT_NormalizeProfile),d, d,0,0);
 			trk.ScheduleLocalization((uchar*)img.data, sizeof(float)*img.w, QTrkFloat, &job);
@@ -137,11 +139,11 @@ void TestCMOSNoiseInfluence(const char *lutfile)
 		trk.Flush();
 
 		while (!trk.IsIdle());
-		int nResults = trk.GetResultCount();
+		int nResults = trk.GetResultCount(); 
+		dbgprintf("noiselevel: %d done. Writing %d results\n", nl, nResults);
 		auto results = FetchResults(&trk);
 		WriteTrace(SPrintf("%s\\trace.txt", dirname.c_str()), &results[0], results.size());
 
-		dbgprintf("noiselevel: %d\n", nl);
 	}
 	WriteImageAsCSV("offset_gain_stdev.txt", info, 2, nNoiseLevels);
 
@@ -156,7 +158,7 @@ void TestCMOSNoiseInfluence(const char *lutfile)
 void EnableGainCorrection(QueuedTracker* qtrk)
 {
 	int nb, _pl, _r;
-	qtrk->GetZLUTSize(nb, _pl, _r);
+	qtrk->GetRadialZLUTSize(nb, _pl, _r);
 
 	int w=qtrk->cfg.width, h=qtrk->cfg.height;
 	float *offset = new float [w*h*nb];
@@ -185,7 +187,7 @@ std::vector<vector3f> Gauss2DTest(
 
 	srand(0);
 
-	qtrk.SetZLUT(0, 1, 1); // need to indicate 1 bead, as the pixel calibration images are per-bead
+	qtrk.SetRadialZLUT(0, 1, 1); // need to indicate 1 bead, as the pixel calibration images are per-bead
 	if (useGC) EnableGainCorrection(&qtrk);
 	
 	// Schedule images to localize on

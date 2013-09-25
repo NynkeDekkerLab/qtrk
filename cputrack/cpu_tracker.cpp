@@ -588,7 +588,7 @@ void CPUTracker::ComputeRadialProfile(float* dst, int radialSteps, int angularSt
 	}
 }
 
-void CPUTracker::SetZLUT(float* data, int planes, int res, int numLUTs, float minradius, float maxradius, int angularSteps, bool copyMemory, bool useCorrelation, float* radweights)
+void CPUTracker::SetRadialZLUT(float* data, int planes, int res, int numLUTs, float minradius, float maxradius, int angularSteps, bool copyMemory, bool useCorrelation, float* radweights)
 {
 	if (zluts && zlut_memoryOwner)
 		delete[] zluts;
@@ -631,7 +631,7 @@ float CPUTracker::ComputeZ(vector2f center, int angularSteps, int zlutIndex, boo
 
 	// Now compare the radial profile to the profiles stored in Z
 
-	float* zlut_sel = GetZLUT(zlutIndex);
+	float* zlut_sel = GetRadialZLUT(zlutIndex);
 
 	for (int k=0;k<zlut_planes;k++) {
 		float diffsum = 0.0f;

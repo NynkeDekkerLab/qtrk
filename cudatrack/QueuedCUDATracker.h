@@ -3,7 +3,7 @@
 // Thread-Safety:
 
 // We assume 2 threads concurrently accessing the tracker functions:
-//	- Queueing thread: ScheduleLocalization, SetZLUT, GetZLUT, Flush, IsQueueFilled, IsIdle
+//	- Queueing thread: ScheduleLocalization, SetRadialZLUT, GetRadialZLUT, Flush, IsQueueFilled, IsIdle
 //	- Fetching thread: FetchResults, GetResultCount, ClearResults
 
 #pragma once
@@ -28,7 +28,7 @@ struct QIParams {
 };
 
 struct ZLUTParams {
-	CUBOTH float* GetZLUT(int bead, int plane) { return img.pixelAddress(0, plane, bead); }
+	CUBOTH float* GetRadialZLUT(int bead, int plane) { return img.pixelAddress(0, plane, bead); }
 	float minRadius, maxRadius;
 	float* zcmpwindow;
 	int angularSteps;
@@ -71,9 +71,9 @@ public:
 	void ClearResults() override;
 
 	// data can be zero to allocate ZLUT data.
-	void SetZLUT(float* data,  int numLUTs, int planes, float* zcmp=0) override; 
-	void GetZLUT(float* data) override; // delete[] memory afterwards
-	void GetZLUTSize(int& count, int& planes, int &radialSteps) override;
+	void SetRadialZLUT(float* data,  int numLUTs, int planes, float* zcmp=0) override; 
+	void GetRadialZLUT(float* data) override; // delete[] memory afterwards
+	void GetRadialZLUTSize(int& count, int& planes, int &radialSteps) override;
 	int FetchResults(LocalizationResult* results, int maxResults) override;
 
 	std::string GetProfileReport() override;
@@ -86,6 +86,7 @@ public:
 	int GetResultCount() override;
 
 	void SetPixelCalibrationImages(float* offset,float* gain) override;
+	void SetPixelCalibrationFactors(float offsetFactor, float gainFactor) override;
 
 	ConfigValueMap GetConfigValues() override;
 	void SetConfigValue(std::string name, std::string value) override;
@@ -98,7 +99,7 @@ protected:
 			zlut=calib_offset=calib_gain=cudaImageListf::emptyList(); 
 		}
 		~Device(); 
-		void SetZLUT(float *data, int radialsteps, int planes, int numLUTs, float* zcmp);
+		void SetRadialZLUT(float *data, int radialsteps, int planes, int numLUTs, float* zcmp);
 		void SetPixelCalibrationImages(float* offset, float* gain, int img_width, int img_height);
 
 		cudaImageListf zlut;
@@ -171,7 +172,8 @@ protected:
 	int resultCount;
 	Threads::Mutex resultMutex, jobQueueMutex;
 	std::vector<Device*> devices;
-	bool useTextureCache; // speed up using texture cache. Currently also modified by setting pixel calibration images
+	bool useTextureCache; // speed up using texture cache. 
+	float gc_offsetFactor, gc_gainFactor;
 	
 	// QI profiles need to have power-of-two dimensions. qiProfileLen stores the closest power-of-two value that is bigger than cfg.qi_radialsteps
 	int qi_FFT_length;

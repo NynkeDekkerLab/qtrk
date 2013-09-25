@@ -119,6 +119,7 @@ QueuedCPUTracker::QueuedCPUTracker(const QTrkComputedConfig& cc)
 	dbgPrintResults = false;
 
 	calib_gain = calib_offset = 0;
+	gc_gainFactor = gc_offsetFactor = 1.0f;
 
 	Start();
 }
@@ -157,6 +158,13 @@ void QueuedCPUTracker::SetPixelCalibrationImages(float* offset, float* gain)
 		memcpy(calib_offset, offset, sizeof(float)*nelem);
 	}
 }
+
+void QueuedCPUTracker::SetPixelCalibrationFactors(float offsetFactor, float gainFactor)
+{
+	gc_gainFactor = gainFactor;
+	gc_offsetFactor = offsetFactor;
+}
+
 
 void QueuedCPUTracker::Break(bool brk)
 {
@@ -286,7 +294,7 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 	results_mutex.unlock();
 }
 
-void QueuedCPUTracker::SetZLUT(float* data, int num_zluts, int planes, float* zcmp)
+void QueuedCPUTracker::SetRadialZLUT(float* data, int num_zluts, int planes, float* zcmp)
 {
 //	jobs_mutex.lock();
 //	results_mutex.lock();
@@ -320,12 +328,12 @@ void QueuedCPUTracker::UpdateZLUTs()
 {
 	for (int i=0;i<threads.size();i++){
 		threads[i].lock();
-		threads[i].tracker->SetZLUT(zluts, zlut_planes, cfg.zlut_radialsteps, zlut_count, cfg.zlut_minradius, cfg.zlut_maxradius, cfg.zlut_angularsteps, false, false, zcmp.empty() ? 0 : &zcmp[0]);
+		threads[i].tracker->SetRadialZLUT(zluts, zlut_planes, cfg.zlut_radialsteps, zlut_count, cfg.zlut_minradius, cfg.zlut_maxradius, cfg.zlut_angularsteps, false, false, zcmp.empty() ? 0 : &zcmp[0]);
 		threads[i].unlock();
 	}
 }
 
-void QueuedCPUTracker::GetZLUTSize(int &count, int& planes, int &rsteps)
+void QueuedCPUTracker::GetRadialZLUTSize(int &count, int& planes, int &rsteps)
 {
 	count = zlut_count;
 	planes = zlut_planes;
@@ -333,7 +341,7 @@ void QueuedCPUTracker::GetZLUTSize(int &count, int& planes, int &rsteps)
 }
 
 
-void QueuedCPUTracker::GetZLUT(float *zlut)
+void QueuedCPUTracker::GetRadialZLUT(float *zlut)
 {
 	int nElem = zlut_planes*cfg.zlut_radialsteps*zlut_count;
 	if (nElem>0) {

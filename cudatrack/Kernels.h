@@ -302,7 +302,7 @@ __global__ void ZLUT_ProfilesToZLUT(int njobs, cudaImageListf images, ZLUTParams
 	if (idx < njobs) {
 		auto m = locParams[idx];
 		if (m.locType & LT_BuildZLUT) {
-			float* dst = params.GetZLUT(m.zlutIndex, m.zlutPlane );
+			float* dst = params.GetRadialZLUT(m.zlutIndex, m.zlutPlane );
 
 			for (int i=0;i<params.radialSteps();i++)
 				dst [i] = profiles [ params.radialSteps()*idx + i ];
@@ -454,7 +454,7 @@ __global__ void ZLUT_NormalizeProfiles(int njobs, ZLUTParams params, float* prof
 }
 
 
-__global__ void ApplyOffsetGain (int njobs, cudaImageListf images, LocalizationParams* locParams, cudaImageListf calib_gain, cudaImageListf calib_offset)
+__global__ void ApplyOffsetGain (int njobs, cudaImageListf images, LocalizationParams* locParams, cudaImageListf calib_gain, cudaImageListf calib_offset, float gainFactor, float offsetFactor)
 {
 	int x = threadIdx.x + blockIdx.x * blockDim.x;
 	int y = threadIdx.y + blockIdx.y * blockDim.y;
@@ -466,7 +466,7 @@ __global__ void ApplyOffsetGain (int njobs, cudaImageListf images, LocalizationP
 		float value = images.pixel(x,y,jobIdx);
 		float offset = calib_offset.pixel(x,y,bead);
 		float gain = calib_gain.pixel(x,y,bead);
-		images.pixel(x,y,jobIdx) = (value + offset) * gain;
+		images.pixel(x,y,jobIdx) = (value + offset*offsetFactor) * gain*gainFactor;
 	}
 }
 

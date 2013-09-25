@@ -138,8 +138,8 @@ void QTrkCompareTest()
 	// Generate ZLUT
 	int zplanes=100;
 	float zmin=0.5,zmax=3;
-	qtrk.SetZLUT(0, 1, zplanes);
-	if (cpucmp) qtrkcpu.SetZLUT(0, 1, zplanes);
+	qtrk.SetRadialZLUT(0, 1, zplanes);
+	if (cpucmp) qtrkcpu.SetRadialZLUT(0, 1, zplanes);
 	if (haveZLUT) {
 		for (int x=0;x<zplanes;x++)  {
 			vector2f center ( cfg.width/2, cfg.height/2 );
@@ -168,10 +168,10 @@ void QTrkCompareTest()
 		}
 	}
 	float* zlut = new float[qtrk.cfg.zlut_radialsteps*zplanes];
-	qtrk.GetZLUT(zlut);
+	qtrk.GetRadialZLUT(zlut);
 	if (cpucmp) { 
 		float* zlutcpu = new float[qtrkcpu.cfg.zlut_radialsteps*zplanes];
-		qtrkcpu.GetZLUT(zlutcpu);
+		qtrkcpu.GetRadialZLUT(zlutcpu);
 		
 		WriteImageAsCSV("zlut-cpu.txt", zlutcpu, qtrkcpu.cfg.zlut_radialsteps, zplanes);
 		WriteImageAsCSV("zlut-gpu.txt", zlut, qtrkcpu.cfg.zlut_radialsteps, zplanes);
@@ -318,7 +318,7 @@ float SpeedTest(const QTrkSettings& cfg, QueuedTracker* qtrk, int count, bool ha
 	// Generate ZLUT
 	int zplanes=100;
 	float zmin=0.5,zmax=3;
-	qtrk->SetZLUT(0, 1, zplanes);
+	qtrk->SetRadialZLUT(0, 1, zplanes);
 	if (gaincorrection) EnableGainCorrection(qtrk);
 	if (haveZLUT) {
 		for (int x=0;x<zplanes;x++)  {
@@ -484,7 +484,7 @@ std::vector<vector3f> LocalizeGeneratedImages(const QTrkSettings& cfg, QueuedTra
 	int zplanes=100;
 	int count = positions.size();
 	float zmin=0.5,zmax=3;
-	qtrk->SetZLUT(0, 1, zplanes);
+	qtrk->SetRadialZLUT(0, 1, zplanes);
 	if (haveZLUT) {
 		for (int x=0;x<zplanes;x++)  {
 			vector2f center( cfg.width/2, cfg.height/2 );
@@ -530,7 +530,7 @@ std::vector<vector3f> LocalizeGeneratedImages(const QTrkSettings& cfg, QueuedTra
 template<typename TrkType>
 std::vector<vector3f> RunTracker(const char *lutfile, QTrkSettings *cfg, bool useGC, const char* name, int N=
 #ifdef _DEBUG
-	50
+	1
 #else
 	2000
 #endif
@@ -542,7 +542,7 @@ std::vector<vector3f> RunTracker(const char *lutfile, QTrkSettings *cfg, bool us
 	ImageData img = ImageData::alloc(cfg->width,cfg->height);
 
 	TrkType trk(*cfg);
-	//ResampleLUT(&trk, &lut, 1, cfg->width/2-5);
+	ResampleLUT(&trk, &lut, 1, cfg->width/2-5);
 
 	if (useGC) EnableGainCorrection(&trk);
 
@@ -590,7 +590,7 @@ std::vector<vector3f> RunTracker(const char *lutfile, QTrkSettings *cfg, bool us
 		vector3f r;
 		for (int i=0;i<v.size();i++) {
 			vector3f d = v[i]-truepos[i]; r+= d*d;
-			dbgprintf("dx:%f,dy:%f\n", d.x,d.y);
+		//	dbgprintf("dx:%f,dy:%f\n", d.x,d.y);
 		}
 		return sqrt(r/v.size());
 	};
@@ -609,8 +609,8 @@ void CompareAccuracy (const char *lutfile)
 
 	auto cpu = RunTracker<QueuedCPUTracker> (lutfile, &cfg, false, "cpu");
 	auto gpu = RunTracker<QueuedCUDATracker>(lutfile, &cfg, false, "gpu");
-	//auto cpugc = RunTracker<QueuedCPUTracker>(lutfile, &cfg, true, "cpugc");
-	//auto gpugc = RunTracker<QueuedCUDATracker>(lutfile, &cfg, true, "gpugc");
+	auto cpugc = RunTracker<QueuedCPUTracker>(lutfile, &cfg, true, "cpugc");
+	auto gpugc = RunTracker<QueuedCUDATracker>(lutfile, &cfg, true, "gpugc");
 
 	for (int i=0;i<std::min((int)cpu.size(),20);i++) {
 		dbgprintf("CPU-GPU: %f, %f\n", cpu[i].x-gpu[i].x,cpu[i].y-gpu[i].y);
@@ -780,7 +780,7 @@ void QICompare(const char *lutfile )
 	}
 	// FFT out
 	for(int i=0;i<cmp_cpu_qi_fft_out.size();i++) {
-		dbgprintf("fft-out[%d]. CPU=%f, GPU=%f, Diff: %f\n", i, cmp_cpu_qi_fft_out[i], cmp_gpu_qi_fft_out[i], cmp_gpu_qi_fft_out[i]-cmp_cpu_qi_fft_out[i]);
+		dbgprintf("fft-out[%d]. CPU=%f, GPU=%f, Diff: %f\n", i, cmp_cpu_qi_fft_out[i].real(), cmp_gpu_qi_fft_out[i].real(), cmp_gpu_qi_fft_out[i].real()-cmp_cpu_qi_fft_out[i].real());
 	}
 
 	img.free();
@@ -801,9 +801,9 @@ int main(int argc, char *argv[])
 //	BasicQTrkTest();
 	TestCMOSNoiseInfluence<QueuedCUDATracker>("../cputrack-test/lut000.jpg");
 
-	QICompare("../cputrack-test/lut000.jpg");
+	//QICompare("../cputrack-test/lut000.jpg");
 
-	//CompareAccuracy("../cputrack-test/lut000.jpg");
+//CompareAccuracy("../cputrack-test/lut000.jpg");
 //	QTrkCompareTest();
 	//	ProfileSpeedVsROI();
 	/*auto info = SpeedCompareTest(80, false);
