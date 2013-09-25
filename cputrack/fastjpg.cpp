@@ -176,8 +176,12 @@ void WriteJPEGFile(uchar* data,int w,int h, const char * filename, int quality)
 
 
   FILE *f = fopen(filename, "wb");
-  fwrite(memBuf, 1, len, f);
-  fclose(f);
+  if (f) {
+	  fwrite(memBuf, 1, len, f);
+	  fclose(f);
+  } else 
+	  dbgprintf("Failed to open file %s for writing\n", filename);
+
   delete[] memBuf;
 }
 

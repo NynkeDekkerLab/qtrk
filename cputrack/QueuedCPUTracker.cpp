@@ -115,7 +115,7 @@ QueuedCPUTracker::QueuedCPUTracker(const QTrkComputedConfig& cc)
 	processJobs = false;
 	jobsInProgress = 0;
 	dbgPrintResults = false;
-
+	
 	calib_gain = calib_offset = 0;
 
 	Start();
@@ -153,6 +153,14 @@ void QueuedCPUTracker::SetPixelCalibrationImages(float* offset, float* gain)
 
 		memcpy(calib_gain, gain, sizeof(float)*nelem);
 		memcpy(calib_offset, offset, sizeof(float)*nelem);
+
+#ifdef _DEBUG
+		std::string path = GetLocalModulePath();
+		for (int i=0;i<zlut_count;i++) {
+			FloatToJPEGFile( SPrintf("%s/gain-bead%d.jpg", path.c_str(), i).c_str(), &calib_gain[cfg.width*cfg.height*i], cfg.width,cfg.height);
+			FloatToJPEGFile( SPrintf("%s/offset-bead%d.jpg", path.c_str(), i).c_str(), &calib_offset[cfg.width*cfg.height*i], cfg.width,cfg.height);
+		}
+#endif
 	}
 }
 

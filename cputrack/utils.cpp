@@ -27,6 +27,22 @@ std::string GetLocalModuleFilename()
 #endif
 }
 
+std::string GetDirectoryFromPath(std::string fullpath)
+{
+	for (int i=fullpath.size()-1;i>=0;i--) {
+		if (fullpath[i] == '/' || fullpath[i] == '\\') {
+			return fullpath.substr(0, i);
+		}
+	}
+	return "";
+}
+
+std::string GetLocalModulePath()
+{
+	std::string dllpath = GetLocalModuleFilename();
+	return GetDirectoryFromPath(dllpath);
+}
+
 void DestroyQueuedTracker(QueuedTracker* qtrk)
 {
 	delete qtrk;

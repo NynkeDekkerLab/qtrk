@@ -95,6 +95,8 @@ struct ImageData {
 void GenerateTestImage(ImageData img, float xp, float yp, float size, float MaxPhotons);
 
 std::string GetLocalModuleFilename();
+std::string GetLocalModulePath();
+std::string GetDirectoryFromPath(std::string fullpath);
 
 ImageData ReadJPEGFile(const char *fn);
 int ReadJPEGFile(uchar* srcbuf, int srclen, uchar** data, int* width, int*height);
