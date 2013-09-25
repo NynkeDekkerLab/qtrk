@@ -118,6 +118,13 @@ CDLL_EXPORT void DLL_CALLCONV qtrk_set_ZLUT(QueuedTracker* tracker, LVArray3D<fl
 	}
 }
 
+CDLL_EXPORT void DLL_CALLCONV qtrk_set_pixel_calib_factors(QueuedTracker* qtrk, float offsetFactor, float gainFactor, ErrorCluster* e)
+{
+	if (ValidateTracker(qtrk, e, "set pixel calib factors")) {
+		qtrk->SetPixelCalibrationFactors(offsetFactor, gainFactor);
+	}
+}
+
 CDLL_EXPORT void DLL_CALLCONV qtrk_set_pixel_calib(QueuedTracker* qtrk, LVArray3D<float>** offset, LVArray3D<float>** gain, ErrorCluster* e)
 {
 	if (ValidateTracker(qtrk, e, "set pixel calibration images")) {
