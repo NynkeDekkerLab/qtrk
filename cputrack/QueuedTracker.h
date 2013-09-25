@@ -7,6 +7,8 @@
 #include "threads.h"
 #include <map>
 
+struct ImageData;
+
 // minimum number of samples for a profile radial bin. Below this the image mean will be used
 #define MIN_RADPROFILE_SMP_COUNT 4
 
@@ -145,6 +147,7 @@ public:
 	// These are per-bead! So both gain and offset are sized [width*height*numbeads], similar to ZLUT
 	// result=gain*(pixel+offset)
 	virtual void SetPixelCalibrationImages(float* offset, float* gain) = 0;
+	virtual void SetPixelCalibrationFactors(float offsetFactor, float gainFactor) = 0;
 
 	// Frame and timestamp are ignored by tracking code itself, but usable for the calling code
 	// Pitch: Distance in bytes between two successive rows of pixels (e.g. address of (0,0) -  address of (0,1) )
@@ -157,9 +160,9 @@ public:
 	virtual int ScheduleFrame(uchar *imgptr, int pitch, int width, int height, ROIPosition *positions, int numROI, QTRK_PixelDataType pdt, const LocalizationJob *jobInfo) = 0;
 	
 	// data can be zero to allocate ZLUT data. zcmp has to have 'zlut_radialsteps' elements
-	virtual void SetZLUT(float* data, int count, int planes, float* zcmp=0) = 0; 
-	virtual void GetZLUT(float* dst) = 0; // delete[] memory afterwards
-	virtual void GetZLUTSize(int& count, int& planes, int& radialsteps) = 0;
+	virtual void SetRadialZLUT(float* data, int count, int planes, float* zcmp=0) = 0; 
+	virtual void GetRadialZLUT(float* dst) = 0; // delete[] memory afterwards
+	virtual void GetRadialZLUTSize(int& count, int& planes, int& radialsteps) = 0;
 	virtual int GetResultCount() = 0;
 	virtual int FetchResults(LocalizationResult* results, int maxResults) = 0;
 
@@ -173,6 +176,7 @@ public:
 	virtual std::string GetProfileReport() { return ""; }
 
 	virtual bool GetDebugImage(int ID, int *w, int *h, float** pData) { return false; } // deallocate result with delete[] 
+	ImageData DebugImage(int ID);
 
 	QTrkComputedConfig cfg;
 

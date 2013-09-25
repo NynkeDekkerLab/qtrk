@@ -19,7 +19,7 @@ void GenerateZLUT(QueuedTracker* qtrk, float zmin, float zmax, int zplanes, cons
 {
 	QTrkComputedConfig& cfg = qtrk->cfg;
 	float *image = new float[cfg.width*cfg.height];
-	qtrk->SetZLUT(NULL, 1, zplanes, 0);
+	qtrk->SetRadialZLUT(NULL, 1, zplanes, 0);
 	for (int x=0;x<zplanes;x++)  {
 		vector2f center(cfg.width/2, cfg.height/2 );
 		float s = zmin + (zmax-zmin) * x/(float)(zplanes-1);
@@ -35,7 +35,7 @@ void GenerateZLUT(QueuedTracker* qtrk, float zmin, float zmax, int zplanes, cons
 		dbgprintf(".");
 	}
 	float* zlut = new float[cfg.zlut_radialsteps * zplanes * 1];
-	qtrk->GetZLUT(zlut);
+	qtrk->GetRadialZLUT(zlut);
 	qtrk->ClearResults();
 	uchar* zlut_bytes = floatToNormalizedInt(zlut, cfg.zlut_radialsteps, zplanes, (uchar)255);
 	if (saveAs) WriteJPEGFile(zlut_bytes, cfg.zlut_radialsteps, zplanes, saveAs, 99);
@@ -67,7 +67,7 @@ void SpeedTest()
 		tracker->mean = 0.0f;
 		tracker->ComputeRadialProfile(&zlut[x*radialSteps], radialSteps, 64, 1, zradius, center, false);	
 	}
-	tracker->SetZLUT(zlut, zplanes, radialSteps, 1,1, zradius, 64, true, true);
+	tracker->SetRadialZLUT(zlut, zplanes, radialSteps, 1,1, zradius, 64, true, true);
 	delete[] zlut;
 
 	// Speed test
@@ -285,7 +285,7 @@ float EstimateZError(int zplanes)
 		tracker->ComputeRadialProfile(&zlut[x*radialSteps], radialSteps, 64, 1.0f, zradius, center, false);
 	}
 
-	tracker->SetZLUT(zlut, zplanes, radialSteps, 1, 1.0f, zradius, 64, true, true);
+	tracker->SetRadialZLUT(zlut, zplanes, radialSteps, 1, 1.0f, zradius, 64, true, true);
 	WriteImageAsCSV("zlut.csv", zlut, radialSteps, zplanes);
 	delete[] zlut;
 
@@ -658,7 +658,7 @@ int main()
 	//TestFisher("lut000.jpg");
 
 //	QTrkTest();
-//	TestCMOSNoiseInfluence("lut000.jpg");
+	TestCMOSNoiseInfluence<QueuedCPUTracker>("lut000.jpg");
 
 	GainCorrectionLUTTest("lut000.jpg");
 
@@ -673,7 +673,7 @@ int main()
 	//TestBoundCheck();
 	//QTrkTest();
 	//for (int i=1;i<8;i++)
-//		BuildConvergenceMap(i);
+	//	BuildConvergenceMap(i);
 
 
 	//CorrectedRadialProfileTest();

@@ -169,13 +169,13 @@ CDLL_EXPORT void DLL_CALLCONV set_ZLUT(CPUTracker* tracker, LVArray3D<float>** p
 	int planes = zlut->dimSizes[1];
 	int res = zlut->dimSizes[2];
 
-	tracker->SetZLUT(zlut->elem, planes, res, numLUTs, radii[0], radii[1], angular_steps, true, useCorrelation, 
+	tracker->SetRadialZLUT(zlut->elem, planes, res, numLUTs, radii[0], radii[1], angular_steps, true, useCorrelation, 
 		(radialweights && (*radialweights)->dimSize>0) ? (*radialweights)->elem : 0);
 }
 
 CDLL_EXPORT void DLL_CALLCONV get_ZLUT(CPUTracker* tracker, int zlutIndex, LVArray2D<float>** dst)
 {
-	 float* zlut = tracker->GetZLUT(zlutIndex);
+	 float* zlut = tracker->GetRadialZLUT(zlutIndex);
 	 ResizeLVArray2D(dst, tracker->zlut_planes, tracker->zlut_res);
 	 std::copy(zlut, zlut+(tracker->zlut_planes*tracker->zlut_res), (*dst)->elem);
 }

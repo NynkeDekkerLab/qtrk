@@ -78,9 +78,11 @@ void ResultManager::StoreResult(LocalizationResult *r)
 	fr->results[r->job.zlutIndex] = scaled;
 	fr->count++;
 
-	// Advance fullFrames
-	while (processedFrames - startFrame < (int) frameResults.size() && frameResults[processedFrames-startFrame]->count == config.numBeads)
+	// Advance processedFrames, either because measurements have been completed or because frames have been lost
+	while (processedFrames - startFrame < (int) frameResults.size() && 
+		( frameResults[processedFrames-startFrame]->count == config.numBeads || capturedFrames - processedFrames > 1000 ) )
 		processedFrames ++;
+
 	localizationsDone ++;
 }
 

@@ -112,6 +112,7 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
   <ItemGroup>
     <ClInclude Include="..\cputrack-test\SharedTests.h" />
     <ClInclude Include="..\cputrack\cpu_tracker.h" />
+    <ClInclude Include="..\cputrack\DebugResultCompare.h" />
     <ClInclude Include="..\cputrack\QueuedCPUTracker.h" />
     <ClInclude Include="..\cputrack\QueuedTracker.h" />
     <ClInclude Include="..\cputrack\TeLibJpeg\jmemdstsrc.h" />

@@ -41,3 +41,11 @@ void QueuedTracker::ScheduleLocalization(uchar* data, int pitch, QTRK_PixelDataT
 }
 
 
+
+ImageData QueuedTracker::DebugImage(int ID)
+{
+	ImageData img;
+	GetDebugImage(ID, &img.w, &img.h, &img.data);
+	return img;
+}
+
