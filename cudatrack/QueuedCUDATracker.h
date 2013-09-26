@@ -174,6 +174,7 @@ protected:
 	std::vector<Device*> devices;
 	bool useTextureCache; // speed up using texture cache. 
 	float gc_offsetFactor, gc_gainFactor;
+	Threads::Mutex gc_mutex;
 	
 	// QI profiles need to have power-of-two dimensions. qiProfileLen stores the closest power-of-two value that is bigger than cfg.qi_radialsteps
 	int qi_FFT_length;

@@ -72,6 +72,7 @@ private:
 	int maxQueueSize;
 	int jobsInProgress;
 
+	Threads::Mutex gc_mutex;
 	float *calib_gain, *calib_offset, gc_gainFactor, gc_offsetFactor;
 
 	std::vector<Thread> threads;

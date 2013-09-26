@@ -620,8 +620,12 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 				(cfg.height + numThreads.y - 1) / numThreads.y,
 				(s->JobCount() + numThreads.z - 1) / numThreads.z);
 
+		gc_mutex.lock();
+		float of = gc_offsetFactor, gf = gc_gainFactor;
+		gc_mutex.unlock();
+
 		ApplyOffsetGain <<< numBlocks, numThreads, 0, s->stream >>>	
-			(s->JobCount(), s->images, s->d_locParams.data, s->device->calib_gain, s->device->calib_offset, gc_gainFactor, gc_offsetFactor);
+			(s->JobCount(), s->images, s->d_locParams.data, s->device->calib_gain, s->device->calib_offset, gf, of);
 	}
 
 	cudaEventRecord(s->imageCopyDone, s->stream);
@@ -750,8 +754,10 @@ void QueuedCUDATracker::SetPixelCalibrationImages(float* offset, float* gain)
 
 void QueuedCUDATracker::SetPixelCalibrationFactors(float offsetFactor, float gainFactor)
 {
+	gc_mutex.lock();
 	gc_gainFactor = gainFactor;
 	gc_offsetFactor = offsetFactor;
+	gc_mutex.unlock();
 }
 
 void QueuedCUDATracker::Device::SetPixelCalibrationImages(float* offset, float* gain, int img_width, int img_height)
