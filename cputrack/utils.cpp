@@ -268,8 +268,12 @@ void GenerateImageFromLUT(ImageData* image, ImageData* zlut, float lutminRadius,
 
 	const int len=5;
 	float xval[len];
-	for (int i=0;i<len;i++)
+	float weights[len];
+	for (int i=0;i<len;i++) {
 		xval[i]=i-len/2;
+		weights[i]=1.0f;
+	}
+
 
 	// Generate the image from the interpolated ZLUT
 	for (int y=0;y<image->h;y++)
@@ -282,7 +286,7 @@ void GenerateImageFromLUT(ImageData* image, ImageData* zlut, float lutminRadius,
 				r = zlut->w-1;
 
 			int minR = std::max(0, std::min( (int)r, zlut->w-len ) );
-			LsqSqQuadFit<float> lsq(len, xval, &zinterp[minR]);
+			LsqSqQuadFit<float> lsq(len, xval, &zinterp[minR], weights);
 
 			float v = lsq.compute(r-(minR+len/2));
 			image->at(x,y) = v; // lsq.compute(r-len/2);
