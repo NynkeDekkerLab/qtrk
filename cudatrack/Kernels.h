@@ -120,7 +120,9 @@ __device__ float QI_ComputeAxisOffset(cufftComplex* autoconv, int fftlen, float*
 		shiftbuf[x] = autoconv[(x+nr)%(nr*2)].x;
 	}
 
-	compute_t maxPos = ComputeMaxInterp<compute_t>::Compute(shiftbuf, fftlen);
+	const float QIWeights[QI_LSQFIT_NWEIGHTS] = QI_LSQFIT_WEIGHTS;
+
+	compute_t maxPos = ComputeMaxInterp<compute_t>::Compute(shiftbuf, fftlen, QIWeights);
 	compute_t offset = (maxPos - nr) / (3.14159265359f * 0.5f);
 	return offset;
 }
@@ -398,7 +400,8 @@ __global__ void ZLUT_ComputeZ (int njobs, ZLUTParams params, float3* positions, 
 	if (jobIdx < njobs && (locParams[jobIdx].locType & LT_LocalizeZ)) {
 		float* cmp = &compareScoreBuf [params.planes * jobIdx];
 
-		float maxPos = ComputeMaxInterp<float>::Compute(cmp, params.planes);
+		const float ZLUTFittingWeights[ZLUT_LSQFIT_NWEIGHTS] = ZLUT_LSQFIT_WEIGHTS;
+		float maxPos = ComputeMaxInterp<float, ZLUT_LSQFIT_NWEIGHTS>::Compute(cmp, params.planes, ZLUTFittingWeights);
 		positions[jobIdx].z = maxPos;
 	}
 }

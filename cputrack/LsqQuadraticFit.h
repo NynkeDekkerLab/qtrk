@@ -59,22 +59,6 @@ public:
 		return -b/(2*a);
 	}
    
-	template<int numPts>
-	LSQFIT_FUNC void fromArray(T* data, int len, float pos)
-	{
-		int iPos = (int)pos;
-		T xs[numPts]; 
-		int startPos = max_(iPos-numPts/2, 0);
-		int endPos = min_(iPos+(numPts-numPts/2), len);
-		int numpoints = endPos - startPos;
-		
-		for(int i=startPos;i<endPos;i++)
-			xs[i-startPos] = i-iPos;
-
-		calculate(numpoints, xs, &data[startPos]);
-		xoffset = iPos;
-	}
-
 private:
 
     LSQFIT_FUNC Coeff computeSums(const T* X, const T* Y, const T* weights, uint numPts) // get sum of x
@@ -94,24 +78,26 @@ private:
 		T Sx = 0, Sy = 0;
 		T Sx2 = 0, Sx3 = 0;
 		T Sxy = 0, Sx4=0, Sx2y=0;
+		T Sw = 0;
         for (uint i=0;i<numPts;i++)
         {
 			T x = X[i];
 			T y = Y[i];
 			Sx += x*weights[i];
             Sy += y*weights[i];
-			T sq = x*x*weights[i];
+			T sq = x*x;
 			Sx2 += x*x*weights[i];
 			Sx3 += sq*x*weights[i];
 			Sx4 += sq*sq*weights[i];
 			Sxy += x*y*weights[i];
 			Sx2y += sq*y*weights[i];
+			Sw += weights[i];
         }
 
 		Coeff co;
 		co.s10 = Sx; co.s20 = Sx2; co.s30 = Sx3; co.s40 = Sx4;
 		co.s01 = Sy; co.s11 = Sxy; co.s21 = Sx2y;
-		co.s00 = numPts;
+		co.s00 = Sw;
         return co;
     }
 

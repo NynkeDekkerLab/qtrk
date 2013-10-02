@@ -660,7 +660,7 @@ int main()
 {
 	const int N=5;
 	float x[N],y[N],w[N]={0.1f, 0.5f, 1.0f, 0.4f, 0.1f };
-	for (int i=0;i<N;i++) { x[i]=i-2; y[i]=x[i]*x[i]-2*x[i]+1.0f; w[i]=1.0f; }
+	for (int i=0;i<N;i++) { x[i]=i-2; y[i]=x[i]*x[i]-2*x[i]+1.0f; }
 	LsqSqQuadFit<float> fit(N, x, y, w);
 	dbgprintf("f(1)(fit) = %f.  f(1)=%f\n", fit.compute(1.0f), sq(1)-2*1+1);
 	LsqSqQuadFit<float> fit2(N, x, y, w);
