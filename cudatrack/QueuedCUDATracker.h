@@ -182,7 +182,7 @@ protected:
 	KernelParams kernelParams;
 
 	Threads::Handle *schedulingThread;
-	volatile bool quitScheduler;
+	Atomic<bool> quitScheduler;
 	void SchedulingThreadMain();
 	static void SchedulingThreadEntryPoint(void *param);
 
