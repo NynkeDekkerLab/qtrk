@@ -4,6 +4,8 @@
 #include "threads.h"
 #include "random_distr.h"
 
+static const float LsqFit5Weights[] = { 0.3f, 0.85f, 1.0f, 0.85f, 0.3f };
+
 // Builds a fisher matrix for a localization ZLUT
 class LUTFisherMatrix
 {
@@ -212,7 +214,7 @@ public:
 				prof[p]=LUT(p+minZ,r);
 			}
 
-			LsqSqQuadFit<float> qfit(NumZPlanes, zplanes, prof);
+			LsqSqQuadFit<float> qfit(NumZPlanes, zplanes, prof, LsqFit5Weights);
 //			dzProfile[r] = prof1[r] - prof0[r]; // TODO: interpolate this stuff
 			dzProfile[r] = qfit.computeDeriv(z-minZ);
 

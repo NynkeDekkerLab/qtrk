@@ -31,6 +31,9 @@ static int round(xcor_t f) { return (int)(f+0.5f); }
 template<typename T>
 T conjugate(const T &v) { return T(v.real(),-v.imag()); }
 
+const float QIWeights[QI_LSQFIT_NWEIGHTS] = QI_LSQFIT_WEIGHTS;
+const float ZLUTWeights[ZLUT_LSQFIT_NWEIGHTS] = ZLUT_LSQFIT_WEIGHTS;
+
 CPUTracker::CPUTracker(int w, int h, int xcorwindow)
 {
 	width = w;
@@ -76,10 +79,10 @@ void CPUTracker::SetImageFloat(float *src)
 	mean=0.0f;
 }
 
-void CPUTracker::ApplyOffsetGain(float* offset, float *gain) 
+void CPUTracker::ApplyOffsetGain(float* offset, float *gain, float offsetFactor, float gainFactor) 
 {
 	for (int i=0;i<width*height;i++)
-		srcImage[i] = (srcImage[i]+offset[i])*gain[i];
+		srcImage[i] = (srcImage[i]+offset[i]*offsetFactor)*gain[i]*gainFactor;
 }
 
 
@@ -208,7 +211,7 @@ vector2f CPUTracker::ComputeXCorInterpolated(vector2f initial, int iterations, i
 		}
 
 		xcorBuffer->XCorFFTHelper(prof, prof_rev, prof_autocor);
-		xcor_t offsetX = ComputeMaxInterp<float>::Compute(prof_autocor, xcorw) - (xcor_t)xcorw/2;
+		xcor_t offsetX = ComputeMaxInterp<float,QI_LSQFIT_NWEIGHTS>::Compute(prof_autocor, xcorw, QIWeights) - (xcor_t)xcorw/2;
 
 		// generate Y position xcor array (summing over x range)
 		for (int y=0;y<xcorw;y++) {
@@ -229,7 +232,7 @@ vector2f CPUTracker::ComputeXCorInterpolated(vector2f initial, int iterations, i
 
 		xcorBuffer->XCorFFTHelper(prof,prof_rev, prof_autocor);
 		//WriteImageAsCSV("xcorautoconv.txt",&xcorBuffer->Y_result[0],xcorBuffer->Y_result.size(),1);
-		xcor_t offsetY = ComputeMaxInterp<xcor_t>::Compute(prof_autocor, xcorw) - (xcor_t)xcorw/2;
+		xcor_t offsetY = ComputeMaxInterp<xcor_t, QI_LSQFIT_NWEIGHTS>::Compute(prof_autocor, xcorw, QIWeights) - (xcor_t)xcorw/2;
 
 		pos.x += (offsetX - 1) * XCorScale * 0.5f;
 		pos.y += (offsetY - 1) * XCorScale * 0.5f;
@@ -369,7 +372,7 @@ CPUTracker::qi_t CPUTracker::QI_ComputeOffset(CPUTracker::qic_t* profile, int nr
 		autoconv[x] = fft_out2[(x+nr)%(nr*2)].real();
 	}
 
-	float maxPos = ComputeMaxInterp<xcor_t>::Compute(autoconv, nr*2);
+	float maxPos = ComputeMaxInterp<qi_t, QI_LSQFIT_NWEIGHTS>::Compute(autoconv, nr*2, QIWeights);
 	return (maxPos - nr) / (3.14159265359f * 0.5f);
 }
 
@@ -657,7 +660,7 @@ float CPUTracker::ComputeZ(vector2f center, int angularSteps, int zlutIndex, boo
 
 	//WriteImageAsCSV("zlutcmp-cpu.txt", rprof_diff, zlut_planes, 1);
 
-	float z = ComputeMaxInterp<xcor_t>::Compute(rprof_diff, zlut_planes);
+	float z = ComputeMaxInterp<float, ZLUT_LSQFIT_NWEIGHTS>::Compute(rprof_diff, zlut_planes, ZLUTWeights);
 	return z;
 }
 

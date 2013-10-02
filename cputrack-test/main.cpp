@@ -4,6 +4,7 @@
 #include "../cputrack/QueuedCPUTracker.h"
 #include "../cputrack/FisherMatrix.h"
 #include "../cputrack/BeadFinder.h"
+#include "../cputrack/LsqQuadraticFit.h"
 #include <time.h>
 
 #include "SharedTests.h"
@@ -259,7 +260,9 @@ void PixelationErrorTest()
 		vector2f initial(X,Y);
 		bool boundaryHit = false;
 		vector2f xcorInterp = tracker->ComputeXCorInterpolated(initial, 3, 32, boundaryHit);
-		dbgout(SPrintf("xpos:%f, COM err: %f, XCorInterp err: %f\n", xpos, com.x-xpos, xcorInterp.x-xpos));
+		vector2f qipos = tracker->ComputeQI(initial, 3, tracker->GetWidth(), 128, 1, 2.0f, tracker->GetWidth()/2-10, boundaryHit);
+		dbgprintf("xpos:%f, COM err: %f, XCorInterp err: %f. QI err: %f\n", xpos, com.x-xpos, xcorInterp.x-xpos, qipos.x-xpos);
+
 	}
 	delete tracker;
 }
@@ -645,7 +648,7 @@ void GainCorrectionLUTTest(const char *lutfile)
 	QTrkSettings cfg;
 	QueuedCPUTracker qtrk (cfg);
 
-	qtrk.SetZLUT(0, 1, 100);
+	qtrk.SetRadialZLUT(0, 1, 100);
 	EnableGainCorrection(&qtrk);
 
 	ImageData lut = ReadJPEGFile(lutfile);
@@ -655,12 +658,21 @@ void GainCorrectionLUTTest(const char *lutfile)
 
 int main()
 {
+	const int N=5;
+	float x[N],y[N],w[N]={0.1f, 0.5f, 1.0f, 0.4f, 0.1f };
+	for (int i=0;i<N;i++) { x[i]=i-2; y[i]=x[i]*x[i]-2*x[i]+1.0f; w[i]=1.0f; }
+	LsqSqQuadFit<float> fit(N, x, y, w);
+	dbgprintf("f(1)(fit) = %f.  f(1)=%f\n", fit.compute(1.0f), sq(1)-2*1+1);
+	LsqSqQuadFit<float> fit2(N, x, y, w);
+	dbgprintf("f(1) = %f\n", fit2.compute(1.0f));
+
+
 	//TestFisher("lut000.jpg");
 
 //	QTrkTest();
-	TestCMOSNoiseInfluence<QueuedCPUTracker>("lut000.jpg");
+//	TestCMOSNoiseInfluence<QueuedCPUTracker>("lut000.jpg");
 
-	GainCorrectionLUTTest("lut000.jpg");
+//	GainCorrectionLUTTest("lut000.jpg");
 
 	//AutoBeadFindTest();
 	//Gauss2DTest<QueuedCPUTracker>();

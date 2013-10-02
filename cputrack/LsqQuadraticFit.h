@@ -24,9 +24,9 @@ public:
 		}
 	};
 
-	LSQFIT_FUNC LsqSqQuadFit(uint numPts, const T* xval, const T* yval)
+	LSQFIT_FUNC LsqSqQuadFit(uint numPts, const T* xval, const T* yval, const T* weights=0)
 	{
-		calculate(numPts, xval, yval);
+		calculate(numPts, xval, yval, weights);
 		xoffset =0;
 	}
 
@@ -36,9 +36,9 @@ public:
 		xoffset =0;
 	}
 
-	LSQFIT_FUNC void calculate(uint numPts, const T* X, const T* Y)
+	LSQFIT_FUNC void calculate(uint numPts, const T* X, const T* Y, const T* weights)
 	{
-		Coeff co = computeSums(X, Y, numPts);
+		Coeff co = computeSums(X, Y, weights, numPts);
 		co.abc(a,b,c,d);
 	}
     
@@ -71,13 +71,13 @@ public:
 		for(int i=startPos;i<endPos;i++)
 			xs[i-startPos] = i-iPos;
 
-		Calculate(numpoints, xs, &data[startPos]);
+		calculate(numpoints, xs, &data[startPos]);
 		xoffset = iPos;
 	}
 
 private:
 
-    LSQFIT_FUNC Coeff computeSums(const T* X, const T* Y, uint numPts) // get sum of x
+    LSQFIT_FUNC Coeff computeSums(const T* X, const T* Y, const T* weights, uint numPts) // get sum of x
     {
         //notation sjk to mean the sum of x_i^j*y_i^k. 
     /*    s40 = getSx4(); //sum of x^4
@@ -98,14 +98,14 @@ private:
         {
 			T x = X[i];
 			T y = Y[i];
-			Sx += x;
-            Sy += y;
-			T sq = x*x;
-			Sx2 += x*x;
-			Sx3 += sq*x;
-			Sx4 += sq*sq;
-			Sxy += x*y;
-			Sx2y += sq*y;
+			Sx += x*weights[i];
+            Sy += y*weights[i];
+			T sq = x*x*weights[i];
+			Sx2 += x*x*weights[i];
+			Sx3 += sq*x*weights[i];
+			Sx4 += sq*sq*weights[i];
+			Sxy += x*y*weights[i];
+			Sx2y += sq*y*weights[i];
         }
 
 		Coeff co;
@@ -124,7 +124,7 @@ public:
 	static LSQFIT_FUNC T max_(T a, T b) { return a>b ? a : b; }
 	static LSQFIT_FUNC T min_(T a, T b) { return a<b ? a : b; }
 
-	static LSQFIT_FUNC T Compute(T* data, int len)
+	static LSQFIT_FUNC T Compute(T* data, int len, const  T* weights)
 	{
 		int iMax=0;
 		T vMax=data[0];
@@ -145,7 +145,7 @@ public:
 			for(int i=startPos;i<endPos;i++)
 				xs[i-startPos] = i-iMax;
 
-			LsqSqQuadFit<T> qfit(numpoints, xs, &data[startPos]);
+			LsqSqQuadFit<T> qfit(numpoints, xs, &data[startPos], weights);
 			//printf("iMax: %d. qfit: data[%d]=%f\n", iMax, startPos, data[startPos]);
 			//for (int k=0;k<numpoints;k++) {
 		//		printf("data[%d]=%f\n", startPos+k, data[startPos]);

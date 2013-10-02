@@ -84,7 +84,7 @@ public:
 	float ComputeZ(vector2f center, int angularSteps, int zlutIndex, bool crp, bool* boundaryHit=0, float* profile=0, float* cmpprof=0, bool normalizeProfile=true ); // radialSteps is given by zlut_res
 	float* GetDebugImage() { return debugImage; }
 
-	void ApplyOffsetGain(float *offset, float *gain);
+	void ApplyOffsetGain(float *offset, float *gain, float offsetFactor, float gainFactor);
 };
 
 

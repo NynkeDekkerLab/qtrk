@@ -189,3 +189,12 @@ QueuedTracker* CreateQueuedTracker(const QTrkComputedConfig& cc);
 void DestroyQueuedTracker(QueuedTracker* qtrk); 
 void SetCUDADevices(int *devices, int numdev); // empty for CPU tracker
 
+
+
+// Polynomial least-square fit weights, used for Z and QI fitting
+// Changes to this require rebuild of code
+#define QI_LSQFIT_WEIGHTS { 0.14f, 0.5f, 0.85f, 1.0f, 0.85f, 0.5f, 0.14f }
+#define QI_LSQFIT_NWEIGHTS 7
+
+#define ZLUT_LSQFIT_WEIGHTS { 0.14f, 0.5f, 0.85f, 1.0f, 0.85f, 0.5f, 0.14f }
+#define ZLUT_LSQFIT_NWEIGHTS 7
