@@ -43,9 +43,15 @@ std::string GetLocalModulePath()
 	return GetDirectoryFromPath(dllpath);
 }
 
-void DestroyQueuedTracker(QueuedTracker* qtrk)
-{
-	delete qtrk;
+	
+std::string file_ext(const char *f){
+	int l=strlen(f)-1;
+	while (l > 0) {
+		if (f[l] == '.')
+			return &f[l+1];
+		l--;
+	}
+	return "";
 }
 
 
@@ -77,7 +83,7 @@ void dbgprintf(const char *fmt,...) {
 	va_end(ap);
 }
 
-void GenerateTestImage(ImageData img, float xp, float yp, float size, float SNratio)
+void GenerateTestImage(ImageData& img, float xp, float yp, float size, float SNratio)
 {
 	float S = 1.0f/sqrt(size);
 	for (int y=0;y<img.h;y++) {

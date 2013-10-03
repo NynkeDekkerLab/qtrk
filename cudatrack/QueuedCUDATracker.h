@@ -76,6 +76,10 @@ public:
 	void GetRadialZLUTSize(int& count, int& planes, int &radialSteps) override;
 	int FetchResults(LocalizationResult* results, int maxResults) override;
 
+	void GetImageZLUTSize(int* dims);
+	void GetImageZLUT(float* dst);
+	void SetImageZLUT(float* dst, int* dims);
+
 	std::string GetProfileReport() override;
 
 	// Force the current waiting batch to be processed. Useful when number of localizations is not a multiple of internal batch size (almost always)
@@ -96,13 +100,13 @@ protected:
 	struct Device {
 		Device(int index) {
 			this->index=index; 
-			zlut=calib_offset=calib_gain=cudaImageListf::emptyList(); 
+			radial_zlut=calib_offset=calib_gain=cudaImageListf::emptyList(); 
 		}
 		~Device(); 
 		void SetRadialZLUT(float *data, int radialsteps, int planes, int numLUTs, float* zcmp);
 		void SetPixelCalibrationImages(float* offset, float* gain, int img_width, int img_height);
 
-		cudaImageListf zlut;
+		cudaImageListf radial_zlut;
 		cudaImageListf calib_offset, calib_gain;
 		device_vec<float> zcompareWindow;
 		device_vec<float2> qi_trigtable;

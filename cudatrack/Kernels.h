@@ -303,7 +303,7 @@ __global__ void ZLUT_ProfilesToZLUT(int njobs, cudaImageListf images, ZLUTParams
 
 	if (idx < njobs) {
 		auto m = locParams[idx];
-		if (m.locType & LT_BuildZLUT) {
+		if (m.locType & LT_BuildRadialZLUT) {
 			float* dst = params.GetRadialZLUT(m.zlutIndex, m.zlutPlane );
 
 			for (int i=0;i<params.radialSteps();i++)

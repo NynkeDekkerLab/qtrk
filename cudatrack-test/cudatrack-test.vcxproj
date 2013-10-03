@@ -125,6 +125,8 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     <ClInclude Include="..\cudatrack\Kernels.h" />
     <ClInclude Include="..\cudatrack\QueuedCUDATracker.h" />
     <ClInclude Include="..\cudatrack\simplefft.h" />
+    <ClInclude Include="..\utils\ExtractBeadImages.h" />
+    <ClInclude Include="..\utils\tinydir.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cputrack\cpu_tracker.cpp" />
@@ -134,6 +136,7 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     <ClCompile Include="..\cputrack\TeLibJpeg\jmemdst.c" />
     <ClCompile Include="..\cputrack\TeLibJpeg\jmemsrc.c" />
     <ClCompile Include="..\cputrack\utils.cpp" />
+    <ClCompile Include="..\utils\ExtractBeadImages.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

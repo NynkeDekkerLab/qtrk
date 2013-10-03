@@ -128,7 +128,7 @@ void QTrkCompareTest()
 
 	QueuedCUDATracker qtrk(cfg, batchSize);
 	QueuedCPUTracker qtrkcpu(cfg);
-	float *image = new float[cfg.width*cfg.height];
+	ImageData img = ImageData::alloc(cfg.width,cfg.height);
 	bool cpucmp = true;
 
 	qtrk.EnableTextureCache(true);
@@ -144,15 +144,15 @@ void QTrkCompareTest()
 		for (int x=0;x<zplanes;x++)  {
 			vector2f center ( cfg.width/2, cfg.height/2 );
 			float s = zmin + (zmax-zmin) * x/(float)(zplanes-1);
-			GenerateTestImage(ImageData(image, cfg.width, cfg.height), center.x, center.y, s, 0.0f);
-			FloatToJPEGFile("qtrkzlutimg.jpg", image, cfg.width,cfg.height);
-			LocalizeType flags = (LocalizeType)(LT_BuildZLUT|LT_OnlyCOM);
+			GenerateTestImage(img, center.x, center.y, s, 0.0f);
+			WriteJPEGFile("qtrkzlutimg.jpg", img);
+			LocalizeType flags = (LocalizeType)(LT_BuildRadialZLUT|LT_OnlyCOM);
 			LocalizationJob jobInfo;
 			jobInfo.frame = jobInfo.zlutPlane = x;
 			jobInfo.locType = flags;
 			jobInfo.zlutIndex = 0;
-			qtrk.ScheduleLocalization((uchar*)image, cfg.width*sizeof(float),QTrkFloat, &jobInfo);
-			if (cpucmp) qtrkcpu.ScheduleLocalization((uchar*)image, cfg.width*sizeof(float),QTrkFloat, &jobInfo);
+			qtrk.ScheduleLocalization((uchar*)img.data, cfg.width*sizeof(float),QTrkFloat, &jobInfo);
+			if (cpucmp) qtrkcpu.ScheduleLocalization((uchar*)img.data, cfg.width*sizeof(float),QTrkFloat, &jobInfo);
 		}
 		qtrk.Flush();
 		if (cpucmp) qtrkcpu.Flush();
@@ -184,7 +184,7 @@ void QTrkCompareTest()
 	
 	// Schedule images to localize on
 	dbgprintf("Benchmarking...\n", total);
-	GenerateTestImage(ImageData(image, cfg.width, cfg.height), cfg.width/2, cfg.height/2, (zmin+zmax)/2, 0);
+	GenerateTestImage(img, cfg.width/2, cfg.height/2, (zmin+zmax)/2, 0);
 	double tstart = GetPreciseTime();
 	int rc = 0, displayrc=0;
 	for (int n=0;n<total;n++) {
@@ -193,8 +193,8 @@ void QTrkCompareTest()
 		jobInfo.frame = n;
 		jobInfo.locType = flags;
 		jobInfo.zlutIndex = 0;
-		qtrk.ScheduleLocalization((uchar*)image, cfg.width*sizeof(float), QTrkFloat,&jobInfo);
-		if (cpucmp) qtrkcpu.ScheduleLocalization((uchar*)image, cfg.width*sizeof(float), QTrkFloat, &jobInfo);
+		qtrk.ScheduleLocalization((uchar*)img.data, cfg.width*sizeof(float), QTrkFloat,&jobInfo);
+		if (cpucmp) qtrkcpu.ScheduleLocalization((uchar*)img.data, cfg.width*sizeof(float), QTrkFloat, &jobInfo);
 		if (n % 10 == 0) {
 			rc = qtrk.GetResultCount();
 			while (displayrc<rc) {
@@ -224,7 +224,7 @@ void QTrkCompareTest()
 	}
 	
 
-	delete[] image;
+	img.free();
 
 	const int NumResults = 20;
 	LocalizationResult results[NumResults], resultscpu[NumResults];
@@ -258,6 +258,7 @@ void listDevices()
 	for (int k=0;k<dc;k++) {
 		cudaGetDeviceProperties(&prop, k);
 		dbgprintf("Device[%d] = %s\n", k, prop.name);
+		dbgprintf("\tMax texture width: %d\n" ,prop.maxTexture2D[0]);
 	}
 
 }
@@ -312,7 +313,7 @@ __global__ void emptyKernel()
 
 float SpeedTest(const QTrkSettings& cfg, QueuedTracker* qtrk, int count, bool haveZLUT, LocalizeType locType, float* scheduleTime, bool gaincorrection=false)
 {
-	float *image = new float[cfg.width*cfg.height];
+	ImageData img=ImageData::alloc(cfg.width,cfg.height);
 	srand(1);
 
 	// Generate ZLUT
@@ -324,12 +325,12 @@ float SpeedTest(const QTrkSettings& cfg, QueuedTracker* qtrk, int count, bool ha
 		for (int x=0;x<zplanes;x++)  {
 			vector2f center( cfg.width/2, cfg.height/2 );
 			float s = zmin + (zmax-zmin) * x/(float)(zplanes-1);
-			GenerateTestImage(ImageData(image, cfg.width, cfg.height), center.x, center.y, s, 0.0f);
+			GenerateTestImage(img, center.x, center.y, s, 0.0f);
 			LocalizationJob job;
 			job.frame = 0;
-			job.locType = LT_BuildZLUT|LT_OnlyCOM;
+			job.locType = LT_BuildRadialZLUT|LT_OnlyCOM;
 			job.zlutPlane = job.frame = x;
-			qtrk->ScheduleLocalization((uchar*)image, cfg.width*sizeof(float),QTrkFloat, &job);
+			qtrk->ScheduleLocalization((uchar*)img.data, cfg.width*sizeof(float),QTrkFloat, &job);
 		}
 		qtrk->Flush();
 		// wait to finish ZLUT
@@ -344,7 +345,7 @@ float SpeedTest(const QTrkSettings& cfg, QueuedTracker* qtrk, int count, bool ha
 	
 	// Schedule images to localize on
 	dbgprintf("Benchmarking...\n", count);
-	GenerateTestImage(ImageData(image, cfg.width, cfg.height), cfg.width/2, cfg.height/2, (zmin+zmax)/2, 0);
+	GenerateTestImage(img, cfg.width/2, cfg.height/2, (zmin+zmax)/2, 0);
 	double tstart = GetPreciseTime();
 	int rc = 0, displayrc=0;
 	double maxScheduleTime = 0.0f;
@@ -357,7 +358,7 @@ float SpeedTest(const QTrkSettings& cfg, QueuedTracker* qtrk, int count, bool ha
 		///qtrk->ScheduleLocalization((uchar*)image, cfg.width*sizeof(float), QTrkFloat, flags, n, 0, 0, 0, 0);
 		ROIPosition roipos[]={ {0,0} };
 		LocalizationJob job(flags, n, 0, 0,0);
-		qtrk->ScheduleFrame((uchar*)image, cfg.width*sizeof(float),cfg.width,cfg.height, roipos, 1, QTrkFloat, &job);
+		qtrk->ScheduleFrame((uchar*)img.data, cfg.width*sizeof(float),cfg.width,cfg.height, roipos, 1, QTrkFloat, &job);
 		double dt = GetPreciseTime() - t0;
 		maxScheduleTime = std::max(maxScheduleTime, dt);
 		sumScheduleTime += dt;
@@ -383,7 +384,7 @@ float SpeedTest(const QTrkSettings& cfg, QueuedTracker* qtrk, int count, bool ha
 	
 	// Measure speed
 	double tend = GetPreciseTime();
-	delete[] image;
+	img.free();
 
 	float mean = sumScheduleTime / count;
 	float stdev = sqrt(sumScheduleTime2 / count - mean * mean);
@@ -477,7 +478,7 @@ void ProfileSpeedVsROI()
 
 std::vector<vector3f> LocalizeGeneratedImages(const QTrkSettings& cfg, QueuedTracker* qtrk, bool haveZLUT, LocalizeType locType, std::vector<vector3f> positions)
 {
-	float *image = new float[cfg.width*cfg.height];
+	ImageData img = ImageData::alloc(cfg.width,cfg.height);
 	srand(1);
 
 	// Generate ZLUT
@@ -489,9 +490,9 @@ std::vector<vector3f> LocalizeGeneratedImages(const QTrkSettings& cfg, QueuedTra
 		for (int x=0;x<zplanes;x++)  {
 			vector2f center( cfg.width/2, cfg.height/2 );
 			float s = zmin + (zmax-zmin) * x/(float)(zplanes-1);
-			GenerateTestImage(ImageData(image, cfg.width, cfg.height), center.x, center.y, s, 0.0f);
-			LocalizeType flags = (LocalizeType)(LT_BuildZLUT|LT_QI|LT_NormalizeProfile);
-			qtrk->ScheduleLocalization((uchar*)image, cfg.width*sizeof(float),QTrkFloat, flags , x, 0,0, 0, x);
+			GenerateTestImage(img, center.x, center.y, s, 0.0f);
+			LocalizeType flags = (LocalizeType)(LT_BuildRadialZLUT|LT_QI|LT_NormalizeProfile);
+			qtrk->ScheduleLocalization((uchar*)img.data, cfg.width*sizeof(float),QTrkFloat, flags , x, 0,0, 0, x);
 		}
 		qtrk->Flush();
 		// wait to finish ZLUT
@@ -505,9 +506,9 @@ std::vector<vector3f> LocalizeGeneratedImages(const QTrkSettings& cfg, QueuedTra
 		vector3f pos = positions[n];
 		LocalizeType flags = (LocalizeType)(locType| (haveZLUT ? LT_LocalizeZ : 0) );
 		float s = zmin + (zmax-zmin) * pos.z/zplanes;
-		GenerateTestImage(ImageData(image, cfg.width, cfg.height), cfg.width/2 + pos.x, cfg.height/2 + pos.y, s, 0);
+		GenerateTestImage(img, cfg.width/2 + pos.x, cfg.height/2 + pos.y, s, 0);
 		//if (n<5) FloatToJPEGFile(SPrintf("tracker-%d.jpg", n).c_str(), image, cfg.width,cfg.height);
-		qtrk->ScheduleLocalization((uchar*)image, cfg.width*sizeof(float), QTrkFloat, flags, n, 0, 0, 0, 0);
+		qtrk->ScheduleLocalization((uchar*)img.data, cfg.width*sizeof(float), QTrkFloat, flags, n, 0, 0, 0, 0);
 	}
 	qtrk->Flush();
 	while (qtrk->GetResultCount() != count) Sleep(10);
@@ -522,7 +523,7 @@ std::vector<vector3f> LocalizeGeneratedImages(const QTrkSettings& cfg, QueuedTra
 		resultPos[i] = results[i].pos;
 	}
 
-	delete[] image;
+	img.free();
 	return resultPos;
 }
 
@@ -688,14 +689,14 @@ void BasicQTrkTest()
 	QueuedCUDATracker qtrk(cc);
 
 	float zmin=1,zmax=5;
-	float* image=new float[cc.width*cc.height];
-	GenerateTestImage(ImageData(image, cc.width, cc.height), cc.width/2, cc.height/2, (zmin+zmax)/2, 0);
+	ImageData img = ImageData::alloc(cc.width,cc.height);
+	GenerateTestImage(img, cc.width/2, cc.height/2, (zmin+zmax)/2, 0);
 	
 	int N=4000;
 	for (int i=0;i<N;i++)
 	{
 		LocalizationJob job ( LocalizeType(LT_QI|LT_NormalizeProfile), i, 0, 0, 0);
-		qtrk.ScheduleLocalization((uchar*)image, sizeof(float)*cc.width, QTrkFloat, &job);
+		qtrk.ScheduleLocalization((uchar*)img.data, sizeof(float)*cc.width, QTrkFloat, &job);
 	}
 
 	double t0 = GetPreciseTime();
@@ -711,7 +712,7 @@ void BasicQTrkTest()
 	double t1 = GetPreciseTime();
 
 	dbgprintf("Speed: %d imgs/s (Only QI)", (int)(N / (t1-t0)));
-	delete[] image;
+	img.free();
 }
 
 void TestGauss2D(bool calib)

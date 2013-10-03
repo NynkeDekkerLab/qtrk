@@ -17,7 +17,7 @@ static void ResampleLUT(QueuedTracker* qtrk, ImageData* lut, float zlutMinRadius
 		GenerateImageFromLUT(&img, lut, zlutMinRadius, zlutMaxRadius, vector2f(cfg.width/2, cfg.height/2), i/(float)zplanes * lut->h, 1.0f);
 		img.normalize();
 
-		LocalizationJob job((LocalizeType)(LT_QI|LT_BuildZLUT|LT_NormalizeProfile), i, 0, i,0);
+		LocalizationJob job((LocalizeType)(LT_QI|LT_BuildRadialZLUT|LT_NormalizeProfile), i, 0, i,0);
 		qtrk->ScheduleLocalization((uchar*)img.data, sizeof(float)*img.w, QTrkFloat, &job);
 	}
 	img.free();
@@ -76,7 +76,6 @@ void TestCMOSNoiseInfluence(const char *lutfile)
 	ImageData lut = ReadJPEGFile(lutfile);
 	ImageData img = ImageData::alloc(120,120);
 
-	float z = 30.0f;
 	QTrkSettings cfg;
 	cfg.width = img.w; cfg.height = img.h;
 	TrackerType trk(cfg);

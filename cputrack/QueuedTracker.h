@@ -22,8 +22,9 @@ enum LocalizeType {
 
 	LT_2DMask = 15,
 	LT_LocalizeZ = 16,
-	LT_BuildZLUT = 32,
+	LT_BuildRadialZLUT = 32,
 	LT_NormalizeProfile = 64,
+	LT_BuildImageLUT = 128,
 	LT_Force32Bit = 0xffffffff
 };
 
@@ -163,6 +164,12 @@ public:
 	virtual void SetRadialZLUT(float* data, int count, int planes, float* zcmp=0) = 0; 
 	virtual void GetRadialZLUT(float* dst) = 0; // delete[] memory afterwards
 	virtual void GetRadialZLUTSize(int& count, int& planes, int& radialsteps) = 0;
+
+	// dims = [ count, planes, height, width ]  (Just like how the data is ordered)
+	virtual void GetImageZLUTSize(int* dims) {}
+	virtual void GetImageZLUT(float* dst) {}
+	virtual void SetImageZLUT(float* dst, int* dims) {}
+
 	virtual int GetResultCount() = 0;
 	virtual int FetchResults(LocalizationResult* results, int maxResults) = 0;
 
@@ -185,8 +192,6 @@ public:
 
 void CopyImageToFloat(uchar* data, int width, int height, int pitch, QTRK_PixelDataType pdt, float* dst);
 QueuedTracker* CreateQueuedTracker(const QTrkComputedConfig& cc);
-// if the tracker code is in a different DLL, you cannot call delete on the tracker instance. (DLLs do not share the memory heap with the host app)
-void DestroyQueuedTracker(QueuedTracker* qtrk); 
 void SetCUDADevices(int *devices, int numdev); // empty for CPU tracker
 
 

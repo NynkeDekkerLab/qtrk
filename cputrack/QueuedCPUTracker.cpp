@@ -291,7 +291,7 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 	bool normalizeProfile = (j->job.LocType() & LT_NormalizeProfile)!=0;
 	if(j->job.LocType() & LT_LocalizeZ) {
 		result.pos.z = trk->ComputeZ(result.pos2D(), cfg.zlut_angularsteps, j->job.zlutIndex, false, &boundaryHit, 0, 0, normalizeProfile );
-	} else if (j->job.LocType() & LT_BuildZLUT) {
+	} else if (j->job.LocType() & LT_BuildRadialZLUT) {
 		float* zlut = GetZLUTByIndex(j->job.zlutIndex);
 		trk->ComputeRadialProfile(&zlut[j->job.zlutPlane * cfg.zlut_radialsteps], cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, result.pos2D(), false, &boundaryHit, normalizeProfile);
 	}
@@ -386,9 +386,9 @@ void QueuedCPUTracker::ScheduleLocalization(uchar* data, int pitch, QTRK_PixelDa
 	j->dataType = pdt;
 	j->job = *jobInfo;
 	if (!zluts || jobInfo->zlutIndex < 0 || jobInfo->zlutIndex>=this->zlut_count || 
-		( (jobInfo->locType&LT_BuildZLUT) && ( jobInfo->zlutPlane < 0 || jobInfo->zlutPlane >= this->zlut_planes) ))
+		( (jobInfo->locType&LT_BuildRadialZLUT) && ( jobInfo->zlutPlane < 0 || jobInfo->zlutPlane >= this->zlut_planes) ))
 	{
-		j->job.locType &= ~(LT_BuildZLUT|LT_LocalizeZ);
+		j->job.locType &= ~(LT_BuildRadialZLUT|LT_LocalizeZ);
 	}
 
 	AddJob(j);

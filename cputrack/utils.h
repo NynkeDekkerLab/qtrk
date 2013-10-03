@@ -55,19 +55,7 @@ inline float Interpolate(float* image, int width, int height, float x,float y, b
 
 struct ImageData;
 
-// Corrected Radial Profile
-float ComputeBgCorrectedCOM1D(float *data, int len, float cf=2.0f);
-void ComputeCRP(float* dst, int radialSteps, int angularSteps, float minradius, float maxradius, vector2f center, ImageData* src,float mean, float*crpmap=0);
-void ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float minradius, float maxradius, vector2f center, ImageData* src, float mean, bool normalize);
-void NormalizeRadialProfile(float* prof, int rsteps);
-void NormalizeZLUT(float *zlut, int numLUTs, int planes, int radialsteps);
-void GenerateImageFromLUT(ImageData* image, ImageData* zlut, float minRadius, float maxRadius, vector2f pos, float z, float M);
-void ApplyPoissonNoise(ImageData& img, float factor);
-void ApplyGaussianNoise(ImageData& img, float sigma);
 void WriteImageAsCSV(const char* file, float* d, int w,int h, const char *labels[]=0);
-void WriteComplexImageAsCSV(const char* file, std::complex<float>* d, int w,int h, const char *labels[]=0);
-
-void WriteTrace(std::string file, vector3f* results, int nResults);
 
 struct ImageData {
 	float* data;
@@ -91,16 +79,30 @@ struct ImageData {
 	void writeAsCSV(const char *filename, const char *labels[]=0) { WriteImageAsCSV(filename, data, w,h,labels); }
 };
 
-void GenerateTestImage(ImageData img, float xp, float yp, float size, float MaxPhotons);
+float ComputeBgCorrectedCOM1D(float *data, int len, float cf=2.0f);
+void ComputeCRP(float* dst, int radialSteps, int angularSteps, float minradius, float maxradius, vector2f center, ImageData* src,float mean, float*crpmap=0);
+void ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float minradius, float maxradius, vector2f center, ImageData* src, float mean, bool normalize);
+void NormalizeRadialProfile(float* prof, int rsteps);
+void NormalizeZLUT(float *zlut, int numLUTs, int planes, int radialsteps);
+void GenerateImageFromLUT(ImageData* image, ImageData* zlut, float minRadius, float maxRadius, vector2f pos, float z, float M);
+void ApplyPoissonNoise(ImageData& img, float factor);
+void ApplyGaussianNoise(ImageData& img, float sigma);
+void WriteComplexImageAsCSV(const char* file, std::complex<float>* d, int w,int h, const char *labels[]=0);
+
+void WriteTrace(std::string file, vector3f* results, int nResults);
+void GenerateTestImage(ImageData& img, float xp, float yp, float size, float MaxPhotons);
 
 std::string GetLocalModuleFilename();
 std::string GetLocalModulePath();
 std::string GetDirectoryFromPath(std::string fullpath);
 
+std::string file_ext(const char *f);
+
 ImageData ReadJPEGFile(const char *fn);
 int ReadJPEGFile(uchar* srcbuf, int srclen, uchar** data, int* width, int*height);
 void WriteJPEGFile(uchar* data,int w,int h, const char * filename, int quality);
-void FloatToJPEGFile (const char *name, float* d, int w,int h);
+void FloatToJPEGFile (const char *name, const float* d, int w,int h);
+inline void WriteJPEGFile(const char *name, const ImageData& img) { FloatToJPEGFile(name, img.data, img.w,img.h); }
 int NearestPowerOf2(int v);
 int NearestPowerOf3(int v);
 void GenerateGaussianSpotImage(ImageData* img, vector2f pos, float sigma, float I0, float Ibg);
@@ -109,7 +111,7 @@ std::vector<uchar> ReadToByteBuffer(const char* filename);
 double GetPreciseTime();
 
 template<typename T>
-void floatToNormalizedInt(T* dst, float *src, uint w,uint h, T maxValue)
+void floatToNormalizedInt(T* dst, const float *src, uint w,uint h, T maxValue)
 {
 	float maxv = src[0];
 	float minv = src[0];
@@ -123,7 +125,7 @@ void floatToNormalizedInt(T* dst, float *src, uint w,uint h, T maxValue)
 
 
 template<typename T>
-T* floatToNormalizedInt(float *src, uint w,uint h, T maxValue)
+T* floatToNormalizedInt(const float *src, uint w,uint h, T maxValue)
 { 
 	T* r = new T[w*h]; 
 	floatToNormalizedInt(r,src,w,h, maxValue);

@@ -25,7 +25,7 @@ void GenerateZLUT(QueuedTracker* qtrk, float zmin, float zmax, int zplanes, cons
 		vector2f center(cfg.width/2, cfg.height/2 );
 		float s = zmin + (zmax-zmin) * x/(float)(zplanes-1);
 		GenerateTestImage(ImageData(image, cfg.width, cfg.height), center.x, center.y, s, 0.0f);
-		LocalizationJob job( (LocalizeType)(LT_BuildZLUT|LT_NormalizeProfile |LT_QI), x, 0, x, 0);
+		LocalizationJob job( (LocalizeType)(LT_BuildRadialZLUT|LT_NormalizeProfile |LT_QI), x, 0, x, 0);
 		qtrk->ScheduleLocalization((uchar*)image, cfg.width*sizeof(float),QTrkFloat, &job);
 	}
 	// wait to finish ZLUT
@@ -672,7 +672,7 @@ int main()
 //	QTrkTest();
 //	TestCMOSNoiseInfluence<QueuedCPUTracker>("lut000.jpg");
 
-//	GainCorrectionLUTTest("lut000.jpg");
+	GainCorrectionLUTTest("lut000.jpg");
 
 	//AutoBeadFindTest();
 	//Gauss2DTest<QueuedCPUTracker>();

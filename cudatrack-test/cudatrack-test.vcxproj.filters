@@ -20,6 +20,8 @@
     <ClInclude Include="..\cputrack\QueuedCPUTracker.h" />
     <ClInclude Include="..\cputrack-test\SharedTests.h" />
     <ClInclude Include="..\cputrack\DebugResultCompare.h" />
+    <ClInclude Include="..\utils\ExtractBeadImages.h" />
+    <ClInclude Include="..\utils\tinydir.h" />
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="test.cu" />
@@ -47,5 +49,6 @@
     <ClCompile Include="..\cputrack\cpu_tracker.cpp" />
     <ClCompile Include="..\cputrack\QueuedTracker.cpp" />
     <ClCompile Include="..\cputrack\QueuedCPUTracker.cpp" />
+    <ClCompile Include="..\utils\ExtractBeadImages.cpp" />
   </ItemGroup>
 </Project>
