@@ -800,7 +800,7 @@ int main(int argc, char *argv[])
 //	MultipleLUTTest();
 
 //	BasicQTrkTest();
-	TestCMOSNoiseInfluence<QueuedCUDATracker>("../cputrack-test/lut000.jpg");
+//	TestCMOSNoiseInfluence<QueuedCUDATracker>("../cputrack-test/lut000.jpg");
 
 	//QICompare("../cputrack-test/lut000.jpg");
 
