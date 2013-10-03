@@ -201,5 +201,5 @@ void SetCUDADevices(int *devices, int numdev); // empty for CPU tracker
 #define QI_LSQFIT_WEIGHTS { 0.14f, 0.5f, 0.85f, 1.0f, 0.85f, 0.5f, 0.14f }
 #define QI_LSQFIT_NWEIGHTS 7
 
-#define ZLUT_LSQFIT_WEIGHTS { 0.14f, 0.5f, 0.85f, 1.0f, 0.85f, 0.5f, 0.14f }
-#define ZLUT_LSQFIT_NWEIGHTS 7
+#define ZLUT_LSQFIT_WEIGHTS { 0.5f, 0.85f, 1.0f, 0.85f, 0.5f }
+#define ZLUT_LSQFIT_NWEIGHTS 5

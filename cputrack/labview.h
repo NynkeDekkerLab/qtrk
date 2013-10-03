@@ -1,7 +1,7 @@
 #pragma once
 
 #define _STDINT_H
-// WOW, including this causes a labview crash on DLL unloading!!
+// WOW, including this causes a labview crash on DLL unloading!! (Only if vision is not actually ran)
 // #include "nivision.h"
 #include "extcode.h"
 #include "niimaq.h"

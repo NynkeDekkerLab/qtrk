@@ -343,33 +343,55 @@ void WriteTrace(std::string filename, vector3f* results, int nResults)
 	fclose(f);
 }
 
+void WriteArrayAsCSVRow(const char *file, float* d, int len, bool append)
+{
+	FILE *f = fopen(file, append?"a":"w");
+	if(f) {
+		for (int i=0;i<len;i++)
+			fprintf(f, "%f\t", d[i]);
+
+		fprintf(f, "\n");
+		fclose(f);
+	}
+}
+
 void WriteImageAsCSV(const char* file, float* d, int w,int h, const char* labels[])
 {
 	FILE* f = fopen(file, "w");
 
-	if (labels) {
-		for (int i=0;i<w;i++) {
-			fprintf(f, "%s;\t", labels[i]);
-		}
-		fputs("\n", f);
-	}
+	if (f) {
 
-	for (int y=0;y<h;y++) {
-		for (int x=0;x<w;x++)
-		{
-			fprintf(f, "%.10f", d[y*w+x]);
-			if(x<w-1) fputs("\t", f); 
+		if (labels) {
+			for (int i=0;i<w;i++) {
+				fprintf(f, "%s;\t", labels[i]);
+			}
+			fputs("\n", f);
 		}
-		fprintf(f, "\n");
-	}
 
-	fclose(f);
+		for (int y=0;y<h;y++) {
+			for (int x=0;x<w;x++)
+			{
+				fprintf(f, "%.10f", d[y*w+x]);
+				if(x<w-1) fputs("\t", f); 
+			}
+			fprintf(f, "\n");
+		}
+
+		fclose(f);
+	}
+	else
+		dbgprintf("WriteImageAsCSV: Unable to open file %s\n", file);
 }
 
 
 void WriteComplexImageAsCSV(const char* file, std::complex<float>* d, int w,int h, const char* labels[])
 {
 	FILE* f = fopen(file, "w");
+
+	if (!f) {
+		dbgprintf("WriteComplexImageAsCSV: Unable to open file %s\n", file);
+		return;
+	}
 
 	if (labels) {
 		for (int i=0;i<w;i++) {

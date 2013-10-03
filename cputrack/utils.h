@@ -88,6 +88,7 @@ void GenerateImageFromLUT(ImageData* image, ImageData* zlut, float minRadius, fl
 void ApplyPoissonNoise(ImageData& img, float factor);
 void ApplyGaussianNoise(ImageData& img, float sigma);
 void WriteComplexImageAsCSV(const char* file, std::complex<float>* d, int w,int h, const char *labels[]=0);
+void WriteArrayAsCSVRow(const char *file, float* d, int len, bool append);
 
 void WriteTrace(std::string file, vector3f* results, int nResults);
 void GenerateTestImage(ImageData& img, float xp, float yp, float size, float MaxPhotons);
