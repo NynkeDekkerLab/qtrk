@@ -53,23 +53,6 @@ Issues:
 #include "DebugResultCompare.h"
 
 
-#ifdef QI_DEBUG
-void DbgCopyResult(device_vec<float2>& src, std::vector< std::complex<float> >& dst) {
-	cudaDeviceSynchronize();
-	std::vector<float2> x(src.size);
-	src.copyToHost(x,false,0);
-	dst.resize(src.size);
-	for(int i=0;i<x.size();i++)
-		dst[i]=std::complex<float>(x[i].x,x[i].y);
-}
-void DbgCopyResult(device_vec<float>& src, std::vector< float >& dst) {
-	cudaDeviceSynchronize();
-	src.copyToHost(dst,false,0);
-}
-#else
-void DbgCopyResult(device_vec<float2> src, std::vector< std::complex<float> >& dst) {} 
-void DbgCopyResult(device_vec<float> src, std::vector< float>& dst) {}
-#endif
 
 // Do CPU-side profiling of kernel launches?
 #define TRK_PROFILE
@@ -191,11 +174,8 @@ QueuedCUDATracker::QueuedCUDATracker(const QTrkComputedConfig& cc, int batchSize
 
 	dbgprintf("# of CUDA processors:%d. Using %d streams\n", deviceProp.multiProcessorCount, numStreams);
 	dbgprintf("Warp size: %d. Max threads: %d, Batch size: %d\n", deviceProp.warpSize, deviceProp.maxThreadsPerBlock, batchSize);
-
-	KernelParams &p = kernelParams;
-	p.com_bgcorrection = cfg.com_bgcorrection;
 	
-	ZLUTParams& zp = p.zlut;
+	ZLUTParams& zp = zlutParams;
 	zp.angularSteps = cfg.zlut_angularsteps;
 	zp.maxRadius = cfg.zlut_maxradius;
 	zp.minRadius = cfg.zlut_minradius;
@@ -214,7 +194,7 @@ QueuedCUDATracker::QueuedCUDATracker(const QTrkComputedConfig& cc, int batchSize
 		qi.InitDevice(&d->qi_instance, cfg);
 		d->zlut_trigtable = zlut_radialgrid;
 	}
-	kernelParams.zlut.img = cudaImageListf::emptyList();
+	zlutParams.img = cudaImageListf::emptyList();
 	
 	streams.reserve(numStreams);
 	try {
@@ -531,10 +511,10 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 	cudaSetDevice(d->index);
 
 	BaseKernelParams kp;
-	kp.d_imgmeans = s->d_imgmeans.data;
+	kp.imgmeans = s->d_imgmeans.data;
 	kp.images = s->images;
 	kp.njobs = s->JobCount();
-	kp.d_params = s->d_locParams.data;
+	kp.locParams = s->d_locParams.data;
 
 	cudaEventRecord(s->batchStart, s->stream);
 //	dbgprintf("copying %d jobs to gpu\n", s->JobCount());
@@ -574,7 +554,7 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 	device_vec<float3> *curpos = &s->d_com;
 	if (s->localizeFlags & LT_QI) {
 		ScopedCPUProfiler p(&cpu_time.qi);
-		qi.Execute<TImageSampler> (kp, cfg, &s->qi_instance, &s->device->qi_instance, &s->d_com, &s->d_resultpos);
+		qi.Execute (kp, cfg, &s->qi_instance, &s->device->qi_instance, &s->d_com, &s->d_resultpos, useTextureCache);
 		curpos = &s->d_resultpos;
 	}
 
@@ -724,7 +704,7 @@ void QueuedCUDATracker::Device::SetPixelCalibrationImages(float* offset, float* 
 // data can be zero to allocate ZLUT data
 void QueuedCUDATracker::SetRadialZLUT(float* data,  int numLUTs, int planes, float* zcmp) 
 {
-	kernelParams.zlut.planes = planes;
+	zlutParams.planes = planes;
 	
 	for (uint i=0;i<devices.size();i++) {
 		devices[i]->SetRadialZLUT(data, cfg.zlut_radialsteps, planes, numLUTs, zcmp);

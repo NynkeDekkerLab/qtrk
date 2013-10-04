@@ -106,6 +106,7 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <CudaCompile Include="..\cudatrack\QI.cu" />
     <CudaCompile Include="..\cudatrack\QueuedCUDATracker.cu" />
     <CudaCompile Include="test.cu" />
   </ItemGroup>
@@ -123,6 +124,7 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     <ClInclude Include="..\cudatrack\gpu_utils.h" />
     <ClInclude Include="..\cudatrack\ImageSampler.h" />
     <ClInclude Include="..\cudatrack\Kernels.h" />
+    <ClInclude Include="..\cudatrack\QI.h" />
     <ClInclude Include="..\cudatrack\QueuedCUDATracker.h" />
     <ClInclude Include="..\cudatrack\simplefft.h" />
     <ClInclude Include="..\utils\ExtractBeadImages.h" />
