@@ -3,9 +3,6 @@
 #include "ExtractBeadImages.h"
 #include "tinydir.h"
 
-typedef void (*process_image_cb)(ImageData *img, int bead, int frame);
-
-
 std::vector<BeadPos> read_beadlist(std::string fn)
 {
 	FILE *f = fopen(fn.c_str(), "r");

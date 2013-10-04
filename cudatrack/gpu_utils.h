@@ -1,5 +1,5 @@
 #pragma once
-// Simple device side vector implementation. Thrust seems to end up in template errors, and I only need a device_vector anyway.
+// Simple device side vector implementation. 
 #include <cuda_runtime.h>
 #include <vector>
 #include <cstdarg>
