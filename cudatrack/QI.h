@@ -15,6 +15,7 @@ struct QIParams {
 class QI
 {
 public:
+	// Contains all QI memory space that is allocated per stream
 	struct StreamInstance {
 		device_vec<float> d_shiftbuffer; // [QI_fftlength * njobs] ComputeMaxInterp temp space
 		device_vec<float2> d_QIprofiles;
@@ -31,7 +32,7 @@ public:
 		}
 		cudaStream_t stream;
 	};
-
+	// Contains all QI memory space that is allocated per device (shared between streams)
 	struct DeviceInstance
 	{
 		device_vec<float2> qi_trigtable;

@@ -175,6 +175,8 @@ QueuedCUDATracker::QueuedCUDATracker(const QTrkComputedConfig& cc, int batchSize
 	dbgprintf("# of CUDA processors:%d. Using %d streams\n", deviceProp.multiProcessorCount, numStreams);
 	dbgprintf("Warp size: %d. Max threads: %d, Batch size: %d\n", deviceProp.warpSize, deviceProp.maxThreadsPerBlock, batchSize);
 	
+	qi.Init(cfg, batchSize);
+
 	ZLUTParams& zp = zlutParams;
 	zp.angularSteps = cfg.zlut_angularsteps;
 	zp.maxRadius = cfg.zlut_maxradius;
@@ -719,6 +721,7 @@ void QueuedCUDATracker::StreamUpdateZLUTSize(Stream* s)
 {		
 	cudaSetDevice(s->device->index);
 	s->d_zlutcmpscores.init(s->device->radial_zlut.h * batchSize);
+	// radialsteps never changes
 }
 
 void QueuedCUDATracker::Device::SetRadialZLUT(float *data, int radialsteps, int planes, int numLUTs, float* zcmp)

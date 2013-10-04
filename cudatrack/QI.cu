@@ -314,7 +314,7 @@ void QI::Iterate(BaseKernelParams& p, device_vec<float3>* initial, device_vec<fl
 		(p.njobs, initial->data, newpos->data, prof, qi_FFT_length, d_offsets, pixelsPerProfLen, s->d_shiftbuffer.data); 
 }
 
-void QI::InitDevice(DeviceInstance*d,  QTrkComputedConfig& cc)
+void QI::InitDevice(DeviceInstance*d, QTrkComputedConfig& cc)
 {
 	std::vector<float2> qi_radialgrid(cc.qi_angstepspq);
 	for (int i=0;i<cc.qi_angstepspq;i++)  {
