@@ -65,7 +65,7 @@ template<typename TImageSampler>
 __global__ void QI_ComputeProfile(BaseKernelParams kp, float3* positions, float* quadrants, float2* profiles, float2* reverseProfiles, const QIParams *params, int angularSteps)
 {
 	int idx = threadIdx.x + blockDim.x * blockIdx.x;
-	if (idx < kp.njobs && (kp.locParams[idx].locType&LT_QI)) {
+	if (idx < kp.njobs) {
 		int fftlen = params->radialSteps*2;
 		float* img_qdr = &quadrants[ idx * params->radialSteps * 4 ];
 		for (int q=0;q<4;q++) {

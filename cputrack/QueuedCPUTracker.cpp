@@ -120,6 +120,7 @@ QueuedCPUTracker::QueuedCPUTracker(const QTrkComputedConfig& cc)
 	
 	calib_gain = calib_offset = 0;
 	gc_gainFactor = gc_offsetFactor = 1.0f;
+	localizeMode = LT_OnlyCOM;
 
 	Start();
 }
@@ -260,7 +261,7 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 //	if (_isnan(com.x) || _isnan(com.y))
 	vector2f com = vector2f(cfg.width/2,cfg.height/2);
 
-	LocalizeType locType = (LocalizeType)(j->job.locType&LT_2DMask);
+	LocalizeType locType = (LocalizeType)(localizeMode&LT_2DMask);
 	bool boundaryHit = false;
 
 	switch(locType) {
@@ -288,10 +289,10 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 		break;}
 	}
 
-	bool normalizeProfile = (j->job.LocType() & LT_NormalizeProfile)!=0;
-	if(j->job.LocType() & LT_LocalizeZ) {
+	bool normalizeProfile = (localizeMode & LT_NormalizeProfile)!=0;
+	if(localizeMode & LT_LocalizeZ) {
 		result.pos.z = trk->ComputeZ(result.pos2D(), cfg.zlut_angularsteps, j->job.zlutIndex, false, &boundaryHit, 0, 0, normalizeProfile );
-	} else if (j->job.LocType() & LT_BuildRadialZLUT) {
+	} else if (localizeMode & LT_BuildRadialZLUT) {
 		float* zlut = GetZLUTByIndex(j->job.zlutIndex);
 		float* rprof = ALLOCA_ARRAY(float, cfg.zlut_radialsteps);
 		trk->ComputeRadialProfile(rprof, cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, result.pos2D(), false, &boundaryHit, normalizeProfile);
@@ -389,11 +390,8 @@ void QueuedCPUTracker::ScheduleLocalization(uchar* data, int pitch, QTRK_PixelDa
 
 	j->dataType = pdt;
 	j->job = *jobInfo;
-	if (!zluts || jobInfo->zlutIndex < 0 || jobInfo->zlutIndex>=this->zlut_count || 
-		( (jobInfo->locType&LT_BuildRadialZLUT) && ( jobInfo->zlutPlane < 0 || jobInfo->zlutPlane >= this->zlut_planes) ))
-	{
-		j->job.locType &= ~(LT_BuildRadialZLUT|LT_LocalizeZ);
-	}
+	if (!zluts || jobInfo->zlutIndex>=this->zlut_count ||  jobInfo->zlutPlane >= this->zlut_planes)
+		j->job.zlutIndex = -1;
 
 	AddJob(j);
 }
@@ -473,5 +471,11 @@ void QueuedCPUTracker::SetConfigValue(std::string name, std::string value)
 {
 	if (name == "trace")
 		dbgPrintResults = !!atoi(value.c_str());
+}
+
+void QueuedCPUTracker::SetLocalizationMode(LocalizeType lt)
+{
+	while (!IsIdle());
+	localizeMode = lt;
 }
 

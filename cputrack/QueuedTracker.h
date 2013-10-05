@@ -39,17 +39,15 @@ enum QTRK_PixelDataType
 #pragma pack(push, 1)
 struct LocalizationJob {
 	LocalizationJob() {
-		locType=frame=timestamp=zlutIndex=zlutPlane=0; 
+		frame=timestamp=zlutIndex=zlutPlane=0; 
 	}
-	LocalizationJob(LocalizeType lt, uint frame, uint timestamp, uint zlutPlane, uint zlutIndex) :
-		locType ( (uint)lt ), frame (frame), timestamp(timestamp), zlutPlane(zlutPlane), zlutIndex(zlutIndex) 
+	LocalizationJob(uint frame, uint timestamp, uint zlutPlane, uint zlutIndex) :
+		frame (frame), timestamp(timestamp), zlutPlane(zlutPlane), zlutIndex(zlutIndex) 
 	{}
-	uint locType;
 	uint frame, timestamp;
-	uint zlutIndex; // or bead#
+	int zlutIndex; // or bead#
 	uint zlutPlane; // for ZLUT building
 	vector3f initialPos;
-	LocalizeType LocType() const { return (LocalizeType)locType; }
 };
 
 // DONT CHANGE, Mapped to labview clusters!
@@ -145,7 +143,8 @@ public:
 	QueuedTracker();
 	virtual ~QueuedTracker();
 
-//	virtual void SetLocalizationMode(LocalizeType locType) = 0;
+	void SetLocalizationMode(int locType) { SetLocalizationMode( (LocalizeType)locType ); }
+	virtual void SetLocalizationMode(LocalizeType locType) = 0;
 
 	// These are per-bead! So both gain and offset are sized [width*height*numbeads], similar to ZLUT
 	// result=gain*(pixel+offset)
@@ -189,7 +188,7 @@ public:
 
 	QTrkComputedConfig cfg;
 
-	void ScheduleLocalization(uchar* data, int pitch, QTRK_PixelDataType pdt, LocalizeType locType, uint frame, uint timestamp, vector3f* initial, uint zlutIndex, uint zlutPlane);
+	void ScheduleLocalization(uchar* data, int pitch, QTRK_PixelDataType pdt, uint frame, uint timestamp, vector3f* initial, uint zlutIndex, uint zlutPlane);
 };
 
 void CopyImageToFloat(uchar* data, int width, int height, int pitch, QTRK_PixelDataType pdt, float* dst);

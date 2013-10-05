@@ -259,7 +259,7 @@ void ResultManager::Flush()
 		dbgprintf("Frame %d. TS: %f, Count: %d\n", i, fr->timestamp, fr->count);
 		if (fr->count != config.numBeads) {
 			for (int j=0;j<fr->results.size();j++) {
-				if( fr->results[j].job.locType == 0 )
+				if( fr->results[j].job.frame == 0)
 					dbgprintf("%d, ", j );
 			}
 			dbgprintf("\n");

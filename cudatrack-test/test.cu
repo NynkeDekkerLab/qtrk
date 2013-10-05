@@ -141,15 +141,15 @@ void QTrkCompareTest()
 	qtrk.SetRadialZLUT(0, 1, zplanes);
 	if (cpucmp) qtrkcpu.SetRadialZLUT(0, 1, zplanes);
 	if (haveZLUT) {
+		qtrk.SetLocalizationMode((LocalizeType)(LT_BuildRadialZLUT|LT_OnlyCOM));
 		for (int x=0;x<zplanes;x++)  {
 			vector2f center ( cfg.width/2, cfg.height/2 );
 			float s = zmin + (zmax-zmin) * x/(float)(zplanes-1);
 			GenerateTestImage(img, center.x, center.y, s, 0.0f);
 			WriteJPEGFile("qtrkzlutimg.jpg", img);
-			LocalizeType flags = (LocalizeType)(LT_BuildRadialZLUT|LT_OnlyCOM);
+
 			LocalizationJob jobInfo;
 			jobInfo.frame = jobInfo.zlutPlane = x;
-			jobInfo.locType = flags;
 			jobInfo.zlutIndex = 0;
 			qtrk.ScheduleLocalization((uchar*)img.data, cfg.width*sizeof(float),QTrkFloat, &jobInfo);
 			if (cpucmp) qtrkcpu.ScheduleLocalization((uchar*)img.data, cfg.width*sizeof(float),QTrkFloat, &jobInfo);
@@ -187,11 +187,11 @@ void QTrkCompareTest()
 	GenerateTestImage(img, cfg.width/2, cfg.height/2, (zmin+zmax)/2, 0);
 	double tstart = GetPreciseTime();
 	int rc = 0, displayrc=0;
+	LocalizeType flags = (LocalizeType)(LT_NormalizeProfile |LT_QI| (haveZLUT ? LT_LocalizeZ : 0) );
+	qtrk.SetLocalizationMode(flags);
 	for (int n=0;n<total;n++) {
-		LocalizeType flags = (LocalizeType)(LT_NormalizeProfile |LT_QI| (haveZLUT ? LT_LocalizeZ : 0) );
 		LocalizationJob jobInfo;
 		jobInfo.frame = n;
-		jobInfo.locType = flags;
 		jobInfo.zlutIndex = 0;
 		qtrk.ScheduleLocalization((uchar*)img.data, cfg.width*sizeof(float), QTrkFloat,&jobInfo);
 		if (cpucmp) qtrkcpu.ScheduleLocalization((uchar*)img.data, cfg.width*sizeof(float), QTrkFloat, &jobInfo);
@@ -322,13 +322,14 @@ float SpeedTest(const QTrkSettings& cfg, QueuedTracker* qtrk, int count, bool ha
 	qtrk->SetRadialZLUT(0, 1, zplanes);
 	if (gaincorrection) EnableGainCorrection(qtrk);
 	if (haveZLUT) {
+		qtrk->SetLocalizationMode(LT_BuildRadialZLUT|LT_OnlyCOM|LT_NormalizeProfile);
+
 		for (int x=0;x<zplanes;x++)  {
 			vector2f center( cfg.width/2, cfg.height/2 );
 			float s = zmin + (zmax-zmin) * x/(float)(zplanes-1);
 			GenerateTestImage(img, center.x, center.y, s, 0.0f);
 			LocalizationJob job;
 			job.frame = 0;
-			job.locType = LT_BuildRadialZLUT|LT_OnlyCOM;
 			job.zlutPlane = job.frame = x;
 			qtrk->ScheduleLocalization((uchar*)img.data, cfg.width*sizeof(float),QTrkFloat, &job);
 		}
@@ -351,13 +352,12 @@ float SpeedTest(const QTrkSettings& cfg, QueuedTracker* qtrk, int count, bool ha
 	double maxScheduleTime = 0.0f;
 	double sumScheduleTime2 = 0.0f;
 	double sumScheduleTime = 0.0f;
+	qtrk->SetLocalizationMode(locType| (haveZLUT ? LT_LocalizeZ : 0));
 	for (int n=0;n<count;n++) {
-		LocalizeType flags = (LocalizeType)(locType| (haveZLUT ? LT_LocalizeZ : 0) );
-
 		double t0 = GetPreciseTime();
 		///qtrk->ScheduleLocalization((uchar*)image, cfg.width*sizeof(float), QTrkFloat, flags, n, 0, 0, 0, 0);
 		ROIPosition roipos[]={ {0,0} };
-		LocalizationJob job(flags, n, 0, 0,0);
+		LocalizationJob job(n, 0, 0,0);
 		qtrk->ScheduleFrame((uchar*)img.data, cfg.width*sizeof(float),cfg.width,cfg.height, roipos, 1, QTrkFloat, &job);
 		double dt = GetPreciseTime() - t0;
 		maxScheduleTime = std::max(maxScheduleTime, dt);
@@ -487,12 +487,12 @@ std::vector<vector3f> LocalizeGeneratedImages(const QTrkSettings& cfg, QueuedTra
 	float zmin=0.5,zmax=3;
 	qtrk->SetRadialZLUT(0, 1, zplanes);
 	if (haveZLUT) {
+		qtrk->SetLocalizationMode(LT_BuildRadialZLUT|LT_QI|LT_NormalizeProfile);
 		for (int x=0;x<zplanes;x++)  {
 			vector2f center( cfg.width/2, cfg.height/2 );
 			float s = zmin + (zmax-zmin) * x/(float)(zplanes-1);
 			GenerateTestImage(img, center.x, center.y, s, 0.0f);
-			LocalizeType flags = (LocalizeType)(LT_BuildRadialZLUT|LT_QI|LT_NormalizeProfile);
-			qtrk->ScheduleLocalization((uchar*)img.data, cfg.width*sizeof(float),QTrkFloat, flags , x, 0,0, 0, x);
+			qtrk->ScheduleLocalization((uchar*)img.data, cfg.width*sizeof(float),QTrkFloat, x, 0,0, 0, x);
 		}
 		qtrk->Flush();
 		// wait to finish ZLUT
@@ -502,13 +502,13 @@ std::vector<vector3f> LocalizeGeneratedImages(const QTrkSettings& cfg, QueuedTra
 		}
 	}
 	qtrk->ClearResults();
+	qtrk->SetLocalizationMode(locType| (haveZLUT ? LT_LocalizeZ : 0) );
 	for (int n=0;n<count;n++) {
 		vector3f pos = positions[n];
-		LocalizeType flags = (LocalizeType)(locType| (haveZLUT ? LT_LocalizeZ : 0) );
 		float s = zmin + (zmax-zmin) * pos.z/zplanes;
 		GenerateTestImage(img, cfg.width/2 + pos.x, cfg.height/2 + pos.y, s, 0);
 		//if (n<5) FloatToJPEGFile(SPrintf("tracker-%d.jpg", n).c_str(), image, cfg.width,cfg.height);
-		qtrk->ScheduleLocalization((uchar*)img.data, cfg.width*sizeof(float), QTrkFloat, flags, n, 0, 0, 0, 0);
+		qtrk->ScheduleLocalization((uchar*)img.data, cfg.width*sizeof(float), QTrkFloat, n, 0, 0, 0, 0);
 	}
 	qtrk->Flush();
 	while (qtrk->GetResultCount() != count) Sleep(10);
@@ -549,13 +549,14 @@ std::vector<vector3f> RunTracker(const char *lutfile, QTrkSettings *cfg, bool us
 
 	float R=5;
 	srand(0);
+	trk.SetLocalizationMode((LocalizeType)(LT_QI|LT_NormalizeProfile));
 	for (int i=0;i<N;i++)
 	{
 		vector3f pos(cfg->width/2 + R*(rand_uniform<float>()-0.5f),cfg->height/2 + R*(rand_uniform<float>()-0.5f), lut.h/4+rand_uniform<float>()*lut.h/2);
 		GenerateImageFromLUT(&img, &lut, 2.0f, cfg->width/2-3,vector2f( pos.x,pos.y), pos.z, 1.0f);
 		truepos.push_back(pos);
 
-		LocalizationJob job(LocalizeType(LT_QI|LT_NormalizeProfile), i, 0, 0, 0);
+		LocalizationJob job(i, 0, 0, 0);
 		trk.ScheduleLocalization((uchar*)img.data, sizeof(float)*cfg->width, QTrkFloat, &job);
 	}
 
@@ -693,9 +694,10 @@ void BasicQTrkTest()
 	GenerateTestImage(img, cc.width/2, cc.height/2, (zmin+zmax)/2, 0);
 	
 	int N=4000;
+	qtrk.SetLocalizationMode((LocalizeType)(LT_QI|LT_NormalizeProfile));
 	for (int i=0;i<N;i++)
 	{
-		LocalizationJob job ( LocalizeType(LT_QI|LT_NormalizeProfile), i, 0, 0, 0);
+		LocalizationJob job ( i, 0, 0, 0);
 		qtrk.ScheduleLocalization((uchar*)img.data, sizeof(float)*cc.width, QTrkFloat, &job);
 	}
 
@@ -753,8 +755,10 @@ void QICompare(const char *lutfile )
 
 	srand(0);
 	const int N=1;
+	gpu.SetLocalizationMode( LT_QI);
+	cpu.SetLocalizationMode(LT_QI);
 	for (int i=0;i<N;i++) {
-		LocalizationJob job(LT_QI, i, 0, 0, 0);
+		LocalizationJob job(i, 0, 0, 0);
 		vector2f pos(cfg.width/2,cfg.height/2);
 		pos.x += rand_uniform<float>();
 		pos.y += rand_uniform<float>();

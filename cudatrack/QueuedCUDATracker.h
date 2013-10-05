@@ -24,7 +24,6 @@ typedef cudaImageList<float> cudaImageListf;
 
 struct LocalizationParams {
 	int zlutIndex, zlutPlane; // if <0 then, no zlut for this job
-	LocalizeType locType;
 };
 
 
@@ -69,6 +68,7 @@ public:
 	~QueuedCUDATracker();
 	void EnableTextureCache(bool useTextureCache) { this->useTextureCache=useTextureCache; }
 	
+	void SetLocalizationMode(LocalizeType locType) override;
 	void ScheduleLocalization(uchar* data, int pitch, QTRK_PixelDataType pdt, const LocalizationJob *jobInfo) override;
 	
 	// Schedule an entire frame at once, allowing for further optimizations
@@ -180,12 +180,13 @@ protected:
 	std::vector<Stream*> streams;
 	std::list<LocalizationResult> results;
 	int resultCount;
+	LocalizeType localizeMode;
 	Threads::Mutex resultMutex, jobQueueMutex;
 	std::vector<Device*> devices;
 	bool useTextureCache; // speed up using texture cache. 
 	float gc_offsetFactor, gc_gainFactor;
 	Threads::Mutex gc_mutex;
-	
+
 	QI qi;
 	cudaDeviceProp deviceProp;
 	ZLUTParams zlutParams;

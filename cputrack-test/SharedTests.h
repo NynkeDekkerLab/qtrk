@@ -12,12 +12,13 @@ static void ResampleLUT(QueuedTracker* qtrk, ImageData* lut, float zlutMinRadius
 	ImageData img = ImageData::alloc(cfg.width,cfg.height);
 
 	qtrk->SetRadialZLUT(0, 1, zplanes);
+	qtrk->SetLocalizationMode( (LocalizeType)(LT_QI|LT_BuildRadialZLUT|LT_NormalizeProfile) );
 	for (int i=0;i<zplanes;i++)
 	{
 		GenerateImageFromLUT(&img, lut, zlutMinRadius, zlutMaxRadius, vector2f(cfg.width/2, cfg.height/2), i/(float)zplanes * lut->h, 1.0f);
 		img.normalize();
 
-		LocalizationJob job((LocalizeType)(LT_QI|LT_BuildRadialZLUT|LT_NormalizeProfile), i, 0, i,0);
+		LocalizationJob job(i, 0, i,0);
 		qtrk->ScheduleLocalization((uchar*)img.data, sizeof(float)*img.w, QTrkFloat, &job);
 	}
 	img.free();
@@ -92,6 +93,8 @@ void TestCMOSNoiseInfluence(const char *lutfile)
 
 	float *info = new float [nNoiseLevels*2];
 
+	trk.SetLocalizationMode((LocalizeType)(LT_QI|LT_LocalizeZ|LT_NormalizeProfile));
+
 	for (int nl=0;nl<nNoiseLevels;nl++) {
 
 		float offset_stdev = info[nl*2+0] = nl*0.01f;
@@ -132,7 +135,7 @@ void TestCMOSNoiseInfluence(const char *lutfile)
 			if ( d%(std::max(1,nDriftSteps/10)) == 0 )
 				dbgprintf("Generating images for test %d...\n", d);
 
-			LocalizationJob job((LocalizeType)(LT_QI|LT_LocalizeZ|LT_NormalizeProfile),d, d,0,0);
+			LocalizationJob job(d, d,0,0);
 			trk.ScheduleLocalization((uchar*)img.data, sizeof(float)*img.w, QTrkFloat, &job);
 		}
 		trk.Flush();
@@ -216,9 +219,10 @@ std::vector<vector3f> Gauss2DTest(
 	dbgprintf("Localizing on %d images...\n", NumImages*JobsPerImg);
 	double tstart = GetPreciseTime();
 
+	qtrk.SetLocalizationMode(lt);
 	for (int n=0;n<NumImages;n++) {
 		for (int k=0;k<JobsPerImg;k++) {
-			LocalizationJob job(lt,n,0,0,0);
+			LocalizationJob job(n,0,0,0);
 			qtrk.ScheduleLocalization((uchar*)images[n], cfg.width*sizeof(float), QTrkFloat, &job);
 		}
 	}

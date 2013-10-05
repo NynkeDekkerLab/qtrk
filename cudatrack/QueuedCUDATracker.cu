@@ -220,6 +220,7 @@ QueuedCUDATracker::QueuedCUDATracker(const QTrkComputedConfig& cc, int batchSize
 	gc_offsetFactor = gc_gainFactor = 1.0f;
 
 	imageLUTConfig = ImageLUTConfig::empty();
+	localizeMode = LT_OnlyCOM;
 }
 
 QueuedCUDATracker::~QueuedCUDATracker()
@@ -431,6 +432,14 @@ int QueuedCUDATracker::GetQueueLength(int *maxQueueLen)
 }
 
 
+void QueuedCUDATracker::SetLocalizationMode(LocalizeType mode)
+{
+	Flush();
+	while (!IsIdle());
+	localizeMode = mode;
+}
+
+
 void QueuedCUDATracker::ScheduleLocalization(uchar* data, int pitch, QTRK_PixelDataType pdt, const LocalizationJob* jobInfo )
 {
 	Stream* s = GetReadyStream();
@@ -438,12 +447,10 @@ void QueuedCUDATracker::ScheduleLocalization(uchar* data, int pitch, QTRK_PixelD
 	jobQueueMutex.lock();
 	int jobIndex = s->jobs.size();
 	LocalizationJob job = *jobInfo;
-	job.locType = jobInfo->LocType();
 	if (s->device->radial_zlut.isEmpty())  // dont do ZLUT commands when no ZLUT has been set
-		job.locType &= ~(LT_LocalizeZ | LT_BuildRadialZLUT);
+		localizeMode = (LocalizeType)(localizeMode & ~(LT_LocalizeZ | LT_BuildRadialZLUT));
 	s->jobs.push_back(job);
-	s->localizeFlags |= job.locType; // which kernels to run
-	s->locParams[jobIndex].locType = job.LocType();
+	s->localizeFlags = localizeMode; // which kernels to run
 	s->locParams[jobIndex].zlutIndex = jobInfo->zlutIndex;
 	s->locParams[jobIndex].zlutPlane = jobInfo->zlutPlane;
 
@@ -593,7 +600,7 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 			dim3 numThreads(8, 16);
 			ZLUT_ComputeProfileMatchScores <<< dim3( (s->JobCount() + numThreads.x - 1) / numThreads.x, (zplanes  + numThreads.y - 1) / numThreads.y), numThreads, 0, s->stream >>> 
 				(s->JobCount(), zlutParams, s->d_radialprofiles.data, s->d_zlutcmpscores.data, s->d_locParams.data);
-			ZLUT_ComputeZ <<< blocks(s->JobCount()), threads(), 0, s->stream >>> (s->JobCount(), zlutParams, curpos->data, s->d_zlutcmpscores.data, s->d_locParams.data);
+			ZLUT_ComputeZ <<< blocks(s->JobCount()), threads(), 0, s->stream >>> (s->JobCount(), zlutParams, curpos->data, s->d_zlutcmpscores.data);
 		}
 	}
 
@@ -629,8 +636,6 @@ void QueuedCUDATracker::CopyStreamResults(Stream *s)
 		r.job = j;
 		r.firstGuess =  vector2f( s->com[a].x, s->com[a].y );
 		r.pos = vector3f( s->results[a].x , s->results[a].y, s->results[a].z);
-		if(!(s->jobs[a].locType & LT_LocalizeZ))
-			r.pos.z = 0.0f;
 
 		results.push_back(r);
 #ifdef _DEBUG
@@ -668,6 +673,7 @@ int QueuedCUDATracker::FetchResults(LocalizationResult* dstResults, int maxResul
 	resultMutex.unlock();
 	return numResults;
 }
+
 
 void QueuedCUDATracker::SetPixelCalibrationImages(float* offset, float* gain)
 {

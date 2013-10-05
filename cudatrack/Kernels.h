@@ -62,12 +62,10 @@ __global__ void ZLUT_ProfilesToZLUT(int njobs, cudaImageListf images, ZLUTParams
 
 	if (idx < njobs) {
 		auto m = locParams[idx];
-		if (m.locType & LT_BuildRadialZLUT) {
-			float* dst = params.GetRadialZLUT(m.zlutIndex, m.zlutPlane );
+		float* dst = params.GetRadialZLUT(m.zlutIndex, m.zlutPlane );
 
-			for (int i=0;i<params.radialSteps();i++)
-				dst [i] += profiles [ params.radialSteps()*idx + i ];
-		}
+		for (int i=0;i<params.radialSteps();i++)
+			dst [i] += profiles [ params.radialSteps()*idx + i ];
 	}
 }
 
@@ -98,11 +96,11 @@ __global__ void ZLUT_RadialProfileKernel(int njobs, cudaImageListf images, ZLUTP
 }
 
 
-__global__ void ZLUT_ComputeZ (int njobs, ZLUTParams params, float3* positions, float* compareScoreBuf, LocalizationParams *locParams)
+__global__ void ZLUT_ComputeZ (int njobs, ZLUTParams params, float3* positions, float* compareScoreBuf)
 {
 	int jobIdx = threadIdx.x + blockIdx.x * blockDim.x;
 
-	if (jobIdx < njobs && (locParams[jobIdx].locType & LT_LocalizeZ)) {
+	if (jobIdx < njobs) {
 		float* cmp = &compareScoreBuf [params.planes * jobIdx];
 
 		const float ZLUTFittingWeights[ZLUT_LSQFIT_NWEIGHTS] = ZLUT_LSQFIT_WEIGHTS;
@@ -121,17 +119,15 @@ __global__ void ZLUT_ComputeProfileMatchScores(int njobs, ZLUTParams params, flo
 
 	float* prof = &profiles [jobIdx * params.radialSteps()];
 	auto mapping = locParams[jobIdx];
-	if (mapping.locType & LT_LocalizeZ) {
-		float diffsum = 0.0f;
-		for (int r=0;r<params.radialSteps();r++) {
-			float d = prof[r] - params.img.pixel(r, zPlaneIdx, mapping.zlutIndex);
-			if (params.zcmpwindow)
-				d *= params.zcmpwindow[r];
-			diffsum += d*d;
-		}
-
-		compareScoreBuf[ params.planes * jobIdx + zPlaneIdx ] = -diffsum;
+	float diffsum = 0.0f;
+	for (int r=0;r<params.radialSteps();r++) {
+		float d = prof[r] - params.img.pixel(r, zPlaneIdx, mapping.zlutIndex);
+		if (params.zcmpwindow)
+			d *= params.zcmpwindow[r];
+		diffsum += d*d;
 	}
+
+	compareScoreBuf[ params.planes * jobIdx + zPlaneIdx ] = -diffsum;
 }
 
 __global__ void ZLUT_NormalizeProfiles(int njobs, ZLUTParams params, float* profiles)
@@ -186,10 +182,6 @@ __global__ void G2MLE_Compute(BaseKernelParams kp, float sigma, int iterations, 
 	int jobIdx = threadIdx.x + blockIdx.x * blockDim.x;
 
 	if (jobIdx >= kp.njobs)
-		return;
-	int loc2d = kp.locParams[jobIdx].locType&LT_2DMask;
-	// this is based on the idea that usually, the localization type will be the same for each task. If not, this code will have really bad performance
-	if (loc2d != LT_Gaussian2D) 
 		return;
 
 	float2 pos = make_float2(initial[jobIdx].x, initial[jobIdx].y);

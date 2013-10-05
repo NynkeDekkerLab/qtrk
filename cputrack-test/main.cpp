@@ -21,11 +21,12 @@ void GenerateZLUT(QueuedTracker* qtrk, float zmin, float zmax, int zplanes, cons
 	QTrkComputedConfig& cfg = qtrk->cfg;
 	float *image = new float[cfg.width*cfg.height];
 	qtrk->SetRadialZLUT(NULL, 1, zplanes, 0);
+	qtrk->SetLocalizationMode( (LocalizeType)(LT_QI|LT_BuildRadialZLUT|LT_NormalizeProfile) );
 	for (int x=0;x<zplanes;x++)  {
 		vector2f center(cfg.width/2, cfg.height/2 );
 		float s = zmin + (zmax-zmin) * x/(float)(zplanes-1);
 		GenerateTestImage(ImageData(image, cfg.width, cfg.height), center.x, center.y, s, 0.0f);
-		LocalizationJob job( (LocalizeType)(LT_BuildRadialZLUT|LT_NormalizeProfile |LT_QI), x, 0, x, 0);
+		LocalizationJob job(x, 0, x, 0);
 		qtrk->ScheduleLocalization((uchar*)image, cfg.width*sizeof(float),QTrkFloat, &job);
 	}
 	// wait to finish ZLUT
@@ -397,6 +398,7 @@ void QTrkTest()
 	double tgen = 0.0, tschedule = 0.0;
 	std::vector<float> truepos(NumImages*3);
 	qtrk.ClearResults();
+	qtrk.SetLocalizationMode((LocalizeType)(LT_QI|LT_NormalizeProfile | (haveZLUT ? LT_LocalizeZ : 0)) );
 	qtrk.Break(true);
 	for (int n=0;n<NumImages;n++) {
 		double t1 = GetPreciseTime();
@@ -410,7 +412,7 @@ void QTrkTest()
 		GenerateTestImage(ImageData(image, cfg.width, cfg.height), xp, yp, z, 10000);
 		double t2 = GetPreciseTime();
 		for (int k=0;k<JobsPerImg;k++) {
-			LocalizationJob job( (LocalizeType)(LT_QI|LT_NormalizeProfile | (haveZLUT ? LT_LocalizeZ : 0)),n,0,0,0);
+			LocalizationJob job(n,0,0,0);
 			qtrk.ScheduleLocalization((uchar*)image, cfg.width*sizeof(float), QTrkFloat, &job);
 		}
 		double t3 = GetPreciseTime();
@@ -658,6 +660,7 @@ void GainCorrectionLUTTest(const char *lutfile)
 
 int main()
 {
+	/*
 	const int N=5;
 	float x[N],y[N],w[N]={0.1f, 0.5f, 1.0f, 0.4f, 0.1f };
 	for (int i=0;i<N;i++) { x[i]=i-2; y[i]=x[i]*x[i]-2*x[i]+1.0f; }
@@ -665,14 +668,14 @@ int main()
 	dbgprintf("f(1)(fit) = %f.  f(1)=%f\n", fit.compute(1.0f), sq(1)-2*1+1);
 	LsqSqQuadFit<float> fit2(N, x, y, w);
 	dbgprintf("f(1) = %f\n", fit2.compute(1.0f));
-
+	*/
 
 	//TestFisher("lut000.jpg");
 
-//	QTrkTest();
+	QTrkTest();
 //	TestCMOSNoiseInfluence<QueuedCPUTracker>("lut000.jpg");
 
-	GainCorrectionLUTTest("lut000.jpg");
+	//GainCorrectionLUTTest("lut000.jpg");
 
 	//AutoBeadFindTest();
 	//Gauss2DTest<QueuedCPUTracker>();

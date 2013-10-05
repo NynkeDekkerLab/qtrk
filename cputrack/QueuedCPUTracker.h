@@ -17,6 +17,7 @@ public:
 	int NumThreads() { return cfg.numThreads; }
 
 	// QueuedTracker interface
+	void SetLocalizationMode(LocalizeType lt) override;
 	void SetRadialZLUT(float* data, int num_zluts, int planes, float* zcmp=0) override;
 	void GetRadialZLUT(float* zlut) override;
 	void GetRadialZLUTSize(int& count ,int& planes, int& rsteps) override;
@@ -63,6 +64,7 @@ private:
 		LocalizationJob job;
 	};
 
+	LocalizeType localizeMode;
 	Threads::Mutex jobs_mutex, jobs_buffer_mutex, results_mutex;
 	std::deque<Job*> jobs;
 	int jobCount;
