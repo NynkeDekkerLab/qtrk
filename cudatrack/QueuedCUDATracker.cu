@@ -219,7 +219,7 @@ QueuedCUDATracker::QueuedCUDATracker(const QTrkComputedConfig& cc, int batchSize
 
 	gc_offsetFactor = gc_gainFactor = 1.0f;
 
-	imap_w = imap_h = imap_planes = 0;
+	imageLUTConfig = ImageLUTConfig::empty();
 }
 
 QueuedCUDATracker::~QueuedCUDATracker()
@@ -237,7 +237,7 @@ QueuedCUDATracker::Device::~Device()
 	radial_zlut.free();
 	calib_gain.free();
 	calib_offset.free();
-	image_zlut.free();
+	image_lut.free();
 }
 
 void QueuedCUDATracker::SchedulingThreadEntryPoint(void *param)
@@ -540,7 +540,7 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 		gc_mutex.unlock();
 
 		ApplyOffsetGain <<< numBlocks, numThreads, 0, s->stream >>>	
-			(s->JobCount(), s->images, s->d_locParams.data, s->device->calib_gain, s->device->calib_offset, gf, of);
+			(kp, s->device->calib_gain, s->device->calib_offset, gf, of);
 	}
 
 	cudaEventRecord(s->imageCopyDone, s->stream);
@@ -600,7 +600,7 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 	{ScopedCPUProfiler p(&cpu_time.imap);
 
 		if (s->localizeFlags & LT_BuildImageLUT) {
-
+			ImageLUT_Build <<< blocks(s->JobCount()), threads(), 0, s->stream >>> (kp,imageLUTConfig, curpos->data, s->device->image_lut);
 		}
 
 		if (s->localizeFlags & LT_IMAP) {
@@ -733,6 +733,7 @@ void QueuedCUDATracker::Device::SetRadialZLUT(float *data, int radialsteps, int 
 	else 
 		zcompareWindow.free();
 
+	radial_zlut.free();
 	radial_zlut = cudaImageListf::alloc(radialsteps, planes, numLUTs);
 	if (data) {
 		for (int i=0;i<numLUTs;i++)
@@ -741,7 +742,7 @@ void QueuedCUDATracker::Device::SetRadialZLUT(float *data, int radialsteps, int 
 	else radial_zlut.clear();
 }
 
-// delete[] memory afterwards
+
 void QueuedCUDATracker::GetRadialZLUT(float* data)
 {
 	cudaImageListf* zlut = &devices[0]->radial_zlut;
@@ -751,8 +752,7 @@ void QueuedCUDATracker::GetRadialZLUT(float* data)
 			float* img = &data[i*cfg.zlut_radialsteps*zlut->h];
 			zlut->copyImageToHost(i, img);
 		}
-	} else
-		std::fill(data, data+(cfg.zlut_radialsteps*zlut->h*zlut->count), 0.0f);
+	}
 }
 
 void QueuedCUDATracker::GetRadialZLUTSize(int& count, int &planes, int& rsteps)
@@ -765,16 +765,45 @@ void QueuedCUDATracker::GetRadialZLUTSize(int& count, int &planes, int& rsteps)
 
 void QueuedCUDATracker::GetImageZLUTSize(int *dims)
 {
-
+	dims[0] = imageLUTConfig.nLUTs;
+	dims[1] = imageLUTConfig.planes;
+	dims[2] = imageLUTConfig.h;
+	dims[3] = imageLUTConfig.w;
 }
 
 void QueuedCUDATracker::GetImageZLUT(float* dst)
 {
-
+	if (imageLUTConfig.nLUTs) {
+		for (int i=0;i<imageLUTConfig.nLUTs;i++) {
+			float *img = &dst[i * imageLUTConfig.w*imageLUTConfig.h*imageLUTConfig.planes];
+			devices[0]->image_lut.copyImageToHost(i, img);
+		}
+	}
 }
 
-void QueuedCUDATracker::SetImageZLUT(float* dst,int* dims)
+void QueuedCUDATracker::SetImageZLUT(float* src,int* dims)
 {
+	imageLUTConfig.nLUTs = dims[0];
+	imageLUTConfig.planes = dims[1];
+	imageLUTConfig.h = dims[2];
+	imageLUTConfig.w = dims[3];
+
+	for (int i=0;i<devices.size();i++) {
+		devices[i]->SetImageLUT(src, &imageLUTConfig);
+	}
+}
+
+
+void QueuedCUDATracker::Device::SetImageLUT(float* data, ImageLUTConfig* cfg)
+{
+	cudaSetDevice(index);
+
+	image_lut = cudaImageListf::alloc( cfg->lutWidth(), cfg->h, cfg->nLUTs );
+	if (data) {
+		for (int i=0;i<cfg->nLUTs;i++)
+			image_lut.copyImageToDevice(i, &data[ cfg->lutNumPixels() * i]);
+	}
+	else image_lut.clear();
 }
 
 

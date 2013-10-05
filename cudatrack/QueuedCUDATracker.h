@@ -48,7 +48,20 @@ struct ZLUTParams {
 	float2* trigtable; // precomputed radial directions (cos,sin pairs)
 };
 
+struct ImageLUTConfig
+{
+	static ImageLUTConfig empty() {
+		ImageLUTConfig v;
+		v.nLUTs = v.planes=v.w=v.h=0;
+		return v;
+	}
+	int nLUTs;
+	int planes;
+	int w, h;
 
+	int lutWidth() { return w * planes; }
+	int lutNumPixels() { return w * h * planes; }
+};
 
 class QueuedCUDATracker : public QueuedTracker {
 public:
@@ -92,13 +105,14 @@ protected:
 	struct Device {
 		Device(int index) {
 			this->index=index; 
-			image_zlut=radial_zlut=calib_offset=calib_gain=cudaImageListf::emptyList(); 
+			image_lut=radial_zlut=calib_offset=calib_gain=cudaImageListf::emptyList(); 
 		}
 		~Device(); 
 		void SetRadialZLUT(float *data, int radialsteps, int planes, int numLUTs, float* zcmp);
 		void SetPixelCalibrationImages(float* offset, float* gain, int img_width, int img_height);
+		void SetImageLUT(float* data, ImageLUTConfig* cfg);
 
-		cudaImageListf image_zlut; // Z image stack. Each image horizontally contains all the images for a single bead
+		cudaImageListf image_lut; // Z image stack. Each image horizontally contains all the images for a single bead
 		cudaImageListf radial_zlut;
 		cudaImageListf calib_offset, calib_gain;
 		device_vec<float> zcompareWindow;
@@ -157,7 +171,7 @@ protected:
 	int numThreads;
 	int batchSize;
 
-	int imap_w, imap_h, imap_planes;
+	ImageLUTConfig imageLUTConfig;
 
 	dim3 blocks(int workItems) { return dim3((workItems+numThreads-1)/numThreads); }
 	dim3 blocks() {	return dim3((batchSize+numThreads-1)/numThreads); }

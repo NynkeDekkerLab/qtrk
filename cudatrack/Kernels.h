@@ -71,60 +71,6 @@ __global__ void ZLUT_ProfilesToZLUT(int njobs, cudaImageListf images, ZLUTParams
 	}
 }
 
-/*
-
-void ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float minradius, float maxradius,
-	vector2f center, ImageData* img, float paddingValue)
-{
-	vector2f* radialDirs = (vector2f*)ALLOCA(sizeof(vector2f)*angularSteps);
-	for (int j=0;j<angularSteps;j++) {
-		float ang = 2*3.141593f*j/(float)angularSteps;
-		radialDirs[j] = vector2f(cosf(ang), sinf(ang));
-	}
-
-	for (int i=0;i<radialSteps;i++)
-		dst[i]=0.0f;
-
-	double totalrmssum2 = 0.0f, totalsum=0.0;
-	float rstep = (maxradius-minradius) / radialSteps;
-	int totalsmp = 0;
-	for (int i=0;i<radialSteps; i++) {
-		double sum = 0.0f;
-
-		int nsamples = 0;
-		float r = minradius+rstep*i;
-		for (int a=0;a<angularSteps;a++) {
-			float x = center.x + radialDirs[a].x * r;
-			float y = center.y + radialDirs[a].y * r;
-			bool outside;
-			float v = img->interpolate(x,y, &outside);
-			if (!outside) {
-				sum += v;
-				nsamples++;
-			}
-		}
-
-		dst[i] = sum/nsamples;
-		totalsum += sum;
-		totalsmp += nsamples;
-	}
-	float substr = totalsum/totalsmp;
-	for (int i=0;i<radialSteps;i++)
-		dst[i] -= substr;
-	double sum=0.0f;
-	for (int i=0;i<radialSteps;i++)
-		totalrmssum2 += dst[i]*dst[i];
-//		sum += dst[i];
-	double invSum = 1.0/sum;
-	//	totalrmssum2 += dst[i]*dst[i];
-	double invTotalrms = 1.0f/sqrt(totalrmssum2/radialSteps);
-	for (int i=0;i<radialSteps;i++) {
-		dst[i] *= invTotalrms;
-	}
-}
-
-*/
-
 // Compute a single ZLUT radial profile element (looping through all the pixels at constant radial distance)
 template<typename TImageSampler>
 __global__ void ZLUT_RadialProfileKernel(int njobs, cudaImageListf images, ZLUTParams params, float3* positions, float* profiles, float* means)
@@ -216,19 +162,19 @@ __global__ void ZLUT_NormalizeProfiles(int njobs, ZLUTParams params, float* prof
 }
 
 
-__global__ void ApplyOffsetGain (int njobs, cudaImageListf images, LocalizationParams* locParams, cudaImageListf calib_gain, cudaImageListf calib_offset, float gainFactor, float offsetFactor)
+__global__ void ApplyOffsetGain (BaseKernelParams kp, cudaImageListf calib_gain, cudaImageListf calib_offset, float gainFactor, float offsetFactor)
 {
 	int x = threadIdx.x + blockIdx.x * blockDim.x;
 	int y = threadIdx.y + blockIdx.y * blockDim.y;
 	int jobIdx = threadIdx.z + blockIdx.z * blockDim.z;
 
-	if (x < images.w && y < images.h && jobIdx < njobs) {
-		int bead = locParams[jobIdx].zlutIndex;
+	if (x < kp.images.w && y < kp.images.h && jobIdx < kp.njobs) {
+		int bead = kp.locParams[jobIdx].zlutIndex;
 
-		float value = images.pixel(x,y,jobIdx);
+		float value = kp.images.pixel(x,y,jobIdx);
 		float offset = calib_offset.pixel(x,y,bead);
 		float gain = calib_gain.pixel(x,y,bead);
-		images.pixel(x,y,jobIdx) = (value + offset*offsetFactor) * gain*gainFactor;
+		kp.images.pixel(x,y,jobIdx) = (value + offset*offsetFactor) * gain*gainFactor;
 	}
 }
 
@@ -314,3 +260,11 @@ __global__ void G2MLE_Compute(BaseKernelParams kp, float sigma, int iterations, 
 	if (I_bg) I_bg[jobIdx] = bg;
 	if (I_0) I_0[jobIdx] = I0;
 }
+
+
+__global__ void ImageLUT_Build(BaseKernelParams kp, ImageLUTConfig ilc, float3* positions, cudaImageListf image_lut)
+{
+
+}
+
+

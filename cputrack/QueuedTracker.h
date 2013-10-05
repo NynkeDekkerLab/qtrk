@@ -145,6 +145,8 @@ public:
 	QueuedTracker();
 	virtual ~QueuedTracker();
 
+//	virtual void SetLocalizationMode(LocalizeType locType) = 0;
+
 	// These are per-bead! So both gain and offset are sized [width*height*numbeads], similar to ZLUT
 	// result=gain*(pixel+offset)
 	virtual void SetPixelCalibrationImages(float* offset, float* gain) = 0;

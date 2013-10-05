@@ -293,7 +293,11 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 		result.pos.z = trk->ComputeZ(result.pos2D(), cfg.zlut_angularsteps, j->job.zlutIndex, false, &boundaryHit, 0, 0, normalizeProfile );
 	} else if (j->job.LocType() & LT_BuildRadialZLUT) {
 		float* zlut = GetZLUTByIndex(j->job.zlutIndex);
-		trk->ComputeRadialProfile(&zlut[j->job.zlutPlane * cfg.zlut_radialsteps], cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, result.pos2D(), false, &boundaryHit, normalizeProfile);
+		float* rprof = ALLOCA_ARRAY(float, cfg.zlut_radialsteps);
+		trk->ComputeRadialProfile(rprof, cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, result.pos2D(), false, &boundaryHit, normalizeProfile);
+		float* dstprof = &zlut[j->job.zlutPlane * cfg.zlut_radialsteps];
+		for (int i=0;i<cfg.zlut_radialsteps;i++) 
+			dstprof[i] += rprof[i];
 	}
 
 	if(dbgPrintResults)
