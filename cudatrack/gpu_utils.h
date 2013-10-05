@@ -9,6 +9,29 @@
 
 #define CUBOTH __device__ __host__
 
+inline void CheckCUDAError(cudaError_t err)
+{
+	if (err != cudaSuccess) {
+		const char* errstr = cudaGetErrorString(err);
+		dbgprintf("CUDA error: %s\n" ,errstr);
+	}
+}
+
+inline void CheckCUDAError()
+{
+	cudaError_t err = cudaGetLastError();
+	if (err != cudaSuccess) {
+		const char* errstr = cudaGetErrorString(err);
+		dbgprintf("CUDA error: %s\n" ,errstr);
+	}
+}
+
+#ifdef _DEBUG
+inline void dbgCUDAErrorCheck(cudaError_t e) { CheckCUDAError(e); }
+#else
+inline void dbgCUDAErrorCheck(cudaError_t e) {}
+#endif
+
 template<typename T>
 class device_vec {
 public:
@@ -25,17 +48,17 @@ public:
 	device_vec(const device_vec<T>& src) {
 		data = 0; size = 0;
 		init(src.size);
-		cudaMemcpy(data, src.data, sizeof(T)*size, cudaMemcpyDeviceToDevice);
+		dbgCUDAErrorCheck(cudaMemcpy(data, src.data, sizeof(T)*size, cudaMemcpyDeviceToDevice));
 	}
 	device_vec(const std::vector<T>& src) {
 		data=0; size=0; 
 		init(src.size());
-		cudaMemcpy(data, &src[0], sizeof(T)*size, cudaMemcpyHostToDevice);
+		dbgCUDAErrorCheck(cudaMemcpy(data, &src[0], sizeof(T)*size, cudaMemcpyHostToDevice));
 	}
 	~device_vec(){
 		free();
 	}
-	void init(int s) {
+	void init(size_t s) {
 		if(size != s) {
 			free();
 		}
@@ -48,31 +71,31 @@ public:
 	}
 	void free() {
 		if (data) {
-			cudaFree(data);
+			dbgCUDAErrorCheck(cudaFree(data));
 			data=0;
 		}
 	}
 	operator std::vector<T>() const {
 		std::vector<T> dst(size);
-		cudaMemcpy(&dst[0], data, sizeof(T)*size, cudaMemcpyDeviceToHost);
+		dbgCUDAErrorCheck(cudaMemcpy(&dst[0], data, sizeof(T)*size, cudaMemcpyDeviceToHost));
 		return dst;
 	}
 	device_vec<T>& operator=(const std::vector<T>& src) {
 		init(src.size());
-		cudaMemcpy(data, &src[0], sizeof(T)*size, cudaMemcpyHostToDevice);
+		dbgCUDAErrorCheck(cudaMemcpy(data, &src[0], sizeof(T)*size, cudaMemcpyHostToDevice));
 		return *this;
 	}
 	device_vec<T>& operator=(const device_vec<T>& src) {
 		clear();
 		init(src.size);
-		cudaMemcpy(data, src.data, sizeof(T)*size, cudaMemcpyDeviceToDevice);
+		dbgCUDAErrorCheck(cudaMemcpy(data, src.data, sizeof(T)*size, cudaMemcpyDeviceToDevice));
 		return *this;
 	}
 	void copyToHost(T* dst, bool async, cudaStream_t s=0) {
 		if (async)
-			cudaMemcpyAsync(dst, data, sizeof(T) * size, cudaMemcpyDeviceToHost, s);
+			dbgCUDAErrorCheck(cudaMemcpyAsync(dst, data, sizeof(T) * size, cudaMemcpyDeviceToHost, s));
 		else
-			cudaMemcpy(dst, data, sizeof(T) * size, cudaMemcpyDeviceToHost);
+			dbgCUDAErrorCheck(cudaMemcpy(dst, data, sizeof(T) * size, cudaMemcpyDeviceToHost));
 	}
 	void copyToHost(std::vector<T>& dst ,bool async, cudaStream_t s=0) {
 		if (dst.size() != size)
@@ -82,18 +105,18 @@ public:
 	void copyToDevice(const std::vector<T>& src, bool async, cudaStream_t s=0) {
 		copyToDevice(&src[0], src.size(), async, s);
 	}
-	void copyToDevice(const T* first, int size, bool async, cudaStream_t s=0) {
-		if (this->size != size)
+	void copyToDevice(const T* first, size_t size, bool async, cudaStream_t s=0) {
+		if (this->size < size)
 			init(size);
 		if (async)
-			cudaMemcpyAsync(data, first, sizeof(T) * size, cudaMemcpyHostToDevice, s);
+			dbgCUDAErrorCheck(cudaMemcpyAsync(data, first, sizeof(T) * size, cudaMemcpyHostToDevice, s));
 		else
-			cudaMemcpy(data, first, sizeof(T) * size, cudaMemcpyHostToDevice);
+			dbgCUDAErrorCheck(cudaMemcpy(data, first, sizeof(T) * size, cudaMemcpyHostToDevice));
 	}
 	// debugging util. Be sure to synchronize before
 	std::vector<T> toVector() {
 		std::vector<T> v (size);
-		cudaMemcpy(&v[0], data, sizeof(T)*size, cudaMemcpyDeviceToHost);
+		dbgCUDAErrorCheck(cudaMemcpy(&v[0], data, sizeof(T)*size, cudaMemcpyDeviceToHost));
 		return v;
 	}
 	size_t memsize() { return size*sizeof(T); }

@@ -107,7 +107,7 @@ void TestSharedMem()
 void QTrkCompareTest()
 {
 	QTrkSettings cfg;
-	cfg.width = cfg.height = 120;
+	cfg.width = cfg.height = 40;
 	cfg.qi_iterations = 1;
 	cfg.xc1_iterations = 2;
 	cfg.xc1_profileLength = 64;
@@ -122,7 +122,7 @@ void QTrkCompareTest()
 	haveZLUT=false;
 #else
 	cfg.numThreads = 4;
-	int total = 30000;
+	int total = 10000;
 	int batchSize = 512;
 #endif
 
@@ -142,6 +142,7 @@ void QTrkCompareTest()
 	if (cpucmp) qtrkcpu.SetRadialZLUT(0, 1, zplanes);
 	if (haveZLUT) {
 		qtrk.SetLocalizationMode((LocalizeType)(LT_BuildRadialZLUT|LT_OnlyCOM));
+		qtrkcpu.SetLocalizationMode((LocalizeType)(LT_BuildRadialZLUT|LT_OnlyCOM));
 		for (int x=0;x<zplanes;x++)  {
 			vector2f center ( cfg.width/2, cfg.height/2 );
 			float s = zmin + (zmax-zmin) * x/(float)(zplanes-1);
@@ -189,6 +190,7 @@ void QTrkCompareTest()
 	int rc = 0, displayrc=0;
 	LocalizeType flags = (LocalizeType)(LT_NormalizeProfile |LT_QI| (haveZLUT ? LT_LocalizeZ : 0) );
 	qtrk.SetLocalizationMode(flags);
+	qtrkcpu.SetLocalizationMode(flags);
 	for (int n=0;n<total;n++) {
 		LocalizationJob jobInfo;
 		jobInfo.frame = n;
@@ -547,6 +549,8 @@ std::vector<vector3f> RunTracker(const char *lutfile, QTrkSettings *cfg, bool us
 
 	if (useGC) EnableGainCorrection(&trk);
 
+	//trk.SetConfigValue("use_texturecache" , "0");
+
 	float R=5;
 	srand(0);
 	trk.SetLocalizationMode((LocalizeType)(LT_QI|LT_NormalizeProfile));
@@ -608,11 +612,12 @@ void CompareAccuracy (const char *lutfile)
 	QTrkSettings cfg;
 	cfg.width=150;
 	cfg.height=150;
+	cfg.numThreads=1;
 
 	auto cpu = RunTracker<QueuedCPUTracker> (lutfile, &cfg, false, "cpu");
 	auto gpu = RunTracker<QueuedCUDATracker>(lutfile, &cfg, false, "gpu");
-	auto cpugc = RunTracker<QueuedCPUTracker>(lutfile, &cfg, true, "cpugc");
-	auto gpugc = RunTracker<QueuedCUDATracker>(lutfile, &cfg, true, "gpugc");
+//	auto cpugc = RunTracker<QueuedCPUTracker>(lutfile, &cfg, true, "cpugc");
+//	auto gpugc = RunTracker<QueuedCUDATracker>(lutfile, &cfg, true, "gpugc");
 
 	for (int i=0;i<std::min((int)cpu.size(),20);i++) {
 		dbgprintf("CPU-GPU: %f, %f\n", cpu[i].x-gpu[i].x,cpu[i].y-gpu[i].y);
@@ -802,17 +807,19 @@ int main(int argc, char *argv[])
 
 	//TestTextureFetch();
 
-	//TestGauss2D(true);
+//	TestGauss2D(true);
 
 //	MultipleLUTTest();
 
-	BasicQTrkTest();
+//	BasicQTrkTest();
 //	TestCMOSNoiseInfluence<QueuedCUDATracker>("../cputrack-test/lut000.jpg");
 
-	//QICompare("../cputrack-test/lut000.jpg");
+#ifdef QI_DEBUG
+	QICompare("../cputrack-test/lut000.jpg");
+#endif
 
 //CompareAccuracy("../cputrack-test/lut000.jpg");
-//	QTrkCompareTest();
+QTrkCompareTest();
 	//	ProfileSpeedVsROI();
 	/*auto info = SpeedCompareTest(80, false);
 	auto infogc = SpeedCompareTest(80, true);

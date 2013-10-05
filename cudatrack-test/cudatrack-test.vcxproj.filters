@@ -23,11 +23,11 @@
     <ClInclude Include="..\utils\ExtractBeadImages.h" />
     <ClInclude Include="..\utils\tinydir.h" />
     <ClInclude Include="..\cudatrack\QI.h" />
+    <ClInclude Include="..\cudatrack\QI_impl.h" />
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="test.cu" />
     <CudaCompile Include="..\cudatrack\QueuedCUDATracker.cu" />
-    <CudaCompile Include="..\cudatrack\QI.cu" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="cudafft">

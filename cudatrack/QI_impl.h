@@ -2,6 +2,7 @@
 #include "utils.h"
 #include "QueuedCUDATracker.h"
 #include "ImageSampler.h"
+#include "DebugResultCompare.h"
 
 #ifdef QI_DEBUG
 inline void DbgCopyResult(device_vec<float2>& src, std::vector< std::complex<float> >& dst) {
@@ -62,18 +63,19 @@ __device__ void ComputeQuadrantProfile(cudaImageListf& images, int idx, float* d
 }
 
 template<typename TImageSampler>
-__global__ void QI_ComputeProfile(BaseKernelParams kp, float3* positions, float* quadrants, float2* profiles, float2* reverseProfiles, const QIParams *params, int angularSteps)
+__global__ void QI_ComputeProfile(BaseKernelParams kp, float3* positions, float* quadrants, float2* profiles, float2* reverseProfiles, const QIParams qiParams, int angularSteps)
 {
 	int idx = threadIdx.x + blockDim.x * blockIdx.x;
 	if (idx < kp.njobs) {
-		int fftlen = params->radialSteps*2;
-		float* img_qdr = &quadrants[ idx * params->radialSteps * 4 ];
+		const QIParams& qp = qiParams;
+		int fftlen = qp.radialSteps*2;
+		float* img_qdr = &quadrants[ idx * qp.radialSteps * 4 ];
 		for (int q=0;q<4;q++) {
-			ComputeQuadrantProfile<TImageSampler> (kp.images, idx, &img_qdr[q*params->radialSteps], *params, q, 
+			ComputeQuadrantProfile<TImageSampler> (kp.images, idx, &img_qdr[q*qp.radialSteps], qp, q, 
 				make_float2(positions[idx].x, positions[idx].y), kp.imgmeans[idx], angularSteps);
 		}
 
-		int nr = params->radialSteps;
+		int nr = qp.radialSteps;
 		qicomplex_t* imgprof = (qicomplex_t*) &profiles[idx * fftlen*2];
 		qicomplex_t* x0 = imgprof;
 		qicomplex_t* x1 = imgprof + nr*1;
@@ -265,10 +267,11 @@ void QI::Execute (BaseKernelParams& p, const QTrkComputedConfig& cfg, QI::Stream
 	float angsteps = cfg.qi_angstepspq / powf(cfg.qi_angstep_factor, cfg.qi_iterations);
 
 	for (int a=0;a<cfg.qi_iterations;a++) {
+		device_vec<float3>* dst = a==0 ? initial : output;
 		if (useTextureCache) 
-			Iterate< ImageSampler_Tex > (p, a==0 ? initial : output, output, s, d, std::max(MIN_RADPROFILE_SMP_COUNT, (int)angsteps) );
+			Iterate< ImageSampler_Tex > (p, dst, output, s, d, std::max(MIN_RADPROFILE_SMP_COUNT, (int)angsteps) );
 		else
-			Iterate< ImageSampler_MemCopy > (p, a==0 ? initial : output, output, s, d, std::max(MIN_RADPROFILE_SMP_COUNT, (int)angsteps) );
+			Iterate< ImageSampler_MemCopy > (p, dst, output, s, d, std::max(MIN_RADPROFILE_SMP_COUNT, (int)angsteps) );
 		angsteps *= cfg.qi_angstep_factor;
 	}
 }
@@ -286,8 +289,11 @@ void QI::Iterate(BaseKernelParams& p, device_vec<float3>* initial, device_vec<fl
 			(p, s->d_quadrants.data, s->d_QIprofiles.data, s->d_QIprofiles_reverse.data, d->d_qiparams);*/
 	}
 	else {
+		QIParams dp = params;
+		dp.cos_sin_table = d->qi_trigtable.data;
+
 		QI_ComputeProfile <TImageSampler> <<< blocks(p.njobs), threads(), 0, s->stream >>> (p, initial->data, 
-			s->d_quadrants.data, s->d_QIprofiles.data, s->d_QIprofiles_reverse.data, d->d_qiparams, angularSteps);
+			s->d_quadrants.data, s->d_QIprofiles.data, s->d_QIprofiles_reverse.data, dp, angularSteps);
 
 #ifdef QI_DEBUG
 		DbgCopyResult(s->d_quadrants, cmp_gpu_qi_prof);

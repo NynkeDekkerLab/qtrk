@@ -51,7 +51,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>../libs/libjpeg-turbo/include;../cudatrack;../cputrack;%(AdditionalIncludeDirectories);$(CudaToolkitIncludeDir)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>QTRK_EXPORTS;CUDA_TRACK;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>QI_DEBUG;QTRK_EXPORTS;CUDA_TRACK;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -106,7 +106,6 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CudaCompile Include="..\cudatrack\QI.cu" />
     <CudaCompile Include="..\cudatrack\QueuedCUDATracker.cu" />
     <CudaCompile Include="test.cu" />
   </ItemGroup>
@@ -125,6 +124,7 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     <ClInclude Include="..\cudatrack\ImageSampler.h" />
     <ClInclude Include="..\cudatrack\Kernels.h" />
     <ClInclude Include="..\cudatrack\QI.h" />
+    <ClInclude Include="..\cudatrack\QI_impl.h" />
     <ClInclude Include="..\cudatrack\QueuedCUDATracker.h" />
     <ClInclude Include="..\cudatrack\simplefft.h" />
     <ClInclude Include="..\utils\ExtractBeadImages.h" />

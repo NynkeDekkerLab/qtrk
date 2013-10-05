@@ -125,6 +125,13 @@ struct cudaImageList {
 			cudaMemcpy2D(data, pitch, src, w*sizeof(T), w*sizeof(T), count*h, cudaMemcpyHostToDevice);
 	}
 
+	void copyToDevice(T* src, int numImages, bool async=false, cudaStream_t s=0) {
+		if (async)
+			cudaMemcpy2DAsync(data, pitch, src, w*sizeof(T), w*sizeof(T), numImages*h, cudaMemcpyHostToDevice);
+		else
+			cudaMemcpy2D(data, pitch, src, w*sizeof(T), w*sizeof(T), numImages*h, cudaMemcpyHostToDevice);
+	}
+
 	void clear() {
 		if(data) cudaMemset2D(data, pitch, 0, w*sizeof(T), count*h);
 	}

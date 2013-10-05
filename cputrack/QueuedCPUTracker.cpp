@@ -256,10 +256,10 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 	LocalizationResult result={};
 	result.job = j->job;
 
-//	vector2f com = trk->ComputeMeanAndCOM(cfg.com_bgcorrection);
+	vector2f com = trk->ComputeMeanAndCOM(cfg.com_bgcorrection);
 
-//	if (_isnan(com.x) || _isnan(com.y))
-	vector2f com = vector2f(cfg.width/2,cfg.height/2);
+	if (_isnan(com.x) || _isnan(com.y))
+		com = vector2f(cfg.width/2,cfg.height/2);
 
 	LocalizeType locType = (LocalizeType)(localizeMode&LT_2DMask);
 	bool boundaryHit = false;

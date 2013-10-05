@@ -52,6 +52,7 @@ Issues:
 #include "Kernels.h"
 #include "DebugResultCompare.h"
 
+#include "QI_impl.h"
 
 
 // Do CPU-side profiling of kernel launches?
@@ -94,14 +95,6 @@ QueuedTracker* CreateQueuedTracker(const QTrkComputedConfig& cc)
 	return new QueuedCUDATracker(cc);
 }
 
-void CheckCUDAError()
-{
-	cudaError_t err = cudaGetLastError();
-	if (err != cudaSuccess) {
-		const char* errstr = cudaGetErrorString(err);
-		dbgprintf("CUDA error: %s\n" ,errstr);
-	}
-}
 
 static int GetBestCUDADevice()
 {
@@ -532,9 +525,6 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 	{ScopedCPUProfiler p(&cpu_time.imageCopy);
 		s->images.copyToDevice(s->hostImageBuf.data(), true, s->stream); 
 	}
-	//cudaMemcpy2DAsync( s->images.data, s->images.pitch, s->hostImageBuf.data(), sizeof(float)*s->images.w, s->images.w*sizeof(float), s->images.h * s->JobCount(), cudaMemcpyHostToDevice, s->stream); }
-	//{ ProfileBlock p("jobs to gpu");
-	//s->d_jobs.copyToDevice(s->jobs.data(), s->jobCount, true, s->stream); }
 
 	if (!d->calib_gain.isEmpty()) {
 		dim3 numThreads(16, 16, 2);
