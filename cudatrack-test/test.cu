@@ -694,6 +694,9 @@ void BasicQTrkTest()
 	GenerateTestImage(img, cc.width/2, cc.height/2, (zmin+zmax)/2, 0);
 	
 	int N=4000;
+#ifdef _DEBUG
+	N=400;
+#endif
 	qtrk.SetLocalizationMode((LocalizeType)(LT_QI|LT_NormalizeProfile));
 	for (int i=0;i<N;i++)
 	{
@@ -803,7 +806,7 @@ int main(int argc, char *argv[])
 
 //	MultipleLUTTest();
 
-//	BasicQTrkTest();
+	BasicQTrkTest();
 //	TestCMOSNoiseInfluence<QueuedCUDATracker>("../cputrack-test/lut000.jpg");
 
 	//QICompare("../cputrack-test/lut000.jpg");

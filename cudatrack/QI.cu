@@ -155,6 +155,7 @@ __global__ void QI_OffsetPositions(int njobs, float3* current, float3* dst, cuff
 
 		dst[idx].x = current[idx].x + xoffset * pixelsPerProfLen;
 		dst[idx].y = current[idx].y + yoffset * pixelsPerProfLen;
+		dst[idx].z = current[idx].z;
 
 		if (offsets) 
 			offsets[idx] = make_float2( xoffset, yoffset);
