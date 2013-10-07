@@ -121,11 +121,11 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     <ClInclude Include="ImageSampler.h" />
     <ClInclude Include="Kernels.h" />
     <ClInclude Include="QI.h" />
+    <ClInclude Include="QI_impl.h" />
     <ClInclude Include="QueuedCUDATracker.h" />
     <ClInclude Include="simplefft.h" />
   </ItemGroup>
   <ItemGroup>
-    <CudaCompile Include="QI.cu" />
     <CudaCompile Include="QueuedCUDATracker.cu" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

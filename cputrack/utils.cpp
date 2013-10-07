@@ -11,6 +11,7 @@
 #include "LsqQuadraticFit.h"
 #include "QueuedTracker.h"
 
+
 std::string GetLocalModuleFilename()
 {
 #ifdef WIN32

@@ -811,7 +811,7 @@ int main(int argc, char *argv[])
 
 //	MultipleLUTTest();
 
-//	BasicQTrkTest();
+	BasicQTrkTest();
 //	TestCMOSNoiseInfluence<QueuedCUDATracker>("../cputrack-test/lut000.jpg");
 
 #ifdef QI_DEBUG
@@ -819,7 +819,7 @@ int main(int argc, char *argv[])
 #endif
 
 //CompareAccuracy("../cputrack-test/lut000.jpg");
-QTrkCompareTest();
+//QTrkCompareTest();
 	//	ProfileSpeedVsROI();
 	/*auto info = SpeedCompareTest(80, false);
 	auto infogc = SpeedCompareTest(80, true);
