@@ -23,9 +23,13 @@ CDLL_EXPORT void DLL_CALLCONV rm_destroy_all()
 	DeleteAllElems(rm_instances);
 }
 
-CDLL_EXPORT ResultManager* DLL_CALLCONV rm_create(const char *file, const char *frameinfo, ResultManagerConfig* cfg)
+CDLL_EXPORT ResultManager* DLL_CALLCONV rm_create(const char *file, const char *frameinfo, ResultManagerConfig* cfg, LStrHandle* names)
 {
-	ResultManager* rm = new ResultManager(file, frameinfo, cfg);
+	std::vector<std::string> colNames;
+	
+	if (names) colNames = LVGetStringArray(cfg->numFrameInfoColumns, names);
+	ResultManager* rm = new ResultManager(file, frameinfo, cfg, colNames);
+
 	rm_instances.insert(rm);
 	return rm;
 }
@@ -65,10 +69,19 @@ CDLL_EXPORT int DLL_CALLCONV rm_getbeadresults(ResultManager* rm, int start, int
 }
 
 
-CDLL_EXPORT void DLL_CALLCONV rm_getframecounters(ResultManager* rm, int* startFrame, int* lastSaveFrame, int* endFrame, int *capturedFrames, int *localizationsDone, ErrorCluster* err)
+CDLL_EXPORT void DLL_CALLCONV rm_getframecounters(ResultManager* rm, int* startFrame, int* lastSaveFrame, 
+				int* endFrame, int *capturedFrames, int *localizationsDone, int *lostFrames, ErrorCluster* err)
 {
 	if (ValidRM(rm, err)) {
-		rm->GetFrameCounters(startFrame, endFrame, lastSaveFrame, capturedFrames, localizationsDone);
+
+		auto r = rm->GetFrameCounters();
+
+		if (startFrame) *startFrame = r.startFrame;
+		if (lastSaveFrame) *lastSaveFrame = r.lastSaveFrame;
+		if (endFrame) * endFrame = r.processedFrames;
+		if (capturedFrames) *capturedFrames = r.capturedFrames;
+		if (localizationsDone) *localizationsDone = r.localizationsDone;
+		if (lostFrames) *lostFrames = r.lostFrames;
 	}
 }
 

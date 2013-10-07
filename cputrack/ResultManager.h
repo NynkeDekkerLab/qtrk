@@ -53,7 +53,7 @@ struct ResultManagerConfig
 class ResultManager
 {
 public:
-	ResultManager(const char *outfile, const char *frameinfo, ResultManagerConfig *cfg);
+	ResultManager(const char *outfile, const char *frameinfo, ResultManagerConfig *cfg, std::vector<std::string> colnames);
 	~ResultManager();
 
 	void SaveSection(int start, int end, const char *beadposfile, const char *infofile);
@@ -64,7 +64,20 @@ public:
 	int GetResults(LocalizationResult* results, int startFrame, int numResults);
 	void Flush();
 
-	void GetFrameCounters(int* startFrame=0, int *processedFrames=0, int *lastSaveFrame=0, int *capturedFrames=0, int *localizationsDone=0);
+	struct FrameCounters {
+		FrameCounters();
+		int startFrame; // startFrame for frameResults
+		int processedFrames; // frame where all data is retrieved (all beads)
+		int lastSaveFrame;
+		int capturedFrames;  // lock by resultMutex
+		int localizationsDone;
+		int lostFrames;
+		int fileError;
+	};
+
+	void SetFrameInfoColNames(const std::vector<std::string>& names);
+
+	FrameCounters GetFrameCounters();
 	int StoreFrameInfo(double timestamp, float* columns); // return #frames
 	int GetFrameCount();
 
@@ -90,12 +103,10 @@ protected:
 
 	Threads::Mutex resultMutex, trackerMutex;
 
+	std::vector<std::string> frameInfoNames;
+
 	std::deque< FrameResult* > frameResults;
-	volatile int startFrame; // startFrame for frameResults
-	volatile int processedFrames; // frame where all data is retrieved (all beads)
-	volatile int lastSaveFrame;
-	volatile int capturedFrames;  // lock by resultMutex
-	volatile int localizationsDone;
+	FrameCounters cnt;
 	ResultManagerConfig config;
 
 	ResultFile* resultFile;
@@ -108,4 +119,5 @@ protected:
 
 	static void ThreadLoop(void *param);
 	bool Update();
+	void WriteBinaryFileHeader();
 };

@@ -87,6 +87,7 @@ void ArgumentErrorMsg(ErrorCluster* e, const std::string& msg);
 
 void SetLVString (LStrHandle str, const char *text);
 MgErr FillErrorCluster(MgErr err, const char *message, ErrorCluster *error);
+std::vector<std::string> LVGetStringArray(int count, LStrHandle *str);
 
 class QueuedTracker;
 bool ValidateTracker(QueuedTracker* tracker, ErrorCluster* e, const char *funcname);

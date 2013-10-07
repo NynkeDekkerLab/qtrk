@@ -553,7 +553,7 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 	device_vec<float3> *curpos = &s->d_com;
 	if (s->localizeFlags & LT_QI) {
 		ScopedCPUProfiler p(&cpu_time.qi);
-		qi.Execute (kp, cfg, &s->qi_instance, &s->device->qi_instance, &s->d_com, &s->d_resultpos, useTextureCache);
+		qi.Execute <TImageSampler> (kp, cfg, &s->qi_instance, &s->device->qi_instance, &s->d_com, &s->d_resultpos);
 		curpos = &s->d_resultpos;
 	}
 

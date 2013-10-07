@@ -42,7 +42,8 @@ public:
 		DeviceInstance() { d_qiparams=0; }
 	};
 
-	void Execute (BaseKernelParams& p, const QTrkComputedConfig& cfg, StreamInstance* s, DeviceInstance* d, device_vec<float3>* initial, device_vec<float3> *output, bool useTexCache);
+	template<typename TImageSampler>
+	void Execute (BaseKernelParams& p, const QTrkComputedConfig& cfg, StreamInstance* s, DeviceInstance* d, device_vec<float3>* initial, device_vec<float3> *output);
 
 	void InitDevice(DeviceInstance*d,  QTrkComputedConfig& cc);
 	void InitStream(StreamInstance* s, QTrkComputedConfig& cc, cudaStream_t stream, int batchSize);

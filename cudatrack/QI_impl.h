@@ -261,17 +261,14 @@ __global__ void QI_QuadrantsToProfiles(BaseKernelParams kp, float* quadrants, fl
 	}
 }
 
-
-void QI::Execute (BaseKernelParams& p, const QTrkComputedConfig& cfg, QI::StreamInstance* s, QI::DeviceInstance* d, device_vec<float3>* initial, device_vec<float3> *output, bool useTextureCache) 
+template<typename TImageSampler>
+void QI::Execute (BaseKernelParams& p, const QTrkComputedConfig& cfg, QI::StreamInstance* s, QI::DeviceInstance* d, device_vec<float3>* initial, device_vec<float3> *output) 
 {
 	float angsteps = cfg.qi_angstepspq / powf(cfg.qi_angstep_factor, cfg.qi_iterations);
 
 	for (int a=0;a<cfg.qi_iterations;a++) {
 		device_vec<float3>* dst = a==0 ? initial : output;
-		if (useTextureCache) 
-			Iterate< ImageSampler_Tex > (p, dst, output, s, d, std::max(MIN_RADPROFILE_SMP_COUNT, (int)angsteps) );
-		else
-			Iterate< ImageSampler_MemCopy > (p, dst, output, s, d, std::max(MIN_RADPROFILE_SMP_COUNT, (int)angsteps) );
+		Iterate< TImageSampler > (p, dst, output, s, d, std::max(MIN_RADPROFILE_SMP_COUNT, (int)angsteps) );
 		angsteps *= cfg.qi_angstep_factor;
 	}
 }

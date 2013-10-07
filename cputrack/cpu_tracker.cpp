@@ -659,12 +659,12 @@ float CPUTracker::ComputeZ(vector2f center, int angularSteps, int zlutIndex, boo
 	}
 	
 #ifdef _DEBUG
-	static int started=0;
+/*	static int started=0;
 	std::string file = GetLocalModulePath() + "/zlutcmp-cpu.txt";
 	if( zlutIndex == 0) {
 		if (started++==0) remove(file.c_str());
 		WriteArrayAsCSVRow(file.c_str(), rprof_diff, zlut_planes, true);
-	}
+	}*/
 #endif
 
 	float z = ComputeMaxInterp<float, ZLUT_LSQFIT_NWEIGHTS>::Compute(rprof_diff, zlut_planes, ZLUTWeights);

@@ -27,28 +27,65 @@ void BinaryResultFile::SaveRow(std::vector<vector3f>& pos)
 }
 
 
-
-ResultManager::ResultManager(const char *outfile, const char* frameInfoFile, ResultManagerConfig *cfg)
+ResultManager::FrameCounters::FrameCounters()
 {
-	config = *cfg;
-	outputFile = outfile;
-	this->frameInfoFile = frameInfoFile;
-
 	startFrame = 0;
 	lastSaveFrame = 0;
 	processedFrames = 0;
 	capturedFrames = 0;
 	localizationsDone = 0;
+	lostFrames = 0;
+	fileError = 0;
+}
+
+ResultManager::ResultManager(const char *outfile, const char* frameInfoFile, ResultManagerConfig *cfg, std::vector<std::string> colnames)
+{
+	config = *cfg;
+	outputFile = outfile;
+	this->frameInfoFile = frameInfoFile;
 
 	qtrk = 0;
 
 	thread = Threads::Create(ThreadLoop, this);
 	quit=false;
 
-	remove(outfile);
-	remove(frameInfoFile);
+	if (!outputFile.empty())
+		remove(outfile);
+	if (!this->frameInfoFile.empty())
+		remove(frameInfoFile);
+
+	frameInfoNames = colnames;
+
+	if (config.binaryOutput) {
+		WriteBinaryFileHeader();
+	}
 
 	dbgprintf("Allocating ResultManager with %d beads and writeinterval %d\n", cfg->numBeads, cfg->writeInterval);
+}
+
+void ResultManager::WriteBinaryFileHeader()
+{
+	FILE* f = fopen(outputFile.c_str(), "wb");
+	if (!f) {
+		throw std::runtime_error( SPrintf("Unable to open file %s", outputFile.c_str()));
+	}
+
+	// Write file header
+	fwrite(&config.numBeads, sizeof(int), 1, f);
+	fwrite(&config.numFrameInfoColumns, sizeof(int), 1, f);
+	int tmp=1234;
+	fwrite(&tmp,sizeof(int), 1,f);
+	for (int i=0;i<config.numFrameInfoColumns;i++) {
+		auto& n = frameInfoNames[i];
+		fwrite(n.c_str(), n.length()+1, 1, f);
+	}
+	long data_offset = ftell(f);
+	dbgprintf("frame data offset: %d\n", data_offset);
+	fseek(f, 8, SEEK_SET);
+	fwrite(&data_offset, sizeof(long), 1, f);
+	
+	dbgprintf("writing %d beads and %d frame-info columns into file %s\n", config.numBeads, config.numFrameInfoColumns, outputFile.c_str());
+	fclose(f);
 }
 
 ResultManager::~ResultManager()
@@ -62,11 +99,11 @@ ResultManager::~ResultManager()
 
 void ResultManager::StoreResult(LocalizationResult *r)
 {
-	int index = r->job.frame - startFrame;
+	int index = r->job.frame - cnt.startFrame;
 
 	if (index >= (int) frameResults.size()) {
 		dbgprintf("dropping result. Result provided for unregistered frame %d. Current frames registered: %d\n", 
-			r->job.frame, startFrame + frameResults.size());
+			r->job.frame, cnt.startFrame + frameResults.size());
 		return; // add errors?
 	}
 
@@ -79,28 +116,33 @@ void ResultManager::StoreResult(LocalizationResult *r)
 	fr->count++;
 
 	// Advance processedFrames, either because measurements have been completed or because frames have been lost
-	while (processedFrames - startFrame < (int) frameResults.size() && 
-		( frameResults[processedFrames-startFrame]->count == config.numBeads || capturedFrames - processedFrames > 1000 ) )
-		processedFrames ++;
+	while (cnt.processedFrames - cnt.startFrame < (int) frameResults.size() && 
+		( frameResults[cnt.processedFrames-cnt.startFrame]->count == config.numBeads || cnt.capturedFrames - cnt.processedFrames > 1000 ) )
+	{
+		if (frameResults[cnt.processedFrames-cnt.startFrame]->count < config.numBeads)
+			cnt.lostFrames ++;
 
-	localizationsDone ++;
+		cnt.processedFrames ++;
+	}
+
+	cnt.localizationsDone ++;
 }
 
 void ResultManager::WriteBinaryResults()
 {
-	FILE* f = outputFile.empty () ? 0 : fopen(outputFile.c_str(), "a");
-	if (!f) 
+	if (outputFile.empty())
 		return;
 
-	if (lastSaveFrame == 0) {
-		fwrite(&config.numBeads, sizeof(int), 1, f);
-		fwrite(&config.numFrameInfoColumns, sizeof(int), 1, f);
-		dbgprintf("writing %d beads and %d frame-info columns into file %s\n", config.numBeads, config.numFrameInfoColumns, outputFile.c_str());
+	FILE* f = fopen(outputFile.c_str(), "ab");
+	if (!f) {
+		dbgprintf("ResultManager::WriteBinaryResult() Unable to open file %s\n", outputFile.c_str());
+		cnt.fileError ++;
+		return;
 	}
 
-	for (int j=lastSaveFrame; j<processedFrames;j++)
+	for (int j=cnt.lastSaveFrame; j<cnt.processedFrames;j++)
 	{
-		auto fr = frameResults[j-startFrame];
+		auto fr = frameResults[j-cnt.startFrame];
 		if (f) {
 			fwrite(&j, sizeof(uint), 1, f);
 			fwrite(&fr->timestamp, sizeof(double), 1, f);
@@ -120,9 +162,9 @@ void ResultManager::WriteTextResults()
 	FILE* f = outputFile.empty () ? 0 : fopen(outputFile.c_str(), "a");
 	FILE* finfo = frameInfoFile.empty() ? 0 : fopen(frameInfoFile.c_str(), "a");
 
-	for (int k=lastSaveFrame; k<processedFrames;k++)
+	for (int k=cnt.lastSaveFrame; k<cnt.processedFrames;k++)
 	{
-		auto fr = frameResults[k-startFrame];
+		auto fr = frameResults[k-cnt.startFrame];
 		if (f) {
 			fprintf(f,"%d\t%f\t", k, fr->timestamp);
 			for (int i=0;i<config.numBeads;i++) 
@@ -152,8 +194,8 @@ void ResultManager::Write()
 	else
 		WriteTextResults();
 
-	dbgprintf("Saved frame %d to %d\n", lastSaveFrame, processedFrames);
-	lastSaveFrame = processedFrames;
+	dbgprintf("Saved frame %d to %d\n", cnt.lastSaveFrame, cnt.processedFrames);
+	cnt.lastSaveFrame = cnt.processedFrames;
 
 	resultMutex.unlock();
 }
@@ -193,7 +235,7 @@ bool ResultManager::Update()
 
 	trackerMutex.unlock();
 
-	if (processedFrames - lastSaveFrame >= config.writeInterval) {
+	if (cnt.processedFrames - cnt.lastSaveFrame >= config.writeInterval) {
 		Write();
 	}
 
@@ -205,7 +247,7 @@ bool ResultManager::Update()
 			delete frameResults[i];
 		frameResults.erase(frameResults.begin(), frameResults.begin()+del);
 
-		startFrame += del;
+		cnt.startFrame += del;
 	}
 	resultMutex.unlock();
 
@@ -230,13 +272,13 @@ int ResultManager::GetBeadPositions(int startFrame, int endFrame, int bead, Loca
 	int count = endFrame-startFrame;
 
 	resultMutex.lock();
-	if (endFrame > processedFrames)
-		endFrame = processedFrames;
+	if (endFrame > cnt.processedFrames)
+		endFrame = cnt.processedFrames;
 
-	int start = startFrame - this->startFrame;
+	int start = startFrame - cnt.startFrame;
 	if (start < 0) start = 0;
-	if (count > processedFrames-this->startFrame)
-		count = processedFrames-this->startFrame;
+	if (count > cnt.processedFrames-cnt.startFrame)
+		count = cnt.processedFrames-cnt.startFrame;
 
 	for (int i=0;i<count;i++){
 		results[i] = frameResults[i+start]->results[bead];
@@ -270,27 +312,21 @@ void ResultManager::Flush()
 }
 
 
-void ResultManager::GetFrameCounters(int* startFrame, int *processedFrames, int *lastSaveFrame, int *capturedFrames, int *localizationsDone)
+ResultManager::FrameCounters ResultManager::GetFrameCounters()
 {
 	resultMutex.lock();
-	if (startFrame) *startFrame = this->startFrame;
-	if (processedFrames) *processedFrames = this->processedFrames;
-	if (lastSaveFrame) *lastSaveFrame = this->lastSaveFrame;
-	if (localizationsDone) *localizationsDone = this->localizationsDone;
-
-	if (capturedFrames) {
-		*capturedFrames = this->capturedFrames;
-	}
+	FrameCounters c = cnt;
 	resultMutex.unlock();
+	return c;
 }
 
 int ResultManager::GetResults(LocalizationResult* results, int startFrame, int numFrames)
 {
 	resultMutex.lock();
 
-	if (startFrame >= this->startFrame && numFrames+startFrame <= processedFrames)  {
+	if (startFrame >= cnt.startFrame && numFrames+startFrame <= cnt.processedFrames)  {
 		for (int f=0;f<numFrames;f++) {
-			int index = f + startFrame - this->startFrame;
+			int index = f + startFrame - cnt.startFrame;
 			for (int j=0;j<config.numBeads;j++)
 				results[config.numBeads*f+j] = frameResults[index]->results[j];
 		}
@@ -309,7 +345,7 @@ int ResultManager::StoreFrameInfo(double timestamp, float* columns)
 	for(int i=0;i<config.numFrameInfoColumns;i++)
 		fr->frameInfo[i]=columns[i];
 	frameResults.push_back (fr);
-	int nfr = ++capturedFrames;
+	int nfr = ++cnt.capturedFrames;
 	resultMutex.unlock();
 	return nfr;
 }
@@ -318,7 +354,7 @@ int ResultManager::StoreFrameInfo(double timestamp, float* columns)
 int ResultManager::GetFrameCount()
 {
 	resultMutex.lock();
-	int nfr = capturedFrames;
+	int nfr = cnt.capturedFrames;
 	resultMutex.unlock();
 	return nfr;
 }

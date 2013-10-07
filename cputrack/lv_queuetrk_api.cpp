@@ -35,6 +35,18 @@ void SetLVString (LStrHandle str, const char *text)
 	}
 }
 
+std::vector<std::string> LVGetStringArray(int count, LStrHandle *str)
+{
+	std::vector<std::string> result(count);
+
+	for (int x=0;x<count;x++) {
+		uChar *val = LHStrBuf(str[x]);
+		int len = LHStrLen (str[x]);
+		result[x]=std::string((const char*)val, (size_t)len );
+	}
+	return result;
+}
+
 MgErr FillErrorCluster(MgErr err, const char *message, ErrorCluster *error)
 {
 	if (err)
