@@ -75,22 +75,25 @@ public:
 		int fileError;
 	};
 
-	void SetFrameInfoColNames(const std::vector<std::string>& names);
-
 	FrameCounters GetFrameCounters();
-	int StoreFrameInfo(double timestamp, float* columns); // return #frames
+	void StoreFrameInfo(int frame, double timestamp, float* columns); // return #frames
 	int GetFrameCount();
+	// Make sure that the space for that frame is allocated
 
 	bool RemoveBeadResults(int bead);
 	
 	const ResultManagerConfig& Config() { return config; }
 
 protected:
+	bool CheckResultSpace(int fr);
 	void Write();
 	void WriteBinaryResults();
 	void WriteTextResults();
 
 	void StoreResult(LocalizationResult* r);
+	static void ThreadLoop(void *param);
+	bool Update();
+	void WriteBinaryFileHeader();
 
 	struct FrameResult
 	{
@@ -117,7 +120,4 @@ protected:
 	Threads::Handle* thread;
 	Atomic<bool> quit;
 
-	static void ThreadLoop(void *param);
-	bool Update();
-	void WriteBinaryFileHeader();
 };

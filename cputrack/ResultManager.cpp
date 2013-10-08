@@ -99,33 +99,29 @@ ResultManager::~ResultManager()
 
 void ResultManager::StoreResult(LocalizationResult *r)
 {
-	int index = r->job.frame - cnt.startFrame;
+	if (CheckResultSpace(r->job.frame)) {
 
-	if (index >= (int) frameResults.size()) {
-		dbgprintf("dropping result. Result provided for unregistered frame %d. Current frames registered: %d\n", 
-			r->job.frame, cnt.startFrame + frameResults.size());
-		return; // add errors?
-	}
+		LocalizationResult scaled = *r;
+		// Make roi-centered pos
+		scaled.pos = scaled.pos - vector3f( qtrk->cfg.width*0.5f, qtrk->cfg.height*0.5f, 0);
+		scaled.pos = ( scaled.pos + config.offset ) * config.scaling;
+		FrameResult* fr = frameResults[r->job.frame - cnt.startFrame];
+		fr->results[r->job.zlutIndex] = scaled;
+		fr->count++;
 
-	LocalizationResult scaled = *r;
-	// Make roi-centered pos
-	scaled.pos = scaled.pos - vector3f( qtrk->cfg.width*0.5f, qtrk->cfg.height*0.5f, 0);
-	scaled.pos = ( scaled.pos + config.offset ) * config.scaling;
-	FrameResult* fr = frameResults[index];
-	fr->results[r->job.zlutIndex] = scaled;
-	fr->count++;
+		// Advance processedFrames, either because measurements have been completed or because frames have been lost
+		while (cnt.processedFrames - cnt.startFrame < (int) frameResults.size() && 
+			(frameResults[cnt.processedFrames-cnt.startFrame]->count == config.numBeads || cnt.capturedFrames - cnt.processedFrames > 1000 ))
+		{
+			if (frameResults[cnt.processedFrames-cnt.startFrame]->count < config.numBeads)
+				cnt.lostFrames ++;
 
-	// Advance processedFrames, either because measurements have been completed or because frames have been lost
-	while (cnt.processedFrames - cnt.startFrame < (int) frameResults.size() && 
-		( frameResults[cnt.processedFrames-cnt.startFrame]->count == config.numBeads || cnt.capturedFrames - cnt.processedFrames > 1000 ) )
-	{
-		if (frameResults[cnt.processedFrames-cnt.startFrame]->count < config.numBeads)
-			cnt.lostFrames ++;
+			cnt.processedFrames ++;
+		}
 
-		cnt.processedFrames ++;
-	}
-
-	cnt.localizationsDone ++;
+		cnt.localizationsDone ++;
+	} else
+		cnt.lostFrames++;
 }
 
 void ResultManager::WriteBinaryResults()
@@ -336,18 +332,32 @@ int ResultManager::GetResults(LocalizationResult* results, int startFrame, int n
 	return numFrames;
 }
 
+bool ResultManager::CheckResultSpace(int fr)
+{
+	if(fr < cnt.startFrame)
+		return false; // already removed, ignore
 
-int ResultManager::StoreFrameInfo(double timestamp, float* columns)
+	while (fr >= cnt.startFrame + frameResults.size()) {
+		frameResults.push_back (new FrameResult( config.numBeads, config.numFrameInfoColumns));
+	}
+	return true;
+}
+
+void ResultManager::StoreFrameInfo(int frame, double timestamp, float* columns)
 {
 	resultMutex.lock();
-	auto fr = new FrameResult( config.numBeads, config.numFrameInfoColumns);
-	fr->timestamp = timestamp;
-	for(int i=0;i<config.numFrameInfoColumns;i++)
-		fr->frameInfo[i]=columns[i];
-	frameResults.push_back (fr);
-	int nfr = ++cnt.capturedFrames;
+
+	if (CheckResultSpace(frame)) {
+		FrameResult* fr = frameResults[frame-cnt.startFrame];		
+		fr->timestamp = timestamp;
+		for(int i=0;i<config.numFrameInfoColumns;i++)
+			fr->frameInfo[i]=columns[i];
+		int nfr = ++cnt.capturedFrames;
+	}
+	else 
+		dbgprintf("Frame already removed before StoreFrameInfo was called on it!! Set maxFramesInMemory(%d) higher?\n", config.maxFramesInMemory);
+
 	resultMutex.unlock();
-	return nfr;
 }
 
 

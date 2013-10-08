@@ -49,12 +49,11 @@ CDLL_EXPORT void DLL_CALLCONV rm_destroy(ResultManager* rm, ErrorCluster  *err)
 	}
 }
 
-CDLL_EXPORT int DLL_CALLCONV rm_store_frame_info(ResultManager* rm, double timestamp, float* cols, ErrorCluster* err)
+CDLL_EXPORT void DLL_CALLCONV rm_store_frame_info(ResultManager* rm, int frame, double timestamp, float* cols, ErrorCluster* err)
 {
 	if (ValidRM(rm, err)) {
-		return rm->StoreFrameInfo(timestamp, cols);
+		rm->StoreFrameInfo(frame, timestamp, cols);
 	} 
-	return 0;
 }
 
 CDLL_EXPORT int DLL_CALLCONV rm_getbeadresults(ResultManager* rm, int start, int numFrames, int bead, LocalizationResult* results, ErrorCluster* err)
