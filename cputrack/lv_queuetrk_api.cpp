@@ -130,6 +130,46 @@ CDLL_EXPORT void DLL_CALLCONV qtrk_set_ZLUT(QueuedTracker* tracker, LVArray3D<fl
 	}
 }
 
+
+CDLL_EXPORT void DLL_CALLCONV qtrk_get_ZLUT(QueuedTracker* tracker, LVArray3D<float>** pzlut, ErrorCluster* e)
+{
+	if (ValidateTracker(tracker, e, "get ZLUT")) {
+		int dims[3];
+
+		tracker->GetRadialZLUTSize(dims[0], dims[1], dims[2]);
+		if(dims[0]*dims[1]*dims[2]>0) {
+			ResizeLVArray3D(pzlut, dims[0], dims[1], dims[2]);
+			tracker->GetRadialZLUT( (*pzlut)->elem );
+		}
+	}
+}
+
+CDLL_EXPORT void DLL_CALLCONV qtrk_get_image_lut(QueuedTracker* qtrk, LVArrayND<float, 4>** imageLUT, ErrorCluster* e)
+{
+	if (ValidateTracker(qtrk, e, "get_image_lut")) {
+
+		int dims[4];
+		qtrk->GetImageZLUTSize(dims);
+		ResizeLVArray(imageLUT, dims);
+
+		if ( (*imageLUT)->numElem () > 0 ){
+			qtrk->GetImageZLUT( (*imageLUT)->elem );
+		}
+	}
+}
+
+CDLL_EXPORT void DLL_CALLCONV qtrk_set_image_lut(QueuedTracker* qtrk, LVArrayND<float,4>** imageLUT, ErrorCluster* e)
+{
+	if (ValidateTracker(qtrk, e, "set_image_lut")) {
+		if ( (*imageLUT)->numElem () == 0 ){
+			qtrk->SetImageZLUT (0, 0);
+		}
+		else {
+			qtrk->SetImageZLUT( (*imageLUT)->elem, (*imageLUT)->dimSizes );
+		}
+	}
+}
+
 CDLL_EXPORT void DLL_CALLCONV qtrk_set_pixel_calib_factors(QueuedTracker* qtrk, float offsetFactor, float gainFactor, ErrorCluster* e)
 {
 	if (ValidateTracker(qtrk, e, "set pixel calib factors")) {
@@ -167,18 +207,6 @@ CDLL_EXPORT void DLL_CALLCONV qtrk_set_pixel_calib(QueuedTracker* qtrk, LVArray3
 	}
 }
 
-CDLL_EXPORT void DLL_CALLCONV qtrk_get_ZLUT(QueuedTracker* tracker, LVArray3D<float>** pzlut, ErrorCluster* e)
-{
-	if (ValidateTracker(tracker, e, "get ZLUT")) {
-		int dims[3];
-
-		tracker->GetRadialZLUTSize(dims[0], dims[1], dims[2]);
-		if(dims[0]*dims[1]*dims[2]>0) {
-			ResizeLVArray3D(pzlut, dims[0], dims[1], dims[2]);
-			tracker->GetRadialZLUT( (*pzlut)->elem );
-		}
-	}
-}
 
 CDLL_EXPORT QueuedTracker* qtrk_create(QTrkSettings* settings, ErrorCluster* e)
 {

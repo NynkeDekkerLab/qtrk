@@ -597,7 +597,7 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 	{ScopedCPUProfiler p(&cpu_time.imap);
 
 		if (s->localizeFlags & LT_BuildImageLUT) {
-			ImageLUT_Build <<< blocks(s->JobCount()), threads(), 0, s->stream >>> (kp,imageLUTConfig, curpos->data, s->device->image_lut);
+			ImageLUT_Build<TImageSampler> <<< blocks(s->JobCount()), threads(), 0, s->stream >>> (kp,imageLUTConfig, curpos->data, s->device->image_lut);
 		}
 
 		if (s->localizeFlags & LT_IMAP) {

@@ -44,6 +44,18 @@ struct LVArray3D {
 	int numElem() { return dimSizes[0]*dimSizes[1]*dimSizes[2]; }
 };
 
+template<typename T, int N>
+struct LVArrayND {
+	int32_t dimSizes[N];
+	T elem[1];
+
+	int numElem() { 
+		int n = dimSizes[0];
+		for (int i=1;i<N;i++) n*=dimSizes[i];
+		return n; 
+	}
+};
+
 
 // Compile-time map of C++ types to Labview DataType codes
 template<typename T>
@@ -73,6 +85,12 @@ void ResizeLVArray3D(LVArray3D<T>**& d, int depth, int rows, int cols) {
 	(*d)->dimSizes[0] = depth;
 	(*d)->dimSizes[1] = rows;
 	(*d)->dimSizes[2] = cols;
+}
+template<typename T, int N>
+void ResizeLVArray(LVArrayND<T, N>**& d, int* dims) {
+	for (int i=0;i<N;i++)
+		(*d)->dimSizes[i]=dims[i];
+	NumericArrayResize(LVDataType<T>::code, N, (UHandle*)&d, sizeof(T)*(*d)->numElem());
 }
 template<typename T>
 void ResizeLVArray(LVArray<T>**& d, int elems) {

@@ -52,11 +52,13 @@ struct ImageLUTConfig
 	static ImageLUTConfig empty() {
 		ImageLUTConfig v;
 		v.nLUTs = v.planes=v.w=v.h=0;
+		v.xscale=v.yscale=1.0f;
 		return v;
 	}
 	int nLUTs;
 	int planes;
 	int w, h;
+	float xscale, yscale;
 
 	int lutWidth() { return w * planes; }
 	int lutNumPixels() { return w * h * planes; }
@@ -165,7 +167,7 @@ protected:
 			StreamPendingExec,
 			StreamExecuting
 		};
-		volatile State state;
+		State state;
 	};
 
 	int numThreads;

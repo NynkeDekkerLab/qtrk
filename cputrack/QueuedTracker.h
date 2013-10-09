@@ -170,7 +170,7 @@ public:
 	virtual void GetImageZLUTSize(int* dims) {}
 	virtual void GetImageZLUT(float* dst) {}
 	virtual void SetImageZLUT(float* dst, int* dims) {}
-
+	
 	virtual int GetResultCount() = 0;
 	virtual int FetchResults(LocalizationResult* results, int maxResults) = 0;
 

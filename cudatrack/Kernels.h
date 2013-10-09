@@ -253,10 +253,30 @@ __global__ void G2MLE_Compute(BaseKernelParams kp, float sigma, int iterations, 
 	if (I_0) I_0[jobIdx] = I0;
 }
 
-
+template<typename TImageSampler>
 __global__ void ImageLUT_Build(BaseKernelParams kp, ImageLUTConfig ilc, float3* positions, cudaImageListf image_lut)
 {
+	// add sampled image data to 
+	int idx = threadIdx.x;
+	if (idx < kp.njobs) {
 
+		float invMean = 1.0f / kp.imgmeans[idx];
+
+		float startx = positions[idx].x - ilc.w/2*ilc.xscale;
+		float starty = positions[idx].y - ilc.h/2*ilc.yscale;
+
+		int dstx = ilc.w * kp.locParams[idx].zlutPlane;
+
+		for (int y=0;y<kp.images.h;y++)
+			for (int x=0;x<kp.images.w;x++) {
+				float px = startx + x*ilc.xscale;
+				float py = starty + y*ilc.yscale;
+
+				bool outside=false;
+				float v = TImageSampler::Interpolated(kp.images, px, py, idx, outside);
+				image_lut.pixel(x + dstx,y,kp.locParams[idx].zlutIndex) += v * invMean;
+			}
+	}
 }
 
 
