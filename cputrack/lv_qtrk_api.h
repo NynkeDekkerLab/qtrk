@@ -16,13 +16,11 @@ CDLL_EXPORT void DLL_CALLCONV qtrk_queue_array(QueuedTracker* qtrk,  ErrorCluste
 
 
 enum QueueFrameFlags {
-	QFF_ReadTimestampFromFrame = 1,
-	QFF_ReadTimestampFromFrameRev = 2,
-	QFF_Async = 4,
+	QFF_ImageEncodedFrameNumber = 1, // frame number is stored in first 4 pixels of frame
 	QFF_Force32Bit = 0x7fffffff
 };
 
-CDLL_EXPORT uint qtrk_read_timestamp(uchar* image, int w, int h, QueueFrameFlags flags);
+CDLL_EXPORT uint qtrk_read_timestamp(uchar* image, int w, int h);
 CDLL_EXPORT uint DLL_CALLCONV qtrk_queue_frame(QueuedTracker* qtrk, uchar* image, int pitch, int w,int h, uint pdt, ROIPosition* pos, int numROI, const LocalizationJob *pJobInfo, QueueFrameFlags flags, ErrorCluster* e);
 CDLL_EXPORT void DLL_CALLCONV qtrk_clear_results(QueuedTracker* qtrk, ErrorCluster* e);
 CDLL_EXPORT int DLL_CALLCONV qtrk_resultcount(QueuedTracker* qtrk, ErrorCluster* e);

@@ -127,7 +127,6 @@
     <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AsyncScheduler.h" />
     <ClInclude Include="BeadFinder.h" />
     <ClInclude Include="cpu_tracker.h" />
     <ClInclude Include="dllmacros.h" />
