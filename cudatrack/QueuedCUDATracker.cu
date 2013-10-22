@@ -157,6 +157,11 @@ QueuedCUDATracker::QueuedCUDATracker(const QTrkComputedConfig& cc, int batchSize
 	int numStreams = cfg.numThreads;
 
 	cudaGetDeviceProperties(&deviceProp, devices[0]->index);
+
+	if (deviceProp.kernelExecTimeoutEnabled) {
+		throw std::runtime_error(SPrintf("CUDA Kernel execution timeout is enabled for %s. Disable WDDM Time-out Detection and Recovery (TDR) in the driver before running this code", deviceProp.name));
+	}
+
 	numThreads = deviceProp.warpSize;
 	
 	if(batchSize<0) batchSize = 256;

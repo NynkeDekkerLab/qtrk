@@ -277,7 +277,7 @@ static double WaitForFinish(QueuedTracker* qtrk, int N)
 	double t0 = GetPreciseTime();
 	qtrk->Flush();
 	int displayrc=0,rc=0;
-	while ( (rc = qtrk->GetResultCount ()) != N) {
+	while ( (rc = qtrk->GetResultCount ()) != N || displayrc<rc) {
 		while (displayrc<rc) {
 			if(displayrc%std::max(1,N/10)==0) dbgprintf("Done: %d / %d\n", displayrc, N);
 			displayrc++;
