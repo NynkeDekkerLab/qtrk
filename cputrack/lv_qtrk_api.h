@@ -6,7 +6,7 @@
 
 CDLL_EXPORT void DLL_CALLCONV qtrk_set_ZLUT(QueuedTracker* tracker, LVArray3D<float>** pZlut, LVArray<float>** zcmpWindow, int normalize, ErrorCluster* e);
 CDLL_EXPORT void DLL_CALLCONV qtrk_get_ZLUT(QueuedTracker* tracker, LVArray3D<float>** pzlut, ErrorCluster* e);
-CDLL_EXPORT QueuedTracker* DLL_CALLCONV qtrk_create(QTrkSettings* settings, ErrorCluster* e);
+CDLL_EXPORT QueuedTracker* DLL_CALLCONV qtrk_create(QTrkSettings* settings, LStrHandle warnings, ErrorCluster* e);
 CDLL_EXPORT void DLL_CALLCONV qtrk_destroy(QueuedTracker* qtrk, ErrorCluster* error);
 CDLL_EXPORT void DLL_CALLCONV qtrk_queue_u16(QueuedTracker* qtrk, ErrorCluster* error, LVArray2D<ushort>** data, const LocalizationJob *jobInfo);
 CDLL_EXPORT void DLL_CALLCONV qtrk_queue_u8(QueuedTracker* qtrk, ErrorCluster* error, LVArray2D<uchar>** data, const LocalizationJob *jobInfo);

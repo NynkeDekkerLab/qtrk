@@ -208,11 +208,14 @@ CDLL_EXPORT void DLL_CALLCONV qtrk_set_pixel_calib(QueuedTracker* qtrk, LVArray3
 }
 
 
-CDLL_EXPORT QueuedTracker* qtrk_create(QTrkSettings* settings, ErrorCluster* e)
+CDLL_EXPORT QueuedTracker* qtrk_create(QTrkSettings* settings, LStrHandle warnings, ErrorCluster* e)
 {
 	QueuedTracker* tracker = 0;
 	try {
 		tracker = CreateQueuedTracker(*settings);
+
+		std::string w = tracker->GetWarnings();
+		if (!w.empty()) SetLVString(warnings, w.c_str());
 
 		trackerListMutex.lock();
 		trackerList.push_back(tracker);
