@@ -21,7 +21,7 @@ void GenerateZLUT(QueuedTracker* qtrk, float zmin, float zmax, int zplanes, cons
 	QTrkComputedConfig& cfg = qtrk->cfg;
 	float *image = new float[cfg.width*cfg.height];
 	qtrk->SetRadialZLUT(NULL, 1, zplanes, 0);
-	qtrk->SetLocalizationMode( (LocalizeType)(LT_QI|LT_BuildRadialZLUT|LT_NormalizeProfile) );
+	qtrk->SetLocalizationMode( (LocMode_t)(LT_QI|LT_BuildRadialZLUT|LT_NormalizeProfile) );
 	for (int x=0;x<zplanes;x++)  {
 		vector2f center(cfg.width/2, cfg.height/2 );
 		float s = zmin + (zmax-zmin) * x/(float)(zplanes-1);
@@ -398,7 +398,7 @@ void QTrkTest()
 	double tgen = 0.0, tschedule = 0.0;
 	std::vector<float> truepos(NumImages*3);
 	qtrk.ClearResults();
-	qtrk.SetLocalizationMode((LocalizeType)(LT_QI|LT_NormalizeProfile | (haveZLUT ? LT_LocalizeZ : 0)) );
+	qtrk.SetLocalizationMode((LocMode_t)(LT_QI|LT_NormalizeProfile | (haveZLUT ? LT_LocalizeZ : 0)) );
 	qtrk.Break(true);
 	for (int n=0;n<NumImages;n++) {
 		double t1 = GetPreciseTime();

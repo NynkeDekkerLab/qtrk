@@ -17,14 +17,11 @@ public:
 	int NumThreads() { return cfg.numThreads; }
 
 	// QueuedTracker interface
-	void SetLocalizationMode(LocalizeType lt) override;
+	void SetLocalizationMode(LocMode_t lt) override;
 	void SetRadialZLUT(float* data, int num_zluts, int planes, float* zcmp=0) override;
 	void GetRadialZLUT(float* zlut) override;
 	void GetRadialZLUTSize(int& count ,int& planes, int& rsteps) override;
-	void ScheduleLocalization(uchar* data, int pitch, QTRK_PixelDataType pdt, const LocalizationJob *jobInfo) override;
-	// Schedule an entire frame at once, allowing for further optimizations
-	int ScheduleFrame(uchar *imgptr, int pitch, int width, int height, ROIPosition *positions, int numROI, QTRK_PixelDataType pdt, 
-		const LocalizationJob *jobInfo) override;
+	void ScheduleLocalization(void* data, int pitch, QTRK_PixelDataType pdt, const LocalizationJob *jobInfo) override;
 
 	void SetPixelCalibrationImages(float* offset, float* gain) override;
 	void SetPixelCalibrationFactors(float offsetFactor, float gainFactor) override;
@@ -64,7 +61,7 @@ private:
 		LocalizationJob job;
 	};
 
-	LocalizeType localizeMode;
+	LocMode_t localizeMode;
 	Threads::Mutex jobs_mutex, jobs_buffer_mutex, results_mutex;
 	std::deque<Job*> jobs;
 	int jobCount;

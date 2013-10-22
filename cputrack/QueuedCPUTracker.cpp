@@ -12,11 +12,6 @@ void SetCUDADevices(int* dev, int ndev) {
 }
 #endif
 
-static int PDT_BytesPerPixel(QTRK_PixelDataType pdt) {
-	const int pdtBytes[] = {1, 2, 4};
-	return pdtBytes[(int)pdt];
-}
-
 bool QueuedCPUTracker::IsIdle()
 {
 	return GetQueueLength() == 0;
@@ -261,7 +256,7 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 	if (_isnan(com.x) || _isnan(com.y))
 		com = vector2f(cfg.width/2,cfg.height/2);
 
-	LocalizeType locType = (LocalizeType)(localizeMode&LT_2DMask);
+	LocMode_t locType = (LocMode_t)(localizeMode&LT_2DMask);
 	bool boundaryHit = false;
 
 	switch(locType) {
@@ -371,7 +366,7 @@ void QueuedCPUTracker::GetRadialZLUT(float *zlut)
 	}
 }
 
-void QueuedCPUTracker::ScheduleLocalization(uchar* data, int pitch, QTRK_PixelDataType pdt, const LocalizationJob *jobInfo)
+void QueuedCPUTracker::ScheduleLocalization(void* data, int pitch, QTRK_PixelDataType pdt, const LocalizationJob *jobInfo)
 {
 	if (processJobs) {
 		while(maxQueueSize != 0 && GetQueueLength () >= maxQueueSize)
@@ -386,7 +381,7 @@ void QueuedCPUTracker::ScheduleLocalization(uchar* data, int pitch, QTRK_PixelDa
 		j->data = new uchar[dstPitch * cfg.height];
 	}
 	for (int y=0; y<cfg.height; y++)
-		memcpy(&j->data[dstPitch*y], &data[pitch*y], dstPitch);
+		memcpy(&j->data[dstPitch*y], & ((uchar*)data)[pitch*y], dstPitch);
 
 	j->dataType = pdt;
 	j->job = *jobInfo;
@@ -416,28 +411,6 @@ void QueuedCPUTracker::GenerateTestImage(float* dst, float xp,float yp, float z,
 	::GenerateTestImage(img,xp,yp,z,photoncount);
 }
 
-
-int QueuedCPUTracker::ScheduleFrame(uchar *imgptr, int pitch, int width, int height, ROIPosition *positions, int numROI, QTRK_PixelDataType pdt, const LocalizationJob *jobInfo)
-{
-	uchar* img = (uchar*)imgptr;
-	int bpp = PDT_BytesPerPixel(pdt);
-	int count=0;
-	for (int i=0;i<numROI;i++){
-		ROIPosition& pos = positions[i];
-
-		if (pos.x < 0 || pos.y < 0 || pos.x + cfg.width > width || pos.y + cfg.height > height) {
-			dbgprintf("Skipping ROI %d. Outside of image.\n", i);
-			continue;
-		}
-
-		uchar *roiptr = &img[pitch * pos.y + pos.x * bpp];
-		LocalizationJob job = *jobInfo;
-		job.zlutIndex = i + jobInfo->zlutIndex; // used as offset
-		ScheduleLocalization(roiptr, pitch, pdt, &job);
-		count++;
-	}
-	return count;
-}
 
 
 bool QueuedCPUTracker::GetDebugImage(int id, int *w, int *h,float** data)
@@ -473,7 +446,7 @@ void QueuedCPUTracker::SetConfigValue(std::string name, std::string value)
 		dbgPrintResults = !!atoi(value.c_str());
 }
 
-void QueuedCPUTracker::SetLocalizationMode(LocalizeType lt)
+void QueuedCPUTracker::SetLocalizationMode(LocMode_t lt)
 {
 	while (!IsIdle());
 	localizeMode = lt;

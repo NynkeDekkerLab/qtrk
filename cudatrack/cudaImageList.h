@@ -5,6 +5,7 @@
 //cudaImageList stores a large number of small images into a single large memory space, allocated using cudaMallocPitch. 
 // It has no constructor/destructor, so it can be passed to CUDA kernels. 
 // It allows binding to a texture
+// NOTE: Maybe this should be converted into a 3D cudaArray?
 template<typename T>
 struct cudaImageList {
 	// No constructor used to allow passing as CUDA kernel argument
@@ -202,5 +203,11 @@ struct cudaImageList {
 		outside = false;
 		return interp (v0, v1, fy);
 	}
+};
+
+struct cudaImage3DList
+{
+	cudaArray_t array;
+	cudaChannelFormatDesc desc;
 };
 

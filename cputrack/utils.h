@@ -65,6 +65,7 @@ struct ImageData {
 	float& at(int x, int y) { return data[w*y+x]; }
 	float interpolate(float x, float y, bool *outside=0) { return Interpolate(data, w,h, x,y,outside); }
 	int numPixels() { return w*h; }
+	int pitch() { return sizeof(float)*w; } // bytes per line
 	void normalize() { ::normalize(data,w,h); }
 	float mean() {
 		float s=0.0f;

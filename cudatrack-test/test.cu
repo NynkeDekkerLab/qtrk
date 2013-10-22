@@ -141,8 +141,8 @@ void QTrkCompareTest()
 	qtrk.SetRadialZLUT(0, 1, zplanes);
 	if (cpucmp) qtrkcpu.SetRadialZLUT(0, 1, zplanes);
 	if (haveZLUT) {
-		qtrk.SetLocalizationMode((LocalizeType)(LT_BuildRadialZLUT|LT_OnlyCOM));
-		qtrkcpu.SetLocalizationMode((LocalizeType)(LT_BuildRadialZLUT|LT_OnlyCOM));
+		qtrk.SetLocalizationMode(LT_BuildRadialZLUT|LT_OnlyCOM);
+		qtrkcpu.SetLocalizationMode(LT_BuildRadialZLUT|LT_OnlyCOM);
 		for (int x=0;x<zplanes;x++)  {
 			vector2f center ( cfg.width/2, cfg.height/2 );
 			float s = zmin + (zmax-zmin) * x/(float)(zplanes-1);
@@ -188,7 +188,7 @@ void QTrkCompareTest()
 	GenerateTestImage(img, cfg.width/2, cfg.height/2, (zmin+zmax)/2, 0);
 	double tstart = GetPreciseTime();
 	int rc = 0, displayrc=0;
-	LocalizeType flags = (LocalizeType)(LT_NormalizeProfile |LT_QI| (haveZLUT ? LT_LocalizeZ : 0) );
+	LocMode_t flags = (LocMode_t)(LT_NormalizeProfile |LT_QI| (haveZLUT ? LT_LocalizeZ : 0) );
 	qtrk.SetLocalizationMode(flags);
 	qtrkcpu.SetLocalizationMode(flags);
 	for (int n=0;n<total;n++) {
@@ -206,15 +206,7 @@ void QTrkCompareTest()
 		}
 	}
 	if (cpucmp) qtrkcpu.Flush();
-	qtrk.Flush();
-	do {
-		rc = qtrk.GetResultCount();
-		while (displayrc<rc) {
-			if( displayrc%std::max(1,total/10)==0) dbgprintf("Done: %d / %d\n", displayrc, total);
-			displayrc++;
-		}
-		Sleep(10);
-	} while (rc != total);
+	WaitForFinish(&qtrk, total);
 	
 	// Measure speed
 	double tend = GetPreciseTime();
@@ -313,7 +305,7 @@ void TestAsync()
 __global__ void emptyKernel()
 {}
 
-float SpeedTest(const QTrkSettings& cfg, QueuedTracker* qtrk, int count, bool haveZLUT, LocalizeType locType, float* scheduleTime, bool gaincorrection=false)
+float SpeedTest(const QTrkSettings& cfg, QueuedTracker* qtrk, int count, bool haveZLUT, LocMode_t locType, float* scheduleTime, bool gaincorrection=false)
 {
 	ImageData img=ImageData::alloc(cfg.width,cfg.height);
 	srand(1);
@@ -374,15 +366,7 @@ float SpeedTest(const QTrkSettings& cfg, QueuedTracker* qtrk, int count, bool ha
 			}
 		}
 	}
-	qtrk->Flush();
-	do {
-		rc = qtrk->GetResultCount();
-		while (displayrc<rc) {
-			if( displayrc%std::max(1,count/10)==0) dbgprintf("Done: %d / %d\n", displayrc, count);
-			displayrc++;
-		}
-		Sleep(10);
-	} while (rc != count);
+	WaitForFinish(qtrk, count);
 	
 	// Measure speed
 	double tend = GetPreciseTime();
@@ -431,7 +415,7 @@ SpeedInfo SpeedCompareTest(int w,bool gc=false)
 	cudaBatchSize = 32;
 #endif
 	bool haveZLUT = false;
-	LocalizeType locType = (LocalizeType)( LT_QI|LT_NormalizeProfile );
+	LocMode_t locType = (LocMode_t)( LT_QI|LT_NormalizeProfile );
 
 	QTrkComputedConfig cfg;
 	cfg.width = cfg.height = w;
@@ -478,7 +462,7 @@ void ProfileSpeedVsROI()
 	delete[] values;
 }
 
-std::vector<vector3f> LocalizeGeneratedImages(const QTrkSettings& cfg, QueuedTracker* qtrk, bool haveZLUT, LocalizeType locType, std::vector<vector3f> positions)
+std::vector<vector3f> LocalizeGeneratedImages(const QTrkSettings& cfg, QueuedTracker* qtrk, bool haveZLUT, LocMode_t locType, std::vector<vector3f> positions)
 {
 	ImageData img = ImageData::alloc(cfg.width,cfg.height);
 	srand(1);
@@ -553,7 +537,7 @@ std::vector<vector3f> RunTracker(const char *lutfile, QTrkSettings *cfg, bool us
 
 	float R=5;
 	srand(0);
-	trk.SetLocalizationMode((LocalizeType)(LT_QI|LT_NormalizeProfile));
+	trk.SetLocalizationMode((LocMode_t)(LT_QI|LT_NormalizeProfile));
 	for (int i=0;i<N;i++)
 	{
 		vector3f pos(cfg->width/2 + R*(rand_uniform<float>()-0.5f),cfg->height/2 + R*(rand_uniform<float>()-0.5f), lut.h/4+rand_uniform<float>()*lut.h/2);
@@ -564,17 +548,7 @@ std::vector<vector3f> RunTracker(const char *lutfile, QTrkSettings *cfg, bool us
 		trk.ScheduleLocalization((uchar*)img.data, sizeof(float)*cfg->width, QTrkFloat, &job);
 	}
 
-	trk.Flush();
-	int total = N;
-	int rc = trk.GetResultCount(), displayrc=0;
-	do {
-		rc = trk.GetResultCount();
-		while (displayrc<rc) {
-			if( displayrc%std::max(1,N/10)==0) dbgprintf("Done: %d / %d\n", displayrc, total);
-			displayrc++;
-		}
-		Sleep(10);
-	} while (rc != total);
+	WaitForFinish(&trk, N);
 
 	results.resize(trk.GetResultCount());
 	for (int i=0;i<results.size();i++) {
@@ -702,26 +676,16 @@ void BasicQTrkTest()
 #ifdef _DEBUG
 	N=400;
 #endif
-	qtrk.SetLocalizationMode((LocalizeType)(LT_QI|LT_NormalizeProfile));
+	qtrk.SetLocalizationMode((LocMode_t)(LT_QI|LT_NormalizeProfile));
 	for (int i=0;i<N;i++)
 	{
 		LocalizationJob job ( i, 0, 0, 0);
 		qtrk.ScheduleLocalization((uchar*)img.data, sizeof(float)*cc.width, QTrkFloat, &job);
 	}
 
-	double t0 = GetPreciseTime();
-	qtrk.Flush();
-	int displayrc=0,rc=0;
-	while ( (rc = qtrk.GetResultCount ()) != N) {
-		while (displayrc<rc) {
-			if( displayrc%(N/10)==0) dbgprintf("Done: %d / %d\n", displayrc, N);
-			displayrc++;
-		}
-		Threads::Sleep(50);
-	}
-	double t1 = GetPreciseTime();
+	double t = WaitForFinish(&qtrk, N);
 
-	dbgprintf("Speed: %d imgs/s (Only QI)", (int)(N / (t1-t0)));
+	dbgprintf("Speed: %d imgs/s (Only QI)", (int)(N / t));
 	img.free();
 }
 
@@ -800,6 +764,45 @@ void QICompare(const char *lutfile )
 	lut.free();
 }
 
+void TestImageLUT(const char *rlutfile)
+{
+	QTrkSettings cfg;
+	cfg.width = 100;
+	cfg.height = 100;
+	
+	ImageData rlut=ReadJPEGFile(rlutfile);
+	ImageData img=ImageData::alloc(cfg.width,cfg.height);
+
+	QueuedCUDATracker trk(cfg);
+	ResampleLUT(&trk, &rlut, 2.0f, 40.0f, 10);
+
+	int dims[] = { 1, rlut.h, 60, 60 };
+	int il_size = dims[0]*dims[1]*dims[2]*dims[3];
+	trk.SetImageZLUT(0, dims);
+	trk.SetLocalizationMode( LT_OnlyCOM | LT_BuildImageLUT );
+	trk.EnableTextureCache(false);
+	for (int z=0;z<rlut.h;z++) {
+		vector2f pos = vector2f::random( vector2f( cfg.width/2,cfg.height/2 ), 4.0f );
+		GenerateImageFromLUT(&img, &rlut, 0.0f, rlut.w-1, pos, z, 0.9f);
+		dbgprintf("z=%d\n", z);
+		WriteJPEGFile(SPrintf("rlut%d.jpg",z).c_str(), img);
+		LocalizationJob job(z, 0, z, 0);
+		trk.ScheduleLocalization (img.data, img.pitch(), QTrkFloat, &job);
+	}
+	
+	trk.Flush();
+	while (!trk.IsIdle());
+
+	float *dst = new float[il_size];
+	trk.GetImageZLUT (dst);
+	ImageData result(dst, dims[3],dims[2]*dims[1]);
+	WriteJPEGFile("imagelut_result.jpg", result);
+
+	delete[] dst;
+	img.free();
+	rlut.free();
+}
+
 int main(int argc, char *argv[])
 {
 	listDevices();
@@ -810,6 +813,8 @@ int main(int argc, char *argv[])
 //	TestGauss2D(true);
 
 //	MultipleLUTTest();
+
+//	TestImageLUT("../cputrack-test/lut000.jpg");
 
 	BasicQTrkTest();
 //	TestCMOSNoiseInfluence<QueuedCUDATracker>("../cputrack-test/lut000.jpg");

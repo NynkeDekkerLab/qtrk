@@ -48,3 +48,27 @@ ImageData QueuedTracker::DebugImage(int ID)
 	return img;
 }
 
+
+
+int QueuedTracker::ScheduleFrame(void *imgptr, int pitch, int width, int height, ROIPosition *positions, int numROI, QTRK_PixelDataType pdt, const LocalizationJob *jobInfo)
+{
+	uchar* img = (uchar*)imgptr;
+	int bpp = PDT_BytesPerPixel(pdt);
+	int count=0;
+	for (int i=0;i<numROI;i++){
+		ROIPosition& pos = positions[i];
+
+		if (pos.x < 0 || pos.y < 0 || pos.x + cfg.width > width || pos.y + cfg.height > height) {
+			dbgprintf("Skipping ROI %d. Outside of image.\n", i);
+			continue;
+		}
+
+		uchar *roiptr = &img[pitch * pos.y + pos.x * bpp];
+		LocalizationJob job = *jobInfo;
+		job.zlutIndex = i + jobInfo->zlutIndex; // used as offset
+		ScheduleLocalization(roiptr, pitch, pdt, &job);
+		count++;
+	}
+	return count;
+}
+

@@ -231,7 +231,6 @@ QueuedCUDATracker::Device::~Device()
 	radial_zlut.free();
 	calib_gain.free();
 	calib_offset.free();
-	image_lut.free();
 }
 
 void QueuedCUDATracker::SchedulingThreadEntryPoint(void *param)
@@ -425,7 +424,7 @@ int QueuedCUDATracker::GetQueueLength(int *maxQueueLen)
 }
 
 
-void QueuedCUDATracker::SetLocalizationMode(LocalizeType mode)
+void QueuedCUDATracker::SetLocalizationMode(int mode)
 {
 	Flush();
 	while (!IsIdle());
@@ -433,7 +432,7 @@ void QueuedCUDATracker::SetLocalizationMode(LocalizeType mode)
 }
 
 
-void QueuedCUDATracker::ScheduleLocalization(uchar* data, int pitch, QTRK_PixelDataType pdt, const LocalizationJob* jobInfo )
+void QueuedCUDATracker::ScheduleLocalization(void* data, int pitch, QTRK_PixelDataType pdt, const LocalizationJob* jobInfo )
 {
 	Stream* s = GetReadyStream();
 
@@ -441,7 +440,7 @@ void QueuedCUDATracker::ScheduleLocalization(uchar* data, int pitch, QTRK_PixelD
 	int jobIndex = s->jobs.size();
 	LocalizationJob job = *jobInfo;
 	if (s->device->radial_zlut.isEmpty())  // dont do ZLUT commands when no ZLUT has been set
-		localizeMode = (LocalizeType)(localizeMode & ~(LT_LocalizeZ | LT_BuildRadialZLUT));
+		localizeMode = (LocMode_t)(localizeMode & ~(LT_LocalizeZ | LT_BuildRadialZLUT));
 	s->jobs.push_back(job);
 	s->localizeFlags = localizeMode; // which kernels to run
 	s->locParams[jobIndex].zlutIndex = jobInfo->zlutIndex;
@@ -454,7 +453,7 @@ void QueuedCUDATracker::ScheduleLocalization(uchar* data, int pitch, QTRK_PixelD
 	s->imageBufMutex.lock();
 	// Copy the image to the batch image buffer (CPU side)
 	float* hostbuf = &s->hostImageBuf[cfg.height*cfg.width*jobIndex];
-	CopyImageToFloat(data, cfg.width, cfg.height, pitch, pdt, hostbuf);
+	CopyImageToFloat( (uchar*)data, cfg.width, cfg.height, pitch, pdt, hostbuf);
 	s->imageBufMutex.unlock();
 
 	//dbgprintf("Job: %d\n", jobIndex);
@@ -597,7 +596,7 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 	{ScopedCPUProfiler p(&cpu_time.imap);
 
 		if (s->localizeFlags & LT_BuildImageLUT) {
-			ImageLUT_Build<TImageSampler> <<< blocks(s->JobCount()), threads(), 0, s->stream >>> (kp,imageLUTConfig, curpos->data, s->device->image_lut);
+			//ImageLUT_Build<TImageSampler> <<< blocks(s->JobCount()), threads(), 0, s->stream >>> (kp,imageLUTConfig, curpos->data, s->device->image_lut);
 		}
 
 		if (s->localizeFlags & LT_IMAP) {
@@ -768,7 +767,7 @@ void QueuedCUDATracker::GetImageZLUT(float* dst)
 	if (imageLUTConfig.nLUTs) {
 		for (int i=0;i<imageLUTConfig.nLUTs;i++) {
 			float *img = &dst[i * imageLUTConfig.w*imageLUTConfig.h*imageLUTConfig.planes];
-			devices[0]->image_lut.copyImageToHost(i, img);
+			//devices[0]->image_lut.copyImageToHost(i, img);
 		}
 	}
 }
@@ -790,12 +789,6 @@ void QueuedCUDATracker::Device::SetImageLUT(float* data, ImageLUTConfig* cfg)
 {
 	cudaSetDevice(index);
 
-	image_lut = cudaImageListf::alloc( cfg->lutWidth(), cfg->h, cfg->nLUTs );
-	if (data) {
-		for (int i=0;i<cfg->nLUTs;i++)
-			image_lut.copyImageToDevice(i, &data[ cfg->lutNumPixels() * i]);
-	}
-	else image_lut.clear();
 }
 
 
@@ -815,27 +808,6 @@ void QueuedCUDATracker::ClearResults()
 	resultMutex.unlock();
 }
 
-
-int QueuedCUDATracker::ScheduleFrame(uchar *imgptr, int pitch, int width, int height, ROIPosition *positions, int numROI, QTRK_PixelDataType pdt, const LocalizationJob* jobInfo)
-{
-	uchar* img = (uchar*)imgptr;
-	int bpp = sizeof(float);
-	if (pdt == QTrkU8) bpp = 1;
-	else if (pdt == QTrkU16) bpp = 2;
-	int count=0;
-	for (int i=0;i<numROI;i++){
-		ROIPosition pos = positions[i];
-		if (pos.x < 0 || pos.y < 0 || pos.x + cfg.width > width || pos.y + cfg.height > height)
-			continue;
-
-		uchar *roiptr = &img[pitch * pos.y + pos.x * bpp];
-		LocalizationJob job = *jobInfo;
-		job.zlutIndex = i + jobInfo->zlutIndex;
-		ScheduleLocalization(roiptr, pitch, pdt, &job);
-		count ++;
-	}
-	return count;
-}
 
 std::string QueuedCUDATracker::GetProfileReport()
 {

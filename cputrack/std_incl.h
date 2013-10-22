@@ -23,6 +23,8 @@ struct vector2f {
 	vector2f() {x=y=0.0f; }
 	vector2f(float X,float Y) { x=X;y=Y; }
 	float x,y;
+
+	static vector2f random(vector2f center, float R);
 };
 
 struct vector3f {

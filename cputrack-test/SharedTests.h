@@ -12,7 +12,7 @@ static void ResampleLUT(QueuedTracker* qtrk, ImageData* lut, float zlutMinRadius
 	ImageData img = ImageData::alloc(cfg.width,cfg.height);
 
 	qtrk->SetRadialZLUT(0, 1, zplanes);
-	qtrk->SetLocalizationMode( (LocalizeType)(LT_QI|LT_BuildRadialZLUT|LT_NormalizeProfile) );
+	qtrk->SetLocalizationMode( (LocMode_t)(LT_QI|LT_BuildRadialZLUT|LT_NormalizeProfile) );
 	for (int i=0;i<zplanes;i++)
 	{
 		GenerateImageFromLUT(&img, lut, zlutMinRadius, zlutMaxRadius, vector2f(cfg.width/2, cfg.height/2), i/(float)zplanes * lut->h, 1.0f);
@@ -27,11 +27,15 @@ static void ResampleLUT(QueuedTracker* qtrk, ImageData* lut, float zlutMinRadius
 	while(!qtrk->IsIdle());
 	qtrk->ClearResults();
 
+	float* zlut_result=new float[zplanes*cfg.zlut_radialsteps*1];
+	qtrk->GetRadialZLUT(zlut_result);
+	delete[] lut->data;
+	lut->data = zlut_result;
+	lut->w = cfg.zlut_radialsteps;
+	lut->h = zplanes;
+	
 	if (jpgfile) {
-		float* zlut_result=new float[zplanes*cfg.zlut_radialsteps*1];
-		qtrk->GetRadialZLUT(zlut_result);
 		FloatToJPEGFile(jpgfile, zlut_result, cfg.zlut_radialsteps, zplanes);
-		delete[] zlut_result;
 	}
 }
 
@@ -93,7 +97,7 @@ void TestCMOSNoiseInfluence(const char *lutfile)
 
 	float *info = new float [nNoiseLevels*2];
 
-	trk.SetLocalizationMode((LocalizeType)(LT_QI|LT_LocalizeZ|LT_NormalizeProfile));
+	trk.SetLocalizationMode((LocMode_t)(LT_QI|LT_LocalizeZ|LT_NormalizeProfile));
 
 	for (int nl=0;nl<nNoiseLevels;nl++) {
 
@@ -183,7 +187,7 @@ std::vector<vector3f> Gauss2DTest(
 	QTrkSettings cfg;
 	cfg.width = cfg.height = 20;
 	cfg.gauss2D_iterations = 4;
-	LocalizeType lt = LT_Gaussian2D;
+	LocMode_t lt = LT_Gaussian2D;
 	TrackerType qtrk(cfg);
 	std::vector<float*> images;
 
@@ -267,4 +271,20 @@ std::vector<vector3f> Gauss2DTest(
 	return results;
 }
 
+
+static double WaitForFinish(QueuedTracker* qtrk, int N)
+{
+	double t0 = GetPreciseTime();
+	qtrk->Flush();
+	int displayrc=0,rc=0;
+	while ( (rc = qtrk->GetResultCount ()) != N) {
+		while (displayrc<rc) {
+			if(displayrc%std::max(1,N/10)==0) dbgprintf("Done: %d / %d\n", displayrc, N);
+			displayrc++;
+		}
+		Threads::Sleep(50);
+	}
+	double t1 = GetPreciseTime();
+	return t1-t0;
+}
 

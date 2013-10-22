@@ -387,7 +387,7 @@ CDLL_EXPORT int qtrk_get_results(QueuedTracker* qtrk, LocalizationResult* result
 CDLL_EXPORT void qtrk_set_localization_mode(QueuedTracker* qtrk, uint locType, ErrorCluster* e)
 {
 	if (ValidateTracker(qtrk, e, "set_localization_mode")) {
-		qtrk->SetLocalizationMode( (LocalizeType)locType );
+		qtrk->SetLocalizationMode( (LocMode_t)locType );
 	}
 }
 

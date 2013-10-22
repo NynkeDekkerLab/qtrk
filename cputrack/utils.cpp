@@ -12,6 +12,15 @@
 #include "QueuedTracker.h"
 
 
+vector2f vector2f::random(vector2f center, float R)
+{
+	float ang = rand_uniform<float>() * 2 * 3.141593f;
+	float r = rand_uniform<float>() * R;
+
+	return vector2f(center.x + r*cos(ang), center.y + r*sin(ang));
+}
+
+
 std::string GetLocalModuleFilename()
 {
 #ifdef WIN32

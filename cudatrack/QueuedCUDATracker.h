@@ -70,11 +70,8 @@ public:
 	~QueuedCUDATracker();
 	void EnableTextureCache(bool useTextureCache) { this->useTextureCache=useTextureCache; }
 	
-	void SetLocalizationMode(LocalizeType locType) override;
-	void ScheduleLocalization(uchar* data, int pitch, QTRK_PixelDataType pdt, const LocalizationJob *jobInfo) override;
-	
-	// Schedule an entire frame at once, allowing for further optimizations
-	int ScheduleFrame(uchar *imgptr, int pitch, int width, int height, ROIPosition *positions, int numROI, QTRK_PixelDataType pdt, const LocalizationJob *jobInfo) override;
+	void SetLocalizationMode(LocMode_t locType) override;
+	void ScheduleLocalization(void* data, int pitch, QTRK_PixelDataType pdt, const LocalizationJob *jobInfo) override;
 	void ClearResults() override;
 
 	// data can be zero to allocate ZLUT data.
@@ -107,14 +104,13 @@ protected:
 	struct Device {
 		Device(int index) {
 			this->index=index; 
-			image_lut=radial_zlut=calib_offset=calib_gain=cudaImageListf::emptyList(); 
+			radial_zlut=calib_offset=calib_gain=cudaImageListf::emptyList(); 
 		}
 		~Device(); 
 		void SetRadialZLUT(float *data, int radialsteps, int planes, int numLUTs, float* zcmp);
 		void SetPixelCalibrationImages(float* offset, float* gain, int img_width, int img_height);
 		void SetImageLUT(float* data, ImageLUTConfig* cfg);
-
-		cudaImageListf image_lut; // Z image stack. Each image horizontally contains all the images for a single bead
+				
 		cudaImageListf radial_zlut;
 		cudaImageListf calib_offset, calib_gain;
 		device_vec<float> zcompareWindow;
@@ -182,7 +178,7 @@ protected:
 	std::vector<Stream*> streams;
 	std::list<LocalizationResult> results;
 	int resultCount;
-	LocalizeType localizeMode;
+	LocMode_t localizeMode;
 	Threads::Mutex resultMutex, jobQueueMutex;
 	std::vector<Device*> devices;
 	bool useTextureCache; // speed up using texture cache. 
