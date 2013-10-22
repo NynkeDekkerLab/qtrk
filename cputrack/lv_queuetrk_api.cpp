@@ -306,20 +306,15 @@ CDLL_EXPORT void qtrk_queue_array(QueuedTracker* qtrk,  ErrorCluster* error,LVAr
 	qtrk_queue_pitchedmem(qtrk, (*data)->elem, pitch, pdt, jobInfo);
 }
 
-CDLL_EXPORT uint qtrk_read_timestamp(uchar* image, int w, int h, QueueFrameFlags flags)
+CDLL_EXPORT uint qtrk_read_timestamp(uchar* image, int w, int h)
 {
 	if (w*h<4) return 0;
 
 	uint ts;
 	uchar *timestamp = (uchar*)&ts;
-	if (flags & QFF_ReadTimestampFromFrame) {
-		// Assume little endian only
-		for (int i=0;i<4;i++)
-			timestamp[i] = image[i];
-	} else if (flags & QFF_ReadTimestampFromFrameRev) {
-		for (int i=0;i<4;i++)
-			timestamp[i] = image[3-i];
-	}
+	// Assume little endian only
+	for (int i=0;i<4;i++)
+		timestamp[i] = image[i];
 	return ts;
 }
 
@@ -327,10 +322,10 @@ CDLL_EXPORT uint qtrk_queue_frame(QueuedTracker* qtrk, uchar* image, int pitch, 
 	uint pdt, ROIPosition* pos, int numROI, const LocalizationJob *pJobInfo, QueueFrameFlags flags, ErrorCluster* e)
 {
 	LocalizationJob jobInfo = *pJobInfo;
-	if (flags & (QFF_ReadTimestampFromFrame | QFF_ReadTimestampFromFrameRev)) 
-		jobInfo.timestamp = qtrk_read_timestamp(image, w,h, flags);
+	if (flags & QFF_ImageEncodedFrameNumber) 
+		jobInfo.timestamp = qtrk_read_timestamp(image, w,h);
 	#ifdef _DEBUG
-		dbgprintf("QueueFrame: frame %d, bead %d, zplane %d\n", jobInfo.frame, jobInfo.zlutIndex, jobInfo.zlutPlane);
+		dbgprintf("QueueFrame: frame %d, bead %d, zplane %d. #roi=%d\n", jobInfo.frame, jobInfo.zlutIndex, jobInfo.zlutPlane, numROI);
 	#endif
 
 	int nQueued;
