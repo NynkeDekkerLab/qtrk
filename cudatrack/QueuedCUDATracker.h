@@ -59,9 +59,6 @@ struct ImageLUTConfig
 	int planes;
 	int w, h;
 	float xscale, yscale;
-
-	int lutWidth() { return w * planes; }
-	int lutNumPixels() { return w * h * planes; }
 };
 
 class QueuedCUDATracker : public QueuedTracker {
@@ -105,6 +102,7 @@ protected:
 		Device(int index) {
 			this->index=index; 
 			radial_zlut=calib_offset=calib_gain=cudaImageListf::emptyList(); 
+			image_lut = 0;
 		}
 		~Device(); 
 		void SetRadialZLUT(float *data, int radialsteps, int planes, int numLUTs, float* zcmp);
@@ -117,6 +115,8 @@ protected:
 		QI::DeviceInstance qi_instance;
 		device_vec<float2> zlut_trigtable;
 		int index;
+
+		cudaImage4D<float>* image_lut;
 	};
 
 	struct Stream {
