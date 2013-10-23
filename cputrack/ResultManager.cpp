@@ -274,15 +274,15 @@ void ResultManager::ThreadLoop(void *param)
 	}
 }
 
-int ResultManager::GetBeadPositions(int start, int end, int bead, LocalizationResult* results)
+int ResultManager::GetBeadPositions(int startfr, int end, int bead, LocalizationResult* results)
 {
-	int count = end-start;
+	int count = end-startfr;
 
 	resultMutex.lock();
 	if (end > cnt.processedFrames)
 		end = cnt.processedFrames;
 
-	int start = start - cnt.startFrame;
+	int start = startfr - cnt.startFrame;
 	if (start < 0) start = 0;
 	if (count > cnt.processedFrames-cnt.startFrame)
 		count = cnt.processedFrames-cnt.startFrame;

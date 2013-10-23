@@ -183,6 +183,7 @@ public:
 	virtual ConfigValueMap GetConfigValues() = 0;
 
 	virtual std::string GetProfileReport() { return ""; }
+	virtual std::string GetWarnings() { return ""; }
 
 	virtual bool GetDebugImage(int ID, int *w, int *h, float** pData) { return false; } // deallocate result with delete[] 
 	ImageData DebugImage(int ID);
