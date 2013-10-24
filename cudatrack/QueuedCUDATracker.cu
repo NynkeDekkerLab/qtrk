@@ -507,6 +507,7 @@ void checksum(T* data, int elemsize, int numelem, const char *name)
 #endif
 }
 
+
 template<typename TImageSampler>
 void QueuedCUDATracker::ExecuteBatch(Stream *s)
 {
@@ -601,8 +602,11 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 
 	{ScopedCPUProfiler p(&cpu_time.imap);
 
-		if (s->localizeFlags & LT_BuildImageLUT) {
-			//ImageLUT_Build<TImageSampler> <<< blocks(s->JobCount()), threads(), 0, s->stream >>> (kp,imageLUTConfig, curpos->data, s->device->image_lut);
+		if ( (s->localizeFlags & LT_BuildImageLUT) && s->device->image_lut ) {
+			cudaImage4D<float>* il = s->device->image_lut;
+			// Bind surface for writing image LUT
+			il->bind(image_lut_surface);
+			ImageLUT_Build<TImageSampler> <<< blocks(s->JobCount()), threads(), 0, s->stream >>> (kp,imageLUTConfig, curpos->data, il->kernelParams());
 		}
 
 		if (s->localizeFlags & LT_IMAP) {

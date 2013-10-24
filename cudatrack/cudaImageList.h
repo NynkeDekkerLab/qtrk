@@ -224,7 +224,27 @@ struct cudaImage4D
 	struct Properties {
 		int imgw, imgh;
 		int layerw;
+
+		CUBOTH int2 getImagePos(int image) { return make_int2(image % layerw , image / layerw); }
 	};
+
+	Properties kernelParams() {
+		Properties props;
+		props.imgw = imgw; props.imgwh = imgh;
+		props.layerw = layerw;
+		return props;
+	}
+	
+	CUBOTH T readSurfacePixel(surface<T, cudaSurfaceType2DLayered> surf, int x, int y,int z)
+	{
+		return surf3Dread (image_lut_surface, sizeof(T)*x, y, z, cudaBoundaryModeTrap);
+	}
+
+	CUBOTH void writeSurfacePixel(surface<T, cudaSurfaceType2DLayered> surf, int x,int y,int z, T value)
+	{
+		surf3Dwrite(image_lut_surface, sizeof(T)*x, y, z,
+	}
+
 
 	void bind(texture<T, cudaTextureType2DLayered, cudaReadModeElementType>& texref) {
 		cudaChannelFormatDesc desc = cudaCreateChannelDesc<T>();
