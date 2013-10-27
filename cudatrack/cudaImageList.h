@@ -221,30 +221,29 @@ struct cudaImage4D
 	}
 
 	// Properties to be passed to kernels
-	struct Properties {
+	struct KernelInst {
 		int imgw, imgh;
 		int layerw;
 
 		CUBOTH int2 getImagePos(int image) { return make_int2(image % layerw , image / layerw); }
+		
+		CUBOTH T readSurfacePixel(surface<void, cudaSurfaceType2DLayered> surf, int x, int y,int z)
+		{
+			return surf3Dread (image_lut_surface, sizeof(T)*x, y, z, cudaBoundaryModeTrap);
+		}
+
+		CUBOTH void writeSurfacePixel(surface<void, cudaSurfaceType2DLayered> surf, int x,int y,int z, T value)
+		{
+			surf3Dwrite(value, image_lut_surface, sizeof(T)*x, y, z, cudaBoundaryModeTrap);
+		}
 	};
 
-	Properties kernelParams() {
-		Properties props;
-		props.imgw = imgw; props.imgwh = imgh;
-		props.layerw = layerw;
-		return props;
+	KernelInst kernelInst() {
+		KernelInst inst;
+		inst.imgw = imgw; inst.imgh = imgh;
+		inst.layerw = layerw;
+		return inst;
 	}
-	
-	CUBOTH T readSurfacePixel(surface<T, cudaSurfaceType2DLayered> surf, int x, int y,int z)
-	{
-		return surf3Dread (image_lut_surface, sizeof(T)*x, y, z, cudaBoundaryModeTrap);
-	}
-
-	CUBOTH void writeSurfacePixel(surface<T, cudaSurfaceType2DLayered> surf, int x,int y,int z, T value)
-	{
-		surf3Dwrite(image_lut_surface, sizeof(T)*x, y, z,
-	}
-
 
 	void bind(texture<T, cudaTextureType2DLayered, cudaReadModeElementType>& texref) {
 		cudaChannelFormatDesc desc = cudaCreateChannelDesc<T>();

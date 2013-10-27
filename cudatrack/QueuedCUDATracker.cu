@@ -606,7 +606,7 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 			cudaImage4D<float>* il = s->device->image_lut;
 			// Bind surface for writing image LUT
 			il->bind(image_lut_surface);
-			ImageLUT_Build<TImageSampler> <<< blocks(s->JobCount()), threads(), 0, s->stream >>> (kp,imageLUTConfig, curpos->data, il->kernelParams());
+			ImageLUT_Build<TImageSampler> <<< blocks(s->JobCount()), threads(), 0, s->stream >>> (kp,imageLUTConfig, curpos->data, il->kernelInst());
 		}
 
 		if (s->localizeFlags & LT_IMAP) {
