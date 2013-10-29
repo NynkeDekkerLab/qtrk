@@ -298,6 +298,12 @@ int ResultManager::GetBeadPositions(int startfr, int end, int bead, Localization
 
 void ResultManager::Flush()
 {
+	trackerMutex.lock();
+	if (qtrk) qtrk->Flush();
+	trackerMutex.unlock();
+
+	Update();
+
 	resultMutex.lock();
 
 	Write();
