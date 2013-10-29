@@ -803,9 +803,16 @@ void TestImageLUT(const char *rlutfile)
 	rlut.free();
 }
 
+void TestImage4D() {
+
+}
+
 int main(int argc, char *argv[])
 {
 	listDevices();
+
+	TestImage4D();
+
 //	testLinearArray();
 
 	//TestTextureFetch();
@@ -814,9 +821,9 @@ int main(int argc, char *argv[])
 
 //	MultipleLUTTest();
 
-//	TestImageLUT("../cputrack-test/lut000.jpg");
+	TestImageLUT("../cputrack-test/lut000.jpg");
 
-	BasicQTrkTest();
+//	BasicQTrkTest();
 //	TestCMOSNoiseInfluence<QueuedCUDATracker>("../cputrack-test/lut000.jpg");
 
 #ifdef QI_DEBUG

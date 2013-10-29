@@ -205,9 +205,173 @@ struct cudaImageList {
 	}
 };
 
-struct cudaImage3DList
+
+
+template<typename T>
+struct cudaImage4D
 {
 	cudaArray_t array;
-	cudaChannelFormatDesc desc;
+	int imgw, imgh;
+	int layerw, layerh; // layer width/height in images. (In pixels it would be layerw * imgw)
+	int nlayers;
+	int numImg; // images per layer
+
+	cudaExtent getExtent() {
+		return make_cudaExtent(imgw * layerw, imgh * layerh, nlayers);
+	}
+
+	// Properties to be passed to kernels
+	struct KernelInst {
+		int imgw, imgh;
+		int layerw;
+
+		CUBOTH int2 getImagePos(int image) { return make_int2(image % layerw , image / layerw); }
+		
+		CUBOTH T readSurfacePixel(surface<void, cudaSurfaceType2DLayered> surf, int x, int y,int z)
+		{
+			return surf3Dread (image_lut_surface, sizeof(T)*x, y, z, cudaBoundaryModeTrap);
+		}
+
+		CUBOTH void writeSurfacePixel(surface<void, cudaSurfaceType2DLayered> surf, int x,int y,int z, T value)
+		{
+			surf3Dwrite(value, image_lut_surface, sizeof(T)*x, y, z, cudaBoundaryModeTrap);
+		}
+	};
+
+	KernelInst kernelInst() {
+		KernelInst inst;
+		inst.imgw = imgw; inst.imgh = imgh;
+		inst.layerw = layerw;
+		return inst;
+	}
+
+	void bind(texture<T, cudaTextureType2DLayered, cudaReadModeElementType>& texref) {
+		cudaChannelFormatDesc desc = cudaCreateChannelDesc<T>();
+		cudaBindTextureToArray(texref, array, &desc);
+	}
+	void unbind(texture<T, cudaTextureType2DLayered, cudaReadModeElementType>& texref) {
+		cudaUnbindTexture(texref);
+	}
+
+	void bind(surface<void, cudaSurfaceType2DLayered>& surf) {
+		cudaChannelFormatDesc desc = cudaCreateChannelDesc<T>();
+		cudaBindSurfaceToArray(surf, array);
+	}
+	// there is no unbind surface
+	// void unbind(surface<void, cudaSurfaceType2DLayered>& surf) {	}
+
+	cudaImage4D(int sx, int sy, int numImg , int sL) {
+		array = 0;
+		int d;
+		cudaGetDevice(&d);
+		cudaDeviceProp prop;
+		cudaGetDeviceProperties(&prop, d);
+		
+		imgw = sx;
+		imgh = sy;
+		this->numImg = numImg;
+
+		layerh = (int)(prop.maxSurface2DLayered[1] / imgh);
+		layerw = (numImg + layerh - 1) / layerh;
+
+		dbgprintf("creating image4D: %d layers of %d x %d images of %d x %d", 
+			sL, layerw, layerh, imgw, imgh);
+
+		cudaChannelFormatDesc desc = cudaCreateChannelDesc<T>();
+		cudaError_t err = cudaMalloc3DArray(&array, &desc, getExtent(), cudaArrayLayered | cudaArraySurfaceLoadStore);
+		if (err != cudaSuccess) {
+			throw std::bad_alloc(SPrintf("CUDA error during cudaSurf2DList(): %s", cudaGetErrorString(err)).c_str());
+		}
+	}
+
+	int2 getImagePos(int image) {
+		int2 pos = { image % layerw , image / layerw };
+		return pos;
+	}
+
+	~cudaImage4D() {
+		free();
+	}
+
+	void copyToDevice(T* src, bool async=false, cudaStream_t s=0) 
+	{
+		for (int L=0;L<nlayers;L++) {
+			for (int i=0;i<numImg;i++)
+				copyImageToDevice(i, L, &src[ imgw * imgh * ( numImg * L + i ) ], async, s);
+		}
+	}
+
+	void copyToHost(T* dst, bool async=false, cudaStream_t s=0)
+	{
+		for (int L=0;L<nlayers;L++) {
+			for (int i=0;i<numImg;i++)
+				copyImageToHost(i, L, &dst[ imgw * imgh * ( numImg * L + i ) ], async, s);
+		}
+	}
+
+	void clear()
+	{
+		// create a new black image in device memory and use to it clear all the layers
+		T* d;
+		cudaMalloc(&d, sizeof(T)*imgw*imgh);
+		cudaMemset(d, 0, sizeof(T)*imgw*imgh);
+
+		cudaMemcpy3DParms p = {0};
+		p.dstArray = array;
+		p.extent = make_cudaExtent(imgw,imgh,1);
+		p.kind = cudaMemcpyDeviceToDevice;
+		p.srcPtr = make_cudaPitchedPtr(d, sizeof(T)*imgw, imgw, imgh);
+		for (int l=0;l<nlayers;l++)
+			for (int img=0;img<numImg;img++) {
+				int2 imgpos = getImagePos(img);
+				p.dstPos.z = l;
+				p.dstPos.x = imgpos.x;
+				p.dstPos.y = imgpos.y;
+				cudaMemcpy3D(&p);
+			}
+		cudaFree(d);
+	}
+
+	// Copy a single subimage to the host
+	void copyImageToHost(int img, int layer, T* dst, bool async=false, cudaStream_t s=0) 
+	{
+		cudaMemcpy3DParms p = {0};
+		p.srcArray = array;
+		p.extent = make_cudaExtent(imgw,imgh,1);
+		p.kind = cudaMemcpyDeviceToHost;
+		p.srcPos.z = layer;
+		int2 imgpos = getImagePos(img);
+		p.srcPos.x = imgpos.x;
+		p.srcPos.y = imgpos.y;
+		p.dstPtr = make_cudaPitchedPtr(dst, sizeof(T)*imgw, imgw, imgh);
+		if (async)
+			cudaMemcpy3DAsync(&p, s);
+		else
+			cudaMemcpy3D(&p);
+	}
+
+	void copyImageToDevice(int img, int layer, T* src, bool async=false, cudaStream_t s=0)
+	{
+		cudaMemcpy3DParms p = {0};
+		p.dstArray = array;
+		int2 imgpos = getImagePos(img);
+		p.dstPos.z = layer;
+		p.dstPos.x = imgpos.x;
+		p.dstPos.y = imgpos.y;
+		p.extent = make_cudaExtent(imgw,imgh,1);
+		p.kind = cudaMemcpyHostToDevice;
+		p.srcPtr = make_cudaPitchedPtr(src, sizeof(T)*imgw, imgw, imgh);
+		if (async)
+			cudaMemcpy3DAsync(&p, s);
+		else
+			cudaMemcpy3D(&p);
+	}
+
+	void free() {
+		if (array) {
+			cudaFreeArray(array);
+			array = 0;
+		}
+	}
 };
 

@@ -253,8 +253,10 @@ __global__ void G2MLE_Compute(BaseKernelParams kp, float sigma, int iterations, 
 	if (I_0) I_0[jobIdx] = I0;
 }
 
+surface<void, cudaSurfaceType2DLayered> image_lut_surface;
+
 template<typename TImageSampler>
-__global__ void ImageLUT_Build(BaseKernelParams kp, ImageLUTConfig ilc, float3* positions, cudaImageListf image_lut)
+__global__ void ImageLUT_Build(BaseKernelParams kp, ImageLUTConfig ilc, float3* positions, cudaImage4D<float>::KernelInst lut)
 {
 	// add sampled image data to 
 	int idx = threadIdx.x;
@@ -274,9 +276,11 @@ __global__ void ImageLUT_Build(BaseKernelParams kp, ImageLUTConfig ilc, float3* 
 
 				bool outside=false;
 				float v = TImageSampler::Interpolated(kp.images, px, py, idx, outside);
-				image_lut.pixel(x + dstx,y,kp.locParams[idx].zlutIndex) += v * invMean;
+				
+				float org =  lut.readSurfacePixel(image_lut_surface, x + dstx,y,kp.locParams[idx].zlutIndex);
+				
+				//image_lut.pixel(x + dstx,y,kp.locParams[idx].zlutIndex) += v * invMean;
 			}
 	}
 }
-
 

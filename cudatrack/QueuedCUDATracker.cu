@@ -159,7 +159,7 @@ QueuedCUDATracker::QueuedCUDATracker(const QTrkComputedConfig& cc, int batchSize
 	cudaGetDeviceProperties(&deviceProp, devices[0]->index);
 
 	if (deviceProp.kernelExecTimeoutEnabled) {
-		throw std::runtime_error(SPrintf("CUDA Kernel execution timeout is enabled for %s. Disable WDDM Time-out Detection and Recovery (TDR) in the driver before running this code", deviceProp.name));
+		throw std::runtime_error(SPrintf("CUDA Kernel execution timeout is enabled for %s. Disable WDDM Time-out Detection and Recovery (TDR) in the nVidia NSight Monitor before running this code", deviceProp.name));
 	}
 
 	numThreads = deviceProp.warpSize;
@@ -236,6 +236,7 @@ QueuedCUDATracker::Device::~Device()
 	radial_zlut.free();
 	calib_gain.free();
 	calib_offset.free();
+	if(image_lut) delete image_lut;
 }
 
 void QueuedCUDATracker::SchedulingThreadEntryPoint(void *param)
@@ -506,6 +507,7 @@ void checksum(T* data, int elemsize, int numelem, const char *name)
 #endif
 }
 
+
 template<typename TImageSampler>
 void QueuedCUDATracker::ExecuteBatch(Stream *s)
 {
@@ -600,8 +602,11 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 
 	{ScopedCPUProfiler p(&cpu_time.imap);
 
-		if (s->localizeFlags & LT_BuildImageLUT) {
-			//ImageLUT_Build<TImageSampler> <<< blocks(s->JobCount()), threads(), 0, s->stream >>> (kp,imageLUTConfig, curpos->data, s->device->image_lut);
+		if ( (s->localizeFlags & LT_BuildImageLUT) && s->device->image_lut ) {
+			cudaImage4D<float>* il = s->device->image_lut;
+			// Bind surface for writing image LUT
+			il->bind(image_lut_surface);
+			ImageLUT_Build<TImageSampler> <<< blocks(s->JobCount()), threads(), 0, s->stream >>> (kp,imageLUTConfig, curpos->data, il->kernelInst());
 		}
 
 		if (s->localizeFlags & LT_IMAP) {
@@ -769,11 +774,9 @@ void QueuedCUDATracker::GetImageZLUTSize(int *dims)
 
 void QueuedCUDATracker::GetImageZLUT(float* dst)
 {
-	if (imageLUTConfig.nLUTs) {
-		for (int i=0;i<imageLUTConfig.nLUTs;i++) {
-			float *img = &dst[i * imageLUTConfig.w*imageLUTConfig.h*imageLUTConfig.planes];
-			//devices[0]->image_lut.copyImageToHost(i, img);
-		}
+	if (imageLUTConfig.nLUTs && devices[0]->image_lut) {
+		cudaSetDevice(devices[0]->index);
+		devices[0]->image_lut->copyToHost(dst);
 	}
 }
 
@@ -794,6 +797,14 @@ void QueuedCUDATracker::Device::SetImageLUT(float* data, ImageLUTConfig* cfg)
 {
 	cudaSetDevice(index);
 
+	if (image_lut) 
+		delete image_lut;
+
+	image_lut = new cudaImage4D<float>(cfg->w,cfg->h,cfg->planes,cfg->nLUTs);
+	if (data) {
+		image_lut->copyToDevice(data);
+	} else
+		image_lut->clear();
 }
 
 
