@@ -266,8 +266,7 @@ __global__ void ImageLUT_Build(BaseKernelParams kp, ImageLUTConfig ilc, float3* 
 
 		float startx = positions[idx].x - ilc.w/2*ilc.xscale;
 		float starty = positions[idx].y - ilc.h/2*ilc.yscale;
-
-		int dstx = ilc.w * kp.locParams[idx].zlutPlane;
+		int2 imgpos = lut.getImagePos(kp.locParams[idx].zlutPlane);
 
 		for (int y=0;y<kp.images.h;y++)
 			for (int x=0;x<kp.images.w;x++) {
@@ -276,10 +275,12 @@ __global__ void ImageLUT_Build(BaseKernelParams kp, ImageLUTConfig ilc, float3* 
 
 				bool outside=false;
 				float v = TImageSampler::Interpolated(kp.images, px, py, idx, outside);
-				
-				float org =  lut.readSurfacePixel(image_lut_surface, x + dstx,y,kp.locParams[idx].zlutIndex);
-				
-				//image_lut.pixel(x + dstx,y,kp.locParams[idx].zlutIndex) += v * invMean;
+
+				//float org;
+				//surf2DLayeredread (&org, image_lut_surface, (int)( sizeof(float)*(x+dstx)), y, kp.locParams[idx].zlutIndex, cudaBoundaryModeTrap);
+				int z = kp.locParams[idx].zlutIndex;
+				float org = lut.readSurfacePixel(image_lut_surface, x + imgpos.x, y + imgpos.y, z);
+				lut.writeSurfacePixel(image_lut_surface, x + imgpos.x, y + imgpos.y, z, org+v*invMean);
 			}
 	}
 }

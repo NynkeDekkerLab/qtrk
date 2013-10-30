@@ -207,6 +207,7 @@ struct cudaImageList {
 
 
 
+// 4D image, implemented by having layers with each a grid of 2D images.
 template<typename T>
 struct cudaImage4D
 {
@@ -225,16 +226,18 @@ struct cudaImage4D
 		int imgw, imgh;
 		int layerw;
 
-		CUBOTH int2 getImagePos(int image) { return make_int2(image % layerw , image / layerw); }
+		CUBOTH int2 getImagePos(int image) { return make_int2(imgw * (image % layerw), imgh * (image / layerw)); }
 		
 		CUBOTH T readSurfacePixel(surface<void, cudaSurfaceType2DLayered> surf, int x, int y,int z)
 		{
-			return surf3Dread (image_lut_surface, sizeof(T)*x, y, z, cudaBoundaryModeTrap);
+			T r;
+			surf2DLayeredread (&r, image_lut_surface, sizeof(T)*x, y, z, cudaBoundaryModeTrap);
+			return r;
 		}
 
 		CUBOTH void writeSurfacePixel(surface<void, cudaSurfaceType2DLayered> surf, int x,int y,int z, T value)
 		{
-			surf3Dwrite(value, image_lut_surface, sizeof(T)*x, y, z, cudaBoundaryModeTrap);
+			surf2DLayeredwrite(value, image_lut_surface, sizeof(T)*x, y, z, cudaBoundaryModeTrap);
 		}
 	};
 
@@ -271,11 +274,13 @@ struct cudaImage4D
 		imgh = sy;
 		this->numImg = numImg;
 
-		layerh = (int)(prop.maxSurface2DLayered[1] / imgh);
+//		layerh = (int)(prop.maxSurface2DLayered[1] / imgh);
+		layerh = 2048 / imgh;
 		layerw = (numImg + layerh - 1) / layerh;
+		nlayers = sL;
 
-		dbgprintf("creating image4D: %d layers of %d x %d images of %d x %d", 
-			sL, layerw, layerh, imgw, imgh);
+		dbgprintf("creating image4D: %d layers of %d x %d images of %d x %d (%dx%dx%d)", 
+			sL, layerw, layerh, imgw, imgh, getExtent().width,getExtent().height,getExtent().depth);
 
 		cudaChannelFormatDesc desc = cudaCreateChannelDesc<T>();
 		cudaError_t err = cudaMalloc3DArray(&array, &desc, getExtent(), cudaArrayLayered | cudaArraySurfaceLoadStore);
