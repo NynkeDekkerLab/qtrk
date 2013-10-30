@@ -287,7 +287,7 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 	bool normalizeProfile = (localizeMode & LT_NormalizeProfile)!=0;
 	if(localizeMode & LT_LocalizeZ) {
 		result.pos.z = trk->ComputeZ(result.pos2D(), cfg.zlut_angularsteps, j->job.zlutIndex, false, &boundaryHit, 0, 0, normalizeProfile );
-	} else if (localizeMode & LT_BuildRadialZLUT) {
+	} else if (localizeMode & LT_BuildRadialZLUT && (j->job.zlutIndex >= 0 && j->job.zlutIndex < zlut_count)) {
 		float* zlut = GetZLUTByIndex(j->job.zlutIndex);
 		float* rprof = ALLOCA_ARRAY(float, cfg.zlut_radialsteps);
 		trk->ComputeRadialProfile(rprof, cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, result.pos2D(), false, &boundaryHit, normalizeProfile);
@@ -385,8 +385,6 @@ void QueuedCPUTracker::ScheduleLocalization(void* data, int pitch, QTRK_PixelDat
 
 	j->dataType = pdt;
 	j->job = *jobInfo;
-	if (!zluts || jobInfo->zlutIndex>=this->zlut_count ||  jobInfo->zlutPlane >= this->zlut_planes)
-		j->job.zlutIndex = -1;
 
 	AddJob(j);
 }
