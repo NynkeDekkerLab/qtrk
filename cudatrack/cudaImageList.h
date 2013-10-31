@@ -218,7 +218,7 @@ struct cudaImage4D
 	int numImg; // images per layer
 
 	cudaExtent getExtent() {
-		return make_cudaExtent(imgw * layerw, imgh * layerh, nlayers);
+		return make_cudaExtent(sizeof(T)* imgw * layerw, imgh * layerh, nlayers);
 	}
 
 	// Properties to be passed to kernels
@@ -250,7 +250,7 @@ struct cudaImage4D
 
 	void bind(texture<T, cudaTextureType2DLayered, cudaReadModeElementType>& texref) {
 		cudaChannelFormatDesc desc = cudaCreateChannelDesc<T>();
-		cudaBindTextureToArray(texref, array, &desc);
+		CheckCUDAError( cudaBindTextureToArray(texref, array, &desc) );
 	}
 	void unbind(texture<T, cudaTextureType2DLayered, cudaReadModeElementType>& texref) {
 		cudaUnbindTexture(texref);
@@ -258,7 +258,7 @@ struct cudaImage4D
 
 	void bind(surface<void, cudaSurfaceType2DLayered>& surf) {
 		cudaChannelFormatDesc desc = cudaCreateChannelDesc<T>();
-		cudaBindSurfaceToArray(surf, array);
+		CheckCUDAError( cudaBindSurfaceToArray(surf, array) );
 	}
 	// there is no unbind surface
 	// void unbind(surface<void, cudaSurfaceType2DLayered>& surf) {	}
@@ -290,7 +290,7 @@ struct cudaImage4D
 	}
 
 	int2 getImagePos(int image) {
-		int2 pos = { image % layerw , image / layerw };
+		int2 pos = { imgw * ( image % layerw ), imgh * ( image / layerw ) };
 		return pos;
 	}
 
@@ -323,14 +323,14 @@ struct cudaImage4D
 
 		cudaMemcpy3DParms p = {0};
 		p.dstArray = array;
-		p.extent = make_cudaExtent(imgw,imgh,1);
+		p.extent = make_cudaExtent(imgw*sizeof(T),imgh,1);
 		p.kind = cudaMemcpyDeviceToDevice;
-		p.srcPtr = make_cudaPitchedPtr(d, sizeof(T)*imgw, imgw, imgh);
+		p.srcPtr = make_cudaPitchedPtr(d, sizeof(T)*imgw, sizeof(T)*imgw, imgh);
 		for (int l=0;l<nlayers;l++)
 			for (int img=0;img<numImg;img++) {
 				int2 imgpos = getImagePos(img);
 				p.dstPos.z = l;
-				p.dstPos.x = imgpos.x;
+				p.dstPos.x = imgpos.x * sizeof(T);
 				p.dstPos.y = imgpos.y;
 				cudaMemcpy3D(&p);
 			}
@@ -342,13 +342,13 @@ struct cudaImage4D
 	{
 		cudaMemcpy3DParms p = {0};
 		p.srcArray = array;
-		p.extent = make_cudaExtent(imgw,imgh,1);
+		p.extent = make_cudaExtent(imgw*sizeof(T),imgh,1);
 		p.kind = cudaMemcpyDeviceToHost;
 		p.srcPos.z = layer;
 		int2 imgpos = getImagePos(img);
-		p.srcPos.x = imgpos.x;
+		p.srcPos.x = imgpos.x * sizeof(T);
 		p.srcPos.y = imgpos.y;
-		p.dstPtr = make_cudaPitchedPtr(dst, sizeof(T)*imgw, imgw, imgh);
+		p.dstPtr = make_cudaPitchedPtr(dst, sizeof(T)*imgw, sizeof(T)*imgw, imgh);
 		if (async)
 			cudaMemcpy3DAsync(&p, s);
 		else
@@ -361,11 +361,11 @@ struct cudaImage4D
 		p.dstArray = array;
 		int2 imgpos = getImagePos(img);
 		p.dstPos.z = layer;
-		p.dstPos.x = imgpos.x;
+		p.dstPos.x = imgpos.x * sizeof(T);
 		p.dstPos.y = imgpos.y;
-		p.extent = make_cudaExtent(imgw,imgh,1);
+		p.extent = make_cudaExtent(imgw*sizeof(T),imgh,1);
 		p.kind = cudaMemcpyHostToDevice;
-		p.srcPtr = make_cudaPitchedPtr(src, sizeof(T)*imgw, imgw, imgh);
+		p.srcPtr = make_cudaPitchedPtr(src, sizeof(T)*imgw, sizeof(T)*imgw, imgh);
 		if (async)
 			cudaMemcpy3DAsync(&p, s);
 		else

@@ -803,25 +803,107 @@ void TestImageLUT(const char *rlutfile)
 	rlut.free();
 }
 
-void TestImage4D() {
+surface<void, 2> test_surf;
 
+__global__ void writeSurf(int w, int h, float val)
+{
+	int x = threadIdx.x + blockIdx.x * blockDim.x;
+	int y = threadIdx.y + blockIdx.y * blockDim.y;
+
+	if (x< w && y < h) {
+//		float v;
+//		surf2Dread(&v, test_surf, x*4,y);
+
+		surf2Dwrite(val, test_surf, x*4, y);
+	}
+}
+
+
+__global__ void cosSurf(int w, int h)
+{
+	int x = threadIdx.x + blockIdx.x * blockDim.x;
+	int y = threadIdx.y + blockIdx.y * blockDim.y;
+
+	if (x< w && y < h) {
+		float v;
+		surf2Dread(&v, test_surf, x*4,y);
+
+		surf2Dwrite(cos(v), test_surf, x*4, y);
+	}
+}
+
+
+__global__ void readSurf(int w, int h, float* dst)
+{
+	int x = threadIdx.x + blockIdx.x * blockDim.x;
+	int y = threadIdx.y + blockIdx.y * blockDim.y;
+
+	if (x< w && y < h) {
+		float v;
+		surf2Dread(&v, test_surf, x*4,y);
+
+		dst[y*w+x] = v;
+	}
+}
+
+
+void TestSurfaceReadWrite()
+{
+	cudaArray *a;
+	int W=128, H=64;
+
+	auto cd = cudaCreateChannelDesc<float>();
+
+	float* rnd = new float[W*H];
+	for (int i=0;i<W*H;i++) rnd[i]=rand_uniform<float>();
+
+	// Copy random test data to cuda array
+	CheckCUDAError(cudaMallocArray(&a, &cd,sizeof(float)* W,H, cudaArraySurfaceLoadStore));
+	CheckCUDAError(cudaMemcpy2DToArray(a, 0, 0, rnd, W*sizeof(float), sizeof(float)*W, H, cudaMemcpyHostToDevice) );
+	
+	CheckCUDAError(cudaBindSurfaceToArray(test_surf, a) );
+	dim3 nt (16,8);
+	device_vec<float> d_dst(W*H);
+	readSurf<<< dim3( (W+nt.x-1)/nt.x, (H+nt.y-1)/nt.y ), nt >>> (W,H, d_dst.data);
+
+	std::vector<float> result = d_dst;
+	for (int i=0;i<W*H;i++)
+		assert(result[i]==rnd[i]);
+	
+	cudaFreeArray(a);
+}
+
+void TestImage4D()
+{
+	int W=32,H=32,D=10,L=5;
+	cudaImage4D<float> img(W,H,D,L);
+	int N=W*H*D*L;
+	float *src = new float[N], *test=new float[N];
+
+	for (int i=0;i<N;i++)
+		src[i] = rand_uniform<float>();
+
+	img.copyToDevice(src);
+	img.copyToHost(test);
+
+	for(int i=0;i<N;i++)
+		assert(src[i]==test[i]);
+
+	delete[] src; delete[] test;
 }
 
 int main(int argc, char *argv[])
 {
 	listDevices();
 
-	TestImage4D();
-
 //	testLinearArray();
-
-	//TestTextureFetch();
-
+//TestTextureFetch();
 //	TestGauss2D(true);
-
 //	MultipleLUTTest();
 
-	TestImageLUT("../cputrack-test/lut000.jpg");
+	TestSurfaceReadWrite();
+	TestImage4D();
+//	TestImageLUT("../cputrack-test/lut000.jpg");
 
 //	BasicQTrkTest();
 //	TestCMOSNoiseInfluence<QueuedCUDATracker>("../cputrack-test/lut000.jpg");

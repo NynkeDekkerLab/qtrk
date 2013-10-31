@@ -102,10 +102,10 @@ public:
 			dst.resize(size);
 		copyToHost(&dst[0], async, s);
 	}
-	void copyToDevice(const std::vector<T>& src, bool async, cudaStream_t s=0) {
+	void copyToDevice(const std::vector<T>& src, bool async=false, cudaStream_t s=0) {
 		copyToDevice(&src[0], src.size(), async, s);
 	}
-	void copyToDevice(const T* first, size_t size, bool async, cudaStream_t s=0) {
+	void copyToDevice(const T* first, size_t size, bool async=false, cudaStream_t s=0) {
 		if (this->size < size)
 			init(size);
 		if (async)
