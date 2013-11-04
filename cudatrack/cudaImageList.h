@@ -217,8 +217,10 @@ struct cudaImage4D
 	int nlayers;
 	int numImg; // images per layer
 
+	// CUDA 3D arrays use width in elements, linear memory should use width in bytes.
+	// http://stackoverflow.com/questions/10611451/how-to-use-make-cudaextent-to-define-a-cudaextent-correctly
 	cudaExtent getExtent() {
-		return make_cudaExtent(sizeof(T)* imgw * layerw, imgh * layerh, nlayers);
+		return make_cudaExtent(imgw * layerw, imgh * layerh, nlayers);
 	}
 
 	// Properties to be passed to kernels
@@ -279,7 +281,7 @@ struct cudaImage4D
 		layerw = (numImg + layerh - 1) / layerh;
 		nlayers = sL;
 
-		dbgprintf("creating image4D: %d layers of %d x %d images of %d x %d (%dx%dx%d)", 
+		dbgprintf("creating image4D: %d layers of %d x %d images of %d x %d (%dx%dx%d)\n", 
 			sL, layerw, layerh, imgw, imgh, getExtent().width,getExtent().height,getExtent().depth);
 
 		cudaChannelFormatDesc desc = cudaCreateChannelDesc<T>();
@@ -318,63 +320,75 @@ struct cudaImage4D
 	{
 		// create a new black image in device memory and use to it clear all the layers
 		T* d;
-		cudaMalloc(&d, sizeof(T)*imgw*imgh);
-		cudaMemset(d, 0, sizeof(T)*imgw*imgh);
+		size_t srcpitch;
+		CheckCUDAError( cudaMallocPitch(&d, &srcpitch, sizeof(T)*imgw, imgh) );
+		CheckCUDAError( cudaMemset2D(d, srcpitch, 0, sizeof(T)*imgw, imgh) );
 
 		cudaMemcpy3DParms p = {0};
 		p.dstArray = array;
-		p.extent = make_cudaExtent(imgw*sizeof(T),imgh,1);
+		p.extent = make_cudaExtent(imgw,imgh,1);
 		p.kind = cudaMemcpyDeviceToDevice;
-		p.srcPtr = make_cudaPitchedPtr(d, sizeof(T)*imgw, sizeof(T)*imgw, imgh);
+		p.srcPtr = make_cudaPitchedPtr(d, srcpitch, sizeof(T)*imgw, imgh);
 		for (int l=0;l<nlayers;l++)
 			for (int img=0;img<numImg;img++) {
 				int2 imgpos = getImagePos(img);
 				p.dstPos.z = l;
-				p.dstPos.x = imgpos.x * sizeof(T);
+				p.dstPos.x = imgpos.x;
 				p.dstPos.y = imgpos.y;
-				cudaMemcpy3D(&p);
+				CheckCUDAError( cudaMemcpy3D(&p) );
 			}
-		cudaFree(d);
+		CheckCUDAError( cudaFree(d) );
 	}
 
 	// Copy a single subimage to the host
 	void copyImageToHost(int img, int layer, T* dst, bool async=false, cudaStream_t s=0) 
 	{
+		// According to CUDA docs:
+		//		The extent field defines the dimensions of the transferred area in elements. 
+		//		If a CUDA array is participating in the copy, the extent is defined in terms of that array's elements. 
+		//		If no CUDA array is participating in the copy then the extents are defined in elements of unsigned char.
+
 		cudaMemcpy3DParms p = {0};
 		p.srcArray = array;
-		p.extent = make_cudaExtent(imgw*sizeof(T),imgh,1);
+		p.extent = make_cudaExtent(imgw,imgh,1);
 		p.kind = cudaMemcpyDeviceToHost;
 		p.srcPos.z = layer;
 		int2 imgpos = getImagePos(img);
-		p.srcPos.x = imgpos.x * sizeof(T);
+		p.srcPos.x = imgpos.x;
 		p.srcPos.y = imgpos.y;
 		p.dstPtr = make_cudaPitchedPtr(dst, sizeof(T)*imgw, sizeof(T)*imgw, imgh);
 		if (async)
-			cudaMemcpy3DAsync(&p, s);
+			CheckCUDAError( cudaMemcpy3DAsync(&p, s) );
 		else
-			cudaMemcpy3D(&p);
+			CheckCUDAError( cudaMemcpy3D(&p) );
 	}
 
 	void copyImageToDevice(int img, int layer, T* src, bool async=false, cudaStream_t s=0)
 	{
+		// Memcpy3D needs the right pitch for the source, so we first need to copy it to 2D pitched memory before moving the data to the cuda array
+//		cudaMallocPitch(
+
 		cudaMemcpy3DParms p = {0};
 		p.dstArray = array;
 		int2 imgpos = getImagePos(img);
+
+		//The srcPos and dstPos fields are optional offsets into the source and destination objects and are defined in units of each object's elements. 
+		// The element for a host or device pointer is assumed to be unsigned char. For CUDA arrays, positions must be in the range [0, 2048) for any dimension. 
 		p.dstPos.z = layer;
-		p.dstPos.x = imgpos.x * sizeof(T);
+		p.dstPos.x = imgpos.x;
 		p.dstPos.y = imgpos.y;
-		p.extent = make_cudaExtent(imgw*sizeof(T),imgh,1);
+		p.extent = make_cudaExtent(imgw,imgh,1);
 		p.kind = cudaMemcpyHostToDevice;
 		p.srcPtr = make_cudaPitchedPtr(src, sizeof(T)*imgw, sizeof(T)*imgw, imgh);
 		if (async)
-			cudaMemcpy3DAsync(&p, s);
+			CheckCUDAError( cudaMemcpy3DAsync(&p, s) );
 		else
-			cudaMemcpy3D(&p);
+			CheckCUDAError( cudaMemcpy3D(&p) );
 	}
 
 	void free() {
 		if (array) {
-			cudaFreeArray(array);
+			CheckCUDAError( cudaFreeArray(array) );
 			array = 0;
 		}
 	}

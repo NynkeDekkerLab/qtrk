@@ -13,7 +13,7 @@ inline void CheckCUDAError(cudaError_t err)
 {
 	if (err != cudaSuccess) {
 		const char* errstr = cudaGetErrorString(err);
-		dbgprintf("CUDA error: %s\n" ,errstr);
+		throw std::runtime_error(SPrintf("CUDA error: %s\n" ,errstr));
 	}
 }
 

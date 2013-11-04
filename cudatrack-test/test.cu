@@ -869,19 +869,30 @@ void TestSurfaceReadWrite()
 	std::vector<float> result = d_dst;
 	for (int i=0;i<W*H;i++)
 		assert(result[i]==rnd[i]);
-	
 	cudaFreeArray(a);
+
+	// Test 2D layered
+/*	cudaArray_t a3;
+	auto ext=make_cudaExtent(20, 10, 5);
+	CheckCUDAError(cudaMalloc3DArray(&a3, &cd, ext, cudaArraySurfaceLoadStore | cudaArrayLayered ));
+	cudaMemcpy3DParms p ={0};
+	p.dstArray=a3;
+	p.extent = ext;
+	p.kind = cudaMemcpyHostToDevice;
+	CheckCUDAError(cudaMemcpy3D(&p));*/
 }
 
 void TestImage4D()
 {
-	int W=32,H=32,D=10,L=5;
+	int W=3,H=5,D=10,L=5;
 	cudaImage4D<float> img(W,H,D,L);
 	int N=W*H*D*L;
 	float *src = new float[N], *test=new float[N];
 
 	for (int i=0;i<N;i++)
 		src[i] = rand_uniform<float>();
+
+	img.clear();
 
 	img.copyToDevice(src);
 	img.copyToHost(test);
@@ -897,13 +908,13 @@ int main(int argc, char *argv[])
 	listDevices();
 
 //	testLinearArray();
-//TestTextureFetch();
+//	TestTextureFetch();
 //	TestGauss2D(true);
 //	MultipleLUTTest();
 
-	TestSurfaceReadWrite();
+	//TestSurfaceReadWrite();
 	TestImage4D();
-//	TestImageLUT("../cputrack-test/lut000.jpg");
+	TestImageLUT("../cputrack-test/lut000.jpg");
 
 //	BasicQTrkTest();
 //	TestCMOSNoiseInfluence<QueuedCUDATracker>("../cputrack-test/lut000.jpg");
