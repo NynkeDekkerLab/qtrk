@@ -230,16 +230,16 @@ struct cudaImage4D
 
 		CUBOTH int2 getImagePos(int image) { return make_int2(imgw * (image % layerw), imgh * (image / layerw)); }
 		
-		CUBOTH T readSurfacePixel(surface<void, cudaSurfaceType2DLayered> surf, int x, int y,int z)
+		__device__ T readSurfacePixel(surface<void, cudaSurfaceType2DLayered> surf, int x, int y,int z)
 		{
 			T r;
 			surf2DLayeredread (&r, image_lut_surface, sizeof(T)*x, y, z, cudaBoundaryModeTrap);
 			return r;
 		}
 
-		CUBOTH void writeSurfacePixel(surface<void, cudaSurfaceType2DLayered> surf, int x,int y,int z, T value)
+		__device__ void writeSurfacePixel(surface<void, cudaSurfaceType2DLayered> surf, int x,int y,int z, T value)
 		{
-			surf2DLayeredwrite(value, image_lut_surface, sizeof(T)*x, y, z, cudaBoundaryModeTrap);
+			surf2DLayeredwrite(value, surf, sizeof(T)*x, y, z, cudaBoundaryModeTrap);
 		}
 	};
 
@@ -286,6 +286,7 @@ struct cudaImage4D
 
 		cudaChannelFormatDesc desc = cudaCreateChannelDesc<T>();
 		cudaError_t err = cudaMalloc3DArray(&array, &desc, getExtent(), cudaArrayLayered | cudaArraySurfaceLoadStore);
+		//cudaError_t err = cudaMalloc3DArray(&array, &desc, getExtent(), cudaArraySurfaceLoadStore);
 		if (err != cudaSuccess) {
 			throw std::bad_alloc(SPrintf("CUDA error during cudaSurf2DList(): %s", cudaGetErrorString(err)).c_str());
 		}

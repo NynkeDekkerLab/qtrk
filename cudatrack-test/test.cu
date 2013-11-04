@@ -882,9 +882,31 @@ void TestSurfaceReadWrite()
 	CheckCUDAError(cudaMemcpy3D(&p));*/
 }
 
+surface<void, cudaSurfaceType2DLayered> img4d_test;
+//surface<void, 3> img4d_test;
+
+
+__global__ void set_img4d_value(cudaImage4D<float>::KernelInst p, int L, float val)
+{
+	for (int y=0;y<p.imgh;y++) {
+		for (int x=0;x<p.imgw;x++)
+		{
+			//p.writeSurfacePixel(img4d_test, x,y, L, val);
+			surf2DLayeredwrite(val, img4d_test, sizeof(float)*x, y, L, cudaBoundaryModeTrap);
+			//surf3Dwrite(val, img4d_test, sizeof(float)*x, y, L, cudaBoundaryModeTrap);
+
+			float v2;
+			surf2DLayeredread(&v2, img4d_test, sizeof(float)*x, y, L, cudaBoundaryModeTrap);
+
+
+
+		}
+	}
+}
+
 void TestImage4D()
 {
-	int W=3,H=5,D=10,L=5;
+	int W=32,H=32,D=10,L=5;
 	cudaImage4D<float> img(W,H,D,L);
 	int N=W*H*D*L;
 	float *src = new float[N], *test=new float[N];
@@ -896,9 +918,21 @@ void TestImage4D()
 
 	img.copyToDevice(src);
 	img.copyToHost(test);
+	img.copyToHost(test);
 
 	for(int i=0;i<N;i++)
 		assert(src[i]==test[i]);
+
+	auto cd = cudaCreateChannelDesc<float>();
+	//cudaBindSurfaceToArray(&img4d_test, img.array, &cd);
+	img.bind(img4d_test);
+	set_img4d_value<<< dim3(1,1,1), dim3(1,1,1) >>> (img.kernelInst(), 0, 1.0f);
+	cudaDeviceSynchronize();
+
+	img.copyToHost(test);
+	for (int i=0;i<W*H;i++) {
+		assert(test[i] == 1.0f);
+	}
 
 	delete[] src; delete[] test;
 }
