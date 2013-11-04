@@ -603,10 +603,12 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 	{ScopedCPUProfiler p(&cpu_time.imap);
 
 		if ( (s->localizeFlags & LT_BuildImageLUT) && s->device->image_lut ) {
-			cudaImage4D<float>* il = s->device->image_lut;
+			ImageLUT* il = s->device->image_lut;
 			// Bind surface for writing image LUT
-			il->bind(image_lut_surface);
-			ImageLUT_Build<TImageSampler> <<< blocks(s->JobCount()), threads(), 0, s->stream >>> (kp,imageLUTConfig, curpos->data, il->kernelInst());
+			float2 ilc_scale = make_float2(imageLUTConfig.xscale, imageLUTConfig.yscale);
+			ImageLUT::KernelParams ilkp = il->bind();
+			ImageLUT_Build<TImageSampler, ImageLUT> <<< blocks(s->JobCount()), threads(), 0, s->stream >>> (kp, ilc_scale, curpos->data, ilkp);
+			il->unbind();
 		}
 
 		if (s->localizeFlags & LT_IMAP) {
@@ -800,7 +802,7 @@ void QueuedCUDATracker::Device::SetImageLUT(float* data, ImageLUTConfig* cfg)
 	if (image_lut) 
 		delete image_lut;
 
-	image_lut = new cudaImage4D<float>(cfg->w,cfg->h,cfg->planes,cfg->nLUTs);
+	image_lut = new ImageLUT(cfg->w,cfg->h,cfg->planes,cfg->nLUTs);
 	if (data) {
 		image_lut->copyToDevice(data);
 	} else

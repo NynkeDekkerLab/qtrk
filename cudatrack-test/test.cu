@@ -776,14 +776,16 @@ void TestImageLUT(const char *rlutfile)
 	QueuedCUDATracker trk(cfg);
 	ResampleLUT(&trk, &rlut, 2.0f, 40.0f, 10);
 
-	int dims[] = { 1, rlut.h, 60, 60 };
+	int dims[] = { 1, rlut.h, 80, 80 };
 	int il_size = dims[0]*dims[1]*dims[2]*dims[3];
 	trk.SetImageZLUT(0, dims);
 	trk.SetLocalizationMode( LT_OnlyCOM | LT_BuildImageLUT );
 	trk.EnableTextureCache(false);
-	for (int z=0;z<rlut.h;z++) {
+	int h =rlut.h;
+	//h=1;
+	for (int z=0;z<h;z++) {
 		vector2f pos = vector2f::random( vector2f( cfg.width/2,cfg.height/2 ), 4.0f );
-		GenerateImageFromLUT(&img, &rlut, 0.0f, rlut.w-1, pos, z, 0.9f);
+		GenerateImageFromLUT(&img, &rlut, 0.0f, rlut.w-1, pos, z, 0.5f);
 		dbgprintf("z=%d\n", z);
 		WriteJPEGFile(SPrintf("rlut%d.jpg",z).c_str(), img);
 		LocalizationJob job(z, 0, z, 0);
@@ -886,7 +888,7 @@ surface<void, cudaSurfaceType2DLayered> img4d_test;
 //surface<void, 3> img4d_test;
 
 
-__global__ void set_img4d_value(cudaImage4D<float>::KernelInst p, int L, float val)
+__global__ void set_img4d_value(Image4DCudaArray<float>::KernelInst p, int L, float val)
 {
 	for (int y=0;y<p.imgh;y++) {
 		for (int x=0;x<p.imgw;x++)
@@ -898,8 +900,6 @@ __global__ void set_img4d_value(cudaImage4D<float>::KernelInst p, int L, float v
 			float v2;
 			surf2DLayeredread(&v2, img4d_test, sizeof(float)*x, y, L, cudaBoundaryModeTrap);
 
-
-
 		}
 	}
 }
@@ -907,7 +907,7 @@ __global__ void set_img4d_value(cudaImage4D<float>::KernelInst p, int L, float v
 void TestImage4D()
 {
 	int W=32,H=32,D=10,L=5;
-	cudaImage4D<float> img(W,H,D,L);
+	Image4DCudaArray<float> img(W,H,D,L);
 	int N=W*H*D*L;
 	float *src = new float[N], *test=new float[N];
 
@@ -937,6 +937,27 @@ void TestImage4D()
 	delete[] src; delete[] test;
 }
 
+void TestImage4DMemory()
+{
+	int W=32,H=32, D=5, L=10;
+	Image4DMemory<float> img(W,H,D,L);
+	
+	int N=W*H*D*L;
+	float *src = new float[N], *test=new float[N];
+
+	for (int i=0;i<N;i++)
+		src[i] = rand_uniform<float>();
+
+	img.clear();
+
+	img.copyToDevice(src);
+	img.copyToHost(test);
+	img.copyToHost(test);
+
+	for(int i=0;i<N;i++)
+		assert(src[i]==test[i]);
+}
+
 int main(int argc, char *argv[])
 {
 	listDevices();
@@ -947,7 +968,8 @@ int main(int argc, char *argv[])
 //	MultipleLUTTest();
 
 	//TestSurfaceReadWrite();
-	TestImage4D();
+	//TestImage4D();
+	TestImage4DMemory();
 	TestImageLUT("../cputrack-test/lut000.jpg");
 
 //	BasicQTrkTest();

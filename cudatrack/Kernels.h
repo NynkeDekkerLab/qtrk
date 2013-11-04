@@ -255,8 +255,9 @@ __global__ void G2MLE_Compute(BaseKernelParams kp, float sigma, int iterations, 
 
 surface<void, cudaSurfaceType2DLayered> image_lut_surface;
 
-template<typename TImageSampler>
-__global__ void ImageLUT_Build(BaseKernelParams kp, ImageLUTConfig ilc, float3* positions, cudaImage4D<float>::KernelInst lut)
+
+template<typename TImageSampler, typename TImageLUT>
+__global__ void ImageLUT_Build(BaseKernelParams kp, float2 ilut_scale, float3* positions, typename TImageLUT::KernelParams lut)
 {
 	// add sampled image data to 
 	int idx = threadIdx.x;
@@ -264,14 +265,14 @@ __global__ void ImageLUT_Build(BaseKernelParams kp, ImageLUTConfig ilc, float3* 
 
 		float invMean = 1.0f / kp.imgmeans[idx];
 
-		float startx = positions[idx].x - ilc.w/2*ilc.xscale;
-		float starty = positions[idx].y - ilc.h/2*ilc.yscale;
-		int2 imgpos = lut.getImagePos(kp.locParams[idx].zlutPlane);
+		float startx = positions[idx].x - lut.imgw/2*ilut_scale.x;
+		float starty = positions[idx].y - lut.imgh/2*ilut_scale.y;
+		int2 imgpos = lut.GetImagePos(kp.locParams[idx].zlutPlane, kp.locParams[idx].zlutIndex);
 
-		for (int y=0;y<kp.images.h;y++)
-			for (int x=0;x<kp.images.w;x++) {
-				float px = startx + x*ilc.xscale;
-				float py = starty + y*ilc.yscale;
+		for (int y=0;y<lut.imgh;y++)
+			for (int x=0;x<lut.imgw;x++) {
+				float px = startx + x*ilut_scale.x;
+				float py = starty + y*ilut_scale.y;
 
 				bool outside=false;
 				float v = TImageSampler::Interpolated(kp.images, px, py, idx, outside);
@@ -279,8 +280,8 @@ __global__ void ImageLUT_Build(BaseKernelParams kp, ImageLUTConfig ilc, float3* 
 				//float org;
 				//surf2DLayeredread (&org, image_lut_surface, (int)( sizeof(float)*(x+dstx)), y, kp.locParams[idx].zlutIndex, cudaBoundaryModeTrap);
 				int z = kp.locParams[idx].zlutIndex;
-				float org = lut.readSurfacePixel(image_lut_surface, x + imgpos.x, y + imgpos.y, z);
-				lut.writeSurfacePixel(image_lut_surface, x + imgpos.x, y + imgpos.y, z, org+v*invMean);
+				float org = TImageLUT::read(lut, x, y, imgpos);
+				TImageLUT::write(org+v*invMean, lut, x, y, imgpos);
 			}
 	}
 }

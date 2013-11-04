@@ -209,7 +209,7 @@ struct cudaImageList {
 
 // 4D image, implemented by having layers with each a grid of 2D images.
 template<typename T>
-struct cudaImage4D
+struct Image4DCudaArray
 {
 	cudaArray_t array;
 	int imgw, imgh;
@@ -265,7 +265,7 @@ struct cudaImage4D
 	// there is no unbind surface
 	// void unbind(surface<void, cudaSurfaceType2DLayered>& surf) {	}
 
-	cudaImage4D(int sx, int sy, int numImg , int sL) {
+	Image4DCudaArray(int sx, int sy, int numImg , int sL) {
 		array = 0;
 		int d;
 		cudaGetDevice(&d);
@@ -297,7 +297,7 @@ struct cudaImage4D
 		return pos;
 	}
 
-	~cudaImage4D() {
+	~Image4DCudaArray() {
 		free();
 	}
 
@@ -394,4 +394,109 @@ struct cudaImage4D
 		}
 	}
 };
+
+
+
+template<typename T>
+class Image4DMemory
+{
+public:
+	struct KernelParams {
+		T* d_data;
+		size_t pitch;
+		int cols;
+		int depth;
+		int imgw, imgh;
+
+		CUBOTH int2 GetImagePos(int z, int l) {
+			int img = z+depth*l;
+			return make_int2( (img % cols) * imgw, (img / cols) * imgh);
+		}
+	};
+
+	KernelParams kp;
+	int layers, totalImg;
+	int rows;
+
+	Image4DMemory(int w, int h, int d, int L) {
+		kp.imgh = h;
+		kp.imgw = w;
+		kp.depth = d;
+		layers = L;
+		totalImg = d*L;
+
+		rows = 2048 / kp.imgh;
+		kp.cols = (totalImg + rows - 1) / rows;
+
+		CheckCUDAError( cudaMallocPitch (&kp.d_data, &kp.pitch, sizeof(T) * kp.cols * kp.imgw, rows * kp.imgh) );
+	}
+
+	~Image4DMemory() {
+		free();
+	}
+	void free(){
+		if(kp.d_data) cudaFree(kp.d_data);
+		kp.d_data=0;
+	}
+
+	void copyToDevice(T* src, bool async=false, cudaStream_t s=0) 
+	{
+		for (int L=0;L<layers;L++) {
+			for (int i=0;i<kp.depth;i++)
+				copyImageToDevice(i, L, &src[ kp.imgw * kp.imgh * ( kp.depth * L + i ) ], async, s);
+		}
+	}
+
+	void copyToHost(T* dst, bool async=false, cudaStream_t s=0)
+	{
+		for (int L=0;L<layers;L++) {
+			for (int i=0;i<kp.depth;i++)
+				copyImageToHost(i, L, &dst[ kp.imgw * kp.imgh * ( kp.depth * L + i ) ], async, s);
+		}
+	}
+
+
+	void clear()
+	{
+		cudaMemset2D(kp.d_data, kp.pitch, 0, sizeof(T)*(kp.cols*kp.imgw), rows*kp.imgh);
+	}
+
+	float* getImgAddr(int2 imgpos)
+	{
+		char* d = (char*)kp.d_data;
+		d += imgpos.y * kp.pitch;
+		return &((float*)d)[imgpos.x];
+	}
+
+	// Copy a single subimage to the host
+	void copyImageToHost(int z, int l, T* dst, bool async=false, cudaStream_t s=0) 
+	{
+		int2 imgpos = kp.GetImagePos(z, l);
+		if (async)
+			cudaMemcpy2DAsync(dst, sizeof(T)*kp.imgw, getImgAddr(imgpos), kp.pitch, kp.imgw * sizeof(T), kp.imgh, cudaMemcpyDeviceToHost, s);
+		else
+			cudaMemcpy2D(dst, sizeof(T)*kp.imgw, getImgAddr(imgpos), kp.pitch, kp.imgw * sizeof(T), kp.imgh, cudaMemcpyDeviceToHost);
+	}
+
+	void copyImageToDevice(int z, int l, T* src, bool async=false, cudaStream_t s=0)
+	{
+		int2 imgpos = kp.GetImagePos(z, l);
+		if (async)
+			cudaMemcpy2DAsync(getImgAddr(imgpos), kp.pitch, src, sizeof(T)*kp.imgw, sizeof(T)*kp.imgw, kp.imgh, cudaMemcpyHostToDevice, s);
+		else
+			cudaMemcpy2D(getImgAddr(imgpos), kp.pitch, src, sizeof(T)*kp.imgw, sizeof(T)*kp.imgw, kp.imgh, cudaMemcpyHostToDevice);
+	}
+
+	// no binding required
+	KernelParams bind() { return kp; }
+	void unbind() {}
+
+	static __device__ T read(const KernelParams& kp, int x, int y, int2 imgpos) {
+		return ((T*)( (char*)kp.d_data + (y + imgpos.y) * kp.pitch))[ x + imgpos.x ];
+	}
+	static __device__ void write(T value, const KernelParams& kp, int x, int y, int2 imgpos) {
+		((T*)( (char*)kp.d_data + (y + imgpos.y) * kp.pitch)) [ x + imgpos.x ] = value;
+	}
+};
+
 
