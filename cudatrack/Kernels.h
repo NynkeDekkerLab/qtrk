@@ -259,30 +259,26 @@ surface<void, cudaSurfaceType2DLayered> image_lut_surface;
 template<typename TImageSampler, typename TImageLUT>
 __global__ void ImageLUT_Build(BaseKernelParams kp, float2 ilut_scale, float3* positions, typename TImageLUT::KernelParams lut)
 {
-	// add sampled image data to 
-	int idx = threadIdx.x;
-	if (idx < kp.njobs) {
+	// add sampled image data to
+	int x = threadIdx.x + blockIdx.x * blockDim.x;
+	int y = threadIdx.y + blockIdx.y * blockDim.y;
+	int id = threadIdx.z + blockIdx.z * blockDim.z;
+	if (x < lut.imgw && y < lut.imgh && id < kp.njobs) {
 
-		float invMean = 1.0f / kp.imgmeans[idx];
+		float invMean = 1.0f / kp.imgmeans[id];
 
-		float startx = positions[idx].x - lut.imgw/2*ilut_scale.x;
-		float starty = positions[idx].y - lut.imgh/2*ilut_scale.y;
-		int2 imgpos = lut.GetImagePos(kp.locParams[idx].zlutPlane, kp.locParams[idx].zlutIndex);
+		float startx = positions[id].x - lut.imgw/2*ilut_scale.x;
+		float starty = positions[id].y - lut.imgh/2*ilut_scale.y;
+		int2 imgpos = lut.GetImagePos(kp.locParams[id].zlutPlane, kp.locParams[id].zlutIndex);
 
-		for (int y=0;y<lut.imgh;y++)
-			for (int x=0;x<lut.imgw;x++) {
-				float px = startx + x*ilut_scale.x;
-				float py = starty + y*ilut_scale.y;
+		float px = startx + x*ilut_scale.x;
+		float py = starty + y*ilut_scale.y;
 
-				bool outside=false;
-				float v = TImageSampler::Interpolated(kp.images, px, py, idx, outside);
+		bool outside=false;
+		float v = TImageSampler::Interpolated(kp.images, px, py, id, outside);
 
-				//float org;
-				//surf2DLayeredread (&org, image_lut_surface, (int)( sizeof(float)*(x+dstx)), y, kp.locParams[idx].zlutIndex, cudaBoundaryModeTrap);
-				int z = kp.locParams[idx].zlutIndex;
-				float org = TImageLUT::read(lut, x, y, imgpos);
-				TImageLUT::write(org+v*invMean, lut, x, y, imgpos);
-			}
+		float org = TImageLUT::read(lut, x, y, imgpos);
+		TImageLUT::write(org+v*invMean, lut, x, y, imgpos);
 	}
 }
 

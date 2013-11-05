@@ -21,6 +21,8 @@
 
 #include "../cputrack-test/SharedTests.h"
 
+void BenchmarkParams();
+
 std::string getPath(const char *file)
 {
 	std::string s = file;
@@ -779,20 +781,23 @@ void TestImageLUT(const char *rlutfile)
 	int dims[] = { 1, rlut.h, 80, 80 };
 	int il_size = dims[0]*dims[1]*dims[2]*dims[3];
 	trk.SetImageZLUT(0, dims);
-	trk.SetLocalizationMode( LT_OnlyCOM | LT_BuildImageLUT );
+	trk.SetLocalizationMode( LT_QI | LT_BuildImageLUT );
 	trk.EnableTextureCache(false);
-	int h =rlut.h;
-	//h=1;
+	int h = 10;
 	for (int z=0;z<h;z++) {
-		vector2f pos = vector2f::random( vector2f( cfg.width/2,cfg.height/2 ), 4.0f );
-		GenerateImageFromLUT(&img, &rlut, 0.0f, rlut.w-1, pos, z, 0.5f);
 		dbgprintf("z=%d\n", z);
+		for (int n=0;n<10;n++) {
+			vector2f pos = vector2f::random( vector2f( cfg.width/2,cfg.height/2 ), 4.0f );
+			GenerateImageFromLUT(&img, &rlut, 0.0f, rlut.w-1, pos, z, 0.5f);
+			ApplyPoissonNoise (img, 255);
+			LocalizationJob job(z, 0, z, 0);
+			trk.ScheduleLocalization (img.data, img.pitch(), QTrkFloat, &job);
+			trk.Flush();
+			dbgprintf(".");
+		}
 		WriteJPEGFile(SPrintf("rlut%d.jpg",z).c_str(), img);
-		LocalizationJob job(z, 0, z, 0);
-		trk.ScheduleLocalization (img.data, img.pitch(), QTrkFloat, &job);
 	}
 	
-	trk.Flush();
 	while (!trk.IsIdle());
 
 	float *dst = new float[il_size];
@@ -971,6 +976,8 @@ int main(int argc, char *argv[])
 	//TestImage4D();
 	TestImage4DMemory();
 	TestImageLUT("../cputrack-test/lut000.jpg");
+
+	BenchmarkParams();
 
 //	BasicQTrkTest();
 //	TestCMOSNoiseInfluence<QueuedCUDATracker>("../cputrack-test/lut000.jpg");

@@ -33,6 +33,8 @@ static void ResampleLUT(QueuedTracker* qtrk, ImageData* lut, float zlutMinRadius
 	lut->data = zlut_result;
 	lut->w = cfg.zlut_radialsteps;
 	lut->h = zplanes;
+
+	lut->normalize();
 	
 	if (jpgfile) {
 		FloatToJPEGFile(jpgfile, zlut_result, cfg.zlut_radialsteps, zplanes);

@@ -169,6 +169,7 @@ protected:
 
 	int numThreads;
 	int batchSize;
+	bool lutWriteMode;
 
 	ImageLUTConfig imageLUTConfig;
 
