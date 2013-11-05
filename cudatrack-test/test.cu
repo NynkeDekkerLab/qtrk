@@ -988,11 +988,10 @@ SpeedAccResult SpeedAccTest(const char *lutfile, QTrkSettings *cfg, int N)
 		truepos.push_back(pos);
 		GenerateImageFromLUT(&imgs[i], &lut, 0.0f, lut.w, vector2f( pos.x,pos.y), pos.z, M);
 		imgs[i].normalize();
-		ApplyPoissonNoise(imgs[i],255);
+		ApplyPoissonNoise(imgs[i],500);
 		if(i==0) WriteJPEGFile(SPrintf("roi%dtestimg.jpg", cfg->width).c_str(), imgs[i]);
 	}
 
-	srand(0);
 	trk.SetLocalizationMode((LocMode_t)(LT_QI|LT_LocalizeZ| LT_NormalizeProfile));
 	double tstart=GetPreciseTime();
 
@@ -1047,13 +1046,13 @@ void BenchmarkParams()
 #ifdef _DEBUG
 	int n = 50;
 #else
-	int n = 5000;
+	int n = 6000;
 #endif
 
 	std::vector<SpeedAccResult> results;
 	std::vector<int> rois;
 
-	for (int roi=30;roi<=200;roi+=10) {
+	for (int roi=50;roi<=160;roi+=10) {
 	//for (int roi=90;roi<100;roi+=10) {
 		QTrkSettings cfg;
 		cfg.qi_angstep_factor = 2;
