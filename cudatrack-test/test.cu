@@ -776,7 +776,7 @@ void TestImageLUT(const char *rlutfile)
 	ImageData img=ImageData::alloc(cfg.width,cfg.height);
 
 	QueuedCUDATracker trk(cfg);
-	ResampleLUT(&trk, &rlut, 2.0f, 40.0f, 10);
+	ResampleLUT(&trk, &rlut, 1, 10);
 
 	int dims[] = { 1, rlut.h, 80, 80 };
 	int il_size = dims[0]*dims[1]*dims[2]*dims[3];
@@ -963,6 +963,123 @@ void TestImage4DMemory()
 		assert(src[i]==test[i]);
 }
 
+struct SpeedAccResult{
+	vector3f acc,bias;
+	int speed;
+};
+
+SpeedAccResult SpeedAccTest(const char *lutfile, QTrkSettings *cfg, int N)
+{
+	typedef QueuedCPUTracker TrkType;
+	std::vector<vector3f> results, truepos;
+
+	ImageData lut = ReadJPEGFile(lutfile);
+	int NImg=std::max(1,N/50);
+	std::vector<ImageData> imgs(NImg);
+	const float R=5;
+	
+	TrkType trk(*cfg);
+	float M=0.5f* cfg->width /(float) lut.w;
+	ResampleLUT(&trk, &lut, M, lut.h, "resample-lut.jpg");
+
+	for (int i=0;i<NImg;i++) {
+		imgs[i]=ImageData::alloc(cfg->width,cfg->height);
+		vector3f pos(cfg->width/2 + R*(rand_uniform<float>()-0.5f),cfg->height/2 + R*(rand_uniform<float>()-0.5f), lut.h/4+rand_uniform<float>()*lut.h/4);
+		truepos.push_back(pos);
+		GenerateImageFromLUT(&imgs[i], &lut, 0.0f, lut.w, vector2f( pos.x,pos.y), pos.z, M);
+		imgs[i].normalize();
+		ApplyPoissonNoise(imgs[i],255);
+		if(i==0) WriteJPEGFile(SPrintf("roi%dtestimg.jpg", cfg->width).c_str(), imgs[i]);
+	}
+
+	srand(0);
+	trk.SetLocalizationMode((LocMode_t)(LT_QI|LT_LocalizeZ| LT_NormalizeProfile));
+	double tstart=GetPreciseTime();
+
+	int img=0;
+	for (int i=0;i<N;i++)
+	{
+		LocalizationJob job(i, 0, 0, 0);
+		trk.ScheduleLocalization((uchar*)imgs[i%NImg].data, sizeof(float)*cfg->width, QTrkFloat, &job);
+	}
+
+	WaitForFinish(&trk, N);
+	double tend = GetPreciseTime();
+
+	results.resize(trk.GetResultCount());
+	for (int i=0;i<results.size();i++) {
+		LocalizationResult r;
+		trk.FetchResults(&r,1);
+		results[r.job.frame]=r.pos;
+	}
+
+	for (int i=0;i<NImg;i++)
+		imgs[i].free();
+	lut.free();
+
+	vector3f s;
+	for(int i=0;i<N;i++) {
+		s+=results[i]-truepos[i%NImg]; 
+	}
+	s*=1.0f/N;
+
+	vector3f acc;
+	for (int i=0;i<results.size();i++) {
+		vector3f d = results[i]-truepos[i%NImg]; 
+		acc += d*d;
+	}
+	acc = sqrt(acc/N);
+
+	SpeedAccResult r;
+	r.bias = s;
+	r.acc = acc;
+	r.speed = N/(tend-tstart);
+	dbgprintf("Speed=%d img/s, Mean.X: %f.  St. Dev.X: %f;  Mean.Z: %f.  St. Dev.Z: %f\n",r.speed, r.bias.x, r.acc.x, r.bias.z, r.acc.z);
+	return r;
+}
+
+void BenchmarkParams()
+{
+	/*
+	- Accuracy vs ROIsize
+	- Speed vs ROIsize
+	*/
+#ifdef _DEBUG
+	int n = 50;
+#else
+	int n = 5000;
+#endif
+
+	std::vector<SpeedAccResult> results;
+	std::vector<int> rois;
+
+	for (int roi=30;roi<=200;roi+=10) {
+	//for (int roi=90;roi<100;roi+=10) {
+		QTrkSettings cfg;
+		cfg.qi_angstep_factor = 2;
+		cfg.qi_iterations = 4;
+		cfg.qi_angular_coverage = 0.7f;
+		cfg.qi_roi_coverage = 1;
+		cfg.qi_radial_coverage = 2.5f;
+		cfg.zlut_angular_coverage = 0.7f;
+		cfg.zlut_roi_coverage = 1;
+		cfg.zlut_radial_coverage = 2.5f;
+
+		rois.push_back(roi);
+
+		cfg.width = roi;
+		cfg.height = roi;
+
+		results.push_back(SpeedAccTest ("refbeadlut.jpg", &cfg, n));
+	}
+
+	for (int i=0;i<results.size();i++) {
+		auto r = results[i];
+		float row[] = { rois[i], r.acc.x, r.acc.y, r.acc.z, r.bias.x, r.bias.y, r.bias.z, r.speed };
+		WriteArrayAsCSVRow("benchmark-results.txt", row, sizeof(row)/sizeof(float),i>0);
+	}
+}
+
 int main(int argc, char *argv[])
 {
 	listDevices();
@@ -974,8 +1091,8 @@ int main(int argc, char *argv[])
 
 	//TestSurfaceReadWrite();
 	//TestImage4D();
-	TestImage4DMemory();
-	TestImageLUT("../cputrack-test/lut000.jpg");
+//	TestImage4DMemory();
+//	TestImageLUT("../cputrack-test/lut000.jpg");
 
 	BenchmarkParams();
 
