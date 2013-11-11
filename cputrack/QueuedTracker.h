@@ -78,7 +78,7 @@ struct QTrkSettings {
 		qi_radial_coverage = 3.0f; 
 		qi_roi_coverage = 1.0f;
 		qi_angstep_factor = 1.0f;
-		cuda_device = -1;
+		cuda_device = -2;
 		com_bgcorrection = 0.0f;
 		gauss2D_iterations = 6;
 		gauss2D_sigma = 4;

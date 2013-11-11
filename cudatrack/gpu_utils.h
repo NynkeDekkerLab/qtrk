@@ -13,7 +13,7 @@ inline void CheckCUDAError(cudaError_t err)
 {
 	if (err != cudaSuccess) {
 		const char* errstr = cudaGetErrorString(err);
-		dbgprintf("CUDA error: %s\n" ,errstr);
+		throw std::runtime_error(SPrintf("CUDA error: %s\n" ,errstr).c_str());
 	}
 }
 
@@ -102,10 +102,10 @@ public:
 			dst.resize(size);
 		copyToHost(&dst[0], async, s);
 	}
-	void copyToDevice(const std::vector<T>& src, bool async, cudaStream_t s=0) {
+	void copyToDevice(const std::vector<T>& src, bool async=false, cudaStream_t s=0) {
 		copyToDevice(&src[0], src.size(), async, s);
 	}
-	void copyToDevice(const T* first, size_t size, bool async, cudaStream_t s=0) {
+	void copyToDevice(const T* first, size_t size, bool async=false, cudaStream_t s=0) {
 		if (this->size < size)
 			init(size);
 		if (async)

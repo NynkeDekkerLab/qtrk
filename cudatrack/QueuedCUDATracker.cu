@@ -181,6 +181,7 @@ QueuedCUDATracker::QueuedCUDATracker(const QTrkComputedConfig& cc, int batchSize
 	zp.minRadius = cfg.zlut_minradius;
 	zp.planes = 0;
 	zp.zcmpwindow = 0;
+	lutWriteMode = false;
 	
 	std::vector<float2> zlut_radialgrid(cfg.zlut_angularsteps);
 	for (int i=0;i<cfg.zlut_angularsteps;i++) {
@@ -385,13 +386,13 @@ QueuedCUDATracker::Stream* QueuedCUDATracker::GetReadyStream()
 {
 	while (true) {
 		jobQueueMutex.lock();
-		
+
 		Stream *best = 0;
 		for (int i=0;i<streams.size();i++) 
 		{
 			Stream*s = streams[i];
 
-			if (s->state == Stream::StreamIdle) {
+			if (s->state == Stream::StreamIdle && ( !lutWriteMode || s->device->index == 0) ) {
 				if (!best || (s->JobCount() > best->JobCount()))
 					best = s;
 			}
@@ -434,7 +435,11 @@ void QueuedCUDATracker::SetLocalizationMode(int mode)
 {
 	Flush();
 	while (!IsIdle());
+
+	jobQueueMutex.lock();
 	localizeMode = mode;
+	lutWriteMode = (mode & (LT_BuildImageLUT | LT_BuildRadialZLUT)) != 0;
+	jobQueueMutex.unlock();
 }
 
 
@@ -603,10 +608,18 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 	{ScopedCPUProfiler p(&cpu_time.imap);
 
 		if ( (s->localizeFlags & LT_BuildImageLUT) && s->device->image_lut ) {
-			cudaImage4D<float>* il = s->device->image_lut;
+
+			ImageLUT* il = s->device->image_lut;
 			// Bind surface for writing image LUT
-			il->bind(image_lut_surface);
-			ImageLUT_Build<TImageSampler> <<< blocks(s->JobCount()), threads(), 0, s->stream >>> (kp,imageLUTConfig, curpos->data, il->kernelInst());
+			float2 ilc_scale = make_float2(imageLUTConfig.xscale, imageLUTConfig.yscale);
+			ImageLUT::KernelParams ilkp = il->bind();
+
+			dim3 numThreads(16,16,1);
+			dim3 numBlocks( (ilkp.imgw + numThreads.x -1) / numThreads.x, 
+				(ilkp.imgh + numThreads.y - 1) / numThreads.y, (s->JobCount()+numThreads.z-1)/numThreads.z );
+
+			ImageLUT_Sample<TImageSampler, ImageLUT> <<<numBlocks, numThreads, 0, s->stream >>> (kp, ilc_scale, curpos->data, ilkp);
+			il->unbind();
 		}
 
 		if (s->localizeFlags & LT_IMAP) {
@@ -800,7 +813,7 @@ void QueuedCUDATracker::Device::SetImageLUT(float* data, ImageLUTConfig* cfg)
 	if (image_lut) 
 		delete image_lut;
 
-	image_lut = new cudaImage4D<float>(cfg->w,cfg->h,cfg->planes,cfg->nLUTs);
+	image_lut = new ImageLUT(cfg->w,cfg->h,cfg->planes,cfg->nLUTs);
 	if (data) {
 		image_lut->copyToDevice(data);
 	} else

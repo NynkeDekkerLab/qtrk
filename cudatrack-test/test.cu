@@ -20,6 +20,9 @@
 #include "QueuedCPUTracker.h"
 
 #include "../cputrack-test/SharedTests.h"
+#include "BenchmarkLUT.h"
+
+void BenchmarkParams();
 
 std::string getPath(const char *file)
 {
@@ -774,23 +777,28 @@ void TestImageLUT(const char *rlutfile)
 	ImageData img=ImageData::alloc(cfg.width,cfg.height);
 
 	QueuedCUDATracker trk(cfg);
-	ResampleLUT(&trk, &rlut, 2.0f, 40.0f, 10);
+	ResampleLUT(&trk, &rlut, 1, 10);
 
-	int dims[] = { 1, rlut.h, 60, 60 };
+	int dims[] = { 1, rlut.h, 80, 80 };
 	int il_size = dims[0]*dims[1]*dims[2]*dims[3];
 	trk.SetImageZLUT(0, dims);
-	trk.SetLocalizationMode( LT_OnlyCOM | LT_BuildImageLUT );
+	trk.SetLocalizationMode( LT_QI | LT_BuildImageLUT );
 	trk.EnableTextureCache(false);
-	for (int z=0;z<rlut.h;z++) {
-		vector2f pos = vector2f::random( vector2f( cfg.width/2,cfg.height/2 ), 4.0f );
-		GenerateImageFromLUT(&img, &rlut, 0.0f, rlut.w-1, pos, z, 0.9f);
+	int h = 10;
+	for (int z=0;z<h;z++) {
 		dbgprintf("z=%d\n", z);
+		for (int n=0;n<10;n++) {
+			vector2f pos = vector2f::random( vector2f( cfg.width/2,cfg.height/2 ), 4.0f );
+			GenerateImageFromLUT(&img, &rlut, 0.0f, rlut.w-1, pos, z, 0.5f);
+			ApplyPoissonNoise (img, 255);
+			LocalizationJob job(z, 0, z, 0);
+			trk.ScheduleLocalization (img.data, img.pitch(), QTrkFloat, &job);
+			trk.Flush();
+			dbgprintf(".");
+		}
 		WriteJPEGFile(SPrintf("rlut%d.jpg",z).c_str(), img);
-		LocalizationJob job(z, 0, z, 0);
-		trk.ScheduleLocalization (img.data, img.pitch(), QTrkFloat, &job);
 	}
 	
-	trk.Flush();
 	while (!trk.IsIdle());
 
 	float *dst = new float[il_size];
@@ -803,25 +811,192 @@ void TestImageLUT(const char *rlutfile)
 	rlut.free();
 }
 
-void TestImage4D() {
+surface<void, 2> test_surf;
 
+__global__ void writeSurf(int w, int h, float val)
+{
+	int x = threadIdx.x + blockIdx.x * blockDim.x;
+	int y = threadIdx.y + blockIdx.y * blockDim.y;
+
+	if (x< w && y < h) {
+//		float v;
+//		surf2Dread(&v, test_surf, x*4,y);
+
+		surf2Dwrite(val, test_surf, x*4, y);
+	}
+}
+
+
+__global__ void cosSurf(int w, int h)
+{
+	int x = threadIdx.x + blockIdx.x * blockDim.x;
+	int y = threadIdx.y + blockIdx.y * blockDim.y;
+
+	if (x< w && y < h) {
+		float v;
+		surf2Dread(&v, test_surf, x*4,y);
+
+		surf2Dwrite(cos(v), test_surf, x*4, y);
+	}
+}
+
+
+__global__ void readSurf(int w, int h, float* dst)
+{
+	int x = threadIdx.x + blockIdx.x * blockDim.x;
+	int y = threadIdx.y + blockIdx.y * blockDim.y;
+
+	if (x< w && y < h) {
+		float v;
+		surf2Dread(&v, test_surf, x*4,y);
+
+		dst[y*w+x] = v;
+	}
+}
+
+
+void TestSurfaceReadWrite()
+{
+	cudaArray *a;
+	int W=128, H=64;
+
+	auto cd = cudaCreateChannelDesc<float>();
+
+	float* rnd = new float[W*H];
+	for (int i=0;i<W*H;i++) rnd[i]=rand_uniform<float>();
+
+	// Copy random test data to cuda array
+	CheckCUDAError(cudaMallocArray(&a, &cd,sizeof(float)* W,H, cudaArraySurfaceLoadStore));
+	CheckCUDAError(cudaMemcpy2DToArray(a, 0, 0, rnd, W*sizeof(float), sizeof(float)*W, H, cudaMemcpyHostToDevice) );
+	
+	CheckCUDAError(cudaBindSurfaceToArray(test_surf, a) );
+	dim3 nt (16,8);
+	device_vec<float> d_dst(W*H);
+	readSurf<<< dim3( (W+nt.x-1)/nt.x, (H+nt.y-1)/nt.y ), nt >>> (W,H, d_dst.data);
+
+	std::vector<float> result = d_dst;
+	for (int i=0;i<W*H;i++)
+		assert(result[i]==rnd[i]);
+	cudaFreeArray(a);
+
+	// Test 2D layered
+/*	cudaArray_t a3;
+	auto ext=make_cudaExtent(20, 10, 5);
+	CheckCUDAError(cudaMalloc3DArray(&a3, &cd, ext, cudaArraySurfaceLoadStore | cudaArrayLayered ));
+	cudaMemcpy3DParms p ={0};
+	p.dstArray=a3;
+	p.extent = ext;
+	p.kind = cudaMemcpyHostToDevice;
+	CheckCUDAError(cudaMemcpy3D(&p));*/
+}
+
+surface<void, cudaSurfaceType2DLayered> img4d_test;
+//surface<void, 3> img4d_test;
+
+
+__global__ void set_img4d_value(Image4DCudaArray<float>::KernelInst p, int L, float val)
+{
+	for (int y=0;y<p.imgh;y++) {
+		for (int x=0;x<p.imgw;x++)
+		{
+			//p.writeSurfacePixel(img4d_test, x,y, L, val);
+			surf2DLayeredwrite(val, img4d_test, sizeof(float)*x, y, L, cudaBoundaryModeTrap);
+			//surf3Dwrite(val, img4d_test, sizeof(float)*x, y, L, cudaBoundaryModeTrap);
+
+			float v2;
+			surf2DLayeredread(&v2, img4d_test, sizeof(float)*x, y, L, cudaBoundaryModeTrap);
+
+		}
+	}
+}
+
+void TestImage4D()
+{
+	int W=32,H=32,D=10,L=5;
+	Image4DCudaArray<float> img(W,H,D,L);
+	int N=W*H*D*L;
+	float *src = new float[N], *test=new float[N];
+
+	for (int i=0;i<N;i++)
+		src[i] = rand_uniform<float>();
+
+	img.clear();
+
+	img.copyToDevice(src);
+	img.copyToHost(test);
+	img.copyToHost(test);
+
+	for(int i=0;i<N;i++)
+		assert(src[i]==test[i]);
+
+	auto cd = cudaCreateChannelDesc<float>();
+	//cudaBindSurfaceToArray(&img4d_test, img.array, &cd);
+	img.bind(img4d_test);
+	set_img4d_value<<< dim3(1,1,1), dim3(1,1,1) >>> (img.kernelInst(), 0, 1.0f);
+	cudaDeviceSynchronize();
+
+	img.copyToHost(test);
+	for (int i=0;i<W*H;i++) {
+		assert(test[i] == 1.0f);
+	}
+
+	delete[] src; delete[] test;
+}
+
+void TestImage4DMemory()
+{
+	int W=32,H=32, D=5, L=10;
+	Image4DMemory<float> img(W,H,D,L);
+	
+	int N=W*H*D*L;
+	float *src = new float[N], *test=new float[N];
+
+	for (int i=0;i<N;i++)
+		src[i] = rand_uniform<float>();
+
+	img.clear();
+
+	img.copyToDevice(src);
+	img.copyToHost(test);
+	img.copyToHost(test);
+
+	for(int i=0;i<N;i++)
+		assert(src[i]==test[i]);
+}
+
+void TestBenchmarkLUT()
+{
+	BenchmarkLUT bml("refbeadlut.jpg");
+
+	ImageData img=ImageData::alloc(120,120);
+
+	ImageData lut = ImageData::alloc(bml.lut_w, bml.lut_h);
+	bml.GenerateLUT(&lut,1.0f);
+	WriteJPEGFile("refbeadlut-lutsmp.jpg", lut);
+	lut.free();
+	
+	bml.GenerateSample(&img, vector3f(img.w/2,img.h/2,bml.lut_h/2), 1/2.5f, 1.0f);
+	WriteJPEGFile("refbeadlut-bmsmp.jpg", img);
+	img.free();
 }
 
 int main(int argc, char *argv[])
 {
 	listDevices();
 
-	TestImage4D();
+//	TestBenchmarkLUT();
 
 //	testLinearArray();
-
-	//TestTextureFetch();
-
+//	TestTextureFetch();
 //	TestGauss2D(true);
-
 //	MultipleLUTTest();
 
-	TestImageLUT("../cputrack-test/lut000.jpg");
+	//TestSurfaceReadWrite();
+	//TestImage4D();
+//	TestImage4DMemory();
+//	TestImageLUT("../cputrack-test/lut000.jpg");
+
+	BenchmarkParams();
 
 //	BasicQTrkTest();
 //	TestCMOSNoiseInfluence<QueuedCUDATracker>("../cputrack-test/lut000.jpg");

@@ -1,12 +1,12 @@
 #pragma once
 
-
+#include "random_distr.h"
 #include <direct.h> // _mkdir()
 
 
 // Generate a LUT by creating new image samples and using the tracker in BuildZLUT mode
 // This will ensure equal settings for radial profiles etc
-static void ResampleLUT(QueuedTracker* qtrk, ImageData* lut, float zlutMinRadius, float zlutMaxRadius, int zplanes=100, const char *jpgfile=0)
+static void ResampleLUT(QueuedTracker* qtrk, ImageData* lut, float M, int zplanes=100, const char *jpgfile=0, ImageData* newlut=0)
 {
 	QTrkComputedConfig& cfg = qtrk->cfg;
 	ImageData img = ImageData::alloc(cfg.width,cfg.height);
@@ -15,7 +15,7 @@ static void ResampleLUT(QueuedTracker* qtrk, ImageData* lut, float zlutMinRadius
 	qtrk->SetLocalizationMode( (LocMode_t)(LT_QI|LT_BuildRadialZLUT|LT_NormalizeProfile) );
 	for (int i=0;i<zplanes;i++)
 	{
-		GenerateImageFromLUT(&img, lut, zlutMinRadius, zlutMaxRadius, vector2f(cfg.width/2, cfg.height/2), i/(float)zplanes * lut->h, 1.0f);
+		GenerateImageFromLUT(&img, lut, 0, lut->w, vector2f(cfg.width/2, cfg.height/2), i/(float)zplanes * lut->h, M);
 		img.normalize();
 
 		LocalizationJob job(i, 0, i,0);
@@ -27,15 +27,17 @@ static void ResampleLUT(QueuedTracker* qtrk, ImageData* lut, float zlutMinRadius
 	while(!qtrk->IsIdle());
 	qtrk->ClearResults();
 
-	float* zlut_result=new float[zplanes*cfg.zlut_radialsteps*1];
-	qtrk->GetRadialZLUT(zlut_result);
-	delete[] lut->data;
-	lut->data = zlut_result;
-	lut->w = cfg.zlut_radialsteps;
-	lut->h = zplanes;
-	
+	if (newlut) {
+		newlut->alloc(cfg.zlut_radialsteps, zplanes);
+		qtrk->GetRadialZLUT(newlut->data);
+		newlut->normalize();
+	}
+
 	if (jpgfile) {
+		float* zlut_result=new float[zplanes*cfg.zlut_radialsteps*1];
+		qtrk->GetRadialZLUT(zlut_result);
 		FloatToJPEGFile(jpgfile, zlut_result, cfg.zlut_radialsteps, zplanes);
+		delete[] zlut_result;
 	}
 }
 
@@ -161,7 +163,7 @@ void TestCMOSNoiseInfluence(const char *lutfile)
 	delete[] info;
 }
 
-void EnableGainCorrection(QueuedTracker* qtrk)
+static void EnableGainCorrection(QueuedTracker* qtrk)
 {
 	int nb, _pl, _r;
 	qtrk->GetRadialZLUTSize(nb, _pl, _r);

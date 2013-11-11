@@ -219,7 +219,7 @@ void QueuedCPUTracker::WorkerThreadMain(void* arg)
 			Threads::Sleep(1);
 		}
 	}
-	dbgprintf("Thread %p ending.\n", arg);
+	//dbgprintf("Thread %p ending.\n", arg);
 }
 
 void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)

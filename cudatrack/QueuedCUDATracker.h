@@ -96,8 +96,9 @@ public:
 	ConfigValueMap GetConfigValues() override;
 	void SetConfigValue(std::string name, std::string value) override;
 
+	typedef Image4DMemory<float> ImageLUT;
 protected:
-
+		
 	struct Device {
 		Device(int index) {
 			this->index=index; 
@@ -116,7 +117,7 @@ protected:
 		device_vec<float2> zlut_trigtable;
 		int index;
 
-		cudaImage4D<float>* image_lut;
+		ImageLUT* image_lut;
 	};
 
 	struct Stream {
@@ -168,6 +169,7 @@ protected:
 
 	int numThreads;
 	int batchSize;
+	bool lutWriteMode;
 
 	ImageLUTConfig imageLUTConfig;
 
