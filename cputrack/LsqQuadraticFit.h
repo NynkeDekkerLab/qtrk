@@ -15,7 +15,7 @@ public:
 	struct Coeff {
 		T s40, s30, s20, s10, s21, s11, s01, s00;
 
-        LSQFIT_FUNC void abc(float& a, float& b, float& c, float& d) {
+        LSQFIT_FUNC void abc(T& a, T& b, T& c, T& d) {
 			d = s40 * (s20 * s00 - s10 * s10) - s30 * (s30 * s00 - s10 * s20) + s20 * (s30 * s10 - s20 * s20);
 
 			a = (s21*(s20 * s00 - s10 * s10) - s11*(s30 * s00 - s10 * s20) + s01*(s30 * s10 - s20 * s20)) / d;
@@ -75,30 +75,55 @@ private:
         s01 = getSy();   //sum of y
 		*/
 
-		T Sx = 0, Sy = 0;
-		T Sx2 = 0, Sx3 = 0;
-		T Sxy = 0, Sx4=0, Sx2y=0;
-		T Sw = 0;
-        for (uint i=0;i<numPts;i++)
-        {
-			T x = X[i];
-			T y = Y[i];
-			Sx += x*weights[i];
-            Sy += y*weights[i];
-			T sq = x*x;
-			Sx2 += x*x*weights[i];
-			Sx3 += sq*x*weights[i];
-			Sx4 += sq*sq*weights[i];
-			Sxy += x*y*weights[i];
-			Sx2y += sq*y*weights[i];
-			Sw += weights[i];
-        }
+		if (weights) {
+			T Sx = 0, Sy = 0;
+			T Sx2 = 0, Sx3 = 0;
+			T Sxy = 0, Sx4=0, Sx2y=0;
+			T Sw = 0;
+			for (uint i=0;i<numPts;i++)
+			{
+				T x = X[i];
+				T y = Y[i];
+				Sx += x*weights[i];
+				Sy += y*weights[i];
+				T sq = x*x;
+				Sx2 += x*x*weights[i];
+				Sx3 += sq*x*weights[i];
+				Sx4 += sq*sq*weights[i];
+				Sxy += x*y*weights[i];
+				Sx2y += sq*y*weights[i];
+				Sw += weights[i];
+			}
 
-		Coeff co;
-		co.s10 = Sx; co.s20 = Sx2; co.s30 = Sx3; co.s40 = Sx4;
-		co.s01 = Sy; co.s11 = Sxy; co.s21 = Sx2y;
-		co.s00 = Sw;
-        return co;
+			Coeff co;
+			co.s10 = Sx; co.s20 = Sx2; co.s30 = Sx3; co.s40 = Sx4;
+			co.s01 = Sy; co.s11 = Sxy; co.s21 = Sx2y;
+			co.s00 = Sw;
+			return co;
+		} else {
+			T Sx = 0, Sy = 0;
+			T Sx2 = 0, Sx3 = 0;
+			T Sxy = 0, Sx4=0, Sx2y=0;
+			for (uint i=0;i<numPts;i++)
+			{
+				T x = X[i];
+				T y = Y[i];
+				Sx += x;
+				Sy += y;
+				T sq = x*x;
+				Sx2 += x*x;
+				Sx3 += sq*x;
+				Sx4 += sq*sq;
+				Sxy += x*y;
+				Sx2y += sq*y;
+			}
+
+			Coeff co;
+			co.s10 = Sx; co.s20 = Sx2; co.s30 = Sx3; co.s40 = Sx4;
+			co.s01 = Sy; co.s11 = Sxy; co.s21 = Sx2y;
+			co.s00 = numPts;
+			return co;
+		}
     }
 
 };

@@ -645,19 +645,6 @@ void AutoBeadFindTest()
 	smp.free();
 }
 
-void GainCorrectionLUTTest(const char *lutfile)
-{
-	QTrkSettings cfg;
-	QueuedCPUTracker qtrk (cfg);
-
-	qtrk.SetRadialZLUT(0, 1, 100);
-	EnableGainCorrection(&qtrk);
-
-	ImageData lut = ReadJPEGFile(lutfile);
-	ResampleLUT(&qtrk, &lut, 1, cfg.width/2-5, 100, "resampledgc.jpg");
-}
-
-
 int main()
 {
 	/*
@@ -674,8 +661,6 @@ int main()
 
 	QTrkTest();
 //	TestCMOSNoiseInfluence<QueuedCPUTracker>("lut000.jpg");
-
-	//GainCorrectionLUTTest("lut000.jpg");
 
 	//AutoBeadFindTest();
 	//Gauss2DTest<QueuedCPUTracker>();

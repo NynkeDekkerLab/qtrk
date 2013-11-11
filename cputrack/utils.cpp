@@ -1,5 +1,6 @@
 #include "std_incl.h"
 #include <cstdarg>
+#include <functional>
 #include "utils.h"
 #include <Windows.h>
 #undef min
@@ -10,6 +11,7 @@
 #include "random_distr.h"
 #include "LsqQuadraticFit.h"
 #include "QueuedTracker.h"
+#include "threads.h"
 
 
 vector2f vector2f::random(vector2f center, float R)
@@ -290,8 +292,6 @@ void GenerateImageFromLUT(ImageData* image, ImageData* zlut, float lutminRadius,
 		weights[i]=1.0f;
 	}
 
-
-	// Generate the image from the interpolated ZLUT
 	for (int y=0;y<image->h;y++)
 		for (int x=0;x<image->w;x++) 
 		{
@@ -323,8 +323,22 @@ void GenerateGaussianSpotImage(ImageData* img, vector2f pos, float sigma, float 
 
 void ApplyPoissonNoise(ImageData& img, float factor)
 {
-	for (int k=0;k<img.numPixels();k++)
-		img.data[k] = rand_poisson<float>(factor*img.data[k]);
+	/*auto f = [&] (int y) {
+		for (int x=0;x<img.w;x++) {
+			img.at(x,y) = rand_poisson<float>(factor*img.at(x,y));
+		}
+	};
+
+	ThreadPool<int, std::function<void (int index)> > pool(f);
+
+	for (int y=0;y<img.h;y++) {
+		pool.AddWork(y);
+	}
+	pool.WaitUntilDone();*/
+
+	for (int x=0;x<img.numPixels();x++) {
+		img[x] = rand_poisson<float>(factor*img[x]);
+	}
 }
 
 void ApplyGaussianNoise(ImageData& img, float sigma)

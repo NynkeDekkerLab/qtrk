@@ -53,6 +53,21 @@ inline float Interpolate(float* image, int width, int height, float x,float y, b
 	return Lerp(v0, v1, y-ry);
 }
 
+template<typename T>
+inline T Interpolate1D(T* d, int len, float x)
+{
+	int fx = (int)x;
+	if (fx < 0) return d[0];
+	if (fx >= len-1) return d[len-1];
+	return (d[fx+1]-d[fx]) * (x-fx) + d[fx];
+}
+
+template<typename T>
+inline T Interpolate1D(const std::vector<T>& d, float x)
+{
+	return Interpolate1D(&d[0],d.size(),x);
+}
+
 struct ImageData;
 
 void WriteImageAsCSV(const char* file, float* d, int w,int h, const char *labels[]=0);
@@ -90,6 +105,7 @@ void ApplyPoissonNoise(ImageData& img, float factor);
 void ApplyGaussianNoise(ImageData& img, float sigma);
 void WriteComplexImageAsCSV(const char* file, std::complex<float>* d, int w,int h, const char *labels[]=0);
 void WriteArrayAsCSVRow(const char *file, float* d, int len, bool append);
+
 
 void WriteTrace(std::string file, vector3f* results, int nResults);
 void GenerateTestImage(ImageData& img, float xp, float yp, float size, float MaxPhotons);

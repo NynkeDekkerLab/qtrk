@@ -14,10 +14,10 @@ public:
 	XCor1DBuffer(int xcorw) : fft_forward(xcorw, false), fft_backward(xcorw, true), xcorw(xcorw)
 	{}
 
-	kissfft<xcor_t> fft_forward, fft_backward;
+	kissfft<scalar_t> fft_forward, fft_backward;
 	int xcorw;
 
-	void XCorFFTHelper(complexc* xc, complexc* xcr, xcor_t* result);
+	void XCorFFTHelper(complex_t* xc, complex_t* xcr, scalar_t* result);
 };
 
 class CPUTracker
@@ -45,9 +45,7 @@ public:
 	XCor1DBuffer* xcorBuffer;
 	std::vector<vector2f> quadrantDirs; // single quadrant
 	int qi_radialsteps;
-	typedef float qi_t;
-	typedef std::complex<qi_t> qic_t;
-	kissfft<qi_t> *qi_fft_forward, *qi_fft_backward;
+	kissfft<scalar_t> *qi_fft_forward, *qi_fft_backward;
 
 	float& GetPixel(int x, int y) { return srcImage[width*y+x]; }
 	int GetWidth() { return width; }
@@ -67,7 +65,7 @@ public:
 	Gauss2DResult Compute2DGaussianMLE(vector2f initial ,int iterations, float sigma);
 	vector2f Compute2DXCor();
 
-	qi_t QI_ComputeOffset(qic_t* qi_profile, int nr, int axisForDebug);
+	scalar_t QI_ComputeOffset(complex_t* qi_profile, int nr, int axisForDebug);
 	float ComputeAsymmetry(vector2f center, int radialSteps, int angularSteps, float minRadius, float maxRadius, float *dstAngProf=0);
 
 	template<typename TPixel> void SetImage(TPixel* srcImage, uint srcpitch);
@@ -77,7 +75,7 @@ public:
 
 	vector2f ComputeMeanAndCOM(float bgcorrection=0.0f);
 	void ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float minradius, float maxradius, vector2f center, bool crp, bool* boundaryHit=0, bool normalize=true);
-	void ComputeQuadrantProfile(qi_t* dst, int radialSteps, int angularSteps, int quadrant, float minRadius, float maxRadius, vector2f center);
+	void ComputeQuadrantProfile(scalar_t* dst, int radialSteps, int angularSteps, int quadrant, float minRadius, float maxRadius, vector2f center);
 
 	void Normalize(float *image=0);
 	void SetRadialZLUT(float* data, int planes, int res, int num_zluts, float minradius, float maxradius, int angularSteps, bool copyMemory, bool useCorrelation, float* radialweights=0);

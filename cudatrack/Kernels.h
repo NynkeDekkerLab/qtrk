@@ -257,7 +257,7 @@ surface<void, cudaSurfaceType2DLayered> image_lut_surface;
 
 
 template<typename TImageSampler, typename TImageLUT>
-__global__ void ImageLUT_Build(BaseKernelParams kp, float2 ilut_scale, float3* positions, typename TImageLUT::KernelParams lut)
+__global__ void ImageLUT_Sample(BaseKernelParams kp, float2 ilut_scale, float3* positions, typename TImageLUT::KernelParams lut)
 {
 	// add sampled image data to
 	int x = threadIdx.x + blockIdx.x * blockDim.x;

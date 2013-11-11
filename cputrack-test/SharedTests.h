@@ -1,6 +1,6 @@
 #pragma once
 
-
+#include "random_distr.h"
 #include <direct.h> // _mkdir()
 
 
@@ -163,7 +163,7 @@ void TestCMOSNoiseInfluence(const char *lutfile)
 	delete[] info;
 }
 
-void EnableGainCorrection(QueuedTracker* qtrk)
+static void EnableGainCorrection(QueuedTracker* qtrk)
 {
 	int nb, _pl, _r;
 	qtrk->GetRadialZLUTSize(nb, _pl, _r);

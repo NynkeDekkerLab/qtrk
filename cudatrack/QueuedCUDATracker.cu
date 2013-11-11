@@ -608,6 +608,7 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 	{ScopedCPUProfiler p(&cpu_time.imap);
 
 		if ( (s->localizeFlags & LT_BuildImageLUT) && s->device->image_lut ) {
+
 			ImageLUT* il = s->device->image_lut;
 			// Bind surface for writing image LUT
 			float2 ilc_scale = make_float2(imageLUTConfig.xscale, imageLUTConfig.yscale);
@@ -617,7 +618,7 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 			dim3 numBlocks( (ilkp.imgw + numThreads.x -1) / numThreads.x, 
 				(ilkp.imgh + numThreads.y - 1) / numThreads.y, (s->JobCount()+numThreads.z-1)/numThreads.z );
 
-			ImageLUT_Build<TImageSampler, ImageLUT> <<<numBlocks, numThreads, 0, s->stream >>> (kp, ilc_scale, curpos->data, ilkp);
+			ImageLUT_Sample<TImageSampler, ImageLUT> <<<numBlocks, numThreads, 0, s->stream >>> (kp, ilc_scale, curpos->data, ilkp);
 			il->unbind();
 		}
 

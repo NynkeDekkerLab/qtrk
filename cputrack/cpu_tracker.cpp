@@ -27,11 +27,11 @@ const float XCorScale = 1.0f; // keep this at 1, because linear oversampling was
 
 #include "DebugResultCompare.h"
 
-static int round(xcor_t f) { return (int)(f+0.5f); }
+static int round(scalar_t f) { return (int)(f+0.5f); }
 template<typename T>
 T conjugate(const T &v) { return T(v.real(),-v.imag()); }
 
-const float QIWeights[QI_LSQFIT_NWEIGHTS] = QI_LSQFIT_WEIGHTS;
+const scalar_t QIWeights[QI_LSQFIT_NWEIGHTS] = QI_LSQFIT_WEIGHTS;
 const float ZLUTWeights[ZLUT_LSQFIT_NWEIGHTS] = ZLUT_LSQFIT_WEIGHTS;
 
 CPUTracker::CPUTracker(int w, int h, int xcorwindow)
@@ -112,10 +112,10 @@ inline void _markPixels(float x,float y, float* img, int w, int h, float mv)
 
 
 
-void XCor1DBuffer::XCorFFTHelper(complexc* prof, complexc *prof_rev, xcor_t* result)
+void XCor1DBuffer::XCorFFTHelper(complex_t* prof, complex_t *prof_rev, scalar_t* result)
 {
-	complexc* fft_out = (complexc*)ALLOCA(sizeof(complexc)*xcorw);
-	complexc* fft_out_rev = (complexc*)ALLOCA(sizeof(complexc)*xcorw);
+	complex_t* fft_out = (complex_t*)ALLOCA(sizeof(complex_t)*xcorw);
+	complex_t* fft_out_rev = (complex_t*)ALLOCA(sizeof(complex_t)*xcorw);
 
 	fft_forward.transform(prof, fft_out);
 	fft_forward.transform(prof_rev, fft_out_rev);
@@ -182,9 +182,9 @@ vector2f CPUTracker::ComputeXCorInterpolated(vector2f initial, int iterations, i
 		return initial;
 	}
 
-	complexc* prof = (complexc*)ALLOCA(sizeof(complexc)*xcorw);
-	complexc* prof_rev = (complexc*)ALLOCA(sizeof(complexc)*xcorw);
-	float* prof_autocor = (xcor_t*)ALLOCA(sizeof(float)*xcorw);
+	complex_t* prof = (complex_t*)ALLOCA(sizeof(complex_t)*xcorw);
+	complex_t* prof_rev = (complex_t*)ALLOCA(sizeof(complex_t)*xcorw);
+	scalar_t* prof_autocor = (scalar_t*)ALLOCA(sizeof(scalar_t)*xcorw);
 
 	boundaryHit = false;
 	for (int k=0;k<iterations;k++) {
@@ -195,11 +195,11 @@ vector2f CPUTracker::ComputeXCorInterpolated(vector2f initial, int iterations, i
 
 		// generate X position xcor array (summing over y range)
 		for (int x=0;x<xcorw;x++) {
-			xcor_t s = 0.0f;
+			scalar_t s = 0.0f;
 			int n=0;
 			for (int y=0;y<profileWidth;y++) {
-				float xp = x * XCorScale + xmin;
-				float yp = pos.y + XCorScale * (y - profileWidth/2);
+				scalar_t xp = x * XCorScale + xmin;
+				scalar_t yp = pos.y + XCorScale * (y - profileWidth/2);
 				bool outside;
 				s += Interpolate(srcImage, width, height, xp, yp, &outside);
 				n += outside?0:1;
@@ -211,15 +211,15 @@ vector2f CPUTracker::ComputeXCorInterpolated(vector2f initial, int iterations, i
 		}
 
 		xcorBuffer->XCorFFTHelper(prof, prof_rev, prof_autocor);
-		xcor_t offsetX = ComputeMaxInterp<float,QI_LSQFIT_NWEIGHTS>::Compute(prof_autocor, xcorw, QIWeights) - (xcor_t)xcorw/2;
+		scalar_t offsetX = ComputeMaxInterp<scalar_t,QI_LSQFIT_NWEIGHTS>::Compute(prof_autocor, xcorw, QIWeights) - (scalar_t)xcorw/2;
 
 		// generate Y position xcor array (summing over x range)
 		for (int y=0;y<xcorw;y++) {
-			xcor_t s = 0.0f; 
+			scalar_t s = 0.0f; 
 			int n=0;
 			for (int x=0;x<profileWidth;x++) {
-				float xp = pos.x + XCorScale * (x - profileWidth/2);
-				float yp = y * XCorScale + ymin;
+				scalar_t xp = pos.x + XCorScale * (x - profileWidth/2);
+				scalar_t yp = y * XCorScale + ymin;
 				bool outside;
 				s += Interpolate(srcImage,width,height, xp, yp, &outside);
 				n += outside?0:1;
@@ -232,7 +232,7 @@ vector2f CPUTracker::ComputeXCorInterpolated(vector2f initial, int iterations, i
 
 		xcorBuffer->XCorFFTHelper(prof,prof_rev, prof_autocor);
 		//WriteImageAsCSV("xcorautoconv.txt",&xcorBuffer->Y_result[0],xcorBuffer->Y_result.size(),1);
-		xcor_t offsetY = ComputeMaxInterp<xcor_t, QI_LSQFIT_NWEIGHTS>::Compute(prof_autocor, xcorw, QIWeights) - (xcor_t)xcorw/2;
+		scalar_t offsetY = ComputeMaxInterp<scalar_t, QI_LSQFIT_NWEIGHTS>::Compute(prof_autocor, xcorw, QIWeights) - (scalar_t)xcorw/2;
 
 		pos.x += (offsetX - 1) * XCorScale * 0.5f;
 		pos.y += (offsetY - 1) * XCorScale * 0.5f;
@@ -263,14 +263,14 @@ vector2f CPUTracker::ComputeQI(vector2f initial, int iterations, int radialSteps
 			delete qi_fft_backward;
 		}
 		qi_radialsteps = nr;
-		qi_fft_forward = new kissfft<qi_t>(nr*2,false);
-		qi_fft_backward = new kissfft<qi_t>(nr*2,true);
+		qi_fft_forward = new kissfft<scalar_t>(nr*2,false);
+		qi_fft_backward = new kissfft<scalar_t>(nr*2,true);
 	}
 
-	qi_t* buf = (qi_t*)ALLOCA(sizeof(qi_t)*nr*4);
-	qi_t* q0=buf, *q1=buf+nr, *q2=buf+nr*2, *q3=buf+nr*3;
-	qic_t* concat0 = (qic_t*)ALLOCA(sizeof(qic_t)*nr*2);
-	qic_t* concat1 = concat0 + nr;
+	scalar_t* buf = (scalar_t*)ALLOCA(sizeof(scalar_t)*nr*4);
+	scalar_t* q0=buf, *q1=buf+nr, *q2=buf+nr*2, *q3=buf+nr*3;
+	complex_t* concat0 = (complex_t*)ALLOCA(sizeof(complex_t)*nr*2);
+	complex_t* concat1 = concat0 + nr;
 
 	vector2f center = initial;
 
@@ -303,7 +303,7 @@ vector2f CPUTracker::ComputeQI(vector2f initial, int iterations, int radialSteps
 			concat1[r] = q0[r]+q3[r];
 		}
 
-		float offsetX = QI_ComputeOffset(concat0, nr, 0);
+		scalar_t offsetX = QI_ComputeOffset(concat0, nr, 0);
 
 		// Build Iy = [ qB(-r)  qT(r) ]
 		// qT = q0 + q1
@@ -313,7 +313,7 @@ vector2f CPUTracker::ComputeQI(vector2f initial, int iterations, int radialSteps
 			concat0[nr-r-1] = q2[r]+q3[r];
 		}
 		
-		float offsetY = QI_ComputeOffset(concat0, nr, 1);
+		scalar_t offsetY = QI_ComputeOffset(concat0, nr, 1);
 
 #ifdef QI_DBG_EXPORT
 		std::copy(concat0, concat0+nr*2,tmp.begin()+nr*2);
@@ -342,12 +342,12 @@ double sum_diff(T* begin, T* end, T* other)
 	return sd;
 }
 
-// Profile is complexc[nr*2]
-CPUTracker::qi_t CPUTracker::QI_ComputeOffset(CPUTracker::qic_t* profile, int nr, int axisForDebug)
+// Profile is complex_t[nr*2]
+scalar_t CPUTracker::QI_ComputeOffset(complex_t* profile, int nr, int axisForDebug)
 {
-	qic_t* reverse = ALLOCA_ARRAY(qic_t, nr*2);
-	qic_t* fft_out = ALLOCA_ARRAY(qic_t, nr*2);
-	qic_t* fft_out2 = ALLOCA_ARRAY(qic_t, nr*2);
+	complex_t* reverse = ALLOCA_ARRAY(complex_t, nr*2);
+	complex_t* fft_out = ALLOCA_ARRAY(complex_t, nr*2);
+	complex_t* fft_out2 = ALLOCA_ARRAY(complex_t, nr*2);
 
 	for(int x=0;x<nr*2;x++)
 		reverse[x] = profile[nr*2-1-x];
@@ -367,12 +367,12 @@ CPUTracker::qi_t CPUTracker::QI_ComputeOffset(CPUTracker::qic_t* profile, int nr
 
 	// fft_out2 now contains the autoconvolution
 	// convert it to float
-	qi_t* autoconv = ALLOCA_ARRAY(qi_t, nr*2);
+	scalar_t* autoconv = ALLOCA_ARRAY(scalar_t, nr*2);
 	for(int x=0;x<nr*2;x++)  {
 		autoconv[x] = fft_out2[(x+nr)%(nr*2)].real();
 	}
 
-	float maxPos = ComputeMaxInterp<qi_t, QI_LSQFIT_NWEIGHTS>::Compute(autoconv, nr*2, QIWeights);
+	scalar_t maxPos = ComputeMaxInterp<scalar_t, QI_LSQFIT_NWEIGHTS>::Compute(autoconv, nr*2, QIWeights);
 	return (maxPos - nr) / (3.14159265359f * 0.5f);
 }
 
@@ -487,7 +487,7 @@ float CPUTracker::ComputeAsymmetry(vector2f center, int radialSteps, int angular
 }
 
 
-void CPUTracker::ComputeQuadrantProfile(CPUTracker::qi_t* dst, int radialSteps, int angularSteps,
+void CPUTracker::ComputeQuadrantProfile(scalar_t* dst, int radialSteps, int angularSteps,
 				int quadrant, float minRadius, float maxRadius, vector2f center)
 {
 	const int qmat[] = {
@@ -504,21 +504,21 @@ void CPUTracker::ComputeQuadrantProfile(CPUTracker::qi_t* dst, int radialSteps, 
 	for (int i=0;i<radialSteps;i++)
 		dst[i]=0.0f;
 
-	float total = 0.0f;
-	float rstep = (maxRadius - minRadius) / radialSteps;
+	scalar_t total = 0.0f;
+	scalar_t rstep = (maxRadius - minRadius) / radialSteps;
 	for (int i=0;i<radialSteps; i++) {
-		float sum = 0.0f;
-		float r = minRadius + rstep * i;
+		scalar_t sum = 0.0f;
+		scalar_t r = minRadius + rstep * i;
 
 		int nPixels = 0;
-		float angstepf = (float) quadrantDirs.size() / angularSteps;
+		scalar_t angstepf = (scalar_t) quadrantDirs.size() / angularSteps;
 		for (int a=0;a<angularSteps;a++) {
 			int i = (int)angstepf * a;
-			float x = center.x + mx*quadrantDirs[i].x * r;
-			float y = center.y + my*quadrantDirs[i].y * r;
+			scalar_t x = center.x + mx*quadrantDirs[i].x * r;
+			scalar_t y = center.y + my*quadrantDirs[i].y * r;
 
 			bool outside;
-			float v = Interpolate(srcImage,width,height, x,y, &outside);
+			scalar_t v = Interpolate(srcImage,width,height, x,y, &outside);
 			if (!outside) {
 				sum += v;
 				nPixels++;
