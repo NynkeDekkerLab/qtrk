@@ -220,6 +220,8 @@ QueuedCUDATracker::QueuedCUDATracker(const QTrkComputedConfig& cc, int batchSize
 
 	imageLUTConfig = ImageLUTConfig::empty();
 	localizeMode = LT_OnlyCOM;
+
+	ForceCUDAKernelsToLoad<<< dim3(),dim3() >>> ();
 }
 
 QueuedCUDATracker::~QueuedCUDATracker()
