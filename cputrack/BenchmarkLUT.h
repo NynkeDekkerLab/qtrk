@@ -17,7 +17,7 @@ public:
 	void Load(ImageData* lut);
 
 	void GenerateLUT(ImageData* lut, float M);
-	void GenerateSample(ImageData* image, vector3f pos, float rstep, float M);
+	void GenerateSample(ImageData* image, vector3f pos, float targetSizeInPixels);
 protected:
 
 };

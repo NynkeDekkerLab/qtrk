@@ -534,3 +534,17 @@ int NearestPowerOf3(int v)
 		return r;
 	return r/3;
 }
+
+
+std::vector<float> ComputeStetsonWindow(int rsteps)
+{
+	std::vector<float> wnd(rsteps);
+	for (int x=0;x<rsteps;x++) {
+		float t2=rsteps/5.0f;
+		float t1=rsteps/1.0f;
+		float rm=rsteps-1;
+		float fall=1-expf( -(rm-x)*(rm-x)/t2 ), rise=1-expf(-x*x/t1);
+		wnd[x]=rise*fall*x/(float)rsteps*2;
+	}
+	return wnd;
+}

@@ -95,6 +95,7 @@ struct ImageData {
 	void writeAsCSV(const char *filename, const char *labels[]=0) { WriteImageAsCSV(filename, data, w,h,labels); }
 };
 
+std::vector<float> ComputeStetsonWindow(int rsteps);
 float ComputeBgCorrectedCOM1D(float *data, int len, float cf=2.0f);
 void ComputeCRP(float* dst, int radialSteps, int angularSteps, float minradius, float maxradius, vector2f center, ImageData* src,float mean, float*crpmap=0);
 void ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float minradius, float maxradius, vector2f center, ImageData* src, float mean, bool normalize);

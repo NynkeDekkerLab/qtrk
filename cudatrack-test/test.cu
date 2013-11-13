@@ -975,7 +975,7 @@ void TestBenchmarkLUT()
 	WriteJPEGFile("refbeadlut-lutsmp.jpg", lut);
 	lut.free();
 	
-	bml.GenerateSample(&img, vector3f(img.w/2,img.h/2,bml.lut_h/2), 1/2.5f, 1.0f);
+	bml.GenerateSample(&img, vector3f(img.w/2,img.h/2,bml.lut_h/2), img.w/2-5);
 	WriteJPEGFile("refbeadlut-bmsmp.jpg", img);
 	img.free();
 }

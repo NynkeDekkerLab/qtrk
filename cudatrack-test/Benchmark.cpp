@@ -3,17 +3,57 @@
 #include "QueuedCPUTracker.h"
 #include "../cputrack-test/SharedTests.h"
 #include <functional>
+#include "BenchmarkLUT.h"
 
 const float img_mean = 75, img_sigma = 1.62f; // as measured
 // electrons have a Poisson distribution (variance=mean), so we measure this value by looking at the mean/variance
 const float ElectronsPerBit = img_mean / (img_sigma*img_sigma); 
 
 
-
 struct SpeedAccResult{
 	vector3f acc,bias;
 	int speed;
 };
+
+
+// Generate a LUT by creating new image samples and using the tracker in BuildZLUT mode
+// This will ensure equal settings for radial profiles etc
+static void ResampleBMLUT(QueuedTracker* qtrk, BenchmarkLUT* lut, float M, int zplanes=100, const char *jpgfile=0, ImageData* newlut=0)
+{
+	QTrkComputedConfig& cfg = qtrk->cfg;
+	ImageData img = ImageData::alloc(cfg.width,cfg.height);
+
+	std::vector<float> stetsonWindow = ComputeStetsonWindow(cfg.zlut_radialsteps);
+	qtrk->SetRadialZLUT(0, 1, zplanes, &stetsonWindow[0]);
+	qtrk->SetLocalizationMode( (LocMode_t)(LT_QI|LT_BuildRadialZLUT|LT_NormalizeProfile) );
+	for (int i=0;i<zplanes;i++)
+	{
+		lut->GenerateSample(&img, vector3f(cfg.width/2, cfg.height/2, i/(float)zplanes * lut->lut_h), cfg.width*cfg.zlut_roi_coverage*cfg.zlut_radial_coverage/2);
+		//GenerateImageFromLUT(&img, lut, 0, lut->w, , M);
+		img.normalize();
+
+		LocalizationJob job(i, 0, i,0);
+		qtrk->ScheduleLocalization((uchar*)img.data, sizeof(float)*img.w, QTrkFloat, &job);
+	}
+	img.free();
+
+	qtrk->Flush();
+	while(!qtrk->IsIdle());
+	qtrk->ClearResults();
+
+	if (newlut) {
+		newlut->alloc(cfg.zlut_radialsteps, zplanes);
+		qtrk->GetRadialZLUT(newlut->data);
+		newlut->normalize();
+	}
+
+	if (jpgfile) {
+		float* zlut_result=new float[zplanes*cfg.zlut_radialsteps*1];
+		qtrk->GetRadialZLUT(zlut_result);
+		FloatToJPEGFile(jpgfile, zlut_result, cfg.zlut_radialsteps, zplanes);
+		delete[] zlut_result;
+	}
+}
 
 SpeedAccResult SpeedAccTest(ImageData& lut, QTrkSettings *cfg, int N, vector3f centerpos, vector3f range, const char *name)
 {
@@ -25,31 +65,31 @@ SpeedAccResult SpeedAccTest(ImageData& lut, QTrkSettings *cfg, int N, vector3f c
 	const float R=5;
 	
 	TrkType trk(*cfg);
-	float M=0.5f* cfg->width /(float) lut.w;
-	ResampleLUT(&trk, &lut, M, lut.h, "resample-lut.jpg");
+	
+	BenchmarkLUT bml(&lut);
+	ImageData resizedLUT = ImageData::alloc(trk.cfg.zlut_radialsteps, lut.h);
+	bml.GenerateLUT(&resizedLUT, (float)trk.cfg.zlut_radialsteps/lut.w);
+	WriteJPEGFile( SPrintf("resizedLUT-%s.jpg", name).c_str(), resizedLUT);
+
+	ResampleBMLUT(&trk, &bml, 1.0f, lut.h);
+
+	//std::vector<float> stetsonWindow = ComputeStetsonWindow(trk.cfg.zlut_radialsteps);
+	//trk.SetRadialZLUT(resizedLUT.data, 1, lut.h, &stetsonWindow[0]);
+
+	float M = cfg->width / (float) (2.0f * lut.w);
 
 	for (int i=0;i<NImg;i++) {
 		imgs[i]=ImageData::alloc(cfg->width,cfg->height);
 		vector3f pos = centerpos + range*vector3f(rand_uniform<float>()-0.5f, rand_uniform<float>()-0.5f, rand_uniform<float>()-0.5f)*2;
 
-		truepos.push_back(pos);
-	}
-
-	auto f = [&] (int i) {
-		vector3f pos = truepos[i];
-
-		GenerateImageFromLUT(&imgs[i], &lut, 0.0f, lut.w, vector2f( pos.x,pos.y), pos.z, M);
+		bml.GenerateSample(&imgs[i], pos, trk.cfg.width*trk.cfg.zlut_roi_coverage/2);
+		//GenerateImageFromLUT(&imgs[i], &resizedLUT, 0.0f, lut.w, vector2f( pos.x,pos.y), pos.z, M);
 		imgs[i].normalize();
 		ApplyPoissonNoise(imgs[i], 255 * ElectronsPerBit);
 		if(i==0) WriteJPEGFile(name, imgs[i]);
-	};
 
-	ThreadPool<int, std::function<void (int index)> > pool(f);
-
-	for (int i=0;i<truepos.size();i++) {
-		pool.AddWork(i);
+		truepos.push_back(pos);
 	}
-	pool.WaitUntilDone();
 
 	trk.SetLocalizationMode((LocMode_t)(LT_QI|LT_LocalizeZ| LT_NormalizeProfile));
 	double tstart=GetPreciseTime();
@@ -92,6 +132,7 @@ SpeedAccResult SpeedAccTest(ImageData& lut, QTrkSettings *cfg, int N, vector3f c
 	r.acc = acc;
 	r.speed = N/(tend-tstart);
 	dbgprintf("Speed=%d img/s, Mean.X: %f.  St. Dev.X: %f;  Mean.Z: %f.  St. Dev.Z: %f\n",r.speed, r.bias.x, r.acc.x, r.bias.z, r.acc.z);
+	resizedLUT.free();
 	return r;
 }
 
