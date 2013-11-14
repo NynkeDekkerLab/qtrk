@@ -472,6 +472,57 @@ CDLL_EXPORT void qtrk_find_beads(uint8_t* image, int pitch, int w,int h, int* sm
 	}
 }
 
+CDLL_EXPORT void qtrk_simulate_tracking(QueuedTracker* qtrk, int nsmp, int beadIndex, vector3f* centerPos, vector3f* range, vector3f *outBias, vector3f* outScatter, float photonsPerWell, ErrorCluster* e)
+{
+	if (ValidateTracker(qtrk, e, "qtrk_simulate_tracking")) {
+
+		int nZLUT, nPlanes, nRadialSteps;
+		qtrk->GetRadialZLUTSize(nZLUT, nPlanes, nRadialSteps);
+
+		float* lut = new float[nZLUT*nPlanes*nRadialSteps];
+		qtrk->GetRadialZLUT(lut);
+
+		ImageData img = ImageData::alloc(qtrk->cfg.width,qtrk->cfg.height);
+		ImageData zlut;
+		zlut.data = & lut [nRadialSteps*nPlanes*beadIndex];
+		zlut.w = nRadialSteps;
+		zlut.h = nPlanes;
+
+		// Generate images
+		std::vector<vector3f> positions(nsmp);
+		for (int i=0;i<nsmp;i++) {
+			vector3f pos = *centerPos + *range * vector3f(rand_uniform<float>(), rand_uniform<float>(), rand_uniform<float>());
+			positions[i]=pos;
+			GenerateImageFromLUT( &img, &zlut, qtrk->cfg.zlut_minradius, qtrk->cfg.zlut_maxradius, vector2f(pos.x,pos.y), pos.z, 1.0f);
+			qtrk->ScheduleLocalization((uchar*)img.data, sizeof(float)*img.w, QTrkFloat,i,i,0,beadIndex, 0);
+		}
+
+		img.free();
+
+		qtrk->Flush();
+		while (!qtrk->IsIdle());
+
+		LocalizationResult* results=new LocalizationResult[nsmp];
+		qtrk->FetchResults(results, nsmp);
+		vector3f sumBias, sumScatter;
+		for (int i=0;i<nsmp;i++) {
+			vector3f truepos = positions [ results[i].job.frame ];
+			vector3f diff = results[i].pos - truepos;
+			sumBias += diff;
+		}
+		vector3f meanBias = sumBias / nsmp;
+		for (int i=0;i<nsmp;i++) {
+			vector3f truepos = positions [ results[i].job.frame ];
+			vector3f diff = results[i].pos - truepos;
+			diff -= meanBias;
+			sumScatter += diff*diff;
+		}
+		*outScatter = sqrt (sumScatter / nsmp);
+		*outBias = sumBias;
+	}
+}
+
+
 #ifdef CUDA_TRACK
 
 #include "cuda_runtime.h"

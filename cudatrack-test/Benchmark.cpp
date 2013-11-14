@@ -83,7 +83,8 @@ SpeedAccResult SpeedAccTest(ImageData& lut, QTrkSettings *cfg, int N, vector3f c
 	vector3f acc;
 	for (int i=0;i<results.size();i++) {
 		vector3f d = results[i]-truepos[i%NImg]; 
-		acc += d*d;
+		vector3f errMinusMeanErr = d - s;
+		acc += errMinusMeanErr*errMinusMeanErr;
 	}
 	acc = sqrt(acc/N);
 
