@@ -125,7 +125,8 @@ SpeedAccResult SpeedAccTest(ImageData& lut, QTrkSettings *cfg, int N, vector3f c
 	vector3f acc;
 	for (int i=0;i<results.size();i++) {
 		vector3f d = results[i]-truepos[i%NImg]; 
-		acc += d*d;
+		vector3f errMinusMeanErr = d - s;
+		acc += errMinusMeanErr*errMinusMeanErr;
 	}
 	acc = sqrt(acc/N);
 
@@ -147,7 +148,7 @@ void BenchmarkROISizes(int n)
 	const char *lutfile = "refbeadlut.jpg";
 	ImageData lut = ReadJPEGFile(lutfile);
 
-	for (int roi=50;roi<=160;roi+=10) {
+	for (int roi=20;roi<=160;roi+=10) {
 	//for (int roi=90;roi<100;roi+=10) {
 		QTrkSettings cfg;
 		cfg.qi_angstep_factor = 2;
@@ -173,6 +174,42 @@ void BenchmarkROISizes(int n)
 		auto r = results[i];
 		float row[] = { rois[i], r.acc.x, r.acc.y, r.acc.z, r.bias.x, r.bias.y, r.bias.z, r.speed };
 		WriteArrayAsCSVRow("roi-sizes.txt", row, sizeof(row)/sizeof(float),i>0);
+	}
+}
+
+
+
+void BenchmarkQIRadialSteps(int n)
+{
+	std::vector<SpeedAccResult> results;
+	std::vector<float> densities;
+
+	const char *lutfile = "refbeadlut.jpg";
+	ImageData lut = ReadJPEGFile(lutfile);
+
+	for (float rad_step_dens=0.5f; rad_step_dens<8; rad_step_dens*=1.3f) {
+		QTrkSettings cfg;
+		cfg.width = cfg.height=120;
+		cfg.qi_angstep_factor = 2;
+		cfg.qi_iterations = 6;
+		cfg.qi_angular_coverage = 0.7f;
+		cfg.qi_roi_coverage = 1;
+		cfg.qi_radial_coverage = rad_step_dens;
+		cfg.zlut_angular_coverage = 0.7f;
+		cfg.zlut_roi_coverage = 1;
+		cfg.zlut_radial_coverage = 2.5f;
+
+		densities.push_back(rad_step_dens);
+
+		vector3f pos(cfg.width/2, cfg.height/2, lut.h/3);
+		results.push_back(SpeedAccTest (lut, &cfg, n, pos, vector3f(0,0,0), SPrintf("qiradstep%d.jpg", QTrkComputedConfig (cfg).qi_radialsteps).c_str()));
+	}
+	lut.free();
+
+	for (int i=0;i<results.size();i++) {
+		auto r = results[i];
+		float row[] = { densities[i], r.acc.x, r.acc.y, r.acc.z, r.bias.x, r.bias.y, r.bias.z, r.speed };
+		WriteArrayAsCSVRow("qiradstepdens.txt", row, sizeof(row)/sizeof(float),i>0);
 	}
 }
 
@@ -211,6 +248,8 @@ void BenchmarkZAccuracy(int n)
 	}
 }
 
+
+
 void BenchmarkParams()
 {
 	/*
@@ -224,5 +263,7 @@ void BenchmarkParams()
 #endif
 
 	BenchmarkROISizes(n);
-	BenchmarkZAccuracy(n);
+	//BenchmarkZAccuracy(n);
+
+	BenchmarkQIRadialSteps(n);
 }
