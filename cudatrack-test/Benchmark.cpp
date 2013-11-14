@@ -68,10 +68,12 @@ SpeedAccResult SpeedAccTest(ImageData& lut, QTrkSettings *cfg, int N, vector3f c
 	
 	BenchmarkLUT bml(&lut);
 	ImageData resizedLUT = ImageData::alloc(trk->cfg.zlut_radialsteps, lut.h);
-	bml.GenerateLUT(&resizedLUT, (float)trk->cfg.zlut_radialsteps/lut.w);
-	WriteJPEGFile( SPrintf("resizedLUT-%s.jpg", name).c_str(), resizedLUT);
 
-	ResampleBMLUT(trk, &bml, 1.0f, lut.h);
+	ResampleBMLUT(trk, &bml, 1.0f, lut.h, SPrintf("lut-%s.jpg", name).c_str());
+		
+
+//	bml.GenerateLUT(&resizedLUT, (float)trk->cfg.zlut_radialsteps/lut.w);
+//	WriteJPEGFile( SPrintf("resizedLUT-%s.jpg", name).c_str(), resizedLUT);
 
 	//std::vector<float> stetsonWindow = ComputeStetsonWindow(trk.cfg.zlut_radialsteps);
 	//trk.SetRadialZLUT(resizedLUT.data, 1, lut.h, &stetsonWindow[0]);
