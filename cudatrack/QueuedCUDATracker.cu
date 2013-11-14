@@ -170,7 +170,7 @@ QueuedCUDATracker::QueuedCUDATracker(const QTrkComputedConfig& cc, int batchSize
 	}
 	this->batchSize = batchSize;
 
-	dbgprintf("# of CUDA processors:%d. Using %d streams\n", deviceProp.multiProcessorCount, numStreams);
+	dbgprintf("CUDA Hardware: %s. \n# of CUDA processors:%d. Using %d streams\n", deviceProp.name, deviceProp.multiProcessorCount, numStreams);
 	dbgprintf("Warp size: %d. Max threads: %d, Batch size: %d\n", deviceProp.warpSize, deviceProp.maxThreadsPerBlock, batchSize);
 	
 	qi.Init(cfg, batchSize);
