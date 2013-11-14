@@ -321,7 +321,7 @@ void GenerateGaussianSpotImage(ImageData* img, vector2f pos, float sigma, float 
 		}
 }
 
-void ApplyPoissonNoise(ImageData& img, float factor)
+void ApplyPoissonNoise(ImageData& img, float poissonMax, float maxval)
 {
 	/*auto f = [&] (int y) {
 		for (int x=0;x<img.w;x++) {
@@ -336,8 +336,10 @@ void ApplyPoissonNoise(ImageData& img, float factor)
 	}
 	pool.WaitUntilDone();*/
 
+	float ratio = maxval / poissonMax;
+
 	for (int x=0;x<img.numPixels();x++) {
-		img[x] = rand_poisson<float>(factor*img[x]);
+		img[x] = rand_poisson<float>(poissonMax*img[x]) * ratio;
 	}
 }
 
