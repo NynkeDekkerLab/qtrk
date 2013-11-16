@@ -321,7 +321,7 @@ void GenerateGaussianSpotImage(ImageData* img, vector2f pos, float sigma, float 
 		}
 }
 
-void ApplyPoissonNoise(ImageData& img, float factor)
+void ApplyPoissonNoise(ImageData& img, float poissonMax, float maxval)
 {
 	/*auto f = [&] (int y) {
 		for (int x=0;x<img.w;x++) {
@@ -336,8 +336,10 @@ void ApplyPoissonNoise(ImageData& img, float factor)
 	}
 	pool.WaitUntilDone();*/
 
+	float ratio = maxval / poissonMax;
+
 	for (int x=0;x<img.numPixels();x++) {
-		img[x] = rand_poisson<float>(factor*img[x]);
+		img[x] = rand_poisson<float>(poissonMax*img[x]) * ratio;
 	}
 }
 
@@ -533,4 +535,18 @@ int NearestPowerOf3(int v)
 	if ( fabsf(r-v) < fabsf(r/3-v) )
 		return r;
 	return r/3;
+}
+
+
+std::vector<float> ComputeStetsonWindow(int rsteps)
+{
+	std::vector<float> wnd(rsteps);
+	for (int x=0;x<rsteps;x++) {
+		float t2=rsteps/5.0f;
+		float t1=rsteps/1.0f;
+		float rm=rsteps-1;
+		float fall=1-expf( -(rm-x)*(rm-x)/t2 ), rise=1-expf(-x*x/t1);
+		wnd[x]=rise*fall*x/(float)rsteps*2;
+	}
+	return wnd;
 }

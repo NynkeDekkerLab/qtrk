@@ -373,10 +373,14 @@ void ResultManager::StoreFrameInfo(int frame, double timestamp, float* columns)
 
 	if (CheckResultSpace(frame)) {
 		FrameResult* fr = frameResults[frame-cnt.startFrame];		
-		fr->timestamp = timestamp;
-		for(int i=0;i<config.numFrameInfoColumns;i++)
-			fr->frameInfo[i]=columns[i];
-		int nfr = ++cnt.capturedFrames;
+
+		if (!fr->hasFrameInfo) {
+			fr->timestamp = timestamp;
+			for(int i=0;i<config.numFrameInfoColumns;i++)
+				fr->frameInfo[i]=columns[i];
+			++cnt.capturedFrames;
+			fr->hasFrameInfo=true;
+		}
 	}
 	else 
 		dbgprintf("Frame already removed before StoreFrameInfo was called on it!! Set maxFramesInMemory(%d) higher?\n", config.maxFramesInMemory);

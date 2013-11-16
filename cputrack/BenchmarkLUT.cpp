@@ -66,15 +66,15 @@ void BenchmarkLUT::GenerateLUT(ImageData* lut, float M)
 {
 	for (int y=0;y<lut->h;y++) {
 		for (int x=0;x<lut->w;x++) {
-			float maxline=(max_a*y*y+max_b*y+max_c)/max_c;
+			float maxline=M*(max_a*y*y+max_b*y+max_c)/max_c;
 			lut->at(x,y) = Interpolate1D(normprof, x/maxline);
 		}
 	}
 }
 
-void BenchmarkLUT::GenerateSample(ImageData* image, vector3f pos, float rstep, float M)
+void BenchmarkLUT::GenerateSample(ImageData* image, vector3f pos, float targetRadiusInPixels)
 {
-	float invRstep=1.0f/rstep;
+	float radialDensity=lut_w/targetRadiusInPixels;
 
 	if(pos.z<0.0f) pos.z=0.0f;
 	if(pos.z>lut_h-1) pos.z=lut_h-1;
@@ -84,9 +84,9 @@ void BenchmarkLUT::GenerateSample(ImageData* image, vector3f pos, float rstep, f
 		{
 			float dx=x-pos.x;
 			float dy=y-pos.y;
-			float r = sqrt(dx*dx+dy*dy)*invRstep;
+			float r = sqrt(dx*dx+dy*dy)*radialDensity; // r in original radial bin pixels
 			float maxline=(max_a*pos.z*pos.z+max_b*pos.z+max_c)/max_c;
 			float profpos = r / maxline;
-			image->at(x,y) = Interpolate1D(normprof, r);
+			image->at(x,y) = Interpolate1D(normprof, profpos);
 		}
 }

@@ -97,11 +97,12 @@ protected:
 
 	struct FrameResult
 	{
-		FrameResult(int nResult, int nFrameInfo) : frameInfo(nFrameInfo), results(nResult) { count=0; timestamp=0;}
+		FrameResult(int nResult, int nFrameInfo) : frameInfo(nFrameInfo), results(nResult) { count=0; timestamp=0; hasFrameInfo=false;}
 		std::vector<LocalizationResult> results;
 		std::vector<float> frameInfo;
 		int count;
 		double timestamp;
+		bool hasFrameInfo;
 	};
 
 	Threads::Mutex resultMutex, trackerMutex;

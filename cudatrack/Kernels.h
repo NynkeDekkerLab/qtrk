@@ -282,3 +282,7 @@ __global__ void ImageLUT_Sample(BaseKernelParams kp, float2 ilut_scale, float3* 
 	}
 }
 
+__global__ void ForceCUDAKernelsToLoad()
+{
+}
+
