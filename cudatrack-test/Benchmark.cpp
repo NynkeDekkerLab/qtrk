@@ -69,7 +69,7 @@ SpeedAccResult SpeedAccTest(ImageData& lut, QTrkSettings *cfg, int N, vector3f c
 	BenchmarkLUT bml(&lut);
 	ImageData resizedLUT = ImageData::alloc(trk->cfg.zlut_radialsteps, lut.h);
 	bml.GenerateLUT(&resizedLUT, (float)trk->cfg.zlut_radialsteps/lut.w);
-	WriteJPEGFile( SPrintf("resizedLUT-%s.jpg", name).c_str(), resizedLUT);
+	//WriteJPEGFile( SPrintf("resizedLUT-%s.jpg", name).c_str(), resizedLUT);
 
 	ResampleBMLUT(trk, &bml, 1.0f, lut.h);
 
@@ -150,7 +150,7 @@ void BenchmarkROISizes(int n)
 	//for (int roi=90;roi<100;roi+=10) {
 		QTrkSettings cfg;
 		cfg.qi_angstep_factor = 2;
-		cfg.qi_iterations = 4;
+		cfg.qi_iterations = 2;
 		cfg.qi_angular_coverage = 0.7f;
 		cfg.qi_roi_coverage = 1;
 		cfg.qi_radial_coverage = 2.5f;
@@ -164,7 +164,7 @@ void BenchmarkROISizes(int n)
 		cfg.height = roi;
 
 		vector3f pos(cfg.width/2, cfg.height/2, lut.h/3);
-		results.push_back(SpeedAccTest (lut, &cfg, n, pos, vector3f(0,0,0), SPrintf("roi%dtestimg.jpg", cfg.width).c_str()));
+		results.push_back(SpeedAccTest (lut, &cfg, n, pos, vector3f(2,2,2), SPrintf("roi%dtestimg.jpg", cfg.width).c_str()));
 	}
 	lut.free();
 
@@ -176,38 +176,28 @@ void BenchmarkROISizes(int n)
 }
 
 
-
-void BenchmarkQIRadialSteps(int n)
+template<typename T>
+void BenchmarkConfigParamRange(int n, T QTrkSettings::* param, QTrkSettings* config, std::vector<T> param_values, const char *name)
 {
 	std::vector<SpeedAccResult> results;
-	std::vector<float> densities;
 
 	const char *lutfile = "refbeadlut.jpg";
 	ImageData lut = ReadJPEGFile(lutfile);
 
-	for (float rad_step_dens=0.5f; rad_step_dens<8; rad_step_dens*=1.3f) {
-		QTrkSettings cfg;
-		cfg.width = cfg.height=120;
-		cfg.qi_angstep_factor = 2;
-		cfg.qi_iterations = 6;
-		cfg.qi_angular_coverage = 0.7f;
-		cfg.qi_roi_coverage = 1;
-		cfg.qi_radial_coverage = rad_step_dens;
-		cfg.zlut_angular_coverage = 0.7f;
-		cfg.zlut_roi_coverage = 1;
-		cfg.zlut_radial_coverage = 2.5f;
-
-		densities.push_back(rad_step_dens);
+	for(int i =0; i<param_values.size();i++) {
+		QTrkSettings cfg = *config;
+		cfg.*param = param_values[i];
 
 		vector3f pos(cfg.width/2, cfg.height/2, lut.h/3);
-		results.push_back(SpeedAccTest (lut, &cfg, n, pos, vector3f(0,0,0), SPrintf("qiradstep%d.jpg", QTrkComputedConfig (cfg).qi_radialsteps).c_str()));
+		std::string pvname = SPrintf("%s-%d.jpg", name, i);
+		results.push_back(SpeedAccTest (lut, &cfg, n, pos, vector3f(0,0,0), pvname.c_str() ));
 	}
 	lut.free();
 
 	for (int i=0;i<results.size();i++) {
 		auto r = results[i];
-		float row[] = { densities[i], r.acc.x, r.acc.y, r.acc.z, r.bias.x, r.bias.y, r.bias.z, r.speed };
-		WriteArrayAsCSVRow("qiradstepdens.txt", row, sizeof(row)/sizeof(float),i>0);
+		float row[] = { param_values[i], r.acc.x, r.acc.y, r.acc.z, r.bias.x, r.bias.y, r.bias.z, r.speed };
+		WriteArrayAsCSVRow(SPrintf("%s-results.txt", name).c_str(), row, sizeof(row)/sizeof(float),i>0);
 	}
 }
 
@@ -219,13 +209,13 @@ void BenchmarkZAccuracy(int n)
 	const char *lutfile = "refbeadlut.jpg";
 	ImageData lut = ReadJPEGFile(lutfile);
 
-	for (int z=0;z<lut.h;z+=5) {
+	for (int z=5;z<lut.h;z+=5) {
 		QTrkSettings cfg;
 		cfg.qi_angstep_factor = 2;
-		cfg.qi_iterations = 4;
+		cfg.qi_iterations = 3;
 		cfg.qi_angular_coverage = 0.7f;
 		cfg.qi_roi_coverage = 1;
-		cfg.qi_radial_coverage = 2.5f;
+		cfg.qi_radial_coverage = 1.5f;
 		cfg.zlut_angular_coverage = 0.7f;
 		cfg.zlut_roi_coverage = 1;
 		cfg.zlut_radial_coverage = 2.5f;
@@ -234,7 +224,7 @@ void BenchmarkZAccuracy(int n)
 		cfg.height = 100;
 
 		vector3f pos(cfg.width/2, cfg.height/2, z);
-		results.push_back(SpeedAccTest (lut, &cfg, n, pos, vector3f(0,0,0), SPrintf("zrange-z%d.jpg",z).c_str()));
+		results.push_back(SpeedAccTest (lut, &cfg, n, pos, vector3f(2,2,1), SPrintf("zrange-z%d.jpg",z).c_str()));
 		zplanes.push_back(z);
 	}
 	lut.free();
@@ -247,6 +237,28 @@ void BenchmarkZAccuracy(int n)
 }
 
 
+template<typename T>
+std::vector<T> logspace(T a, T b, int N)
+{
+	std::vector<T> r (N);
+
+	T a_ = log(a);
+	T b_ = log(b);
+
+	for (int i=0;i<N;i++)
+		r[i] = exp( (b_ - a_) * (i/(float)(N-1)) + a_);
+	return r;
+}
+
+template<typename T>
+std::vector<T> linspace(T a, T b, int N)
+{
+	std::vector<T> r (N);
+	for (int i=0;i<N;i++)
+		r[i] = (b - a) * (i/(float)(N-1)) + a;
+	return r;
+}
+
 
 void BenchmarkParams()
 {
@@ -257,11 +269,27 @@ void BenchmarkParams()
 #ifdef _DEBUG
 	int n = 50;
 #else
-	int n = 6000;
+	int n = 10000;
 #endif
 
-	BenchmarkROISizes(n);
-	//BenchmarkZAccuracy(n);
+	QTrkSettings basecfg;
+	basecfg.width = 80;
+	basecfg.height = 80;
+	basecfg.qi_iterations = 4;
+	basecfg.qi_roi_coverage = 1;
+	basecfg.qi_radial_coverage = 1.5f;
+	basecfg.qi_angular_coverage = 0.7f;
+	basecfg.zlut_roi_coverage = 1;
+	basecfg.zlut_radial_coverage = 1.5f;
+	basecfg.com_bgcorrection = 0;
+	basecfg.qi_angstep_factor = 2;
+	basecfg.zlut_angular_coverage = 0.7f;
 
-	BenchmarkQIRadialSteps(n);
+	BenchmarkROISizes(n);
+/*
+	BenchmarkConfigParamRange (n, &QTrkSettings::qi_radial_coverage, &basecfg, linspace(0.2f, 4.0f, 20), "qi_rad_cov");
+	BenchmarkConfigParamRange (n, &QTrkSettings::zlut_radial_coverage, &basecfg, linspace(0.2f, 4.0f, 20), "zlut_rad_cov");
+	BenchmarkConfigParamRange (n, &QTrkSettings::qi_iterations, &basecfg, linspace(1, 6, 6), "qi_iterations");
+	*/
+//	BenchmarkZAccuracy(n);
 }
