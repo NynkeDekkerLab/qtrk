@@ -473,6 +473,15 @@ void QueuedCUDATracker::ScheduleLocalization(void* data, int pitch, QTRK_PixelDa
 }
 
 
+void QueuedCUDATracker::ProcessLUTImages(void* data, int pitch, QTRK_PixelDataType pdt, uint mode_flags, int plane)
+{
+}
+
+void QueuedCUDATracker::FinalizeLUT()
+{
+}
+
+
 void QueuedCUDATracker::Flush()
 {
 	jobQueueMutex.lock();

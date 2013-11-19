@@ -171,6 +171,12 @@ public:
 	virtual void GetImageZLUTSize(int* dims) {}
 	virtual void GetImageZLUT(float* dst) {}
 	virtual void SetImageZLUT(float* dst, int* dims) {}
+
+	enum BuildLUTMode {
+		RadialLUT = 1, ImageLUT = 2
+	};
+	virtual void ProcessLUTImages(void* data, int pitch, QTRK_PixelDataType pdt, uint mode_flags, int plane) = 0;
+	virtual void FinalizeLUT() = 0;
 	
 	virtual int GetResultCount() = 0;
 	virtual int FetchResults(LocalizationResult* results, int maxResults) = 0;

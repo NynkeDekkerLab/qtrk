@@ -166,14 +166,14 @@ void ResultManager::WriteTextResults()
 			for (int i=0;i<config.numBeads;i++) 
 			{
 				LocalizationResult *r = &fr->results[i];
-				fprintf(f, "%.5f\t%.5f\t%.5f\t", r->pos.x,r->pos.y,r->pos.z);
+				fprintf(f, "%.7f\t%.7f\t%.7f\t", r->pos.x,r->pos.y,r->pos.z);
 			}
 			fputs("\n", f);
 		}
 		if (finfo) {
 			fprintf(finfo,"%d\t%f\t", k, fr->timestamp);
 			for (int i=0;i<config.numFrameInfoColumns;i++)
-				fprintf(finfo, "%.5f\t", fr->frameInfo[i]);
+				fprintf(finfo, "%.7f\t", fr->frameInfo[i]);
 			fputs("\n", finfo);
 		}
 	}

@@ -450,3 +450,15 @@ void QueuedCPUTracker::SetLocalizationMode(LocMode_t lt)
 	localizeMode = lt;
 }
 
+
+void QueuedCPUTracker::ProcessLUTImages(void* data, int pitch, QTRK_PixelDataType pdt, uint mode_flags, int plane)
+{
+}
+
+
+void QueuedCPUTracker::FinalizeLUT()
+{
+}
+
+
+

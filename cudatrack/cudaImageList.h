@@ -228,7 +228,10 @@ struct Image4DCudaArray
 		int imgw, imgh;
 		int layerw;
 
-		CUBOTH int2 getImagePos(int image) { return make_int2(imgw * (image % layerw), imgh * (image / layerw)); }
+		CUBOTH int2 getImagePos(int image) 
+		{ 
+			return make_int2(imgw * (image % layerw), imgh * (image / layerw));
+		}
 		
 		__device__ T readSurfacePixel(surface<void, cudaSurfaceType2DLayered> surf, int x, int y,int z)
 		{

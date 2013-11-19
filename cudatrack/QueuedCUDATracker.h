@@ -81,6 +81,9 @@ public:
 	void GetImageZLUT(float* dst);
 	void SetImageZLUT(float* dst, int* dims);
 
+	void ProcessLUTImages(void* data, int pitch, QTRK_PixelDataType pdt, uint mode_flags, int plane) override;
+	void FinalizeLUT() override;
+
 	std::string GetProfileReport() override;
 
 	// Force the current waiting batch to be processed. 
