@@ -440,7 +440,7 @@ void QueuedCUDATracker::SetLocalizationMode(int mode)
 
 	jobQueueMutex.lock();
 	localizeMode = mode;
-	lutWriteMode = (mode & (LT_BuildImageLUT | LT_BuildRadialZLUT)) != 0;
+	lutWriteMode = (mode & LT_BuildRadialZLUT) != 0;
 	jobQueueMutex.unlock();
 }
 
@@ -618,7 +618,7 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 
 	{ScopedCPUProfiler p(&cpu_time.imap);
 
-		if ( (s->localizeFlags & LT_BuildImageLUT) && s->device->image_lut ) {
+/*		if ( (s->localizeFlags & LT_BuildImageLUT) && s->device->image_lut ) {
 
 			ImageLUT* il = s->device->image_lut;
 			// Bind surface for writing image LUT
@@ -631,7 +631,7 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 
 			ImageLUT_Sample<TImageSampler, ImageLUT> <<<numBlocks, numThreads, 0, s->stream >>> (kp, ilc_scale, curpos->data, ilkp);
 			il->unbind();
-		}
+		}*/
 
 		if (s->localizeFlags & LT_IMAP) {
 		}

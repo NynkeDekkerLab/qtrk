@@ -645,6 +645,33 @@ void AutoBeadFindTest()
 	smp.free();
 }
 
+
+void TestImageLUT()
+{
+	QTrkSettings cfg;
+
+	cfg.width=cfg.height=100;
+
+	QueuedCPUTracker trk(cfg);
+
+	// [ count, planes, height, width ] 
+	int nplanes=100;
+	int dims[] = { 1, nplanes, cfg.height,cfg.width };
+	trk.SetImageZLUT(0, 0, dims);
+
+	ImageData img=ImageData::alloc(cfg.width,cfg.height);
+	ImageData lut = ReadJPEGFile("refbeadlut.jpg");
+
+	for (int i=0;i<nplanes;i++) {
+		GenerateImageFromLUT(&img, &lut, trk.cfg.zlut_minradius, trk.cfg.zlut_maxradius, vector2f(img.w/2,img.h/2), i, 1);
+		trk.BuildLUT(img.data, img.pitch(), QTrkFloat, true, i);
+	}
+	trk.FinalizeLUT();
+
+	lut.free();
+	img.free();
+}
+
 int main()
 {
 	/*
@@ -659,7 +686,7 @@ int main()
 
 	//TestFisher("lut000.jpg");
 
-	QTrkTest();
+	//QTrkTest();
 //	TestCMOSNoiseInfluence<QueuedCPUTracker>("lut000.jpg");
 
 	//AutoBeadFindTest();
@@ -675,6 +702,8 @@ int main()
 	//for (int i=1;i<8;i++)
 	//	BuildConvergenceMap(i);
 
+
+	TestImageLUT();
 
 	//CorrectedRadialProfileTest();
 	return 0;

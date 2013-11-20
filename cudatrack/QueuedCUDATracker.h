@@ -79,9 +79,9 @@ public:
 
 	void GetImageZLUTSize(int* dims);
 	void GetImageZLUT(float* dst);
-	void SetImageZLUT(float* dst, int* dims);
+	void SetImageZLUT(float* dst, float* radial_zlut, int* dims);
 
-	void ProcessLUTImages(void* data, int pitch, QTRK_PixelDataType pdt, uint mode_flags, int plane) override;
+	void BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, bool imageLUT, int plane) override;
 	void FinalizeLUT() override;
 
 	std::string GetProfileReport() override;

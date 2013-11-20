@@ -23,8 +23,11 @@ public:
 	void GetRadialZLUTSize(int& count ,int& planes, int& rsteps) override;
 	void ScheduleLocalization(void* data, int pitch, QTRK_PixelDataType pdt, const LocalizationJob *jobInfo) override;
 
-	void ProcessLUTImages(void* data, int pitch, QTRK_PixelDataType pdt, uint mode_flags, int plane);
+	void BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, bool imageLUT, int plane);
 	void FinalizeLUT();
+	void GetImageZLUTSize(int* dims);
+	void GetImageZLUT(float* dst);
+	void SetImageZLUT(float* dst, float*rlut, int* dims);
 
 	void SetPixelCalibrationImages(float* offset, float* gain) override;
 	void SetPixelCalibrationFactors(float offsetFactor, float gainFactor) override;
@@ -83,6 +86,13 @@ private:
 	std::vector<float> zcmp;
 	float* GetZLUTByIndex(int index) { return &zluts[ index * (zlut_planes*cfg.zlut_radialsteps) ]; }
 	void UpdateZLUTs();
+
+	int image_lut_dims[4], image_lut_nElem_per_bead;
+	int ImageLUTNumBeads() { return image_lut_dims[0]; }
+	int ImageLUTWidth() { return image_lut_dims[3]; }
+	int ImageLUTHeight() { return image_lut_dims[2]; }
+	float* image_lut;
+	float* GetImageLUTByIndex(int index) { return &image_lut [ index * image_lut_nElem_per_bead ]; }
 
 	// signal threads to stop their work
 	bool quitWork, processJobs, dbgPrintResults;
