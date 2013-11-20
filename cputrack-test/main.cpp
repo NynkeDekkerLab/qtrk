@@ -655,7 +655,7 @@ void TestImageLUT()
 	QueuedCPUTracker trk(cfg);
 
 	// [ count, planes, height, width ] 
-	int nplanes=100;
+	int nplanes=10;
 	int dims[] = { 1, nplanes, cfg.height,cfg.width };
 	trk.SetImageZLUT(0, 0, dims);
 
@@ -667,6 +667,12 @@ void TestImageLUT()
 		trk.BuildLUT(img.data, img.pitch(), QTrkFloat, true, i);
 	}
 	trk.FinalizeLUT();
+
+	float *ilut = new float [dims[0]*dims[1]*dims[2]*dims[3]];
+	trk.GetImageZLUT(ilut);
+	ImageData ilutImg (ilut, dims[3], dims[1]*dims[2]);
+	WriteJPEGFile("ilut.jpg", ilutImg);
+	delete[] ilut;
 
 	lut.free();
 	img.free();

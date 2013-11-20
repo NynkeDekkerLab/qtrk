@@ -141,7 +141,9 @@ QueuedCPUTracker::~QueuedCPUTracker()
 
 	delete[] calib_gain;
 	delete[] calib_offset;
-	delete[] zluts;
+	if (zluts) delete[] zluts;
+	if (image_lut) delete[] image_lut;
+
 }
 
 void QueuedCPUTracker::SetPixelCalibrationImages(float* offset, float* gain)
@@ -529,7 +531,7 @@ void QueuedCPUTracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, b
 				float py = starty + y*ilut_scale.y;
 
 				bool outside=false;
-				float v = Interpolate(lut_dst, w, h, px, py, &outside);
+				float v = Interpolate(trk.srcImage, trk.width, trk.height, px, py, &outside);
 				lut_dst[y*w+x] += v;
 			}
 		}
