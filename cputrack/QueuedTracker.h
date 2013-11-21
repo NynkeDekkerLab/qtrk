@@ -24,7 +24,6 @@ enum LocalizeModeEnum {
 	LT_LocalizeZ = 16,
 	LT_BuildRadialZLUT = 32,
 	LT_NormalizeProfile = 64,
-	LT_BuildImageLUT = 128,
 	LT_Force32Bit = 0xffffffff
 };
 
@@ -170,7 +169,10 @@ public:
 	// dims = [ count, planes, height, width ]  (Just like how the data is ordered)
 	virtual void GetImageZLUTSize(int* dims) {}
 	virtual void GetImageZLUT(float* dst) {}
-	virtual void SetImageZLUT(float* dst, int* dims) {}
+	virtual void SetImageZLUT(float* dst, float *radial_zlut, int* dims, float *rweights=0) {}
+
+	virtual void BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, bool imageLUT, int plane) = 0;
+	virtual void FinalizeLUT() = 0;
 	
 	virtual int GetResultCount() = 0;
 	virtual int FetchResults(LocalizationResult* results, int maxResults) = 0;

@@ -117,6 +117,10 @@ QueuedCPUTracker::QueuedCPUTracker(const QTrkComputedConfig& cc)
 	gc_gainFactor = gc_offsetFactor = 1.0f;
 	localizeMode = LT_OnlyCOM;
 
+	for (int i=0;i<4;i++) image_lut_dims[i]=0;
+	image_lut_nElem_per_bead=0;
+	image_lut = 0;
+
 	Start();
 }
 
@@ -137,7 +141,9 @@ QueuedCPUTracker::~QueuedCPUTracker()
 
 	delete[] calib_gain;
 	delete[] calib_offset;
-	delete[] zluts;
+	if (zluts) delete[] zluts;
+	if (image_lut) delete[] image_lut;
+
 }
 
 void QueuedCPUTracker::SetPixelCalibrationImages(float* offset, float* gain)
@@ -296,6 +302,9 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 			dstprof[i] += rprof[i];
 	}
 
+	if ( (localizeMode & LT_IMAP) && image_lut ) {
+	}
+
 	if(dbgPrintResults)
 		dbgprintf("fr:%d, bead: %d: x=%f, y=%f, z=%f\n",result.job.frame, result.job.zlutIndex, result.pos.x, result.pos.y, result.pos.z);
 
@@ -448,5 +457,93 @@ void QueuedCPUTracker::SetLocalizationMode(LocMode_t lt)
 {
 	while (!IsIdle());
 	localizeMode = lt;
+}
+
+void QueuedCPUTracker::GetImageZLUTSize(int* dims)
+{
+	for (int i=0;i<4;i++)
+		dims[i]=image_lut_dims[i];
+}
+
+
+void QueuedCPUTracker::GetImageZLUT(float* dst) 
+{
+	if (image_lut) {
+		memcpy(dst, image_lut, sizeof(float)*image_lut_nElem_per_bead*image_lut_dims[0]);
+	}
+}
+
+
+void QueuedCPUTracker::SetImageZLUT(float* src, float *radial_lut, int* dims, float* rweights)
+{
+	if (image_lut)  {
+		delete[] image_lut;
+		image_lut=0;
+	}
+
+	for (int i=0;i<4;i++)
+		image_lut_dims[i]=dims[i];
+
+	image_lut_nElem_per_bead = dims[1]*dims[2]*dims[3];
+
+	if (image_lut_nElem_per_bead > 0 && dims[0] > 0) {
+		image_lut = new float [image_lut_nElem_per_bead*image_lut_dims[0]];
+		memset(image_lut, 0, sizeof(float)*image_lut_nElem_per_bead*image_lut_dims[0]);
+	}
+
+	if (src) {
+		memcpy(image_lut, src, sizeof(float)*image_lut_nElem_per_bead*image_lut_dims[0]);
+	}
+
+	SetRadialZLUT(radial_lut, dims[0], dims[1], rweights);
+}
+
+
+void QueuedCPUTracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, bool imageLUT, int plane)
+{
+	CPUTracker trk (ImageLUTWidth(), ImageLUTHeight());
+	for (int i=0;i<ImageLUTNumBeads();i++) {
+		void *img_data = (uchar*)data + pitch * ImageLUTHeight() * i;
+
+		if (pdt == QTrkFloat) {
+			trk.SetImage((float*)data, pitch);
+		} else if (pdt == QTrkU8) {
+			trk.SetImage8Bit((uchar*)data, pitch);
+		} else {
+			trk.SetImage16Bit((ushort*)data,pitch);
+		}
+
+		vector2f com = trk.ComputeMeanAndCOM();
+		bool bhit;
+		vector2f qipos = trk.ComputeQI(com, 3, cfg.qi_radialsteps, cfg.qi_angstepspq, cfg.qi_angstep_factor, cfg.qi_minradius, cfg.qi_maxradius, bhit);
+
+		int h=ImageLUTHeight(), w=ImageLUTWidth();
+		float* lut_dst = &image_lut[ i * image_lut_nElem_per_bead + w*h* plane ];
+		
+		dbgprintf("BuildLUT() QIPos: x=%f, y=%f\n", qipos.x, qipos.y);
+
+		vector2f ilut_scale(1,1);
+		float startx = qipos.x - w/2*ilut_scale.x;
+		float starty = qipos.y - h/2*ilut_scale.y;
+
+		for (int y=0;y<h;y++) {
+			for (int x=0;x<w;x++) {
+
+				float px = startx + x*ilut_scale.x;
+				float py = starty + y*ilut_scale.y;
+
+				bool outside=false;
+				float v = Interpolate(trk.srcImage, trk.width, trk.height, px, py, &outside);
+				lut_dst[y*w+x] += v;
+			}
+		}
+
+		float *bead_zlut=GetZLUTByIndex(i);
+		trk.ComputeRadialProfile(&bead_zlut[plane*cfg.zlut_radialsteps], cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, qipos, false);
+	}
+}
+
+void QueuedCPUTracker::FinalizeLUT()
+{
 }
 

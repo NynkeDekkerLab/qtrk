@@ -440,7 +440,7 @@ void QueuedCUDATracker::SetLocalizationMode(int mode)
 
 	jobQueueMutex.lock();
 	localizeMode = mode;
-	lutWriteMode = (mode & (LT_BuildImageLUT | LT_BuildRadialZLUT)) != 0;
+	lutWriteMode = (mode & LT_BuildRadialZLUT) != 0;
 	jobQueueMutex.unlock();
 }
 
@@ -470,6 +470,15 @@ void QueuedCUDATracker::ScheduleLocalization(void* data, int pitch, QTRK_PixelDa
 	s->imageBufMutex.unlock();
 
 	//dbgprintf("Job: %d\n", jobIndex);
+}
+
+
+void QueuedCUDATracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, bool imageLUT, int plane)
+{
+}
+
+void QueuedCUDATracker::FinalizeLUT()
+{
 }
 
 
@@ -609,7 +618,7 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 
 	{ScopedCPUProfiler p(&cpu_time.imap);
 
-		if ( (s->localizeFlags & LT_BuildImageLUT) && s->device->image_lut ) {
+/*		if ( (s->localizeFlags & LT_BuildImageLUT) && s->device->image_lut ) {
 
 			ImageLUT* il = s->device->image_lut;
 			// Bind surface for writing image LUT
@@ -622,7 +631,7 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 
 			ImageLUT_Sample<TImageSampler, ImageLUT> <<<numBlocks, numThreads, 0, s->stream >>> (kp, ilc_scale, curpos->data, ilkp);
 			il->unbind();
-		}
+		}*/
 
 		if (s->localizeFlags & LT_IMAP) {
 		}
@@ -795,7 +804,7 @@ void QueuedCUDATracker::GetImageZLUT(float* dst)
 	}
 }
 
-void QueuedCUDATracker::SetImageZLUT(float* src,int* dims)
+void QueuedCUDATracker::SetImageZLUT(float* src, float *radial_zlut, int* dims, float *rweights)
 {
 	imageLUTConfig.nLUTs = dims[0];
 	imageLUTConfig.planes = dims[1];
@@ -805,6 +814,8 @@ void QueuedCUDATracker::SetImageZLUT(float* src,int* dims)
 	for (int i=0;i<devices.size();i++) {
 		devices[i]->SetImageLUT(src, &imageLUTConfig);
 	}
+
+	SetRadialZLUT(radial_zlut,dims[0], dims[1], rweights);
 }
 
 
