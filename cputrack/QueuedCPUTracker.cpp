@@ -302,6 +302,9 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 			dstprof[i] += rprof[i];
 	}
 
+	if ( (localizeMode & LT_IMAP) && image_lut ) {
+	}
+
 	if(dbgPrintResults)
 		dbgprintf("fr:%d, bead: %d: x=%f, y=%f, z=%f\n",result.job.frame, result.job.zlutIndex, result.pos.x, result.pos.y, result.pos.z);
 
@@ -471,7 +474,7 @@ void QueuedCPUTracker::GetImageZLUT(float* dst)
 }
 
 
-void QueuedCPUTracker::SetImageZLUT(float* src, float *radial_lut, int* dims)
+void QueuedCPUTracker::SetImageZLUT(float* src, float *radial_lut, int* dims, float* rweights)
 {
 	if (image_lut)  {
 		delete[] image_lut;
@@ -492,8 +495,7 @@ void QueuedCPUTracker::SetImageZLUT(float* src, float *radial_lut, int* dims)
 		memcpy(image_lut, src, sizeof(float)*image_lut_nElem_per_bead*image_lut_dims[0]);
 	}
 
-	std::vector<float> rweights = ComputeStetsonWindow(cfg.zlut_radialsteps);
-	SetRadialZLUT(radial_lut, dims[0], dims[1], &rweights[0]);
+	SetRadialZLUT(radial_lut, dims[0], dims[1], rweights);
 }
 
 
@@ -544,6 +546,4 @@ void QueuedCPUTracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, b
 void QueuedCPUTracker::FinalizeLUT()
 {
 }
-
-
 

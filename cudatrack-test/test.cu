@@ -22,6 +22,12 @@
 #include "../cputrack-test/SharedTests.h"
 #include "BenchmarkLUT.h"
 
+#include <thrust/host_vector.h>
+#include <thrust/device_vector.h>
+#include <thrust/generate.h>
+#include <thrust/reduce.h>
+#include <thrust/functional.h>
+
 void BenchmarkParams();
 
 std::string getPath(const char *file)
@@ -781,9 +787,7 @@ void TestImageLUT(const char *rlutfile)
 
 	int dims[] = { 1, rlut.h, 80, 80 };
 	int il_size = dims[0]*dims[1]*dims[2]*dims[3];
-	trk.SetImageZLUT(0, dims);
-	trk.SetLocalizationMode( LT_QI | LT_BuildImageLUT );
-	trk.EnableTextureCache(false);
+	trk.SetImageZLUT(0,0, dims);
 	int h = 10;
 	for (int z=0;z<h;z++) {
 		dbgprintf("z=%d\n", z);
@@ -791,16 +795,12 @@ void TestImageLUT(const char *rlutfile)
 			vector2f pos = vector2f::random( vector2f( cfg.width/2,cfg.height/2 ), 4.0f );
 			GenerateImageFromLUT(&img, &rlut, 0.0f, rlut.w-1, pos, z, 0.5f);
 			ApplyPoissonNoise (img, 255);
-			LocalizationJob job(z, 0, z, 0);
-			trk.ScheduleLocalization (img.data, img.pitch(), QTrkFloat, &job);
-			trk.Flush();
+			trk.BuildLUT(img.data, img.pitch(), QTrkFloat, true, z);
 			dbgprintf(".");
 		}
 		WriteJPEGFile(SPrintf("rlut%d.jpg",z).c_str(), img);
 	}
 	
-	while (!trk.IsIdle());
-
 	float *dst = new float[il_size];
 	trk.GetImageZLUT (dst);
 	ImageData result(dst, dims[3],dims[2]*dims[1]);

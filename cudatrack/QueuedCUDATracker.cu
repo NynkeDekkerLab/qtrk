@@ -473,7 +473,7 @@ void QueuedCUDATracker::ScheduleLocalization(void* data, int pitch, QTRK_PixelDa
 }
 
 
-void QueuedCUDATracker::ProcessLUTImages(void* data, int pitch, QTRK_PixelDataType pdt, uint mode_flags, int plane)
+void QueuedCUDATracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, bool imageLUT, int plane)
 {
 }
 
@@ -804,7 +804,7 @@ void QueuedCUDATracker::GetImageZLUT(float* dst)
 	}
 }
 
-void QueuedCUDATracker::SetImageZLUT(float* src,int* dims)
+void QueuedCUDATracker::SetImageZLUT(float* src, float *radial_zlut, int* dims, float *rweights)
 {
 	imageLUTConfig.nLUTs = dims[0];
 	imageLUTConfig.planes = dims[1];
@@ -814,6 +814,8 @@ void QueuedCUDATracker::SetImageZLUT(float* src,int* dims)
 	for (int i=0;i<devices.size();i++) {
 		devices[i]->SetImageLUT(src, &imageLUTConfig);
 	}
+
+	SetRadialZLUT(radial_zlut,dims[0], dims[1], rweights);
 }
 
 

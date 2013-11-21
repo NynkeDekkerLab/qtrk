@@ -23,11 +23,11 @@ public:
 	void GetRadialZLUTSize(int& count ,int& planes, int& rsteps) override;
 	void ScheduleLocalization(void* data, int pitch, QTRK_PixelDataType pdt, const LocalizationJob *jobInfo) override;
 
-	void BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, bool imageLUT, int plane);
-	void FinalizeLUT();
-	void GetImageZLUTSize(int* dims);
-	void GetImageZLUT(float* dst);
-	void SetImageZLUT(float* dst, float*rlut, int* dims);
+	void BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, bool imageLUT, int plane) override;
+	void FinalizeLUT() override;
+	void GetImageZLUTSize(int* dims) override;
+	void GetImageZLUT(float* dst) override;
+	void SetImageZLUT(float* dst, float *radial_zlut, int* dims, float *rweights=0) override;
 
 	void SetPixelCalibrationImages(float* offset, float* gain) override;
 	void SetPixelCalibrationFactors(float offsetFactor, float gainFactor) override;

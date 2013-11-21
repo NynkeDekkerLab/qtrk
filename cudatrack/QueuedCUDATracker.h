@@ -77,9 +77,9 @@ public:
 	void GetRadialZLUTSize(int& count, int& planes, int &radialSteps) override;
 	int FetchResults(LocalizationResult* results, int maxResults) override;
 
-	void GetImageZLUTSize(int* dims);
-	void GetImageZLUT(float* dst);
-	void SetImageZLUT(float* dst, float* radial_zlut, int* dims);
+	void GetImageZLUTSize(int* dims) override;
+	void GetImageZLUT(float* dst) override;
+	void SetImageZLUT(float* dst, float *radial_zlut, int* dims, float *rweights=0) override;
 
 	void BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, bool imageLUT, int plane) override;
 	void FinalizeLUT() override;
