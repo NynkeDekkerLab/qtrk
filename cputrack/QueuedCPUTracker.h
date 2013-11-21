@@ -91,8 +91,11 @@ private:
 	int ImageLUTNumBeads() { return image_lut_dims[0]; }
 	int ImageLUTWidth() { return image_lut_dims[3]; }
 	int ImageLUTHeight() { return image_lut_dims[2]; }
-	float* image_lut;
-	float* GetImageLUTByIndex(int index) { return &image_lut [ index * image_lut_nElem_per_bead ]; }
+	float* image_lut, *image_lut_dz, *image_lut_dz2;
+
+	float* GetImageLUTByIndex(int index, int plane=0) { 
+		return &image_lut [ index * image_lut_nElem_per_bead + plane * (image_lut_dims[2]*image_lut_dims[3]) ]; 
+	}
 
 	// signal threads to stop their work
 	bool quitWork, processJobs, dbgPrintResults;
@@ -102,6 +105,8 @@ private:
 	Job* AllocateJob();
 	void AddJob(Job* j);
 	void ProcessJob(Thread* th, Job* j);
+
+	vector3f ComputeIMAP(float* img, vector3f pos, int lutIndex, int iterations);
 
 	static void WorkerThreadMain(void* arg);
 };
