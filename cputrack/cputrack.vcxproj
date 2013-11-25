@@ -17,7 +17,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug-Single|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -67,14 +67,14 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>QTRK_EXPORTS;WIN32;_DEBUG;_WINDOWS;_USRDLL;CPUTRACK_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../libs/math;../libs/fftw;../cudatrack;../libs/labview/cintools;../libs/labview/vision/Include;../libs/labview/imaq/Include;../libs/pthreads/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../libs/libjpeg-turbo/include;../libs/math;../libs/labview/cintools;../libs/labview/vision/Include;../libs/labview/imaq/Include;../libs/pthreads/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
-      <AdditionalDependencies>../libs/pthreads/lib/x86/pthreadVSE2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>../libs/libjpeg-turbo/lib/jpeg-static.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
@@ -99,26 +99,36 @@
     <Link>
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
-      <AdditionalDependencies>../libs/pthreads/lib/x86/pthreadVSE2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>../libs/libjpeg-turbo/lib/jpeg-static.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClCompile>
       <PreprocessorDefinitions>QTRK_EXPORTS;WIN32;NDEBUG;_WINDOWS;_USRDLL;CPUTRACK_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../libs/math;../libs/fftw;../cudatrack/;../libs/pthreads/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../libs/libjpeg-turbo/include;../libs/math;../libs/pthreads/include</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="cpu_tracker.cpp" />
+    <ClCompile Include="fastjpg.cpp" />
+    <ClCompile Include="qtrk_c_api.cpp" />
     <ClCompile Include="QueuedCPUTracker.cpp" />
+    <ClCompile Include="QueuedTracker.cpp" />
+    <ClCompile Include="ResultManager.cpp" />
+    <ClCompile Include="TeLibJpeg\jmemdst.c" />
+    <ClCompile Include="TeLibJpeg\jmemsrc.c" />
     <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cpu_tracker.h" />
     <ClInclude Include="LsqQuadraticFit.h" />
+    <ClInclude Include="qtrk_c_api.h" />
     <ClInclude Include="QueuedCPUTracker.h" />
     <ClInclude Include="QueuedTracker.h" />
     <ClInclude Include="random_distr.h" />
+    <ClInclude Include="ResultManager.h" />
     <ClInclude Include="scalar_types.h" />
     <ClInclude Include="std_incl.h" />
+    <ClInclude Include="TeLibJpeg\jmemdstsrc.h" />
+    <ClInclude Include="threads.h" />
     <ClInclude Include="utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
