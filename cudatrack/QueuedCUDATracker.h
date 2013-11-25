@@ -88,7 +88,7 @@ public:
 
 	// Force the current waiting batch to be processed. 
 	void Flush() override;
-	
+
 	int GetQueueLength(int* maxQueueLen) override;
 	bool IsIdle() override;
 	int GetResultCount() override;

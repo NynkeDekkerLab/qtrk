@@ -475,6 +475,11 @@ void QueuedCUDATracker::ScheduleLocalization(void* data, int pitch, QTRK_PixelDa
 
 void QueuedCUDATracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, bool imageLUT, int plane)
 {
+	// Copy to image 
+
+	cudaImageListf img = cudaImageListf::alloc(cfg.width, cfg.height, imageLUTConfig.nLUTs);
+	img.copyToDevice((float*)
+
 }
 
 void QueuedCUDATracker::FinalizeLUT()

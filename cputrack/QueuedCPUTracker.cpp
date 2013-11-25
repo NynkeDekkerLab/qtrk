@@ -1,6 +1,7 @@
 #include "std_incl.h"
 #include "QueuedCPUTracker.h"
 #include <float.h>
+#include <functional>
 
 #include "DebugResultCompare.h"
 
@@ -120,6 +121,7 @@ QueuedCPUTracker::QueuedCPUTracker(const QTrkComputedConfig& cc)
 	for (int i=0;i<4;i++) image_lut_dims[i]=0;
 	image_lut_nElem_per_bead=0;
 	image_lut = 0;
+	image_lut_dz = image_lut_dz2 = 0;
 
 	Start();
 }
@@ -143,7 +145,8 @@ QueuedCPUTracker::~QueuedCPUTracker()
 	delete[] calib_offset;
 	if (zluts) delete[] zluts;
 	if (image_lut) delete[] image_lut;
-
+	if (image_lut_dz) delete[] image_lut_dz;
+	if (image_lut_dz2) delete[] image_lut_dz2;
 }
 
 void QueuedCPUTracker::SetPixelCalibrationImages(float* offset, float* gain)
@@ -303,6 +306,7 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 	}
 
 	if ( (localizeMode & LT_IMAP) && image_lut ) {
+		result.pos = ComputeIMAP(trk->srcImage, result.pos, j->job.zlutIndex, 1);
 	}
 
 	if(dbgPrintResults)
@@ -501,8 +505,8 @@ void QueuedCPUTracker::SetImageZLUT(float* src, float *radial_lut, int* dims, fl
 
 void QueuedCPUTracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, bool imageLUT, int plane)
 {
-	CPUTracker trk (ImageLUTWidth(), ImageLUTHeight());
-	for (int i=0;i<ImageLUTNumBeads();i++) {
+	auto f = [&] (int i) {
+		CPUTracker trk (ImageLUTWidth(), ImageLUTHeight());
 		void *img_data = (uchar*)data + pitch * ImageLUTHeight() * i;
 
 		if (pdt == QTrkFloat) {
@@ -534,16 +538,82 @@ void QueuedCPUTracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, b
 
 				bool outside=false;
 				float v = Interpolate(trk.srcImage, trk.width, trk.height, px, py, &outside);
-				lut_dst[y*w+x] += v;
+				lut_dst[y*w+x] += v - trk.mean;
 			}
 		}
 
 		float *bead_zlut=GetZLUTByIndex(i);
 		trk.ComputeRadialProfile(&bead_zlut[plane*cfg.zlut_radialsteps], cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, qipos, false);
+	};
+
+	ThreadPool<int, std::function<void (int index)> > threadPool(f);
+
+	for (int i=0;i<ImageLUTNumBeads();i++) {
+		threadPool.AddWork(i);
 	}
+	threadPool.WaitUntilDone();
 }
 
 void QueuedCPUTracker::FinalizeLUT()
 {
+	int w = ImageLUTWidth();
+	int h = ImageLUTHeight();
+
+	image_lut_dz = new float [image_lut_nElem_per_bead * ImageLUTNumBeads()];
+	image_lut_dz2 = new float [image_lut_nElem_per_bead * ImageLUTNumBeads()];
+
+	// Compute 1st and 2nd order derivatives
+	for (int i=0;i<image_lut_dims[0];i++) {
+		for (int z=1;z<image_lut_dims[1]-1;z++) {
+			float *img = &image_lut[ image_lut_nElem_per_bead * i + w*h*z ]; // current plane
+			float *imgL = &image_lut[ image_lut_nElem_per_bead * i + w*h*(z-1) ]; // one plane below
+			float *imgU = &image_lut[ image_lut_nElem_per_bead * i + w*h*(z+1) ]; // one plane above
+
+			float *img_dz = &image_lut_dz[ image_lut_nElem_per_bead * i + w*h*z ];
+			float *img_dz2 = &image_lut_dz2[ image_lut_nElem_per_bead * i + w*h*z ];
+
+			// Numerical approx of derivatives..
+			for (int y=0;y<h;y++) {
+				for (int x=0;x<w;x++) {
+					const float h = 1.0f;
+					img_dz[y*w+x] = 0.5f * ( imgU[y*w+x] - imgL[y*w+x] ) / h;
+					img_dz2[y*w+x] = (imgU[y*w+x] - 2*img[y*w+x] + imgL[y*w+x]) / (h*h);
+				}
+			}
+		}
+		for (int k=0;k<w*h;k++) {
+			// Top and bottom planes are simply copied from the neighbouring planes
+			image_lut_dz[ image_lut_nElem_per_bead * i + w*h*0 + k] = image_lut_dz[ image_lut_nElem_per_bead * i + w*h*1 + k];
+			image_lut_dz[ image_lut_nElem_per_bead * i + w*h*(image_lut_dims[1]-1) + k] = image_lut_dz[ image_lut_nElem_per_bead * i + w*h*(image_lut_dims[1]-2) + k];
+			image_lut_dz2[ image_lut_nElem_per_bead * i + w*h*0 + k] = image_lut_dz2[ image_lut_nElem_per_bead * i + w*h*1 + k];
+			image_lut_dz2[ image_lut_nElem_per_bead * i + w*h*(image_lut_dims[1]-1) + k] = image_lut_dz2[ image_lut_nElem_per_bead * i + w*h*(image_lut_dims[1]-2) + k];
+		}
+	}
 }
+
+
+vector3f QueuedCPUTracker::ComputeIMAP(float* img, vector3f pos, int lutIndex, int iterations)
+{
+	int lowPlane = (int)pos.z;
+	if (lowPlane >= zlut_planes-1) lowPlane = zlut_planes-1;
+	if (lowPlane < 0) lowPlane = 0;
+	float *lwr = GetImageLUTByIndex(lutIndex, lowPlane); 
+	float *upr = GetImageLUTByIndex(lutIndex, lowPlane+1);
+
+	int h = ImageLUTHeight();
+	int w = ImageLUTWidth();
+
+	for (int i=0;i<iterations;i++)
+	{
+		for (int y=0;y<h;y++)
+		{
+			for (int x=0;x<w;x++) {
+			}
+		}
+	}
+
+	return pos;
+}
+
+
 
