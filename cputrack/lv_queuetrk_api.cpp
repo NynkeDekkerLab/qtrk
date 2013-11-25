@@ -158,14 +158,14 @@ CDLL_EXPORT void DLL_CALLCONV qtrk_get_image_lut(QueuedTracker* qtrk, LVArrayND<
 	}
 }
 
-CDLL_EXPORT void DLL_CALLCONV qtrk_set_image_lut(QueuedTracker* qtrk, LVArrayND<float,4>** imageLUT, ErrorCluster* e)
+CDLL_EXPORT void DLL_CALLCONV qtrk_set_image_lut(QueuedTracker* qtrk, LVArrayND<float,4>** imageLUT,  LVArray3D<float>** radialZLUT, ErrorCluster* e)
 {
 	if (ValidateTracker(qtrk, e, "set_image_lut")) {
 		if ( (*imageLUT)->numElem () == 0 ){
-			qtrk->SetImageZLUT (0, 0);
+			qtrk->SetImageZLUT (0, 0, 0);
 		}
 		else {
-			qtrk->SetImageZLUT( (*imageLUT)->elem, (*imageLUT)->dimSizes );
+			qtrk->SetImageZLUT( (*imageLUT)->elem, (*radialZLUT)->elem, (*imageLUT)->dimSizes );
 		}
 	}
 }
@@ -325,8 +325,9 @@ CDLL_EXPORT uint qtrk_queue_frame(QueuedTracker* qtrk, uchar* image, int pitch, 
 	uint pdt, ROIPosition* pos, int numROI, const LocalizationJob *pJobInfo, QueueFrameFlags flags, ErrorCluster* e)
 {
 	LocalizationJob jobInfo = *pJobInfo;
-	if (flags & QFF_ImageEncodedFrameNumber) 
-		jobInfo.timestamp = qtrk_read_timestamp(image, w,h);
+	if (flags & QFF_ClearFirstFour) 
+		*((uint32_t*)image) = 0;
+
 	#ifdef _DEBUG
 		dbgprintf("QueueFrame: frame %d, bead %d, zplane %d. #roi=%d\n", jobInfo.frame, jobInfo.zlutIndex, jobInfo.zlutPlane, numROI);
 	#endif

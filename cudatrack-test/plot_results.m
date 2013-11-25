@@ -53,7 +53,7 @@ function plot_qirad()
 
     %plotyy(r(:,1),[ r(:,5) r(:,7) ], r(:,1), r(:,8) );
     subplot(211);
-    plot(r(:,1),[ xacc zacc xbias zbias ]);
+    semilogy(r(:,1),[ xacc zacc xbias zbias ]);
     legend('X Scatter', 'Z Scatter', 'X Bias', 'Z Scatter');
     ylabel('Accuracy (st.dev) [nm]');
     xlabel('QI Radial Step Density (smp/pixel length)');
