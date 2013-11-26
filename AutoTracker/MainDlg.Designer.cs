@@ -84,16 +84,6 @@
 					this.label1.TabIndex = 0;
 					this.label1.Text = "Stepper X:";
 					// 
-					// label2
-					// 
-					this.label2.AutoSize = true;
-					this.label2.Location = new System.Drawing.Point(19, 59);
-					this.label2.Name = "label2";
-					this.label2.Size = new System.Drawing.Size(57, 13);
-					this.label2.TabIndex = 0;
-					this.label2.Text = "Stepper Y:";
-					this.label2.Click += new System.EventHandler(this.label2_Click);
-					// 
 					// lblStepXPos
 					// 
 					this.lblStepXPos.AutoSize = true;
