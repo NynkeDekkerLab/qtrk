@@ -87,6 +87,7 @@ CDLL_EXPORT int qtrk_get_debug_image(QueuedTracker* qtrk, int id, LVArray2D<floa
 }
 
 
+
 CDLL_EXPORT void DLL_CALLCONV qtrk_get_computed_config(QueuedTracker* qtrk, QTrkComputedConfig* cc, ErrorCluster *err)
 {
 	if (ValidateTracker(qtrk, err, "get computed config"))
@@ -344,6 +345,35 @@ CDLL_EXPORT void qtrk_clear_results(QueuedTracker* qtrk, ErrorCluster* e)
 	if (ValidateTracker(qtrk, e, "clear results")) {
 		qtrk->ClearResults();
 	}
+}
+
+// Accepts data as 3D image [numbeads]*[width]*[height]
+CDLL_EXPORT void qtrk_build_lut_plane(QueuedTracker* qtrk, LVArray3D<float> **data, uint flags, int plane,ErrorCluster* err)
+{
+	if (ValidateTracker(qtrk, err, "build_lut_plane")) {
+		if ((*data)->dimSizes[2] != qtrk->cfg.width || (*data)->dimSizes[1] != qtrk->cfg.height) {
+			ArgumentErrorMsg(err, SPrintf("Invalid size: %dx%d. Expecting %dx%d\n", (*data)->dimSizes[2], (*data)->dimSizes[1], qtrk->cfg.width, qtrk->cfg.height));
+			return;
+		}
+
+		int cnt,planes,rsteps;
+		qtrk->GetRadialZLUTSize(cnt, planes, rsteps);
+
+		if ((*data)->dimSizes[0] == cnt) {
+			ArgumentErrorMsg(err, SPrintf("Invalid number of images given (%d). Expecting %d", (*data)->dimSizes[0], cnt));
+			return;
+		}
+
+		qtrk->BuildLUT( (*data)->elem, sizeof(float*) * qtrk->cfg.width, QTrkFloat, false, plane);
+	}
+}
+
+
+
+CDLL_EXPORT void qtrk_finalize_lut(QueuedTracker* qtrk, ErrorCluster *e)
+{
+	if (ValidateTracker(qtrk, e, "finalize_lut"))
+		qtrk->FinalizeLUT();
 }
 
 

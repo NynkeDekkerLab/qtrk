@@ -21,8 +21,8 @@ namespace AutoTracker
 
 				USMCDLL.State state;
 				USMCDLL.USMC_GetState(i, out state);
-
-				Console.WriteLine("Device {0}", i);
+				
+				Console.WriteLine("Device {0}. Pos: {1}. Temp: {2}, ", i, state.CurPos, state.Temp);
 			}
 
 			Application.EnableVisualStyles();
