@@ -105,6 +105,7 @@ SpeedAccResult SpeedAccTest(ImageData& lut, QTrkSettings *cfg, int N, vector3f c
 		trk->ScheduleLocalization((uchar*)imgs[i%NImg].data, sizeof(float)*cfg->width, QTrkFloat, &job);
 	}
 
+
 	WaitForFinish(trk, N);
 	double tend = GetPreciseTime();
 

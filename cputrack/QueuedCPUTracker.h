@@ -46,6 +46,8 @@ public:
 
 	std::string GetProfileReport() { return "CPU tracker currently has no profile reporting"; }
 
+	vector3f ComputeIMAP(float* img, vector3f pos, int lutIndex, int iterations);
+
 private:
 	struct Thread {
 		Thread() { tracker=0; manager=0; thread=0;  mutex=0; }
@@ -105,8 +107,6 @@ private:
 	Job* AllocateJob();
 	void AddJob(Job* j);
 	void ProcessJob(Thread* th, Job* j);
-
-	vector3f ComputeIMAP(float* img, vector3f pos, int lutIndex, int iterations);
 
 	static void WorkerThreadMain(void* arg);
 };

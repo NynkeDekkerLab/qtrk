@@ -505,9 +505,9 @@ void QueuedCPUTracker::SetImageZLUT(float* src, float *radial_lut, int* dims, fl
 
 void QueuedCPUTracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, bool imageLUT, int plane)
 {
-	auto f = [&] (int i) {
-		CPUTracker trk (ImageLUTWidth(), ImageLUTHeight());
-		void *img_data = (uchar*)data + pitch * ImageLUTHeight() * i;
+	parallel_for(ImageLUTNumBeads(), [&] (int i) {
+		CPUTracker trk (cfg.width,cfg.height);
+		void *img_data = (uchar*)data + pitch * cfg.height * i;
 
 		if (pdt == QTrkFloat) {
 			trk.SetImage((float*)data, pitch);
@@ -544,14 +544,7 @@ void QueuedCPUTracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, b
 
 		float *bead_zlut=GetZLUTByIndex(i);
 		trk.ComputeRadialProfile(&bead_zlut[plane*cfg.zlut_radialsteps], cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, qipos, false);
-	};
-
-	ThreadPool<int, std::function<void (int index)> > threadPool(f);
-
-	for (int i=0;i<ImageLUTNumBeads();i++) {
-		threadPool.AddWork(i);
-	}
-	threadPool.WaitUntilDone();
+	});
 }
 
 void QueuedCPUTracker::FinalizeLUT()
@@ -599,17 +592,41 @@ vector3f QueuedCPUTracker::ComputeIMAP(float* img, vector3f pos, int lutIndex, i
 	if (lowPlane < 0) lowPlane = 0;
 	float *lwr = GetImageLUTByIndex(lutIndex, lowPlane); 
 	float *upr = GetImageLUTByIndex(lutIndex, lowPlane+1);
+	float zfrac = pos.z-(int)pos.z;
 
 	int h = ImageLUTHeight();
 	int w = ImageLUTWidth();
 
 	for (int i=0;i<iterations;i++)
 	{
-		for (int y=0;y<h;y++)
+		float sx = pos.x - w / 2;
+		float sy = pos.y - h / 2;
+
+		float derr_dx = 0.0f;
+		float derr_dy = 0.0f;
+
+		int minY = 1, minX = 1;
+		if (sy < 0) { minY += floor(sy); }
+		if (sx < 0) { minX += floor(sx); }
+
+		// Compute derr/dx, derr/dy
+		for (int y=minY;y<h-1;y++)
 		{
-			for (int x=0;x<w;x++) {
+			for (int x=minX;x<w-1;x++) {
+				float s = Interpolate(img, cfg.width, cfg.height, sx + x, sy + y);
+				float mu = Lerp(zfrac, lwr[y*w+x], upr[y*w+x]);
+				float dmu_dx = 0.5f * ( Lerp(zfrac, lwr[y*w+x+1], upr[y*w+x+1]) - Lerp(zfrac, lwr[y*w+x-1], upr[y*w+x-1]) );
+				float dmu_dy = 0.5f * ( Lerp(zfrac, lwr[(y+1)*w+x], upr[(y+1)*w+x]) - Lerp(zfrac, lwr[(y-1)*w+x], upr[(y-1)*w+x]) );
+
+				derr_dx += dmu_dx * ( s - mu );
+				derr_dy += dmu_dy * ( s - mu );
 			}
 		}
+
+		pos.x += 0.01f * derr_dx;
+		pos.y += 0.01f * derr_dy;
+
+		dbgprintf("derr_dx: %f, derr_dy: %f\n", derr_dx, derr_dy);
 	}
 
 	return pos;

@@ -656,7 +656,7 @@ void TestImageLUT()
 
 	// [ count, planes, height, width ] 
 	int nplanes=10;
-	int dims[] = { 1, nplanes, cfg.height,cfg.width };
+	int dims[] = { 1, nplanes, cfg.height*0.7f,cfg.width*0.7f };
 	trk.SetImageZLUT(0, 0, dims);
 
 	ImageData img=ImageData::alloc(cfg.width,cfg.height);
@@ -673,6 +673,24 @@ void TestImageLUT()
 	ImageData ilutImg (ilut, dims[3], dims[1]*dims[2]);
 	WriteJPEGFile("ilut.jpg", ilutImg);
 	delete[] ilut;
+
+	int nsmp = 10;
+	for (int i=0;i<nsmp;i++) {
+		vector3f pos(img.w/2+rand_uniform<float>()-0.5f ,img.h/2-rand_uniform<float>()-0.5f,nplanes/2);
+		GenerateImageFromLUT(&img, &lut, trk.cfg.zlut_minradius, trk.cfg.zlut_maxradius, vector2f(pos.x,pos.y),pos.z, 1);
+		ApplyPoissonNoise(img, 28 * 255, 255);
+		CPUTracker ct(cfg.width,cfg.height);
+		bool bhit;
+		ct.SetImageFloat(img.data);
+		vector2f qipos = ct.ComputeQI(ct.ComputeMeanAndCOM(), 2, trk.cfg.qi_radialsteps, trk.cfg.qi_angstepspq, trk.cfg.qi_angstep_factor, trk.cfg.qi_minradius, trk.cfg.qi_maxradius, bhit);
+
+		vector3f ip = trk.ComputeIMAP(img.data, vector3f(qipos.x,qipos.y, pos.z), 0, 20);
+
+		dbgprintf("QIPos: %f,%f;\t", qipos.x,qipos.y);
+		dbgprintf("QI Error: %f,%f\n", qipos.x-pos.x,qipos.y-pos.y);
+		dbgprintf("IMAPPos: %f,%f;\t", ip.x,ip.y);
+		dbgprintf("IMAP Error: %f,%f\n", ip.x-pos.x,ip.y-pos.y);
+	}
 
 	lut.free();
 	img.free();
