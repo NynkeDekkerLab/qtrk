@@ -519,7 +519,7 @@ void QueuedCPUTracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, b
 
 		vector2f com = trk.ComputeMeanAndCOM();
 		bool bhit;
-		vector2f qipos = trk.ComputeQI(com, 3, cfg.qi_radialsteps, cfg.qi_angstepspq, cfg.qi_angstep_factor, cfg.qi_minradius, cfg.qi_maxradius, bhit);
+		vector2f qipos = trk.ComputeQI(com, cfg.qi_iterations, cfg.qi_radialsteps, cfg.qi_angstepspq, cfg.qi_angstep_factor, cfg.qi_minradius, cfg.qi_maxradius, bhit);
 
 		int h=ImageLUTHeight(), w=ImageLUTWidth();
 		float* lut_dst = &image_lut[ i * image_lut_nElem_per_bead + w*h* plane ];
@@ -556,37 +556,43 @@ void QueuedCPUTracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, b
 
 void QueuedCPUTracker::FinalizeLUT()
 {
+	// normalize radial LUT?
+
+
 	int w = ImageLUTWidth();
 	int h = ImageLUTHeight();
 
-	image_lut_dz = new float [image_lut_nElem_per_bead * ImageLUTNumBeads()];
-	image_lut_dz2 = new float [image_lut_nElem_per_bead * ImageLUTNumBeads()];
+	if (w * h > 0) {
 
-	// Compute 1st and 2nd order derivatives
-	for (int i=0;i<image_lut_dims[0];i++) {
-		for (int z=1;z<image_lut_dims[1]-1;z++) {
-			float *img = &image_lut[ image_lut_nElem_per_bead * i + w*h*z ]; // current plane
-			float *imgL = &image_lut[ image_lut_nElem_per_bead * i + w*h*(z-1) ]; // one plane below
-			float *imgU = &image_lut[ image_lut_nElem_per_bead * i + w*h*(z+1) ]; // one plane above
+		image_lut_dz = new float [image_lut_nElem_per_bead * ImageLUTNumBeads()];
+		image_lut_dz2 = new float [image_lut_nElem_per_bead * ImageLUTNumBeads()];
 
-			float *img_dz = &image_lut_dz[ image_lut_nElem_per_bead * i + w*h*z ];
-			float *img_dz2 = &image_lut_dz2[ image_lut_nElem_per_bead * i + w*h*z ];
+		// Compute 1st and 2nd order derivatives
+		for (int i=0;i<image_lut_dims[0];i++) {
+			for (int z=1;z<image_lut_dims[1]-1;z++) {
+				float *img = &image_lut[ image_lut_nElem_per_bead * i + w*h*z ]; // current plane
+				float *imgL = &image_lut[ image_lut_nElem_per_bead * i + w*h*(z-1) ]; // one plane below
+				float *imgU = &image_lut[ image_lut_nElem_per_bead * i + w*h*(z+1) ]; // one plane above
 
-			// Numerical approx of derivatives..
-			for (int y=0;y<h;y++) {
-				for (int x=0;x<w;x++) {
-					const float h = 1.0f;
-					img_dz[y*w+x] = 0.5f * ( imgU[y*w+x] - imgL[y*w+x] ) / h;
-					img_dz2[y*w+x] = (imgU[y*w+x] - 2*img[y*w+x] + imgL[y*w+x]) / (h*h);
+				float *img_dz = &image_lut_dz[ image_lut_nElem_per_bead * i + w*h*z ];
+				float *img_dz2 = &image_lut_dz2[ image_lut_nElem_per_bead * i + w*h*z ];
+
+				// Numerical approx of derivatives..
+				for (int y=0;y<h;y++) {
+					for (int x=0;x<w;x++) {
+						const float h = 1.0f;
+						img_dz[y*w+x] = 0.5f * ( imgU[y*w+x] - imgL[y*w+x] ) / h;
+						img_dz2[y*w+x] = (imgU[y*w+x] - 2*img[y*w+x] + imgL[y*w+x]) / (h*h);
+					}
 				}
 			}
-		}
-		for (int k=0;k<w*h;k++) {
-			// Top and bottom planes are simply copied from the neighbouring planes
-			image_lut_dz[ image_lut_nElem_per_bead * i + w*h*0 + k] = image_lut_dz[ image_lut_nElem_per_bead * i + w*h*1 + k];
-			image_lut_dz[ image_lut_nElem_per_bead * i + w*h*(image_lut_dims[1]-1) + k] = image_lut_dz[ image_lut_nElem_per_bead * i + w*h*(image_lut_dims[1]-2) + k];
-			image_lut_dz2[ image_lut_nElem_per_bead * i + w*h*0 + k] = image_lut_dz2[ image_lut_nElem_per_bead * i + w*h*1 + k];
-			image_lut_dz2[ image_lut_nElem_per_bead * i + w*h*(image_lut_dims[1]-1) + k] = image_lut_dz2[ image_lut_nElem_per_bead * i + w*h*(image_lut_dims[1]-2) + k];
+			for (int k=0;k<w*h;k++) {
+				// Top and bottom planes are simply copied from the neighbouring planes
+				image_lut_dz[ image_lut_nElem_per_bead * i + w*h*0 + k] = image_lut_dz[ image_lut_nElem_per_bead * i + w*h*1 + k];
+				image_lut_dz[ image_lut_nElem_per_bead * i + w*h*(image_lut_dims[1]-1) + k] = image_lut_dz[ image_lut_nElem_per_bead * i + w*h*(image_lut_dims[1]-2) + k];
+				image_lut_dz2[ image_lut_nElem_per_bead * i + w*h*0 + k] = image_lut_dz2[ image_lut_nElem_per_bead * i + w*h*1 + k];
+				image_lut_dz2[ image_lut_nElem_per_bead * i + w*h*(image_lut_dims[1]-1) + k] = image_lut_dz2[ image_lut_nElem_per_bead * i + w*h*(image_lut_dims[1]-2) + k];
+			}
 		}
 	}
 }
