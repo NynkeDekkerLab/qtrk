@@ -994,9 +994,9 @@ int main(int argc, char *argv[])
 	//TestSurfaceReadWrite();
 	//TestImage4D();
 //	TestImage4DMemory();
-	//TestImageLUT("../cputrack-test/lut000.jpg");
+	TestImageLUT("../cputrack-test/lut000.jpg");
 
-	BenchmarkParams();
+	//BenchmarkParams();
 
 //	BasicQTrkTest();
 //	TestCMOSNoiseInfluence<QueuedCUDATracker>("../cputrack-test/lut000.jpg");

@@ -478,7 +478,7 @@ void QueuedCUDATracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, 
 	// Copy to image 
 
 	cudaImageListf img = cudaImageListf::alloc(cfg.width, cfg.height, imageLUTConfig.nLUTs);
-	img.copyToDevice((float*)
+//	img.copyToDevice((float*) ? ?
 
 }
 
