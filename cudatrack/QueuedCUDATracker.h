@@ -81,7 +81,7 @@ public:
 	void GetImageZLUT(float* dst) override;
 	void SetImageZLUT(float* dst, float *radial_zlut, int* dims, float *rweights=0) override;
 
-	void BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, bool imageLUT, int plane) override;
+	void BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, uint flags, int plane) override;
 	void FinalizeLUT() override;
 
 	std::string GetProfileReport() override;
@@ -172,7 +172,6 @@ protected:
 
 	int numThreads;
 	int batchSize;
-	bool lutWriteMode;
 
 	ImageLUTConfig imageLUTConfig;
 
@@ -192,7 +191,6 @@ protected:
 
 	QI qi;
 	cudaDeviceProp deviceProp;
-	ZLUTParams zlutParams;
 
 	Threads::Handle *schedulingThread;
 	Atomic<bool> quitScheduler;

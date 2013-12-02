@@ -50,7 +50,7 @@ public:
 	virtual void GetImageZLUT(float* dst) {}
 	virtual void SetImageZLUT(float* dst, float *radial_zlut, int* dims, float *rweights=0) {}
 
-	virtual void BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, bool imageLUT, int plane) = 0;
+	virtual void BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, uint flags, int plane) = 0;
 	virtual void FinalizeLUT() = 0;
 	
 	virtual int GetResultCount() = 0;
