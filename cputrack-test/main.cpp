@@ -20,7 +20,7 @@ void GenerateZLUT(QueuedTracker* qtrk, float zmin, float zmax, int zplanes, cons
 {
 	QTrkComputedConfig& cfg = qtrk->cfg;
 	float *image = new float[cfg.width*cfg.height];
-	qtrk->SetRadialZLUT(NULL, 1, zplanes, 0);
+	qtrk->SetRadialZLUT(NULL, 1, zplanes);
 	qtrk->SetLocalizationMode( (LocMode_t)(LT_QI|LT_BuildRadialZLUT|LT_NormalizeProfile) );
 	for (int x=0;x<zplanes;x++)  {
 		vector2f center(cfg.width/2, cfg.height/2 );
@@ -684,12 +684,8 @@ void TestImageLUT()
 		ct.SetImageFloat(img.data);
 		vector2f qipos = ct.ComputeQI(ct.ComputeMeanAndCOM(), 2, trk.cfg.qi_radialsteps, trk.cfg.qi_angstepspq, trk.cfg.qi_angstep_factor, trk.cfg.qi_minradius, trk.cfg.qi_maxradius, bhit);
 
-		vector3f ip = trk.ComputeIMAP(img.data, vector3f(qipos.x,qipos.y, pos.z), 0, 20);
-
 		dbgprintf("QIPos: %f,%f;\t", qipos.x,qipos.y);
 		dbgprintf("QI Error: %f,%f\n", qipos.x-pos.x,qipos.y-pos.y);
-		dbgprintf("IMAPPos: %f,%f;\t", ip.x,ip.y);
-		dbgprintf("IMAP Error: %f,%f\n", ip.x-pos.x,ip.y-pos.y);
 	}
 
 	lut.free();

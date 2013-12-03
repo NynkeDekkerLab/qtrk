@@ -713,6 +713,11 @@ void TestGauss2D(bool calib)
 	}
 }
 
+void TestRadialLUTGradientMethod()
+{
+
+}
+
 
 std::vector< float > cmp_cpu_qi_prof;
 std::vector< float > cmp_gpu_qi_prof;
@@ -773,7 +778,7 @@ void QICompare(const char *lutfile )
 	lut.free();
 }
 
-void TestImageLUT(const char *rlutfile)
+void TestBuildRadialZLUT(const char *rlutfile)
 {
 	QTrkSettings cfg;
 	cfg.width = 100;
@@ -783,11 +788,9 @@ void TestImageLUT(const char *rlutfile)
 	ImageData img=ImageData::alloc(cfg.width,cfg.height);
 
 	QueuedCUDATracker trk(cfg);
-	ResampleLUT(&trk, &rlut, 1, 10);
+	ResampleLUT(&trk, &rlut, 1,50);
 
-	int dims[] = { 1, rlut.h, 80, 80 };
-	int il_size = dims[0]*dims[1]*dims[2]*dims[3];
-	trk.SetImageZLUT(0,0, dims);
+	trk.SetRadialZLUT(0, 1, 50);
 	int h = 10;
 	for (int z=0;z<h;z++) {
 		dbgprintf("z=%d\n", z);
@@ -796,17 +799,11 @@ void TestImageLUT(const char *rlutfile)
 			GenerateImageFromLUT(&img, &rlut, 0.0f, rlut.w-1, pos, z, 0.5f);
 			ApplyPoissonNoise (img, 255);
 			trk.BuildLUT(img.data, img.pitch(), QTrkFloat, true, z);
-			dbgprintf(".");
 		}
-		WriteJPEGFile(SPrintf("rlut%d.jpg",z).c_str(), img);
 	}
-	
-	float *dst = new float[il_size];
-	trk.GetImageZLUT (dst);
-	ImageData result(dst, dims[3],dims[2]*dims[1]);
-	WriteJPEGFile("imagelut_result.jpg", result);
 
-	delete[] dst;
+	trk.FinalizeLUT();
+
 	img.free();
 	rlut.free();
 }
@@ -985,18 +982,18 @@ int main(int argc, char *argv[])
 	listDevices();
 
 //	TestBenchmarkLUT();
-
 //	testLinearArray();
 //	TestTextureFetch();
 //	TestGauss2D(true);
 //	MultipleLUTTest();
 
-	//TestSurfaceReadWrite();
-	//TestImage4D();
+//	TestSurfaceReadWrite();
+//	TestImage4D();
 //	TestImage4DMemory();
-	TestImageLUT("../cputrack-test/lut000.jpg");
+//	TestImageLUT("../cputrack-test/lut000.jpg");
+	TestRadialLUTGradientMethod();
 
-	//BenchmarkParams();
+//	BenchmarkParams();
 
 //	BasicQTrkTest();
 //	TestCMOSNoiseInfluence<QueuedCUDATracker>("../cputrack-test/lut000.jpg");

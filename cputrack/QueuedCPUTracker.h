@@ -18,16 +18,18 @@ public:
 
 	// QueuedTracker interface
 	void SetLocalizationMode(LocMode_t lt) override;
-	void SetRadialZLUT(float* data, int num_zluts, int planes, float* zcmp=0) override;
+	void SetRadialZLUT(float* data, int num_zluts, int planes) override;
 	void GetRadialZLUT(float* zlut) override;
 	void GetRadialZLUTSize(int& count ,int& planes, int& rsteps) override;
+	void SetRadialWeights(float* rweights) override;
 	void ScheduleLocalization(void* data, int pitch, QTRK_PixelDataType pdt, const LocalizationJob *jobInfo) override;
 
-	void BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, bool imageLUT, int plane) override;
+	void BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, uint flags, int plane) override;
 	void FinalizeLUT() override;
-	void GetImageZLUTSize(int* dims) override;
-	void GetImageZLUT(float* dst) override;
-	void SetImageZLUT(float* dst, float *radial_zlut, int* dims, float *rweights=0) override;
+
+	void GetImageZLUTSize(int* dims);
+	void GetImageZLUT(float* dst);
+	void SetImageZLUT(float* dst, float *radial_zlut, int* dims, float *rweights=0);
 
 	void SetPixelCalibrationImages(float* offset, float* gain) override;
 	void SetPixelCalibrationFactors(float offsetFactor, float gainFactor) override;
@@ -45,8 +47,6 @@ public:
 	void SetConfigValue(std::string name, std::string value) override;
 
 	std::string GetProfileReport() { return "CPU tracker currently has no profile reporting"; }
-
-	vector3f ComputeIMAP(float* img, vector3f pos, int lutIndex, int iterations);
 
 private:
 	struct Thread {

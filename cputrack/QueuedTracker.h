@@ -40,16 +40,15 @@ public:
 	// Schedule an entire frame at once, allowing for further optimizations
 	virtual int ScheduleFrame(void *imgptr, int pitch, int width, int height, ROIPosition *positions, int numROI, QTRK_PixelDataType pdt, const LocalizationJob *jobInfo);
 	
-	// data can be zero to allocate ZLUT data. zcmp has to have 'zlut_radialsteps' elements
-	virtual void SetRadialZLUT(float* data, int count, int planes, float* zcmp=0) = 0; 
+	// data can be zero to allocate ZLUT data.
+	virtual void SetRadialZLUT(float* data, int count, int planes) = 0; 
 	virtual void GetRadialZLUT(float* dst) = 0; 
 	virtual void GetRadialZLUTSize(int& count, int& planes, int& radialsteps) = 0;
 
-	// dims = [ count, planes, height, width ]  (Just like how the data is ordered)
-	virtual void GetImageZLUTSize(int* dims) {}
-	virtual void GetImageZLUT(float* dst) {}
-	virtual void SetImageZLUT(float* dst, float *radial_zlut, int* dims, float *rweights=0) {}
+	// Set radial weights used for comparing LUT profiles, zcmp has to have 'zlut_radialsteps' elements
+	virtual void SetRadialWeights(float* zcmp) = 0;
 
+#define BUILDLUT_IMAGELUT 1
 	virtual void BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, uint flags, int plane) = 0;
 	virtual void FinalizeLUT() = 0;
 	

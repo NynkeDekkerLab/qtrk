@@ -72,14 +72,11 @@ public:
 	void ClearResults() override;
 
 	// data can be zero to allocate ZLUT data.
-	void SetRadialZLUT(float* data,  int numLUTs, int planes, float* zcmp=0) override; 
+	void SetRadialZLUT(float* data,  int numLUTs, int planes) override; 
+	void SetRadialWeights(float *zcmp) override;
 	void GetRadialZLUT(float* data) override; // delete[] memory afterwards
 	void GetRadialZLUTSize(int& count, int& planes, int &radialSteps) override;
 	int FetchResults(LocalizationResult* results, int maxResults) override;
-
-	void GetImageZLUTSize(int* dims) override;
-	void GetImageZLUT(float* dst) override;
-	void SetImageZLUT(float* dst, float *radial_zlut, int* dims, float *rweights=0) override;
 
 	void BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, uint flags, int plane) override;
 	void FinalizeLUT() override;
@@ -106,12 +103,11 @@ protected:
 		Device(int index) {
 			this->index=index; 
 			radial_zlut=calib_offset=calib_gain=cudaImageListf::emptyList(); 
-			image_lut = 0;
 		}
 		~Device(); 
-		void SetRadialZLUT(float *data, int radialsteps, int planes, int numLUTs, float* zcmp);
+		void SetRadialZLUT(float *data, int radialsteps, int planes, int numLUTs);
 		void SetPixelCalibrationImages(float* offset, float* gain, int img_width, int img_height);
-		void SetImageLUT(float* data, ImageLUTConfig* cfg);
+		void SetRadialWeights(float* zcmp);
 				
 		cudaImageListf radial_zlut;
 		cudaImageListf calib_offset, calib_gain;
@@ -119,8 +115,6 @@ protected:
 		QI::DeviceInstance qi_instance;
 		device_vec<float2> zlut_trigtable;
 		int index;
-
-		ImageLUT* image_lut;
 	};
 
 	struct Stream {
@@ -172,8 +166,6 @@ protected:
 
 	int numThreads;
 	int batchSize;
-
-	ImageLUTConfig imageLUTConfig;
 
 	dim3 blocks(int workItems) { return dim3((workItems+numThreads-1)/numThreads); }
 	dim3 blocks() {	return dim3((batchSize+numThreads-1)/numThreads); }

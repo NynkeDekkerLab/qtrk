@@ -125,7 +125,8 @@ CDLL_EXPORT void DLL_CALLCONV qtrk_set_ZLUT(QueuedTracker* tracker, LVArray3D<fl
 					NormalizeZLUT( zlut->elem, numLUTs, planes, res );
 				}
 
-				tracker->SetRadialZLUT(zlut->elem, numLUTs, planes, zcmp);
+				tracker->SetRadialZLUT(zlut->elem, numLUTs, planes);
+				tracker->SetRadialWeights(zcmp);
 			}
 		}
 	}

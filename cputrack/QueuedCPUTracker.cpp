@@ -305,8 +305,8 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 			dstprof[i] += rprof[i];
 	}
 
-	if ( (localizeMode & LT_IMAP) && image_lut ) {
-		result.pos = ComputeIMAP(trk->srcImage, result.pos, j->job.zlutIndex, 1);
+	if (localizeMode & LT_ZLUTAlign ){
+		
 	}
 
 	if(dbgPrintResults)
@@ -322,7 +322,7 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 	results_mutex.unlock();
 }
 
-void QueuedCPUTracker::SetRadialZLUT(float* data, int num_zluts, int planes, float* zcmp)
+void QueuedCPUTracker::SetRadialZLUT(float* data, int num_zluts, int planes)
 {
 //	jobs_mutex.lock();
 //	results_mutex.lock();
@@ -341,15 +341,17 @@ void QueuedCPUTracker::SetRadialZLUT(float* data, int num_zluts, int planes, flo
 	else
 		zluts = 0;
 
-	if (zcmp) {
-		this->zcmp.assign(zcmp, zcmp+res);
-	}
-	else
-		this->zcmp.clear();
-
 	UpdateZLUTs();
 //	results_mutex.unlock();
 //	jobs_mutex.unlock();
+}
+
+void QueuedCPUTracker::SetRadialWeights(float *rweights)
+{
+	if (rweights)
+		zcmp.assign(rweights, rweights + cfg.zlut_radialsteps);
+	else
+		zcmp.clear();
 }
 
 void QueuedCPUTracker::UpdateZLUTs()
@@ -499,11 +501,11 @@ void QueuedCPUTracker::SetImageZLUT(float* src, float *radial_lut, int* dims, fl
 		memcpy(image_lut, src, sizeof(float)*image_lut_nElem_per_bead*image_lut_dims[0]);
 	}
 
-	SetRadialZLUT(radial_lut, dims[0], dims[1], rweights);
+	SetRadialZLUT(radial_lut, dims[0], dims[1]);
 }
 
 
-void QueuedCPUTracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, bool imageLUT, int plane)
+void QueuedCPUTracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, uint flags, int plane)
 {
 	parallel_for(ImageLUTNumBeads(), [&] (int i) {
 		CPUTracker trk (cfg.width,cfg.height);
@@ -526,24 +528,29 @@ void QueuedCPUTracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, b
 		
 		dbgprintf("BuildLUT() QIPos: x=%f, y=%f\n", qipos.x, qipos.y);
 
-		vector2f ilut_scale(1,1);
-		float startx = qipos.x - w/2*ilut_scale.x;
-		float starty = qipos.y - h/2*ilut_scale.y;
+		if (flags & BUILDLUT_IMAGELUT) {
+			vector2f ilut_scale(1,1);
+			float startx = qipos.x - w/2*ilut_scale.x;
+			float starty = qipos.y - h/2*ilut_scale.y;
 
-		for (int y=0;y<h;y++) {
-			for (int x=0;x<w;x++) {
+			for (int y=0;y<h;y++) {
+				for (int x=0;x<w;x++) {
 
-				float px = startx + x*ilut_scale.x;
-				float py = starty + y*ilut_scale.y;
+					float px = startx + x*ilut_scale.x;
+					float py = starty + y*ilut_scale.y;
 
-				bool outside=false;
-				float v = Interpolate(trk.srcImage, trk.width, trk.height, px, py, &outside);
-				lut_dst[y*w+x] += v - trk.mean;
+					bool outside=false;
+					float v = Interpolate(trk.srcImage, trk.width, trk.height, px, py, &outside);
+					lut_dst[y*w+x] += v - trk.mean;
+				}
 			}
 		}
 
 		float *bead_zlut=GetZLUTByIndex(i);
-		trk.ComputeRadialProfile(&bead_zlut[plane*cfg.zlut_radialsteps], cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, qipos, false);
+		float *tmp = ALLOCA_ARRAY(float, cfg.zlut_radialsteps);
+		trk.ComputeRadialProfile(tmp, cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, qipos, true);
+		for(int i=0;i<cfg.zlut_radialsteps;i++) 
+			bead_zlut[plane*cfg.zlut_radialsteps] += tmp[i];
 	});
 }
 
@@ -551,6 +558,11 @@ void QueuedCPUTracker::FinalizeLUT()
 {
 	// normalize radial LUT?
 
+	if (zluts) {
+		for (int i=0;i<zlut_count*zlut_planes;i++) {
+			NormalizeRadialProfile(&zluts[cfg.zlut_radialsteps*i], cfg.zlut_radialsteps);
+		}
+	}
 
 	int w = ImageLUTWidth();
 	int h = ImageLUTHeight();
@@ -589,54 +601,5 @@ void QueuedCPUTracker::FinalizeLUT()
 		}
 	}
 }
-
-
-vector3f QueuedCPUTracker::ComputeIMAP(float* img, vector3f pos, int lutIndex, int iterations)
-{
-	int lowPlane = (int)pos.z;
-	if (lowPlane >= zlut_planes-1) lowPlane = zlut_planes-1;
-	if (lowPlane < 0) lowPlane = 0;
-	float *lwr = GetImageLUTByIndex(lutIndex, lowPlane); 
-	float *upr = GetImageLUTByIndex(lutIndex, lowPlane+1);
-	float zfrac = pos.z-(int)pos.z;
-
-	int h = ImageLUTHeight();
-	int w = ImageLUTWidth();
-
-	for (int i=0;i<iterations;i++)
-	{
-		float sx = pos.x - w / 2;
-		float sy = pos.y - h / 2;
-
-		float derr_dx = 0.0f;
-		float derr_dy = 0.0f;
-
-		int minY = 1, minX = 1;
-		if (sy < 0) { minY += floor(sy); }
-		if (sx < 0) { minX += floor(sx); }
-
-		// Compute derr/dx, derr/dy
-		for (int y=minY;y<h-1;y++)
-		{
-			for (int x=minX;x<w-1;x++) {
-				float s = Interpolate(img, cfg.width, cfg.height, sx + x, sy + y);
-				float mu = Lerp(zfrac, lwr[y*w+x], upr[y*w+x]);
-				float dmu_dx = 0.5f * ( Lerp(zfrac, lwr[y*w+x+1], upr[y*w+x+1]) - Lerp(zfrac, lwr[y*w+x-1], upr[y*w+x-1]) );
-				float dmu_dy = 0.5f * ( Lerp(zfrac, lwr[(y+1)*w+x], upr[(y+1)*w+x]) - Lerp(zfrac, lwr[(y-1)*w+x], upr[(y-1)*w+x]) );
-
-				derr_dx += dmu_dx * ( s - mu );
-				derr_dy += dmu_dy * ( s - mu );
-			}
-		}
-
-		pos.x += 0.01f * derr_dx;
-		pos.y += 0.01f * derr_dy;
-
-		dbgprintf("derr_dx: %f, derr_dy: %f\n", derr_dx, derr_dy);
-	}
-
-	return pos;
-}
-
 
 

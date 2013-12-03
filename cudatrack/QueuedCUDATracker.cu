@@ -210,8 +210,6 @@ QueuedCUDATracker::QueuedCUDATracker(const QTrkComputedConfig& cc, int batchSize
 	schedulingThread = Threads::Create(SchedulingThreadEntryPoint, this);
 
 	gc_offsetFactor = gc_gainFactor = 1.0f;
-
-	imageLUTConfig = ImageLUTConfig::empty();
 	localizeMode = LT_OnlyCOM;
 
 	ForceCUDAKernelsToLoad<<< dim3(),dim3() >>> ();
@@ -232,7 +230,6 @@ QueuedCUDATracker::Device::~Device()
 	radial_zlut.free();
 	calib_gain.free();
 	calib_offset.free();
-	if(image_lut) delete image_lut;
 }
 
 void QueuedCUDATracker::SchedulingThreadEntryPoint(void *param)
@@ -524,12 +521,17 @@ void QueuedCUDATracker::FinalizeLUT()
 {
 	Device* srcd = devices[0];
 	cudaSetDevice(srcd->index);
+
+	cudaImageListf& src = srcd->radial_zlut;
+	float *tmp = new float [src.w*src.h*src.count];
 	srcd->radial_zlut.copyToHost(tmp);
 
-	// Copy device0 ZLUT to other devices..
-	for (int i=1;i<devices.size();i++) {
+	for (int i=0;i<src.h*src.count;i++){
+		NormalizeRadialProfile(&tmp[src.w*i],src.w);
 	}
 
+	SetRadialZLUT(tmp, src.count, src.h);
+	delete[] tmp;
 }
 
 
@@ -664,7 +666,7 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 		// Compute Z 
 		if (s->localizeFlags & LT_LocalizeZ) {
 			dim3 numThreads(8, 16);
-			ZLUT_ComputeProfileMatchScores <<< dim3( (s->JobCount() + numThreads.x - 1) / numThreads.x, (zplanes  + numThreads.y - 1) / numThreads.y), numThreads, 0, s->stream >>> 
+			ZLUT_ComputeProfileMatchScores <<< dim3( (s->JobCount() + numThreads.x - 1) / numThreads.x, (zp.planes  + numThreads.y - 1) / numThreads.y), numThreads, 0, s->stream >>> 
 				(s->JobCount(), zp, s->d_radialprofiles.data, s->d_zlutcmpscores.data, s->d_locParams.data);
 			ZLUT_ComputeZ <<< blocks(s->JobCount()), threads(), 0, s->stream >>> (s->JobCount(), zp, curpos->data, s->d_zlutcmpscores.data);
 		}
@@ -783,14 +785,21 @@ void QueuedCUDATracker::Device::SetPixelCalibrationImages(float* offset, float* 
 }
 
 // data can be zero to allocate ZLUT data
-void QueuedCUDATracker::SetRadialZLUT(float* data,  int numLUTs, int planes, float* zcmp) 
+void QueuedCUDATracker::SetRadialZLUT(float* data,  int numLUTs, int planes) 
 {
 	for (uint i=0;i<devices.size();i++) {
-		devices[i]->SetRadialZLUT(data, cfg.zlut_radialsteps, planes, numLUTs, zcmp);
+		devices[i]->SetRadialZLUT(data, cfg.zlut_radialsteps, planes, numLUTs);
 	}
 
 	for (uint i=0;i<streams.size();i++) {
 		StreamUpdateZLUTSize(streams[i]);
+	}
+}
+
+void QueuedCUDATracker::SetRadialWeights(float *zcmp)
+{
+	for (uint i=0;i<devices.size();i++) {
+		devices[i]->SetRadialWeights(zcmp);
 	}
 }
 
@@ -801,14 +810,9 @@ void QueuedCUDATracker::StreamUpdateZLUTSize(Stream* s)
 	// radialsteps never changes
 }
 
-void QueuedCUDATracker::Device::SetRadialZLUT(float *data, int radialsteps, int planes, int numLUTs, float* zcmp)
+void QueuedCUDATracker::Device::SetRadialZLUT(float *data, int radialsteps, int planes, int numLUTs)
 {
 	cudaSetDevice(index);
-
-	if (zcmp)
-		zcompareWindow.copyToDevice(zcmp, radialsteps, false);
-	else 
-		zcompareWindow.free();
 
 	radial_zlut.free();
 	radial_zlut = cudaImageListf::alloc(radialsteps, planes, numLUTs);
@@ -817,6 +821,16 @@ void QueuedCUDATracker::Device::SetRadialZLUT(float *data, int radialsteps, int 
 			radial_zlut.copyImageToDevice(i, &data[planes*radialsteps*i]);
 	}
 	else radial_zlut.clear();
+}
+
+
+void QueuedCUDATracker::Device::SetRadialWeights(float* zcmp)
+{
+	cudaSetDevice(index);
+	if (zcmp)
+		zcompareWindow.copyToDevice(zcmp, radial_zlut.w, false);
+	else 
+		zcompareWindow.free();
 }
 
 
@@ -838,53 +852,6 @@ void QueuedCUDATracker::GetRadialZLUTSize(int& count, int &planes, int& rsteps)
 	planes = devices[0]->radial_zlut.h;
 	rsteps = cfg.zlut_radialsteps;
 }
-
-
-void QueuedCUDATracker::GetImageZLUTSize(int *dims)
-{
-	dims[0] = imageLUTConfig.nLUTs;
-	dims[1] = imageLUTConfig.planes;
-	dims[2] = imageLUTConfig.h;
-	dims[3] = imageLUTConfig.w;
-}
-
-void QueuedCUDATracker::GetImageZLUT(float* dst)
-{
-	if (imageLUTConfig.nLUTs && devices[0]->image_lut) {
-		cudaSetDevice(devices[0]->index);
-		devices[0]->image_lut->copyToHost(dst);
-	}
-}
-
-void QueuedCUDATracker::SetImageZLUT(float* src, float *radial_zlut, int* dims, float *rweights)
-{
-	imageLUTConfig.nLUTs = dims[0];
-	imageLUTConfig.planes = dims[1];
-	imageLUTConfig.h = dims[2];
-	imageLUTConfig.w = dims[3];
-
-	for (int i=0;i<devices.size();i++) {
-		devices[i]->SetImageLUT(src, &imageLUTConfig);
-	}
-
-	SetRadialZLUT(radial_zlut,dims[0], dims[1], rweights);
-}
-
-
-void QueuedCUDATracker::Device::SetImageLUT(float* data, ImageLUTConfig* cfg)
-{
-	cudaSetDevice(index);
-
-	if (image_lut) 
-		delete image_lut;
-
-	image_lut = new ImageLUT(cfg->w,cfg->h,cfg->planes,cfg->nLUTs);
-	if (data) {
-		image_lut->copyToDevice(data);
-	} else
-		image_lut->clear();
-}
-
 
 int QueuedCUDATracker::GetResultCount()
 {
