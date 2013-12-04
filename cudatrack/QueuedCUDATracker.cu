@@ -492,11 +492,11 @@ void QueuedCUDATracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, 
 		void *img_data = (uchar*)data + pitch * cfg.height * i;
 
 		if (pdt == QTrkFloat) {
-			trk.SetImage((float*)data, pitch);
+			trk.SetImage((float*)img_data, pitch);
 		} else if (pdt == QTrkU8) {
-			trk.SetImage8Bit((uchar*)data, pitch);
+			trk.SetImage8Bit((uchar*)img_data, pitch);
 		} else {
-			trk.SetImage16Bit((ushort*)data,pitch);
+			trk.SetImage16Bit((ushort*)img_data,pitch);
 		}
 
 		vector2f com = trk.ComputeMeanAndCOM();
