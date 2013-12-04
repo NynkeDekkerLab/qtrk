@@ -722,8 +722,8 @@ int main()
 	//for (int i=1;i<8;i++)
 	//	BuildConvergenceMap(i);
 
-
-	TestImageLUT();
+	TestBuildRadialZLUT<QueuedCPUTracker>( "lut000.jpg" );
+	//TestImageLUT();
 
 	//CorrectedRadialProfileTest();
 	return 0;

@@ -477,7 +477,6 @@ __global__ void AddProfilesToZLUT(float* d_src, int nbeads, int radialsteps, int
 void QueuedCUDATracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, uint flags, int plane)
 {
 	// Copy to image 
-
 	Device* d = streams[0]->device;
 	cudaSetDevice(d->index);
 
@@ -514,7 +513,8 @@ void QueuedCUDATracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, 
 	dim3 numThreads(16, 16);
 	dim3 numBlocks( (nbeads + numThreads.x - 1) / numThreads.x, 
 			(cfg.zlut_radialsteps + numThreads.y - 1) / numThreads.y);
-	AddProfilesToZLUT <<< numBlocks, numThreads >>> (d_profiles.data, nbeads, cfg.zlut_radialsteps, plane, d->radial_zlut);
+	AddProfilesToZLUT <<< numBlocks, numThreads, 0, streams[0]->stream >>> (d_profiles.data, nbeads, cfg.zlut_radialsteps, plane, d->radial_zlut);
+	cudaStreamSynchronize(streams[0]->stream);
 }
 
 void QueuedCUDATracker::FinalizeLUT()
@@ -688,9 +688,6 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 			ImageLUT_Sample<TImageSampler, ImageLUT> <<<numBlocks, numThreads, 0, s->stream >>> (kp, ilc_scale, curpos->data, ilkp);
 			il->unbind();
 		}*/
-
-		if (s->localizeFlags & LT_IMAP) {
-		}
 	}
 
 	TImageSampler::UnbindTexture(s->images);

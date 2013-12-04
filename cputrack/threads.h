@@ -249,7 +249,7 @@ protected:
 
 template<typename TF>
 void parallel_for(int count, TF f) {
-	ThreadPool<int, TF> threadPool(f);
+	ThreadPool<int, TF> threadPool(f, std::min (count, Threads::GetCPUCount()) );
 	for (int i=0;i<count;i++) threadPool.AddWork(i);
 	threadPool.WaitUntilDone();
 }

@@ -290,3 +290,40 @@ static double WaitForFinish(QueuedTracker* qtrk, int N)
 	return t1-t0;
 }
 
+template<typename Tracker>
+void TestBuildRadialZLUT(const char *rlutfile)
+{
+	QTrkSettings cfg;
+	cfg.width = 100;
+	cfg.height = 100;
+	
+	ImageData rlut=ReadJPEGFile(rlutfile);
+	ImageData img=ImageData::alloc(cfg.width,cfg.height);
+
+	Tracker trk(cfg);
+
+	int nplanes = 50;
+	trk.SetRadialZLUT(0, 1, nplanes);
+	for (int z=0;z<nplanes;z++) {
+		dbgprintf("z=%d\n", z);
+		for (int n=0;n<1;n++) {
+			vector2f pos = vector2f::random( vector2f( cfg.width/2,cfg.height/2 ), 4.0f );
+			GenerateImageFromLUT(&img, &rlut, 0.0f, rlut.w-1, pos, z/(float)nplanes * rlut.h, 0.5f);
+			//ApplyPoissonNoise (img, 255);
+			trk.BuildLUT(img.data, img.pitch(), QTrkFloat, false, z);
+			WriteJPEGFile("rlut-test-img.jpg", img);
+		}
+	}
+	trk.FinalizeLUT();
+
+	ImageData result = ImageData::alloc(trk.cfg.zlut_radialsteps, nplanes);
+	trk.GetRadialZLUT(result.data);
+
+	WriteJPEGFile("rlut-test.jpg", result);
+
+	result.free();
+
+	img.free();
+	rlut.free();
+}
+

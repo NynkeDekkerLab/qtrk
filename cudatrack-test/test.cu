@@ -778,35 +778,6 @@ void QICompare(const char *lutfile )
 	lut.free();
 }
 
-void TestBuildRadialZLUT(const char *rlutfile)
-{
-	QTrkSettings cfg;
-	cfg.width = 100;
-	cfg.height = 100;
-	
-	ImageData rlut=ReadJPEGFile(rlutfile);
-	ImageData img=ImageData::alloc(cfg.width,cfg.height);
-
-	QueuedCUDATracker trk(cfg);
-	ResampleLUT(&trk, &rlut, 1,50);
-
-	trk.SetRadialZLUT(0, 1, 50);
-	int h = 10;
-	for (int z=0;z<h;z++) {
-		dbgprintf("z=%d\n", z);
-		for (int n=0;n<10;n++) {
-			vector2f pos = vector2f::random( vector2f( cfg.width/2,cfg.height/2 ), 4.0f );
-			GenerateImageFromLUT(&img, &rlut, 0.0f, rlut.w-1, pos, z, 0.5f);
-			ApplyPoissonNoise (img, 255);
-			trk.BuildLUT(img.data, img.pitch(), QTrkFloat, true, z);
-		}
-	}
-
-	trk.FinalizeLUT();
-
-	img.free();
-	rlut.free();
-}
 
 surface<void, 2> test_surf;
 
@@ -991,7 +962,8 @@ int main(int argc, char *argv[])
 //	TestImage4D();
 //	TestImage4DMemory();
 //	TestImageLUT("../cputrack-test/lut000.jpg");
-	TestRadialLUTGradientMethod();
+	//TestRadialLUTGradientMethod();
+	TestBuildRadialZLUT<QueuedCUDATracker> ("../cputrack-test/lut000.jpg");
 
 //	BenchmarkParams();
 
