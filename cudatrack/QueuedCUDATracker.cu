@@ -503,6 +503,7 @@ void QueuedCUDATracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, 
 		bool bhit;
 		positions[i] = trk.ComputeQI(com, cfg.qi_iterations, cfg.qi_radialsteps, cfg.qi_angstepspq, cfg.qi_angstep_factor, cfg.qi_minradius, cfg.qi_maxradius, bhit);
 		trk.ComputeRadialProfile(&profiles[i * cfg.zlut_radialsteps], cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, positions[i], false, 0, true);
+		WriteArrayAsCSVRow("rlut-test.csv", &profiles[i * cfg.zlut_radialsteps], cfg.zlut_radialsteps, plane>0);
 	});
 
 	// add to device 0 LUT

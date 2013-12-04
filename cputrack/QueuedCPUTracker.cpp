@@ -509,16 +509,21 @@ bool QueuedCPUTracker::SetImageZLUT(float* src, float *radial_lut, int* dims)
 
 void QueuedCPUTracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, uint flags, int plane)
 {
+#define USE_PARALLEL_FOR
+#ifndef USE_PARALLEL_FOR
+	for (int i=0;i<zlut_count;i++) {
+#else
 	parallel_for(zlut_count, [&] (int i) {
+#endif
 		CPUTracker trk (cfg.width,cfg.height);
 		void *img_data = (uchar*)data + pitch * cfg.height * i;
 
 		if (pdt == QTrkFloat) {
-			trk.SetImage((float*)data, pitch);
+			trk.SetImage((float*)img_data, pitch);
 		} else if (pdt == QTrkU8) {
-			trk.SetImage8Bit((uchar*)data, pitch);
+			trk.SetImage8Bit((uchar*)img_data, pitch);
 		} else {
-			trk.SetImage16Bit((ushort*)data,pitch);
+			trk.SetImage16Bit((ushort*)img_data,pitch);
 		}
 
 		vector2f com = trk.ComputeMeanAndCOM();
@@ -526,11 +531,11 @@ void QueuedCPUTracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, u
 		vector2f qipos = trk.ComputeQI(com, cfg.qi_iterations, cfg.qi_radialsteps, cfg.qi_angstepspq, cfg.qi_angstep_factor, cfg.qi_minradius, cfg.qi_maxradius, bhit);
 
 		int h=ImageLUTHeight(), w=ImageLUTWidth();
-		float* lut_dst = &image_lut[ i * image_lut_nElem_per_bead + w*h* plane ];
-		
+
 		dbgprintf("BuildLUT() QIPos: x=%f, y=%f\n", qipos.x, qipos.y);
 
 		if (flags & BUILDLUT_IMAGELUT) {
+		float* lut_dst = &image_lut[ i * image_lut_nElem_per_bead + w*h* plane ];
 			vector2f ilut_scale(1,1);
 			float startx = qipos.x - w/2*ilut_scale.x;
 			float starty = qipos.y - h/2*ilut_scale.y;
@@ -549,12 +554,16 @@ void QueuedCPUTracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, u
 		}
 
 		float *bead_zlut=GetZLUTByIndex(i);
-		float *tmp = ALLOCA_ARRAY(float, cfg.zlut_radialsteps);
+		float *tmp = new float[cfg.zlut_radialsteps];
 		trk.ComputeRadialProfile(tmp, cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, qipos, false, 0, true);
 	//	WriteArrayAsCSVRow("rlut-test.csv", tmp, cfg.zlut_radialsteps, plane>0);
 		for(int i=0;i<cfg.zlut_radialsteps;i++) 
 			bead_zlut[plane*cfg.zlut_radialsteps+i] += tmp[i];
-	});
+		delete[] tmp;
+	}
+#ifdef USE_PARALLEL_FOR
+	);
+#endif
 }
 
 void QueuedCPUTracker::FinalizeLUT()

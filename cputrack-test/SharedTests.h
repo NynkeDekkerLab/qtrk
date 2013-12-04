@@ -298,32 +298,36 @@ void TestBuildRadialZLUT(const char *rlutfile)
 	cfg.height = 100;
 	
 	ImageData rlut=ReadJPEGFile(rlutfile);
-	ImageData img=ImageData::alloc(cfg.width,cfg.height);
+	int nbeads=3;
+	ImageData imgbuf=ImageData::alloc(cfg.width,cfg.height * nbeads);
 
 	Tracker trk(cfg);
 
 	int nplanes = 50;
-	trk.SetRadialZLUT(0, 1, nplanes);
+	trk.SetRadialZLUT(0, nbeads, nplanes);
 	for (int z=0;z<nplanes;z++) {
 		dbgprintf("z=%d\n", z);
 		for (int n=0;n<1;n++) {
-			vector2f pos = vector2f::random( vector2f( cfg.width/2,cfg.height/2 ), 4.0f );
-			GenerateImageFromLUT(&img, &rlut, 0.0f, rlut.w-1, pos, z/(float)nplanes * rlut.h, 0.5f);
+			for (int b=0;b<nbeads;b++) {
+				ImageData tmpimg = ImageData( &imgbuf.data[imgbuf.w * cfg.height *b], cfg.width,cfg.height); 
+				vector2f pos = vector2f::random( vector2f( cfg.width/2,cfg.height/2 ), 2.0f );
+				GenerateImageFromLUT(&tmpimg, &rlut, 0.0f, rlut.w-1, pos, z/(float)nplanes * rlut.h, 0.5f + 0.2f*b);
+			}
 			//ApplyPoissonNoise (img, 255);
-			trk.BuildLUT(img.data, img.pitch(), QTrkFloat, false, z);
-			WriteJPEGFile("rlut-test-img.jpg", img);
+			WriteJPEGFile("rlut-test-img.jpg", imgbuf);
+			trk.BuildLUT(imgbuf.data, imgbuf.pitch(), QTrkFloat, false, z);
 		}
 	}
 	trk.FinalizeLUT();
 
-	ImageData result = ImageData::alloc(trk.cfg.zlut_radialsteps, nplanes);
+	ImageData result = ImageData::alloc(trk.cfg.zlut_radialsteps, nplanes * nbeads);
 	trk.GetRadialZLUT(result.data);
 
 	WriteJPEGFile("rlut-test.jpg", result);
 
 	result.free();
 
-	img.free();
+	imgbuf.free();
 	rlut.free();
 }
 
