@@ -468,7 +468,7 @@ __global__ void AddProfilesToZLUT(float* d_src, int nbeads, int radialsteps, int
 	int r = threadIdx.y + blockIdx.y * blockDim.y;
 
 	if (b < nbeads && r < radialsteps) {
-		zlut.pixel(r, plane, b) += d_src[ b * plane + r ];
+		zlut.pixel(r, plane, b) += d_src[ b * radialsteps + r ];
 	}
 }
 
@@ -491,30 +491,32 @@ void QueuedCUDATracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, 
 		CPUTracker trk (cfg.width,cfg.height);
 		void *img_data = (uchar*)data + pitch * cfg.height * i;
 
-		if (pdt == QTrkFloat) {
+		if (pdt == QTrkFloat)
 			trk.SetImage((float*)img_data, pitch);
-		} else if (pdt == QTrkU8) {
+		else if (pdt == QTrkU8)
 			trk.SetImage8Bit((uchar*)img_data, pitch);
-		} else {
+		else
 			trk.SetImage16Bit((ushort*)img_data,pitch);
-		}
 
 		vector2f com = trk.ComputeMeanAndCOM();
 		bool bhit;
 		positions[i] = trk.ComputeQI(com, cfg.qi_iterations, cfg.qi_radialsteps, cfg.qi_angstepspq, cfg.qi_angstep_factor, cfg.qi_minradius, cfg.qi_maxradius, bhit);
 		trk.ComputeRadialProfile(&profiles[i * cfg.zlut_radialsteps], cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, positions[i], false, 0, true);
-		WriteArrayAsCSVRow("rlut-test.csv", &profiles[i * cfg.zlut_radialsteps], cfg.zlut_radialsteps, plane>0);
+		if (i == 2) WriteArrayAsCSVRow("rlut-test.csv", &profiles[i * cfg.zlut_radialsteps], cfg.zlut_radialsteps, plane>0);
+
+/*		for (int r=0;r<cfg.zlut_radialsteps;r++) {
+			zlut_build_buf [i * (cfg.zlut_radialsteps*d->radial_zlut.h) + plane * cfg.zlut_radialsteps + r ] += 
+		}*/
 	});
 
 	// add to device 0 LUT
 	device_vec<float> d_profiles (nbeads * cfg.zlut_radialsteps);
 	d_profiles.copyToDevice(profiles, nbeads * cfg.zlut_radialsteps);
 	delete[] profiles;
-			
-	dim3 numThreads(16, 16);
-	dim3 numBlocks( (nbeads + numThreads.x - 1) / numThreads.x, 
-			(cfg.zlut_radialsteps + numThreads.y - 1) / numThreads.y);
-	AddProfilesToZLUT <<< numBlocks, numThreads, 0, streams[0]->stream >>> (d_profiles.data, nbeads, cfg.zlut_radialsteps, plane, d->radial_zlut);
+
+	dim3 numThreads(4, 64);
+	dim3 numBlocks( (nbeads + numThreads.x - 1) / numThreads.x, (cfg.zlut_radialsteps + numThreads.y - 1) / numThreads.y);
+	AddProfilesToZLUT<<< numBlocks, numThreads, 0, streams[0]->stream >>> (d_profiles.data, nbeads, cfg.zlut_radialsteps, plane, d->radial_zlut);
 	cudaStreamSynchronize(streams[0]->stream);
 }
 
