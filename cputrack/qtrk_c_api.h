@@ -10,7 +10,6 @@ enum LocalizeModeEnum {
 	LT_Gaussian2D = 4, // 2D Gaussian localization
 	LT_ZLUTAlign = 8, // XYZ Alignment with ZLUT
 
-	LT_2DMask = 15,
 	LT_LocalizeZ = 16,
 	LT_BuildRadialZLUT = 32,
 	LT_NormalizeProfile = 64,

@@ -671,7 +671,54 @@ float CPUTracker::ComputeZ(vector2f center, int angularSteps, int zlutIndex, boo
 	return z;
 }
 
-vector2f CPUTracker::Compute2DXCor()
+
+
+vector3f CPUTracker::ComputeZLUTAlign (vector3f pos, int beadIndex, vector3f* diff)
 {
-	return vector2f();
+	/*
+	Numerically approximate:
+	dLUTScore/dx, dLUTScore/dy, dLUTScore/dz and do gradient descent..
+	*/
+
+	const float dx = 1e-5f;
+	const float dy = 1e-5f;
+	const float dz = 1e-5f;
+
+	float ds_dx =  (ZLUTAlign_ComputeScore( vector3f(pos.x+dx, pos.y, pos.z ), beadIndex) - ZLUTAlign_ComputeScore( vector3f(pos.x-dx, pos.y, pos.z ), beadIndex))/(2*dx);
+	float ds_dy =  (ZLUTAlign_ComputeScore( vector3f(pos.x, pos.y+dy, pos.z ), beadIndex) - ZLUTAlign_ComputeScore( vector3f(pos.x, pos.y-dy, pos.z ), beadIndex))/(2*dy);
+	float ds_dz =  (ZLUTAlign_ComputeScore( vector3f(pos.x, pos.y, pos.z+dz ), beadIndex) - ZLUTAlign_ComputeScore( vector3f(pos.x, pos.y, pos.z-dz ), beadIndex))/(2*dz);
+
+	float speed = 0.05f;
+
+	vector3f ds_dpos(ds_dx,ds_dy,ds_dz);
+	if (diff) *diff = ds_dpos;
+
+	return pos + speed * ds_dpos;
 }
+
+static int clamp(int v, int a,int b) { return std::max(a, std::min(b, v)); }
+
+double CPUTracker::ZLUTAlign_ComputeScore(vector3f pos, int beadIndex)
+{
+	float* tmp = ALLOCA_ARRAY(float, zlut_res);
+	ComputeRadialProfile(tmp, zlut_res, zlut_angularSteps,zlut_minradius , zlut_maxradius, vector2f(pos.x,pos.y), false, 0, true);
+
+	float* zlut = GetRadialZLUT(beadIndex);
+
+	int zp0 = clamp( (int)pos.z, 0, zlut_planes - 1);
+	int zp1 = clamp( (int)pos.z + 1, 0, zlut_planes - 1);
+
+	float* zlut0 = &zlut[ zlut_res * zp0 ];
+	float* zlut1 = &zlut[ zlut_res * zp1 ];
+	float frac = pos.z - (int)pos.z;
+	double score = 0.0f;
+	for (int r=0;r<zlut_res;r++) {
+	// Interpolate plane
+		double zlutValue = Lerp(zlut0[r], zlut1[r], frac);
+		double x = zlutValue - tmp[r];
+		score -= x*x;
+	}
+	return score;
+}
+
+

@@ -689,7 +689,7 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 			il->unbind();
 		}*/
 
-		if (s->localizeFlags & LT_IMAP) {
+		if (s->localizeFlags & LT_ZLUTAlign) {
 		}
 	}
 

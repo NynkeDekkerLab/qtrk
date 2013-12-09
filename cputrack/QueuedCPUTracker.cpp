@@ -265,32 +265,26 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 	if (_isnan(com.x) || _isnan(com.y))
 		com = vector2f(cfg.width/2,cfg.height/2);
 
-	LocMode_t locType = (LocMode_t)(localizeMode&LT_2DMask);
 	bool boundaryHit = false;
 
-	switch(locType) {
-	case LT_XCor1D: {
+	if (localizeMode & LT_XCor1D) {
 		result.firstGuess = com;
 		vector2f resultPos = trk->ComputeXCorInterpolated(com, cfg.xc1_iterations, cfg.xc1_profileWidth, boundaryHit);
 		result.pos.x = resultPos.x;
 		result.pos.y = resultPos.y;
-		break;}
-	case LT_OnlyCOM:
-		result.firstGuess.x = result.pos.x = com.x;
-		result.firstGuess.y = result.pos.y = com.y;
-		break;
-	case LT_QI:{
+	} else if (localizeMode & LT_QI ){ 
 		result.firstGuess = com;
 		vector2f resultPos = trk->ComputeQI(com, cfg.qi_iterations, cfg.qi_radialsteps, cfg.qi_angstepspq, cfg.qi_angstep_factor, cfg.qi_minradius, cfg.qi_maxradius, boundaryHit);
 		result.pos.x = resultPos.x;
 		result.pos.y = resultPos.y;
-		break;}
-	case LT_Gaussian2D:{
+	} else if (localizeMode & LT_Gaussian2D) {
 		result.firstGuess = com;
 		CPUTracker::Gauss2DResult gr = trk->Compute2DGaussianMLE(com, cfg.gauss2D_iterations, cfg.gauss2D_sigma);
 		vector2f xy = gr.pos;
 		result.pos = vector3f(xy.x,xy.y,0.0f);
-		break;}
+	} else {
+		result.firstGuess.x = result.pos.x = com.x;
+		result.firstGuess.y = result.pos.y = com.y;
 	}
 
 	bool normalizeProfile = (localizeMode & LT_NormalizeProfile)!=0;
@@ -306,7 +300,11 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 	}
 
 	if (localizeMode & LT_ZLUTAlign ){
-		
+		for (int i=0;i<10;i++) {
+			vector3f d;
+			result.pos = trk->ComputeZLUTAlign (result.pos, j->job.zlutIndex, &d);
+			dbgprintf("dXYZ[%d]: %f, %f, %f. at %f, %f, %f\n", i, d.x,d.y,d.z, result.pos.x,result.pos.y,result.pos.z);
+		}
 	}
 
 	if(dbgPrintResults)
@@ -507,7 +505,7 @@ void QueuedCPUTracker::SetImageZLUT(float* src, float *radial_lut, int* dims, fl
 
 void QueuedCPUTracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, uint flags, int plane)
 {
-	parallel_for(ImageLUTNumBeads(), [&] (int i) {
+	parallel_for(zlut_count, [&] (int i) {
 		CPUTracker trk (cfg.width,cfg.height);
 		void *img_data = (uchar*)data + pitch * cfg.height * i;
 
@@ -523,12 +521,13 @@ void QueuedCPUTracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, u
 		bool bhit;
 		vector2f qipos = trk.ComputeQI(com, cfg.qi_iterations, cfg.qi_radialsteps, cfg.qi_angstepspq, cfg.qi_angstep_factor, cfg.qi_minradius, cfg.qi_maxradius, bhit);
 
-		int h=ImageLUTHeight(), w=ImageLUTWidth();
-		float* lut_dst = &image_lut[ i * image_lut_nElem_per_bead + w*h* plane ];
 		
 		dbgprintf("BuildLUT() QIPos: x=%f, y=%f\n", qipos.x, qipos.y);
 
 		if (flags & BUILDLUT_IMAGELUT) {
+			int h=ImageLUTHeight(), w=ImageLUTWidth();
+			float* lut_dst = &image_lut[ i * image_lut_nElem_per_bead + w*h* plane ];
+
 			vector2f ilut_scale(1,1);
 			float startx = qipos.x - w/2*ilut_scale.x;
 			float starty = qipos.y - h/2*ilut_scale.y;
@@ -560,7 +559,10 @@ void QueuedCPUTracker::FinalizeLUT()
 
 	if (zluts) {
 		for (int i=0;i<zlut_count*zlut_planes;i++) {
+
+			WriteArrayAsCSVRow("finalize-lut.csv", &zluts[cfg.zlut_radialsteps*i], cfg.zlut_radialsteps, i>0);
 			NormalizeRadialProfile(&zluts[cfg.zlut_radialsteps*i], cfg.zlut_radialsteps);
+
 		}
 	}
 

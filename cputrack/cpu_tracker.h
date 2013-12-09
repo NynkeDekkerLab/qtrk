@@ -63,7 +63,6 @@ public:
 	};
 
 	Gauss2DResult Compute2DGaussianMLE(vector2f initial ,int iterations, float sigma);
-	vector2f Compute2DXCor();
 
 	scalar_t QI_ComputeOffset(complex_t* qi_profile, int nr, int axisForDebug);
 	float ComputeAsymmetry(vector2f center, int radialSteps, int angularSteps, float minRadius, float maxRadius, float *dstAngProf=0);
@@ -83,6 +82,10 @@ public:
 	float* GetDebugImage() { return debugImage; }
 
 	void ApplyOffsetGain(float *offset, float *gain, float offsetFactor, float gainFactor);
+
+	vector3f ComputeZLUTAlign(vector3f pos, int beadIndex,vector3f* diff=0);
+	double ZLUTAlign_ComputeScore(vector3f pos, int beadIndex);
+
 };
 
 

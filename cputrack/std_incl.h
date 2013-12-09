@@ -38,6 +38,9 @@ struct vector3f {
 	vector3f operator*(float a) const {
 		return vector3f(x*a,y*a,z*a);
 	}
+	friend vector3f operator*(float a, const vector3f& b) { 
+		return b*a;
+	}
 	vector3f operator+(const vector3f& o) const {
 		return vector3f(x+o.x,y+o.y,z+o.z);
 	}

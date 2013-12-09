@@ -12,20 +12,17 @@ static void ResampleLUT(QueuedTracker* qtrk, ImageData* lut, float M, int zplane
 	ImageData img = ImageData::alloc(cfg.width,cfg.height);
 
 	qtrk->SetRadialZLUT(0, 1, zplanes);
-	qtrk->SetLocalizationMode( (LocMode_t)(LT_QI|LT_BuildRadialZLUT|LT_NormalizeProfile) );
 	for (int i=0;i<zplanes;i++)
 	{
 		GenerateImageFromLUT(&img, lut, 0, lut->w, vector2f(cfg.width/2, cfg.height/2), i/(float)zplanes * lut->h, M);
 		img.normalize();
+		if (i == 0)
+			WriteJPEGFile(SPrintf("smp-%s",jpgfile).c_str(), img);
 
-		LocalizationJob job(i, 0, i,0);
-		qtrk->ScheduleLocalization((uchar*)img.data, sizeof(float)*img.w, QTrkFloat, &job);
+		qtrk->BuildLUT(img.data, sizeof(float)*img.w, QTrkFloat, 0, i);
 	}
+	qtrk->FinalizeLUT();
 	img.free();
-
-	qtrk->Flush();
-	while(!qtrk->IsIdle());
-	qtrk->ClearResults();
 
 	if (newlut) {
 		newlut->alloc(cfg.zlut_radialsteps, zplanes);
@@ -288,5 +285,75 @@ static double WaitForFinish(QueuedTracker* qtrk, int N)
 	}
 	double t1 = GetPreciseTime();
 	return t1-t0;
+}
+
+
+
+
+template<typename TrkType>
+std::vector<vector3f> RunTracker(const char *lutfile, QTrkSettings *cfg, bool useGC, const char* name, LocMode_t locMode, int N=
+#ifdef _DEBUG
+	1
+#else
+	2000
+#endif
+	)
+{
+	std::vector<vector3f> results, truepos;
+
+	ImageData lut = ReadJPEGFile(lutfile);
+	ImageData img = ImageData::alloc(cfg->width,cfg->height);
+
+	TrkType trk(*cfg);
+	ResampleLUT(&trk, &lut, 1, 100, SPrintf("%s-zlut.jpg",name).c_str());
+
+	if (useGC) EnableGainCorrection(&trk);
+
+	//trk.SetConfigValue("use_texturecache" , "0");
+
+	float R=5;
+	srand(0);
+	trk.SetLocalizationMode(locMode);
+	for (int i=0;i<N;i++)
+	{
+		vector3f pos(cfg->width/2 + R*(rand_uniform<float>()-0.5f),cfg->height/2 + R*(rand_uniform<float>()-0.5f), lut.h/4+rand_uniform<float>()*lut.h/2);
+		GenerateImageFromLUT(&img, &lut, 2.0f, cfg->width/2-3,vector2f( pos.x,pos.y), pos.z, 1.0f);
+		truepos.push_back(pos);
+
+		LocalizationJob job(i, 0, 0, 0);
+		trk.ScheduleLocalization((uchar*)img.data, sizeof(float)*cfg->width, QTrkFloat, &job);
+	}
+
+	WaitForFinish(&trk, N);
+
+	results.resize(trk.GetResultCount());
+	for (int i=0;i<results.size();i++) {
+		LocalizationResult r;
+		trk.FetchResults(&r,1);
+		results[r.job.frame]=r.pos;
+	}
+
+	double tend = GetPreciseTime();
+	img.free();
+	lut.free();
+
+	auto Mean = [&] (const std::vector<vector3f>& v) -> vector3f {
+		vector3f s;
+		for (int i=0;i<v.size();i++) s+=v[i]-truepos[i]; s*=1.0f/v.size();
+		return s;
+	};
+	auto StDev = [&] (std::vector<vector3f>& v) -> vector3f {
+		vector3f r;
+		vector3f mean = Mean(v);
+		for (int i=0;i<v.size();i++) {
+			vector3f d = v[i]-mean; r+= d*d;
+		//	dbgprintf("dx:%f,dy:%f\n", d.x,d.y);
+		}
+		return sqrt(r/v.size());
+	};
+
+	dbgprintf("Mean (%s): %f.  St. Dev: %f\n", name, Mean(results).x, StDev(results).x);
+
+	return results;
 }
 

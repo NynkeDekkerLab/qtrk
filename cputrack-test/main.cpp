@@ -692,6 +692,16 @@ void TestImageLUT()
 	img.free();
 }
 
+void TestZLUTAlign()
+{
+	QTrkSettings cfg;
+	cfg.width = cfg.height = 100;
+	cfg.numThreads=1;
+	
+	auto locMode = (LocMode_t)(LT_QI | LT_ZLUTAlign | LT_NormalizeProfile | LT_LocalizeZ);
+	auto results = RunTracker<QueuedCPUTracker> ("lut000.jpg", &cfg, false, "zlutalign", locMode, 200 );
+}
+
 int main()
 {
 	/*
@@ -722,8 +732,8 @@ int main()
 	//for (int i=1;i<8;i++)
 	//	BuildConvergenceMap(i);
 
-
-	TestImageLUT();
+	TestZLUTAlign();
+	//TestImageLUT();
 
 	//CorrectedRadialProfileTest();
 	return 0;
