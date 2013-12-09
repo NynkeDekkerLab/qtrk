@@ -354,12 +354,13 @@ bool ResultManager::CheckResultSpace(int fr)
 	if(fr < cnt.startFrame)
 		return false; // already removed, ignore
 
-	if (fr > cnt.startFrame + 20000) {
+	/*
+	if (fr > cnt.processedFrames + 20000) {
 
 		dbgprintf("ResultManager: Ignoring suspiciously large frame number (%d).\n", fr);
 
 		return false;
-	}
+	}*/
 
 	while (fr >= cnt.startFrame + frameResults.size()) {
 		frameResults.push_back (new FrameResult( config.numBeads, config.numFrameInfoColumns));
