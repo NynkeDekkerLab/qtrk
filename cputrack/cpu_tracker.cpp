@@ -673,27 +673,25 @@ float CPUTracker::ComputeZ(vector2f center, int angularSteps, int zlutIndex, boo
 
 
 
-vector3f CPUTracker::ComputeZLUTAlign (vector3f pos, int beadIndex, vector3f* diff)
+vector3f CPUTracker::ComputeZLUTAlign (vector3f pos, int beadIndex, vector3f* diff, float step, float deriv_delta)
 {
 	/*
 	Numerically approximate:
 	dLUTScore/dx, dLUTScore/dy, dLUTScore/dz and do gradient descent..
 	*/
 
-	const float dx = 1e-5f;
-	const float dy = 1e-5f;
-	const float dz = 1e-5f;
+	const float dx = deriv_delta;
+	const float dy = deriv_delta;
+	const float dz = deriv_delta;
 
-	float ds_dx =  (ZLUTAlign_ComputeScore( vector3f(pos.x+dx, pos.y, pos.z ), beadIndex) - ZLUTAlign_ComputeScore( vector3f(pos.x-dx, pos.y, pos.z ), beadIndex))/(2*dx);
-	float ds_dy =  (ZLUTAlign_ComputeScore( vector3f(pos.x, pos.y+dy, pos.z ), beadIndex) - ZLUTAlign_ComputeScore( vector3f(pos.x, pos.y-dy, pos.z ), beadIndex))/(2*dy);
-	float ds_dz =  (ZLUTAlign_ComputeScore( vector3f(pos.x, pos.y, pos.z+dz ), beadIndex) - ZLUTAlign_ComputeScore( vector3f(pos.x, pos.y, pos.z-dz ), beadIndex))/(2*dz);
-
-	float speed = 0.05f;
+	float ds_dx = (ZLUTAlign_ComputeScore( vector3f(pos.x+dx, pos.y, pos.z ), beadIndex) - ZLUTAlign_ComputeScore( vector3f(pos.x-dx, pos.y, pos.z ), beadIndex))/(2*dx);
+	float ds_dy = (ZLUTAlign_ComputeScore( vector3f(pos.x, pos.y+dy, pos.z ), beadIndex) - ZLUTAlign_ComputeScore( vector3f(pos.x, pos.y-dy, pos.z ), beadIndex))/(2*dy);
+	float ds_dz = (ZLUTAlign_ComputeScore( vector3f(pos.x, pos.y, pos.z+dz ), beadIndex) - ZLUTAlign_ComputeScore( vector3f(pos.x, pos.y, pos.z-dz ), beadIndex))/(2*dz);
 
 	vector3f ds_dpos(ds_dx,ds_dy,ds_dz);
 	if (diff) *diff = ds_dpos;
 
-	return pos + speed * ds_dpos;
+	return pos - step * ds_dpos;
 }
 
 static int clamp(int v, int a,int b) { return std::max(a, std::min(b, v)); }

@@ -115,6 +115,11 @@ std::string GetLocalModuleFilename();
 std::string GetLocalModulePath();
 std::string GetDirectoryFromPath(std::string fullpath);
 
+struct PathSeperator {
+	PathSeperator(std::string fullpath);
+	std::string filename, extension, directory;
+};
+
 std::string file_ext(const char *f);
 
 ImageData ReadJPEGFile(const char *fn);

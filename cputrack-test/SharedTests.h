@@ -288,10 +288,33 @@ static double WaitForFinish(QueuedTracker* qtrk, int N)
 }
 
 
+void MeanStDevError(const std::vector<vector3f>&  truepos, const std::vector<vector3f>&  v, vector3f &mean, vector3f & stdev) 
+{
+	mean=vector3f();
+	for (int i=0;i<v.size();i++) mean+=v[i]-truepos[i]; 
+	mean*=1.0f/v.size();
 
+	vector3f r;
+	for (int i=0;i<v.size();i++) {
+		vector3f d = (v[i]-truepos[i])-mean;
+		r+= d*d;
+	}
+	stdev = sqrt(r/v.size());
+}
+
+struct RunTrackerResults{
+	std::vector<vector3f> output;
+	std::vector<vector3f> truepos;
+
+	vector3f mean, stdev;
+
+	void computeStats() {
+		MeanStDevError(truepos,output,mean,stdev);
+	}
+};
 
 template<typename TrkType>
-std::vector<vector3f> RunTracker(const char *lutfile, QTrkSettings *cfg, bool useGC, const char* name, LocMode_t locMode, int N=
+RunTrackerResults RunTracker(const char *lutfile, QTrkSettings *cfg, bool useGC, const char* name, LocMode_t locMode, int N=
 #ifdef _DEBUG
 	1
 #else
@@ -316,7 +339,7 @@ std::vector<vector3f> RunTracker(const char *lutfile, QTrkSettings *cfg, bool us
 	trk.SetLocalizationMode(locMode);
 	for (int i=0;i<N;i++)
 	{
-		vector3f pos(cfg->width/2 + R*(rand_uniform<float>()-0.5f),cfg->height/2 + R*(rand_uniform<float>()-0.5f), lut.h/4+rand_uniform<float>()*lut.h/2);
+		vector3f pos(cfg->width/2 + R*(rand_uniform<float>()-0.5f),cfg->height/2 + R*(rand_uniform<float>()-0.5f), lut.h/4+rand_uniform<float>());
 		GenerateImageFromLUT(&img, &lut, 2.0f, cfg->width/2-3,vector2f( pos.x,pos.y), pos.z, 1.0f);
 		truepos.push_back(pos);
 
@@ -337,24 +360,11 @@ std::vector<vector3f> RunTracker(const char *lutfile, QTrkSettings *cfg, bool us
 	img.free();
 	lut.free();
 
-	auto Mean = [&] (const std::vector<vector3f>& v) -> vector3f {
-		vector3f s;
-		for (int i=0;i<v.size();i++) s+=v[i]-truepos[i]; s*=1.0f/v.size();
-		return s;
-	};
-	auto StDev = [&] (std::vector<vector3f>& v) -> vector3f {
-		vector3f r;
-		vector3f mean = Mean(v);
-		for (int i=0;i<v.size();i++) {
-			vector3f d = v[i]-mean; r+= d*d;
-		//	dbgprintf("dx:%f,dy:%f\n", d.x,d.y);
-		}
-		return sqrt(r/v.size());
-	};
+	RunTrackerResults r;
+	r.output=results;
+	r.truepos=truepos;
 
-	dbgprintf("Mean (%s): %f.  St. Dev: %f\n", name, Mean(results).x, StDev(results).x);
-
-	return results;
+	return r;
 }
 
 template<typename Tracker>

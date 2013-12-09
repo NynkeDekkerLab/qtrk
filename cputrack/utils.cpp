@@ -39,6 +39,41 @@ std::string GetLocalModuleFilename()
 #endif
 }
 
+PathSeperator::PathSeperator(std::string fullpath)
+{
+	int filenameEnd = fullpath.size();
+	int filenameStart = 0;
+	for (int i = fullpath.size()-1; i>=0; i--) {
+		if (fullpath[i] == '.' && extension.empty()) {
+			extension = fullpath.substr(i+1);
+			filenameEnd = i;
+		}
+		if (fullpath[i] == '/' || fullpath[i] == '\\')  {
+			directory = fullpath.substr(0,i);
+			filenameStart = i+1;
+			break;
+		}
+	}
+	filename = fullpath.substr(filenameStart, filenameEnd - filenameStart);
+}
+
+void WriteToLog(const char *str)
+{
+	static std::string logFilename;
+	if (logFilename.empty()) {
+		std::string mdlfile = GetLocalModuleFilename();
+		logFilename = PathSeperator(mdlfile).filename + "-log.txt";
+	}
+
+	if (str) {
+		FILE* f = fopen(logFilename.c_str(), "a");
+		if (f) {
+			fputs(str,f);
+			fclose(f);
+		}
+	}
+}
+
 std::string GetDirectoryFromPath(std::string fullpath)
 {
 	for (int i=fullpath.size()-1;i>=0;i--) {
@@ -81,6 +116,7 @@ std::string SPrintf(const char *fmt, ...) {
 void dbgout(const std::string& s) {
 	OutputDebugString(s.c_str());
 	printf(s.c_str());
+	WriteToLog(s.c_str());
 }
 
 void dbgprintf(const char *fmt,...) {
@@ -91,6 +127,7 @@ void dbgprintf(const char *fmt,...) {
 	VSNPRINTF(buf, sizeof(buf), fmt, ap);
 	OutputDebugString(buf);
 	fputs(buf,stdout);
+	WriteToLog(buf);
 
 	va_end(ap);
 }

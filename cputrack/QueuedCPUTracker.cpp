@@ -300,10 +300,11 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 	}
 
 	if (localizeMode & LT_ZLUTAlign ){
-		for (int i=0;i<10;i++) {
+		for (int i=0;i<20;i++) {
 			vector3f d;
-			result.pos = trk->ComputeZLUTAlign (result.pos, j->job.zlutIndex, &d);
-			dbgprintf("dXYZ[%d]: %f, %f, %f. at %f, %f, %f\n", i, d.x,d.y,d.z, result.pos.x,result.pos.y,result.pos.z);
+			float k=1.0f/sqrtf(1+i);
+			result.pos = trk->ComputeZLUTAlign (result.pos, j->job.zlutIndex, &d, 0.05f*k, 0.001f*k);
+		//	if (th == &this->threads[0]) dbgprintf("dXYZ[%d]: %f, %f, %f. at %f, %f, %f\n", i, d.x,d.y,d.z, result.pos.x,result.pos.y,result.pos.z);
 		}
 	}
 
@@ -524,7 +525,7 @@ void QueuedCPUTracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, u
 		vector2f qipos = trk.ComputeQI(com, cfg.qi_iterations, cfg.qi_radialsteps, cfg.qi_angstepspq, cfg.qi_angstep_factor, cfg.qi_minradius, cfg.qi_maxradius, bhit);
 
 		
-		dbgprintf("BuildLUT() QIPos: x=%f, y=%f\n", qipos.x, qipos.y);
+		dbgprintf("BuildLUT() COMPos: %f,%f, QIPos: x=%f, y=%f\n", com.x,com.y, qipos.x, qipos.y);
 
 		if (flags & BUILDLUT_IMAGELUT) {
 			int h=ImageLUTHeight(), w=ImageLUTWidth();
@@ -564,7 +565,7 @@ void QueuedCPUTracker::FinalizeLUT()
 	if (zluts) {
 		for (int i=0;i<zlut_count*zlut_planes;i++) {
 
-			WriteArrayAsCSVRow("finalize-lut.csv", &zluts[cfg.zlut_radialsteps*i], cfg.zlut_radialsteps, i>0);
+		//	WriteArrayAsCSVRow("finalize-lut.csv", &zluts[cfg.zlut_radialsteps*i], cfg.zlut_radialsteps, i>0);
 			NormalizeRadialProfile(&zluts[cfg.zlut_radialsteps*i], cfg.zlut_radialsteps);
 
 		}

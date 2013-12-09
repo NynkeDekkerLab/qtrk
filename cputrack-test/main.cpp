@@ -695,11 +695,22 @@ void TestImageLUT()
 void TestZLUTAlign()
 {
 	QTrkSettings cfg;
-	cfg.width = cfg.height = 100;
-	cfg.numThreads=1;
+	cfg.width = cfg.height = 60;
 	
+//	auto locMode = (LocMode_t)(LT_ZLUTAlign | LT_NormalizeProfile | LT_LocalizeZ);
+//	auto resultsCOM = RunTracker<QueuedCPUTracker> ("lut000.jpg", &cfg, false, "com-zlutalign", locMode, 100 );
+
+	auto locModeQI = (LocMode_t)(LT_QI | LT_NormalizeProfile | LT_LocalizeZ);
+	auto resultsQI = RunTracker<QueuedCPUTracker> ("lut000.jpg", &cfg, false, "qi", locModeQI, 100 );
+
 	auto locMode = (LocMode_t)(LT_QI | LT_ZLUTAlign | LT_NormalizeProfile | LT_LocalizeZ);
-	auto results = RunTracker<QueuedCPUTracker> ("lut000.jpg", &cfg, false, "zlutalign", locMode, 200 );
+	auto resultsZA = RunTracker<QueuedCPUTracker> ("lut000.jpg", &cfg, false, "qi-zlutalign", locMode, 100 );
+
+	resultsZA.computeStats(); 
+	resultsQI.computeStats();
+
+	dbgprintf("ZLUTAlign: X= %f. stdev: %f\tZ=%f,  stdev: %f\n", resultsZA.mean.x, resultsZA.stdev.x, resultsZA.mean.z, resultsZA.stdev.z);
+	dbgprintf("Only QI:   X= %f. stdev: %f\tZ=%f,  stdev: %f\n", resultsQI.mean.x, resultsQI.stdev.x, resultsQI.mean.z, resultsQI.stdev.z);
 }
 
 int main()

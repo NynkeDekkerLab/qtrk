@@ -83,7 +83,7 @@ public:
 
 	void ApplyOffsetGain(float *offset, float *gain, float offsetFactor, float gainFactor);
 
-	vector3f ComputeZLUTAlign(vector3f pos, int beadIndex,vector3f* diff=0);
+	vector3f ComputeZLUTAlign(vector3f pos, int beadIndex,vector3f* diff=0, float step=0.05f, float deriv_delta=0.001f);
 	double ZLUTAlign_ComputeScore(vector3f pos, int beadIndex);
 
 };
