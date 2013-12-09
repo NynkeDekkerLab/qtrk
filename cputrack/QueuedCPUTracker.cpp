@@ -478,7 +478,7 @@ void QueuedCPUTracker::GetImageZLUT(float* dst)
 }
 
 
-void QueuedCPUTracker::SetImageZLUT(float* src, float *radial_lut, int* dims, float* rweights)
+bool QueuedCPUTracker::SetImageZLUT(float* src, float *radial_lut, int* dims)
 {
 	if (image_lut)  {
 		delete[] image_lut;
@@ -500,6 +500,8 @@ void QueuedCPUTracker::SetImageZLUT(float* src, float *radial_lut, int* dims, fl
 	}
 
 	SetRadialZLUT(radial_lut, dims[0], dims[1]);
+
+	return true; // returning true indicates this implementation support ImageLUT
 }
 
 
@@ -510,11 +512,11 @@ void QueuedCPUTracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, u
 		void *img_data = (uchar*)data + pitch * cfg.height * i;
 
 		if (pdt == QTrkFloat) {
-			trk.SetImage((float*)data, pitch);
+			trk.SetImage((float*)img_data, pitch);
 		} else if (pdt == QTrkU8) {
-			trk.SetImage8Bit((uchar*)data, pitch);
+			trk.SetImage8Bit((uchar*)img_data, pitch);
 		} else {
-			trk.SetImage16Bit((ushort*)data,pitch);
+			trk.SetImage16Bit((ushort*)img_data,pitch);
 		}
 
 		vector2f com = trk.ComputeMeanAndCOM();
@@ -546,10 +548,12 @@ void QueuedCPUTracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, u
 		}
 
 		float *bead_zlut=GetZLUTByIndex(i);
-		float *tmp = ALLOCA_ARRAY(float, cfg.zlut_radialsteps);
-		trk.ComputeRadialProfile(tmp, cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, qipos, true);
+		float *tmp = new float[cfg.zlut_radialsteps];
+		trk.ComputeRadialProfile(tmp, cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, qipos, false, 0, true);
+	//	WriteArrayAsCSVRow("rlut-test.csv", tmp, cfg.zlut_radialsteps, plane>0);
 		for(int i=0;i<cfg.zlut_radialsteps;i++) 
-			bead_zlut[plane*cfg.zlut_radialsteps] += tmp[i];
+			bead_zlut[plane*cfg.zlut_radialsteps+i] += tmp[i];
+		delete[] tmp;
 	});
 }
 

@@ -734,6 +734,8 @@ int main()
 
 	TestZLUTAlign();
 	//TestImageLUT();
+//	TestBuildRadialZLUT<QueuedCPUTracker>( "lut000.jpg" );
+	//TestImageLUT();
 
 	//CorrectedRadialProfileTest();
 	return 0;

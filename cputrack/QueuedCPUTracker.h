@@ -29,7 +29,7 @@ public:
 
 	void GetImageZLUTSize(int* dims);
 	void GetImageZLUT(float* dst);
-	void SetImageZLUT(float* dst, float *radial_zlut, int* dims, float *rweights=0);
+	bool SetImageZLUT(float* dst, float *radial_zlut, int* dims);
 
 	void SetPixelCalibrationImages(float* offset, float* gain) override;
 	void SetPixelCalibrationFactors(float offsetFactor, float gainFactor) override;

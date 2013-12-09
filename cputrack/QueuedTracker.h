@@ -48,6 +48,11 @@ public:
 	// Set radial weights used for comparing LUT profiles, zcmp has to have 'zlut_radialsteps' elements
 	virtual void SetRadialWeights(float* zcmp) = 0;
 
+	// dims = [ count, planes, height, width ]  (Just like how the data is ordered)
+	virtual void GetImageZLUTSize(int* dims) {}
+	virtual void GetImageZLUT(float* dst) {}
+	virtual bool SetImageZLUT(float* dst, float *radial_zlut, int* dims) { return false; }
+
 #define BUILDLUT_IMAGELUT 1
 	virtual void BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, uint flags, int plane) = 0;
 	virtual void FinalizeLUT() = 0;

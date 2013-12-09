@@ -4,6 +4,8 @@
 #include <map>
 #include <cstdint>
 
+#include <Windows.h>
+
 #include "dllmacros.h"
 
 void dbgprintf(const char *fmt,...);
@@ -44,23 +46,64 @@ struct track_alloc : std::allocator<T> {
     }
 };
 
-typedef std::map< void*, Allocation, std::less<void*>, 
-                  track_alloc< std::pair<void* const, std::size_t> > > AllocMap;
 
-struct track_printer {
-    AllocMap* track;
-    track_printer(AllocMap * track):track(track) {}
-    ~track_printer()
+struct MemDbgMutex {
+	HANDLE h;
+	int lockCount;
+
+	MemDbgMutex (){ 
+		h=CreateMutex(0,FALSE,0); 
+		lockCount=0;
+	}
+	~MemDbgMutex () { CloseHandle(h); }
+	void lock() { 
+		WaitForSingleObject(h, INFINITE);
+		lockCount++;
+	}
+	void unlock() { 
+		lockCount--;
+		ReleaseMutex(h); 
+	}
+};
+
+
+struct AllocMap {
+	typedef 	std::map< void*, Allocation, std::less<void*>, 
+                  track_alloc< std::pair<void* const, std::size_t> > > MapType;
+	MapType map;
+
+
+	MemDbgMutex mutex;
+	void Store(void *mem, const Allocation& alloc) {
+		mutex.lock();
+		map[mem] = alloc;
+		mutex.unlock();
+	}
+	void Remove(void *mem) {
+		mutex.lock();
+		map.erase(mem);
+		mutex.unlock();
+	}
+	void Print()
 	{
-		dbgprintf("Allocations: %d\n", track->size());
+		dbgprintf("Allocations: %d\n", map.size());
 		size_t total = 0;
-		for (AllocMap::iterator i = track->begin(); i != track->end(); ++i)
+		for (auto i = map.begin(); i != map.end(); ++i)
 		{
 			Allocation& a = i->second;
 			dbgprintf("Allocation: %d bytes: @ line %d in '%s'\n" , a.size, a.line, a.srcfile);
 			total += a.size;
 		}
 		dbgprintf("Total: %d bytes\n", total);
+	}
+};
+
+struct track_printer {
+    AllocMap* track;
+    track_printer(AllocMap * track):track(track) {}
+    ~track_printer()
+	{
+		track->Print();
 	}
 };
 
@@ -78,7 +121,7 @@ void * operator new(size_t s, const char* file, int line) {
         throw std::bad_alloc();
     }
 	Allocation alloc = { file, line ,s };
-    (*get_map())[mem] = alloc;
+    get_map()->Store (mem, alloc);
     return mem;
 }
 void * operator new[](size_t s, const char* file, int line) {
@@ -88,23 +131,17 @@ void * operator new[](size_t s, const char* file, int line) {
         throw std::bad_alloc();
     }
 	Allocation alloc = { file, line ,s };
-    (*get_map())[mem] = alloc;
+    get_map()->Store(mem,alloc);
     return mem;
 }
 
 void operator delete(void * mem) {
-    if(get_map()->erase(mem) == 0) {
-        // this indicates a serious bug, or simply an STL allocation that is not calling new
-//        dbgprintf("bug: memory at %p wasn't allocated by us\n", mem);
-    }
+	get_map()->Remove(mem);
     std::free(mem);
 }
 void operator delete[](void * mem) {
-    if(get_map()->erase(mem) == 0) {
-        // this indicates a serious bug
-  //      dbgprintf("bug: memory at %p wasn't allocated by us\n", mem);
-    }
-    std::free(mem);
+	get_map()->Remove(mem);
+	std::free(mem);
 }
 
 

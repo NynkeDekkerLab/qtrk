@@ -23,8 +23,9 @@ static void ResampleBMLUT(QueuedTracker* qtrk, BenchmarkLUT* lut, float M, int z
 	QTrkComputedConfig& cfg = qtrk->cfg;
 	ImageData img = ImageData::alloc(cfg.width,cfg.height);
 
+	qtrk->SetRadialZLUT(0, 1, zplanes);
 	std::vector<float> stetsonWindow = ComputeStetsonWindow(cfg.zlut_radialsteps);
-	qtrk->SetRadialZLUT(0, 1, zplanes, &stetsonWindow[0]);
+	qtrk->SetRadialWeights(&stetsonWindow[0]);
 	qtrk->SetLocalizationMode( (LocMode_t)(LT_QI|LT_BuildRadialZLUT|LT_NormalizeProfile) );
 	for (int i=0;i<zplanes;i++)
 	{

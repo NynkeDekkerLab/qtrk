@@ -14,7 +14,7 @@ static void ResampleLUT(QueuedTracker* qtrk, ImageData* lut, float M, int zplane
 	qtrk->SetRadialZLUT(0, 1, zplanes);
 	for (int i=0;i<zplanes;i++)
 	{
-		GenerateImageFromLUT(&img, lut, 0, lut->w, vector2f(cfg.width/2, cfg.height/2), i/(float)zplanes * lut->h, M);
+		GenerateImageFromLUT(&img, lut, 0, cfg.width/2, vector2f(cfg.width/2, cfg.height/2), i/(float)zplanes * lut->h, M);
 		img.normalize();
 		if (i == 0)
 			WriteJPEGFile(SPrintf("smp-%s",jpgfile).c_str(), img);
@@ -355,5 +355,46 @@ std::vector<vector3f> RunTracker(const char *lutfile, QTrkSettings *cfg, bool us
 	dbgprintf("Mean (%s): %f.  St. Dev: %f\n", name, Mean(results).x, StDev(results).x);
 
 	return results;
+}
+
+template<typename Tracker>
+void TestBuildRadialZLUT(const char *rlutfile)
+{
+	QTrkSettings cfg;
+	cfg.width = 100;
+	cfg.height = 100;
+	
+	ImageData rlut=ReadJPEGFile(rlutfile);
+	int nbeads=3;
+	ImageData imgbuf=ImageData::alloc(cfg.width,cfg.height * nbeads);
+
+	Tracker trk(cfg);
+
+	int nplanes = 50;
+	trk.SetRadialZLUT(0, nbeads, nplanes);
+	for (int z=0;z<nplanes;z++) {
+		dbgprintf("z=%d\n", z);
+		for (int n=0;n<1;n++) {
+			for (int b=0;b<nbeads;b++) {
+				ImageData tmpimg = ImageData( &imgbuf.data[imgbuf.w * cfg.height *b], cfg.width,cfg.height); 
+				vector2f pos = vector2f::random( vector2f( cfg.width/2,cfg.height/2 ), 2.0f );
+				GenerateImageFromLUT(&tmpimg, &rlut, 0.0f, rlut.w-1, pos, z/(float)nplanes * rlut.h, 0.5f + 0.2f*b);
+			}
+			//ApplyPoissonNoise (img, 255);
+			WriteJPEGFile("rlut-test-img.jpg", imgbuf);
+			trk.BuildLUT(imgbuf.data, imgbuf.pitch(), QTrkFloat, false, z);
+		}
+	}
+	trk.FinalizeLUT();
+
+	ImageData result = ImageData::alloc(trk.cfg.zlut_radialsteps, nplanes * nbeads);
+	trk.GetRadialZLUT(result.data);
+
+	WriteJPEGFile("rlut-test.jpg", result);
+
+	result.free();
+
+	imgbuf.free();
+	rlut.free();
 }
 

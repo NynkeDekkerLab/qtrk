@@ -360,7 +360,7 @@ CDLL_EXPORT void qtrk_build_lut_plane(QueuedTracker* qtrk, LVArray3D<float> **da
 		int cnt,planes,rsteps;
 		qtrk->GetRadialZLUTSize(cnt, planes, rsteps);
 
-		if ((*data)->dimSizes[0] == cnt) {
+		if ((*data)->dimSizes[0] != cnt) {
 			ArgumentErrorMsg(err, SPrintf("Invalid number of images given (%d). Expecting %d", (*data)->dimSizes[0], cnt));
 			return;
 		}
