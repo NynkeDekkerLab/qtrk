@@ -441,8 +441,6 @@ void QueuedCUDATracker::ScheduleLocalization(void* data, int pitch, QTRK_PixelDa
 	jobQueueMutex.lock();
 	int jobIndex = s->jobs.size();
 	LocalizationJob job = *jobInfo;
-	if (s->device->radial_zlut.isEmpty())  // dont do ZLUT commands when no ZLUT has been set
-		localizeMode = (LocMode_t)(localizeMode & ~(LT_LocalizeZ | LT_BuildRadialZLUT));
 	s->jobs.push_back(job);
 	s->localizeFlags = localizeMode; // which kernels to run
 	s->locParams[jobIndex].zlutIndex = jobInfo->zlutIndex;
@@ -456,6 +454,9 @@ void QueuedCUDATracker::ScheduleLocalization(void* data, int pitch, QTRK_PixelDa
 	// Copy the image to the batch image buffer (CPU side)
 	float* hostbuf = &s->hostImageBuf[cfg.height*cfg.width*jobIndex];
 	CopyImageToFloat( (uchar*)data, cfg.width, cfg.height, pitch, pdt, hostbuf);
+	if (localizeMode & LT_ClearFirstFourPixels) {
+		for(int i=0;i<4;i++) hostbuf[i]=0;
+	}
 	s->imageBufMutex.unlock();
 
 	//dbgprintf("Job: %d\n", jobIndex);

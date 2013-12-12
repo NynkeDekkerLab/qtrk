@@ -244,6 +244,10 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 		trk->SetImageFloat((float*)j->data);
 	}
 
+	if (localizeMode & LT_ClearFirstFourPixels) {
+		trk->srcImage[0]=trk->srcImage[1]=trk->srcImage[2]=trk->srcImage[3]=0;
+	}
+
 	if (calib_offset && calib_gain) {
 		int index = cfg.width*cfg.height*j->job.zlutIndex;
 

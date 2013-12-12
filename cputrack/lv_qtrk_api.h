@@ -16,7 +16,6 @@ CDLL_EXPORT void DLL_CALLCONV qtrk_queue_array(QueuedTracker* qtrk,  ErrorCluste
 
 
 enum QueueFrameFlags {
-	QFF_ClearFirstFour = 1, // frame number is stored in first 4 pixels of frame, so we need to clear that in order to not disturb the final position
 	QFF_Force32Bit = 0x7fffffff
 };
 

@@ -12,6 +12,7 @@ using System.Threading;
 
 using NationalInstruments.Vision.Acquisition.Imaq;
 using NationalInstruments.Vision.Analysis.Internal;
+using NationalInstruments.Vision.*;
 
 namespace AutoTracker
 {
@@ -22,36 +23,57 @@ namespace AutoTracker
 
 		Thread grabThread;
 		bool stopGrab;
+        uint bufNum;
+
+        public class CameraConfig {
+            public Point ROISize;
+            public Point[] ROIs;
+            public int framerate;
+            public int exposureTime;
+        }
+
+        void SetROIs(CameraConfig cfg)
+        {
+            WriteCmd(String.Format(":d{0:X3}{1:X3}{2:X3}{3:X3}", cfg.ROIs[0].X, cfg.ROIs[0].Y,
+                cfg.ROISize.X, cfg.ROISize.Y));
+        }
+
+        void WriteCmd(string cmd)
+        {
+            Console.WriteLine("Camera cmd: " + cmd);
+            session.SerialConnection.Write(ASCIIEncoding.ASCII.GetBytes(cmd+"\r"), 200);
+        }
 
 		public AutoTrackerDlg()
 		{
 			InitializeComponent();
 
+            CameraConfig cfg = new CameraConfig() {
+                ROIs = new Point[] { new Point(0, 0) },
+                ROISize = new Point(800, 600)
+            };
+
 			session = new ImaqSession("img0");
 
-			buflist = session.CreateBufferCollection(40);
-			session.RingSetup(buflist, 0, false);
+            SetROIs(cfg);
+            buflist = session.CreateBufferCollection(40);
+            session.Acquisition.Configure(buflist);
 
-			grabThread = new Thread(new ThreadStart(GrabbingThread));
+            bufNum = 0;
+            session.Acquisition.AcquireCompleted += Acquisition_AcquireCompleted;
+            session.Acquisition.AcquireAsync();
 
-			session.Start();
+            session.Start();
 		}
 
-		void GrabbingThread()
-		{
-			uint bufferIndex;
-			uint i = 0;
+        void Acquisition_AcquireCompleted(object sender, AsyncCompletedEventArgs e)
+        {
+            uint extractedNumber = 0;
+            ImaqBuffer buffer = session.Acquisition.Extract(bufNum, out extractedNumber);
+            bufNum++;
 
-			while (!stopGrab)
-			{
-				ImaqBuffer buffer = session.Acquisition.Extract(i, out bufferIndex);
-
-
-				
-				i++;
-			}
-			session.Stop();
-		}
+            
+        }
 
 		
 		private void timerUIUpdate_Tick(object sender, EventArgs e)
@@ -62,8 +84,6 @@ namespace AutoTracker
 		private void AutoTrackerDlg_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			stopGrab = true;
-			while (grabThread.ThreadState == ThreadState.Running)
-				;
 		}
 	}
 }

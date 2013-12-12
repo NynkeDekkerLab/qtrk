@@ -13,6 +13,7 @@ enum LocalizeModeEnum {
 	LT_LocalizeZ = 16,
 	LT_BuildRadialZLUT = 32,
 	LT_NormalizeProfile = 64,
+	LT_ClearFirstFourPixels = 128,
 	LT_Force32Bit = 0xffffffff
 };
 
@@ -115,6 +116,7 @@ struct QTrkComputedConfig : public QTrkSettings
 	QTrkComputedConfig() {}
 	QTrkComputedConfig(const QTrkSettings& base) { *((QTrkSettings*)this)=base; Update(); }
 	void Update();
+	void WriteToLog();
 
 	// Computed from QTrkSettings
 	int zlut_radialsteps;

@@ -309,9 +309,10 @@ void ResultManager::Flush()
 	Write();
 
 	// Dump stats about unfinished frames for debugging
+#ifdef _DEBUG
 	for (uint i=0;i<frameResults.size();i++) {
 		FrameResult *fr = frameResults[i];
-		dbgprintf("Frame %d. TS: %f, Count: %d\n", i, fr->timestamp, fr->count);
+//		dbgprintf("Frame %d. TS: %f, Count: %d\n", i, fr->timestamp, fr->count);
 		if (fr->count != config.numBeads) {
 			for (int j=0;j<fr->results.size();j++) {
 				if( fr->results[j].job.frame == 0)
@@ -320,7 +321,7 @@ void ResultManager::Flush()
 			dbgprintf("\n");
 		}
 	}
-
+#endif
 	resultMutex.unlock();
 }
 
@@ -354,13 +355,12 @@ bool ResultManager::CheckResultSpace(int fr)
 	if(fr < cnt.startFrame)
 		return false; // already removed, ignore
 
-	/*
 	if (fr > cnt.processedFrames + 20000) {
 
 		dbgprintf("ResultManager: Ignoring suspiciously large frame number (%d).\n", fr);
 
 		return false;
-	}*/
+	}
 
 	while (fr >= cnt.startFrame + frameResults.size()) {
 		frameResults.push_back (new FrameResult( config.numBeads, config.numFrameInfoColumns));
@@ -383,8 +383,6 @@ void ResultManager::StoreFrameInfo(int frame, double timestamp, float* columns)
 			fr->hasFrameInfo=true;
 		}
 	}
-	else 
-		dbgprintf("Frame already removed before StoreFrameInfo was called on it!! Set maxFramesInMemory(%d) higher?\n", config.maxFramesInMemory);
 
 	resultMutex.unlock();
 }
