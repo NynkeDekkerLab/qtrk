@@ -13,6 +13,12 @@
 #include "QueuedTracker.h"
 #include "threads.h"
 
+static std::string logFilename;
+
+void dbgsetlogfile(const char*path)
+{
+	logFilename = path;
+}
 
 vector2f vector2f::random(vector2f center, float R)
 {
@@ -49,7 +55,7 @@ PathSeperator::PathSeperator(std::string fullpath)
 			filenameEnd = i;
 		}
 		if (fullpath[i] == '/' || fullpath[i] == '\\')  {
-			directory = fullpath.substr(0,i);
+			directory = fullpath.substr(0,i+1);
 			filenameStart = i+1;
 			break;
 		}
@@ -59,10 +65,9 @@ PathSeperator::PathSeperator(std::string fullpath)
 
 void WriteToLog(const char *str)
 {
-	static std::string logFilename;
 	if (logFilename.empty()) {
-		std::string mdlfile = GetLocalModuleFilename();
-		logFilename = PathSeperator(mdlfile).filename + "-log.txt";
+		auto ps = PathSeperator(GetLocalModuleFilename());
+		logFilename = ps.directory + ps.filename + "-log.txt";
 	}
 
 	if (str) {

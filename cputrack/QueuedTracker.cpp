@@ -19,6 +19,38 @@ void QTrkComputedConfig::Update()
 	qi_radialsteps = NearestPowerOf2(qi_radialsteps);
 }
 
+void QTrkComputedConfig::WriteToLog()
+{
+#define WRITEVAR(v) dbgprintf("Setting: %s set to %g\n", #v, (float) v)
+	WRITEVAR(width);
+	WRITEVAR(height);
+	WRITEVAR(numThreads);
+	WRITEVAR(cuda_device);
+	WRITEVAR(com_bgcorrection);
+	WRITEVAR(zlut_minradius);
+	WRITEVAR(zlut_radial_coverage);
+	WRITEVAR(zlut_angular_coverage);
+	WRITEVAR(zlut_roi_coverage); 
+	WRITEVAR(qi_iterations);
+	WRITEVAR(qi_minradius);
+	WRITEVAR(qi_radial_coverage);
+	WRITEVAR(qi_angular_coverage);
+	WRITEVAR(qi_roi_coverage);
+	WRITEVAR(qi_angstep_factor);
+	WRITEVAR(xc1_profileLength);
+	WRITEVAR(xc1_profileWidth);
+	WRITEVAR(xc1_iterations);
+	WRITEVAR(gauss2D_iterations);
+	WRITEVAR(gauss2D_sigma);
+	WRITEVAR(zlut_radialsteps);
+	WRITEVAR(zlut_angularsteps);
+	WRITEVAR(zlut_maxradius);
+	WRITEVAR(qi_radialsteps);
+	WRITEVAR(qi_angstepspq);
+	WRITEVAR(qi_maxradius);
+#undef WRITEVAR
+}
+
 QueuedTracker::QueuedTracker()
 {
 }

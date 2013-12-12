@@ -530,8 +530,8 @@ void CompareAccuracy (const char *lutfile)
 	cfg.height=150;
 	cfg.numThreads=1;
 
-	auto cpu = RunTracker<QueuedCPUTracker> (lutfile, &cfg, false, "cpu");
-	auto gpu = RunTracker<QueuedCUDATracker>(lutfile, &cfg, false, "gpu");
+	auto cpu = RunTracker<QueuedCPUTracker> (lutfile, &cfg, false, "cpu", LT_QI);
+	auto gpu = RunTracker<QueuedCUDATracker>(lutfile, &cfg, false, "gpu", LT_QI);
 //	auto cpugc = RunTracker<QueuedCPUTracker>(lutfile, &cfg, true, "cpugc");
 //	auto gpugc = RunTracker<QueuedCUDATracker>(lutfile, &cfg, true, "gpugc");
 

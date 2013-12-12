@@ -9,6 +9,7 @@ template<typename T> bool isNAN(const T& v) {
 void dbgout(const std::string& s);
 std::string SPrintf(const char *fmt, ...);
 void dbgprintf(const char *fmt,...);
+void dbgsetlogfile(const char*path);
 
 template<typename T>
 void DeleteAllElems(T& c) {

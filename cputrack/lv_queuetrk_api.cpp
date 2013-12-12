@@ -87,6 +87,11 @@ CDLL_EXPORT int qtrk_get_debug_image(QueuedTracker* qtrk, int id, LVArray2D<floa
 }
 
 
+CDLL_EXPORT void DLL_CALLCONV qtrk_set_logfile_path(const char* path)
+{
+	dbgsetlogfile(path);
+}
+
 
 CDLL_EXPORT void DLL_CALLCONV qtrk_get_computed_config(QueuedTracker* qtrk, QTrkComputedConfig* cc, ErrorCluster *err)
 {
@@ -214,7 +219,10 @@ CDLL_EXPORT QueuedTracker* qtrk_create(QTrkSettings* settings, LStrHandle warnin
 {
 	QueuedTracker* tracker = 0;
 	try {
-		tracker = CreateQueuedTracker(*settings);
+		QTrkComputedConfig cc(*settings);
+		cc.WriteToLog();
+
+		tracker = CreateQueuedTracker(cc);
 
 		std::string w = tracker->GetWarnings();
 		if (!w.empty()) SetLVString(warnings, w.c_str());
@@ -327,13 +335,6 @@ CDLL_EXPORT uint qtrk_queue_frame(QueuedTracker* qtrk, uchar* image, int pitch, 
 	uint pdt, ROIPosition* pos, int numROI, const LocalizationJob *pJobInfo, QueueFrameFlags flags, ErrorCluster* e)
 {
 	LocalizationJob jobInfo = *pJobInfo;
-	if (flags & QFF_ClearFirstFour) 
-		*((uint32_t*)image) = 0;
-
-	#ifdef _DEBUG
-		dbgprintf("QueueFrame: frame %d, bead %d, zplane %d. #roi=%d\n", jobInfo.frame, jobInfo.zlutIndex, jobInfo.zlutPlane, numROI);
-	#endif
-
 	int nQueued;
 	if ( (nQueued=qtrk->ScheduleFrame(image, pitch, w,h, pos, numROI, (QTRK_PixelDataType)pdt, &jobInfo)) != numROI) {
 		ArgumentErrorMsg(e, SPrintf( "Not all ROIs (%d out of %d) where queued. Check image borders vs ROIs.", nQueued, numROI));
