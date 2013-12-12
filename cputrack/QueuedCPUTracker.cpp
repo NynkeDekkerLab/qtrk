@@ -300,11 +300,16 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 	}
 
 	if (localizeMode & LT_ZLUTAlign ){
-		for (int i=0;i<20;i++) {
+		/*for (int i=0;i<400;i++) {
 			vector3f d;
-			float k=1.0f/sqrtf(1+i);
-			result.pos = trk->ComputeZLUTAlign (result.pos, j->job.zlutIndex, &d, 0.05f*k, 0.001f*k);
-		//	if (th == &this->threads[0]) dbgprintf("dXYZ[%d]: %f, %f, %f. at %f, %f, %f\n", i, d.x,d.y,d.z, result.pos.x,result.pos.y,result.pos.z);
+			//float k=1.0f/sqrtf(1+i);
+			result.pos = trk->ZLUTAlignGradientStep (result.pos, j->job.zlutIndex, &d, vector3f(0.02f,0.02f,0.1f), vector3f(1e-3,1e-3,1e-3));
+			if (th == &this->threads[0]) dbgprintf("dXYZ[%d]: %f, %f, %f. at %f, %f, %f\n", i, d.x,d.y,d.z, result.pos.x,result.pos.y,result.pos.z);
+		}*/
+		for (int i=0;i<5;i++) {
+			vector3f d;
+			result.pos = trk->ZLUTAlignNewtonRaphsonStep (result.pos, j->job.zlutIndex, &d, vector3f(2e-3,2e-3,2e-3));
+			if (th == &this->threads[0]) dbgprintf("dXYZ[%d]: %f, %f, %f. at %f, %f, %f\n", i, d.x,d.y,d.z, result.pos.x,result.pos.y,result.pos.z);
 		}
 	}
 

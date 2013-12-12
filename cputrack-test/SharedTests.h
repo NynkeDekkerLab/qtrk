@@ -25,7 +25,7 @@ static void ResampleLUT(QueuedTracker* qtrk, ImageData* lut, float M, int zplane
 	img.free();
 
 	if (newlut) {
-		newlut->alloc(cfg.zlut_radialsteps, zplanes);
+		*newlut = ImageData::alloc(cfg.zlut_radialsteps, zplanes);
 		qtrk->GetRadialZLUT(newlut->data);
 		newlut->normalize();
 	}
@@ -327,8 +327,10 @@ RunTrackerResults RunTracker(const char *lutfile, QTrkSettings *cfg, bool useGC,
 	ImageData lut = ReadJPEGFile(lutfile);
 	ImageData img = ImageData::alloc(cfg->width,cfg->height);
 
+	ImageData rescaledLUT;
+
 	TrkType trk(*cfg);
-	ResampleLUT(&trk, &lut, 1, 100, SPrintf("%s-zlut.jpg",name).c_str());
+	ResampleLUT(&trk, &lut, 1, 100, SPrintf("%s-zlut.jpg",name).c_str(), &rescaledLUT);
 
 	if (useGC) EnableGainCorrection(&trk);
 
@@ -340,7 +342,7 @@ RunTrackerResults RunTracker(const char *lutfile, QTrkSettings *cfg, bool useGC,
 	for (int i=0;i<N;i++)
 	{
 		vector3f pos(cfg->width/2 + R*(rand_uniform<float>()-0.5f),cfg->height/2 + R*(rand_uniform<float>()-0.5f), lut.h/4+rand_uniform<float>());
-		GenerateImageFromLUT(&img, &lut, 2.0f, cfg->width/2-3,vector2f( pos.x,pos.y), pos.z, 1.0f);
+		GenerateImageFromLUT(&img, &rescaledLUT, trk.cfg.zlut_minradius, trk.cfg.zlut_maxradius, vector2f( pos.x,pos.y), pos.z, 1.0f);
 		truepos.push_back(pos);
 
 		LocalizationJob job(i, 0, 0, 0);
@@ -363,6 +365,8 @@ RunTrackerResults RunTracker(const char *lutfile, QTrkSettings *cfg, bool useGC,
 	RunTrackerResults r;
 	r.output=results;
 	r.truepos=truepos;
+
+	rescaledLUT.free();
 
 	return r;
 }

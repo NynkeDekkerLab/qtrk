@@ -673,16 +673,16 @@ float CPUTracker::ComputeZ(vector2f center, int angularSteps, int zlutIndex, boo
 
 
 
-vector3f CPUTracker::ComputeZLUTAlign (vector3f pos, int beadIndex, vector3f* diff, float step, float deriv_delta)
+vector3f CPUTracker::ZLUTAlignGradientStep (vector3f pos, int beadIndex, vector3f* diff, vector3f step, vector3f deriv_delta)
 {
 	/*
 	Numerically approximate:
 	dLUTScore/dx, dLUTScore/dy, dLUTScore/dz and do gradient descent..
 	*/
 
-	const float dx = deriv_delta;
-	const float dy = deriv_delta;
-	const float dz = deriv_delta;
+	const float dx = deriv_delta.x;
+	const float dy = deriv_delta.y;
+	const float dz = deriv_delta.z;
 
 	float ds_dx = (ZLUTAlign_ComputeScore( vector3f(pos.x+dx, pos.y, pos.z ), beadIndex) - ZLUTAlign_ComputeScore( vector3f(pos.x-dx, pos.y, pos.z ), beadIndex))/(2*dx);
 	float ds_dy = (ZLUTAlign_ComputeScore( vector3f(pos.x, pos.y+dy, pos.z ), beadIndex) - ZLUTAlign_ComputeScore( vector3f(pos.x, pos.y-dy, pos.z ), beadIndex))/(2*dy);
@@ -691,8 +691,43 @@ vector3f CPUTracker::ComputeZLUTAlign (vector3f pos, int beadIndex, vector3f* di
 	vector3f ds_dpos(ds_dx,ds_dy,ds_dz);
 	if (diff) *diff = ds_dpos;
 
-	return pos - step * ds_dpos;
+	return pos + step * ds_dpos;
 }
+
+vector3f CPUTracker::ZLUTAlignNewtonRaphsonStep(vector3f pos, int beadIndex,vector3f* diff, vector3f deriv_delta)
+{
+	const float dx = deriv_delta.x;
+	const float dy = deriv_delta.y;
+	const float dz = deriv_delta.z;
+
+	float spx = ZLUTAlign_ComputeScore( vector3f(pos.x+dx, pos.y, pos.z ), beadIndex);
+	float spy = ZLUTAlign_ComputeScore( vector3f(pos.x, pos.y+dy, pos.z ), beadIndex);
+	float spz = ZLUTAlign_ComputeScore( vector3f(pos.x, pos.y, pos.z+dz ), beadIndex);
+	float smx = ZLUTAlign_ComputeScore( vector3f(pos.x-dx, pos.y, pos.z ), beadIndex);
+	float smy = ZLUTAlign_ComputeScore( vector3f(pos.x, pos.y-dy, pos.z ), beadIndex);
+	float smz = ZLUTAlign_ComputeScore( vector3f(pos.x, pos.y, pos.z-dz ), beadIndex);
+	float s = ZLUTAlign_ComputeScore( vector3f(pos.x, pos.y, pos.z ), beadIndex);
+
+	// f'' =  (f(x+h) - 2*f(x) + f(x-h)) / (h^2)
+	float ds_dx = (spx - smx) / (2*dx);
+	float ds_dy = (spy - smy) / (2*dy);
+	float ds_dz = (spz - smz) / (2*dz);
+	float ds2_dx2 = (spx - 2*s + smx) / (dx*dx);
+	float ds2_dy2 = (spy - 2*s + smy) / (dy*dy);
+	float ds2_dz2 = (spz - 2*s + smz) / (dz*dz);
+	
+	if (diff) {
+//		*diff = vector3f(ds2_dx2,ds2_dy2,ds2_dz2);
+		*diff = vector3f(ds_dx,ds_dy,ds_dz);
+	}
+
+	vector3f step = vector3f( 
+		ds2_dx2==0 ? 0 : ds_dx/ds2_dx2, 
+		ds2_dy2==0 ? 0 : ds_dy/ds2_dy2, 
+		ds2_dz2==0 ? 0 : ds_dz/ds2_dz2);
+	return pos - step;
+}
+
 
 static int clamp(int v, int a,int b) { return std::max(a, std::min(b, v)); }
 
