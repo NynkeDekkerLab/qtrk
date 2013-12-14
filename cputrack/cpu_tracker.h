@@ -85,6 +85,7 @@ public:
 
 	vector3f ZLUTAlignGradientStep(vector3f pos, int beadIndex,vector3f* diff, vector3f step, vector3f deriv_delta);
 	vector3f ZLUTAlignNewtonRaphsonStep(vector3f pos, int beadIndex,vector3f* diff, vector3f deriv_delta);
+	vector3f ZLUTAlignSecantMethod(vector3f pos, int beadIndex, int iterations, vector3f deriv_delta);
 
 	double ZLUTAlign_ComputeScore(vector3f pos, int beadIndex);
 

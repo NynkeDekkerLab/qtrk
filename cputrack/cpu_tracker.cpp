@@ -729,6 +729,39 @@ vector3f CPUTracker::ZLUTAlignNewtonRaphsonStep(vector3f pos, int beadIndex,vect
 }
 
 
+vector3f CPUTracker::ZLUTAlignSecantMethod(vector3f pos, int beadIndex,int iterations, vector3f deriv_delta)
+{
+	/* secant method
+
+	x(n) = x(n-1) * f(x(n-1)) * (x(n-1) - x(n-2)) / ( f(x(n-1))-f(x(n-2))
+	*/
+
+	// We have one point and need to to start secant method, so let's do gradient following step
+	vector3f deriv2, deriv1;
+	vector3f p1 = ZLUTAlignGradientStep(pos, beadIndex, &deriv2, deriv_delta*100, deriv_delta);
+	vector3f p2 = pos;
+	// Compute derivative
+	ZLUTAlignGradientStep(p1, beadIndex, &deriv1, vector3f(), deriv_delta);
+
+	for(int i=0;i<iterations;i++) {
+		// f(x(n-1)) = deriv1 (at  p1)
+		// f(x(n-2)) = deriv2 (at p2)
+
+		vector3f newpos = p1 * deriv1 * ( p1-p2 ) * (1.0f / ( deriv1 - deriv2 ));
+		p2 = p1; 
+		p1 = newpos;
+
+		if (i < iterations - 1) {
+			deriv2 = deriv1;
+			ZLUTAlignGradientStep(p1, beadIndex, &deriv1, vector3f(), deriv_delta);
+		}
+
+		vector3f diff = p1-p2;
+		dbgprintf("secant [%d]: %f,%f,%f\n", i, diff.x,diff.y,diff.z);
+	}
+	return p1;
+}
+
 static int clamp(int v, int a,int b) { return std::max(a, std::min(b, v)); }
 
 double CPUTracker::ZLUTAlign_ComputeScore(vector3f pos, int beadIndex)
