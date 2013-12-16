@@ -320,7 +320,7 @@ RunTrackerResults RunTracker(const char *lutfile, QTrkSettings *cfg, bool useGC,
 #else
 	2000
 #endif
-	)
+	, float noiseFactor=28)
 {
 	std::vector<vector3f> results, truepos;
 
@@ -343,6 +343,7 @@ RunTrackerResults RunTracker(const char *lutfile, QTrkSettings *cfg, bool useGC,
 	{
 		vector3f pos(cfg->width/2 + R*(rand_uniform<float>()-0.5f),cfg->height/2 + R*(rand_uniform<float>()-0.5f), lut.h/4+rand_uniform<float>());
 		GenerateImageFromLUT(&img, &rescaledLUT, trk.cfg.zlut_minradius, trk.cfg.zlut_maxradius, vector2f( pos.x,pos.y), pos.z, 1.0f);
+		if (noiseFactor>0)	ApplyPoissonNoise(img, noiseFactor * 255, 255);
 		truepos.push_back(pos);
 
 		LocalizationJob job(i, 0, 0, 0);

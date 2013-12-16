@@ -310,12 +310,12 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 			result.pos = trk->ZLUTAlignGradientStep (result.pos, j->job.zlutIndex, &d, vector3f(0.02f,0.02f,0.1f), vector3f(1e-3,1e-3,1e-3));
 			if (th == &this->threads[0]) dbgprintf("dXYZ[%d]: %f, %f, %f. at %f, %f, %f\n", i, d.x,d.y,d.z, result.pos.x,result.pos.y,result.pos.z);
 		}*/
-/*		for (int i=0;i<5;i++) {
+		for (int i=0;i<5;i++) {
 			vector3f d;
 			result.pos = trk->ZLUTAlignNewtonRaphsonStep (result.pos, j->job.zlutIndex, &d, vector3f(2e-3,2e-3,2e-3));
 			if (th == &this->threads[0]) dbgprintf("dXYZ[%d]: %f, %f, %f. at %f, %f, %f\n", i, d.x,d.y,d.z, result.pos.x,result.pos.y,result.pos.z);
-		}*/
-		result.pos = trk->ZLUTAlignSecantMethod (result.pos, j->job.zlutIndex,10, vector3f(2e-3,2e-3,2e-3));
+		}
+		//result.pos = trk->ZLUTAlignSecantMethod (result.pos, j->job.zlutIndex,10, vector3f(2e-3,2e-3,2e-3));
 	}
 
 	if(dbgPrintResults)

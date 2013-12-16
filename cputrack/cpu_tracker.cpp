@@ -700,8 +700,8 @@ vector3f CPUTracker::ZLUTAlignNewtonRaphsonStep(vector3f pos, int beadIndex,vect
 	const float dy = deriv_delta.y;
 	const float dz = deriv_delta.z;
 
-	float spx = ZLUTAlign_ComputeScore( vector3f(pos.x+dx, pos.y, pos.z ), beadIndex);
-	float spy = ZLUTAlign_ComputeScore( vector3f(pos.x, pos.y+dy, pos.z ), beadIndex);
+	double spx = ZLUTAlign_ComputeScore( vector3f(pos.x+dx, pos.y, pos.z ), beadIndex);
+	double spy = ZLUTAlign_ComputeScore( vector3f(pos.x, pos.y+dy, pos.z ), beadIndex);
 	float spz = ZLUTAlign_ComputeScore( vector3f(pos.x, pos.y, pos.z+dz ), beadIndex);
 	float smx = ZLUTAlign_ComputeScore( vector3f(pos.x-dx, pos.y, pos.z ), beadIndex);
 	float smy = ZLUTAlign_ComputeScore( vector3f(pos.x, pos.y-dy, pos.z ), beadIndex);
@@ -715,7 +715,7 @@ vector3f CPUTracker::ZLUTAlignNewtonRaphsonStep(vector3f pos, int beadIndex,vect
 	float ds2_dx2 = (spx - 2*s + smx) / (dx*dx);
 	float ds2_dy2 = (spy - 2*s + smy) / (dy*dy);
 	float ds2_dz2 = (spz - 2*s + smz) / (dz*dz);
-	
+
 	if (diff) {
 //		*diff = vector3f(ds2_dx2,ds2_dy2,ds2_dz2);
 		*diff = vector3f(ds_dx,ds_dy,ds_dz);
@@ -725,7 +725,12 @@ vector3f CPUTracker::ZLUTAlignNewtonRaphsonStep(vector3f pos, int beadIndex,vect
 		ds2_dx2==0 ? 0 : ds_dx/ds2_dx2, 
 		ds2_dy2==0 ? 0 : ds_dy/ds2_dy2, 
 		ds2_dz2==0 ? 0 : ds_dz/ds2_dz2);
-	return pos - step;
+
+	if (abs(step.x) > 1 || abs(step.y) > 1 || abs(step.z) > 1) {
+		return ZLUTAlignGradientStep(pos, beadIndex, diff, deriv_delta*10, deriv_delta);
+	}
+	else 
+		return pos - step;
 }
 
 
