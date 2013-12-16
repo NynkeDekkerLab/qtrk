@@ -24,6 +24,7 @@ class CPUTracker
 {
 public:
 	int width, height, xcorw;
+	int trackerID;
 
 	float *srcImage, *debugImage;
 	float mean, stdev; // Updated by ComputeBgCorrectedCOM()
@@ -83,11 +84,12 @@ public:
 
 	void ApplyOffsetGain(float *offset, float *gain, float offsetFactor, float gainFactor);
 
-	vector3f ZLUTAlignGradientStep(vector3f pos, int beadIndex,vector3f* diff, vector3f step, vector3f deriv_delta);
-	vector3f ZLUTAlignNewtonRaphsonStep(vector3f pos, int beadIndex,vector3f* diff, vector3f deriv_delta);
-	vector3f ZLUTAlignSecantMethod(vector3f pos, int beadIndex, int iterations, vector3f deriv_delta);
+	vector3d ZLUTAlignGradientStep(vector3d pos, int beadIndex,vector3d* diff, vector3d step, vector3d deriv_delta);
+	vector3d ZLUTAlignNewtonRaphsonIndependentStep(vector3d pos, int beadIndex,vector3d* diff, vector3d deriv_delta);
+	vector3d ZLUTAlignNewtonRaphson3DStep(vector3d pos, int beadIndex,vector3d* diff, vector3d deriv_delta);
+	vector3d ZLUTAlignSecantMethod(vector3d pos, int beadIndex, int iterations, vector3d deriv_delta);
 
-	double ZLUTAlign_ComputeScore(vector3f pos, int beadIndex);
+	double ZLUTAlign_ComputeScore(vector3d pos, int beadIndex);
 
 };
 

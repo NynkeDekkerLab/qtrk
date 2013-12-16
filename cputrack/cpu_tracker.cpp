@@ -38,6 +38,7 @@ CPUTracker::CPUTracker(int w, int h, int xcorwindow)
 {
 	width = w;
 	height = h;
+	trackerID = 0;
 
 	xcorBuffer = 0;
 	
@@ -673,55 +674,73 @@ float CPUTracker::ComputeZ(vector2f center, int angularSteps, int zlutIndex, boo
 
 
 
-vector3f CPUTracker::ZLUTAlignGradientStep (vector3f pos, int beadIndex, vector3f* diff, vector3f step, vector3f deriv_delta)
+vector3d CPUTracker::ZLUTAlignGradientStep (vector3d pos, int beadIndex, vector3d* diff, vector3d step, vector3d deriv_delta)
 {
 	/*
 	Numerically approximate:
 	dLUTScore/dx, dLUTScore/dy, dLUTScore/dz and do gradient descent..
 	*/
 
-	const float dx = deriv_delta.x;
-	const float dy = deriv_delta.y;
-	const float dz = deriv_delta.z;
+	const double dx = deriv_delta.x;
+	const double dy = deriv_delta.y;
+	const double dz = deriv_delta.z;
 
-	float ds_dx = (ZLUTAlign_ComputeScore( vector3f(pos.x+dx, pos.y, pos.z ), beadIndex) - ZLUTAlign_ComputeScore( vector3f(pos.x-dx, pos.y, pos.z ), beadIndex))/(2*dx);
-	float ds_dy = (ZLUTAlign_ComputeScore( vector3f(pos.x, pos.y+dy, pos.z ), beadIndex) - ZLUTAlign_ComputeScore( vector3f(pos.x, pos.y-dy, pos.z ), beadIndex))/(2*dy);
-	float ds_dz = (ZLUTAlign_ComputeScore( vector3f(pos.x, pos.y, pos.z+dz ), beadIndex) - ZLUTAlign_ComputeScore( vector3f(pos.x, pos.y, pos.z-dz ), beadIndex))/(2*dz);
+	double ds_dx = (ZLUTAlign_ComputeScore( vector3d(pos.x+dx, pos.y, pos.z ), beadIndex) - ZLUTAlign_ComputeScore( vector3d(pos.x-dx, pos.y, pos.z ), beadIndex))/(2*dx);
+	double ds_dy = (ZLUTAlign_ComputeScore( vector3d(pos.x, pos.y+dy, pos.z ), beadIndex) - ZLUTAlign_ComputeScore( vector3d(pos.x, pos.y-dy, pos.z ), beadIndex))/(2*dy);
+	double ds_dz = (ZLUTAlign_ComputeScore( vector3d(pos.x, pos.y, pos.z+dz ), beadIndex) - ZLUTAlign_ComputeScore( vector3d(pos.x, pos.y, pos.z-dz ), beadIndex))/(2*dz);
 
-	vector3f ds_dpos(ds_dx,ds_dy,ds_dz);
+	vector3d ds_dpos(ds_dx,ds_dy,ds_dz);
 	if (diff) *diff = ds_dpos;
 
 	return pos + step * ds_dpos;
 }
 
-vector3f CPUTracker::ZLUTAlignNewtonRaphsonStep(vector3f pos, int beadIndex,vector3f* diff, vector3f deriv_delta)
+vector3d CPUTracker::ZLUTAlignNewtonRaphson3DStep(vector3d pos, int beadIndex,vector3d* diff, vector3d deriv_delta)
 {
 	const float dx = deriv_delta.x;
 	const float dy = deriv_delta.y;
 	const float dz = deriv_delta.z;
 
-	float spx = ZLUTAlign_ComputeScore( vector3f(pos.x+dx, pos.y, pos.z ), beadIndex);
-	float spy = ZLUTAlign_ComputeScore( vector3f(pos.x, pos.y+dy, pos.z ), beadIndex);
-	float spz = ZLUTAlign_ComputeScore( vector3f(pos.x, pos.y, pos.z+dz ), beadIndex);
-	float smx = ZLUTAlign_ComputeScore( vector3f(pos.x-dx, pos.y, pos.z ), beadIndex);
-	float smy = ZLUTAlign_ComputeScore( vector3f(pos.x, pos.y-dy, pos.z ), beadIndex);
-	float smz = ZLUTAlign_ComputeScore( vector3f(pos.x, pos.y, pos.z-dz ), beadIndex);
-	float s = ZLUTAlign_ComputeScore( vector3f(pos.x, pos.y, pos.z ), beadIndex);
+	double sc[3*3*3];
+	for (int z=0;z<3;z++) 
+		for (int y=0;y<3;y++)
+			for (int x=0;x<3;x++) {
+				sc[z * 9 + y * 3 + x] = ZLUTAlign_ComputeScore (vector3d(pos.x + dx * (x-1), pos.y + dy * (y-1), pos.z + dz * (z-1)), beadIndex);
+			}
+
+
+	return pos;
+}
+
+
+vector3d CPUTracker::ZLUTAlignNewtonRaphsonIndependentStep(vector3d pos, int beadIndex,vector3d* diff, vector3d deriv_delta)
+{
+	const float dx = deriv_delta.x;
+	const float dy = deriv_delta.y;
+	const float dz = deriv_delta.z;
+
+	double spx = ZLUTAlign_ComputeScore( vector3d(pos.x+dx, pos.y, pos.z ), beadIndex);
+	double spy = ZLUTAlign_ComputeScore( vector3d(pos.x, pos.y+dy, pos.z ), beadIndex);
+	double spz = ZLUTAlign_ComputeScore( vector3d(pos.x, pos.y, pos.z+dz ), beadIndex);
+	double smx = ZLUTAlign_ComputeScore( vector3d(pos.x-dx, pos.y, pos.z ), beadIndex);
+	double smy = ZLUTAlign_ComputeScore( vector3d(pos.x, pos.y-dy, pos.z ), beadIndex);
+	double smz = ZLUTAlign_ComputeScore( vector3d(pos.x, pos.y, pos.z-dz ), beadIndex);
+	double s = ZLUTAlign_ComputeScore( vector3d(pos.x, pos.y, pos.z ), beadIndex);
 
 	// f'' =  (f(x+h) - 2*f(x) + f(x-h)) / (h^2)
-	float ds_dx = (spx - smx) / (2*dx);
-	float ds_dy = (spy - smy) / (2*dy);
-	float ds_dz = (spz - smz) / (2*dz);
-	float ds2_dx2 = (spx - 2*s + smx) / (dx*dx);
-	float ds2_dy2 = (spy - 2*s + smy) / (dy*dy);
-	float ds2_dz2 = (spz - 2*s + smz) / (dz*dz);
+	double ds_dx = (spx - smx) / (2*dx);
+	double ds_dy = (spy - smy) / (2*dy);
+	double ds_dz = (spz - smz) / (2*dz);
+	double ds2_dx2 = (spx - 2*s + smx) / (dx*dx);
+	double ds2_dy2 = (spy - 2*s + smy) / (dy*dy);
+	double ds2_dz2 = (spz - 2*s + smz) / (dz*dz);
 	
 	if (diff) {
-//		*diff = vector3f(ds2_dx2,ds2_dy2,ds2_dz2);
-		*diff = vector3f(ds_dx,ds_dy,ds_dz);
+//		*diff = vector3d(ds2_dx2,ds2_dy2,ds2_dz2);
+		*diff = vector3d(ds_dx,ds_dy,ds_dz);
 	}
 
-	vector3f step = vector3f( 
+	vector3d step = vector3d( 
 		ds2_dx2==0 ? 0 : ds_dx/ds2_dx2, 
 		ds2_dy2==0 ? 0 : ds_dy/ds2_dy2, 
 		ds2_dz2==0 ? 0 : ds_dz/ds2_dz2);
@@ -729,7 +748,7 @@ vector3f CPUTracker::ZLUTAlignNewtonRaphsonStep(vector3f pos, int beadIndex,vect
 }
 
 
-vector3f CPUTracker::ZLUTAlignSecantMethod(vector3f pos, int beadIndex,int iterations, vector3f deriv_delta)
+vector3d CPUTracker::ZLUTAlignSecantMethod(vector3d pos, int beadIndex,int iterations, vector3d deriv_delta)
 {
 	/* secant method
 
@@ -737,34 +756,45 @@ vector3f CPUTracker::ZLUTAlignSecantMethod(vector3f pos, int beadIndex,int itera
 	*/
 
 	// We have one point and need to to start secant method, so let's do gradient following step
-	vector3f deriv2, deriv1;
-	vector3f p1 = ZLUTAlignGradientStep(pos, beadIndex, &deriv2, deriv_delta*100, deriv_delta);
-	vector3f p2 = pos;
+	vector3d deriv2, deriv1;
+	vector3d p1 = ZLUTAlignGradientStep(pos, beadIndex, &deriv2, deriv_delta*10, deriv_delta);
+	vector3d p2 = pos;
 	// Compute derivative
-	ZLUTAlignGradientStep(p1, beadIndex, &deriv1, vector3f(), deriv_delta);
+	ZLUTAlignGradientStep(p1, beadIndex, &deriv1, vector3d(), deriv_delta);
 
 	for(int i=0;i<iterations;i++) {
 		// f(x(n-1)) = deriv1 (at  p1)
 		// f(x(n-2)) = deriv2 (at p2)
 
-		vector3f newpos = p1 * deriv1 * ( p1-p2 ) * (1.0f / ( deriv1 - deriv2 ));
-		p2 = p1; 
+		vector3d ddenom = deriv1 - deriv2;
+		vector3d newpos = p1 * deriv1 * ( p1-p2 ) * vector3d( 
+			ddenom.x == 0 ? 0 : 1/ddenom.x,
+			ddenom.y == 0 ? 0 : 1/ddenom.y,
+			ddenom.z == 0 ? 0 : 1/ddenom.z
+			);
+		p2 = p1;
 		p1 = newpos;
+
+		if ((p2-p1).length() < 1e-4f)
+			break;
 
 		if (i < iterations - 1) {
 			deriv2 = deriv1;
-			ZLUTAlignGradientStep(p1, beadIndex, &deriv1, vector3f(), deriv_delta);
+			ZLUTAlignGradientStep(p1, beadIndex, &deriv1, vector3d(), deriv_delta);
 		}
 
-		vector3f diff = p1-p2;
-		dbgprintf("secant [%d]: %f,%f,%f\n", i, diff.x,diff.y,diff.z);
+		vector3d diff = p1-p2;
+		if (trackerID == 0) {
+			dbgprintf("secant [%d]: %g,%g,%g.   deriv1=: %g,%g,%g.  pos: %g,%g,%g\n", 
+				i, diff.x,diff.y,diff.z, deriv1.x,deriv1.y,deriv1.z, p1.x,p1.y,p1.z);
+		}
 	}
 	return p1;
 }
 
 static int clamp(int v, int a,int b) { return std::max(a, std::min(b, v)); }
 
-double CPUTracker::ZLUTAlign_ComputeScore(vector3f pos, int beadIndex)
+double CPUTracker::ZLUTAlign_ComputeScore(vector3d pos, int beadIndex)
 {
 	float* tmp = ALLOCA_ARRAY(float, zlut_res);
 	ComputeRadialProfile(tmp, zlut_res, zlut_angularSteps,zlut_minradius , zlut_maxradius, vector2f(pos.x,pos.y), false, 0, true);

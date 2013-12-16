@@ -27,53 +27,65 @@ struct vector2f {
 	static vector2f random(vector2f center, float R);
 };
 
-struct vector3f {
-	vector3f() { x=y=z=0.0f; }
-	vector3f(float X,float Y,float Z) { x=X; y=Y; z=Z; }
-	float x,y,z;
+template<typename T>
+struct vector3 {
+	vector3() { x=y=z=0.0f; }
+	template<typename Tx, typename Ty, typename Tz>
+	vector3(Tx X,Ty Y,Tz Z) { x=X; y=Y; z=Z; }
+	template<typename Tc> 
+	vector3(const vector3<Tc>& o) : x(o.x),y(o.y),z(o.z) {}
+	T x,y,z;
 
-	vector3f operator*(const vector3f& o) const {
-		return vector3f(x*o.x,y*o.y,z*o.z);
+	vector3 operator*(const vector3& o) const {
+		return vector3(x*o.x,y*o.y,z*o.z);
 	}
-	vector3f operator*(float a) const {
-		return vector3f(x*a,y*a,z*a);
+	vector3 operator*(T a) const {
+		return vector3(x*a,y*a,z*a);
 	}
-	friend vector3f operator*(float a, const vector3f& b) { 
+	friend vector3 operator*(T a, const vector3& b) { 
 		return b*a;
 	}
-	vector3f operator+(const vector3f& o) const {
-		return vector3f(x+o.x,y+o.y,z+o.z);
+	vector3 operator+(const vector3& o) const {
+		return vector3(x+o.x,y+o.y,z+o.z);
 	}
-	vector3f& operator+=(const vector3f& o) {
+	vector3& operator+=(const vector3& o) {
 		x+=o.x; y+=o.y; z+=o.z; return *this;
 	}
-	vector3f& operator-=(const vector3f& o) {
+	vector3& operator-=(const vector3& o) {
 		x-=o.x; y-=o.y; z-=o.z; return *this;
 	}
-	vector3f operator-(const vector3f& o) const {
-		return vector3f(x-o.x,y-o.y,z-o.z);
+	vector3 operator-(const vector3& o) const {
+		return vector3(x-o.x,y-o.y,z-o.z);
 	}
-	vector3f& operator*=(const vector3f& o) { 
+	vector3& operator*=(const vector3& o) { 
 		x*=o.x; y*=o.y; z*=o.z;
 		return *this;
 	}
-	vector3f& operator*=(float a) {
+	vector3& operator*=(T a) {
 		x*=a; y*=a; z*=a;
 		return *this;
 	}
-	vector3f& operator/=(float a) {
+	vector3& operator/=(T a) {
 		x/=a; y/=a; z/=a;
 		return *this;
 	}
-	vector3f operator/(float a) {
-		return vector3f(x/a,y/a,z/a);
+	vector3 operator/(T a) {
+		return vector3(x/a,y/a,z/a);
 	}
-	friend vector3f operator/(float a, vector3f b) {
-		return vector3f(a/b.x,a/b.y,a/b.z);
+	T length() {
+		return sqrtf(x*x+y*y+z*z);
+	}
+	template<typename T>
+	friend vector3 operator/(T a, vector3<T> b) {
+		return vector3<T>(a/b.x,a/b.y,a/b.z);
 	}
 };
 
-inline vector3f sqrt(const vector3f& a) { return vector3f(sqrtf(a.x),sqrtf(a.y),sqrtf(a.z)); }
+template<typename T>
+inline vector3<T> sqrt(const vector3<T>& a) { return vector3<T>(sqrt(a.x),sqrt(a.y),sqrt(a.z)); }
+
+typedef vector3<float> vector3f;
+typedef vector3<double> vector3d;
 
 #pragma pack(pop)
 

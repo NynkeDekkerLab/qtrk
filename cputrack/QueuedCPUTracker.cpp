@@ -123,6 +123,8 @@ QueuedCPUTracker::QueuedCPUTracker(const QTrkComputedConfig& cc)
 	image_lut = 0;
 	image_lut_dz = image_lut_dz2 = 0;
 
+	zlutAlignRootFinder = RF_Secant;
+
 	Start();
 }
 
@@ -201,6 +203,7 @@ void QueuedCPUTracker::Start()
 #endif
 		threads[k].tracker = new CPUTracker(cfg.width, cfg.height, cfg.xc1_profileLength);
 		threads[k].manager = this;
+		threads[k].tracker->trackerID = k;
 	}
 
 	for (int k=0;k<threads.size();k++) {
@@ -304,18 +307,7 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 	}
 
 	if (localizeMode & LT_ZLUTAlign ){
-		/*for (int i=0;i<400;i++) {
-			vector3f d;
-			//float k=1.0f/sqrtf(1+i);
-			result.pos = trk->ZLUTAlignGradientStep (result.pos, j->job.zlutIndex, &d, vector3f(0.02f,0.02f,0.1f), vector3f(1e-3,1e-3,1e-3));
-			if (th == &this->threads[0]) dbgprintf("dXYZ[%d]: %f, %f, %f. at %f, %f, %f\n", i, d.x,d.y,d.z, result.pos.x,result.pos.y,result.pos.z);
-		}*/
-/*		for (int i=0;i<5;i++) {
-			vector3f d;
-			result.pos = trk->ZLUTAlignNewtonRaphsonStep (result.pos, j->job.zlutIndex, &d, vector3f(2e-3,2e-3,2e-3));
-			if (th == &this->threads[0]) dbgprintf("dXYZ[%d]: %f, %f, %f. at %f, %f, %f\n", i, d.x,d.y,d.z, result.pos.x,result.pos.y,result.pos.z);
-		}*/
-		result.pos = trk->ZLUTAlignSecantMethod (result.pos, j->job.zlutIndex,10, vector3f(2e-3,2e-3,2e-3));
+		result.pos = ZLUTAlign(th, j->job, result.pos);
 	}
 
 	if(dbgPrintResults)
@@ -329,6 +321,31 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 	results.push_back(result);
 	resultCount++;
 	results_mutex.unlock();
+}
+
+vector3f QueuedCPUTracker::ZLUTAlign(QueuedCPUTracker::Thread *th, const LocalizationJob& job, vector3f pos)
+{
+	CPUTracker* trk = th->tracker;
+	vector3d rpos;
+
+	if (zlutAlignRootFinder == RF_GradientDescent) {
+		for (int i=0;i<400;i++) {
+			vector3d d;
+			//float k=1.0f/sqrtf(1+i);
+			rpos = trk->ZLUTAlignGradientStep (pos, job.zlutIndex, &d, vector3d(0.02f,0.02f,0.1f), vector3d(1e-3,1e-3,1e-3));
+			if (th == &this->threads[0]) dbgprintf("dXYZ[%d]: %f, %f, %f. at %f, %f, %f\n", i, d.x,d.y,d.z, rpos.x,rpos.y,rpos.z);
+		}
+	} else if (zlutAlignRootFinder == RF_Secant) {
+		rpos = trk->ZLUTAlignSecantMethod (pos, job.zlutIndex,10, vector3f(2e-3,2e-3,2e-3));
+	} else if (zlutAlignRootFinder == RF_NewtonRaphson) {
+		for (int i=0;i<5;i++) {
+			vector3d d;
+			rpos = trk->ZLUTAlignNewtonRaphsonIndependentStep (pos, job.zlutIndex, &d, vector3f(2e-3,2e-3,2e-3));
+			if (th == &this->threads[0]) dbgprintf("dXYZ[%d]: %f, %f, %f. at %f, %f, %f\n", i, d.x,d.y,d.z, rpos.x,rpos.y,rpos.z);
+		}
+	}
+
+	return rpos;
 }
 
 void QueuedCPUTracker::SetRadialZLUT(float* data, int num_zluts, int planes)

@@ -676,7 +676,7 @@ void TestImageLUT()
 
 	int nsmp = 10;
 	for (int i=0;i<nsmp;i++) {
-		vector3f pos(img.w/2+rand_uniform<float>()-0.5f ,img.h/2-rand_uniform<float>()-0.5f,nplanes/2);
+		vector3f pos(img.w/2+rand_uniform<float>()-0.5f ,img.h/2-rand_uniform<float>()-0.5f,nplanes/2.0f);
 		GenerateImageFromLUT(&img, &lut, trk.cfg.zlut_minradius, trk.cfg.zlut_maxradius, vector2f(pos.x,pos.y),pos.z, 1);
 		ApplyPoissonNoise(img, 28 * 255, 255);
 		CPUTracker ct(cfg.width,cfg.height);
