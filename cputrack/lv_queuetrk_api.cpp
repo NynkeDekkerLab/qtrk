@@ -489,7 +489,7 @@ CDLL_EXPORT void qtrk_compute_fisher(LVArray2D<float> **lut, QTrkSettings* cfg, 
 }
 
 
-CDLL_EXPORT void qtrk_find_beads(uint8_t* image, int pitch, int w,int h, int* smpCornerPos, int roi, float imgRelDist, float acceptance, LVArray2D<int> **output)
+CDLL_EXPORT void qtrk_find_beads(uint8_t* image, int pitch, int w,int h, int* smpCornerPos, int roi, float imgRelDist, float acceptance, LVArray2D<uint32_t> **output)
 {
 	BeadFinder::Config cfg;
 	cfg.img_distance = imgRelDist;
@@ -500,8 +500,33 @@ CDLL_EXPORT void qtrk_find_beads(uint8_t* image, int pitch, int w,int h, int* sm
 	ResizeLVArray2D(output, results.size(), 2);
 	for (int i=0;i<results.size();i++)
 	{
-		(*output)->at(0, i) = results[i].x;
-		(*output)->at(1, i) = results[i].y;
+		(*output)->get(i, 0) = results[i].x;
+		(*output)->get(i, 1) = results[i].y;
+	}
+}
+
+CDLL_EXPORT void test_array_passing(int n, LVArray<float>** flt1D, LVArray2D<float>** flt2D, LVArray<int>** int1D, LVArray2D<int>** int2D)
+{
+	for (int i=0;i<(*int2D)->dimSizes[0];i++)
+	{
+		for (int j=0;j<(*int2D)->dimSizes[1];j++)
+		{
+			dbgprintf("%d\t", (*int2D)->get(i, j));
+		}
+		dbgprintf("\n");
+	}
+
+	ResizeLVArray(flt1D, n);
+	ResizeLVArray(int1D, n);
+	ResizeLVArray2D(flt2D, n/2,n);
+	ResizeLVArray2D(int2D, n/2,n);
+	for (int i=0;i<n;i++) {
+		(*int1D)->elem[i]=(i+1)*i;
+		(*flt1D)->elem[i]=sqrtf(i);
+		for (int j=0;j<n/2;j++) {
+			(*int2D)->get(j, i) = j*2+i;
+			(*flt2D)->get(j, i) = j*2+i;
+		}
 	}
 }
 

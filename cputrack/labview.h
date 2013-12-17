@@ -30,8 +30,11 @@ struct LVArray2D {
 	int32_t dimSizes[2];
 	T elem[1];
 
-	T & at(int col, int row) {
-		return elem[row*dimSizes[0]+col];
+	T & xy(int col, int row) {
+		return elem[row*dimSizes[1]+col];
+	}
+	T& get(int row, int col) {
+		return elem[row*dimSizes[1]+col];
 	}
 	int numElem() { return dimSizes[0]*dimSizes[1]; }
 };
@@ -75,13 +78,16 @@ template<> struct LVDataType<std::complex<double> > { enum { code=0xd }; };
 
 template<typename T>
 void ResizeLVArray2D(LVArray2D<T>**& d, int rows, int cols) {
-	NumericArrayResize(LVDataType<T>::code, 2, (UHandle*)&d, sizeof(T)*rows*cols);
+	if (NumericArrayResize(LVDataType<T>::code, 2, (UHandle*)&d, sizeof(T)*rows*cols) != mgNoErr)
+		throw std::runtime_error( SPrintf("NumericArrayResize(2D array, %d, %d) returned error.", rows,cols));
 	(*d)->dimSizes[0] = rows;
 	(*d)->dimSizes[1] = cols;
 }
 template<typename T>
 void ResizeLVArray3D(LVArray3D<T>**& d, int depth, int rows, int cols) {
-	NumericArrayResize(LVDataType<T>::code, 3, (UHandle*)&d, sizeof(T)*rows*cols*depth);
+	if (NumericArrayResize(LVDataType<T>::code, 3, (UHandle*)&d, sizeof(T)*rows*cols*depth) != mgNoErr)
+		throw std::runtime_error( SPrintf("NumericArrayResize(3D array, %d, %d, %d) returned error.", depth,rows,cols));
+
 	(*d)->dimSizes[0] = depth;
 	(*d)->dimSizes[1] = rows;
 	(*d)->dimSizes[2] = cols;
@@ -94,7 +100,8 @@ void ResizeLVArray(LVArrayND<T, N>**& d, int* dims) {
 }
 template<typename T>
 void ResizeLVArray(LVArray<T>**& d, int elems) {
-	NumericArrayResize(LVDataType<T>::code, 1, (UHandle*)&d, sizeof(T)*elems);
+	if (NumericArrayResize(LVDataType<T>::code, 1, (UHandle*)&d, sizeof(T)*elems) != mgNoErr)
+		throw std::runtime_error( SPrintf("NumericArrayResize(1D array, %d) returned error.", elems));
 	(*d)->dimSize = elems;
 }
 
