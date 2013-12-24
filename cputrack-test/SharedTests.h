@@ -288,7 +288,7 @@ static double WaitForFinish(QueuedTracker* qtrk, int N)
 }
 
 
-void MeanStDevError(const std::vector<vector3f>&  truepos, const std::vector<vector3f>&  v, vector3f &mean, vector3f & stdev) 
+static void MeanStDevError(const std::vector<vector3f>&  truepos, const std::vector<vector3f>&  v, vector3f &mean, vector3f & stdev) 
 {
 	mean=vector3f();
 	for (int i=0;i<v.size();i++) mean+=v[i]-truepos[i]; 

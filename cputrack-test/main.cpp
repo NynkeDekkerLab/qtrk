@@ -732,7 +732,7 @@ int main()
 	//QTrkTest();
 //	TestCMOSNoiseInfluence<QueuedCPUTracker>("lut000.jpg");
 
-	//AutoBeadFindTest();
+	AutoBeadFindTest();
 	//Gauss2DTest<QueuedCPUTracker>();
 	
 	//SpeedTest();
@@ -745,7 +745,7 @@ int main()
 	//for (int i=1;i<8;i++)
 	//	BuildConvergenceMap(i);
 
-	TestZLUTAlign();
+//	TestZLUTAlign();
 	//TestImageLUT();
 //	TestBuildRadialZLUT<QueuedCPUTracker>( "lut000.jpg" );
 	//TestImageLUT();
