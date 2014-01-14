@@ -55,6 +55,8 @@ CPUTracker::CPUTracker(int w, int h, int xcorwindow)
 
 	qi_radialsteps = 0;
 	qi_fft_forward = qi_fft_backward = 0;
+
+	fft2d=0;
 }
 
 CPUTracker::~CPUTracker()
@@ -71,6 +73,9 @@ CPUTracker::~CPUTracker()
 		delete qi_fft_forward;
 		delete qi_fft_backward;
 	}
+
+	if (fft2d)
+		delete fft2d;
 }
 
 void CPUTracker::SetImageFloat(float *src)
@@ -816,5 +821,46 @@ double CPUTracker::ZLUTAlign_ComputeScore(vector3d pos, int beadIndex)
 	}
 	return score;
 }
+
+
+
+
+void CPUTracker::FourierTransform2D()
+{
+	//kissfft<float> yfft(h, inverse);
+	if (!fft2d){
+		fft2d = new FFT2D(width, height);
+	}
+
+	fft2d->Apply(srcImage);
+}
+
+void CPUTracker::FFT2D::Apply(float* d)
+{
+	int w = xfft.nfft();
+	int h = yfft.nfft();
+
+	std::complex<float>* tmpsrc = new std::complex<float>(h);// ALLOCA_ARRAY(std::complex<float>, h);
+	std::complex<float>* tmpdst = new std::complex<float>(h); //ALLOCA_ARRAY(std::complex<float>, h);
+
+	for(int y=0;y<h;y++) {
+		for (int x=0;x<w;x++)
+			tmpsrc[x]=d[y*w+x];
+		xfft.transform(tmpsrc, &cbuf[y*w]);
+	}
+	for (int x=0;x<w;x++) {
+		for (int y=0;y<h;y++)
+			tmpsrc[y]=cbuf[y*w+x];
+		yfft.transform(tmpsrc, tmpdst);
+		for (int y=0;y<h;y++)
+			cbuf[y*w+x]=tmpdst[y];
+	}
+	for (int x=0;x<w*h;x++)
+		d[x] = cbuf[x].real()*cbuf[x].real()+cbuf[x].imag()*cbuf[x].imag();
+
+	delete[] tmpsrc;
+	delete[] tmpdst;
+}
+
 
 

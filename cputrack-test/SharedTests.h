@@ -6,7 +6,7 @@
 
 // Generate a LUT by creating new image samples and using the tracker in BuildZLUT mode
 // This will ensure equal settings for radial profiles etc
-static void ResampleLUT(QueuedTracker* qtrk, ImageData* lut, float M, int zplanes=100, const char *jpgfile=0, ImageData* newlut=0)
+static void ResampleLUT(QueuedTracker* qtrk, ImageData* lut, float M, int zplanes=100, const char *jpgfile=0, ImageData* newlut=0, uint buildLUTFlags=0)
 {
 	QTrkComputedConfig& cfg = qtrk->cfg;
 	ImageData img = ImageData::alloc(cfg.width,cfg.height);
@@ -19,7 +19,7 @@ static void ResampleLUT(QueuedTracker* qtrk, ImageData* lut, float M, int zplane
 		if (i == 0)
 			WriteJPEGFile(SPrintf("smp-%s",jpgfile).c_str(), img);
 
-		qtrk->BuildLUT(img.data, sizeof(float)*img.w, QTrkFloat, 0, i);
+		qtrk->BuildLUT(img.data, sizeof(float)*img.w, QTrkFloat, buildLUTFlags, i);
 	}
 	qtrk->FinalizeLUT();
 	img.free();
@@ -320,7 +320,7 @@ RunTrackerResults RunTracker(const char *lutfile, QTrkSettings *cfg, bool useGC,
 #else
 	2000
 #endif
-	, float noiseFactor=28)
+	, float noiseFactor=28, uint buildLUTFlags=0)
 {
 	std::vector<vector3f> results, truepos;
 
@@ -330,7 +330,7 @@ RunTrackerResults RunTracker(const char *lutfile, QTrkSettings *cfg, bool useGC,
 	ImageData rescaledLUT;
 
 	TrkType trk(*cfg);
-	ResampleLUT(&trk, &lut, 1, 100, SPrintf("%s-zlut.jpg",name).c_str(), &rescaledLUT);
+	ResampleLUT(&trk, &lut, 1, 100, SPrintf("%s-zlut.jpg",name).c_str(), &rescaledLUT, buildLUTFlags);
 
 	if (useGC) EnableGainCorrection(&trk);
 

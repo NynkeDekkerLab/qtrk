@@ -374,7 +374,12 @@ void QTrkTest()
 	cfg.qi_iterations = 3;
 	cfg.xc1_iterations = 2;
 	cfg.xc1_profileLength = 64;
-	cfg.numThreads = -1; // direct processing, dont use queue
+	//cfg.numThreads = -1; // direct processing, dont use queue
+	cfg.qi_radial_coverage = 1.5f;
+	cfg.qi_angular_coverage = 0.7f;
+	cfg.zlut_radial_coverage = 2.0f;
+	cfg.zlut_angular_coverage = 0.7f;
+
 	//cfg.numThreads = 6;
 	QueuedCPUTracker qtrk(cfg);
 	float *image = new float[cfg.width*cfg.height];
@@ -692,6 +697,31 @@ void TestImageLUT()
 	img.free();
 }
 
+
+void TestFourierLUT()
+{
+	QTrkSettings cfg;
+	cfg.width = cfg.height = 60;
+	
+//	auto locMode = (LocMode_t)(LT_ZLUTAlign | LT_NormalizeProfile | LT_LocalizeZ);
+//	auto resultsCOM = RunTracker<QueuedCPUTracker> ("lut000.jpg", &cfg, false, "com-zlutalign", locMode, 100 );
+
+	const float NF=28;
+
+	auto locModeQI = (LocMode_t)(LT_QI | LT_NormalizeProfile | LT_LocalizeZ);
+	auto resultsQI = RunTracker<QueuedCPUTracker> ("lut000.jpg", &cfg, false, "qi", locModeQI, 200, NF);
+
+	auto locMode = (LocMode_t)(LT_QI | LT_FourierLUT | LT_NormalizeProfile | LT_LocalizeZ);
+	auto resultsZA = RunTracker<QueuedCPUTracker> ("lut000.jpg", &cfg, false, "qi-zlutalign", locMode, 200, NF, BUILDLUT_FOURIER);
+
+	resultsZA.computeStats(); 
+	resultsQI.computeStats();
+
+	dbgprintf("ZLUTAlign: X= %f. stdev: %f\tZ=%f,  stdev: %f\n", resultsZA.mean.x, resultsZA.stdev.x, resultsZA.mean.z, resultsZA.stdev.z);
+	dbgprintf("Only QI:   X= %f. stdev: %f\tZ=%f,  stdev: %f\n", resultsQI.mean.x, resultsQI.stdev.x, resultsQI.mean.z, resultsQI.stdev.z);
+}
+
+
 void TestZLUTAlign()
 {
 	QTrkSettings cfg;
@@ -732,7 +762,7 @@ int main()
 	//QTrkTest();
 //	TestCMOSNoiseInfluence<QueuedCPUTracker>("lut000.jpg");
 
-	AutoBeadFindTest();
+	//AutoBeadFindTest();
 	//Gauss2DTest<QueuedCPUTracker>();
 	
 	//SpeedTest();
@@ -745,7 +775,8 @@ int main()
 	//for (int i=1;i<8;i++)
 	//	BuildConvergenceMap(i);
 
-//	TestZLUTAlign();
+	TestFourierLUT();
+	//TestZLUTAlign();
 	//TestImageLUT();
 //	TestBuildRadialZLUT<QueuedCPUTracker>( "lut000.jpg" );
 	//TestImageLUT();

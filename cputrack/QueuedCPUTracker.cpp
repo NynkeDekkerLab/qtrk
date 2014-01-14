@@ -296,7 +296,11 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 
 	bool normalizeProfile = (localizeMode & LT_NormalizeProfile)!=0;
 	if(localizeMode & LT_LocalizeZ) {
-		result.pos.z = trk->ComputeZ(result.pos2D(), cfg.zlut_angularsteps, j->job.zlutIndex, false, &boundaryHit, 0, 0, normalizeProfile );
+		if (localizeMode & LT_FourierLUT) {
+			trk->FourierTransform2D();
+			result.pos.z = trk->ComputeZ(vector2f(cfg.width/2,cfg.height/2), cfg.zlut_angularsteps, j->job.zlutIndex, false, &boundaryHit, 0, 0, normalizeProfile );
+		} else 
+			result.pos.z = trk->ComputeZ(result.pos2D(), cfg.zlut_angularsteps, j->job.zlutIndex, false, &boundaryHit, 0, 0, normalizeProfile );
 	} else if (localizeMode & LT_BuildRadialZLUT && (j->job.zlutIndex >= 0 && j->job.zlutIndex < zlut_count)) {
 		float* zlut = GetZLUTByIndex(j->job.zlutIndex);
 		float* rprof = ALLOCA_ARRAY(float, cfg.zlut_radialsteps);
@@ -576,7 +580,6 @@ void QueuedCPUTracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, u
 		bool bhit;
 		vector2f qipos = trk.ComputeQI(com, cfg.qi_iterations, cfg.qi_radialsteps, cfg.qi_angstepspq, cfg.qi_angstep_factor, cfg.qi_minradius, cfg.qi_maxradius, bhit);
 
-		
 		dbgprintf("BuildLUT() COMPos: %f,%f, QIPos: x=%f, y=%f\n", com.x,com.y, qipos.x, qipos.y);
 
 		if (flags & BUILDLUT_IMAGELUT) {
@@ -602,7 +605,14 @@ void QueuedCPUTracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, u
 
 		float *bead_zlut=GetZLUTByIndex(i);
 		float *tmp = new float[cfg.zlut_radialsteps];
-		trk.ComputeRadialProfile(tmp, cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, qipos, false, 0, true);
+
+		if (flags & BUILDLUT_FOURIER){
+			trk.FourierTransform2D();
+			trk.ComputeRadialProfile(tmp, cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, vector2f(cfg.width/2,cfg.height/2), false, 0, true);
+		}
+		else {
+			trk.ComputeRadialProfile(tmp, cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, qipos, false, 0, true);
+		}
 	//	WriteArrayAsCSVRow("rlut-test.csv", tmp, cfg.zlut_radialsteps, plane>0);
 		for(int i=0;i<cfg.zlut_radialsteps;i++) 
 			bead_zlut[plane*cfg.zlut_radialsteps+i] += tmp[i];
