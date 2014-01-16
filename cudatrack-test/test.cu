@@ -900,7 +900,9 @@ int main(int argc, char *argv[])
 
 //	BenchmarkParams();
 
-	BasicQTrkTest();
+
+
+//	BasicQTrkTest();
 //	TestCMOSNoiseInfluence<QueuedCUDATracker>("../cputrack-test/lut000.jpg");
 
 #ifdef QI_DEBUG

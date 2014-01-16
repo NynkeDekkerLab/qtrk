@@ -296,11 +296,13 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 
 	bool normalizeProfile = (localizeMode & LT_NormalizeProfile)!=0;
 	if(localizeMode & LT_LocalizeZ) {
+		float* prof=ALLOCA_ARRAY(float,cfg.zlut_radialsteps);
 		if (localizeMode & LT_FourierLUT) {
-			trk->FourierTransform2D();
-			result.pos.z = trk->ComputeZ(vector2f(cfg.width/2,cfg.height/2), cfg.zlut_angularsteps, j->job.zlutIndex, false, &boundaryHit, 0, 0, normalizeProfile );
-		} else 
-			result.pos.z = trk->ComputeZ(result.pos2D(), cfg.zlut_angularsteps, j->job.zlutIndex, false, &boundaryHit, 0, 0, normalizeProfile );
+			trk->FourierRadialProfile(prof,cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius);
+		} else {
+			trk->ComputeRadialProfile(prof,cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, result.pos2D(), false, &boundaryHit, normalizeProfile );
+		}
+		result.pos.z = trk->LUTProfileCompare(prof, j->job.zlutIndex, 0);
 	} else if (localizeMode & LT_BuildRadialZLUT && (j->job.zlutIndex >= 0 && j->job.zlutIndex < zlut_count)) {
 		float* zlut = GetZLUTByIndex(j->job.zlutIndex);
 		float* rprof = ALLOCA_ARRAY(float, cfg.zlut_radialsteps);
@@ -564,7 +566,8 @@ bool QueuedCPUTracker::SetImageZLUT(float* src, float *radial_lut, int* dims)
 
 void QueuedCPUTracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, uint flags, int plane)
 {
-	parallel_for(zlut_count, [&] (int i) {
+	//parallel_for(zlut_count,[&] (int i) {
+	for(int i=0;i<zlut_count;i++) {
 		CPUTracker trk (cfg.width,cfg.height);
 		void *img_data = (uchar*)data + pitch * cfg.height * i;
 
@@ -607,8 +610,12 @@ void QueuedCPUTracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, u
 		float *tmp = new float[cfg.zlut_radialsteps];
 
 		if (flags & BUILDLUT_FOURIER){
-			trk.FourierTransform2D();
-			trk.ComputeRadialProfile(tmp, cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, vector2f(cfg.width/2,cfg.height/2), false, 0, true);
+			trk.FourierRadialProfile(tmp, cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius);
+			if (plane==0) {
+				for (int i=0;i<trk.width*trk.height;i++)
+					trk.srcImage[i]=sqrtf(trk.srcImage[i]);
+				trk.SaveImage("freqimg.jpg");
+			}
 		}
 		else {
 			trk.ComputeRadialProfile(tmp, cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, qipos, false, 0, true);
@@ -617,7 +624,7 @@ void QueuedCPUTracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, u
 		for(int i=0;i<cfg.zlut_radialsteps;i++) 
 			bead_zlut[plane*cfg.zlut_radialsteps+i] += tmp[i];
 		delete[] tmp;
-	});
+	} //);
 }
 
 void QueuedCPUTracker::FinalizeLUT()

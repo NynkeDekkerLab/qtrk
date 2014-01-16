@@ -6,7 +6,8 @@
 
 // Generate a LUT by creating new image samples and using the tracker in BuildZLUT mode
 // This will ensure equal settings for radial profiles etc
-static void ResampleLUT(QueuedTracker* qtrk, ImageData* lut, float M, int zplanes=100, const char *jpgfile=0, ImageData* newlut=0, uint buildLUTFlags=0)
+template<typename T>
+void ResampleLUT(T* qtrk, ImageData* lut, float M, int zplanes, ImageData* newlut, const char *jpgfile=0, uint buildLUTFlags=0)
 {
 	QTrkComputedConfig& cfg = qtrk->cfg;
 	ImageData img = ImageData::alloc(cfg.width,cfg.height);
@@ -22,13 +23,32 @@ static void ResampleLUT(QueuedTracker* qtrk, ImageData* lut, float M, int zplane
 		qtrk->BuildLUT(img.data, sizeof(float)*img.w, QTrkFloat, buildLUTFlags, i);
 	}
 	qtrk->FinalizeLUT();
-	img.free();
 
-	if (newlut) {
-		*newlut = ImageData::alloc(cfg.zlut_radialsteps, zplanes);
-		qtrk->GetRadialZLUT(newlut->data);
-		newlut->normalize();
+	*newlut = ImageData::alloc(cfg.zlut_radialsteps, zplanes);
+	if (buildLUTFlags & BUILDLUT_FOURIER) {
+		T tracker(cfg);
+		tracker.SetRadialZLUT(0, 1, zplanes);
+		for (int i=0;i<zplanes;i++)
+		{
+			GenerateImageFromLUT(&img, lut, 0, cfg.width/2, vector2f(cfg.width/2, cfg.height/2), i/(float)zplanes * lut->h, M);
+			img.normalize();
+			tracker.BuildLUT(img.data, sizeof(float)*img.w, QTrkFloat, buildLUTFlags & ~BUILDLUT_FOURIER, i);
+		}
+		tracker.FinalizeLUT();
+		tracker.GetRadialZLUT(newlut->data);
+
+		if (jpgfile) {
+			float* zlut_result=new float[zplanes*cfg.zlut_radialsteps*1];
+			tracker.GetRadialZLUT(zlut_result);
+			FloatToJPEGFile(SPrintf("gen-%s", jpgfile).c_str(), zlut_result, cfg.zlut_radialsteps, zplanes);
+			delete[] zlut_result;
+		}
 	}
+	else
+		qtrk->GetRadialZLUT(newlut->data);
+	newlut->normalize();
+
+	img.free();
 
 	if (jpgfile) {
 		float* zlut_result=new float[zplanes*cfg.zlut_radialsteps*1];
@@ -320,7 +340,7 @@ RunTrackerResults RunTracker(const char *lutfile, QTrkSettings *cfg, bool useGC,
 #else
 	2000
 #endif
-	, float noiseFactor=28, uint buildLUTFlags=0)
+	, float noiseFactor=28, float zpos=10)
 {
 	std::vector<vector3f> results, truepos;
 
@@ -330,7 +350,7 @@ RunTrackerResults RunTracker(const char *lutfile, QTrkSettings *cfg, bool useGC,
 	ImageData rescaledLUT;
 
 	TrkType trk(*cfg);
-	ResampleLUT(&trk, &lut, 1, 100, SPrintf("%s-zlut.jpg",name).c_str(), &rescaledLUT, buildLUTFlags);
+	ResampleLUT(&trk, &lut, 1, 100, &rescaledLUT, SPrintf("%s-zlut.jpg",name).c_str(), ((locMode&LT_FourierLUT) ? BUILDLUT_FOURIER : 0));
 
 	if (useGC) EnableGainCorrection(&trk);
 
@@ -341,7 +361,7 @@ RunTrackerResults RunTracker(const char *lutfile, QTrkSettings *cfg, bool useGC,
 	trk.SetLocalizationMode(locMode);
 	for (int i=0;i<N;i++)
 	{
-		vector3f pos(cfg->width/2 + R*(rand_uniform<float>()-0.5f),cfg->height/2 + R*(rand_uniform<float>()-0.5f), lut.h/4+rand_uniform<float>());
+		vector3f pos(cfg->width/2 + R*(rand_uniform<float>()-0.5f),cfg->height/2 + R*(rand_uniform<float>()-0.5f), zpos+rand_uniform<float>());
 		GenerateImageFromLUT(&img, &rescaledLUT, trk.cfg.zlut_minradius, trk.cfg.zlut_maxradius, vector2f( pos.x,pos.y), pos.z, 1.0f);
 		if (noiseFactor>0)	ApplyPoissonNoise(img, noiseFactor * 255, 255);
 		truepos.push_back(pos);

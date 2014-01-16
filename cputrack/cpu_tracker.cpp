@@ -583,6 +583,7 @@ void CPUTracker::Normalize(float* d)
 }
 
 
+
 void CPUTracker::ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float minradius, float maxradius, vector2f center, bool crp, bool* pBoundaryHit, bool normalize)
 {
 	bool boundaryHit = CheckBoundaries(center, maxradius);
@@ -624,17 +625,12 @@ void CPUTracker::SetRadialZLUT(float* data, int planes, int res, int numLUTs, fl
 }
 
 
-
-float CPUTracker::ComputeZ(vector2f center, int angularSteps, int zlutIndex, bool crp, bool* boundaryHit, float* profile, float* cmpProf, bool normalize)
+float CPUTracker::LUTProfileCompare(float* rprof, int zlutIndex, float* cmpProf)
 {
 	if (!zluts)
 		return 0.0f;
 	
-	float* rprof = ALLOCA_ARRAY(float, zlut_res);
 	float* rprof_diff = ALLOCA_ARRAY(float, zlut_planes);
-
-	ComputeRadialProfile(rprof, zlut_res, angularSteps, zlut_minradius, zlut_maxradius, center, crp, boundaryHit, normalize);
-	if (profile) std::copy(rprof, rprof+zlut_res, profile);
 
 	//WriteImageAsCSV("zlutradprof-cpu.txt", rprof, zlut_res, 1);
 
@@ -822,7 +818,10 @@ double CPUTracker::ZLUTAlign_ComputeScore(vector3d pos, int beadIndex)
 	return score;
 }
 
-
+void CPUTracker::SaveImage(const char *filename)
+{
+	FloatToJPEGFile(filename, srcImage, width, height);
+}
 
 
 void CPUTracker::FourierTransform2D()
@@ -840,9 +839,9 @@ void CPUTracker::FFT2D::Apply(float* d)
 	int w = xfft.nfft();
 	int h = yfft.nfft();
 
-	std::complex<float>* tmpsrc = new std::complex<float>(h);// ALLOCA_ARRAY(std::complex<float>, h);
-	std::complex<float>* tmpdst = new std::complex<float>(h); //ALLOCA_ARRAY(std::complex<float>, h);
-
+	std::complex<float>* tmpsrc = ALLOCA_ARRAY(std::complex<float>, h);
+	std::complex<float>* tmpdst = ALLOCA_ARRAY(std::complex<float>, h);
+	
 	for(int y=0;y<h;y++) {
 		for (int x=0;x<w;x++)
 			tmpsrc[x]=d[y*w+x];
@@ -855,12 +854,28 @@ void CPUTracker::FFT2D::Apply(float* d)
 		for (int y=0;y<h;y++)
 			cbuf[y*w+x]=tmpdst[y];
 	}
-	for (int x=0;x<w*h;x++)
-		d[x] = cbuf[x].real()*cbuf[x].real()+cbuf[x].imag()*cbuf[x].imag();
+	// copy and shift
+	for (int y=0;y<h;y++) {
+		for (int x=0;x<w;x++) {
+			int dx=(x+w/2)%w;
+			int dy=(y+h/2)%h;
+			auto v=cbuf[x+y*w];
+			d[dx+dy*w] = v.real()*v.real() + v.imag()*v.imag();
+		}
+	}
 
-	delete[] tmpsrc;
-	delete[] tmpdst;
+//	delete[] tmpsrc;
+//	delete[] tmpdst;
 }
 
-
+void CPUTracker::FourierRadialProfile(float* dst, int radialSteps, int angularSteps, float minradius, float maxradius)
+{
+	FourierTransform2D();
+	ImageData img(srcImage,width,height);
+	::ComputeRadialProfile(dst, radialSteps, angularSteps, 1, width*0.3f, vector2f(width/2,height/2), &img, 0, false);
+	for (int i=0;i<radialSteps;i++) {
+		dst[i]=logf(dst[i]);
+	}
+	//NormalizeRadialProfile(dst, radialSteps);
+}
 
