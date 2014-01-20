@@ -14,6 +14,8 @@ enum LocalizeModeEnum {
 	LT_BuildRadialZLUT = 32,
 	LT_NormalizeProfile = 64,
 	LT_ClearFirstFourPixels = 128,
+	LT_FourierLUT = 256,
+
 	LT_Force32Bit = 0xffffffff
 };
 

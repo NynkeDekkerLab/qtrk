@@ -54,6 +54,7 @@ public:
 	virtual bool SetImageZLUT(float* dst, float *radial_zlut, int* dims) { return false; }
 
 #define BUILDLUT_IMAGELUT 1
+#define BUILDLUT_FOURIER 2
 	virtual void BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, uint flags, int plane) = 0;
 	virtual void FinalizeLUT() = 0;
 	
