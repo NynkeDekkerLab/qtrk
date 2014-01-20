@@ -606,7 +606,7 @@ void TestTextureFetch()
 void BasicQTrkTest()
 {
 	QTrkComputedConfig cc;
-	cc.width = cc.height = 80;
+	cc.width = cc.height = 100;
 	cc.Update();
 	QueuedCUDATracker qtrk(cc);
 
@@ -896,17 +896,15 @@ int main(int argc, char *argv[])
 //	TestImage4DMemory();
 //	TestImageLUT("../cputrack-test/lut000.jpg");
 	//TestRadialLUTGradientMethod();
-//	TestBuildRadialZLUT<QueuedCUDATracker> ("../cputrack-test/lut000.jpg");
+	TestBuildRadialZLUT<QueuedCUDATracker> ("../cputrack-test/lut000.jpg");
 
 //	BenchmarkParams();
-
-
 
 //	BasicQTrkTest();
 //	TestCMOSNoiseInfluence<QueuedCUDATracker>("../cputrack-test/lut000.jpg");
 
 #ifdef QI_DEBUG
-	//QICompare("../cputrack-test/lut000.jpg");
+	QICompare("../cputrack-test/lut000.jpg");
 #endif
 
 //CompareAccuracy("../cputrack-test/lut000.jpg");
