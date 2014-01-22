@@ -125,6 +125,9 @@ QueuedCPUTracker::QueuedCPUTracker(const QTrkComputedConfig& cc)
 
 	zlutAlignRootFinder = RF_Secant;
 
+	downsampleWidth = cfg.width >> cfg.downsample;
+	downsampleHeight = cfg.height >> cfg.downsample;
+
 	Start();
 }
 
@@ -201,7 +204,7 @@ void QueuedCPUTracker::Start()
 		threads[k].mutex->name = SPrintf("thread%d", k);
 		threads[k].mutex->trace = true;
 #endif
-		threads[k].tracker = new CPUTracker(cfg.width, cfg.height, cfg.xc1_profileLength);
+		threads[k].tracker = new CPUTracker(downsampleWidth, downsampleHeight, cfg.xc1_profileLength);
 		threads[k].manager = this;
 		threads[k].tracker->trackerID = k;
 	}
@@ -239,13 +242,7 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 	CPUTracker* trk = th->tracker;
 	th->lock();
 
-	if (j->dataType == QTrkU8) {
-		trk->SetImage8Bit(j->data, cfg.width);
-	} else if (j->dataType == QTrkU16) {
-		trk->SetImage16Bit((ushort*)j->data, cfg.width*2);
-	} else {
-		trk->SetImageFloat((float*)j->data);
-	}
+	SetTrackerImage(trk, j);
 
 	if (localizeMode & LT_ClearFirstFourPixels) {
 		trk->srcImage[0]=trk->srcImage[1]=trk->srcImage[2]=trk->srcImage[3]=0;
@@ -679,3 +676,15 @@ void QueuedCPUTracker::FinalizeLUT()
 }
 
 
+void QueuedCPUTracker::SetTrackerImage(CPUTracker* trk, Job* j)
+{
+
+	if (j->dataType == QTrkU8) {
+		trk->SetImage8Bit(j->data, cfg.width);
+	} else if (j->dataType == QTrkU16) {
+		trk->SetImage16Bit((ushort*)j->data, cfg.width*2);
+	} else {
+		trk->SetImageFloat((float*)j->data);
+	}
+
+}

@@ -104,6 +104,8 @@ struct QTrkSettings {
 
 	int gauss2D_iterations;
 	float gauss2D_sigma;
+
+	int downsample; // 0 = original, 1 = 1x (W=W/2,H=H/2)
 };
 
 struct ROIPosition

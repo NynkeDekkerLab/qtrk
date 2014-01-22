@@ -89,6 +89,8 @@ private:
 	Threads::Mutex gc_mutex;
 	float *calib_gain, *calib_offset, gc_gainFactor, gc_offsetFactor;
 
+	int downsampleWidth, downsampleHeight;
+
 	std::vector<Thread> threads;
 	float* zluts;
 	int zlut_count, zlut_planes;
@@ -115,6 +117,8 @@ private:
 	void AddJob(Job* j);
 	void ProcessJob(Thread* th, Job* j);
 	vector3f ZLUTAlign(Thread *th, const LocalizationJob& job, vector3f pos);
+
+	void SetTrackerImage(CPUTracker* trk, Job *job);
 
 	static void WorkerThreadMain(void* arg);
 };

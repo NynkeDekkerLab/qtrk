@@ -732,6 +732,9 @@ void TestFourierLUTOnDataset()
 	const char*basepath= "D:/jcnossen1/datasets/RefBeads 2013-09-02/2013-09-02/";
 
 	process_bead_dir(SPrintf("%s/%s", basepath, "tmp_001").c_str(), 80, [&] (ImageData *img, int bead, int frame) {
+		
+
+
 	}, 1000);
 }
 
@@ -788,7 +791,8 @@ int main()
 	//for (int i=1;i<8;i++)
 	//	BuildConvergenceMap(i);
 
-	TestFourierLUT();
+	//TestFourierLUT();
+	TestFourierLUTOnDataset();
 	//TestZLUTAlign();
 	//TestImageLUT();
 //	TestBuildRadialZLUT<QueuedCPUTracker>( "lut000.jpg" );
