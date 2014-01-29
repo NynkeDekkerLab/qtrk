@@ -65,7 +65,7 @@ void process_beads(const char *path, int roisize, std::vector<BeadPos> beadlist,
 	}
 }
 
-void process_bead_dir(const char *path, int roisize, std::vector<BeadPos> beadlist, process_image_cb cb, int framelimit)
+void process_bead_dir(const char *path, int roisize, process_image_cb cb, int framelimit)
 {
 	auto beadlist=read_beadlist(SPrintf("%s\\beadlist.txt"));
 	process_beads(path, roisize, beadlist, cb, framelimit);
