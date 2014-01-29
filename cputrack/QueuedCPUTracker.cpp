@@ -108,6 +108,8 @@ QueuedCPUTracker::QueuedCPUTracker(const QTrkComputedConfig& cc)
 	jobCount = 0;
 	resultCount = 0;
 
+	zlut_cmpprofiles = 0;
+	zlut_enablecmpprof = false;
 	zluts = 0;
 	zlut_count = zlut_planes = 0;
 	processJobs = false;
@@ -122,6 +124,8 @@ QueuedCPUTracker::QueuedCPUTracker(const QTrkComputedConfig& cc)
 	image_lut_nElem_per_bead=0;
 	image_lut = 0;
 	image_lut_dz = image_lut_dz2 = 0;
+
+
 
 	zlutAlignRootFinder = RF_Secant;
 
@@ -146,6 +150,7 @@ QueuedCPUTracker::~QueuedCPUTracker()
 	delete[] calib_gain;
 	delete[] calib_offset;
 	if (zluts) delete[] zluts;
+	if (zlut_cmpprofiles) delete[] zlut_cmpprofiles;
 	if (image_lut) delete[] image_lut;
 	if (image_lut_dz) delete[] image_lut_dz;
 	if (image_lut_dz2) delete[] image_lut_dz2;
@@ -302,7 +307,12 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 		} else {
 			trk->ComputeRadialProfile(prof,cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, result.pos2D(), false, &boundaryHit, normalizeProfile );
 		}
-		result.pos.z = trk->LUTProfileCompare(prof, j->job.zlutIndex, 0);
+		float *cmpprof = 0;
+
+		if (zlut_enablecmpprof)
+			cmpprof = &zlut_cmpprofiles[j->job.zlutIndex*zlut_planes];
+
+		result.pos.z = trk->LUTProfileCompare(prof, j->job.zlutIndex, cmpprof);
 	} else if (localizeMode & LT_BuildRadialZLUT && (j->job.zlutIndex >= 0 && j->job.zlutIndex < zlut_count)) {
 		float* zlut = GetZLUTByIndex(j->job.zlutIndex);
 		float* rprof = ALLOCA_ARRAY(float, cfg.zlut_radialsteps);
@@ -372,6 +382,9 @@ void QueuedCPUTracker::SetRadialZLUT(float* data, int num_zluts, int planes)
 	}
 	else
 		zluts = 0;
+
+	if (zlut_cmpprofiles) delete[] zlut_cmpprofiles;
+	zlut_cmpprofiles = new float [num_zluts*planes];
 
 	UpdateZLUTs();
 //	results_mutex.unlock();
@@ -533,6 +546,20 @@ void QueuedCPUTracker::GetImageZLUT(float* dst)
 {
 	if (image_lut) {
 		memcpy(dst, image_lut, sizeof(float)*image_lut_nElem_per_bead*image_lut_dims[0]);
+	}
+}
+
+void QueuedCPUTracker::EnableRadialZLUTCompareProfile(bool enabled)
+{
+	zlut_enablecmpprof=enabled;
+}
+
+// dst = [count * planes]
+void QueuedCPUTracker::GetRadialZLUTCompareProfile(float* dst)
+{
+	if (zlut_cmpprofiles){ 
+		for (int i=0;i<zlut_count*zlut_planes;i++)
+			dst[i]=zlut_cmpprofiles[i];
 	}
 }
 

@@ -114,7 +114,7 @@ CDLL_EXPORT float DLL_CALLCONV compute_z(CPUTracker* tracker, float* center, int
 		ResizeLVArray(errorCurve, tracker->zlut_planes);
 	}
 
-	float z =  tracker->ComputeZ(*(vector2f*)center, angularSteps, zlut_index, false, &boundaryHit, profile ? (*profile)->elem : 0, (*errorCurve)->elem);
+	float z =  tracker->ComputeZ(*(vector2f*)center, angularSteps, zlut_index, &boundaryHit, profile ? (*profile)->elem : 0, (*errorCurve)->elem);
 	if (error)
 		*error = boundaryHit?1:0;
 	return z;

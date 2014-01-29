@@ -24,6 +24,9 @@ public:
 	void SetRadialWeights(float* rweights) override;
 	void ScheduleLocalization(void* data, int pitch, QTRK_PixelDataType pdt, const LocalizationJob *jobInfo) override;
 
+	void EnableRadialZLUTCompareProfile(bool enabled);
+	void GetRadialZLUTCompareProfile(float* dst); // dst = [count * planes]
+
 	void BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, uint flags, int plane) override;
 	void FinalizeLUT() override;
 
@@ -91,6 +94,8 @@ private:
 
 	std::vector<Thread> threads;
 	float* zluts;
+	float* zlut_cmpprofiles;
+	bool zlut_enablecmpprof;
 	int zlut_count, zlut_planes;
 	std::vector<float> zcmp;
 	float* GetZLUTByIndex(int index) { return &zluts[ index * (zlut_planes*cfg.zlut_radialsteps) ]; }
