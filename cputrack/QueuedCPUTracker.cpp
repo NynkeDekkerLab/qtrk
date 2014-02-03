@@ -108,6 +108,8 @@ QueuedCPUTracker::QueuedCPUTracker(const QTrkComputedConfig& cc)
 	jobCount = 0;
 	resultCount = 0;
 
+	zlut_cmpprofiles = 0;
+	zlut_enablecmpprof = false;
 	zluts = 0;
 	zlut_count = zlut_planes = 0;
 	processJobs = false;
@@ -124,6 +126,9 @@ QueuedCPUTracker::QueuedCPUTracker(const QTrkComputedConfig& cc)
 	image_lut_dz = image_lut_dz2 = 0;
 
 	zlutAlignRootFinder = RF_NewtonRaphson;
+
+	downsampleWidth = cfg.width >> cfg.downsample;
+	downsampleHeight = cfg.height >> cfg.downsample;
 
 	Start();
 }
@@ -146,6 +151,7 @@ QueuedCPUTracker::~QueuedCPUTracker()
 	delete[] calib_gain;
 	delete[] calib_offset;
 	if (zluts) delete[] zluts;
+	if (zlut_cmpprofiles) delete[] zlut_cmpprofiles;
 	if (image_lut) delete[] image_lut;
 	if (image_lut_dz) delete[] image_lut_dz;
 	if (image_lut_dz2) delete[] image_lut_dz2;
@@ -201,7 +207,7 @@ void QueuedCPUTracker::Start()
 		threads[k].mutex->name = SPrintf("thread%d", k);
 		threads[k].mutex->trace = true;
 #endif
-		threads[k].tracker = new CPUTracker(cfg.width, cfg.height, cfg.xc1_profileLength);
+		threads[k].tracker = new CPUTracker(downsampleWidth, downsampleHeight, cfg.xc1_profileLength);
 		threads[k].manager = this;
 		threads[k].tracker->trackerID = k;
 	}
@@ -239,13 +245,7 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 	CPUTracker* trk = th->tracker;
 	th->lock();
 
-	if (j->dataType == QTrkU8) {
-		trk->SetImage8Bit(j->data, cfg.width);
-	} else if (j->dataType == QTrkU16) {
-		trk->SetImage16Bit((ushort*)j->data, cfg.width*2);
-	} else {
-		trk->SetImageFloat((float*)j->data);
-	}
+	SetTrackerImage(trk, j);
 
 	if (localizeMode & LT_ClearFirstFourPixels) {
 		trk->srcImage[0]=trk->srcImage[1]=trk->srcImage[2]=trk->srcImage[3]=0;
@@ -296,7 +296,18 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 
 	bool normalizeProfile = (localizeMode & LT_NormalizeProfile)!=0;
 	if(localizeMode & LT_LocalizeZ) {
-		result.pos.z = trk->ComputeZ(result.pos2D(), cfg.zlut_angularsteps, j->job.zlutIndex, false, &boundaryHit, 0, 0, normalizeProfile );
+		float* prof=ALLOCA_ARRAY(float,cfg.zlut_radialsteps);
+		if (localizeMode & LT_FourierLUT) {
+			trk->FourierRadialProfile(prof,cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius);
+		} else {
+			trk->ComputeRadialProfile(prof,cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, result.pos2D(), false, &boundaryHit, normalizeProfile );
+		}
+		float *cmpprof = 0;
+
+		if (zlut_enablecmpprof)
+			cmpprof = &zlut_cmpprofiles[j->job.zlutIndex*zlut_planes];
+
+		result.pos.z = trk->LUTProfileCompare(prof, j->job.zlutIndex, cmpprof);
 	} else if (localizeMode & LT_BuildRadialZLUT && (j->job.zlutIndex >= 0 && j->job.zlutIndex < zlut_count)) {
 		float* zlut = GetZLUTByIndex(j->job.zlutIndex);
 		float* rprof = ALLOCA_ARRAY(float, cfg.zlut_radialsteps);
@@ -370,6 +381,9 @@ void QueuedCPUTracker::SetRadialZLUT(float* data, int num_zluts, int planes)
 	}
 	else
 		zluts = 0;
+
+	if (zlut_cmpprofiles) delete[] zlut_cmpprofiles;
+	zlut_cmpprofiles = new float [num_zluts*planes];
 
 	UpdateZLUTs();
 //	results_mutex.unlock();
@@ -475,10 +489,24 @@ bool QueuedCPUTracker::GetDebugImage(int id, int *w, int *h,float** data)
 }
 
 
+typedef std::map<QueuedCPUTracker::ZLUTAlignRootFinder, std::string> ZLUTAlignRootFinderNameMap;
+ZLUTAlignRootFinderNameMap& rootFinderNames() {
+	static ZLUTAlignRootFinderNameMap names;
+	if (names.empty()) {
+		names[QueuedCPUTracker::RF_NewtonRaphson]="nr";
+		names[QueuedCPUTracker::RF_NewtonRaphson3D]="nr3d";
+		names[QueuedCPUTracker::RF_Secant]="secant";
+		names[QueuedCPUTracker::RF_GradientDescent]="grdesc";
+	}
+	return names;
+}
+
+
 QueuedTracker::ConfigValueMap QueuedCPUTracker::GetConfigValues()
 {
 	ConfigValueMap cvm;
 	cvm["trace"] = dbgPrintResults ? "1" : "0";
+	cvm["za_rootfinder"] = rootFinderNames()[zlutAlignRootFinder];
 	return cvm;
 }
 
@@ -487,6 +515,17 @@ void QueuedCPUTracker::SetConfigValue(std::string name, std::string value)
 {
 	if (name == "trace")
 		dbgPrintResults = !!atoi(value.c_str());
+	if (name == "za_rootfinder") {
+		bool found=false;
+		for (auto i = rootFinderNames().begin(); i != rootFinderNames().end(); ++i)
+			if (i->second == value) {
+				zlutAlignRootFinder = i->first;
+				break;
+			}
+		if (!found) {
+			dbgprintf("SetConfigValue(): Unknown ZLUTAlign root finder method: %s\n", value.c_str());
+		}
+	}
 }
 
 void QueuedCPUTracker::SetLocalizationMode(LocMode_t lt)
@@ -506,6 +545,20 @@ void QueuedCPUTracker::GetImageZLUT(float* dst)
 {
 	if (image_lut) {
 		memcpy(dst, image_lut, sizeof(float)*image_lut_nElem_per_bead*image_lut_dims[0]);
+	}
+}
+
+void QueuedCPUTracker::EnableRadialZLUTCompareProfile(bool enabled)
+{
+	zlut_enablecmpprof=enabled;
+}
+
+// dst = [count * planes]
+void QueuedCPUTracker::GetRadialZLUTCompareProfile(float* dst)
+{
+	if (zlut_cmpprofiles){ 
+		for (int i=0;i<zlut_count*zlut_planes;i++)
+			dst[i]=zlut_cmpprofiles[i];
 	}
 }
 
@@ -539,7 +592,8 @@ bool QueuedCPUTracker::SetImageZLUT(float* src, float *radial_lut, int* dims)
 
 void QueuedCPUTracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, uint flags, int plane)
 {
-	parallel_for(zlut_count, [&] (int i) {
+	//parallel_for(zlut_count,[&] (int i) {
+	for(int i=0;i<zlut_count;i++) {
 		CPUTracker trk (cfg.width,cfg.height);
 		void *img_data = (uchar*)data + pitch * cfg.height * i;
 
@@ -555,7 +609,6 @@ void QueuedCPUTracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, u
 		bool bhit;
 		vector2f qipos = trk.ComputeQI(com, cfg.qi_iterations, cfg.qi_radialsteps, cfg.qi_angstepspq, cfg.qi_angstep_factor, cfg.qi_minradius, cfg.qi_maxradius, bhit);
 
-		
 		dbgprintf("BuildLUT() COMPos: %f,%f, QIPos: x=%f, y=%f\n", com.x,com.y, qipos.x, qipos.y);
 
 		if (flags & BUILDLUT_IMAGELUT) {
@@ -581,12 +634,23 @@ void QueuedCPUTracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, u
 
 		float *bead_zlut=GetZLUTByIndex(i);
 		float *tmp = new float[cfg.zlut_radialsteps];
-		trk.ComputeRadialProfile(tmp, cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, qipos, false, 0, true);
+
+		if (flags & BUILDLUT_FOURIER){
+			trk.FourierRadialProfile(tmp, cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius);
+			if (plane==0) {
+				for (int i=0;i<trk.width*trk.height;i++)
+					trk.srcImage[i]=sqrtf(trk.srcImage[i]);
+				trk.SaveImage("freqimg.jpg");
+			}
+		}
+		else {
+			trk.ComputeRadialProfile(tmp, cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, qipos, false, 0, true);
+		}
 	//	WriteArrayAsCSVRow("rlut-test.csv", tmp, cfg.zlut_radialsteps, plane>0);
 		for(int i=0;i<cfg.zlut_radialsteps;i++) 
 			bead_zlut[plane*cfg.zlut_radialsteps+i] += tmp[i];
 		delete[] tmp;
-	});
+	} //);
 }
 
 void QueuedCPUTracker::FinalizeLUT()
@@ -641,3 +705,15 @@ void QueuedCPUTracker::FinalizeLUT()
 }
 
 
+void QueuedCPUTracker::SetTrackerImage(CPUTracker* trk, Job* j)
+{
+
+	if (j->dataType == QTrkU8) {
+		trk->SetImage8Bit(j->data, cfg.width);
+	} else if (j->dataType == QTrkU16) {
+		trk->SetImage16Bit((ushort*)j->data, cfg.width*2);
+	} else {
+		trk->SetImageFloat((float*)j->data);
+	}
+
+}

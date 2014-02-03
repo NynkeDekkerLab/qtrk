@@ -24,6 +24,9 @@ public:
 	void SetRadialWeights(float* rweights) override;
 	void ScheduleLocalization(void* data, int pitch, QTRK_PixelDataType pdt, const LocalizationJob *jobInfo) override;
 
+	void EnableRadialZLUTCompareProfile(bool enabled);
+	void GetRadialZLUTCompareProfile(float* dst); // dst = [count * planes]
+
 	void BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, uint flags, int plane) override;
 	void FinalizeLUT() override;
 
@@ -89,8 +92,12 @@ private:
 	Threads::Mutex gc_mutex;
 	float *calib_gain, *calib_offset, gc_gainFactor, gc_offsetFactor;
 
+	int downsampleWidth, downsampleHeight;
+
 	std::vector<Thread> threads;
 	float* zluts;
+	float* zlut_cmpprofiles;
+	bool zlut_enablecmpprof;
 	int zlut_count, zlut_planes;
 	std::vector<float> zcmp;
 	float* GetZLUTByIndex(int index) { return &zluts[ index * (zlut_planes*cfg.zlut_radialsteps) ]; }
@@ -115,6 +122,8 @@ private:
 	void AddJob(Job* j);
 	void ProcessJob(Thread* th, Job* j);
 	vector3f ZLUTAlign(Thread *th, const LocalizationJob& job, vector3f pos);
+
+	void SetTrackerImage(CPUTracker* trk, Job *job);
 
 	static void WorkerThreadMain(void* arg);
 };

@@ -48,6 +48,16 @@ public:
 	int qi_radialsteps;
 	kissfft<scalar_t> *qi_fft_forward, *qi_fft_backward;
 
+	class FFT2D {
+	public:
+		kissfft<float> xfft, yfft;
+		std::complex<float> *cbuf;
+		FFT2D(int w, int h) : xfft(w,false), yfft(h,false) {cbuf=new std::complex<float>[w*h]; }
+		~FFT2D() { delete[] cbuf; }
+		void Apply(float* d);
+	};
+	FFT2D *fft2d;
+
 	float& GetPixel(int x, int y) { return srcImage[width*y+x]; }
 	int GetWidth() { return width; }
 	int GetHeight() { return height; }
@@ -72,14 +82,25 @@ public:
 	void SetImage16Bit(ushort* srcImage, uint srcpitch) { SetImage(srcImage, srcpitch); }
 	void SetImage8Bit(uchar* srcImage, uint srcpitch) { SetImage(srcImage, srcpitch); }
 	void SetImageFloat(float* srcImage);
+	void SaveImage(const char *filename);
 
 	vector2f ComputeMeanAndCOM(float bgcorrection=0.0f);
 	void ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float minradius, float maxradius, vector2f center, bool crp, bool* boundaryHit=0, bool normalize=true);
 	void ComputeQuadrantProfile(scalar_t* dst, int radialSteps, int angularSteps, int quadrant, float minRadius, float maxRadius, vector2f center);
 
+	float ComputeZ(vector2f center, int angularSteps, int zlutIndex, bool* boundaryHit=0, float* profile=0, float* cmpprof=0, bool normalizeProfile=true)
+	{
+		float* prof= ALLOCA_ARRAY(float, zlut_res);
+		ComputeRadialProfile(prof,zlut_res,angularSteps, zlut_minradius, zlut_maxradius, center, false, boundaryHit, normalizeProfile);
+		return LUTProfileCompare(prof, zlutIndex, cmpprof);
+	}
+	
+	void FourierTransform2D();
+	void FourierRadialProfile(float* dst, int radialSteps, int angularSteps, float minradius, float maxradius);
+
 	void Normalize(float *image=0);
 	void SetRadialZLUT(float* data, int planes, int res, int num_zluts, float minradius, float maxradius, int angularSteps, bool copyMemory, bool useCorrelation, float* radialweights=0);
-	float ComputeZ(vector2f center, int angularSteps, int zlutIndex, bool crp, bool* boundaryHit=0, float* profile=0, float* cmpprof=0, bool normalizeProfile=true ); // radialSteps is given by zlut_res
+	float LUTProfileCompare(float* profile, int zlutIndex, float* cmpProf);
 	float* GetDebugImage() { return debugImage; }
 
 	void ApplyOffsetGain(float *offset, float *gain, float offsetFactor, float gainFactor);

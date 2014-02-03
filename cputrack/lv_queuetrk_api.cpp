@@ -415,6 +415,25 @@ CDLL_EXPORT int qtrk_get_results(QueuedTracker* qtrk, LocalizationResult* result
 	return 0;
 }
 
+CDLL_EXPORT void qtrk_get_zlut_cmpprof(QueuedTracker* qtrk, LVArray2D<float> ** output, ErrorCluster* e)
+{
+	if (ValidateTracker(qtrk, e, "get zlut compare profiles"))
+	{
+		int cnt,planes,rsteps;
+		qtrk->GetRadialZLUTSize(cnt,planes,rsteps);
+		ResizeLVArray2D(output, cnt, planes);
+
+		qtrk->GetRadialZLUTCompareProfile((*output)->elem);
+	}
+}
+
+CDLL_EXPORT void qtrk_enable_zlut_cmpprof(QueuedTracker* qtrk, bool enable, ErrorCluster* e)
+{
+	if (ValidateTracker(qtrk, e, "enable zlut cmpprof"))
+		qtrk->EnableRadialZLUTCompareProfile(enable);
+}
+
+
 CDLL_EXPORT void qtrk_set_localization_mode(QueuedTracker* qtrk, uint locType, ErrorCluster* e)
 {
 	if (ValidateTracker(qtrk, e, "set_localization_mode")) {
@@ -504,6 +523,7 @@ CDLL_EXPORT void qtrk_find_beads(uint8_t* image, int pitch, int w,int h, int* sm
 		(*output)->get(i, 1) = results[i].y;
 	}
 }
+
 
 CDLL_EXPORT void test_array_passing(int n, LVArray<float>** flt1D, LVArray2D<float>** flt2D, LVArray<int>** int1D, LVArray2D<int>** int2D)
 {

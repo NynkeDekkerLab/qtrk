@@ -14,6 +14,8 @@ enum LocalizeModeEnum {
 	LT_BuildRadialZLUT = 32,
 	LT_NormalizeProfile = 64,
 	LT_ClearFirstFourPixels = 128,
+	LT_FourierLUT = 256,
+
 	LT_Force32Bit = 0xffffffff
 };
 
@@ -102,6 +104,8 @@ struct QTrkSettings {
 
 	int gauss2D_iterations;
 	float gauss2D_sigma;
+
+	int downsample; // 0 = original, 1 = 1x (W=W/2,H=H/2)
 };
 
 struct ROIPosition

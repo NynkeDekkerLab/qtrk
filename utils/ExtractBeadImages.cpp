@@ -7,6 +7,9 @@ std::vector<BeadPos> read_beadlist(std::string fn)
 {
 	FILE *f = fopen(fn.c_str(), "r");
 	std::vector<BeadPos> beads;
+
+	if (!f) return beads;
+
 	while (!feof(f)) {
 		BeadPos bp;
 		fscanf(f, "%d\t%d\n", &bp.x,&bp.y);
@@ -36,7 +39,7 @@ void extract_regions(std::vector<BeadPos> beads, int size, int frame, ImageData*
 	roi.free();
 }
 
-void process_beads(const char *path, int size, std::vector<BeadPos> beadlist, process_image_cb cb, int framelimit)
+void process_beads(const char *path, int roisize, std::vector<BeadPos> beadlist, process_image_cb cb, int framelimit)
 {
 	tinydir_dir d;
 	if (tinydir_open(&d, path) == -1)
@@ -51,7 +54,7 @@ void process_beads(const char *path, int size, std::vector<BeadPos> beadlist, pr
 			dbgprintf("File: %s\n", f.name);
 
 			ImageData img = ReadJPEGFile(f.path);
-			extract_regions(beadlist, size, frame++, &img, cb);
+			extract_regions(beadlist, roisize, frame++, &img, cb);
 			img.free();
 		}
 
@@ -60,5 +63,11 @@ void process_beads(const char *path, int size, std::vector<BeadPos> beadlist, pr
 
 		tinydir_next(&d);
 	}
+}
+
+void process_bead_dir(const char *path, int roisize, process_image_cb cb, int framelimit)
+{
+	auto beadlist=read_beadlist(SPrintf("%s\\beadlist.txt"));
+	process_beads(path, roisize, beadlist, cb, framelimit);
 }
 

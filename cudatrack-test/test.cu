@@ -535,8 +535,8 @@ void CompareAccuracy (const char *lutfile)
 //	auto cpugc = RunTracker<QueuedCPUTracker>(lutfile, &cfg, true, "cpugc");
 //	auto gpugc = RunTracker<QueuedCUDATracker>(lutfile, &cfg, true, "gpugc");
 
-	for (int i=0;i<std::min((int)cpu.size(),20);i++) {
-		dbgprintf("CPU-GPU: %f, %f\n", cpu[i].x-gpu[i].x,cpu[i].y-gpu[i].y);
+	for (int i=0;i<std::min((int)cpu.output.size(),20);i++) {
+		dbgprintf("CPU-GPU: %f, %f\n", cpu.output[i].x-gpu.output[i].x,cpu.output[i].y-gpu.output[i].y);
 	}
 
 /*	dbgprintf("CPU\tGPU\tCPU(gc)\tGPU(gc)\n");

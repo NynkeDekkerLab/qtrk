@@ -5,7 +5,10 @@
 #include "../cputrack/FisherMatrix.h"
 #include "../cputrack/BeadFinder.h"
 #include "../cputrack/LsqQuadraticFit.h"
+#include "../utils/ExtractBeadImages.h"
 #include <time.h>
+
+
 
 #include "SharedTests.h"
 
@@ -110,7 +113,7 @@ void SpeedTest()
 			dbgprintf("qi boundaryhit!!\n");
 
 		boundaryHit = false;
-		float est_z = zmin + (zmax-zmin)*tracker->ComputeZ(qi, 64, 0, false, &boundaryHit, 0) / (zplanes-1);
+		float est_z = zmin + (zmax-zmin)*tracker->ComputeZ(qi, 64, 0, &boundaryHit, 0) / (zplanes-1);
 		zdist += fabsf(est_z-z);
 		zerrsum += est_z-z;
 
@@ -374,7 +377,12 @@ void QTrkTest()
 	cfg.qi_iterations = 3;
 	cfg.xc1_iterations = 2;
 	cfg.xc1_profileLength = 64;
-	cfg.numThreads = -1; // direct processing, dont use queue
+	//cfg.numThreads = -1; // direct processing, dont use queue
+	cfg.qi_radial_coverage = 1.5f;
+	cfg.qi_angular_coverage = 0.7f;
+	cfg.zlut_radial_coverage = 2.0f;
+	cfg.zlut_angular_coverage = 0.7f;
+
 	//cfg.numThreads = 6;
 	QueuedCPUTracker qtrk(cfg);
 	float *image = new float[cfg.width*cfg.height];
@@ -692,6 +700,44 @@ void TestImageLUT()
 	img.free();
 }
 
+void TestFourierLUT()
+{
+	QTrkSettings cfg;
+	cfg.width = cfg.height = 60;
+	cfg.zlut_minradius=3;
+	cfg.zlut_roi_coverage=1;
+	
+//	auto locMode = (LocMode_t)(LT_ZLUTAlign | LT_NormalizeProfile | LT_LocalizeZ);
+//	auto resultsCOM = RunTracker<QueuedCPUTracker> ("lut000.jpg", &cfg, false, "com-zlutalign", locMode, 100 );
+
+	const float NF=28;
+	float zpos=10;
+	
+	auto locMode = (LocMode_t)(LT_QI | LT_FourierLUT | LT_NormalizeProfile | LT_LocalizeZ);
+	auto resultsZA = RunTracker<QueuedCPUTracker> ("lut000.jpg", &cfg, false, "qi-fourierlut",	locMode, 200, NF,zpos);
+
+	auto locModeQI = (LocMode_t)(LT_QI | LT_NormalizeProfile | LT_LocalizeZ);
+	auto resultsQI = RunTracker<QueuedCPUTracker> ("lut000.jpg", &cfg, false, "qi",				locModeQI, 200, NF, zpos);
+
+	resultsZA.computeStats(); 
+	resultsQI.computeStats();
+
+	dbgprintf("FourierLUT: X= %f. stdev: %f\tZ=%f,  stdev: %f\n", resultsZA.mean.x, resultsZA.stdev.x, resultsZA.mean.z, resultsZA.stdev.z);
+	dbgprintf("Only QI:   X= %f. stdev: %f\tZ=%f,  stdev: %f\n", resultsQI.mean.x, resultsQI.stdev.x, resultsQI.mean.z, resultsQI.stdev.z);
+}
+
+
+void TestFourierLUTOnDataset()
+{
+	const char*basepath= "D:/jcnossen1/datasets/RefBeads 2013-09-02/2013-09-02/";
+
+	process_bead_dir(SPrintf("%s/%s", basepath, "tmp_001").c_str(), 80, [&] (ImageData *img, int bead, int frame) {
+		
+
+
+	}, 1000);
+}
+
 void TestZLUTAlign()
 {
 	QTrkSettings cfg;
@@ -745,7 +791,9 @@ int main()
 	//for (int i=1;i<8;i++)
 	//	BuildConvergenceMap(i);
 
-	TestZLUTAlign();
+	//TestFourierLUT();
+	TestFourierLUTOnDataset();
+	//TestZLUTAlign();
 	//TestImageLUT();
 //	TestBuildRadialZLUT<QueuedCPUTracker>( "lut000.jpg" );
 	//TestImageLUT();

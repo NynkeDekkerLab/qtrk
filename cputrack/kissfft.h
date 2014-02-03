@@ -72,6 +72,8 @@ class kissfft
             kf_work(0, dst, src, 1,1);
         }
 
+		int nfft() { return _nfft; }
+
     private:
         void kf_work( int stage,cpx_type * Fout, const cpx_type * f, size_t fstride,size_t in_stride)
         {
