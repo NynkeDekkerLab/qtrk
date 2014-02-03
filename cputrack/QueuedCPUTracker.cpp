@@ -123,7 +123,7 @@ QueuedCPUTracker::QueuedCPUTracker(const QTrkComputedConfig& cc)
 	image_lut = 0;
 	image_lut_dz = image_lut_dz2 = 0;
 
-	zlutAlignRootFinder = RF_Secant;
+	zlutAlignRootFinder = RF_NewtonRaphson;
 
 	Start();
 }
@@ -333,15 +333,19 @@ vector3f QueuedCPUTracker::ZLUTAlign(QueuedCPUTracker::Thread *th, const Localiz
 			vector3d d;
 			//float k=1.0f/sqrtf(1+i);
 			rpos = trk->ZLUTAlignGradientStep (pos, job.zlutIndex, &d, vector3d(0.02f,0.02f,0.1f), vector3d(1e-3,1e-3,1e-3));
+#ifdef _DEBUG
 			if (th == &this->threads[0]) dbgprintf("dXYZ[%d]: %f, %f, %f. at %f, %f, %f\n", i, d.x,d.y,d.z, rpos.x,rpos.y,rpos.z);
+#endif
 		}
 	} else if (zlutAlignRootFinder == RF_Secant) {
 		rpos = trk->ZLUTAlignSecantMethod (pos, job.zlutIndex,10, vector3f(2e-3,2e-3,2e-3));
 	} else if (zlutAlignRootFinder == RF_NewtonRaphson) {
-		for (int i=0;i<5;i++) {
+		for (int i=0;i<10;i++) {
 			vector3d d;
-			rpos = trk->ZLUTAlignNewtonRaphsonIndependentStep (pos, job.zlutIndex, &d, vector3f(2e-3,2e-3,2e-3));
+			rpos = trk->ZLUTAlignNewtonRaphsonIndependentStep (pos, job.zlutIndex, &d, vector3f(1e-4,1e-4,1e-4));
+#ifdef _DEBUG
 			if (th == &this->threads[0]) dbgprintf("dXYZ[%d]: %f, %f, %f. at %f, %f, %f\n", i, d.x,d.y,d.z, rpos.x,rpos.y,rpos.z);
+#endif
 		}
 	}
 

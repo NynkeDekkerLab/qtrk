@@ -57,6 +57,9 @@ struct vector3 {
 	vector3 operator-(const vector3& o) const {
 		return vector3(x-o.x,y-o.y,z-o.z);
 	}
+	vector3 operator-() const {
+		return vector3(-x,-y,-z);
+	}
 	vector3& operator*=(const vector3& o) { 
 		x*=o.x; y*=o.y; z*=o.z;
 		return *this;

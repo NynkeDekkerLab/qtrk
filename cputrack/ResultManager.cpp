@@ -2,6 +2,7 @@
 #include "ResultManager.h"
 #include "utils.h"
 
+#define BINFILE_VERSION 2
 
 TextResultFile::TextResultFile(const char *fn, bool write)
 {
@@ -71,6 +72,8 @@ void ResultManager::WriteBinaryFileHeader()
 	}
 
 	// Write file header
+	int version = BINFILE_VERSION;
+	fwrite(&version, sizeof(int), 1, f);
 	fwrite(&config.numBeads, sizeof(int), 1, f);
 	fwrite(&config.numFrameInfoColumns, sizeof(int), 1, f);
 	int tmp=1234;
@@ -148,6 +151,8 @@ void ResultManager::WriteBinaryResults()
 				LocalizationResult *r = &fr->results[i];
 				fwrite(&r->pos, sizeof(vector3f), 1, f);
 			}
+			for (int i=0;i<config.numBeads;i++)
+				fwrite(&fr->results[i].error, sizeof(int), 1, f);
 		}
 	}
 	fclose(f);
