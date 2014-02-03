@@ -715,9 +715,9 @@ vector3d CPUTracker::ZLUTAlignNewtonRaphson3DStep(vector3d pos, int beadIndex,ve
 
 vector3d CPUTracker::ZLUTAlignNewtonRaphsonIndependentStep(vector3d pos, int beadIndex,vector3d* diff, vector3d deriv_delta)
 {
-	const float dx = deriv_delta.x;
-	const float dy = deriv_delta.y;
-	const float dz = deriv_delta.z;
+	const double dx = deriv_delta.x;
+	const double dy = deriv_delta.y;
+	const double dz = deriv_delta.z;
 
 	double spx = ZLUTAlign_ComputeScore( vector3d(pos.x+dx, pos.y, pos.z ), beadIndex);
 	double spy = ZLUTAlign_ComputeScore( vector3d(pos.x, pos.y+dy, pos.z ), beadIndex);
@@ -740,11 +740,18 @@ vector3d CPUTracker::ZLUTAlignNewtonRaphsonIndependentStep(vector3d pos, int bea
 		*diff = vector3d(ds_dx,ds_dy,ds_dz);
 	}
 
-	vector3d step = vector3d( 
+	vector3d step = -vector3d( 
 		ds2_dx2==0 ? 0 : ds_dx/ds2_dx2, 
 		ds2_dy2==0 ? 0 : ds_dy/ds2_dy2, 
 		ds2_dz2==0 ? 0 : ds_dz/ds2_dz2);
-	return pos - step;
+
+	double gdboundary = 0.1f;
+
+	if (abs(step.x) > gdboundary) step.x = 0.1f*ds_dx;
+	if (abs(step.y) > gdboundary) step.y = 0.1f*ds_dy;
+	if (abs(step.z) > gdboundary) step.z = 0.1f*ds_dz;
+
+	return pos + step;
 }
 
 
