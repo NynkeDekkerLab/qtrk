@@ -76,6 +76,7 @@ void ResultManager::WriteBinaryFileHeader()
 	fwrite(&version, sizeof(int), 1, f);
 	fwrite(&config.numBeads, sizeof(int), 1, f);
 	fwrite(&config.numFrameInfoColumns, sizeof(int), 1, f);
+	long data_offset_pos = ftell(f);
 	int tmp=1234;
 	fwrite(&tmp,sizeof(int), 1,f);
 	for (int i=0;i<config.numFrameInfoColumns;i++) {
@@ -84,7 +85,7 @@ void ResultManager::WriteBinaryFileHeader()
 	}
 	long data_offset = ftell(f);
 	dbgprintf("frame data offset: %d\n", data_offset);
-	fseek(f, 8, SEEK_SET);
+	fseek(f, data_offset_pos, SEEK_SET);
 	fwrite(&data_offset, sizeof(long), 1, f);
 	
 	dbgprintf("writing %d beads and %d frame-info columns into file %s\n", config.numBeads, config.numFrameInfoColumns, outputFile.c_str());
