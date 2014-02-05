@@ -12,9 +12,11 @@ public:
 
 	int lut_w,lut_h;
 
+	BenchmarkLUT() { lut_w=lut_h=0; }
 	BenchmarkLUT (ImageData* lut);
 	BenchmarkLUT (const char *file);
 	void Load(ImageData* lut);
+	void Load(const char *file);
 
 	void GenerateLUT(ImageData* lut, float M);
 	void GenerateSample(ImageData* image, vector3f pos, float targetSizeInPixels);

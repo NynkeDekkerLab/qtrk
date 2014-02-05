@@ -916,9 +916,10 @@ int CmdLineRun(int argc, char*argv[])
 	int count=100;
 	check_arg(args, "count", &count);
 
-	std::string outputfile, fixlutfile, inputposfile;
+	std::string outputfile, fixlutfile, inputposfile, bmlutfile;
 	check_strarg(args, "output", &outputfile);
 	check_strarg(args, "fixlut", &fixlutfile);
+	check_strarg(args, "bmlut", &bmlutfile);
 	check_strarg(args, "inputpos", &inputposfile);
 
 	std::vector< vector3f > inputPos;
@@ -954,6 +955,7 @@ int CmdLineRun(int argc, char*argv[])
 	else qtrk = new QueuedCPUTracker(cfg);
 
 	ImageData lut;
+	BenchmarkLUT bmlut;
 
 	if (!fixlutfile.empty()) 
 	{
@@ -968,59 +970,61 @@ int CmdLineRun(int argc, char*argv[])
 
 		qtrk->SetRadialZLUT(lut.data, 1, lut.h);
 	}
-
-	if (lut.data) {
-
-		if (inputPos.empty()) {
-			inputPos.resize(count);
-			for (int i=0;i<count;i++){
-				inputPos[i]=vector3f(cfg.width/2,cfg.height/2,lut.h/2);
-			}
+	else
+	{
+		if (bmlutfile.empty()) {
+			delete qtrk;
+			dbgprintf("No lut file\n");
+			return -1;
 		}
 
-		std::vector<ImageData> imgs (inputPos.size());
-
-		for (int i=0;i<inputPos.size();i++) {
-			imgs[i]=ImageData::alloc(cfg.width, cfg.height);
-			//vector3f pos = centerpos + range*vector3f(rand_uniform<float>()-0.5f, rand_uniform<float>()-0.5f, rand_uniform<float>()-0.5f)*2;
-
-			auto p = inputPos[i];
-			//bml.GenerateSample(&imgs[i], pos, trk->cfg.width*trk->cfg.zlut_roi_coverage/2);
-			GenerateImageFromLUT(&imgs[i], &lut, qtrk->cfg.zlut_minradius, qtrk->cfg.zlut_maxradius, vector3f(p.x,p.y, p.z));
-			imgs[i].normalize();
-			if (elecperbit > 0) ApplyPoissonNoise(imgs[i], 255 * elecperbit, 255);
-			if(i==0 && !lutsmpfile.empty()) WriteJPEGFile(lutsmpfile.c_str(), imgs[i]);
-		}
-
-		qtrk->SetLocalizationMode((LocMode_t)(LT_QI|LT_LocalizeZ| LT_NormalizeProfile));
-		double tstart=GetPreciseTime();
-
-		int img=0;
-		for (int i=0;i<inputPos.size();i++)
-		{
-			LocalizationJob job(i, 0, 0, 0);
-			qtrk->ScheduleLocalization((uchar*)imgs[i].data, sizeof(float)*cfg.width, QTrkFloat, &job);
-		}
-
-		WaitForFinish(qtrk, inputPos.size());
-		double tend = GetPreciseTime();
-
-		vector3f* results=new vector3f[inputPos.size()];
-		for (int i=0;i<inputPos.size();i++) {
-			LocalizationResult r;
-			qtrk->FetchResults(&r,1);
-			results[r.job.frame]=r.pos;
-		}
-		WriteTrace(outputfile, results, inputPos.size());
-		delete[] results;
-	
-		lut.free();
-	} else {
-		dbgprintf("No lut to generate samples from.\n");
-
-		delete qtrk;
-		return -1;
+		bmlut.Load(bmlutfile.c_str());
 	}
+
+	if (inputPos.empty()) {
+		inputPos.resize(count);
+		for (int i=0;i<count;i++){
+			inputPos[i]=vector3f(cfg.width/2,cfg.height/2,lut.h/2);
+		}
+	}
+
+	std::vector<ImageData> imgs (inputPos.size());
+
+	for (int i=0;i<inputPos.size();i++) {
+		imgs[i]=ImageData::alloc(cfg.width, cfg.height);
+		//vector3f pos = centerpos + range*vector3f(rand_uniform<float>()-0.5f, rand_uniform<float>()-0.5f, rand_uniform<float>()-0.5f)*2;
+
+		auto p = inputPos[i];
+		//bml.GenerateSample(&imgs[i], pos, trk->cfg.width*trk->cfg.zlut_roi_coverage/2);
+		GenerateImageFromLUT(&imgs[i], &lut, qtrk->cfg.zlut_minradius, qtrk->cfg.zlut_maxradius, vector3f(p.x,p.y, p.z));
+		imgs[i].normalize();
+		if (elecperbit > 0) ApplyPoissonNoise(imgs[i], 255 * elecperbit, 255);
+		if(i==0 && !lutsmpfile.empty()) WriteJPEGFile(lutsmpfile.c_str(), imgs[i]);
+	}
+
+	qtrk->SetLocalizationMode((LocMode_t)(LT_QI|LT_LocalizeZ| LT_NormalizeProfile));
+	double tstart=GetPreciseTime();
+
+	int img=0;
+	for (int i=0;i<inputPos.size();i++)
+	{
+		LocalizationJob job(i, 0, 0, 0);
+		qtrk->ScheduleLocalization((uchar*)imgs[i].data, sizeof(float)*cfg.width, QTrkFloat, &job);
+	}
+
+	WaitForFinish(qtrk, inputPos.size());
+	double tend = GetPreciseTime();
+
+	vector3f* results=new vector3f[inputPos.size()];
+	for (int i=0;i<inputPos.size();i++) {
+		LocalizationResult r;
+		qtrk->FetchResults(&r,1);
+		results[r.job.frame]=r.pos;
+	}
+	WriteTrace(outputfile, results, inputPos.size());
+	delete[] results;
+	
+	lut.free();
 	delete qtrk;
 
 	return 0;

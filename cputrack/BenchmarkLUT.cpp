@@ -4,14 +4,19 @@
 
 BenchmarkLUT::BenchmarkLUT (const char*file)
 {
-	ImageData d = ReadJPEGFile(file);
-	Load(&d);
-	d.free();
+	Load(file);
 }
 
 BenchmarkLUT::BenchmarkLUT (ImageData* lut)
 {
 	Load(lut);
+}
+
+void BenchmarkLUT::Load(const char *file)
+{
+	ImageData d = ReadJPEGFile(file);
+	Load(&d);
+	d.free();
 }
 
 void BenchmarkLUT::Load(ImageData* lut)
