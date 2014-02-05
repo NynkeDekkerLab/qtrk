@@ -307,23 +307,28 @@ void ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float m
 
 inline float sq(float x) { return x*x; }
 
-void GenerateImageFromLUT(ImageData* image, ImageData* zlut, float lutminRadius, float lutmaxRadius, vector2f pos, float z, float M)
+void GenerateImageFromLUT(ImageData* image, ImageData* zlut, float minradius, float maxradius, vector3f pos)
 {
+//	lut.w = radialcov * ( (image->w/2 * roicov ) - minradius );
+//	lut.w = radialcov * ( maxradius - minradius );
+
+	float radialcov = zlut->w / (maxradius-minradius);
+
 	// Generate the interpolated ZLUT 
-	float* zinterp; 
+	float* zinterp;
 
 	// The two Z planes to interpolate between
-	int iz = (int)z;
+	int iz = (int)pos.z;
 	if (iz < 0) 
 		zinterp = zlut->data;
 	else if (iz>=zlut->h-1)
 		zinterp = &zlut->data[ (zlut->h-1)*zlut->w ];
 	else {
-		float* zlut0 = &zlut->data [ (int)z * zlut->w ]; 
-		float* zlut1 = &zlut->data [ ((int)z + 1) * zlut->w ];
+		float* zlut0 = &zlut->data [ (int)pos.z * zlut->w ]; 
+		float* zlut1 = &zlut->data [ ((int)pos.z + 1) * zlut->w ];
 		zinterp = (float*)ALLOCA(sizeof(float)*zlut->w);
 		for (int r=0;r<zlut->w;r++) 
-			zinterp[r] = Lerp(zlut0[r], zlut1[r], z-iz);
+			zinterp[r] = Lerp(zlut0[r], zlut1[r], pos.z-iz);
 	}
 
 	const int len=5;
@@ -338,7 +343,7 @@ void GenerateImageFromLUT(ImageData* image, ImageData* zlut, float lutminRadius,
 		for (int x=0;x<image->w;x++) 
 		{
 			float pixr = sqrtf( sq(x-pos.x) + sq(y-pos.y) );
-			float r = zlut->w * ( pixr - lutminRadius ) / ( (lutmaxRadius - lutminRadius) * M);
+			float r = (pixr - minradius) * radialcov;
 
 			if (r > zlut->w-1)
 				r = zlut->w-1;
@@ -392,6 +397,50 @@ void ApplyGaussianNoise(ImageData& img, float sigma)
 		if (v<0.0f) v= 0.0f;
 		img.data[k]=v;
 	}
+}
+
+std::vector< std::vector<float> > ReadCSV(const char *filename, char sep)
+{
+	std::list< std::vector <float> > data;
+
+	FILE *f=fopen(filename,"r");
+	if (f) {
+		std::string buf;
+		std::vector<float> vals;
+		while (!feof(f)) {
+			char c=fgetc(f);
+			if (c == sep || c=='\n') {
+				vals.push_back( atof(buf.c_str()) );
+				buf.clear();
+			}
+			if (c == '\n') {
+				data.push_back( vals );
+				vals.clear();
+			}
+
+			if (c != sep && c!= '\n')
+				buf+=c;
+		}
+		fclose(f);
+	}
+	
+	std::vector<std::vector<float> > r;
+	r.reserve(data.size());
+	r.insert(r.begin(), data.begin(), data.end());
+	return r;
+}
+
+
+std::vector<vector3f> ReadVector3CSV( const char *file, char sep )
+{
+	auto data=ReadCSV(file ,sep);
+
+	std::vector<vector3f> r(data.size());
+
+	for (int i=0;i<data.size();i++){
+		r[i]=vector3f(data[i][0],data[i][1],data[i][2]);
+	}
+	return r;
 }
 
 

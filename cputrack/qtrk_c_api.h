@@ -73,6 +73,7 @@ struct QTrkSettings {
 		com_bgcorrection = 0.0f;
 		gauss2D_iterations = 6;
 		gauss2D_sigma = 4;
+		downsample = 0;
 	}
 	int width, height;
 	int numThreads;

@@ -48,6 +48,7 @@ void QTrkComputedConfig::WriteToLog()
 	WRITEVAR(qi_radialsteps);
 	WRITEVAR(qi_angstepspq);
 	WRITEVAR(qi_maxradius);
+	WRITEVAR(downsample);
 #undef WRITEVAR
 }
 

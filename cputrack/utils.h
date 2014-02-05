@@ -102,12 +102,13 @@ void ComputeCRP(float* dst, int radialSteps, int angularSteps, float minradius, 
 void ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float minradius, float maxradius, vector2f center, ImageData* src, float mean, bool normalize);
 void NormalizeRadialProfile(float* prof, int rsteps);
 void NormalizeZLUT(float *zlut, int numLUTs, int planes, int radialsteps);
-void GenerateImageFromLUT(ImageData* image, ImageData* zlut, float minRadius, float maxRadius, vector2f pos, float z, float M);
+void GenerateImageFromLUT(ImageData* image, ImageData* zlut, float minradius, float maxradius, vector3f pos);
 void ApplyPoissonNoise(ImageData& img, float poissonMax, float maxValue=255);
 void ApplyGaussianNoise(ImageData& img, float sigma);
 void WriteComplexImageAsCSV(const char* file, std::complex<float>* d, int w,int h, const char *labels[]=0);
 void WriteArrayAsCSVRow(const char *file, float* d, int len, bool append);
-
+std::vector< std::vector<float> > ReadCSV(const char *filename, char sep='\t');
+std::vector<vector3f> ReadVector3CSV( const char *file, char sep='\t');
 
 void WriteTrace(std::string file, vector3f* results, int nResults);
 void GenerateTestImage(ImageData& img, float xp, float yp, float size, float MaxPhotons);

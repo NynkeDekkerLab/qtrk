@@ -678,10 +678,10 @@ void QICompare(const char *lutfile )
 	cpu.SetLocalizationMode(LT_QI);
 	for (int i=0;i<N;i++) {
 		LocalizationJob job(i, 0, 0, 0);
-		vector2f pos(cfg.width/2,cfg.height/2);
+		vector3f pos(cfg.width/2,cfg.height/2, lut.h/2);
 		pos.x += rand_uniform<float>();
 		pos.y += rand_uniform<float>();
-		GenerateImageFromLUT(&img, &lut, 1, cfg.width/2, pos, lut.h/2,1.0f);
+		GenerateImageFromLUT(&img, &lut, 1, cfg.width/2, pos);
 		gpu.ScheduleLocalization( (uchar*)img.data, sizeof(float)*img.w, QTrkFloat, &job);
 		cpu.ScheduleLocalization( (uchar*)img.data, sizeof(float)*img.w, QTrkFloat, &job);
 	}
@@ -881,9 +881,160 @@ void TestBenchmarkLUT()
 	img.free();
 }
 
+template<typename T>
+void check_arg(const std::vector<std::string>& args, const char *name, T *param)
+{
+	for (int i=0;i<args.size();i++) {
+		if (args[i] == name) {
+			*param = (T)atof(args[i+1].c_str());
+			return;
+		}
+	}
+}
+
+void check_strarg(const std::vector<std::string>& args, const char *name, std::string* param)
+{
+	for (int i=0;i<args.size();i++) {
+		if (args[i] == name) {
+			*param = args[i+1];
+			return;
+		}
+	}
+}
+
+
+int CmdLineRun(int argc, char*argv[])
+{
+	QTrkSettings cfg;
+	std::vector<std::string> args(argc-1);
+	for (int i=0;i<argc-1;i++)
+		args[i]=argv[i+1];
+	
+	check_arg(args, "roi", &cfg.width);
+	cfg.height=cfg.width;
+
+	int count=100;
+	check_arg(args, "count", &count);
+
+	std::string outputfile, fixlutfile, inputposfile;
+	check_strarg(args, "output", &outputfile);
+	check_strarg(args, "fixlut", &fixlutfile);
+	check_strarg(args, "inputpos", &inputposfile);
+
+	std::vector< vector3f > inputPos;
+	if (!inputposfile.empty()) {
+		inputPos = ReadVector3CSV(inputposfile.c_str());
+		count = inputPos.size();
+	}
+
+	check_arg(args, "zlut_minradius", &cfg.zlut_minradius);
+	check_arg(args, "zlut_radial_coverage", &cfg.zlut_radial_coverage);
+	check_arg(args, "zlut_angular_coverage", &cfg.zlut_angular_coverage);
+	check_arg(args, "zlut_roi_coverage", &cfg.zlut_roi_coverage);
+
+	check_arg(args, "qi_iterations", &cfg.qi_iterations);
+	check_arg(args, "qi_minradius", &cfg.qi_minradius);
+	check_arg(args, "qi_radial_coverage", &cfg.qi_radial_coverage);
+	check_arg(args, "qi_angular_coverage", &cfg.qi_angular_coverage);
+	check_arg(args, "qi_roi_coverage", &cfg.qi_roi_coverage);
+	check_arg(args, "qi_angstep_factor", &cfg.qi_angstep_factor);
+	check_arg(args, "downsample", &cfg.downsample);
+
+	float elecperbit = 15;
+	check_arg(args, "epb", &elecperbit);
+
+	std::string lutsmpfile;
+	check_strarg(args, "lutsmpfile", &lutsmpfile);
+
+	int cuda=1;
+	check_arg(args, "cuda", &cuda);
+	QueuedTracker* qtrk;
+
+	if (cuda) qtrk = new QueuedCUDATracker(cfg);
+	else qtrk = new QueuedCPUTracker(cfg);
+
+	ImageData lut;
+
+	if (!fixlutfile.empty()) 
+	{
+		lut = ReadJPEGFile(fixlutfile.c_str());
+
+		if (lut.w != qtrk->cfg.zlut_radialsteps) {
+			lut.free();
+			dbgprintf("Invalid LUT size (%d). Expecting %d radialsteps\n", lut.w, qtrk->cfg.zlut_radialsteps);
+			delete qtrk;
+			return -1;
+		}
+
+		qtrk->SetRadialZLUT(lut.data, 1, lut.h);
+	}
+
+	if (lut.data) {
+
+		if (inputPos.empty()) {
+			inputPos.resize(count);
+			for (int i=0;i<count;i++){
+				inputPos[i]=vector3f(cfg.width/2,cfg.height/2,lut.h/2);
+			}
+		}
+
+		std::vector<ImageData> imgs (inputPos.size());
+
+		for (int i=0;i<inputPos.size();i++) {
+			imgs[i]=ImageData::alloc(cfg.width, cfg.height);
+			//vector3f pos = centerpos + range*vector3f(rand_uniform<float>()-0.5f, rand_uniform<float>()-0.5f, rand_uniform<float>()-0.5f)*2;
+
+			auto p = inputPos[i];
+			//bml.GenerateSample(&imgs[i], pos, trk->cfg.width*trk->cfg.zlut_roi_coverage/2);
+			GenerateImageFromLUT(&imgs[i], &lut, qtrk->cfg.zlut_minradius, qtrk->cfg.zlut_maxradius, vector3f(p.x,p.y, p.z));
+			imgs[i].normalize();
+			if (elecperbit > 0) ApplyPoissonNoise(imgs[i], 255 * elecperbit, 255);
+			if(i==0 && !lutsmpfile.empty()) WriteJPEGFile(lutsmpfile.c_str(), imgs[i]);
+		}
+
+		qtrk->SetLocalizationMode((LocMode_t)(LT_QI|LT_LocalizeZ| LT_NormalizeProfile));
+		double tstart=GetPreciseTime();
+
+		int img=0;
+		for (int i=0;i<inputPos.size();i++)
+		{
+			LocalizationJob job(i, 0, 0, 0);
+			qtrk->ScheduleLocalization((uchar*)imgs[i].data, sizeof(float)*cfg.width, QTrkFloat, &job);
+		}
+
+		WaitForFinish(qtrk, inputPos.size());
+		double tend = GetPreciseTime();
+
+		vector3f* results=new vector3f[inputPos.size()];
+		for (int i=0;i<inputPos.size();i++) {
+			LocalizationResult r;
+			qtrk->FetchResults(&r,1);
+			results[r.job.frame]=r.pos;
+		}
+		WriteTrace(outputfile, results, inputPos.size());
+		delete[] results;
+	
+		lut.free();
+	} else {
+		dbgprintf("No lut to generate samples from.\n");
+
+		delete qtrk;
+		return -1;
+	}
+	delete qtrk;
+
+	return 0;
+}
+
 int main(int argc, char *argv[])
 {
 	listDevices();
+
+	if (argc > 1)
+	{
+		return CmdLineRun(argc, argv);
+	}
+
 
 //	TestBenchmarkLUT();
 //	testLinearArray();
@@ -896,7 +1047,6 @@ int main(int argc, char *argv[])
 //	TestImage4DMemory();
 //	TestImageLUT("../cputrack-test/lut000.jpg");
 	//TestRadialLUTGradientMethod();
-	TestBuildRadialZLUT<QueuedCUDATracker> ("../cputrack-test/lut000.jpg");
 
 //	BenchmarkParams();
 

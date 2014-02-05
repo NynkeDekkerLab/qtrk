@@ -81,6 +81,10 @@ public:
 	void BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, uint flags, int plane) override;
 	void FinalizeLUT() override;
 
+	void EnableRadialZLUTCompareProfile(bool enabled) {}
+	void GetRadialZLUTCompareProfile(float* dst) {} // dst = [count * planes]
+
+
 	std::string GetProfileReport() override;
 
 	// Force the current waiting batch to be processed. 

@@ -7,7 +7,7 @@
 // Generate a LUT by creating new image samples and using the tracker in BuildZLUT mode
 // This will ensure equal settings for radial profiles etc
 template<typename T>
-void ResampleLUT(T* qtrk, ImageData* lut, float M, int zplanes, ImageData* newlut, const char *jpgfile=0, uint buildLUTFlags=0)
+void ResampleLUT(T* qtrk, ImageData* lut, int zplanes, ImageData* newlut, const char *jpgfile=0, uint buildLUTFlags=0)
 {
 	QTrkComputedConfig& cfg = qtrk->cfg;
 	ImageData img = ImageData::alloc(cfg.width,cfg.height);
@@ -15,7 +15,7 @@ void ResampleLUT(T* qtrk, ImageData* lut, float M, int zplanes, ImageData* newlu
 	qtrk->SetRadialZLUT(0, 1, zplanes);
 	for (int i=0;i<zplanes;i++)
 	{
-		GenerateImageFromLUT(&img, lut, 0, cfg.width/2, vector2f(cfg.width/2, cfg.height/2), i/(float)zplanes * lut->h, M);
+		GenerateImageFromLUT(&img, lut, 0, cfg.width/2, vector3f(cfg.width/2, cfg.height/2, i/(float)zplanes * lut->h));
 		img.normalize();
 		if (i == 0)
 			WriteJPEGFile(SPrintf("smp-%s",jpgfile).c_str(), img);
@@ -30,7 +30,7 @@ void ResampleLUT(T* qtrk, ImageData* lut, float M, int zplanes, ImageData* newlu
 		tracker.SetRadialZLUT(0, 1, zplanes);
 		for (int i=0;i<zplanes;i++)
 		{
-			GenerateImageFromLUT(&img, lut, 0, cfg.width/2, vector2f(cfg.width/2, cfg.height/2), i/(float)zplanes * lut->h, M);
+			GenerateImageFromLUT(&img, lut, 0, cfg.width/2, vector3f(cfg.width/2, cfg.height/2, i/(float)zplanes * lut->h));
 			img.normalize();
 			tracker.BuildLUT(img.data, sizeof(float)*img.w, QTrkFloat, buildLUTFlags & ~BUILDLUT_FOURIER, i);
 		}
@@ -135,7 +135,7 @@ void TestCMOSNoiseInfluence(const char *lutfile)
 		// drift
 		float dx = driftDistance / (nDriftSteps-1);
 		for (int d=0;d<nDriftSteps;d++) {
-			GenerateImageFromLUT(&img, &lut, zlutMinR, zlutMaxR, vector2f(img.w/2+dx*d,img.h/2), 20, 1.0f);
+			GenerateImageFromLUT(&img, &lut, zlutMinR, zlutMaxR, vector3f(img.w/2+dx*d,img.h/2, 20));
 			img.normalize();
 
 			if (!useCalib) {
@@ -350,7 +350,7 @@ RunTrackerResults RunTracker(const char *lutfile, QTrkSettings *cfg, bool useGC,
 	ImageData rescaledLUT;
 
 	TrkType trk(*cfg);
-	ResampleLUT(&trk, &lut, 1, 100, &rescaledLUT, SPrintf("%s-zlut.jpg",name).c_str(), ((locMode&LT_FourierLUT) ? BUILDLUT_FOURIER : 0));
+	ResampleLUT(&trk, &lut, 100, &rescaledLUT, SPrintf("%s-zlut.jpg",name).c_str(), ((locMode&LT_FourierLUT) ? BUILDLUT_FOURIER : 0));
 
 	if (useGC) EnableGainCorrection(&trk);
 
@@ -362,7 +362,7 @@ RunTrackerResults RunTracker(const char *lutfile, QTrkSettings *cfg, bool useGC,
 	for (int i=0;i<N;i++)
 	{
 		vector3f pos(cfg->width/2 + R*(rand_uniform<float>()-0.5f),cfg->height/2 + R*(rand_uniform<float>()-0.5f), zpos+rand_uniform<float>());
-		GenerateImageFromLUT(&img, &rescaledLUT, trk.cfg.zlut_minradius, trk.cfg.zlut_maxradius, vector2f( pos.x,pos.y), pos.z, 1.0f);
+		GenerateImageFromLUT(&img, &rescaledLUT, trk.cfg.zlut_minradius, trk.cfg.zlut_maxradius, vector3f( pos.x,pos.y, pos.z));
 		if (noiseFactor>0)	ApplyPoissonNoise(img, noiseFactor * 255, 255);
 		truepos.push_back(pos);
 
@@ -391,45 +391,3 @@ RunTrackerResults RunTracker(const char *lutfile, QTrkSettings *cfg, bool useGC,
 
 	return r;
 }
-
-template<typename Tracker>
-void TestBuildRadialZLUT(const char *rlutfile)
-{
-	QTrkSettings cfg;
-	cfg.width = 100;
-	cfg.height = 100;
-	
-	ImageData rlut=ReadJPEGFile(rlutfile);
-	int nbeads=3;
-	ImageData imgbuf=ImageData::alloc(cfg.width,cfg.height * nbeads);
-
-	Tracker trk(cfg);
-
-	int nplanes = 50;
-	trk.SetRadialZLUT(0, nbeads, nplanes);
-	for (int z=0;z<nplanes;z++) {
-		dbgprintf("z=%d\n", z);
-		for (int n=0;n<1;n++) {
-			for (int b=0;b<nbeads;b++) {
-				ImageData tmpimg = ImageData( &imgbuf.data[imgbuf.w * cfg.height *b], cfg.width,cfg.height); 
-				vector2f pos = vector2f::random( vector2f( cfg.width/2,cfg.height/2 ), 2.0f );
-				GenerateImageFromLUT(&tmpimg, &rlut, 0.0f, rlut.w-1, pos, z/(float)nplanes * rlut.h, 0.5f + 0.2f*b);
-			}
-			//ApplyPoissonNoise (img, 255);
-			WriteJPEGFile("rlut-test-img.jpg", imgbuf);
-			trk.BuildLUT(imgbuf.data, imgbuf.pitch(), QTrkFloat, false, z);
-		}
-	}
-	trk.FinalizeLUT();
-
-	ImageData result = ImageData::alloc(trk.cfg.zlut_radialsteps, nplanes * nbeads);
-	trk.GetRadialZLUT(result.data);
-
-	WriteJPEGFile("rlut-test.jpg", result);
-
-	result.free();
-
-	imgbuf.free();
-	rlut.free();
-}
-
