@@ -457,17 +457,18 @@ SpeedInfo SpeedCompareTest(int w,bool gc=false)
 void ProfileSpeedVsROI()
 {
 	int N=24;
-	float* values = new float[N*2];
+	float* values = new float[N*3];
 
 	for (int i=0;i<N;i++) {
 		int roi = 40+i*5;
 		SpeedInfo info = SpeedCompareTest(roi);
-		values[i*2+0] = info.speed_cpu;
-		values[i*2+1] = info.speed_gpu;
+		values[i*3+0] = roi;
+		values[i*3+1] = info.speed_cpu;
+		values[i*3+2] = info.speed_gpu;
 	}
 
-	const char *labels[] = { "CPU", "CUDA" };
-	WriteImageAsCSV("speeds.txt", values, 2, N, labels);
+	const char *labels[] = { "ROI", "CPU", "CUDA" };
+	WriteImageAsCSV("speeds.txt", values, 3, N, labels);
 	delete[] values;
 }
 
@@ -942,6 +943,10 @@ int CmdLineRun(int argc, char*argv[])
 	check_arg(args, "qi_angstep_factor", &cfg.qi_angstep_factor);
 	check_arg(args, "downsample", &cfg.downsample);
 
+	int zlutAlign=0, fourierLUT=0;
+	check_arg(args, "zlutalign", &zlutAlign);
+	check_arg(args, "fourierlut", &fourierLUT);
+
 	float elecperbit = 15;
 	check_arg(args, "epb", &elecperbit);
 
@@ -962,20 +967,26 @@ int CmdLineRun(int argc, char*argv[])
 	{
 		lut = ReadJPEGFile(fixlutfile.c_str());
 
-		if(!rescaledlutfile.empty()) {
-			// rescaling allowed
-			ImageData newlut;
-			ResampleLUT(qtrk, &lut, lut.h, &newlut, rescaledlutfile.c_str()); 
-			lut.free();
-			lut=newlut;
-		}
-		else if (lut.w != qtrk->cfg.zlut_radialsteps) {
-			lut.free();
-			dbgprintf("Invalid LUT size (%d). Expecting %d radialsteps\n", lut.w, qtrk->cfg.zlut_radialsteps);
-			delete qtrk;
-			return -1;
-		}
+		if (fourierLUT) {
 
+		}
+		else {
+			if(!rescaledlutfile.empty()) {
+				// rescaling allowed
+				ImageData newlut;
+				ResampleLUT(qtrk, &lut, lut.h, &newlut, rescaledlutfile.c_str()); 
+				lut.free();
+				lut=newlut;
+			}
+			else if (lut.w != qtrk->cfg.zlut_radialsteps) {
+				lut.free();
+				dbgprintf("Invalid LUT size (%d). Expecting %d radialsteps\n", lut.w, qtrk->cfg.zlut_radialsteps);
+				delete qtrk;
+				return -1;
+			}
+
+			qtrk->SetRadialZLUT(lut.data,1,lut.h);
+		}
 	}
 	else
 	{
@@ -992,8 +1003,8 @@ int CmdLineRun(int argc, char*argv[])
 		if (!rescaledlutfile.empty())
 			WriteJPEGFile(rescaledlutfile.c_str(), lut);
 
+		qtrk->SetRadialZLUT(lut.data,1,lut.h);
 	}
-	qtrk->SetRadialZLUT(lut.data,1,lut.h);
 
 	if (inputPos.empty()) {
 		inputPos.resize(count);
@@ -1018,7 +1029,7 @@ int CmdLineRun(int argc, char*argv[])
 		if(i==0 && !lutsmpfile.empty()) WriteJPEGFile(lutsmpfile.c_str(), imgs[i]);
 	}
 
-	qtrk->SetLocalizationMode((LocMode_t)(LT_QI|LT_LocalizeZ| LT_NormalizeProfile));
+	qtrk->SetLocalizationMode((LocMode_t)(LT_QI|LT_LocalizeZ| LT_NormalizeProfile | (zlutAlign ? LT_ZLUTAlign : 0)));
 	double tstart=GetPreciseTime();
 
 	int img=0;
@@ -1079,7 +1090,7 @@ int main(int argc, char *argv[])
 
 //CompareAccuracy("../cputrack-test/lut000.jpg");
 //QTrkCompareTest();
-	//	ProfileSpeedVsROI();
+		ProfileSpeedVsROI();
 	/*auto info = SpeedCompareTest(80, false);
 	auto infogc = SpeedCompareTest(80, true);
 	dbgprintf("[gainc=false] CPU: %f, GPU: %f\n", info.speed_cpu, info.speed_gpu); 

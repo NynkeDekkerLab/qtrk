@@ -3,6 +3,29 @@
 #include "random_distr.h"
 #include <direct.h> // _mkdir()
 
+/*
+void ResampleFourierLUT(QueuedTracker* qtrk, ImageData* orglut, ImageData* flut, int zplanes, const char *jpgfile)
+{
+	if (buildLUTFlags & BUILDLUT_FOURIER) {
+		tracker.SetRadialZLUT(0, 1, zplanes);
+		for (int i=0;i<zplanes;i++)
+		{
+			GenerateImageFromLUT(&img, lut, 0, cfg.width/2, vector3f(cfg.width/2, cfg.height/2, i/(float)zplanes * lut->h));
+			img.normalize();
+			tracker.BuildLUT(img.data, sizeof(float)*img.w, QTrkFloat, buildLUTFlags & ~BUILDLUT_FOURIER, i);
+		}
+		tracker.FinalizeLUT();
+		tracker.GetRadialZLUT(newlut->data);
+
+		if (jpgfile) {
+			float* zlut_result=new float[zplanes*cfg.zlut_radialsteps*1];
+			tracker.GetRadialZLUT(zlut_result);
+			FloatToJPEGFile(SPrintf("gen-%s", jpgfile).c_str(), zlut_result, cfg.zlut_radialsteps, zplanes);
+			delete[] zlut_result;
+		}
+	}
+}*/
+
 
 // Generate a LUT by creating new image samples and using the tracker in BuildZLUT mode
 // This will ensure equal settings for radial profiles etc
@@ -25,27 +48,7 @@ void ResampleLUT(T* qtrk, ImageData* lut, int zplanes, ImageData* newlut, const 
 	qtrk->FinalizeLUT();
 
 	*newlut = ImageData::alloc(cfg.zlut_radialsteps, zplanes);
-/*	if (buildLUTFlags & BUILDLUT_FOURIER) {
-		T tracker(cfg);
-		tracker.SetRadialZLUT(0, 1, zplanes);
-		for (int i=0;i<zplanes;i++)
-		{
-			GenerateImageFromLUT(&img, lut, 0, cfg.width/2, vector3f(cfg.width/2, cfg.height/2, i/(float)zplanes * lut->h));
-			img.normalize();
-			tracker.BuildLUT(img.data, sizeof(float)*img.w, QTrkFloat, buildLUTFlags & ~BUILDLUT_FOURIER, i);
-		}
-		tracker.FinalizeLUT();
-		tracker.GetRadialZLUT(newlut->data);
-
-		if (jpgfile) {
-			float* zlut_result=new float[zplanes*cfg.zlut_radialsteps*1];
-			tracker.GetRadialZLUT(zlut_result);
-			FloatToJPEGFile(SPrintf("gen-%s", jpgfile).c_str(), zlut_result, cfg.zlut_radialsteps, zplanes);
-			delete[] zlut_result;
-		}
-	}
-	else*/
-		qtrk->GetRadialZLUT(newlut->data);
+	qtrk->GetRadialZLUT(newlut->data);
 	newlut->normalize();
 
 	img.free();

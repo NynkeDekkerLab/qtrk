@@ -93,14 +93,14 @@ void SetCUDADevices(int *devices, int numdev); // empty for CPU tracker
 #define QI_LSQFIT_WEIGHTS { 0.14f, 0.5f, 0.85f, 1.0f, 0.85f, 0.5f, 0.14f }
 #define QI_LSQFIT_NWEIGHTS 7
 
-//#define ZLUT_LSQFIT_WEIGHTS { 0.5f, 0.85f, 1.0f, 0.85f, 0.5f }
-//#define ZLUT_LSQFIT_NWEIGHTS 5
+#define ZLUT_LSQFIT_WEIGHTS { 0.5f, 0.85f, 1.0f, 0.85f, 0.5f }
+#define ZLUT_LSQFIT_NWEIGHTS 5
 //#define ZLUT_LSQFIT_NWEIGHTS 3
 //#define ZLUT_LSQFIT_WEIGHTS { 0.85f, 1.0f, 0.85f }
 //#define ZLUT_LSQFIT_WEIGHTS { 0.3f, 0.5f, 0.85f, 1.0f, 0.85f, 0.5f, 0.3f }
 //#define ZLUT_LSQFIT_NWEIGHTS 7
-#define ZLUT_LSQFIT_WEIGHTS {0.4f, 0.5f, 0.7f, 0.9f, 1.0f, 0.9f, 0.7f, 0.5f, 0.4f }
-#define ZLUT_LSQFIT_NWEIGHTS 9
+//#define ZLUT_LSQFIT_WEIGHTS {0.4f, 0.5f, 0.7f, 0.9f, 1.0f, 0.9f, 0.7f, 0.5f, 0.4f }
+//#define ZLUT_LSQFIT_NWEIGHTS 9
 
 inline int PDT_BytesPerPixel(QTRK_PixelDataType pdt) {
 	const int pdtBytes[] = {1, 2, 4};
