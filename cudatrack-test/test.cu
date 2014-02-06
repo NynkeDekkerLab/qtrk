@@ -1032,7 +1032,7 @@ int CmdLineRun(int argc, char*argv[])
 	WriteTrace(outputfile, results, inputPos.size());
 	delete[] results;
 	
-	lut.free();
+	if (lut.data) lut.free();
 	delete qtrk;
 
 	return 0;
