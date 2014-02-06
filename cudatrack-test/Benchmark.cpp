@@ -68,7 +68,7 @@ SpeedAccResult SpeedAccTest(ImageData& lut, QTrkSettings *cfg, int N, vector3f c
 	
 	BenchmarkLUT bml(&lut);
 	ImageData resizedLUT = ImageData::alloc(trk->cfg.zlut_radialsteps, lut.h);
-	bml.GenerateLUT(&resizedLUT, (float)trk->cfg.zlut_radialsteps/lut.w);
+	bml.GenerateLUT(&resizedLUT);
 	//WriteJPEGFile( SPrintf("resizedLUT-%s.jpg", name).c_str(), resizedLUT);
 
 	ResampleBMLUT(trk, &bml, lut.h, SPrintf("lut-%s.jpg", name).c_str());

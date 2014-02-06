@@ -2,8 +2,8 @@ function gensimtraces()
 
     mag = 50;
     
-    %fixluterr = simulate(mag, 1, 0);
-    %bmluterr = simulate(mag, 
+    fixluterr = simulate(mag, 1, 1);
+    bmluterr = simulate(mag, 0, 1);
 
     plot ( [20:10:200], beadcount ( [20:10:200]));
     
@@ -16,9 +16,11 @@ function numbeads = beadcount(mag)
     numbeads = magfactor * yield;
 end
 
-function errors=simulate(mag, fixlut, makeplot)
+function errors=simulate(M, fixlut, makeplot)
     %simpath='D:\jcnossen1\cudaqi-tracker\qtrk\Debug\cudatrackd.exe';
-    simpath='D:\jcnossen1\cudaqi-tracker\qtrk\Release\cudatrack.exe';
+  %  simpath='D:\jcnossen1\cudaqi-tracker\qtrk\Release\cudatrack.exe';
+  
+    simpath = 'J:\\dev\\jtrk\\qtrk\\Release\\cudatrack.exe';
 
     N = 500;
     config.roi = 100;
@@ -36,15 +38,18 @@ function errors=simulate(mag, fixlut, makeplot)
     config.epb = 15.768658; % falcon2 level
     config.cuda = 0;
     
-    lutfile = [cd '\\refbeadlutpos\\traces\\lut\\lut000.png'];
+    lutfile = [cd '\falcon2-lut-m50-r3.png'];
+    %lutfile = [cd '\\refbeadlutpos\\traces\\lut\\lut000.png'];
     lut = imread(lutfile);
     luth = size(lut,2);
+    jpglutfile = replace_ext(lutfile,'.jpg');
+    imwrite(lut, jpglutfile, 'Quality', 100);
     
     if fixlut
-        fixlutfile = replace_ext(lutfile,'.jpg');
-        imwrite(lut, fixlutfile, 'Quality', 100);
-
-        config.fixlut=fixlutfile;
+        config.fixlut=jpglutfile;
+    else
+        config.bmlut = jpglutfile;
+        config.regenlut = replace_ext(jpglutfile, '_rescale.jpg');
     end
     
     pos = repmat([config.roi/2 config.roi/2 luth/2],N,1) + rand;
@@ -64,7 +69,7 @@ end
 function newfn= replace_ext(fn, newext)
 
     [path, name]=fileparts(fn);
-    newfn = [path name newext];
+    newfn = [path '\' name newext];
 
 end
 

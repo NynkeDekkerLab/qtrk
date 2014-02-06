@@ -15,7 +15,7 @@ void ResampleLUT(T* qtrk, ImageData* lut, int zplanes, ImageData* newlut, const 
 	qtrk->SetRadialZLUT(0, 1, zplanes);
 	for (int i=0;i<zplanes;i++)
 	{
-		GenerateImageFromLUT(&img, lut, 0, cfg.width/2, vector3f(cfg.width/2, cfg.height/2, i/(float)zplanes * lut->h));
+		GenerateImageFromLUT(&img, lut, qtrk->cfg.zlut_minradius, qtrk->cfg.zlut_maxradius, vector3f(cfg.width/2, cfg.height/2, i/(float)zplanes * lut->h));
 		img.normalize();
 		if (i == 0)
 			WriteJPEGFile(SPrintf("smp-%s",jpgfile).c_str(), img);
@@ -25,7 +25,7 @@ void ResampleLUT(T* qtrk, ImageData* lut, int zplanes, ImageData* newlut, const 
 	qtrk->FinalizeLUT();
 
 	*newlut = ImageData::alloc(cfg.zlut_radialsteps, zplanes);
-	if (buildLUTFlags & BUILDLUT_FOURIER) {
+/*	if (buildLUTFlags & BUILDLUT_FOURIER) {
 		T tracker(cfg);
 		tracker.SetRadialZLUT(0, 1, zplanes);
 		for (int i=0;i<zplanes;i++)
@@ -44,7 +44,7 @@ void ResampleLUT(T* qtrk, ImageData* lut, int zplanes, ImageData* newlut, const 
 			delete[] zlut_result;
 		}
 	}
-	else
+	else*/
 		qtrk->GetRadialZLUT(newlut->data);
 	newlut->normalize();
 

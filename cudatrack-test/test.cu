@@ -962,14 +962,20 @@ int CmdLineRun(int argc, char*argv[])
 	{
 		lut = ReadJPEGFile(fixlutfile.c_str());
 
-		if (lut.w != qtrk->cfg.zlut_radialsteps) {
+		if(!rescaledlutfile.empty()) {
+			// rescaling allowed
+			ImageData newlut;
+			ResampleLUT(qtrk, &lut, lut.h, &newlut, rescaledlutfile.c_str()); 
+			lut.free();
+			lut=newlut;
+		}
+		else if (lut.w != qtrk->cfg.zlut_radialsteps) {
 			lut.free();
 			dbgprintf("Invalid LUT size (%d). Expecting %d radialsteps\n", lut.w, qtrk->cfg.zlut_radialsteps);
 			delete qtrk;
 			return -1;
 		}
 
-		qtrk->SetRadialZLUT(lut.data, 1, lut.h);
 	}
 	else
 	{
@@ -985,7 +991,9 @@ int CmdLineRun(int argc, char*argv[])
 
 		if (!rescaledlutfile.empty())
 			WriteJPEGFile(rescaledlutfile.c_str(), lut);
+
 	}
+	qtrk->SetRadialZLUT(lut.data,1,lut.h);
 
 	if (inputPos.empty()) {
 		inputPos.resize(count);
@@ -1001,8 +1009,8 @@ int CmdLineRun(int argc, char*argv[])
 		//vector3f pos = centerpos + range*vector3f(rand_uniform<float>()-0.5f, rand_uniform<float>()-0.5f, rand_uniform<float>()-0.5f)*2;
 
 		auto p = inputPos[i];
-		if (lut.data)
-			GenerateImageFromLUT(&imgs[i], &lut, qtrk->cfg.zlut_minradius, qtrk->cfg.zlut_maxradius, vector3f(p.x,p.y, p.z));
+		if (!bmlut.lut_w)
+			GenerateImageFromLUT(&imgs[i], &lut, qtrk->cfg.zlut_minradius, qtrk->cfg.zlut_maxradius, p);
 		else
 			bmlut.GenerateSample(&imgs[i], p, qtrk->cfg.zlut_minradius, qtrk->cfg.zlut_maxradius);
 		imgs[i].normalize();
