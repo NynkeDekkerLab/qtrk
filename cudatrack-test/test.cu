@@ -996,7 +996,10 @@ int CmdLineRun(int argc, char*argv[])
 
 		auto p = inputPos[i];
 		//bml.GenerateSample(&imgs[i], pos, trk->cfg.width*trk->cfg.zlut_roi_coverage/2);
-		GenerateImageFromLUT(&imgs[i], &lut, qtrk->cfg.zlut_minradius, qtrk->cfg.zlut_maxradius, vector3f(p.x,p.y, p.z));
+		if (lut.data) 
+			GenerateImageFromLUT(&imgs[i], &lut, qtrk->cfg.zlut_minradius, qtrk->cfg.zlut_maxradius,p);
+		else
+			bmlut.GenerateSample(&imgs[i], p, 
 		imgs[i].normalize();
 		if (elecperbit > 0) ApplyPoissonNoise(imgs[i], 255 * elecperbit, 255);
 		if(i==0 && !lutsmpfile.empty()) WriteJPEGFile(lutsmpfile.c_str(), imgs[i]);
@@ -1024,7 +1027,7 @@ int CmdLineRun(int argc, char*argv[])
 	WriteTrace(outputfile, results, inputPos.size());
 	delete[] results;
 	
-	lut.free();
+	if (lut.data) lut.free();
 	delete qtrk;
 
 	return 0;
