@@ -67,8 +67,10 @@ void BenchmarkLUT::Load(ImageData* lut)
 	}
 }
 
-void BenchmarkLUT::GenerateLUT(ImageData* lut, float M)
+void BenchmarkLUT::GenerateLUT(ImageData* lut)
 {
+	float M = lut->w / (float)lut_w;
+
 	for (int y=0;y<lut->h;y++) {
 		for (int x=0;x<lut->w;x++) {
 			float maxline=M*(max_a*y*y+max_b*y+max_c)/max_c;
@@ -77,9 +79,9 @@ void BenchmarkLUT::GenerateLUT(ImageData* lut, float M)
 	}
 }
 
-void BenchmarkLUT::GenerateSample(ImageData* image, vector3f pos, float targetRadiusInPixels)
+void BenchmarkLUT::GenerateSample(ImageData* image, vector3f pos, float minRadius, float maxRadius)
 {
-	float radialDensity=lut_w/targetRadiusInPixels;
+	float radialDensity=lut_w / (maxRadius-minRadius);
 
 	if(pos.z<0.0f) pos.z=0.0f;
 	if(pos.z>lut_h-1) pos.z=lut_h-1;
@@ -89,7 +91,7 @@ void BenchmarkLUT::GenerateSample(ImageData* image, vector3f pos, float targetRa
 		{
 			float dx=x-pos.x;
 			float dy=y-pos.y;
-			float r = sqrt(dx*dx+dy*dy)*radialDensity; // r in original radial bin pixels
+			float r = (sqrt(dx*dx+dy*dy)-minRadius)*radialDensity; // r in original radial bin pixels
 			float maxline=(max_a*pos.z*pos.z+max_b*pos.z+max_c)/max_c;
 			float profpos = r / maxline;
 			image->at(x,y) = Interpolate1D(normprof, profpos);

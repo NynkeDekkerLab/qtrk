@@ -872,11 +872,11 @@ void TestBenchmarkLUT()
 	ImageData img=ImageData::alloc(120,120);
 
 	ImageData lut = ImageData::alloc(bml.lut_w, bml.lut_h);
-	bml.GenerateLUT(&lut,1.0f);
+	bml.GenerateLUT(&lut);
 	WriteJPEGFile("refbeadlut-lutsmp.jpg", lut);
 	lut.free();
 	
-	bml.GenerateSample(&img, vector3f(img.w/2,img.h/2,bml.lut_h/2), img.w/2-5);
+	bml.GenerateSample(&img, vector3f(img.w/2,img.h/2,bml.lut_h/2), 0, img.w/2-5);
 	WriteJPEGFile("refbeadlut-bmsmp.jpg", img);
 	img.free();
 }
@@ -916,11 +916,12 @@ int CmdLineRun(int argc, char*argv[])
 	int count=100;
 	check_arg(args, "count", &count);
 
-	std::string outputfile, fixlutfile, inputposfile, bmlutfile;
+	std::string outputfile, fixlutfile, inputposfile, bmlutfile, rescaledlutfile;
 	check_strarg(args, "output", &outputfile);
 	check_strarg(args, "fixlut", &fixlutfile);
 	check_strarg(args, "bmlut", &bmlutfile);
 	check_strarg(args, "inputpos", &inputposfile);
+	check_strarg(args, "regenlut", &rescaledlutfile);
 
 	std::vector< vector3f > inputPos;
 	if (!inputposfile.empty()) {
@@ -979,6 +980,11 @@ int CmdLineRun(int argc, char*argv[])
 		}
 
 		bmlut.Load(bmlutfile.c_str());
+		lut = ImageData::alloc(qtrk->cfg.zlut_radialsteps, bmlut.lut_h);
+		bmlut.GenerateLUT(&lut);
+
+		if (!rescaledlutfile.empty())
+			WriteJPEGFile(rescaledlutfile.c_str(), lut);
 	}
 
 	if (inputPos.empty()) {
@@ -995,8 +1001,10 @@ int CmdLineRun(int argc, char*argv[])
 		//vector3f pos = centerpos + range*vector3f(rand_uniform<float>()-0.5f, rand_uniform<float>()-0.5f, rand_uniform<float>()-0.5f)*2;
 
 		auto p = inputPos[i];
-		//bml.GenerateSample(&imgs[i], pos, trk->cfg.width*trk->cfg.zlut_roi_coverage/2);
-		GenerateImageFromLUT(&imgs[i], &lut, qtrk->cfg.zlut_minradius, qtrk->cfg.zlut_maxradius, vector3f(p.x,p.y, p.z));
+		if (lut.data)
+			GenerateImageFromLUT(&imgs[i], &lut, qtrk->cfg.zlut_minradius, qtrk->cfg.zlut_maxradius, vector3f(p.x,p.y, p.z));
+		else
+			bmlut.GenerateSample(&imgs[i], p, qtrk->cfg.zlut_minradius, qtrk->cfg.zlut_maxradius);
 		imgs[i].normalize();
 		if (elecperbit > 0) ApplyPoissonNoise(imgs[i], 255 * elecperbit, 255);
 		if(i==0 && !lutsmpfile.empty()) WriteJPEGFile(lutsmpfile.c_str(), imgs[i]);

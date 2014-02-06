@@ -18,7 +18,7 @@ struct SpeedAccResult{
 
 // Generate a LUT by creating new image samples and using the tracker in BuildZLUT mode
 // This will ensure equal settings for radial profiles etc
-static void ResampleBMLUT(QueuedTracker* qtrk, BenchmarkLUT* lut, float M, int zplanes=100, const char *jpgfile=0, ImageData* newlut=0)
+static void ResampleBMLUT(QueuedTracker* qtrk, BenchmarkLUT* lut, int zplanes=100, const char *jpgfile=0, ImageData* newlut=0)
 {
 	QTrkComputedConfig& cfg = qtrk->cfg;
 	ImageData img = ImageData::alloc(cfg.width,cfg.height);
@@ -29,8 +29,7 @@ static void ResampleBMLUT(QueuedTracker* qtrk, BenchmarkLUT* lut, float M, int z
 	qtrk->SetLocalizationMode( (LocMode_t)(LT_QI|LT_BuildRadialZLUT|LT_NormalizeProfile) );
 	for (int i=0;i<zplanes;i++)
 	{
-		lut->GenerateSample(&img, vector3f(cfg.width/2, cfg.height/2, i/(float)zplanes * lut->lut_h), cfg.width*cfg.zlut_roi_coverage/2);
-		//GenerateImageFromLUT(&img, lut, 0, lut->w, , M);
+		lut->GenerateSample(&img, vector3f(cfg.width/2, cfg.height/2, i/(float)zplanes * lut->lut_h), qtrk->cfg.zlut_minradius, qtrk->cfg.zlut_maxradius);
 		img.normalize();
 
 		LocalizationJob job(i, 0, i,0);
@@ -72,7 +71,7 @@ SpeedAccResult SpeedAccTest(ImageData& lut, QTrkSettings *cfg, int N, vector3f c
 	bml.GenerateLUT(&resizedLUT, (float)trk->cfg.zlut_radialsteps/lut.w);
 	//WriteJPEGFile( SPrintf("resizedLUT-%s.jpg", name).c_str(), resizedLUT);
 
-	ResampleBMLUT(trk, &bml, 1.0f, lut.h, SPrintf("lut-%s.jpg", name).c_str());
+	ResampleBMLUT(trk, &bml, lut.h, SPrintf("lut-%s.jpg", name).c_str());
 
 //	bml.GenerateLUT(&resizedLUT, (float)trk->cfg.zlut_radialsteps/lut.w);
 //	WriteJPEGFile( SPrintf("resizedLUT-%s.jpg", name).c_str(), resizedLUT);
@@ -86,7 +85,7 @@ SpeedAccResult SpeedAccTest(ImageData& lut, QTrkSettings *cfg, int N, vector3f c
 		imgs[i]=ImageData::alloc(cfg->width,cfg->height);
 		vector3f pos = centerpos + range*vector3f(rand_uniform<float>()-0.5f, rand_uniform<float>()-0.5f, rand_uniform<float>()-0.5f)*2;
 
-		bml.GenerateSample(&imgs[i], pos, trk->cfg.width*trk->cfg.zlut_roi_coverage/2);
+		bml.GenerateSample(&imgs[i], pos, trk->cfg.zlut_minradius, trk->cfg.zlut_maxradius);
 		//GenerateImageFromLUT(&imgs[i], &resizedLUT, 0.0f, lut.w, vector2f( pos.x,pos.y), pos.z, M);
 		imgs[i].normalize();
 		if (MaxPixelValue> 0) ApplyPoissonNoise(imgs[i], MaxPixelValue * ElectronsPerBit, MaxPixelValue);
