@@ -414,7 +414,7 @@ struct SpeedInfo {
 	float sched_cpu, sched_gpu;
 };
 
-SpeedInfo SpeedCompareTest(int w, LocalizeModeEnum locMode=LT_QI)
+SpeedInfo SpeedCompareTest(int w, LocalizeModeEnum locMode, bool haveZLUT)
 {
 	int cudaBatchSize = 1024;
 	int count = 20000;
@@ -423,7 +423,6 @@ SpeedInfo SpeedCompareTest(int w, LocalizeModeEnum locMode=LT_QI)
 	count = 100;
 	cudaBatchSize = 32;
 #endif
-	bool haveZLUT = false;
 	LocMode_t locType = (LocMode_t)( locMode|LT_NormalizeProfile );
 
 	QTrkComputedConfig cfg;
@@ -443,11 +442,11 @@ SpeedInfo SpeedCompareTest(int w, LocalizeModeEnum locMode=LT_QI)
 
 	SpeedInfo info;
 	QueuedCPUTracker *cputrk = new QueuedCPUTracker(cfg);
-	info.speed_cpu = SpeedTest(cfg, cputrk, count, haveZLUT, locType, &info.sched_cpu, gc);
+	info.speed_cpu = SpeedTest(cfg, cputrk, count, haveZLUT, locType, &info.sched_cpu, false);
 	delete cputrk;
 
 	QueuedCUDATracker *cudatrk = new QueuedCUDATracker(cfg, cudaBatchSize);
-	info.speed_gpu = SpeedTest(cfg, cudatrk, count, haveZLUT, locType, &info.sched_gpu, gc);
+	info.speed_gpu = SpeedTest(cfg, cudatrk, count, haveZLUT, locType, &info.sched_gpu, false);
 	//info.speed_gpu = SpeedTest(cfg, cudatrk, count, haveZLUT, locType, &info.sched_gpu);
 	std::string report = cudatrk->GetProfileReport();
 	delete cudatrk;
@@ -458,14 +457,14 @@ SpeedInfo SpeedCompareTest(int w, LocalizeModeEnum locMode=LT_QI)
 	return info;
 }
 
-void ProfileSpeedVsROI(LocalizeModeEnum locMode, const char *outputcsv)
+void ProfileSpeedVsROI(LocalizeModeEnum locMode, const char *outputcsv, bool haveZLUT)
 {
 	int N=24;
 	float* values = new float[N*3];
 
 	for (int i=0;i<N;i++) {
 		int roi = 40+i*5;
-		SpeedInfo info = SpeedCompareTest(roi, locMode);
+		SpeedInfo info = SpeedCompareTest(roi, locMode, haveZLUT);
 		values[i*3+0] = roi;
 		values[i*3+1] = info.speed_cpu;
 		values[i*3+2] = info.speed_gpu;
@@ -1094,8 +1093,9 @@ int main(int argc, char *argv[])
 
 //CompareAccuracy("../cputrack-test/lut000.jpg");
 //QTrkCompareTest();
-		ProfileSpeedVsROI(LT_QI, "speeds-qi.txt");
-		ProfileSpeedVsROI(LT_OnlyCOM, "speeds-com.txt");
+	ProfileSpeedVsROI(LT_QI, "speeds-qi.txt", true);
+	ProfileSpeedVsROI(LT_OnlyCOM, "speeds-com.txt", false);
+	ProfileSpeedVsROI(LT_OnlyCOM, "speeds-com-z.txt", true);
 
 	/*auto info = SpeedCompareTest(80, false);
 	auto infogc = SpeedCompareTest(80, true);
