@@ -414,7 +414,7 @@ struct SpeedInfo {
 	float sched_cpu, sched_gpu;
 };
 
-SpeedInfo SpeedCompareTest(int w,bool gc=false)
+SpeedInfo SpeedCompareTest(int w, LocalizeModeEnum locMode=LT_QI)
 {
 	int cudaBatchSize = 1024;
 	int count = 20000;
@@ -424,11 +424,15 @@ SpeedInfo SpeedCompareTest(int w,bool gc=false)
 	cudaBatchSize = 32;
 #endif
 	bool haveZLUT = false;
-	LocMode_t locType = (LocMode_t)( LT_QI|LT_NormalizeProfile );
+	LocMode_t locType = (LocMode_t)( locMode|LT_NormalizeProfile );
 
 	QTrkComputedConfig cfg;
 	cfg.width = cfg.height = w;
 	cfg.qi_iterations = 4;
+	cfg.qi_radial_coverage = 1.5f;
+	cfg.qi_angstep_factor = 1.5f;
+	cfg.qi_angular_coverage = 0.7f;
+	cfg.zlut_radial_coverage = 2.0f;
 	//std::vector<int> devices(1); devices[0]=1;
 	//SetCUDADevices(devices);
 	cfg.cuda_device = QTrkCUDA_UseAll;
@@ -454,21 +458,21 @@ SpeedInfo SpeedCompareTest(int w,bool gc=false)
 	return info;
 }
 
-void ProfileSpeedVsROI()
+void ProfileSpeedVsROI(LocalizeModeEnum locMode, const char *outputcsv)
 {
 	int N=24;
 	float* values = new float[N*3];
 
 	for (int i=0;i<N;i++) {
 		int roi = 40+i*5;
-		SpeedInfo info = SpeedCompareTest(roi);
+		SpeedInfo info = SpeedCompareTest(roi, locMode);
 		values[i*3+0] = roi;
 		values[i*3+1] = info.speed_cpu;
 		values[i*3+2] = info.speed_gpu;
 	}
 
 	const char *labels[] = { "ROI", "CPU", "CUDA" };
-	WriteImageAsCSV("speeds.txt", values, 3, N, labels);
+	WriteImageAsCSV(outputcsv, values, 3, N, labels);
 	delete[] values;
 }
 
@@ -1090,7 +1094,9 @@ int main(int argc, char *argv[])
 
 //CompareAccuracy("../cputrack-test/lut000.jpg");
 //QTrkCompareTest();
-		ProfileSpeedVsROI();
+		ProfileSpeedVsROI(LT_QI, "speeds-qi.txt");
+		ProfileSpeedVsROI(LT_OnlyCOM, "speeds-com.txt");
+
 	/*auto info = SpeedCompareTest(80, false);
 	auto infogc = SpeedCompareTest(80, true);
 	dbgprintf("[gainc=false] CPU: %f, GPU: %f\n", info.speed_cpu, info.speed_gpu); 
