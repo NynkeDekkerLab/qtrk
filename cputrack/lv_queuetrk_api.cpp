@@ -464,7 +464,8 @@ CDLL_EXPORT void DLL_CALLCONV qtrk_generate_image_from_lut(LVArray2D<float>** im
 	ImageData img((*image)->elem, (*image)->dimSizes[1], (*image)->dimSizes[0]);
 	ImageData zlut((*lut)->elem, (*lut)->dimSizes[1], (*lut)->dimSizes[0]);
 
-	GenerateImageFromLUT(&img, &zlut, LUTradii[0], LUTradii[1], *position, z, M);
+	vector3f pos (position->x, position->y, z);
+	GenerateImageFromLUT(&img, &zlut, LUTradii[0], LUTradii[1], pos);
 	//img.normalize();
 	if(sigma_noise>0)
 		ApplyGaussianNoise(img, sigma_noise);
@@ -571,7 +572,7 @@ CDLL_EXPORT void qtrk_simulate_tracking(QueuedTracker* qtrk, int nsmp, int beadI
 		for (int i=0;i<nsmp;i++) {
 			vector3f pos = *centerPos + *range * vector3f(rand_uniform<float>(), rand_uniform<float>(), rand_uniform<float>());
 			positions[i]=pos;
-			GenerateImageFromLUT( &img, &zlut, qtrk->cfg.zlut_minradius, qtrk->cfg.zlut_maxradius, vector2f(pos.x,pos.y), pos.z, 1.0f);
+			GenerateImageFromLUT( &img, &zlut, qtrk->cfg.zlut_minradius, qtrk->cfg.zlut_maxradius, pos);
 			qtrk->ScheduleLocalization((uchar*)img.data, sizeof(float)*img.w, QTrkFloat,i,i,0,beadIndex, 0);
 		}
 
