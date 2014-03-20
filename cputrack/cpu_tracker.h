@@ -40,6 +40,7 @@ public:
 	float zlut_minradius, zlut_maxradius;
 	bool zlut_useCorrelation;
 	std::vector<float> zlut_radialweights;
+	kissfft<scalar_t> *qa_fft_forward, *qa_fft_backward;
 
 	float* GetRadialZLUT(int index)  { return &zluts[zlut_res*zlut_planes*index]; }
 
@@ -112,6 +113,8 @@ public:
 
 	double ZLUTAlign_ComputeScore(vector3d pos, int beadIndex);
 
+	void AllocateQIFFTs(int nsteps);
+	vector2f QuadrantAlign(vector3f initial, int beadIndex, int radialSteps, int angularStepsPerQuadrant, float minRadius, float maxRadius, bool& boundaryHit);
 };
 
 

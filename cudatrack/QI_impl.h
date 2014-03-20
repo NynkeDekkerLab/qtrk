@@ -277,7 +277,10 @@ template<typename TImageSampler>
 void QI::Iterate(BaseKernelParams& p, device_vec<float3>* initial, device_vec<float3>* newpos, StreamInstance *s, DeviceInstance* d, int angularSteps)
 {
 	if (0) {
-	/*	dim3 qdrThreads(16, 8);
+	/*	
+		This part makes better use of parallelism (computing every quadrants radial bin in a seperate thread, but still has a bug somewhere...
+	
+		dim3 qdrThreads(16, 8);
 		dim3 qdrDim( (p.njobs + qdrThreads.x - 1) / qdrThreads.x, (params.radialSteps + qdrThreads.y - 1) / qdrThreads.y, 4 );
 		QI_ComputeQuadrants<TImageSampler> <<< qdrDim , qdrThreads, 0, s->stream >>> 
 			(p, initial->data, s->d_quadrants.data, d->d_qiparams);
