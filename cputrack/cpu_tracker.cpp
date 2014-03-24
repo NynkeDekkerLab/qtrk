@@ -34,6 +34,10 @@ T conjugate(const T &v) { return T(v.real(),-v.imag()); }
 const scalar_t QIWeights[QI_LSQFIT_NWEIGHTS] = QI_LSQFIT_WEIGHTS;
 const float ZLUTWeights[ZLUT_LSQFIT_NWEIGHTS] = ZLUT_LSQFIT_WEIGHTS;
 
+
+static int clamp(int v, int a,int b) { return std::max(a, std::min(b, v)); }
+
+
 CPUTracker::CPUTracker(int w, int h, int xcorwindow)
 {
 	width = w;
@@ -52,12 +56,10 @@ CPUTracker::CPUTracker(int w, int h, int xcorwindow)
 	zlut_planes = zlut_res = zlut_count = zlut_angularSteps = 0;
 	zlut_minradius = zlut_maxradius = 0.0f;
 	xcorw = xcorwindow;
+	qa_fft_forward = qa_fft_backward = 0;
 
 	qi_radialsteps = 0;
 	qi_fft_forward = qi_fft_backward = 0;
-
-	qa_radialsteps = 0;
-	qa_fft_forward = qa_fft_backward = 0;
 
 	fft2d=0;
 }
@@ -391,68 +393,107 @@ scalar_t CPUTracker::QI_ComputeOffset(complex_t* profile, int nr, int axisForDeb
 	return (maxPos - nr) / (3.14159265359f * 0.5f);
 }
 
+
+// Profile is complex_t[nr*2]
+scalar_t CPUTracker::QuadrantAlign_ComputeOffset(complex_t* profile, complex_t* zlut_prof_fft, int nr, int axisForDebug)
+{
+	complex_t* fft_out = ALLOCA_ARRAY(complex_t, nr*2);
+
+	WriteComplexImageAsCSV("qa_profile.txt", profile, nr*2, 1);
+
+	qa_fft_forward->transform(profile, fft_out);
+
+	// multiply with conjugate
+	for(int x=0;x<nr*2;x++)
+		fft_out[x] *= conjugate(zlut_prof_fft[x]);
+
+	qa_fft_backward->transform(fft_out, profile);
+
+#ifdef QI_DEBUG
+	cmp_cpu_qi_fft_out.assign(fft_out2, fft_out2+nr*2);
+#endif
+
+	// profile now contains the autoconvolution
+	// convert it to float
+	scalar_t* autoconv = ALLOCA_ARRAY(scalar_t, nr*2);
+	for(int x=0;x<nr*2;x++)  {
+		autoconv[x] = profile[(x+nr)%(nr*2)].real();
+	}
+
+	WriteImageAsCSV("qa_autoconv.txt", autoconv, nr*2, 1);
+
+	scalar_t maxPos = ComputeMaxInterp<scalar_t, QI_LSQFIT_NWEIGHTS>::Compute(autoconv, nr*2, QIWeights);
+	return (maxPos - nr) / (3.14159265359f * 0.5f);
+}
+
+
 /*
 
 - Compute quadrants
 - Build interpolated profile from ZLUT
 - Align X & Y against profile with FFT
 
+Differce with QI: No mirroring of profile, instead of mirror we use ZLUT profile
+
 */
-vector2f CPUTracker::QuadrantAlign(vector3f pos, int beadIndex, int angularStepsPerQuadrant, bool& boundaryHit)
+vector3f CPUTracker::QuadrantAlign(vector3f pos, int beadIndex, int angularStepsPerQuadrant, bool& boundaryHit)
 {
 	float* zlut = GetRadialZLUT(beadIndex);
-	float* profile = ALLOCA_ARRAY(float, zlut_res*2);
+	int res=zlut_res;
+	complex_t* profile = ALLOCA_ARRAY(complex_t, res*2);
+	complex_t* concat0 = ALLOCA_ARRAY(complex_t, res*2);
+	complex_t* concat1 = concat0 + res;
+
+	memset(concat0, 0, sizeof(complex_t)*res*2);
 
 	int zp0 = clamp( (int)pos.z, 0, zlut_planes - 1);
 	int zp1 = clamp( (int)pos.z + 1, 0, zlut_planes - 1);
 
-	float* zlut0 = &zlut[ zlut_res * zp0 ];
-	float* zlut1 = &zlut[ zlut_res * zp1 ];
+	float* zlut0 = &zlut[ res * zp0 ];
+	float* zlut1 = &zlut[ res * zp1 ];
 	float frac = pos.z - (int)pos.z;
 	for (int r=0;r<zlut_res;r++) {
 	// Interpolate plane
 		double zlutValue = Lerp(zlut0[r], zlut1[r], frac);
-		profile[zlut_res-r-1]= profile[zlut_res+r] = zlutValue;
+		concat0[res-r-1] = concat1[res+r] = zlutValue;
 	}
+	WriteComplexImageAsCSV("qa_zlutprof.txt", concat0, res*2,1);
+	qa_fft_forward->transform(concat0, profile);
 
-	scalar_t* buf = ALLOCA_ARRAY(scalar_t, zlut_res*4);
-	scalar_t* q0=buf, *q1=buf+zlut_res, *q2=buf+zlut_res*2, *q3=buf+zlut_res*3;
-	complex_t* concat0 = ALLOCA_ARRAY(complex_t, zlut_res*2);
-	complex_t* concat1 = concat0 + zlut_res;
+	scalar_t* buf = ALLOCA_ARRAY(scalar_t, res*4);
+	scalar_t* q0=buf, *q1=buf+res, *q2=buf+res*2, *q3=buf+res*3;
 
 	boundaryHit = CheckBoundaries(vector2f(pos.x,pos.y), zlut_maxradius);
 	for (int q=0;q<4;q++) {
-		ComputeQuadrantProfile(buf+q*zlut_res, zlut_res, angularStepsPerQuadrant, q, zlut_minradius, zlut_maxradius, vector2f(pos.x,pos.y));
+		ComputeQuadrantProfile(buf+q*res, res, angularStepsPerQuadrant, q, zlut_minradius, zlut_maxradius, vector2f(pos.x,pos.y));
 	}
 
+	WriteImageAsCSV("qa_qdr.txt" , buf, res,4);
+	
 	float pixelsPerProfLen = (zlut_maxradius-zlut_minradius)/zlut_res;
 	boundaryHit = false;
 
 	// Build Ix = [ qL(-r)  qR(r) ]
 	// qL = q1 + q2   (concat0)
 	// qR = q0 + q3   (concat1)
-	for(int r=0;r<nr;r++) {
-		concat0[nr-r-1] = q1[r]+q2[r];
+	for(int r=0;r<res;r++) {
+		concat0[res-r-1] = q1[r]+q2[r];
 		concat1[r] = q0[r]+q3[r];
 	}
 
-	scalar_t offsetX = QI_ComputeOffset(concat0, nr, 0);
+	scalar_t offsetX = QuadrantAlign_ComputeOffset(concat0, profile, res, 0);
 
 	// Build Iy = [ qB(-r)  qT(r) ]
 	// qT = q0 + q1
 	// qB = q2 + q3
-	for(int r=0;r<nr;r++) {
+	for(int r=0;r<res;r++) {
 		concat1[r] = q0[r]+q1[r];
-		concat0[nr-r-1] = q2[r]+q3[r];
+		concat0[res-r-1] = q2[r]+q3[r];
 	}
 		
-	scalar_t offsetY = QI_ComputeOffset(concat0, nr, 1);
+	scalar_t offsetY = QuadrantAlign_ComputeOffset(concat0, profile, res, 1);
 
-	center.x += offsetX * pixelsPerProfLen;
-	center.y += offsetY * pixelsPerProfLen;
-
-	return center;
-
+	return vector3f(pos.x + offsetX * pixelsPerProfLen, pos.y + offsetY * pixelsPerProfLen, pos.z);
 }
 
 CPUTracker::Gauss2DResult CPUTracker::Compute2DGaussianMLE(vector2f initial, int iterations, float sigma)
@@ -880,8 +921,6 @@ vector3d CPUTracker::ZLUTAlignSecantMethod(vector3d pos, int beadIndex,int itera
 	}
 	return p1;
 }
-
-static int clamp(int v, int a,int b) { return std::max(a, std::min(b, v)); }
 
 double CPUTracker::ZLUTAlign_ComputeScore(vector3d pos, int beadIndex)
 {

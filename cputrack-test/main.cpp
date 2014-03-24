@@ -583,14 +583,16 @@ void TestFisher(const char *lutfile)
 	ImageData dstimg = ImageData::alloc(80,80);
 
 	float z = 10.0f;
-	GenerateImageFromLUT(&dstimg, &lut, 2.0f, 30.0f, vector2f(dstimg.w/2,dstimg.h/2), z, 1.0f);
+	float zlutMin=2;
+	float zlutMax=40;
+	GenerateImageFromLUT(&dstimg, &lut, zlutMin, zlutMax, vector3f(dstimg.w/2,dstimg.h/2, z));
 
 	vector3f scale (100,100,50); // nm
 
 	std::vector<float> stdv;
 
 	if (1) {
-		LUTFisherMatrix fm(lut.data, lut.w, lut.h, dstimg.w, dstimg.h, 2, 40, 255);
+		LUTFisherMatrix fm(lut.data, lut.w, lut.h, dstimg.w, dstimg.h, zlutMin, zlutMax, 255);
 		fm.makeDebugImage=true;
 	
 		//float* dlutdplane = new float[lut.h*lut.w];
@@ -657,7 +659,6 @@ void AutoBeadFindTest()
 void TestImageLUT()
 {
 	QTrkSettings cfg;
-
 	cfg.width=cfg.height=100;
 
 	QueuedCPUTracker trk(cfg);
@@ -671,7 +672,7 @@ void TestImageLUT()
 	ImageData lut = ReadJPEGFile("refbeadlut.jpg");
 
 	for (int i=0;i<nplanes;i++) {
-		GenerateImageFromLUT(&img, &lut, trk.cfg.zlut_minradius, trk.cfg.zlut_maxradius, vector2f(img.w/2,img.h/2), i, 1);
+		GenerateImageFromLUT(&img, &lut, trk.cfg.zlut_minradius, trk.cfg.zlut_maxradius, vector3f(img.w/2,img.h/2, i));
 		trk.BuildLUT(img.data, img.pitch(), QTrkFloat, true, i);
 	}
 	trk.FinalizeLUT();
@@ -685,7 +686,7 @@ void TestImageLUT()
 	int nsmp = 10;
 	for (int i=0;i<nsmp;i++) {
 		vector3f pos(img.w/2+rand_uniform<float>()-0.5f ,img.h/2-rand_uniform<float>()-0.5f,nplanes/2.0f);
-		GenerateImageFromLUT(&img, &lut, trk.cfg.zlut_minradius, trk.cfg.zlut_maxradius, vector2f(pos.x,pos.y),pos.z, 1);
+		GenerateImageFromLUT(&img, &lut, trk.cfg.zlut_minradius, trk.cfg.zlut_maxradius, vector3f(pos.x,pos.y,pos.z));
 		ApplyPoissonNoise(img, 28 * 255, 255);
 		CPUTracker ct(cfg.width,cfg.height);
 		bool bhit;
@@ -761,6 +762,30 @@ void TestZLUTAlign()
 	dbgprintf("Only QI:   X= %f. stdev: %f\tZ=%f,  stdev: %f\n", resultsQI.mean.x, resultsQI.stdev.x, resultsQI.mean.z, resultsQI.stdev.z);
 }
 
+
+void TestQuadrantAlign()
+{
+	QTrkSettings cfg;
+	cfg.width = cfg.height = 60;
+	
+//	auto locMode = (LocMode_t)(LT_ZLUTAlign | LT_NormalizeProfile | LT_LocalizeZ);
+//	auto resultsCOM = RunTracker<QueuedCPUTracker> ("lut000.jpg", &cfg, false, "com-zlutalign", locMode, 100 );
+
+	const float NF=28;
+
+	auto locModeQI = (LocMode_t)(LT_QI | LT_NormalizeProfile | LT_LocalizeZ);
+	auto resultsQI = RunTracker<QueuedCPUTracker> ("lut000.jpg", &cfg, false, "qi", locModeQI, 200, NF);
+
+	auto locMode = (LocMode_t)(LT_QI | LT_ZLUTAlign | LT_NormalizeProfile | LT_LocalizeZ);
+	auto resultsZA = RunTracker<QueuedCPUTracker> ("lut000.jpg", &cfg, false, "qi-qalign", locMode, 200, NF );
+
+	resultsZA.computeStats(); 
+	resultsQI.computeStats();
+
+	dbgprintf("QuadrantAlign: X= %f. stdev: %f\tZ=%f,  stdev: %f\n", resultsZA.mean.x, resultsZA.stdev.x, resultsZA.mean.z, resultsZA.stdev.z);
+	dbgprintf("Only QI:   X= %f. stdev: %f\tZ=%f,  stdev: %f\n", resultsQI.mean.x, resultsQI.stdev.x, resultsQI.mean.z, resultsQI.stdev.z);
+}
+
 int main()
 {
 	/*
@@ -792,7 +817,7 @@ int main()
 	//	BuildConvergenceMap(i);
 
 	//TestFourierLUT();
-	TestFourierLUTOnDataset();
+	TestQuadrantAlign();
 	//TestZLUTAlign();
 	//TestImageLUT();
 //	TestBuildRadialZLUT<QueuedCPUTracker>( "lut000.jpg" );

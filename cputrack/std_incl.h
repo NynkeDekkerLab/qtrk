@@ -126,6 +126,6 @@ typedef unsigned char uchar;
 	#define VSNPRINTF vsnprintf
 	#define ALLOCA(size) alloca(size)
 #endif
-#define ALLOCA_ARRAY(T, N) ((T*)ALLOCA(sizeof(T) * N))
+#define ALLOCA_ARRAY(T, N) ((T*)ALLOCA(sizeof(T) * (N)))
 
 #include "dllmacros.h"

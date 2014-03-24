@@ -77,6 +77,8 @@ public:
 	Gauss2DResult Compute2DGaussianMLE(vector2f initial ,int iterations, float sigma);
 
 	scalar_t QI_ComputeOffset(complex_t* qi_profile, int nr, int axisForDebug);
+	scalar_t QuadrantAlign_ComputeOffset(complex_t* profile, complex_t* zlut_prof_fft, int nr, int axisForDebug);
+
 	float ComputeAsymmetry(vector2f center, int radialSteps, int angularSteps, float minRadius, float maxRadius, float *dstAngProf=0);
 
 	template<typename TPixel> void SetImage(TPixel* srcImage, uint srcpitch);
@@ -114,7 +116,7 @@ public:
 	double ZLUTAlign_ComputeScore(vector3d pos, int beadIndex);
 
 	void AllocateQIFFTs(int nsteps);
-	vector2f QuadrantAlign(vector3f initial, int beadIndex, int radialSteps, int angularStepsPerQuadrant, float minRadius, float maxRadius, bool& boundaryHit);
+	vector3f QuadrantAlign(vector3f initial, int beadIndex, int angularStepsPerQuadrant, bool& boundaryHit);
 };
 
 

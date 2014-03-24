@@ -297,17 +297,26 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 	bool normalizeProfile = (localizeMode & LT_NormalizeProfile)!=0;
 	if(localizeMode & LT_LocalizeZ) {
 		float* prof=ALLOCA_ARRAY(float,cfg.zlut_radialsteps);
-		if (localizeMode & LT_FourierLUT) {
-			trk->FourierRadialProfile(prof,cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius);
-		} else {
-			trk->ComputeRadialProfile(prof,cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, result.pos2D(), false, &boundaryHit, normalizeProfile );
+
+		for (int i=0;i< (localizeMode & LT_ZLUTAlign) ? 2 : 1 ; i++) {
+			if (localizeMode & LT_FourierLUT) {
+				trk->FourierRadialProfile(prof,cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius);
+			} else {
+				trk->ComputeRadialProfile(prof,cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, result.pos2D(), false, &boundaryHit, normalizeProfile );
+			}
+			float *cmpprof = 0;
+
+			if (zlut_enablecmpprof)
+				cmpprof = &zlut_cmpprofiles[j->job.zlutIndex*zlut_planes];
+
+			if (i > 0) {
+				// update with Quadrant Align
+				result.pos = trk->QuadrantAlign(result.pos, j->job.zlutIndex, cfg.qi_angstepspq, boundaryHit);
+			}
+			result.pos.z = trk->LUTProfileCompare(prof, j->job.zlutIndex, cmpprof);
 		}
-		float *cmpprof = 0;
 
-		if (zlut_enablecmpprof)
-			cmpprof = &zlut_cmpprofiles[j->job.zlutIndex*zlut_planes];
 
-		result.pos.z = trk->LUTProfileCompare(prof, j->job.zlutIndex, cmpprof);
 	} else if (localizeMode & LT_BuildRadialZLUT && (j->job.zlutIndex >= 0 && j->job.zlutIndex < zlut_count)) {
 		float* zlut = GetZLUTByIndex(j->job.zlutIndex);
 		float* rprof = ALLOCA_ARRAY(float, cfg.zlut_radialsteps);
@@ -315,10 +324,6 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 		float* dstprof = &zlut[j->job.zlutPlane * cfg.zlut_radialsteps];
 		for (int i=0;i<cfg.zlut_radialsteps;i++) 
 			dstprof[i] += rprof[i];
-	}
-
-	if (localizeMode & LT_ZLUTAlign ){
-		result.pos = ZLUTAlign(th, j->job, result.pos);
 	}
 
 	if(dbgPrintResults)
