@@ -19,36 +19,6 @@ float distance(vector2f a,vector2f b) { return distance(a.x-b.x,a.y-b.y); }
 
 const float ANGSTEPF = 1.5f;
 
-void GenerateZLUT(QueuedTracker* qtrk, float zmin, float zmax, int zplanes, const char *saveAs=0)
-{
-	QTrkComputedConfig& cfg = qtrk->cfg;
-	float *image = new float[cfg.width*cfg.height];
-	qtrk->SetRadialZLUT(NULL, 1, zplanes);
-	qtrk->SetLocalizationMode( (LocMode_t)(LT_QI|LT_BuildRadialZLUT|LT_NormalizeProfile) );
-	for (int x=0;x<zplanes;x++)  {
-		vector2f center(cfg.width/2, cfg.height/2 );
-		float s = zmin + (zmax-zmin) * x/(float)(zplanes-1);
-		GenerateTestImage(ImageData(image, cfg.width, cfg.height), center.x, center.y, s, 0.0f);
-		LocalizationJob job(x, 0, x, 0);
-		qtrk->ScheduleLocalization((uchar*)image, cfg.width*sizeof(float),QTrkFloat, &job);
-	}
-	// wait to finish ZLUT
-	while(true) {
-		int rc = qtrk->GetResultCount();
-		if (rc == zplanes) break;
-		Sleep(100);
-		dbgprintf(".");
-	}
-	float* zlut = new float[cfg.zlut_radialsteps * zplanes * 1];
-	qtrk->GetRadialZLUT(zlut);
-	qtrk->ClearResults();
-	uchar* zlut_bytes = floatToNormalizedInt(zlut, cfg.zlut_radialsteps, zplanes, (uchar)255);
-	if (saveAs) WriteJPEGFile(zlut_bytes, cfg.zlut_radialsteps, zplanes, saveAs, 99);
-	delete[] zlut; delete[] zlut_bytes;
-
-	delete[] image;
-}
-
 void SpeedTest()
 {
 #ifdef _DEBUG
@@ -370,105 +340,6 @@ void Test2DTracking()
 }*/
 
 
-void QTrkTest()
-{
-	QTrkSettings cfg;
-	cfg.width = cfg.height = 80;
-	cfg.qi_iterations = 3;
-	cfg.xc1_iterations = 2;
-	cfg.xc1_profileLength = 64;
-	//cfg.numThreads = -1; // direct processing, dont use queue
-	cfg.qi_radial_coverage = 1.5f;
-	cfg.qi_angular_coverage = 0.7f;
-	cfg.zlut_radial_coverage = 2.0f;
-	cfg.zlut_angular_coverage = 0.7f;
-
-	//cfg.numThreads = 6;
-	QueuedCPUTracker qtrk(cfg);
-	float *image = new float[cfg.width*cfg.height];
-
-	bool haveZLUT = false;
-
-	// Generate ZLUT
-	int zplanes=100;
-	float zmin=0.5,zmax=2.5;
-
-	if (haveZLUT)
-		GenerateZLUT(&qtrk, zmin, zmax, zplanes, "qtrkzlut.jpg");
-
-	// Schedule images to localize on
-#ifdef _DEBUG
-	int NumImages=10, JobsPerImg=10;
-#else
-	int NumImages=10, JobsPerImg=1000;
-#endif
-	dbgprintf("Generating %d images...\n", NumImages);
-	double tgen = 0.0, tschedule = 0.0;
-	std::vector<float> truepos(NumImages*3);
-	qtrk.ClearResults();
-	qtrk.SetLocalizationMode((LocMode_t)(LT_QI|LT_NormalizeProfile | (haveZLUT ? LT_LocalizeZ : 0)) );
-	qtrk.Break(true);
-	for (int n=0;n<NumImages;n++) {
-		double t1 = GetPreciseTime();
-		float xp = cfg.width/2+(rand_uniform<float>() - 0.5) * 5;
-		float yp = cfg.height/2+(rand_uniform<float>() - 0.5) * 5;
-		float z = zmin + 0.1f + (zmax-zmin-0.2f) * rand_uniform<float>();
-		truepos[n*3+0] = xp;
-		truepos[n*3+1] = yp;
-		truepos[n*3+2] = z;
-
-		GenerateTestImage(ImageData(image, cfg.width, cfg.height), xp, yp, z, 10000);
-		double t2 = GetPreciseTime();
-		for (int k=0;k<JobsPerImg;k++) {
-			LocalizationJob job(n,0,0,0);
-			qtrk.ScheduleLocalization((uchar*)image, cfg.width*sizeof(float), QTrkFloat, &job);
-		}
-		double t3 = GetPreciseTime();
-		tgen += t2-t1;
-		tschedule += t3-t2;
-	}
-	delete[] image;
-	dbgprintf("Schedule time: %f, Generation time: %f\n", tschedule, tgen);
-
-	// Measure speed
-	dbgprintf("Localizing on %d images...\n", NumImages*JobsPerImg);
-	double tstart = GetPreciseTime();
-	int total = NumImages*JobsPerImg;
-	int rc = qtrk.GetResultCount(), displayrc=0;
-	qtrk.Break(false);
-	do {
-		rc = qtrk.GetResultCount();
-		while (displayrc<rc) {
-			if( displayrc%JobsPerImg==0) dbgprintf("Done: %d / %d\n", displayrc, total);
-			displayrc++;
-		}
-		Sleep(10);
-	} while (rc != total);
-
-	double tend = GetPreciseTime();
-
-	// Wait for last jobs
-	rc = NumImages*JobsPerImg;
-	double errX=0.0, errY=0.0, errZ=0.0;
-
-	while(rc>0) {
-		LocalizationResult result;
-
-		if (qtrk.FetchResults(&result, 1)) {
-			int iid = result.job.frame;
-			float x = fabs(truepos[iid*3+0]-result.pos.x);
-			float y = fabs(truepos[iid*3+1]-result.pos.y);
-			result.pos.z = zmin + (zmax-zmin) * result.pos.z / (float)(zplanes-1); // transform from index scale to coordinate scale
-			float z = fabs(truepos[iid*3+2]-result.pos.z);
-		//	dbgprintf("ID: %d. Boundary Error:%d. ErrX=%f, ErrY=%f, ErrZ=%f\n", result.id, result.error, x,y,z);
-			errX += x; errY += y; errZ += z;
-			rc--;
-		}
-	}
-	dbgprintf("Localization Speed: %d (img/s), using %d threads\n", (int)( total/(tend-tstart) ), qtrk.NumThreads());
-	dbgprintf("ErrX: %f, ErrY: %f, ErrZ: %f\n", errX/total, errY/total,errZ/total);
-}
-
 void BuildConvergenceMap(int iterations)
 {
 	int W=80, H=80;
@@ -774,12 +645,19 @@ void TestQuadrantAlign()
 
 	const float NF=28;
 
+#ifdef _DEBUG
+	int N=1;
+	cfg.numThreads=1;
+#else
+	int N=2000;
+#endif
+
 	auto locModeQI = (LocMode_t)(LT_QI | LT_NormalizeProfile | LT_LocalizeZ);
-	auto resultsQI = RunTracker<QueuedCPUTracker> ("lut000.jpg", &cfg, false, "qi", locModeQI, 200, NF);
+	auto resultsQI = RunTracker<QueuedCPUTracker> ("lut000.jpg", &cfg, false, "qa", locModeQI, N, NF);
 
 	auto locMode = (LocMode_t)(LT_QI | LT_ZLUTAlign | LT_NormalizeProfile | LT_LocalizeZ);
-	auto resultsZA = RunTracker<QueuedCPUTracker> ("lut000.jpg", &cfg, false, "qi-qalign", locMode, 200, NF );
-
+	auto resultsZA = RunTracker<QueuedCPUTracker> ("lut000.jpg", &cfg, false, "qa-qalign", locMode, N, NF );
+	
 	resultsZA.computeStats(); 
 	resultsQI.computeStats();
 

@@ -61,14 +61,13 @@ QueuedTracker::~QueuedTracker()
 }
 
 
-void QueuedTracker::ScheduleLocalization(uchar* data, int pitch, QTRK_PixelDataType pdt, uint frame, uint timestamp, vector3f* initial, uint zlutIndex, uint zlutPlane)
+void QueuedTracker::ScheduleLocalization(uchar* data, int pitch, QTRK_PixelDataType pdt, uint frame, uint timestamp, vector3f* initial, uint zlutIndex)
 {
 	LocalizationJob j;
 	j.frame= frame;
 	j.timestamp = timestamp;
 	if (initial) j.initialPos = *initial;
 	j.zlutIndex = zlutIndex;
-	j.zlutPlane = zlutPlane;
 	ScheduleLocalization(data,pitch,pdt,&j);
 }
 

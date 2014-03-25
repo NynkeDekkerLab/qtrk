@@ -399,7 +399,7 @@ scalar_t CPUTracker::QuadrantAlign_ComputeOffset(complex_t* profile, complex_t* 
 {
 	complex_t* fft_out = ALLOCA_ARRAY(complex_t, nr*2);
 
-	WriteComplexImageAsCSV("qa_profile.txt", profile, nr*2, 1);
+//	WriteComplexImageAsCSV("qa_profile.txt", profile, nr*2, 1);
 
 	qa_fft_forward->transform(profile, fft_out);
 
@@ -420,7 +420,7 @@ scalar_t CPUTracker::QuadrantAlign_ComputeOffset(complex_t* profile, complex_t* 
 		autoconv[x] = profile[(x+nr)%(nr*2)].real();
 	}
 
-	WriteImageAsCSV("qa_autoconv.txt", autoconv, nr*2, 1);
+//	WriteImageAsCSV("qa_autoconv.txt", autoconv, nr*2, 1);
 
 	scalar_t maxPos = ComputeMaxInterp<scalar_t, QI_LSQFIT_NWEIGHTS>::Compute(autoconv, nr*2, QIWeights);
 	return (maxPos - nr) / (3.14159265359f * 0.5f);
@@ -433,7 +433,7 @@ scalar_t CPUTracker::QuadrantAlign_ComputeOffset(complex_t* profile, complex_t* 
 - Build interpolated profile from ZLUT
 - Align X & Y against profile with FFT
 
-Differce with QI: No mirroring of profile, instead of mirror we use ZLUT profile
+Difference with QI: No mirroring of profile, instead of mirror we use ZLUT profile
 
 */
 vector3f CPUTracker::QuadrantAlign(vector3f pos, int beadIndex, int angularStepsPerQuadrant, bool& boundaryHit)
@@ -457,7 +457,7 @@ vector3f CPUTracker::QuadrantAlign(vector3f pos, int beadIndex, int angularSteps
 		double zlutValue = Lerp(zlut0[r], zlut1[r], frac);
 		concat0[res-r-1] = concat1[r] = zlutValue;
 	}
-//	WriteComplexImageAsCSV("qa_zlutprof.txt", concat0, res*2,1);
+//	WriteComplexImageAsCSV("qa_zlutprof.txt", concat0, res,2);
 	qa_fft_forward->transform(concat0, profile);
 
 	scalar_t* buf = ALLOCA_ARRAY(scalar_t, res*4);
@@ -465,10 +465,12 @@ vector3f CPUTracker::QuadrantAlign(vector3f pos, int beadIndex, int angularSteps
 
 	boundaryHit = CheckBoundaries(vector2f(pos.x,pos.y), zlut_maxradius);
 	for (int q=0;q<4;q++) {
-		ComputeQuadrantProfile(buf+q*res, res, angularStepsPerQuadrant, q, zlut_minradius, zlut_maxradius, vector2f(pos.x,pos.y));
+		float *quadrantProfile = buf+q*res;
+		ComputeQuadrantProfile(quadrantProfile, res, angularStepsPerQuadrant, q, zlut_minradius, zlut_maxradius, vector2f(pos.x,pos.y));
+		NormalizeRadialProfile(quadrantProfile, res);
 	}
-
-	WriteImageAsCSV("qa_qdr.txt" , buf, res,4);
+	
+	//WriteImageAsCSV("qa_qdr.txt" , buf, res,4);
 	
 	float pixelsPerProfLen = (zlut_maxradius-zlut_minradius)/zlut_res;
 	boundaryHit = false;

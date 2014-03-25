@@ -373,6 +373,8 @@ RunTrackerResults RunTracker(const char *lutfile, QTrkSettings *cfg, bool useGC,
 		trk.ScheduleLocalization((uchar*)img.data, sizeof(float)*cfg->width, QTrkFloat, &job);
 	}
 
+	dbgprintf("Scheduled %d images\n" ,  N);
+
 	WaitForFinish(&trk, N);
 
 	results.resize(trk.GetResultCount());

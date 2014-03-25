@@ -280,7 +280,7 @@ CDLL_EXPORT void qtrk_queue_u8(QueuedTracker* qtrk, ErrorCluster* error, LVArray
 	if (CheckImageInput(qtrk, data, error))
 	{
 #ifdef _DEBUG
-	dbgprintf("Job: 8bit image, frame %d, bead %d, zplane %d\n", jobInfo->frame, jobInfo->zlutIndex, jobInfo->zlutPlane);
+	dbgprintf("Job: 8bit image, frame %d, bead %d\n", jobInfo->frame, jobInfo->zlutIndex);
 #endif
 
 		qtrk->ScheduleLocalization( (*data)->elem, sizeof(uchar)*(*data)->dimSizes[1], QTrkU8, jobInfo);
@@ -573,7 +573,7 @@ CDLL_EXPORT void qtrk_simulate_tracking(QueuedTracker* qtrk, int nsmp, int beadI
 			vector3f pos = *centerPos + *range * vector3f(rand_uniform<float>(), rand_uniform<float>(), rand_uniform<float>());
 			positions[i]=pos;
 			GenerateImageFromLUT( &img, &zlut, qtrk->cfg.zlut_minradius, qtrk->cfg.zlut_maxradius, pos);
-			qtrk->ScheduleLocalization((uchar*)img.data, sizeof(float)*img.w, QTrkFloat,i,i,0,beadIndex, 0);
+			qtrk->ScheduleLocalization((uchar*)img.data, sizeof(float)*img.w, QTrkFloat,i,i,0,beadIndex);
 		}
 
 		img.free();

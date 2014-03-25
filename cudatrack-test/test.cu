@@ -150,22 +150,18 @@ void QTrkCompareTest()
 	qtrk.SetRadialZLUT(0, 1, zplanes);
 	if (cpucmp) qtrkcpu.SetRadialZLUT(0, 1, zplanes);
 	if (haveZLUT) {
-		qtrk.SetLocalizationMode(LT_BuildRadialZLUT|LT_OnlyCOM);
-		qtrkcpu.SetLocalizationMode(LT_BuildRadialZLUT|LT_OnlyCOM);
 		for (int x=0;x<zplanes;x++)  {
 			vector2f center ( cfg.width/2, cfg.height/2 );
 			float s = zmin + (zmax-zmin) * x/(float)(zplanes-1);
 			GenerateTestImage(img, center.x, center.y, s, 0.0f);
 			WriteJPEGFile("qtrkzlutimg.jpg", img);
 
-			LocalizationJob jobInfo;
-			jobInfo.frame = jobInfo.zlutPlane = x;
-			jobInfo.zlutIndex = 0;
-			qtrk.ScheduleLocalization((uchar*)img.data, cfg.width*sizeof(float),QTrkFloat, &jobInfo);
-			if (cpucmp) qtrkcpu.ScheduleLocalization((uchar*)img.data, cfg.width*sizeof(float),QTrkFloat, &jobInfo);
+			qtrk.BuildLUT(img.data,img.pitch(),QTrkFloat, 0, x);
+			if (cpucmp) 
+				qtrkcpu.BuildLUT(img.data,img.pitch(),QTrkFloat, 0, x);
 		}
-		qtrk.Flush();
-		if (cpucmp) qtrkcpu.Flush();
+		qtrk.FinalizeLUT();
+		if (cpucmp) qtrkcpu.FinalizeLUT();
 		// wait to finish ZLUT
 		while(true) {
 			int rc = qtrk.GetResultCount();
@@ -325,25 +321,13 @@ float SpeedTest(const QTrkSettings& cfg, QueuedTracker* qtrk, int count, bool ha
 	qtrk->SetRadialZLUT(0, 1, zplanes);
 	if (gaincorrection) EnableGainCorrection(qtrk);
 	if (haveZLUT) {
-		qtrk->SetLocalizationMode(LT_BuildRadialZLUT|LT_OnlyCOM|LT_NormalizeProfile);
-
 		for (int x=0;x<zplanes;x++)  {
 			vector2f center( cfg.width/2, cfg.height/2 );
 			float s = zmin + (zmax-zmin) * x/(float)(zplanes-1);
 			GenerateTestImage(img, center.x, center.y, s, 0.0f);
-			LocalizationJob job;
-			job.frame = 0;
-			job.zlutPlane = job.frame = x;
-			qtrk->ScheduleLocalization((uchar*)img.data, cfg.width*sizeof(float),QTrkFloat, &job);
+			qtrk->BuildLUT(img.data,img.pitch(),QTrkFloat, 0, x);
 		}
-		qtrk->Flush();
-		// wait to finish ZLUT
-		while(true) {
-			int rc = qtrk->GetResultCount();
-			if (rc == zplanes) break;
-			Sleep(100);
-			dbgprintf(".");
-		}
+		qtrk->FinalizeLUT();
 	}
 	qtrk->ClearResults();
 	
@@ -475,56 +459,6 @@ void ProfileSpeedVsROI(LocalizeModeEnum locMode, const char *outputcsv, bool hav
 	delete[] values;
 }
 
-std::vector<vector3f> LocalizeGeneratedImages(const QTrkSettings& cfg, QueuedTracker* qtrk, bool haveZLUT, LocMode_t locType, std::vector<vector3f> positions)
-{
-	ImageData img = ImageData::alloc(cfg.width,cfg.height);
-	srand(1);
-
-	// Generate ZLUT
-	int zplanes=100;
-	int count = positions.size();
-	float zmin=0.5,zmax=3;
-	qtrk->SetRadialZLUT(0, 1, zplanes);
-	if (haveZLUT) {
-		qtrk->SetLocalizationMode(LT_BuildRadialZLUT|LT_QI|LT_NormalizeProfile);
-		for (int x=0;x<zplanes;x++)  {
-			vector2f center( cfg.width/2, cfg.height/2 );
-			float s = zmin + (zmax-zmin) * x/(float)(zplanes-1);
-			GenerateTestImage(img, center.x, center.y, s, 0.0f);
-			qtrk->ScheduleLocalization((uchar*)img.data, cfg.width*sizeof(float),QTrkFloat, x, 0,0, 0, x);
-		}
-		qtrk->Flush();
-		// wait to finish ZLUT
-		while (qtrk->GetResultCount() != zplanes) {
-			Sleep(100);
-			dbgprintf(".");
-		}
-	}
-	qtrk->ClearResults();
-	qtrk->SetLocalizationMode(locType| (haveZLUT ? LT_LocalizeZ : 0) );
-	for (int n=0;n<count;n++) {
-		vector3f pos = positions[n];
-		float s = zmin + (zmax-zmin) * pos.z/zplanes;
-		GenerateTestImage(img, cfg.width/2 + pos.x, cfg.height/2 + pos.y, s, 0);
-		//if (n<5) FloatToJPEGFile(SPrintf("tracker-%d.jpg", n).c_str(), image, cfg.width,cfg.height);
-		qtrk->ScheduleLocalization((uchar*)img.data, cfg.width*sizeof(float), QTrkFloat, n, 0, 0, 0, 0);
-	}
-	qtrk->Flush();
-	while (qtrk->GetResultCount() != count) Sleep(10);
-
-	std::vector<LocalizationResult> results (count);
-	qtrk->FetchResults( &results[0], count );
-	std::sort (results.begin(), results.end(), 
-		[](LocalizationResult& a, LocalizationResult& b) { return a.job.frame < b.job.frame; } );
-
-	std::vector<vector3f> resultPos(count);
-	for (int i=0;i<count;i++) {
-		resultPos[i] = results[i].pos;
-	}
-
-	img.free();
-	return resultPos;
-}
 
 
 void CompareAccuracy (const char *lutfile)

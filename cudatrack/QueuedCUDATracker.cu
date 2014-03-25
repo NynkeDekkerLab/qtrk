@@ -66,9 +66,6 @@ Issues:
 		double* time;
 		double start;
 	public:
-		typedef std::pair<int, double> Item;
-		static std::map<const char*, Item> results;
-
 		ScopedCPUProfiler(double *time) :  time(time) {
 			start = GetPreciseTime();
 		}
@@ -352,11 +349,13 @@ QueuedCUDATracker::Stream* QueuedCUDATracker::CreateStream(Device* device, int s
 		s->d_resultpos.init(batchSize);
 		s->results.init(batchSize);
 		s->locParams.init(batchSize);
+		s->imgMeans.init(batchSize);
 		s->d_imgmeans.init(batchSize);
 		s->d_locParams.init(batchSize);
 		s->d_radialprofiles.init(cfg.zlut_radialsteps*batchSize);
 
 		qi.InitStream(&s->qi_instance, cfg, s->stream, batchSize);
+		qalign.InitStream(&s->qalign_instance, cfg, s->stream, batchSize);
 
 		cudaEventCreate(&s->localizationDone);
 		cudaEventCreate(&s->comDone);
@@ -444,7 +443,6 @@ void QueuedCUDATracker::ScheduleLocalization(void* data, int pitch, QTRK_PixelDa
 	s->jobs.push_back(job);
 	s->localizeFlags = localizeMode; // which kernels to run
 	s->locParams[jobIndex].zlutIndex = jobInfo->zlutIndex;
-	s->locParams[jobIndex].zlutPlane = jobInfo->zlutPlane;
 
 	if (s->jobs.size() == batchSize)
 		s->state = Stream::StreamPendingExec;
@@ -644,7 +642,9 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 
 	cudaEventRecord(s->qiDone, s->stream);
 
-	{ScopedCPUProfiler p(&cpu_time.zcompute);
+	int numZIterations = (s->localizeFlags & LT_ZLUTAlign) ? 3 : 1;
+	for (int i=0;i<numZIterations;i++) {
+		{ScopedCPUProfiler p(&cpu_time.zcompute);
 		ZLUTParams zp;
 		zp.planes = d->radial_zlut.h;
 		zp.angularSteps = cfg.zlut_angularsteps;
@@ -655,7 +655,7 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 		zp.zcmpwindow = d->zcompareWindow.data;
 
 		// Compute radial profiles
-		if (s->localizeFlags & (LT_LocalizeZ | LT_BuildRadialZLUT)) {
+		if (s->localizeFlags & LT_LocalizeZ) {
 			dim3 numThreads(16, 16);
 			dim3 numBlocks( (s->JobCount() + numThreads.x - 1) / numThreads.x, 
 					(cfg.zlut_radialsteps + numThreads.y - 1) / numThreads.y);
@@ -663,37 +663,17 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 				(s->JobCount(), s->images, zp, curpos->data, s->d_radialprofiles.data, s->d_imgmeans.data);
 			ZLUT_NormalizeProfiles<<< blocks(s->JobCount()), threads(), 0, s->stream >>> (s->JobCount(), zp, s->d_radialprofiles.data);
 		}
-		// Store profile in LUT
-		if (s->localizeFlags & LT_BuildRadialZLUT) {
-			ZLUT_ProfilesToZLUT <<< blocks(s->JobCount()), threads(), 0, s->stream >>> (s->JobCount(), s->images, zp, curpos->data, s->d_locParams.data, s->d_radialprofiles.data);
-		}
 		// Compute Z 
 		if (s->localizeFlags & LT_LocalizeZ) {
 			dim3 numThreads(8, 16);
 			ZLUT_ComputeProfileMatchScores <<< dim3( (s->JobCount() + numThreads.x - 1) / numThreads.x, (zp.planes  + numThreads.y - 1) / numThreads.y), numThreads, 0, s->stream >>> 
 				(s->JobCount(), zp, s->d_radialprofiles.data, s->d_zlutcmpscores.data, s->d_locParams.data);
 			ZLUT_ComputeZ <<< blocks(s->JobCount()), threads(), 0, s->stream >>> (s->JobCount(), zp, curpos->data, s->d_zlutcmpscores.data);
-		}
-	}
+		}}
 
-	{ScopedCPUProfiler p(&cpu_time.imap);
-
-/*		if ( (s->localizeFlags & LT_BuildImageLUT) && s->device->image_lut ) {
-
-			ImageLUT* il = s->device->image_lut;
-			// Bind surface for writing image LUT
-			float2 ilc_scale = make_float2(imageLUTConfig.xscale, imageLUTConfig.yscale);
-			ImageLUT::KernelParams ilkp = il->bind();
-
-			dim3 numThreads(16,16,1);
-			dim3 numBlocks( (ilkp.imgw + numThreads.x -1) / numThreads.x, 
-				(ilkp.imgh + numThreads.y - 1) / numThreads.y, (s->JobCount()+numThreads.z-1)/numThreads.z );
-
-			ImageLUT_Sample<TImageSampler, ImageLUT> <<<numBlocks, numThreads, 0, s->stream >>> (kp, ilc_scale, curpos->data, ilkp);
-			il->unbind();
-		}*/
-
-		if (s->localizeFlags & LT_ZLUTAlign) {
+		if (i>0) {
+			ScopedCPUProfiler p(&cpu_time.zlutAlign);
+			qalign.Execute<TImageSampler> (kp, cfg, &s->qalign_instance, &s->device->qalign_instance, &s->d_resultpos, &s->d_resultpos);
 		}
 	}
 
@@ -703,6 +683,7 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 	{ ScopedCPUProfiler p(&cpu_time.getResults);
 		s->d_com.copyToHost(s->com.data(), true, s->stream);
 		curpos->copyToHost(s->results.data(), true, s->stream);
+		s->d_imgmeans.copyToHost(s->imgMeans.data(), true, s->stream);
 	}
 
 	// Make sure we can query the all done signal
@@ -719,6 +700,7 @@ void QueuedCUDATracker::CopyStreamResults(Stream *s)
 		r.job = j;
 		r.firstGuess =  vector2f( s->com[a].x, s->com[a].y );
 		r.pos = vector3f( s->results[a].x , s->results[a].y, s->results[a].z);
+		r.imageMean = s->imgMeans[a];
 
 		results.push_back(r);
 	}

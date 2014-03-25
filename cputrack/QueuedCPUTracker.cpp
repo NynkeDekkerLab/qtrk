@@ -299,7 +299,7 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 	if(localizeMode & LT_LocalizeZ) {
 		float* prof=ALLOCA_ARRAY(float,cfg.zlut_radialsteps);
 
-		for (int i=0;i< (localizeMode & LT_ZLUTAlign) ? 2 : 1 ; i++) {
+		for (int i=0;i< ((localizeMode & LT_ZLUTAlign) ? 5 : 1) ; i++) {
 			if (localizeMode & LT_FourierLUT) {
 				trk->FourierRadialProfile(prof,cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius);
 			} else {
@@ -315,16 +315,10 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 				result.pos = trk->QuadrantAlign(result.pos, j->job.zlutIndex, cfg.qi_angstepspq, boundaryHit);
 			}
 			result.pos.z = trk->LUTProfileCompare(prof, j->job.zlutIndex, cmpprof);
+			//dbgprintf("[%d] x=%f, y=%f, z=%f\n", i, result.pos.x,result.pos.y,result.pos.z);
 		}
 
 
-	} else if (localizeMode & LT_BuildRadialZLUT && (j->job.zlutIndex >= 0 && j->job.zlutIndex < zlut_count)) {
-		float* zlut = GetZLUTByIndex(j->job.zlutIndex);
-		float* rprof = ALLOCA_ARRAY(float, cfg.zlut_radialsteps);
-		trk->ComputeRadialProfile(rprof, cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, result.pos2D(), false, &boundaryHit, normalizeProfile);
-		float* dstprof = &zlut[j->job.zlutPlane * cfg.zlut_radialsteps];
-		for (int i=0;i<cfg.zlut_radialsteps;i++) 
-			dstprof[i] += rprof[i];
 	}
 
 	if(dbgPrintResults)

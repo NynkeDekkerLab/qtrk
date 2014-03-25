@@ -11,7 +11,6 @@ enum LocalizeModeEnum {
 	LT_ZLUTAlign = 8, // XYZ Alignment with ZLUT
 
 	LT_LocalizeZ = 16,
-	LT_BuildRadialZLUT = 32,
 	LT_NormalizeProfile = 64,
 	LT_ClearFirstFourPixels = 128,
 	LT_FourierLUT = 256,

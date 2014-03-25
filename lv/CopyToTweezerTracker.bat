@@ -1,9 +1,10 @@
-set DSTPATH=..\..\bin\qtrk
-copy /Y cudart32_50_35.dll %DSTPATH%
-copy /Y qtrkcudad-labview.dll %DSTPATH%
-copy /Y qtrkcuda-labview.dll %DSTPATH%
-copy /Y qtrk-labview.dll %DSTPATH%
-copy /Y qtrkd-labview.dll %DSTPATH%
-copy /Y QTrk.llb %DSTPATH%
-copy /Y QTrk.mnu %DSTPATH%
+set DSTPATH=../../bin/qtrk
+cp cudart32_50_35.dll %DSTPATH%
+cp qtrkcudad-labview.dll %DSTPATH%
+cp qtrkcuda-labview.dll %DSTPATH%
+cp qtrk-labview.dll %DSTPATH%
+cp qtrkd-labview.dll %DSTPATH%
+rm -r %DSTPATH%/QTrkLVBinding
+cp -r QTrkLVBinding %DSTPATH%
+cp QTrk.mnu %DSTPATH%
 pause

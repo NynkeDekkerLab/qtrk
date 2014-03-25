@@ -117,6 +117,7 @@ protected:
 		cudaImageListf calib_offset, calib_gain;
 		device_vec<float> zcompareWindow;
 		QI::DeviceInstance qi_instance;
+		QI::DeviceInstance qalign_instance;
 		device_vec<float2> zlut_trigtable;
 		int index;
 	};
@@ -130,6 +131,7 @@ protected:
 		
 		pinned_array<float3> results;
 		pinned_array<float3> com;
+		pinned_array<float> imgMeans;
 		pinned_array<LocalizationParams> locParams;
 		device_vec<LocalizationParams> d_locParams;
 		std::vector<LocalizationJob> jobs;
@@ -145,13 +147,14 @@ protected:
 		// Events
 		cudaEvent_t localizationDone; // all done.
 		// Events for profiling
-		cudaEvent_t imageCopyDone, comDone, qiDone, zcomputeDone, imapDone, batchStart;
+		cudaEvent_t imageCopyDone, comDone, qiDone, qalignDone, zcomputeDone, imapDone, batchStart;
 
 		// Intermediate data
 		device_vec<float3> d_resultpos;
 		device_vec<float3> d_com; // z is zero
 
 		QI::StreamInstance qi_instance;
+		QI::StreamInstance qalign_instance;
 
 		device_vec<float> d_imgmeans; // [ njobs ]
 		device_vec<float> d_radialprofiles;// [ radialsteps * njobs ] for Z computation
@@ -186,6 +189,7 @@ protected:
 	Threads::Mutex gc_mutex;
 
 	QI qi;
+	QI qalign;
 	cudaDeviceProp deviceProp;
 
 	Threads::Handle *schedulingThread;
@@ -204,8 +208,8 @@ protected:
 public:
 	// Profiling
 	struct KernelProfileTime {
-		KernelProfileTime() {com=qi=imageCopy=zcompute=imap=getResults=0.0;}
-		double com, qi, imageCopy, zcompute, imap, getResults;
+		KernelProfileTime() {com=qi=imageCopy=zcompute=zlutAlign=getResults=0.0;}
+		double com, qi, imageCopy, zcompute, zlutAlign, getResults;
 	};
 	KernelProfileTime time, cpu_time;
 	int batchesDone;

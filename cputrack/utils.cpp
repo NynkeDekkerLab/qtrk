@@ -331,7 +331,7 @@ void GenerateImageFromLUT(ImageData* image, ImageData* zlut, float minradius, fl
 			zinterp[r] = Lerp(zlut0[r], zlut1[r], pos.z-iz);
 	}
 
-	const int len=5;
+	const int len=3;
 	float xval[len];
 	float weights[len];
 	for (int i=0;i<len;i++) {
@@ -345,13 +345,18 @@ void GenerateImageFromLUT(ImageData* image, ImageData* zlut, float minradius, fl
 			float pixr = sqrtf( sq(x-pos.x) + sq(y-pos.y) );
 			float r = (pixr - minradius) * radialcov;
 
-			if (r > zlut->w-1)
-				r = zlut->w-1;
+			if (r > zlut->w-2)
+				r = zlut->w-2;
 
-			int minR = std::max(0, std::min( (int)r, zlut->w-len ) );
-			LsqSqQuadFit<float> lsq(len, xval, &zinterp[minR], weights);
+			//int minR = std::max(0, std::min( (int)r, zlut->w-len ) );
+			//LsqSqQuadFit<float> lsq(len, xval, &zinterp[minR], weights);
+			
+			if (r < 0) r = 0;
 
-			float v = lsq.compute(r-(minR+len/2));
+			int i=(int)r;
+			float v = Lerp(zinterp[i], zinterp[i+1], r-i);
+
+			//float v = lsq.compute(r-(minR+len/2));
 			image->at(x,y) = v; // lsq.compute(r-len/2);
 		}
 }
