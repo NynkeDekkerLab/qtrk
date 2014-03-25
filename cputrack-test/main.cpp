@@ -767,6 +767,7 @@ void TestQuadrantAlign()
 {
 	QTrkSettings cfg;
 	cfg.width = cfg.height = 60;
+	cfg.numThreads=1;
 	
 //	auto locMode = (LocMode_t)(LT_ZLUTAlign | LT_NormalizeProfile | LT_LocalizeZ);
 //	auto resultsCOM = RunTracker<QueuedCPUTracker> ("lut000.jpg", &cfg, false, "com-zlutalign", locMode, 100 );

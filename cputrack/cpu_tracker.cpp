@@ -455,9 +455,9 @@ vector3f CPUTracker::QuadrantAlign(vector3f pos, int beadIndex, int angularSteps
 	for (int r=0;r<zlut_res;r++) {
 	// Interpolate plane
 		double zlutValue = Lerp(zlut0[r], zlut1[r], frac);
-		concat0[res-r-1] = concat1[res+r] = zlutValue;
+		concat0[res-r-1] = concat1[r] = zlutValue;
 	}
-	WriteComplexImageAsCSV("qa_zlutprof.txt", concat0, res*2,1);
+//	WriteComplexImageAsCSV("qa_zlutprof.txt", concat0, res*2,1);
 	qa_fft_forward->transform(concat0, profile);
 
 	scalar_t* buf = ALLOCA_ARRAY(scalar_t, res*4);

@@ -268,6 +268,7 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 	result.job = j->job;
 
 	vector2f com = trk->ComputeMeanAndCOM(cfg.com_bgcorrection);
+	result.imageMean = trk->mean;
 
 	if (_isnan(com.x) || _isnan(com.y))
 		com = vector2f(cfg.width/2,cfg.height/2);

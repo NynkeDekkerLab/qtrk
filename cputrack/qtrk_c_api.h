@@ -30,26 +30,30 @@ enum QTRK_PixelDataType
 
 
 #pragma pack(push, 1)
+
+// 32 bytes
 struct LocalizationJob {
 	LocalizationJob() {
-		frame=timestamp=zlutIndex=zlutPlane=0; 
+		frame=timestamp=zlutIndex=0; 
 	}
 	LocalizationJob(uint frame, uint timestamp, uint zlutPlane, uint zlutIndex) :
-		frame (frame), timestamp(timestamp), zlutPlane(zlutPlane), zlutIndex(zlutIndex) 
+		frame (frame), timestamp(timestamp), zlutIndex(zlutIndex) 
 	{}
-	uint frame, timestamp;
+	uint frame, timestamp;   
 	int zlutIndex; // or bead#
-	uint zlutPlane; // for ZLUT building
 	vector3f initialPos;
 };
 
+
 // DONT CHANGE, Mapped to labview clusters!
+// 60 bytes
 struct LocalizationResult {
 	LocalizationJob job;
 	vector3f pos;
 	vector2f pos2D() { return vector2f(pos.x,pos.y); }
-	vector2f firstGuess;
+	vector2f firstGuess; // COM pos
 	uint error;
+	float imageMean;
 };
 // DONT CHANGE, Mapped to labview clusters (QTrkSettings.ctl)!
 struct QTrkSettings {
