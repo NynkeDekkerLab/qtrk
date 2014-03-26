@@ -21,6 +21,8 @@ namespace TraceViewer
 		bool haveErrors;
 		private string filename;
 
+		List<Frame> frames;
+
 		public ViewTraceDlg()
 		{
 			InitializeComponent();
@@ -38,13 +40,15 @@ namespace TraceViewer
 			{
 				filename = ofd.FileName;
 
-				ReadHeader();
+				ReadHeader(false);
 				UpdateGraph();
 			}
 		}
 
-		void ReadHeader()
+		void ReadHeader(bool oldVersion)
 		{
+			frames = new List<Frame>();
+
 			using (FileStream stream = File.OpenRead(filename))
 			{
 				stream.Seek(0, SeekOrigin.Begin);
@@ -54,48 +58,47 @@ namespace TraceViewer
 					int a = r.ReadInt32();
 					int b = r.ReadInt32();
 					int c = r.ReadInt32();
-					int d = r.ReadInt32();
 
-					int infoCols = c;
-
-					if (d == 1234)
+					int infoCols;
+					if (oldVersion)
 					{
-						// shitty format
-						infoCols = 7;
+						numBeads = a;
+						infoCols = b;
+						startOffset = c;
 					}
-					numBeads = b;
+					else
+					{
+						int d = r.ReadInt32();
+						infoCols = c;
+
+						if (d == 1234)
+						{
+							// shitty format
+							infoCols = 7;
+							startOffset = (int)c;
+						}
+						else startOffset = (int)d;
+
+						numBeads = b; 
+						
+					}
 					infoColNames = new string[infoCols];
 					for (int j = 0; j < infoCols; j++)
 					{
 						infoColNames[j] = ReadZStr(r);
 						Console.WriteLine("InfoCol[{0}]={1}", j, infoColNames[j]);
 					}
-
-					if (d == 1234)
-					{
-						while (r.ReadInt32() == 0) ;
-						startOffset = (int)c;
-					}
-					else
-					{
-						startOffset = (int)d;
-					}
-					haveErrors = true;
+					haveErrors = !oldVersion;
 					bytesPerFrame = 4 * 3 * numBeads + infoCols * 4 + 4 + 8 + (haveErrors ? (4 * numBeads) : 0);
 					numFrames = ((int)stream.Length - startOffset) / bytesPerFrame;
 					Console.WriteLine("#Frames: {0}", numFrames);
 
 					stream.Seek(startOffset, SeekOrigin.Begin);
 
-					for (int f = 0; f < 4; f++)
+
+					for (int i = 0; i < numFrames; i++)
 					{
-						var fr = ReadFrame(r);
-
-						Console.WriteLine("Frame#: {0}", fr.id);
-						Console.WriteLine("Timestamp: {0}", fr.timestamp);
-
-						for (int i = 0; i < numBeads; i++)
-							Console.WriteLine("Bead[{0}]: X={1},Y={2},Z={3}", i, fr.positions[i].x, fr.positions[i].y, fr.positions[i].z);
+						frames.Add(ReadFrame(r));
 					}
 
 					beadSelect.Maximum = numBeads-1;
@@ -163,8 +166,39 @@ namespace TraceViewer
 		{
 			int[] beads = new int[] { beadSelect.Value };
 
+			int nf = int.Parse(textNumFramesInView.Text);
+			Frame[] data = frames.GetRange(trackBar.Value, Math.Min(frames.Count-trackBar.Value,nf)).ToArray();
+			chart.Series.Clear();
+			chart.SuspendLayout();
+			int refBead = -1;
+			if (txtRefBead.Text.Length > 0)
+			{
+				refBead = int.Parse(txtRefBead.Text);
+			}
+
+			for (int i = 0; i < beads.Length; i++)
+			{
+				var series = chart.Series.Add("Bead " + i.ToString());
+				series.ChartType = SeriesChartType.Line;
+
+				for (int j = 0; j < data.Length; j++)
+				{
+					var pos = data[j].positions;
+					double v;
+					if (refBead >= 0) v = pos[beads[i]].z - pos[refBead].z;
+					else v = pos[beads[i]].z;
+
+					series.Points.AddY(v);
+				}
+
+			}
+			chart.ResumeLayout();
+			chart.Update();
+
+			/*
 			if (filename == null)
 				return;
+			
 
 			using (FileStream s = File.OpenRead(filename))
 			{
@@ -193,7 +227,7 @@ namespace TraceViewer
 
 				}
 				chart.Update();
-			}
+			}*/
 		}
 
 		private Frame[] ReadFrames(FileStream s, int start, int count)
@@ -262,5 +296,45 @@ namespace TraceViewer
 
 			}
 		}
+
+		private void openOldVersionFileToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+
+			OpenFileDialog ofd = new OpenFileDialog();
+			if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+			{
+				filename = ofd.FileName;
+
+				ReadHeader(true);
+				UpdateGraph();
+			}
+		}
+
+		private void exportZTraces_Click(object sender, EventArgs e)
+		{
+			SaveFileDialog sfd = new SaveFileDialog();
+			if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+			{
+				using (var f=sfd.OpenFile()) {
+					using (StreamWriter w = new StreamWriter(f))
+					{
+						for (int i = 0; i < frames.Count; i++)
+						{
+							Frame fr = frames[i];
+							w.Write("{0}\t", fr.timestamp);
+
+							for (int j = 0; j < fr.positions.Length; j++)
+							{
+								w.Write(fr.positions[j].z.ToString());
+								if (j < fr.positions.Length - 1) w.Write("\t");
+							}
+
+							w.WriteLine();
+						}
+					}
+				}
+			}
+		}
+			
 	}
 }

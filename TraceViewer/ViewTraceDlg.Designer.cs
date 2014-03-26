@@ -28,13 +28,15 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea7 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-			System.Windows.Forms.DataVisualization.Charting.Legend legend7 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-			System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
+			System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+			System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+			System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
 			this.chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.readBinFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.fileOpenMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.openOldVersionFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.exportZTraces = new System.Windows.Forms.ToolStripMenuItem();
 			this.label1 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.trackBar = new System.Windows.Forms.TrackBar();
@@ -47,7 +49,6 @@
 			this.label5 = new System.Windows.Forms.Label();
 			this.labelFrame = new System.Windows.Forms.Label();
 			this.labelBead = new System.Windows.Forms.Label();
-			this.repairBinaryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.trackBar)).BeginInit();
@@ -59,19 +60,22 @@
 			this.chart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			chartArea7.Name = "ChartArea1";
-			this.chart.ChartAreas.Add(chartArea7);
-			legend7.Name = "Legend1";
-			this.chart.Legends.Add(legend7);
+			this.chart.AntiAliasing = System.Windows.Forms.DataVisualization.Charting.AntiAliasingStyles.Text;
+			chartArea2.Name = "ChartArea1";
+			this.chart.ChartAreas.Add(chartArea2);
+			this.chart.IsSoftShadows = false;
+			legend2.Name = "Legend1";
+			this.chart.Legends.Add(legend2);
 			this.chart.Location = new System.Drawing.Point(12, 116);
 			this.chart.Name = "chart";
-			series7.ChartArea = "ChartArea1";
-			series7.Legend = "Legend1";
-			series7.Name = "Series1";
-			this.chart.Series.Add(series7);
+			series2.ChartArea = "ChartArea1";
+			series2.Legend = "Legend1";
+			series2.Name = "Series1";
+			this.chart.Series.Add(series2);
 			this.chart.Size = new System.Drawing.Size(557, 250);
 			this.chart.TabIndex = 0;
 			this.chart.Text = "chart";
+			this.chart.TextAntiAliasingQuality = System.Windows.Forms.DataVisualization.Charting.TextAntiAliasingQuality.Normal;
 			// 
 			// menuStrip1
 			// 
@@ -87,7 +91,8 @@
 			// 
 			this.readBinFileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileOpenMenuItem,
-            this.repairBinaryToolStripMenuItem});
+            this.openOldVersionFileToolStripMenuItem,
+            this.exportZTraces});
 			this.readBinFileToolStripMenuItem.Name = "readBinFileToolStripMenuItem";
 			this.readBinFileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
 			this.readBinFileToolStripMenuItem.Text = "File";
@@ -96,9 +101,23 @@
 			// fileOpenMenuItem
 			// 
 			this.fileOpenMenuItem.Name = "fileOpenMenuItem";
-			this.fileOpenMenuItem.Size = new System.Drawing.Size(103, 22);
+			this.fileOpenMenuItem.Size = new System.Drawing.Size(183, 22);
 			this.fileOpenMenuItem.Text = "Open";
 			this.fileOpenMenuItem.Click += new System.EventHandler(this.menuOpenFile);
+			// 
+			// openOldVersionFileToolStripMenuItem
+			// 
+			this.openOldVersionFileToolStripMenuItem.Name = "openOldVersionFileToolStripMenuItem";
+			this.openOldVersionFileToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+			this.openOldVersionFileToolStripMenuItem.Text = "Open old version file";
+			this.openOldVersionFileToolStripMenuItem.Click += new System.EventHandler(this.openOldVersionFileToolStripMenuItem_Click);
+			// 
+			// exportZTraces
+			// 
+			this.exportZTraces.Name = "exportZTraces";
+			this.exportZTraces.Size = new System.Drawing.Size(183, 22);
+			this.exportZTraces.Text = "Export Z traces to txt";
+			this.exportZTraces.Click += new System.EventHandler(this.exportZTraces_Click);
 			// 
 			// label1
 			// 
@@ -204,13 +223,6 @@
 			this.labelBead.Size = new System.Drawing.Size(0, 13);
 			this.labelBead.TabIndex = 9;
 			// 
-			// repairBinaryToolStripMenuItem
-			// 
-			this.repairBinaryToolStripMenuItem.Name = "repairBinaryToolStripMenuItem";
-			this.repairBinaryToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.repairBinaryToolStripMenuItem.Text = "Repair binary";
-			this.repairBinaryToolStripMenuItem.Click += new System.EventHandler(this.repairBinaryToolStripMenuItem_Click);
-			// 
 			// ViewTraceDlg
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -261,7 +273,8 @@
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.Label labelFrame;
 		private System.Windows.Forms.Label labelBead;
-		private System.Windows.Forms.ToolStripMenuItem repairBinaryToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem openOldVersionFileToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem exportZTraces;
 
 	}
 }
