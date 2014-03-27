@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Windows.Forms.DataVisualization.Charting;
+using System.Globalization;
 
 namespace TraceViewer
 {
@@ -415,29 +416,47 @@ namespace TraceViewer
 			}
 		}
 
-		private void exportZTraces_Click(object sender, EventArgs e)
+		void WriteFrameTextData(string fn, Func<Frame, int, float> sel)
 		{
-			SaveFileDialog sfd = new SaveFileDialog();
-			if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+			using (var f = File.OpenWrite(fn))
 			{
-				using (var f=sfd.OpenFile()) {
-					using (StreamWriter w = new StreamWriter(f))
+				using (StreamWriter w = new StreamWriter(f))
+				{
+					for (int i = 0; i < traces[0].frames.Count; i++)
 					{
-						for (int i = 0; i < traces[0].frames.Count; i++)
+						Frame fr = traces[0].frames[i];
+						w.Write(fr.timestamp.ToString(CultureInfo.InvariantCulture));
+						w.Write("\t");
+
+						for (int j = 0; j < fr.positions.Length; j++)
 						{
-							Frame fr = traces[0].frames[i];
-							w.Write("{0}\t", fr.timestamp);
-
-							for (int j = 0; j < fr.positions.Length; j++)
-							{
-								w.Write(fr.positions[j].z.ToString());
-								if (j < fr.positions.Length - 1) w.Write("\t");
-							}
-
-							w.WriteLine();
+							float v = sel(fr, j);
+							w.Write(v.ToString(CultureInfo.InvariantCulture));
+							if (j < fr.positions.Length - 1) w.Write("\t");
 						}
+
+						w.WriteLine();
 					}
 				}
+			}
+
+		}
+
+		private void exportTraces_Click(object sender, EventArgs e)
+		{
+			SaveFileDialog sfd = new SaveFileDialog() {
+				Title = "Select base filename *.txt",
+				Filter = "*.txt|*.txt"
+			};
+
+			if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+			{
+				string fn = sfd.FileName;
+				string fnne = Path.GetDirectoryName(fn) + "\\" + Path.GetFileNameWithoutExtension(fn);
+
+				WriteFrameTextData(fnne + ".z.txt", (fr, i) => fr.positions[i].z);
+				WriteFrameTextData(fnne + ".x.txt", (fr, i) => fr.positions[i].x);
+				WriteFrameTextData(fnne + ".y.txt", (fr, i) => fr.positions[i].y);
 			}
 		}
 
