@@ -21,7 +21,13 @@ namespace TraceViewer
 		bool haveErrors;
 		private string filename;
 
-		List<Frame> frames;
+		class Trace
+		{
+			public List<Frame> frames;
+			public int avg;
+		}
+
+		List<Trace> traces = new List<Trace>();
 
 		public ViewTraceDlg()
 		{
@@ -47,7 +53,10 @@ namespace TraceViewer
 
 		void ReadHeader(bool oldVersion)
 		{
-			frames = new List<Frame>();
+			traces = new List<Trace>();
+			Trace tr = new Trace();
+			tr.frames = new List<Frame>();
+			traces.Add(tr);
 
 			using (FileStream stream = File.OpenRead(filename))
 			{
@@ -98,15 +107,17 @@ namespace TraceViewer
 
 					for (int i = 0; i < numFrames; i++)
 					{
-						frames.Add(ReadFrame(r));
+						tr.frames.Add(ReadFrame(r));
 					}
+
+					tr.avg = 1;
+					ComputeAverages();
 
 					beadSelect.Maximum = numBeads-1;
 					beadSelect.Value = 0;
 					trackBar.Maximum = numFrames;
 					trackBar.Value = 0;
 				}
-
 			}
 		}
 
@@ -121,6 +132,47 @@ namespace TraceViewer
 			public float[] frameInfo;
 			public Vec3[] positions;
 			public int[] errors;
+		}
+
+		void ComputeAverages()
+		{
+			int i = 1;
+			while (true)
+			{
+				Trace org = traces.LastOrDefault();
+				Trace nt = new Trace();
+				nt.avg = i*2;
+				nt.frames = new List<Frame>(org.frames.Count / 2);
+
+				for (int j = 0; j < org.frames.Count-1; j+=2)
+				{
+					Frame a=org.frames[j];
+					Frame b=org.frames[j+1];
+
+					Frame fr = new Frame();
+					fr.positions = new Vec3[a.positions.Length];
+					for (int k = 0; k < fr.positions.Length; k++) /*
+						fr.positions[k] = new Vec3()
+						{
+							x = 0.5f * (a.positions[k].x + b.positions[k].x),
+							y = 0.5f * (a.positions[k].y + b.positions[k].y),
+							z = 0.5f * (a.positions[k].z + b.positions[k].z)
+						};*/
+						fr.positions[k] = a.positions[k];
+
+					fr.frameInfo = new float[a.frameInfo.Length];
+					for (int k = 0; k < a.frameInfo.Length; k++)
+						fr.frameInfo[k] = a.frameInfo[k];
+
+					nt.frames.Add(fr);
+				}
+
+				traces.Add(nt);
+				i *= 2;
+
+				if (nt.frames.Count < 1000)
+					break;
+			}
 		}
 
 		Frame ReadFrame(BinaryReader r)
@@ -167,31 +219,64 @@ namespace TraceViewer
 			int[] beads = new int[] { beadSelect.Value };
 
 			int nf = int.Parse(textNumFramesInView.Text);
-			Frame[] data = frames.GetRange(trackBar.Value, Math.Min(frames.Count-trackBar.Value,nf)).ToArray();
+
+			float framesPerPixel = nf/(float)chart.Width ;
+			Trace tr = traces.FirstOrDefault(t => t.avg*2>= framesPerPixel);
+			if (tr == null) tr = traces[0];
+
+			int maxFrame = tr.frames.Count;
+			int nFrame = nf / tr.avg;
+			int startFrame = Math.Min(trackBar.Value / tr.avg, maxFrame - nFrame);
+			if (startFrame < 0) startFrame = 0;
+			if (nFrame + startFrame > maxFrame) nFrame=maxFrame-startFrame;
+			Console.WriteLine("StartFrame:{0} ", startFrame);
+			
+			Frame[] data = tr.frames.GetRange(startFrame, nFrame).ToArray();
 			chart.Series.Clear();
 			chart.SuspendLayout();
+
 			int refBead = -1;
-			if (txtRefBead.Text.Length > 0)
+			if (checkUseRef.Checked && txtRefBead.Text.Length > 0)
 			{
 				refBead = int.Parse(txtRefBead.Text);
 			}
 
 			for (int i = 0; i < beads.Length; i++)
 			{
-				var series = chart.Series.Add("Bead " + i.ToString());
-				series.ChartType = SeriesChartType.Line;
+				int bead=beads[i];
+
+				Series xs = checkX.Checked ? new Series("Bead " + bead.ToString() + " X") { ChartType = SeriesChartType.FastLine } : null;
+				Series ys = checkY.Checked ? new Series("Bead " + bead.ToString() + " Y") { ChartType = SeriesChartType.FastLine } : null;
+				Series zs = checkZ.Checked ? new Series("Bead " + bead.ToString() + " Z") { ChartType = SeriesChartType.FastLine } : null;
 
 				for (int j = 0; j < data.Length; j++)
 				{
-					var pos = data[j].positions;
-					double v;
-					if (refBead >= 0) v = pos[beads[i]].z - pos[refBead].z;
-					else v = pos[beads[i]].z;
+					var pos = data[j].positions[bead];
 
-					series.Points.AddY(v);
+					if (refBead>=0) {
+						Vec3 refpos=data[j].positions[refBead];
+						pos.x-=refpos.x;
+						pos.y-=refpos.y;
+						pos.z-=refpos.z;
+					}
+
+					if (xs != null) xs.Points.AddY(pos.x);
+					if (ys != null) ys.Points.AddY(pos.y);
+					if (zs != null) zs.Points.AddY(pos.z);
 				}
 
+				if (xs != null) chart.Series.Add(xs);
+				if (ys != null) chart.Series.Add(ys);
+				if (zs != null) chart.Series.Add(zs);
 			}
+			if (checkMagnetZ.Checked)
+			{
+				Series mzs = new Series("Magnet Z") { ChartType = SeriesChartType.FastLine };
+				chart.Series.Add(mzs);
+				for (int i = 0; i < data.Length; i++)
+					mzs.Points.AddY(data[i].frameInfo[0]);
+			}
+			chart.ResetAutoValues();
 			chart.ResumeLayout();
 			chart.Update();
 
@@ -267,6 +352,26 @@ namespace TraceViewer
 		private void beadSelect_ValueChanged(object sender, EventArgs e)
 		{
 			UpdateGraph();
+
+			UpdateLUT();
+
+		}
+
+		void UpdateLUT()
+		{
+			string dirpath = Path.GetDirectoryName(filename);
+
+			string lutimg = dirpath + string.Format("\\lut\\lut{0:D3}", beadSelect.Value) + ".png";
+
+			try
+			{
+				Image img = Image.FromFile(lutimg);
+				lutView.Image = img;
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine("Failed to load {0}. Exception: {1}", lutimg, e.Message);
+			}
 		}
 
 		private void writeAsTextToolStripMenuItem_Click(object sender, EventArgs e)
@@ -318,9 +423,9 @@ namespace TraceViewer
 				using (var f=sfd.OpenFile()) {
 					using (StreamWriter w = new StreamWriter(f))
 					{
-						for (int i = 0; i < frames.Count; i++)
+						for (int i = 0; i < traces[0].frames.Count; i++)
 						{
-							Frame fr = frames[i];
+							Frame fr = traces[0].frames[i];
 							w.Write("{0}\t", fr.timestamp);
 
 							for (int j = 0; j < fr.positions.Length; j++)
@@ -334,6 +439,43 @@ namespace TraceViewer
 					}
 				}
 			}
+		}
+
+		private void checkUseRef_CheckedChanged(object sender, EventArgs e)
+		{
+			UpdateGraph();
+		}
+
+		private void textNumFramesInView_TextChanged(object sender, EventArgs e)
+		{
+			UpdateGraph();
+		}
+
+		private void txtRefBead_TextChanged(object sender, EventArgs e)
+		{
+			UpdateGraph();
+		}
+
+		private void checkX_TextChanged(object sender, EventArgs e)
+		{
+			UpdateGraph();
+		}
+
+		private void checkY_CheckedChanged(object sender, EventArgs e)
+		{
+			UpdateGraph();
+
+		}
+
+		private void checkZ_CheckedChanged(object sender, EventArgs e)
+		{
+			UpdateGraph();
+
+		}
+
+		private void checkMagnetZ_CheckedChanged(object sender, EventArgs e)
+		{
+			UpdateGraph();
 		}
 			
 	}
