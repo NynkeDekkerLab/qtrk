@@ -56,6 +56,7 @@
 			this.checkY = new System.Windows.Forms.CheckBox();
 			this.checkZ = new System.Windows.Forms.CheckBox();
 			this.checkMagnetZ = new System.Windows.Forms.CheckBox();
+			this.buttonNoiseEstim = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.trackBar)).BeginInit();
@@ -270,6 +271,7 @@
 			// 
 			// splitContainer.Panel1
 			// 
+			this.splitContainer.Panel1.Controls.Add(this.buttonNoiseEstim);
 			this.splitContainer.Panel1.Controls.Add(this.lutView);
 			// 
 			// splitContainer.Panel2
@@ -325,6 +327,16 @@
 			this.checkMagnetZ.UseVisualStyleBackColor = true;
 			this.checkMagnetZ.CheckedChanged += new System.EventHandler(this.checkMagnetZ_CheckedChanged);
 			this.checkMagnetZ.TextChanged += new System.EventHandler(this.checkX_TextChanged);
+			// 
+			// buttonNoiseEstim
+			// 
+			this.buttonNoiseEstim.Location = new System.Drawing.Point(3, 244);
+			this.buttonNoiseEstim.Name = "buttonNoiseEstim";
+			this.buttonNoiseEstim.Size = new System.Drawing.Size(137, 23);
+			this.buttonNoiseEstim.TabIndex = 12;
+			this.buttonNoiseEstim.Text = "Noise estimate";
+			this.buttonNoiseEstim.UseVisualStyleBackColor = true;
+			this.buttonNoiseEstim.Click += new System.EventHandler(this.buttonNoiseEstim_Click);
 			// 
 			// ViewTraceDlg
 			// 
@@ -395,6 +407,7 @@
 		private System.Windows.Forms.CheckBox checkY;
 		private System.Windows.Forms.CheckBox checkZ;
 		private System.Windows.Forms.CheckBox checkMagnetZ;
+		private System.Windows.Forms.Button buttonNoiseEstim;
 
 	}
 }

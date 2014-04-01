@@ -230,7 +230,7 @@ namespace TraceViewer
 			int startFrame = Math.Min(trackBar.Value / tr.avg, maxFrame - nFrame);
 			if (startFrame < 0) startFrame = 0;
 			if (nFrame + startFrame > maxFrame) nFrame=maxFrame-startFrame;
-			Console.WriteLine("StartFrame:{0} ", startFrame);
+			//Console.WriteLine("StartFrame:{0} ", startFrame);
 			
 			Frame[] data = tr.frames.GetRange(startFrame, nFrame).ToArray();
 			chart.Series.Clear();
@@ -496,6 +496,31 @@ namespace TraceViewer
 		{
 			UpdateGraph();
 		}
+
+		private void buttonNoiseEstim_Click(object sender, EventArgs e)
+		{
+			int refBead;
+			if (!int.TryParse(txtRefBead.Text, out refBead))
+				refBead = -1;
+
+			Vec3[] data = GetBeadData(traces[0], beadSelect.Value, refBead);
+
 			
+		}
+
+		private Vec3[] GetBeadData(Trace tr, int bead, int refBead=-1)
+		{
+			Vec3[] data = new Vec3[tr.frames.Count];
+			for (int k = 0; k < tr.frames.Count; k++)
+			{
+				data[k] = tr.frames[k].positions[bead];
+				if (refBead >= 0)
+				{
+					Vec3 refbeadpos = tr.frames[k].positions[refBead];
+					data[k] = new Vec3() { x = data[k].x - refbeadpos.x, y = data[k].y - refbeadpos.y, z = data[k].z - refbeadpos.z };
+				}
+			}
+			return data;
+		}
 	}
 }
