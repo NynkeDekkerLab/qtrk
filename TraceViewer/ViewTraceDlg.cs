@@ -9,6 +9,8 @@ using System.Windows.Forms;
 using System.IO;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Globalization;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace TraceViewer
 {
@@ -20,14 +22,20 @@ namespace TraceViewer
 		int startOffset;
 		int bytesPerFrame;
 		bool haveErrors;
-		private string filename;
+		string filename;
 
-		class Trace
+		public class Trace
 		{
 			public List<Frame> frames;
 			public int avg;
 		}
 
+		public struct BeadInfo
+		{
+			public float noise, min, max;
+		}
+
+		BeadInfo[] beadInfo;
 		List<Trace> traces = new List<Trace>();
 
 		public ViewTraceDlg()
@@ -50,6 +58,45 @@ namespace TraceViewer
 				ReadHeader(false);
 				UpdateGraph();
 			}
+		}
+
+
+		void ResetBeadList()
+		{
+			beadListView.Items.Clear();
+			int refBead;
+			if (!int.TryParse(txtRefBead.Text, out refBead))
+				refBead = -1;
+			
+			beadInfo=new BeadInfo[numBeads];
+			Parallel.For(0, numBeads, delegate(int i) {
+				var data=GetBeadData(traces[0], i, refBead);
+				float[] z=Array.ConvertAll(data, v => v.z);
+				if (i != refBead)
+				{
+					float[] smoothed;
+					beadInfo[i].noise = Noise(z, 10, out smoothed);
+					beadInfo[i].min = smoothed.Min();
+					beadInfo[i].max = smoothed.Max();
+				}
+			});
+
+
+			for (int i = 0; i < numBeads; i++)
+			{
+				var lvi=beadListView.Items.Add(new ListViewItem()
+				{
+					Text = i.ToString(),
+					Tag = i
+				});
+
+				lvi.SubItems.Add(beadInfo[i].noise.ToString());
+				lvi.SubItems.Add(beadInfo[i].min.ToString());
+				lvi.SubItems.Add(beadInfo[i].max.ToString());
+
+			}
+
+			
 		}
 
 		void ReadHeader(bool oldVersion)
@@ -114,19 +161,19 @@ namespace TraceViewer
 					tr.avg = 1;
 					ComputeAverages();
 
-					beadSelect.Maximum = numBeads-1;
-					beadSelect.Value = 0;
 					trackBar.Maximum = numFrames;
 					trackBar.Value = 0;
 				}
 			}
+
+			ResetBeadList();
 		}
 
-		struct Vec3 {
+		public struct Vec3 {
 			public float x,y,z;
 		}
 
-		class Frame
+		public class Frame
 		{
 			public int id;
 			public double timestamp;
@@ -217,7 +264,9 @@ namespace TraceViewer
 
 		void UpdateGraph()
 		{
-			int[] beads = new int[] { beadSelect.Value };
+			if (traces.Count == 0 || beadListView.SelectedIndices.Count==0)
+				return;
+			int[] beads = new int[] { beadListView.SelectedIndices[0] };
 
 			int nf = int.Parse(textNumFramesInView.Text);
 
@@ -340,29 +389,23 @@ namespace TraceViewer
 			UpdateGraph();
 		}
 
-		private void beadSelect_Scroll(object sender, EventArgs e)
-		{
-			labelBead.Text = beadSelect.Value.ToString();
-		}
 
 		private void trackBar_Scroll(object sender, EventArgs e)
 		{
 			labelFrame.Text = trackBar.Value.ToString();
 		}
-
-		private void beadSelect_ValueChanged(object sender, EventArgs e)
-		{
-			UpdateGraph();
-
-			UpdateLUT();
-
-		}
-
 		void UpdateLUT()
 		{
 			string dirpath = Path.GetDirectoryName(filename);
 
-			string lutimg = dirpath + string.Format("\\lut\\lut{0:D3}", beadSelect.Value) + ".png";
+			if (beadListView.SelectedIndices.Count == 0)
+			{
+				lutView.Visible = false;
+				return;
+			}
+			lutView.Visible = true;
+
+			string lutimg = dirpath + string.Format("\\lut\\lut{0:D3}", beadListView.SelectedIndices[0]) + ".png";
 
 			try
 			{
@@ -470,23 +513,7 @@ namespace TraceViewer
 			UpdateGraph();
 		}
 
-		private void txtRefBead_TextChanged(object sender, EventArgs e)
-		{
-			UpdateGraph();
-		}
-
-		private void checkX_TextChanged(object sender, EventArgs e)
-		{
-			UpdateGraph();
-		}
-
 		private void checkY_CheckedChanged(object sender, EventArgs e)
-		{
-			UpdateGraph();
-
-		}
-
-		private void checkZ_CheckedChanged(object sender, EventArgs e)
 		{
 			UpdateGraph();
 
@@ -499,16 +526,12 @@ namespace TraceViewer
 
 		private void buttonNoiseEstim_Click(object sender, EventArgs e)
 		{
-			int refBead;
-			if (!int.TryParse(txtRefBead.Text, out refBead))
-				refBead = -1;
 
-			Vec3[] data = GetBeadData(traces[0], beadSelect.Value, refBead);
 
-			
+
 		}
 
-		private Vec3[] GetBeadData(Trace tr, int bead, int refBead=-1)
+		private Vec3[] GetBeadData(Trace tr, int bead, int refBead = -1)
 		{
 			Vec3[] data = new Vec3[tr.frames.Count];
 			for (int k = 0; k < tr.frames.Count; k++)
@@ -522,5 +545,143 @@ namespace TraceViewer
 			}
 			return data;
 		}
+
+		float[] MovingAverage(float[] d, int window)
+		{
+			double[] s = new double[d.Length];
+			double sum=0;
+			for (int i = 0; i < d.Length; i++)
+			{
+				s[i] = sum;
+				sum += d[i];
+			}
+
+			float []ma = new float[d.Length];
+
+			Debug.Assert(window>0);
+
+			for (int i = 0; i < d.Length; i++)
+			{
+				int start = i - window/2;
+				int endpos = start + window;
+
+				if (endpos > d.Length) endpos=d.Length;
+				if (start< 0) start=0;
+
+				ma[i] = (float) ( (s[endpos - 1] - s[start]) / window );
+			}
+
+			return ma;
+		}
+
+		float StandardDeviation(IEnumerable<float> d)
+		{
+			double sum2=0,sum=0;
+
+			int c = 0;
+			foreach(float v in d)
+			{
+				sum2 += v * v;
+				sum += v;
+				c++;
+			}
+
+			double mean=sum/c;
+			return (float)Math.Sqrt(sum2 / (double)c - mean * mean);
+		}
+
+		float Noise(float[] d, int smoothWindow, out float[] ma)
+		{
+			ma = MovingAverage(d, smoothWindow);
+
+			for (int i=0;i<ma.Length;i++)
+				ma[i]-=d[i];
+
+			return StandardDeviation(ma);
+		}
+
+		int[] BeadSelection
+		{
+			get
+			{
+				int[] r = new int[beadListView.CheckedItems.Count];
+				for (int i = 0; i < r.Length; i++)
+					r[i] = beadListView.CheckedIndices[i];
+				return r;
+			}
+			set
+			{
+				foreach (ListViewItem item in beadListView.CheckedItems)
+					item.Checked = false;
+
+				foreach (int i in value)
+					beadListView.Items[i].Checked = true;
+			}
+		}
+
+
+		private void beadSelectionToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			int refBead;
+			if (!int.TryParse(txtRefBead.Text, out refBead))
+				refBead = -1;
+//			Vec3[] data = GetBeadData(traces[0], beadSelect.Value, refBead);
+
+			var dlg= new FilterDlg(beadInfo, traces[0], BeadSelection);
+
+			if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+			{
+				BeadSelection = dlg.Selection;
+			}
+
+		}
+
+		private void txtRefBead_Leave(object sender, EventArgs e)
+		{
+
+		}
+
+		private void txtRefBead_Validating(object sender, CancelEventArgs e)
+		{
+
+			ResetBeadList();
+			UpdateGraph();
+		}
+
+		private void txtRefBead_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Enter)
+			{
+				ResetBeadList();
+				UpdateGraph();
+			}
+		}
+
+		private void beadListView_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			UpdateGraph();
+			UpdateLUT();
+		}
+
+		private void exportBeadSelectionToTxtToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var sfd=new SaveFileDialog() {
+			};
+
+			if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+			{
+				using (var stream = sfd.OpenFile())
+					using (StreamWriter w = new StreamWriter(stream))
+					{
+						int[] sel = BeadSelection;
+						for (int i = 0; i < sel.Length; i++)
+						{
+							w.Write(sel[i]);
+							if (i < sel.Length - 1) w.WriteLine();
+						}
+					}
+			}
+		}
+
 	}
 }

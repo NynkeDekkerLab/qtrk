@@ -47,6 +47,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FilterDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FilterDlg.Designer.cs">
+      <DependentUpon>FilterDlg.cs</DependentUpon>
+    </Compile>
     <Compile Include="ViewTraceDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -55,6 +61,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FilterDlg.resx">
+      <DependentUpon>FilterDlg.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ViewTraceDlg.resx">
       <DependentUpon>ViewTraceDlg.cs</DependentUpon>
     </EmbeddedResource>
