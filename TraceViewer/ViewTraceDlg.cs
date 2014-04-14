@@ -21,7 +21,7 @@ namespace TraceViewer
 		string[] infoColNames;
 		int startOffset;
 		int bytesPerFrame;
-		bool haveErrors;
+		bool haveErrors, haveImageMeans;
 		string filename;
 
 		public class Trace
@@ -54,8 +54,21 @@ namespace TraceViewer
 			if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 			{
 				filename = ofd.FileName;
+				string ext=Path.GetExtension(filename) ;
 
-				ReadHeader(false);
+				if (ext == ".txt")
+				{
+					ReadTextFile();
+				}
+				else if (ext == ".bin")
+				{
+					ReadHeader(false);
+				}
+				else
+				{
+					MessageBox.Show("Unknown extension: " + ext);
+					return;
+				}
 				UpdateGraph();
 			}
 		}
@@ -99,6 +112,86 @@ namespace TraceViewer
 			
 		}
 
+		float FParse(string v)
+		{
+			float x = float.NaN;
+			float.TryParse(v, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out x);
+			return x;
+		}
+
+		void ReadTextFile()
+		{
+			traces = new List<Trace>();
+			Trace tr = new Trace();
+			tr.frames = new List<Frame>();
+			traces.Add(tr);
+
+			using (StreamReader r = File.OpenText(filename))
+			{
+				while (!r.EndOfStream)
+				{
+					string line = r.ReadLine();
+					string[] parts=line.Split(new char[]{'\t'},StringSplitOptions.RemoveEmptyEntries);
+					int nbeads = (parts.Length-2)/3;
+
+					if (tr.frames.Count > 0 && tr.frames[0].positions.Length!=nbeads)
+					{
+						throw new InvalidDataException(string.Format("CSV reader: Line {0} has {1} beads. Expecting {2}", 
+							tr.frames.Count, nbeads, tr.frames[tr.frames.Count - 1].positions.Length));
+					}
+					numBeads = nbeads;
+
+					Frame fr = new Frame();
+					fr.positions = new Vec3[nbeads];
+					fr.id = int.Parse(parts[0]);
+					fr.timestamp = double.Parse(parts[1]);
+
+					for (int j = 0; j < nbeads; j++)
+					{
+						Vec3 v = new Vec3()
+						{
+							x = FParse(parts[j * 3 + 2]),
+							y = FParse(parts[j * 3 + 3]),
+							z = FParse(parts[j * 3 + 4])
+						};
+						fr.positions[j] = v;
+					}
+					tr.frames.Add(fr);
+				}
+
+				string motorFile = Path.GetDirectoryName(filename) + "\\" + Path.GetFileNameWithoutExtension(filename) + "_motors.txt";
+				if (File.Exists(motorFile))
+					ReadMotorTextFile(tr, motorFile);
+
+				numFrames = tr.frames.Count;
+				tr.avg = 1;
+				ComputeAverages();
+
+				trackBar.Maximum = tr.frames.Count;
+				trackBar.Value = 0;
+			}
+			ResetBeadList();
+
+		}
+
+		void ReadMotorTextFile(Trace tr, string motorFilename)
+		{
+			using (StreamReader r = File.OpenText(motorFilename))
+			{
+				int i = 0;
+				while (!r.EndOfStream)
+				{
+					string[] parts = r.ReadLine().Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+
+					float[] info = new float[parts.Length-2];
+					for (int j = 0; j < info.Length; j++)
+						info[j] = FParse(parts[j + 2]);
+					tr.frames[i].frameInfo = info;
+					i++;
+				}
+			}
+		}
+
 		void ReadHeader(bool oldVersion)
 		{
 			traces = new List<Trace>();
@@ -122,6 +215,7 @@ namespace TraceViewer
 						numBeads = a;
 						infoCols = b;
 						startOffset = c;
+						haveImageMeans = false;
 					}
 					else
 					{
@@ -135,6 +229,8 @@ namespace TraceViewer
 							startOffset = (int)c;
 						}
 						else startOffset = (int)d;
+
+						haveImageMeans = a > 2;
 
 						numBeads = b; 
 						
@@ -180,6 +276,7 @@ namespace TraceViewer
 			public float[] frameInfo;
 			public Vec3[] positions;
 			public int[] errors;
+			public float[] imageMeans;
 		}
 
 		void ComputeAverages()
@@ -208,10 +305,12 @@ namespace TraceViewer
 						};*/
 						fr.positions[k] = a.positions[k];
 
-					fr.frameInfo = new float[a.frameInfo.Length];
-					for (int k = 0; k < a.frameInfo.Length; k++)
-						fr.frameInfo[k] = a.frameInfo[k];
-
+					if (a.frameInfo != null)
+					{
+						fr.frameInfo = new float[a.frameInfo.Length];
+						for (int k = 0; k < a.frameInfo.Length; k++)
+							fr.frameInfo[k] = a.frameInfo[k];
+					}
 					nt.frames.Add(fr);
 				}
 
@@ -246,6 +345,12 @@ namespace TraceViewer
 				f.errors = new int[numBeads];
 				for (int i = 0; i < numBeads; i++)
 					f.errors[i] = r.ReadInt32();
+			}
+			if (haveImageMeans)
+			{
+				f.imageMeans = new float[numBeads];
+				for (int i = 0; i < numBeads; i++)
+					f.imageMeans[i] = r.ReadSingle();
 			}
 			return f;
 		}
@@ -325,6 +430,13 @@ namespace TraceViewer
 				chart.Series.Add(mzs);
 				for (int i = 0; i < data.Length; i++)
 					mzs.Points.AddY(data[i].frameInfo[0]);
+			}
+			if (checkMagnetRot.Checked)
+			{
+				Series mrs = new Series("Magnet Rotation") { ChartType = SeriesChartType.FastLine };
+				chart.Series.Add(mrs);
+				for (int i = 0; i < data.Length; i++)
+					mrs.Points.AddY(data[i].frameInfo[1]);
 			}
 			chart.ResetAutoValues();
 			chart.ResumeLayout();
@@ -459,7 +571,7 @@ namespace TraceViewer
 			}
 		}
 
-		void WriteFrameTextData(string fn, Func<Frame, int, float> sel)
+		void WriteFrameTextData(string fn, Func<Frame, int, float> sel, int[] beads)
 		{
 			using (var f = File.OpenWrite(fn))
 			{
@@ -471,11 +583,11 @@ namespace TraceViewer
 						w.Write(fr.timestamp.ToString(CultureInfo.InvariantCulture));
 						w.Write("\t");
 
-						for (int j = 0; j < fr.positions.Length; j++)
+						for (int j = 0; j < beads.Length; j++)
 						{
-							float v = sel(fr, j);
+							float v = sel(fr, beads[j]);
 							w.Write(v.ToString(CultureInfo.InvariantCulture));
-							if (j < fr.positions.Length - 1) w.Write("\t");
+							if (j < beads.Length - 1) w.Write("\t");
 						}
 
 						w.WriteLine();
@@ -485,23 +597,6 @@ namespace TraceViewer
 
 		}
 
-		private void exportTraces_Click(object sender, EventArgs e)
-		{
-			SaveFileDialog sfd = new SaveFileDialog() {
-				Title = "Select base filename *.txt",
-				Filter = "*.txt|*.txt"
-			};
-
-			if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-			{
-				string fn = sfd.FileName;
-				string fnne = Path.GetDirectoryName(fn) + "\\" + Path.GetFileNameWithoutExtension(fn);
-
-				WriteFrameTextData(fnne + ".z.txt", (fr, i) => fr.positions[i].z);
-				WriteFrameTextData(fnne + ".x.txt", (fr, i) => fr.positions[i].x);
-				WriteFrameTextData(fnne + ".y.txt", (fr, i) => fr.positions[i].y);
-			}
-		}
 
 		private void checkUseRef_CheckedChanged(object sender, EventArgs e)
 		{
@@ -522,13 +617,6 @@ namespace TraceViewer
 		private void checkMagnetZ_CheckedChanged(object sender, EventArgs e)
 		{
 			UpdateGraph();
-		}
-
-		private void buttonNoiseEstim_Click(object sender, EventArgs e)
-		{
-
-
-
 		}
 
 		private Vec3[] GetBeadData(Trace tr, int bead, int refBead = -1)
@@ -643,7 +731,6 @@ namespace TraceViewer
 
 		private void txtRefBead_Validating(object sender, CancelEventArgs e)
 		{
-
 			ResetBeadList();
 			UpdateGraph();
 		}
@@ -681,6 +768,40 @@ namespace TraceViewer
 						}
 					}
 			}
+		}
+
+		private void exportTxtAllToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			int[] allBeads = new int[numBeads].Select((b, index) => index).ToArray();
+
+			ExportTextTracesDialog(allBeads);
+
+		}
+
+		void ExportTextTracesDialog(int[] beads)
+		{
+			SaveFileDialog sfd = new SaveFileDialog()
+			{
+				Title = "Select base filename *.txt",
+				Filter = "*.txt|*.txt"
+			};
+
+			if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+			{
+				string fn = sfd.FileName;
+				string fnne = Path.GetDirectoryName(fn) + "\\" + Path.GetFileNameWithoutExtension(fn);
+
+				if (checkZ.Checked) WriteFrameTextData(fnne + ".z.txt", (fr, i) => fr.positions[i].z, beads);
+				if (checkX.Checked) WriteFrameTextData(fnne + ".x.txt", (fr, i) => fr.positions[i].x, beads);
+				if (checkY.Checked) WriteFrameTextData(fnne + ".y.txt", (fr, i) => fr.positions[i].y, beads);
+				if (checkMagnetZ.Checked) WriteFrameTextData(fnne + ".magpos.txt", (fr, i) => fr.frameInfo[0], new int[1] { 0 });
+				if (checkMagnetRot.Checked) WriteFrameTextData(fnne + ".magrot.txt", (fr, i) => fr.frameInfo[0], new int[1] { 0 });
+			}
+		}
+
+		private void exportTxtSelectedToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			ExportTextTracesDialog(BeadSelection);
 		}
 
 	}

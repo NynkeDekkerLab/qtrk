@@ -1016,7 +1016,7 @@ int main(int argc, char *argv[])
 //	TestImageLUT("../cputrack-test/lut000.jpg");
 	//TestRadialLUTGradientMethod();
 
-//	BenchmarkParams();
+	BenchmarkParams();
 
 //	BasicQTrkTest();
 //	TestCMOSNoiseInfluence<QueuedCUDATracker>("../cputrack-test/lut000.jpg");
@@ -1027,10 +1027,10 @@ int main(int argc, char *argv[])
 
 //CompareAccuracy("../cputrack-test/lut000.jpg");
 //QTrkCompareTest();
-	ProfileSpeedVsROI(LT_QI, "speeds-qi.txt", true);
+/*	ProfileSpeedVsROI(LT_QI, "speeds-qi.txt", true);
 	ProfileSpeedVsROI(LT_OnlyCOM, "speeds-com.txt", false);
 	ProfileSpeedVsROI(LT_OnlyCOM, "speeds-com-z.txt", true);
-
+	*/
 	/*auto info = SpeedCompareTest(80, false);
 	auto infogc = SpeedCompareTest(80, true);
 	dbgprintf("[gainc=false] CPU: %f, GPU: %f\n", info.speed_cpu, info.speed_gpu); 

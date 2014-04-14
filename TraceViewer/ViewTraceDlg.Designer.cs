@@ -37,6 +37,8 @@
 			this.fileOpenMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.openOldVersionFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exportZTraces = new System.Windows.Forms.ToolStripMenuItem();
+			this.allToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.selectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exportBeadSelectionToTxtToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.filterBeadsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.beadSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -63,6 +65,7 @@
 			this.checkY = new System.Windows.Forms.CheckBox();
 			this.checkZ = new System.Windows.Forms.CheckBox();
 			this.checkMagnetZ = new System.Windows.Forms.CheckBox();
+			this.checkMagnetRot = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.trackBar)).BeginInit();
@@ -135,10 +138,26 @@
 			// 
 			// exportZTraces
 			// 
+			this.exportZTraces.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.allToolStripMenuItem,
+            this.selectedToolStripMenuItem});
 			this.exportZTraces.Name = "exportZTraces";
 			this.exportZTraces.Size = new System.Drawing.Size(216, 22);
 			this.exportZTraces.Text = "Export traces to txt";
-			this.exportZTraces.Click += new System.EventHandler(this.exportTraces_Click);
+			// 
+			// allToolStripMenuItem
+			// 
+			this.allToolStripMenuItem.Name = "allToolStripMenuItem";
+			this.allToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.allToolStripMenuItem.Text = "All";
+			this.allToolStripMenuItem.Click += new System.EventHandler(this.exportTxtAllToolStripMenuItem_Click);
+			// 
+			// selectedToolStripMenuItem
+			// 
+			this.selectedToolStripMenuItem.Name = "selectedToolStripMenuItem";
+			this.selectedToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.selectedToolStripMenuItem.Text = "Selected";
+			this.selectedToolStripMenuItem.Click += new System.EventHandler(this.exportTxtSelectedToolStripMenuItem_Click);
 			// 
 			// exportBeadSelectionToTxtToolStripMenuItem
 			// 
@@ -382,6 +401,17 @@
 			this.checkMagnetZ.UseVisualStyleBackColor = true;
 			this.checkMagnetZ.CheckedChanged += new System.EventHandler(this.checkMagnetZ_CheckedChanged);
 			// 
+			// checkMagnetRot
+			// 
+			this.checkMagnetRot.AutoSize = true;
+			this.checkMagnetRot.Location = new System.Drawing.Point(694, 123);
+			this.checkMagnetRot.Name = "checkMagnetRot";
+			this.checkMagnetRot.Size = new System.Drawing.Size(73, 17);
+			this.checkMagnetRot.TabIndex = 13;
+			this.checkMagnetRot.Text = "Magnet R";
+			this.checkMagnetRot.UseVisualStyleBackColor = true;
+			this.checkMagnetRot.CheckedChanged += new System.EventHandler(this.checkMagnetZ_CheckedChanged);
+			// 
 			// ViewTraceDlg
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -390,6 +420,7 @@
 			this.Controls.Add(this.checkZ);
 			this.Controls.Add(this.checkY);
 			this.Controls.Add(this.lutView);
+			this.Controls.Add(this.checkMagnetRot);
 			this.Controls.Add(this.checkMagnetZ);
 			this.Controls.Add(this.checkX);
 			this.Controls.Add(this.splitContainer);
@@ -457,6 +488,9 @@
 		private System.Windows.Forms.ColumnHeader columnHeader_Min;
 		private System.Windows.Forms.ColumnHeader columnHeader_Max;
 		private System.Windows.Forms.ToolStripMenuItem exportBeadSelectionToTxtToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem allToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem selectedToolStripMenuItem;
+		private System.Windows.Forms.CheckBox checkMagnetRot;
 
 	}
 }

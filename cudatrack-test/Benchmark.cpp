@@ -26,15 +26,14 @@ static void ResampleBMLUT(QueuedTracker* qtrk, BenchmarkLUT* lut, int zplanes=10
 	qtrk->SetRadialZLUT(0, 1, zplanes);
 	std::vector<float> stetsonWindow = ComputeStetsonWindow(cfg.zlut_radialsteps);
 	qtrk->SetRadialWeights(&stetsonWindow[0]);
-	qtrk->SetLocalizationMode( (LocMode_t)(LT_QI|LT_BuildRadialZLUT|LT_NormalizeProfile) );
 	for (int i=0;i<zplanes;i++)
 	{
 		lut->GenerateSample(&img, vector3f(cfg.width/2, cfg.height/2, i/(float)zplanes * lut->lut_h), qtrk->cfg.zlut_minradius, qtrk->cfg.zlut_maxradius);
 		img.normalize();
 
-		LocalizationJob job(i, 0, i,0);
-		qtrk->ScheduleLocalization((uchar*)img.data, sizeof(float)*img.w, QTrkFloat, &job);
+		qtrk->BuildLUT((uchar*)img.data, sizeof(float)*img.w, QTrkFloat, 0, i);
 	}
+	qtrk->FinalizeLUT();
 	img.free();
 
 	qtrk->Flush();
@@ -150,11 +149,11 @@ void BenchmarkROISizes(const char *name, int n, int MaxPixelValue)
 	const char *lutfile = "refbeadlut.jpg";
 	ImageData lut = ReadJPEGFile(lutfile);
 
-	for (int roi=20;roi<=160;roi+=10) {
+	for (int roi=30;roi<=180;roi+=10) {
 	//for (int roi=90;roi<100;roi+=10) {
 		QTrkSettings cfg;
-		cfg.qi_angstep_factor = 2;
-		cfg.qi_iterations = 2;
+		cfg.qi_angstep_factor = 1.3f;
+		cfg.qi_iterations = 3;
 		cfg.qi_angular_coverage = 0.7f;
 		cfg.qi_roi_coverage = 1;
 		cfg.qi_radial_coverage = 2.5f;
@@ -293,7 +292,7 @@ void BenchmarkParams()
 	int mpv = 255;
 
 	BenchmarkROISizes("roi-sizes_noise.txt", n, mpv);
-	BenchmarkConfigParamRange (n, &QTrkSettings::qi_radial_coverage, &basecfg, linspace(0.2f, 4.0f, 20), "qi_rad_cov_noise", mpv );
+/*	BenchmarkConfigParamRange (n, &QTrkSettings::qi_radial_coverage, &basecfg, linspace(0.2f, 4.0f, 20), "qi_rad_cov_noise", mpv );
 	BenchmarkConfigParamRange (n, &QTrkSettings::zlut_radial_coverage, &basecfg, linspace(0.2f, 4.0f, 20), "zlut_rad_cov_noise", mpv);
 	BenchmarkConfigParamRange (n, &QTrkSettings::qi_iterations, &basecfg, linspace(1, 6, 6), "qi_iterations_noise", mpv);
 	BenchmarkZAccuracy("zpos-noise.txt", n, mpv);
@@ -302,5 +301,5 @@ void BenchmarkParams()
 	BenchmarkConfigParamRange (n, &QTrkSettings::qi_radial_coverage, &basecfg, linspace(0.2f, 4.0f, 20), "qi_rad_cov", 0);
 	BenchmarkConfigParamRange (n, &QTrkSettings::zlut_radial_coverage, &basecfg, linspace(0.2f, 4.0f, 20), "zlut_rad_cov", 0);
 	BenchmarkConfigParamRange (n, &QTrkSettings::qi_iterations, &basecfg, linspace(1, 6, 6), "qi_iterations", 0);
-	BenchmarkZAccuracy("zpos.txt", n, 0);
+	BenchmarkZAccuracy("zpos.txt", n, 0);*/
 }

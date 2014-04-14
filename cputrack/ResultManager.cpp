@@ -2,7 +2,7 @@
 #include "ResultManager.h"
 #include "utils.h"
 
-#define BINFILE_VERSION 2
+#define BINFILE_VERSION 3
 
 TextResultFile::TextResultFile(const char *fn, bool write)
 {
@@ -154,6 +154,9 @@ void ResultManager::WriteBinaryResults()
 			}
 			for (int i=0;i<config.numBeads;i++)
 				fwrite(&fr->results[i].error, sizeof(int), 1, f);
+			for (int i=0;i<config.numBeads;i++) {
+				fwrite(&fr->results[i].imageMean, sizeof(float), 1, f);
+			}
 		}
 	}
 	fclose(f);

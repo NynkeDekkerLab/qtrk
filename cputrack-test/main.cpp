@@ -643,7 +643,7 @@ void TestQuadrantAlign()
 //	auto locMode = (LocMode_t)(LT_ZLUTAlign | LT_NormalizeProfile | LT_LocalizeZ);
 //	auto resultsCOM = RunTracker<QueuedCPUTracker> ("lut000.jpg", &cfg, false, "com-zlutalign", locMode, 100 );
 
-	const float NF=28;
+	const float NF=10;
 
 #ifdef _DEBUG
 	int N=1;
