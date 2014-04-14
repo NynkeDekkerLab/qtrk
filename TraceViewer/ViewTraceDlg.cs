@@ -115,7 +115,7 @@ namespace TraceViewer
 		float FParse(string v)
 		{
 			float x = float.NaN;
-			float.TryParse(v, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out x);
+			float.TryParse(v, NumberStyles.Any, CultureInfo.InvariantCulture, out x);
 			return x;
 		}
 
@@ -403,6 +403,7 @@ namespace TraceViewer
 				Series xs = checkX.Checked ? new Series("Bead " + bead.ToString() + " X") { ChartType = SeriesChartType.FastLine } : null;
 				Series ys = checkY.Checked ? new Series("Bead " + bead.ToString() + " Y") { ChartType = SeriesChartType.FastLine } : null;
 				Series zs = checkZ.Checked ? new Series("Bead " + bead.ToString() + " Z") { ChartType = SeriesChartType.FastLine } : null;
+				Series ims = checkImgMeans.Checked ? new Series("Bead " + bead.ToString() + " Image Mean") { ChartType = SeriesChartType.FastLine } : null;
 
 				for (int j = 0; j < data.Length; j++)
 				{
@@ -418,11 +419,13 @@ namespace TraceViewer
 					if (xs != null) xs.Points.AddY(pos.x);
 					if (ys != null) ys.Points.AddY(pos.y);
 					if (zs != null) zs.Points.AddY(pos.z);
+					if (ims != null) ims.Points.AddY(data[j].imageMeans[refBead]);
 				}
 
 				if (xs != null) chart.Series.Add(xs);
 				if (ys != null) chart.Series.Add(ys);
 				if (zs != null) chart.Series.Add(zs);
+				if (ims != null) chart.Series.Add(ims);
 			}
 			if (checkMagnetZ.Checked)
 			{
@@ -554,7 +557,6 @@ namespace TraceViewer
 				w.Write(numBeads);
 				w.Write(infoColNames.Length);
 				w.Write(startOffset);
-
 			}
 		}
 
@@ -795,7 +797,8 @@ namespace TraceViewer
 				if (checkX.Checked) WriteFrameTextData(fnne + ".x.txt", (fr, i) => fr.positions[i].x, beads);
 				if (checkY.Checked) WriteFrameTextData(fnne + ".y.txt", (fr, i) => fr.positions[i].y, beads);
 				if (checkMagnetZ.Checked) WriteFrameTextData(fnne + ".magpos.txt", (fr, i) => fr.frameInfo[0], new int[1] { 0 });
-				if (checkMagnetRot.Checked) WriteFrameTextData(fnne + ".magrot.txt", (fr, i) => fr.frameInfo[0], new int[1] { 0 });
+				if (checkMagnetRot.Checked) WriteFrameTextData(fnne + ".magrot.txt", (fr, i) => fr.frameInfo[1], new int[1] { 0 });
+				if (checkImgMeans.Checked) WriteFrameTextData(fnne + ".imgmean.txt", (fr, i) => fr.imageMeans[i], beads);
 			}
 		}
 

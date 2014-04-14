@@ -28,9 +28,9 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-			System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-			System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+			System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+			System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+			System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
 			this.chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.readBinFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -66,6 +66,7 @@
 			this.checkZ = new System.Windows.Forms.CheckBox();
 			this.checkMagnetZ = new System.Windows.Forms.CheckBox();
 			this.checkMagnetRot = new System.Windows.Forms.CheckBox();
+			this.checkImgMeans = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.trackBar)).BeginInit();
@@ -82,18 +83,18 @@
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.chart.AntiAliasing = System.Windows.Forms.DataVisualization.Charting.AntiAliasingStyles.Text;
-			chartArea1.Name = "ChartArea1";
-			this.chart.ChartAreas.Add(chartArea1);
+			chartArea2.Name = "ChartArea1";
+			this.chart.ChartAreas.Add(chartArea2);
 			this.chart.IsSoftShadows = false;
-			legend1.Name = "Legend1";
-			this.chart.Legends.Add(legend1);
+			legend2.Name = "Legend1";
+			this.chart.Legends.Add(legend2);
 			this.chart.Location = new System.Drawing.Point(3, 3);
 			this.chart.Name = "chart";
-			series1.ChartArea = "ChartArea1";
-			series1.Legend = "Legend1";
-			series1.Name = "Series1";
-			this.chart.Series.Add(series1);
-			this.chart.Size = new System.Drawing.Size(687, 352);
+			series2.ChartArea = "ChartArea1";
+			series2.Legend = "Legend1";
+			series2.Name = "Series1";
+			this.chart.Series.Add(series2);
+			this.chart.Size = new System.Drawing.Size(794, 352);
 			this.chart.SuppressExceptions = true;
 			this.chart.TabIndex = 0;
 			this.chart.Text = "chart";
@@ -106,7 +107,7 @@
             this.filterBeadsToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(958, 24);
+			this.menuStrip1.Size = new System.Drawing.Size(1104, 24);
 			this.menuStrip1.TabIndex = 1;
 			this.menuStrip1.Text = "menuStrip";
 			// 
@@ -148,14 +149,14 @@
 			// allToolStripMenuItem
 			// 
 			this.allToolStripMenuItem.Name = "allToolStripMenuItem";
-			this.allToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.allToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
 			this.allToolStripMenuItem.Text = "All";
 			this.allToolStripMenuItem.Click += new System.EventHandler(this.exportTxtAllToolStripMenuItem_Click);
 			// 
 			// selectedToolStripMenuItem
 			// 
 			this.selectedToolStripMenuItem.Name = "selectedToolStripMenuItem";
-			this.selectedToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.selectedToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
 			this.selectedToolStripMenuItem.Text = "Selected";
 			this.selectedToolStripMenuItem.Click += new System.EventHandler(this.exportTxtSelectedToolStripMenuItem_Click);
 			// 
@@ -294,9 +295,9 @@
 			// 
 			this.lutView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.lutView.Location = new System.Drawing.Point(773, 30);
+			this.lutView.Location = new System.Drawing.Point(892, 30);
 			this.lutView.Name = "lutView";
-			this.lutView.Size = new System.Drawing.Size(173, 121);
+			this.lutView.Size = new System.Drawing.Size(200, 121);
 			this.lutView.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.lutView.TabIndex = 11;
 			this.lutView.TabStop = false;
@@ -316,8 +317,8 @@
 			// splitContainer.Panel2
 			// 
 			this.splitContainer.Panel2.Controls.Add(this.chart);
-			this.splitContainer.Size = new System.Drawing.Size(958, 358);
-			this.splitContainer.SplitterDistance = 261;
+			this.splitContainer.Size = new System.Drawing.Size(1104, 358);
+			this.splitContainer.SplitterDistance = 300;
 			this.splitContainer.TabIndex = 12;
 			// 
 			// beadListView
@@ -332,7 +333,7 @@
 			this.beadListView.FullRowSelect = true;
 			this.beadListView.Location = new System.Drawing.Point(0, 0);
 			this.beadListView.Name = "beadListView";
-			this.beadListView.Size = new System.Drawing.Size(261, 358);
+			this.beadListView.Size = new System.Drawing.Size(300, 358);
 			this.beadListView.TabIndex = 0;
 			this.beadListView.UseCompatibleStateImageBehavior = false;
 			this.beadListView.View = System.Windows.Forms.View.Details;
@@ -412,11 +413,22 @@
 			this.checkMagnetRot.UseVisualStyleBackColor = true;
 			this.checkMagnetRot.CheckedChanged += new System.EventHandler(this.checkMagnetZ_CheckedChanged);
 			// 
+			// checkImgMeans
+			// 
+			this.checkImgMeans.AutoSize = true;
+			this.checkImgMeans.Location = new System.Drawing.Point(789, 30);
+			this.checkImgMeans.Name = "checkImgMeans";
+			this.checkImgMeans.Size = new System.Drawing.Size(85, 17);
+			this.checkImgMeans.TabIndex = 14;
+			this.checkImgMeans.Text = "Image Mean";
+			this.checkImgMeans.UseVisualStyleBackColor = true;
+			// 
 			// ViewTraceDlg
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(958, 516);
+			this.ClientSize = new System.Drawing.Size(1104, 516);
+			this.Controls.Add(this.checkImgMeans);
 			this.Controls.Add(this.checkZ);
 			this.Controls.Add(this.checkY);
 			this.Controls.Add(this.lutView);
@@ -491,6 +503,7 @@
 		private System.Windows.Forms.ToolStripMenuItem allToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem selectedToolStripMenuItem;
 		private System.Windows.Forms.CheckBox checkMagnetRot;
+		private System.Windows.Forms.CheckBox checkImgMeans;
 
 	}
 }
