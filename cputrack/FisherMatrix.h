@@ -12,7 +12,7 @@ class LUTFisherMatrix
 	static inline float sq(float v) { return v*v; }
 
 public:
-	LUTFisherMatrix(float* lut, int radialsteps, int planes, int w,int h, float zlutMin, float zlutMax, float lutIntensityScale )  {
+	LUTFisherMatrix(float* lut, int radialsteps, int planes, int w,int h, float zlutMin, float zlutMax, float maxValue)  {
 		this->lut = lut;
 		this->radialsteps = radialsteps;
 		this->planes = planes;
@@ -21,7 +21,7 @@ public:
 
 		this->zlutMin = zlutMin;
 		this->zlutMax = zlutMax;
-		this->lutIntensityScale = lutIntensityScale;
+		this->maxValue = maxValue;
 		roiW = w;
 		roiH = h;
 		makeDebugImage = false;
@@ -32,12 +32,13 @@ public:
 	}
 	
 
-	void Compute(vector3f pos, int Nsamples, vector3f initialStDev)
+	void Compute(vector3f pos, int Nsamples, vector3f sampleRange)
 	{
 		Matrix3X3* results = new Matrix3X3[Nsamples];
 
 		auto f = [&] (int index) {
-			vector3f smpPos = pos + ( vector3f(rand_normal<float>(), rand_normal<float>(), rand_normal<float>()) * initialStDev);
+			vector3f smpPos = pos + sampleRange*vector3f(rand_uniform<float>()-0.5f,rand_uniform<float>()-0.5f, rand_uniform<float>());
+			//vector3f smpPos = pos + ( vector3f(rand_normal<float>(), rand_normal<float>(), rand_normal<float>()) * initialStDev);
 			results[index] = ComputeFisherSample(smpPos);
 	//		dbgprintf("%d done.\n", index);
 		};
@@ -68,14 +69,13 @@ public:
 		InterpolateProfile(pos.z);
 
 		// Subpixel grid size
-		const int SW=4;
-		const int SH=4;
+		const int SW=1;
+		const int SH=1;
 		const float xstep = 1.0f/SW;
 		const float ystep = 1.0f/SH;
 
 		int smp=0;
 		double Izz=0, Ixx=0 , Iyy=0, Ixy=0, Ixz=0, Iyz=0;
-		numPixels = 0;
 
 		ImageData dbg_dudz,dbg_u,dbg_dudr,dbg_dudx;
 		if (makeDebugImage){
@@ -112,8 +112,9 @@ public:
 							dbg_dudr.at(px*SW+sx,py*SH+sy) = dudr;
 							dbg_dudx.at(px*SW+sx,py*SH+sy) = dudx;
 						}
-						
+						//1/sigma^4 = 1/variance^2
 						// Ixx = 1/sigma^4 * ( du/dx )^2
+
 						// Ixx = 1 / u * ( du/dx ) ^ 2  (Poisson case)
 
 						if (u > 1e-6f) {
@@ -194,11 +195,14 @@ public:
 		float *prof0 = &lut[iz*radialsteps];
 		float *prof1 = &lut[(iz+1)*radialsteps];
 
-		profileMaxValue = 0;
+		float profileMaxValue = 0;
 		for (int r=0;r<radialsteps;r++) {
 			profile[r] = prof0[r] + (prof1[r] - prof0[r]) * (z-iz);
 			if(profile[r] > profileMaxValue) profileMaxValue=profile[r];
 		}
+		float f = maxValue / profileMaxValue;
+		for (int r=0;r<radialsteps;r++)
+			profile[r] *= f;
 
 		// Compute derivative
 		const int NumZPlanes = 5;
@@ -216,16 +220,9 @@ public:
 
 			LsqSqQuadFit<float> qfit(NumZPlanes, zplanes, prof, LsqFit5Weights);
 //			dzProfile[r] = prof1[r] - prof0[r]; // TODO: interpolate this stuff
-			dzProfile[r] = qfit.computeDeriv(z-minZ);
-
-			if (lutIntensityScale > 0.0f) {
-				dzProfile[r] *= lutIntensityScale;
-				profile[r] *= lutIntensityScale;
-			}
+			//dzProfile[r] = qfit.computeDeriv(z-minZ);
+			dzProfile[r] = (LUT(iz+1, r) - LUT(iz,r)) * f;
 		}
-
-		if (lutIntensityScale>0.0f)
-			profileMaxValue *= lutIntensityScale;
 	}
 
 	float LUT(int pl, int r) {
@@ -234,7 +231,7 @@ public:
 
 	int radialsteps, planes;
 	float* lut;
-	float zlutMin,zlutMax, lutIntensityScale;
+	float zlutMin,zlutMax, maxValue;
 	int roiW, roiH;
 
 	float* profile;
@@ -242,9 +239,144 @@ public:
 
 	Matrix3X3 matrix;
 	Matrix3X3 inverse;
-	int numPixels;
-	float profileMaxValue;
 	bool makeDebugImage;
 
 	vector3f MinVariance() { return vector3f(inverse(0,0), inverse(1,1), inverse(2,2)); }
+};
+
+
+// Generate fisher matrix based using GenerateImageFromLUT
+class SampleFisherMatrix 
+{
+	int radialsteps, planes;
+	float* lut;
+	float zlutMin,zlutMax, maxValue;
+	int roiW, roiH;
+	bool makeDebugImage;
+
+	// imgpx = ( imgpx - imgmx ) / (2 *delta)
+	void ImgDeriv(ImageData& imgpx, ImageData& imgmx, float delta)
+	{
+		float inv2d = 1.0f/(2*delta);
+		for (int y=0;y<imgpx.w*imgpx.h;y++)
+			imgpx[y] = (imgpx[y] - imgmx[y]) * inv2d;
+	}
+
+	float FisherElem(ImageData& mu, ImageData& muderiv1, ImageData& muderiv2)
+	{
+		double sum = 0;
+		for (int y=0;y<roiH;y++) {
+			for (int x=0;x<roiW;x++)
+				sum += muderiv1.at(x,y) * muderiv2.at(x,y) / mu.at(x,y);
+		}
+		return sum;
+	}
+
+public:
+	SampleFisherMatrix(float* lut, int radialsteps, int planes, int w,int h, float zlutMin, float zlutMax, float maxValue)
+	{
+		this->lut = lut;
+		this->radialsteps = radialsteps;
+		this->planes = planes;
+		this->zlutMin = zlutMin;
+		this->zlutMax = zlutMax;
+		this->maxValue = maxValue;
+		roiW = w;
+		roiH = h;
+		makeDebugImage = false;
+	}
+
+	Matrix3X3 Compute(vector3f pos)
+	{
+		const float delta = 0.001f;
+		ImageData zlut(lut, radialsteps, planes);
+
+		// find scale factor
+		float maxLUT = 0;
+		for (int r=0;r<radialsteps;r++)
+			if (maxLUT < zlut.at(r,(int)pos.z)) maxLUT = zlut.at(r,(int)pos.z);
+
+		// compute derivatives
+		ImageData mu = ImageData::alloc(roiW,roiH);
+		GenerateImageFromLUT(&mu, &zlut, zlutMin, zlutMax, pos);
+	
+		ImageData imgpx = ImageData::alloc(roiW, roiH);
+		ImageData imgpy = ImageData::alloc(roiW, roiH);
+		ImageData imgpz = ImageData::alloc(roiW, roiH);
+		GenerateImageFromLUT(&imgpx, &zlut, zlutMin, zlutMax, vector3f(pos.x+delta, pos.y,pos.z));
+		GenerateImageFromLUT(&imgpy, &zlut, zlutMin, zlutMax, vector3f(pos.x, pos.y+delta,pos.z));
+		GenerateImageFromLUT(&imgpz, &zlut, zlutMin, zlutMax, vector3f(pos.x, pos.y,pos.z+delta));
+
+//		WriteImageAsCSV("imgpx.csv", imgpx.data, imgpx.w, imgpx.h);
+//		WriteImageAsCSV("imgpy.csv", imgpy.data, imgpx.w, imgpx.h);
+//		WriteImageAsCSV("imgpz.csv", imgpz.data, imgpx.w, imgpx.h);
+
+		ImageData imgmx = ImageData::alloc(roiW, roiH);
+		ImageData imgmy = ImageData::alloc(roiW, roiH);
+		ImageData imgmz = ImageData::alloc(roiW, roiH);
+		GenerateImageFromLUT(&imgmx, &zlut, zlutMin, zlutMax, vector3f(pos.x-delta, pos.y,pos.z));
+		GenerateImageFromLUT(&imgmy, &zlut, zlutMin, zlutMax, vector3f(pos.x, pos.y-delta,pos.z));
+		GenerateImageFromLUT(&imgmz, &zlut, zlutMin, zlutMax, vector3f(pos.x, pos.y,pos.z-delta));
+//		WriteImageAsCSV("imgmx.csv", imgmx.data, imgpx.w, imgpx.h);
+//		WriteImageAsCSV("imgmy.csv", imgmy.data, imgpx.w, imgpx.h);
+//		WriteImageAsCSV("imgmz.csv", imgmz.data, imgpx.w, imgpx.h);
+
+		ImgDeriv(imgpx, imgmx, delta);
+		ImgDeriv(imgpy, imgmy, delta);
+		ImgDeriv(imgpz, imgmz, delta);
+
+//		WriteJPEGFile("mu_dx.jpg", imgpx);
+//		WriteJPEGFile("mu_dy.jpg", imgpy);
+//		WriteJPEGFile("mu_dz.jpg", imgpz);
+
+		double Ixx = FisherElem(mu, imgpx, imgpx);
+		double Iyy = FisherElem(mu, imgpy, imgpy);
+		double Izz = FisherElem(mu, imgpz, imgpz);
+		double Ixy = FisherElem(mu, imgpx, imgpy);
+		double Ixz = FisherElem(mu, imgpx, imgpz);
+		double Iyz = FisherElem(mu, imgpy, imgpz);
+
+		Matrix3X3 fisher;
+		fisher(0,0) = Ixx; fisher(0,1) = Ixy; fisher(0,2) = Ixz;
+		fisher(1,0) = Ixy; fisher(1,1) = Iyy; fisher(1,2) = Iyz;
+		fisher(2,0) = Ixz; fisher(2,1) = Iyz; fisher(2,2) = Izz;
+		fisher *= maxValue / maxLUT;
+
+		imgpx.free(); imgpy.free(); imgpz.free(); 
+		imgmx.free(); imgmy.free(); imgmz.free(); 
+		mu.free();
+		return fisher;
+	}
+
+	Matrix3X3 ComputeAverage(vector3f pos, int Nsamples, vector3f sampleRange)
+	{
+		Matrix3X3* results = new Matrix3X3[Nsamples];
+
+		auto f = [&] (int index) {
+			vector3f smpPos = pos + sampleRange*vector3f(rand_uniform<float>()-0.5f,rand_uniform<float>()-0.5f, rand_uniform<float>());
+			//vector3f smpPos = pos + ( vector3f(rand_normal<float>(), rand_normal<float>(), rand_normal<float>()) * initialStDev);
+			results[index] = Compute(smpPos);
+	//		dbgprintf("%d done.\n", index);
+		};
+
+		if (0) { 
+			ThreadPool<int, std::function<void (int index)> > pool(f);
+
+			for (int i=0;i<Nsamples;i++)
+				pool.AddWork(i);
+			pool.WaitUntilDone();
+		} else {
+			for (int i=0;i<Nsamples;i++)
+				f(i);
+		}
+		Matrix3X3 accum;
+		for (int i=0;i<Nsamples;i++) 
+			accum += results[i];
+		delete[] results;
+
+		// Compute inverse
+		Matrix3X3 matrix = accum;
+		matrix *= 1.0f/Nsamples;
+		return matrix;
+	}
 };

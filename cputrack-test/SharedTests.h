@@ -208,7 +208,7 @@ std::vector<vector3f> Gauss2DTest(
 {
 	QTrkSettings cfg;
 	cfg.width = cfg.height = 20;
-	cfg.gauss2D_iterations = 4;
+	cfg.gauss2D_iterations = 8;
 	LocMode_t lt = LT_Gaussian2D;
 	TrackerType qtrk(cfg);
 	std::vector<float*> images;
@@ -359,7 +359,7 @@ RunTrackerResults RunTracker(const char *lutfile, QTrkSettings *cfg, bool useGC,
 
 	//trk.SetConfigValue("use_texturecache" , "0");
 
-	float R=5;
+	float R=2;
 	srand(0);
 	trk.SetLocalizationMode(locMode);
 	for (int i=0;i<N;i++)

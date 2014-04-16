@@ -19,6 +19,14 @@ float distance(vector2f a,vector2f b) { return distance(a.x-b.x,a.y-b.y); }
 
 const float ANGSTEPF = 1.5f;
 
+const bool InDebugMode = 
+#ifdef _DEBUG
+	true
+#else
+	false
+#endif
+	;
+
 void SpeedTest()
 {
 #ifdef _DEBUG
@@ -451,53 +459,67 @@ void WriteRadialProf(const char *file, ImageData& d)
 void TestFisher(const char *lutfile)
 {
 	ImageData lut = ReadJPEGFile(lutfile);
-	ImageData dstimg = ImageData::alloc(80,80);
+	ImageData dstimg = ImageData::alloc(100,100);
 
-	float z = 10.0f;
-	float zlutMin=2;
+	float z = 60.0f;
+	float zlutMin=0;
 	float zlutMax=40;
-	GenerateImageFromLUT(&dstimg, &lut, zlutMin, zlutMax, vector3f(dstimg.w/2,dstimg.h/2, z));
+	vector3f smppos(dstimg.w/2,dstimg.h/2, z);
+	GenerateImageFromLUT(&dstimg, &lut, zlutMin, zlutMax, smppos);
 
-	vector3f scale (100,100,50); // nm
+	QTrkSettings settings;
+	settings.width = settings.height = dstimg.w;
+	float maxVal=10000;
 
-	std::vector<float> stdv;
-
-	if (1) {
-		LUTFisherMatrix fm(lut.data, lut.w, lut.h, dstimg.w, dstimg.h, zlutMin, zlutMax, 255);
-		fm.makeDebugImage=true;
+	{
+		dbgprintf("Comparing with tracker...\n");
+		RunTrackerResults trkresults = RunTracker<QueuedCPUTracker> (lutfile, &settings, false, "fishercmp", LT_QI | LT_LocalizeZ, InDebugMode ? 10 : 1000, maxVal / 255, z);
+		trkresults.computeStats();
+		SampleFisherMatrix fm(lut.data, lut.w, lut.h, dstimg.w, dstimg.h, zlutMin, zlutMax, maxVal);
 	
 		//float* dlutdplane = new float[lut.h*lut.w];
-		fm.Compute(vector3f(dstimg.w/2,dstimg.h/2,z), 1, vector3f(0,0,0) ); //vector3f(1,1,1) );
-	
-		vector3f var = fm.MinVariance();
-		vector3f stdev ( sqrtf(var.x), sqrtf(var.y), sqrtf(var.z));
-		dbgprintf("[0] Min std deviation (pixels): X=%f, Y=%f, Z=%f. Npixels=%d. ProfileMax=%f\n", stdev.x,stdev.y,stdev.z, fm.numPixels, fm.profileMaxValue);
-		stdev *= scale;
-		dbgprintf("[0] Min std deviation (nm): X=%f, Y=%f, Z=%f. Npixels=%d. ProfileMax=%f\n", stdev.x,stdev.y,stdev.z, fm.numPixels, fm.profileMaxValue);
+		float R=2; // same as RunTracker
+		Matrix3X3 fisher = fm.ComputeAverage(smppos, InDebugMode ? 100 : 1000, vector3f(1,1,0.1));
+		Matrix3X3 fisherInv = fisher.Inverse();
+
+		vector3f var(fisherInv(0,0), fisherInv(1,1), fisherInv(2,2));
+		vector3f stdev = sqrt(var);
+		dbgprintf("Z=%f Min std deviation (pixels): X=%f, Y=%f, Z=%f. \n",z, stdev.x,stdev.y,stdev.z);
+		dbgprintf("QI Tracker result stdev: X=%f, Y=%f, Z=%f\n", trkresults.stdev.x, trkresults.stdev.y, trkresults.stdev.z);
+
+		//stdev *= scale;
+		//dbgprintf("[0] Min std deviation (nm): X=%f, Y=%f, Z=%f. Npixels=%d. ProfileMax=%f\n", stdev.x,stdev.y,stdev.z, fm.numPixels, fm.profileMaxValue);
 	}
-	else {
-		LUTFisherMatrix fm(lut.data, lut.w, lut.h, dstimg.w, dstimg.h, 2, 30, 255);
-		for (int i=0;i<lut.h;i++) {
-			fm.Compute(vector3f(dstimg.w/2,dstimg.h/2,i), 1, vector3f());// 20, vector3f(1,1,1) );
+	
+	{
+		std::vector<float> stdv;
+		dbgprintf("LUT range...\n");
+		SampleFisherMatrix fm(lut.data, lut.w, lut.h, dstimg.w, dstimg.h, zlutMin, zlutMax, maxVal);
+		for (int i=0;i<lut.h;i+=2) {
+			vector3f pos = vector3f( smppos.x, smppos.y, i);
+			Matrix3X3 fisher = fm.ComputeAverage(pos, InDebugMode ? 40 : 400, vector3f(0.01,0.01,0.01));
+			Matrix3X3 fisherInv = fisher.Inverse();
+			RunTrackerResults trkresults = RunTracker<QueuedCPUTracker> (lutfile, &settings, false, "fishercmp", LT_QI | LT_LocalizeZ, InDebugMode ? 10 : 1000, maxVal / 255, pos.z);
+			trkresults.computeStats();
 
-			vector3f var = fm.MinVariance();
-			vector3f stdev ( sqrtf(var.x), sqrtf(var.y), sqrtf(var.z));
-
-			stdev *= scale;
+			vector3f var(fisherInv(0,0), fisherInv(1,1), fisherInv(2,2));
+			vector3f stdev = sqrt(var);
 
 			stdv.push_back(stdev.x);
 			stdv.push_back(stdev.z);
 
-			dbgprintf("[%d] Min std deviation: X=%f nm, Y=%f nm, Z=%f nm. Npixels=%d. ProfileMax=%f\n", i, stdev.x,stdev.y,stdev.z, fm.numPixels, fm.profileMaxValue);
-		}
-		WriteImageAsCSV("stdev-xz.txt", &stdv[0], 2, stdv.size()/2);
+			stdv.push_back(trkresults.stdev.x);
+			stdv.push_back(trkresults.stdev.z);
 
-		WriteImageAsCSV("iprof.txt", fm.profile, fm.radialsteps, 1);
-		WriteImageAsCSV("iprofderiv.txt", fm.dzProfile, fm.radialsteps, 1);
+			dbgprintf("[%d] Min std deviation: X=%f nm, Y=%f nm, Z=%f nm.\n", i, stdev.x,stdev.y,stdev.z);
+			dbgprintf("[%d] tracker: X=%f nm, Y=%f nm, Z=%f nm.\n", i, trkresults.stdev.x,trkresults.stdev.y,trkresults.stdev.z);
+		}
+		WriteImageAsCSV("stdev-xz.txt", &stdv[0], 4, stdv.size()/4);
 	}
 
 
 	FloatToJPEGFile("smpfromlut.jpg", dstimg.data, dstimg.w, dstimg.h);
+
 	
 	dstimg.free();
 	lut.free();
@@ -665,6 +687,7 @@ void TestQuadrantAlign()
 	dbgprintf("Only QI:   X= %f. stdev: %f\tZ=%f,  stdev: %f\n", resultsQI.mean.x, resultsQI.stdev.x, resultsQI.mean.z, resultsQI.stdev.z);
 }
 
+
 int main()
 {
 	/*
@@ -677,13 +700,17 @@ int main()
 	dbgprintf("f(1) = %f\n", fit2.compute(1.0f));
 	*/
 
-	//TestFisher("lut000.jpg");
+#ifdef _DEBUG
+	Matrix3X3::test();
+#endif
+
+	TestFisher("lut000.jpg");
 
 	//QTrkTest();
 //	TestCMOSNoiseInfluence<QueuedCPUTracker>("lut000.jpg");
 
 	//AutoBeadFindTest();
-	//Gauss2DTest<QueuedCPUTracker>();
+//	Gauss2DTest<QueuedCPUTracker>();
 	
 	//SpeedTest();
 	//SmallImageTest();
@@ -696,7 +723,7 @@ int main()
 	//	BuildConvergenceMap(i);
 
 	//TestFourierLUT();
-	TestQuadrantAlign();
+//	TestQuadrantAlign();
 	//TestZLUTAlign();
 	//TestImageLUT();
 //	TestBuildRadialZLUT<QueuedCPUTracker>( "lut000.jpg" );

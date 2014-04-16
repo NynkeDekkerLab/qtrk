@@ -1007,7 +1007,7 @@ int main(int argc, char *argv[])
 //	TestBenchmarkLUT();
 //	testLinearArray();
 //	TestTextureFetch();
-//	TestGauss2D(true);
+	TestGauss2D(true);
 //	MultipleLUTTest();
 
 //	TestSurfaceReadWrite();
@@ -1016,7 +1016,7 @@ int main(int argc, char *argv[])
 //	TestImageLUT("../cputrack-test/lut000.jpg");
 	//TestRadialLUTGradientMethod();
 
-	BenchmarkParams();
+//	BenchmarkParams();
 
 //	BasicQTrkTest();
 //	TestCMOSNoiseInfluence<QueuedCUDATracker>("../cputrack-test/lut000.jpg");

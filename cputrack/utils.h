@@ -234,7 +234,7 @@ public:
 						+at(0,2)*(at(1,0)*at(2,1)-at(1,1)*at(2,0));
 	}
 
-	Matrix3X3 InverseTranspose() const
+	Matrix3X3 Inverse() const
 	{
 		float det = Determinant();
 		if (det != 0.0f) {
@@ -253,7 +253,7 @@ public:
 		}
 		return Matrix3X3();
 	}
-	Matrix3X3 Inverse() const
+	Matrix3X3 InverseTranspose() const
 	{
 		float det = Determinant();
 		if (det != 0.0f) {
@@ -286,6 +286,23 @@ public:
 	}
 
 	float m[9];
+
+	static void test() 
+	{
+		Matrix3X3 t;
+
+		for (int i=0;i<9;i++)
+			t[i]=i*i;
+		t.Inverse().dbgprint();
+	}
+
+	void dbgprint()
+	{
+		dbgprintf("%f\t%f\t%f\n", m[0],m[1],m[2]);
+		dbgprintf("%f\t%f\t%f\n", m[3],m[4],m[5]);
+		dbgprintf("%f\t%f\t%f\n", m[6],m[7],m[8]);
+	}
+
 };
 
 
