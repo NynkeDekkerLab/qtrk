@@ -68,6 +68,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cputrack\BeadFinder.cpp" />
+    <ClCompile Include="..\cputrack\BenchmarkLUT.cpp" />
     <ClCompile Include="..\cputrack\cpu_tracker.cpp" />
     <ClCompile Include="..\cputrack\fastjpg.cpp" />
     <ClCompile Include="..\cputrack\memdbg.cpp" />
@@ -81,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\cputrack\BeadFinder.h" />
+    <ClInclude Include="..\cputrack\BenchmarkLUT.h" />
     <ClInclude Include="..\cputrack\cpu_tracker.h" />
     <ClInclude Include="..\cputrack\FisherMatrix.h" />
     <ClInclude Include="..\cputrack\kissfft.h" />

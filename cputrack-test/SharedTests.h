@@ -343,17 +343,28 @@ RunTrackerResults RunTracker(const char *lutfile, QTrkSettings *cfg, bool useGC,
 #else
 	2000
 #endif
-	, float noiseFactor=28, float zpos=10)
+	, float noiseFactor=28, float zpos=10, ImageData* pRescaledLUT=0 )
 {
 	std::vector<vector3f> results, truepos;
 
 	ImageData lut = ReadJPEGFile(lutfile);
 	ImageData img = ImageData::alloc(cfg->width,cfg->height);
 
-	ImageData rescaledLUT;
+	ImageData* rescaledLUT;
+	ImageData rescaledBuffer;
 
 	TrkType trk(*cfg);
-	ResampleLUT(&trk, &lut, 100, &rescaledLUT, SPrintf("%s-zlut.jpg",name).c_str(), ((locMode&LT_FourierLUT) ? BUILDLUT_FOURIER : 0));
+	if (pRescaledLUT)  {
+		rescaledLUT = pRescaledLUT;
+		if (rescaledLUT->data == 0) {
+			*rescaledLUT = ImageData::alloc(cfg->width, cfg->height);
+			ResampleLUT(&trk, &lut, 100, rescaledLUT, SPrintf("%s-zlut.jpg",name).c_str(), ((locMode&LT_FourierLUT) ? BUILDLUT_FOURIER : 0));
+		}
+	} else {
+		rescaledBuffer = ImageData::alloc(cfg->width, cfg->height);
+		rescaledLUT = &rescaledBuffer;
+		ResampleLUT(&trk, &lut, 100, rescaledLUT, SPrintf("%s-zlut.jpg",name).c_str(), ((locMode&LT_FourierLUT) ? BUILDLUT_FOURIER : 0));
+	}
 
 	if (useGC) EnableGainCorrection(&trk);
 
@@ -365,7 +376,7 @@ RunTrackerResults RunTracker(const char *lutfile, QTrkSettings *cfg, bool useGC,
 	for (int i=0;i<N;i++)
 	{
 		vector3f pos(cfg->width/2 + R*(rand_uniform<float>()-0.5f),cfg->height/2 + R*(rand_uniform<float>()-0.5f), zpos+rand_uniform<float>());
-		GenerateImageFromLUT(&img, &rescaledLUT, trk.cfg.zlut_minradius, trk.cfg.zlut_maxradius, vector3f( pos.x,pos.y, pos.z));
+		GenerateImageFromLUT(&img, rescaledLUT, trk.cfg.zlut_minradius, trk.cfg.zlut_maxradius, vector3f( pos.x,pos.y, pos.z));
 		if (noiseFactor>0)	ApplyPoissonNoise(img, noiseFactor * 255, 255);
 		truepos.push_back(pos);
 
@@ -392,7 +403,8 @@ RunTrackerResults RunTracker(const char *lutfile, QTrkSettings *cfg, bool useGC,
 	r.output=results;
 	r.truepos=truepos;
 
-	rescaledLUT.free();
+	if (!pRescaledLUT)
+		rescaledBuffer.free();
 
 	return r;
 }

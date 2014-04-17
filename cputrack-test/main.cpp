@@ -6,6 +6,7 @@
 #include "../cputrack/BeadFinder.h"
 #include "../cputrack/LsqQuadraticFit.h"
 #include "../utils/ExtractBeadImages.h"
+#include "../cputrack/BenchmarkLUT.h"
 #include <time.h>
 
 
@@ -465,89 +466,46 @@ void TestFisher(const char *lutfile)
 	float zlutMax=40;
 	vector3f delta(0.001f,0.001f, 0.001f);
 
-
 	QTrkSettings settings;
 	settings.width = settings.height = 80;
 	float maxVal=10000;
 
 	vector3f smppos(settings.width/2,settings.height/2, z);
+	std::vector<float> stdv;
+	dbgprintf("High-res LUT range...\n");
+	SampleFisherMatrix fm( maxVal);
 
-	if(0)
-	{
-		dbgprintf("Comparing with tracker...\n");
-		RunTrackerResults trkresults = RunTracker<QueuedCPUTracker> (lutfile, &settings, false, "fishercmp", LT_QI | LT_LocalizeZ, InDebugMode ? 10 : 1000, maxVal / 255, z);
+	ImageData rescaledLUT;
+
+	int nstep=2000;
+	for (int i=0;i<nstep;i++) {
+		float z = 1 + i / (float)nstep * (lut.h-2);
+		vector3f pos = vector3f( smppos.x, smppos.y, z);
+		Matrix3X3 invFisherLUT = fm.Compute(pos, delta, lut, settings.width, settings.height, zlutMin, zlutMax).Inverse();
+
+		ImageData img=ImageData::alloc(settings.width,settings.height);
+		GenerateImageFromLUT(&img, &lut, zlutMin, zlutMax, pos);
+
+		vector3f stdev = sqrt(invFisherLUT.diag());
+
+		stdv.push_back(stdev.x);
+		stdv.push_back(stdev.z);
+		stdv.push_back(img.at(img.w/4, img.h/2)); // 
+
+		img.free();
+
+		dbgprintf("[%d] z=%f Min std deviation: X=%f nm, Y=%f nm, Z=%f nm.\n", i, z, stdev.x,stdev.y,stdev.z);
+
+		RunTrackerResults trkresults = RunTracker<QueuedCPUTracker> (lutfile, &settings, false, "fishercmp", LT_QI | LT_LocalizeZ, InDebugMode ? 10 : 2000, maxVal / 255, pos.z, &rescaledLUT);
 		trkresults.computeStats();
-		SampleFisherMatrix fm(lut.data, lut.w, lut.h, settings.width, settings.height, zlutMin, zlutMax, maxVal);
-	
-		//float* dlutdplane = new float[lut.h*lut.w];
-		float R=2; // same as RunTracker
-		Matrix3X3 fisher = fm.Compute(smppos, delta);//Average(smppos, InDebugMode ? 100 : 1000, vector3f(1,1,0.1));
-		Matrix3X3 fisherInv = fisher.Inverse();
+		stdv.push_back(trkresults.stdev.x);
+		stdv.push_back(trkresults.stdev.z);
+		dbgprintf("[%d] tracker: X=%f nm, Y=%f nm, Z=%f nm.\n", i, trkresults.stdev.x,trkresults.stdev.y,trkresults.stdev.z);
 
-		vector3f var(fisherInv(0,0), fisherInv(1,1), fisherInv(2,2));
-		vector3f stdev = sqrt(var);
-		dbgprintf("Z=%f Min std deviation (pixels): X=%f, Y=%f, Z=%f. \n",z, stdev.x,stdev.y,stdev.z);
-		dbgprintf("QI Tracker result stdev: X=%f, Y=%f, Z=%f\n", trkresults.stdev.x, trkresults.stdev.y, trkresults.stdev.z);
-
-		//stdev *= scale;
-		//dbgprintf("[0] Min std deviation (nm): X=%f, Y=%f, Z=%f. Npixels=%d. ProfileMax=%f\n", stdev.x,stdev.y,stdev.z, fm.numPixels, fm.profileMaxValue);
 	}
-	
-	if (0)
-	{
-		std::vector<float> stdv;
-		dbgprintf("LUT range...\n");
-		SampleFisherMatrix fm(lut.data, lut.w, lut.h, settings.width,settings.height, zlutMin, zlutMax, maxVal);
-		for (int i=0;i<lut.h;i+=2) {
-			vector3f pos = vector3f( smppos.x, smppos.y, i);
-			Matrix3X3 fisher = fm.ComputeAverage(pos, InDebugMode ? 40 : 400, vector3f(0.01,0.01,0.01), delta);
-			Matrix3X3 fisherInv = fisher.Inverse();
-			RunTrackerResults trkresults = RunTracker<QueuedCPUTracker> (lutfile, &settings, false, "fishercmp", LT_QI | LT_LocalizeZ, InDebugMode ? 10 : 1000, maxVal / 255, pos.z);
-			trkresults.computeStats();
-
-			vector3f var(fisherInv(0,0), fisherInv(1,1), fisherInv(2,2));
-			vector3f stdev = sqrt(var);
-
-			stdv.push_back(stdev.x);
-			stdv.push_back(stdev.z);
-
-			stdv.push_back(trkresults.stdev.x);
-			stdv.push_back(trkresults.stdev.z);
-
-			dbgprintf("[%d] Min std deviation: X=%f nm, Y=%f nm, Z=%f nm.\n", i, stdev.x,stdev.y,stdev.z);
-			dbgprintf("[%d] tracker: X=%f nm, Y=%f nm, Z=%f nm.\n", i, trkresults.stdev.x,trkresults.stdev.y,trkresults.stdev.z);
-		}
-		WriteImageAsCSV("stdev-xz.txt", &stdv[0], 4, stdv.size()/4);
-	}
-	{
-		std::vector<float> stdv;
-		dbgprintf("High-res LUT range...\n");
-		SampleFisherMatrix fm(lut.data, lut.w, lut.h, settings.width,settings.height, zlutMin, zlutMax, maxVal);
-		int nstep=2000;
-		for (int i=0;i<nstep;i++) {
-			float z = 1 + i / (float)nstep * (lut.h-2);
-			vector3f pos = vector3f( smppos.x, smppos.y, z);
-			Matrix3X3 fisher = fm.Compute(pos,delta);//Average(pos, 10, vector3f(0.01,0.01,0.01));
-			Matrix3X3 fisherInv = fisher.Inverse();
-
-			ImageData img=ImageData::alloc(settings.width,settings.height);
-			GenerateImageFromLUT(&img, &lut, zlutMin, zlutMax, pos);
-
-
-			vector3f var(fisherInv(0,0), fisherInv(1,1), fisherInv(2,2));
-			vector3f stdev = sqrt(var);
-
-			stdv.push_back(stdev.x);
-			stdv.push_back(stdev.z);
-			stdv.push_back(img.at(img.w/4, img.h/2)); // 
-
-			img.free();
-
-			dbgprintf("[%d] z=%f Min std deviation: X=%f nm, Y=%f nm, Z=%f nm.\n", i, z, stdev.x,stdev.y,stdev.z);
-		}
-		WriteImageAsCSV("stdev-hr-xz.txt", &stdv[0], 3, stdv.size()/3);
-	}
-		lut.free();
+	WriteImageAsCSV("fisher_lx_lz_smpL_trkx_trkz.txt", &stdv[0], 5, stdv.size()/5);
+	lut.free();
+	rescaledLUT.free();
 }
 
 void AutoBeadFindTest()

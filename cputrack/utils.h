@@ -215,6 +215,8 @@ public:
 		row(2) = z;
 	}
 
+	vector3f diag() const { return vector3f(at(0,0),at(1,1),at(2,2)); }
+
 	float& operator[](int i) { return m[i]; }
 	const float& operator[](int i) const { return m[i]; }
 
