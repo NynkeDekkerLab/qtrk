@@ -286,26 +286,23 @@ public:
 		makeDebugImage = false;
 	}
 
-	Matrix3X3 Compute(vector3f pos)
+	Matrix3X3 Compute(vector3f pos, vector3f delta)
 	{
-		const float delta = 0.001f;
+		static int t=0;
 		ImageData zlut(lut, radialsteps, planes);
-
-		// find scale factor
-		float maxLUT = 0;
-		for (int r=0;r<radialsteps;r++)
-			if (maxLUT < zlut.at(r,(int)pos.z)) maxLUT = zlut.at(r,(int)pos.z);
 
 		// compute derivatives
 		ImageData mu = ImageData::alloc(roiW,roiH);
 		GenerateImageFromLUT(&mu, &zlut, zlutMin, zlutMax, pos);
+
+		float maxImg = mu.mean();
 	
 		ImageData imgpx = ImageData::alloc(roiW, roiH);
 		ImageData imgpy = ImageData::alloc(roiW, roiH);
 		ImageData imgpz = ImageData::alloc(roiW, roiH);
-		GenerateImageFromLUT(&imgpx, &zlut, zlutMin, zlutMax, vector3f(pos.x+delta, pos.y,pos.z));
-		GenerateImageFromLUT(&imgpy, &zlut, zlutMin, zlutMax, vector3f(pos.x, pos.y+delta,pos.z));
-		GenerateImageFromLUT(&imgpz, &zlut, zlutMin, zlutMax, vector3f(pos.x, pos.y,pos.z+delta));
+		GenerateImageFromLUT(&imgpx, &zlut, zlutMin, zlutMax, vector3f(pos.x+delta.x, pos.y,pos.z));
+		GenerateImageFromLUT(&imgpy, &zlut, zlutMin, zlutMax, vector3f(pos.x, pos.y+delta.y,pos.z));
+		GenerateImageFromLUT(&imgpz, &zlut, zlutMin, zlutMax, vector3f(pos.x, pos.y,pos.z+delta.z));
 
 //		WriteImageAsCSV("imgpx.csv", imgpx.data, imgpx.w, imgpx.h);
 //		WriteImageAsCSV("imgpy.csv", imgpy.data, imgpx.w, imgpx.h);
@@ -314,20 +311,35 @@ public:
 		ImageData imgmx = ImageData::alloc(roiW, roiH);
 		ImageData imgmy = ImageData::alloc(roiW, roiH);
 		ImageData imgmz = ImageData::alloc(roiW, roiH);
-		GenerateImageFromLUT(&imgmx, &zlut, zlutMin, zlutMax, vector3f(pos.x-delta, pos.y,pos.z));
-		GenerateImageFromLUT(&imgmy, &zlut, zlutMin, zlutMax, vector3f(pos.x, pos.y-delta,pos.z));
-		GenerateImageFromLUT(&imgmz, &zlut, zlutMin, zlutMax, vector3f(pos.x, pos.y,pos.z-delta));
+		GenerateImageFromLUT(&imgmx, &zlut, zlutMin, zlutMax, vector3f(pos.x-delta.x, pos.y,pos.z));
+		GenerateImageFromLUT(&imgmy, &zlut, zlutMin, zlutMax, vector3f(pos.x, pos.y-delta.y,pos.z));
+		GenerateImageFromLUT(&imgmz, &zlut, zlutMin, zlutMax, vector3f(pos.x, pos.y,pos.z-delta.z));
 //		WriteImageAsCSV("imgmx.csv", imgmx.data, imgpx.w, imgpx.h);
 //		WriteImageAsCSV("imgmy.csv", imgmy.data, imgpx.w, imgpx.h);
 //		WriteImageAsCSV("imgmz.csv", imgmz.data, imgpx.w, imgpx.h);
 
-		ImgDeriv(imgpx, imgmx, delta);
-		ImgDeriv(imgpy, imgmy, delta);
-		ImgDeriv(imgpz, imgmz, delta);
+		if(t==501) {
+//			WriteImageAsCSV("imgmz.csv", imgmz.data, imgpz.w, imgpz.h);
+			WriteJPEGFile("mu_dz500pz.jpg", imgpz);
+			WriteJPEGFile("mu_dz500mz.jpg", imgmz);
+		} 
+		if(t==502) {
+
+			WriteJPEGFile("mu_dz502.jpg", imgpz);
+		}
+
+		ImgDeriv(imgpx, imgmx, delta.x);
+		ImgDeriv(imgpy, imgmy, delta.y);
+		ImgDeriv(imgpz, imgmz, delta.z);
 
 //		WriteJPEGFile("mu_dx.jpg", imgpx);
 //		WriteJPEGFile("mu_dy.jpg", imgpy);
 //		WriteJPEGFile("mu_dz.jpg", imgpz);
+
+		float mean_=imgpz.mean();
+		
+		dbgprintf("[%d] mean: %f. \n",t, mean_);
+		t++;
 
 		double Ixx = FisherElem(mu, imgpx, imgpx);
 		double Iyy = FisherElem(mu, imgpy, imgpy);
@@ -340,7 +352,7 @@ public:
 		fisher(0,0) = Ixx; fisher(0,1) = Ixy; fisher(0,2) = Ixz;
 		fisher(1,0) = Ixy; fisher(1,1) = Iyy; fisher(1,2) = Iyz;
 		fisher(2,0) = Ixz; fisher(2,1) = Iyz; fisher(2,2) = Izz;
-		fisher *= maxValue / maxLUT;
+		fisher *= maxValue / maxImg;
 
 		imgpx.free(); imgpy.free(); imgpz.free(); 
 		imgmx.free(); imgmy.free(); imgmz.free(); 
@@ -348,14 +360,14 @@ public:
 		return fisher;
 	}
 
-	Matrix3X3 ComputeAverage(vector3f pos, int Nsamples, vector3f sampleRange)
+	Matrix3X3 ComputeAverage(vector3f pos, int Nsamples, vector3f sampleRange, vector3f delta)
 	{
 		Matrix3X3* results = new Matrix3X3[Nsamples];
 
 		auto f = [&] (int index) {
 			vector3f smpPos = pos + sampleRange*vector3f(rand_uniform<float>()-0.5f,rand_uniform<float>()-0.5f, rand_uniform<float>());
 			//vector3f smpPos = pos + ( vector3f(rand_normal<float>(), rand_normal<float>(), rand_normal<float>()) * initialStDev);
-			results[index] = Compute(smpPos);
+			results[index] = Compute(smpPos, delta);
 	//		dbgprintf("%d done.\n", index);
 		};
 

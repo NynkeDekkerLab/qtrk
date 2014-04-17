@@ -312,31 +312,21 @@ void GenerateImageFromLUT(ImageData* image, ImageData* zlut, float minradius, fl
 //	lut.w = radialcov * ( (image->w/2 * roicov ) - minradius );
 //	lut.w = radialcov * ( maxradius - minradius );
 
+	const int len=ZLUT_LSQFIT_NWEIGHTS;
+	float zlut_weights[]=ZLUT_LSQFIT_WEIGHTS;
+	float xval[len];
+	for (int i=0;i<len;i++) xval[i]=i-len/2;
+	int iz = std::max(0, std::min(zlut->h-len, (int)pos.z));
 	float radialcov = zlut->w / (maxradius-minradius);
 
 	// Generate the interpolated ZLUT 
-	float* zinterp;
-
-	// The two Z planes to interpolate between
-	int iz = (int)pos.z;
-	if (iz < 0) 
-		zinterp = zlut->data;
-	else if (iz>=zlut->h-1)
-		zinterp = &zlut->data[ (zlut->h-1)*zlut->w ];
-	else {
-		float* zlut0 = &zlut->data [ (int)pos.z * zlut->w ]; 
-		float* zlut1 = &zlut->data [ ((int)pos.z + 1) * zlut->w ];
-		zinterp = (float*)ALLOCA(sizeof(float)*zlut->w);
-		for (int r=0;r<zlut->w;r++) 
-			zinterp[r] = Lerp(zlut0[r], zlut1[r], pos.z-iz);
-	}
-
-	const int len=3;
-	float xval[len];
-	float weights[len];
-	for (int i=0;i<len;i++) {
-		xval[i]=i-len/2;
-		weights[i]=1.0f;
+	float* zinterp = (float*)ALLOCA(zlut->w * sizeof(float));
+	for (int r=0;r<zlut->w;r++) {
+		float zlutsmp[len];
+		for (int i=0;i<len;i++)
+			zlutsmp[i]= zlut->at(r, std::max(0, iz -len/2 + i) );
+		LsqSqQuadFit<float> lsq(len, xval, zlutsmp, zlut_weights);
+		zinterp[r] = lsq.compute(pos.z-iz);
 	}
 
 	for (int y=0;y<image->h;y++)

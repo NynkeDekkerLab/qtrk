@@ -459,18 +459,20 @@ void WriteRadialProf(const char *file, ImageData& d)
 void TestFisher(const char *lutfile)
 {
 	ImageData lut = ReadJPEGFile(lutfile);
-	ImageData dstimg = ImageData::alloc(100,100);
+	ImageData dstimg = ImageData::alloc(80,80);
 
 	float z = 60.0f;
 	float zlutMin=0;
 	float zlutMax=40;
 	vector3f smppos(dstimg.w/2,dstimg.h/2, z);
+	vector3f delta(0.001f,0.001f, 0.001f);
 	GenerateImageFromLUT(&dstimg, &lut, zlutMin, zlutMax, smppos);
 
 	QTrkSettings settings;
 	settings.width = settings.height = dstimg.w;
 	float maxVal=10000;
 
+	if(0)
 	{
 		dbgprintf("Comparing with tracker...\n");
 		RunTrackerResults trkresults = RunTracker<QueuedCPUTracker> (lutfile, &settings, false, "fishercmp", LT_QI | LT_LocalizeZ, InDebugMode ? 10 : 1000, maxVal / 255, z);
@@ -479,7 +481,7 @@ void TestFisher(const char *lutfile)
 	
 		//float* dlutdplane = new float[lut.h*lut.w];
 		float R=2; // same as RunTracker
-		Matrix3X3 fisher = fm.ComputeAverage(smppos, InDebugMode ? 100 : 1000, vector3f(1,1,0.1));
+		Matrix3X3 fisher = fm.Compute(smppos, delta);//Average(smppos, InDebugMode ? 100 : 1000, vector3f(1,1,0.1));
 		Matrix3X3 fisherInv = fisher.Inverse();
 
 		vector3f var(fisherInv(0,0), fisherInv(1,1), fisherInv(2,2));
@@ -491,13 +493,14 @@ void TestFisher(const char *lutfile)
 		//dbgprintf("[0] Min std deviation (nm): X=%f, Y=%f, Z=%f. Npixels=%d. ProfileMax=%f\n", stdev.x,stdev.y,stdev.z, fm.numPixels, fm.profileMaxValue);
 	}
 	
+	if (0)
 	{
 		std::vector<float> stdv;
 		dbgprintf("LUT range...\n");
 		SampleFisherMatrix fm(lut.data, lut.w, lut.h, dstimg.w, dstimg.h, zlutMin, zlutMax, maxVal);
 		for (int i=0;i<lut.h;i+=2) {
 			vector3f pos = vector3f( smppos.x, smppos.y, i);
-			Matrix3X3 fisher = fm.ComputeAverage(pos, InDebugMode ? 40 : 400, vector3f(0.01,0.01,0.01));
+			Matrix3X3 fisher = fm.ComputeAverage(pos, InDebugMode ? 40 : 400, vector3f(0.01,0.01,0.01), delta);
 			Matrix3X3 fisherInv = fisher.Inverse();
 			RunTrackerResults trkresults = RunTracker<QueuedCPUTracker> (lutfile, &settings, false, "fishercmp", LT_QI | LT_LocalizeZ, InDebugMode ? 10 : 1000, maxVal / 255, pos.z);
 			trkresults.computeStats();
@@ -516,7 +519,27 @@ void TestFisher(const char *lutfile)
 		}
 		WriteImageAsCSV("stdev-xz.txt", &stdv[0], 4, stdv.size()/4);
 	}
+	{
+		std::vector<float> stdv;
+		dbgprintf("High-res LUT range...\n");
+		SampleFisherMatrix fm(lut.data, lut.w, lut.h, dstimg.w, dstimg.h, zlutMin, zlutMax, maxVal);
+		int nstep=1000;
+		for (int i=0;i<nstep;i++) {
+			float z = 1 + i / (float)nstep * (lut.h-2);
+			vector3f pos = vector3f( smppos.x, smppos.y, z);
+			Matrix3X3 fisher = fm.Compute(pos,delta);//Average(pos, 10, vector3f(0.01,0.01,0.01));
+			Matrix3X3 fisherInv = fisher.Inverse();
 
+			vector3f var(fisherInv(0,0), fisherInv(1,1), fisherInv(2,2));
+			vector3f stdev = sqrt(var);
+
+			stdv.push_back(stdev.x);
+			stdv.push_back(stdev.z);
+
+			dbgprintf("[%d] z=%f Min std deviation: X=%f nm, Y=%f nm, Z=%f nm.\n", i, z, stdev.x,stdev.y,stdev.z);
+		}
+		WriteImageAsCSV("stdev-hr-xz.txt", &stdv[0], 2, stdv.size()/2);
+	}
 
 	FloatToJPEGFile("smpfromlut.jpg", dstimg.data, dstimg.w, dstimg.h);
 
