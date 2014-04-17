@@ -311,15 +311,15 @@ static double WaitForFinish(QueuedTracker* qtrk, int N)
 }
 
 
-static void MeanStDevError(const std::vector<vector3f>&  truepos, const std::vector<vector3f>&  v, vector3f &mean, vector3f & stdev) 
+static void MeanStDevError(const std::vector<vector3f>&  truepos, const std::vector<vector3f>&  v, vector3f &meanErr, vector3f & stdev) 
 {
-	mean=vector3f();
-	for (int i=0;i<v.size();i++) mean+=v[i]-truepos[i]; 
-	mean*=1.0f/v.size();
+	meanErr=vector3f();
+	for (int i=0;i<v.size();i++) meanErr+=v[i]-truepos[i]; 
+	meanErr*=1.0f/v.size();
 
 	vector3f r;
 	for (int i=0;i<v.size();i++) {
-		vector3f d = (v[i]-truepos[i])-mean;
+		vector3f d = (v[i]-truepos[i])-meanErr;
 		r+= d*d;
 	}
 	stdev = sqrt(r/v.size());
@@ -329,10 +329,10 @@ struct RunTrackerResults{
 	std::vector<vector3f> output;
 	std::vector<vector3f> truepos;
 
-	vector3f mean, stdev;
+	vector3f meanErr, stdev;
 
 	void computeStats() {
-		MeanStDevError(truepos,output,mean,stdev);
+		MeanStDevError(truepos,output,meanErr,stdev);
 	}
 };
 
@@ -343,7 +343,7 @@ RunTrackerResults RunTracker(const char *lutfile, QTrkSettings *cfg, bool useGC,
 #else
 	2000
 #endif
-	, float noiseFactor=28, float zpos=10, ImageData* pRescaledLUT=0 )
+	, float noiseFactor=28, float zpos=10, ImageData* pRescaledLUT=0, vector3f samplePosRange=vector3f(1,1,1) )
 {
 	std::vector<vector3f> results, truepos;
 
@@ -370,18 +370,21 @@ RunTrackerResults RunTracker(const char *lutfile, QTrkSettings *cfg, bool useGC,
 
 	//trk.SetConfigValue("use_texturecache" , "0");
 
-	float R=2;
 	srand(0);
 	trk.SetLocalizationMode(locMode);
 	for (int i=0;i<N;i++)
 	{
-		vector3f pos(cfg->width/2 + R*(rand_uniform<float>()-0.5f),cfg->height/2 + R*(rand_uniform<float>()-0.5f), zpos+rand_uniform<float>());
+		vector3f pos(
+			cfg->width/2 + samplePosRange.x*(rand_uniform<float>()-0.5f),
+			cfg->height/2 + samplePosRange.y*(rand_uniform<float>()-0.5f), 
+			zpos + samplePosRange.z*(rand_uniform<float>()-0.5f)
+		);
 		GenerateImageFromLUT(&img, rescaledLUT, trk.cfg.zlut_minradius, trk.cfg.zlut_maxradius, vector3f( pos.x,pos.y, pos.z));
 		if (noiseFactor>0)	ApplyPoissonNoise(img, noiseFactor * 255, 255);
 		truepos.push_back(pos);
 
 		LocalizationJob job(i, 0, 0, 0);
-		trk.ScheduleLocalization((uchar*)img.data, sizeof(float)*cfg->width, QTrkFloat, &job);
+		trk.ScheduleImageData(&img, &job);
 	}
 
 	dbgprintf("Scheduled %d images\n" ,  N);

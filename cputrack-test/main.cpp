@@ -433,7 +433,6 @@ void TestFisher(const char *lutfile)
 {
 	ImageData lut = ReadJPEGFile(lutfile);
 
-	float z = 60.0f;
 	float zlutMin=0;
 	float zlutMax=40;
 	vector3f delta(0.001f,0.001f, 0.001f);
@@ -445,7 +444,6 @@ void TestFisher(const char *lutfile)
 	settings.Update();
 	float maxVal=10000;
 
-	vector3f smppos(settings.width/2,settings.height/2, z);
 	std::vector<float> stdv;
 	dbgprintf("High-res LUT range...\n");
 	SampleFisherMatrix fm( maxVal);
@@ -455,7 +453,7 @@ void TestFisher(const char *lutfile)
 	int nstep=2000;
 	for (int i=0;i<nstep;i++) {
 		float z = 1 + i / (float)nstep * (rescaledLUT.h-2);
-		vector3f pos = vector3f( smppos.x, smppos.y, z);
+		vector3f pos = vector3f(settings.width/2,settings.height/2, z);
 		Matrix3X3 invFisherLUT = fm.Compute(pos, delta, rescaledLUT, settings.width, settings.height, zlutMin, zlutMax).Inverse();
 
 		ImageData img=ImageData::alloc(settings.width,settings.height);
@@ -475,7 +473,7 @@ void TestFisher(const char *lutfile)
 		trkresults.computeStats();
 		stdv.push_back(trkresults.stdev.x);
 		stdv.push_back(trkresults.stdev.z);
-		dbgprintf("[%d] tracker: X=%f nm, Y=%f nm, Z=%f nm.\n", i, trkresults.stdev.x,trkresults.stdev.y,trkresults.stdev.z);
+		dbgprintf("[%d] tracker: X=%f, Y=%f, Z=%f  Zbias=%f.\n", i, trkresults.stdev.x,trkresults.stdev.y,trkresults.stdev.z,trkresults.meanErr.z);
 
 	}
 	WriteImageAsCSV("fisher_lx_lz_smpL_trkx_trkz.txt", &stdv[0], 5, stdv.size()/5);
@@ -574,8 +572,8 @@ void TestFourierLUT()
 	resultsZA.computeStats(); 
 	resultsQI.computeStats();
 
-	dbgprintf("FourierLUT: X= %f. stdev: %f\tZ=%f,  stdev: %f\n", resultsZA.mean.x, resultsZA.stdev.x, resultsZA.mean.z, resultsZA.stdev.z);
-	dbgprintf("Only QI:   X= %f. stdev: %f\tZ=%f,  stdev: %f\n", resultsQI.mean.x, resultsQI.stdev.x, resultsQI.mean.z, resultsQI.stdev.z);
+	dbgprintf("FourierLUT: X= %f. stdev: %f\tZ=%f,  stdev: %f\n", resultsZA.meanErr.x, resultsZA.stdev.x, resultsZA.meanErr.z, resultsZA.stdev.z);
+	dbgprintf("Only QI:   X= %f. stdev: %f\tZ=%f,  stdev: %f\n", resultsQI.meanErr.x, resultsQI.stdev.x, resultsQI.meanErr.z, resultsQI.stdev.z);
 }
 
 
@@ -609,8 +607,8 @@ void TestZLUTAlign()
 	resultsZA.computeStats(); 
 	resultsQI.computeStats();
 
-	dbgprintf("ZLUTAlign: X= %f. stdev: %f\tZ=%f,  stdev: %f\n", resultsZA.mean.x, resultsZA.stdev.x, resultsZA.mean.z, resultsZA.stdev.z);
-	dbgprintf("Only QI:   X= %f. stdev: %f\tZ=%f,  stdev: %f\n", resultsQI.mean.x, resultsQI.stdev.x, resultsQI.mean.z, resultsQI.stdev.z);
+	dbgprintf("ZLUTAlign: X= %f. stdev: %f\tZ=%f,  stdev: %f\n", resultsZA.meanErr.x, resultsZA.stdev.x, resultsZA.meanErr.z, resultsZA.stdev.z);
+	dbgprintf("Only QI:   X= %f. stdev: %f\tZ=%f,  stdev: %f\n", resultsQI.meanErr.x, resultsQI.stdev.x, resultsQI.meanErr.z, resultsQI.stdev.z);
 }
 
 
@@ -641,8 +639,8 @@ void TestQuadrantAlign()
 	resultsZA.computeStats(); 
 	resultsQI.computeStats();
 
-	dbgprintf("QuadrantAlign: X= %f. stdev: %f\tZ=%f,  stdev: %f\n", resultsZA.mean.x, resultsZA.stdev.x, resultsZA.mean.z, resultsZA.stdev.z);
-	dbgprintf("Only QI:   X= %f. stdev: %f\tZ=%f,  stdev: %f\n", resultsQI.mean.x, resultsQI.stdev.x, resultsQI.mean.z, resultsQI.stdev.z);
+	dbgprintf("QuadrantAlign: X= %f. stdev: %f\tZ=%f,  stdev: %f\n", resultsZA.meanErr.x, resultsZA.stdev.x, resultsZA.meanErr.z, resultsZA.stdev.z);
+	dbgprintf("Only QI:   X= %f. stdev: %f\tZ=%f,  stdev: %f\n", resultsQI.meanErr.x, resultsQI.stdev.x, resultsQI.meanErr.z, resultsQI.stdev.z);
 }
 
 
