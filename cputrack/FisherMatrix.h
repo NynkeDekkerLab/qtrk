@@ -88,10 +88,6 @@ public:
 //		WriteJPEGFile("mu_dx.jpg", imgpx);
 //		WriteJPEGFile("mu_dy.jpg", imgpy);
 //		WriteJPEGFile("mu_dz.jpg", imgpz);
-
-		float mean_=imgpz.mean();
-		
-		dbgprintf("[%d] mean: %f. \n",t, mean_);
 		t++;
 
 		double Ixx = FisherElem(mu, imgpx, imgpx);

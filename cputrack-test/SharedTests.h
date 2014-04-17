@@ -40,8 +40,8 @@ void ResampleLUT(T* qtrk, ImageData* lut, int zplanes, ImageData* newlut, const 
 	{
 		GenerateImageFromLUT(&img, lut, qtrk->cfg.zlut_minradius, qtrk->cfg.zlut_maxradius, vector3f(cfg.width/2, cfg.height/2, i/(float)zplanes * lut->h));
 		img.normalize();
-		if (i == 0)
-			WriteJPEGFile(SPrintf("smp-%s",jpgfile).c_str(), img);
+		//if (i == 0)
+		//	WriteJPEGFile(SPrintf("smp-%s",jpgfile).c_str(), img);
 
 		qtrk->BuildLUT(img.data, sizeof(float)*img.w, QTrkFloat, buildLUTFlags, i);
 	}
@@ -358,12 +358,12 @@ RunTrackerResults RunTracker(const char *lutfile, QTrkSettings *cfg, bool useGC,
 		rescaledLUT = pRescaledLUT;
 		if (rescaledLUT->data == 0) {
 			*rescaledLUT = ImageData::alloc(cfg->width, cfg->height);
-			ResampleLUT(&trk, &lut, 100, rescaledLUT, SPrintf("%s-zlut.jpg",name).c_str(), ((locMode&LT_FourierLUT) ? BUILDLUT_FOURIER : 0));
+			ResampleLUT(&trk, &lut, lut.h, rescaledLUT, SPrintf("%s-zlut.jpg",name).c_str(), ((locMode&LT_FourierLUT) ? BUILDLUT_FOURIER : 0));
 		}
 	} else {
 		rescaledBuffer = ImageData::alloc(cfg->width, cfg->height);
 		rescaledLUT = &rescaledBuffer;
-		ResampleLUT(&trk, &lut, 100, rescaledLUT, SPrintf("%s-zlut.jpg",name).c_str(), ((locMode&LT_FourierLUT) ? BUILDLUT_FOURIER : 0));
+		ResampleLUT(&trk, &lut, lut.h, rescaledLUT, SPrintf("%s-zlut.jpg",name).c_str(), ((locMode&LT_FourierLUT) ? BUILDLUT_FOURIER : 0));
 	}
 
 	if (useGC) EnableGainCorrection(&trk);

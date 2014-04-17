@@ -125,8 +125,6 @@ QueuedCPUTracker::QueuedCPUTracker(const QTrkComputedConfig& cc)
 	image_lut = 0;
 	image_lut_dz = image_lut_dz2 = 0;
 
-	zlutAlignRootFinder = RF_NewtonRaphson;
-
 	downsampleWidth = cfg.width >> cfg.downsample;
 	downsampleHeight = cfg.height >> cfg.downsample;
 
@@ -461,24 +459,10 @@ bool QueuedCPUTracker::GetDebugImage(int id, int *w, int *h,float** data)
 }
 
 
-typedef std::map<QueuedCPUTracker::ZLUTAlignRootFinder, std::string> ZLUTAlignRootFinderNameMap;
-ZLUTAlignRootFinderNameMap& rootFinderNames() {
-	static ZLUTAlignRootFinderNameMap names;
-	if (names.empty()) {
-		names[QueuedCPUTracker::RF_NewtonRaphson]="nr";
-		names[QueuedCPUTracker::RF_NewtonRaphson3D]="nr3d";
-		names[QueuedCPUTracker::RF_Secant]="secant";
-		names[QueuedCPUTracker::RF_GradientDescent]="grdesc";
-	}
-	return names;
-}
-
-
 QueuedTracker::ConfigValueMap QueuedCPUTracker::GetConfigValues()
 {
 	ConfigValueMap cvm;
 	cvm["trace"] = dbgPrintResults ? "1" : "0";
-	cvm["za_rootfinder"] = rootFinderNames()[zlutAlignRootFinder];
 	return cvm;
 }
 
@@ -487,17 +471,6 @@ void QueuedCPUTracker::SetConfigValue(std::string name, std::string value)
 {
 	if (name == "trace")
 		dbgPrintResults = !!atoi(value.c_str());
-	if (name == "za_rootfinder") {
-		bool found=false;
-		for (auto i = rootFinderNames().begin(); i != rootFinderNames().end(); ++i)
-			if (i->second == value) {
-				zlutAlignRootFinder = i->first;
-				break;
-			}
-		if (!found) {
-			dbgprintf("SetConfigValue(): Unknown ZLUTAlign root finder method: %s\n", value.c_str());
-		}
-	}
 }
 
 void QueuedCPUTracker::SetLocalizationMode(LocMode_t lt)

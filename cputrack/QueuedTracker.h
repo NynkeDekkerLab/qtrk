@@ -34,6 +34,7 @@ public:
 	// Pitch: Distance in bytes between two successive rows of pixels (e.g. address of (0,0) -  address of (0,1) )
 	// ZlutIndex: Which ZLUT to use for ComputeZ/BuildZLUT
 	virtual void ScheduleLocalization(void* data, int pitch, QTRK_PixelDataType pdt, const LocalizationJob *jobInfo) = 0;
+	void ScheduleImageData(ImageData* data, const LocalizationJob *jobInfo);
 	virtual void ClearResults() = 0;
 	virtual void Flush() = 0; // stop waiting for more jobs to do, and just process the current batch
 

@@ -250,104 +250,6 @@ void PixelationErrorTest()
 	delete tracker;
 }
 
-float EstimateZError(int zplanes)
-{
-	// build LUT
-	CPUTracker *tracker = new CPUTracker(128,128, 64);
-
-	vector2f center( tracker->GetWidth()/2, tracker->GetHeight()/2 );
-	int radialSteps = 64;
-	float* zlut = new float[radialSteps*zplanes];
-	float zmin = 2, zmax = 8;
-	float zradius = tracker->xcorw/2;
-
-	//GenerateTestImage(&tracker, center.x, center.y, zmin, 0.0f);
-	//writeImageAsCSV("img.csv", tracker.srcImage, tracker.width, tracker.height);
-
-	for (int x=0;x<zplanes;x++)  {
-		float s = zmin + (zmax-zmin) * x/(float)(zplanes-1);
-		GenerateTestImage(ImageData(tracker->srcImage, tracker->GetWidth(), tracker->GetHeight()), center.x, center.y, s, 0.0f);
-	//	dbgout(SPrintf("z=%f\n", s));
-		tracker->ComputeRadialProfile(&zlut[x*radialSteps], radialSteps, 64, 1.0f, zradius, center, false);
-	}
-
-	tracker->SetRadialZLUT(zlut, zplanes, radialSteps, 1, 1.0f, zradius, 64, true, true);
-	WriteImageAsCSV("zlut.csv", zlut, radialSteps, zplanes);
-	delete[] zlut;
-
-	int N=100;
-	float zdist=0.0f;
-	std::vector<float> cmpProf;
-	for (int k=0;k<N;k++) {
-		float z = zmin + k/float(N-1) * (zmax-zmin);
-		GenerateTestImage(ImageData(tracker->srcImage, tracker->GetWidth(), tracker->GetHeight()), center.x, center.y, z, 0.0f);
-		
-		float est_z = zmin + tracker->ComputeZ(center, 64, 0, 0, 0, 0);
-		zdist += fabsf(est_z-z);
-		//dbgout(SPrintf("Z: %f, EstZ: %f\n", z, est_z));
-
-		if(k==50) {
-			WriteImageAsCSV("rprofdiff.csv", &cmpProf[0], cmpProf.size(),1);
-		}
-	}
-	return zdist/N;
-}
-
-void ZTrackingTest()
-{
-	for (int k=20;k<100;k+=20)
-	{
-		float err = EstimateZError(k);
-		dbgout(SPrintf("average Z difference: %f. zplanes=%d\n", err, k));
-	}
-}
-
-/*
-void Test2DTracking()
-{
-	CPUTracker tracker(150,150);
-
-	float zmin = 2;
-	float zmax = 6;
-	int N = 200;
-
-	double tloc2D = 0, tloc1D = 0;
-	double dist2D = 0;
-	double dist1D = 0;
-	for (int k=0;k<N;k++) {
-		float xp = tracker.GetWidth()/2+(rand_uniform<float>() - 0.5) * 5;
-		float yp = tracker.GetHeight()/2+(rand_uniform<float>() - 0.5) * 5;
-		float z = zmin + 0.1f + (zmax-zmin-0.2f) * rand_uniform<float>();
-
-		GenerateTestImage(tracker.srcImage, tracker.GetWidth(), tracker.GetHeight(), xp, yp, z, 50000);
-
-		double t0 = GetPreciseTime();
-		vector2f xcor2D = tracker.ComputeXCor2D();
-		if (k==0) {
-			float * results = tracker.tracker2D->GetAutoConvResults();
-			writeImageAsCSV("xcor2d-autoconv-img.csv", results, tracker.GetWidth(), tracker.GetHeight());
-		}
-
-		double t1 = GetPreciseTime();
-		vector2f com = tracker.ComputeBgCorrectedCOM();
-		vector2f xcor1D = tracker.ComputeXCorInterpolated(com, 2);
-		double t2 = GetPreciseTime();
-
-		dist1D += distance(xp-xcor1D.x,yp-xcor1D.y);
-		dist2D += distance(xp-xcor2D.x,yp-xcor2D.y);
-
-		if (k>0) {
-			tloc2D += t1-t0;
-			tloc1D += t2-t1;
-		}
-	}
-	N--; // ignore first
-
-	dbgprintf("1D Xcor speed(img/s): %f\n2D Xcor speed (img/s): %f\n", N/tloc1D, N/tloc2D);
-	dbgprintf("Average dist XCor 1D: %f\n", dist1D/N);
-	dbgprintf("Average dist XCor 2D: %f\n", dist2D/N);
-}*/
-
 
 void BuildConvergenceMap(int iterations)
 {
@@ -457,6 +359,76 @@ void WriteRadialProf(const char *file, ImageData& d)
 	WriteImageAsCSV(file, radprof, radialsteps, 1);
 }
 
+void TestFisherFast(const char *lutfile)
+{
+	ImageData lut = ReadJPEGFile(lutfile);
+
+	float z = 60.0f;
+	vector3f delta(0.001f,0.001f, 0.001f);
+
+	float zlutMin=0;
+	float zlutMax=40;
+	QTrkComputedConfig settings;
+	settings.zlut_minradius = zlutMin;
+	settings.zlut_maxradius = zlutMax;
+	settings.width = settings.height = 80;
+	settings.Update();
+	
+	float maxVal=10000;
+
+	vector3f smppos(settings.width/2,settings.height/2, z);
+	std::vector<float> stdv;
+	dbgprintf("High-res LUT range...\n");
+	SampleFisherMatrix fm( maxVal);
+
+	QueuedCPUTracker trk(settings);
+	ImageData rescaledLUT;
+	ResampleLUT(&trk, &lut, 150, &rescaledLUT);
+	trk.SetLocalizationMode(LT_QI|LT_LocalizeZ);
+
+	int nstep= InDebugMode ? 50 : 1000;
+	std::vector<vector3f> positions;
+	std::vector<float> stdevz, imgsmp;
+	for (int i=0;i<nstep;i++)
+	{
+		float z = 1 + i / (float)nstep * (rescaledLUT.h-2);
+		vector3f pos = vector3f( smppos.x, smppos.y, z);
+		positions.push_back(pos);
+		Matrix3X3 invFisherLUT = fm.Compute(pos, delta, rescaledLUT, settings.width, settings.height, zlutMin, zlutMax).Inverse();
+		vector3f stdev = sqrt(invFisherLUT.diag());
+		stdevz.push_back(stdev.z);
+
+		ImageData img=ImageData::alloc(settings.width,settings.height);
+		GenerateImageFromLUT(&img, &rescaledLUT, zlutMin, zlutMax, pos);
+		LocalizationJob job(i, 0, 0, 0);
+		trk.ScheduleImageData(&img, &job);
+		imgsmp.push_back(img.at(img.w/4, img.h/2)); // 
+		img.free();
+//		dbgprintf("[%d] z=%f Min std deviation: X=%f nm, Y=%f nm, Z=%f nm.\n", i, z, stdev.x,stdev.y,stdev.z);
+	}
+	WaitForFinish(&trk, nstep);
+	std::vector<float> output;
+	std::vector<float> errz(nstep);
+	std::vector<float> zresult(nstep);
+	for (int i=0;i<nstep;i++) {
+		LocalizationResult lr;
+		trk.FetchResults(&lr, 1);
+		zresult[lr.job.frame]=lr.pos.z;
+		errz[lr.job.frame] = zresult[lr.job.frame] - positions[lr.job.frame].z;
+	} 
+
+	for(int i=0;i<nstep;i++) {
+		dbgprintf("errz[%d]:%f.  z=%f, true=%f\n", i,  errz[i], zresult[i], positions[i].z);
+		output.push_back(positions[i].z);
+		output.push_back(errz[i]);
+		output.push_back(stdevz[i]);
+		output.push_back(imgsmp[i]);
+	}
+	WriteImageAsCSV("lutrange-zerr.txt", &output[0], 4, output.size()/4);
+	lut.free();
+	rescaledLUT.free();
+}
+
 void TestFisher(const char *lutfile)
 {
 	ImageData lut = ReadJPEGFile(lutfile);
@@ -466,8 +438,11 @@ void TestFisher(const char *lutfile)
 	float zlutMax=40;
 	vector3f delta(0.001f,0.001f, 0.001f);
 
-	QTrkSettings settings;
+	QTrkComputedConfig settings;
+	settings.zlut_minradius = zlutMin; 
+	settings.zlut_maxradius = zlutMax;
 	settings.width = settings.height = 80;
+	settings.Update();
 	float maxVal=10000;
 
 	vector3f smppos(settings.width/2,settings.height/2, z);
@@ -479,12 +454,12 @@ void TestFisher(const char *lutfile)
 
 	int nstep=2000;
 	for (int i=0;i<nstep;i++) {
-		float z = 1 + i / (float)nstep * (lut.h-2);
+		float z = 1 + i / (float)nstep * (rescaledLUT.h-2);
 		vector3f pos = vector3f( smppos.x, smppos.y, z);
-		Matrix3X3 invFisherLUT = fm.Compute(pos, delta, lut, settings.width, settings.height, zlutMin, zlutMax).Inverse();
+		Matrix3X3 invFisherLUT = fm.Compute(pos, delta, rescaledLUT, settings.width, settings.height, zlutMin, zlutMax).Inverse();
 
 		ImageData img=ImageData::alloc(settings.width,settings.height);
-		GenerateImageFromLUT(&img, &lut, zlutMin, zlutMax, pos);
+		GenerateImageFromLUT(&img, &rescaledLUT, zlutMin, zlutMax, pos);
 
 		vector3f stdev = sqrt(invFisherLUT.diag());
 

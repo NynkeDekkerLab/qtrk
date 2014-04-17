@@ -60,6 +60,10 @@ QueuedTracker::~QueuedTracker()
 {
 }
 
+void QueuedTracker::ScheduleImageData(ImageData* data, const LocalizationJob* job)
+{
+	ScheduleLocalization(data->data, data->pitch(), QTrkFloat, job);
+}
 
 void QueuedTracker::ScheduleLocalization(uchar* data, int pitch, QTRK_PixelDataType pdt, uint frame, uint timestamp, vector3f* initial, uint zlutIndex)
 {

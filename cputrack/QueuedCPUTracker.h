@@ -50,14 +50,6 @@ public:
 	void SetConfigValue(std::string name, std::string value) override;
 
 	std::string GetProfileReport() { return "CPU tracker currently has no profile reporting"; }
-
-	enum ZLUTAlignRootFinder {
-		RF_NewtonRaphson,
-		RF_NewtonRaphson3D,
-		RF_Secant,
-		RF_GradientDescent
-	} zlutAlignRootFinder;
-
 private:
 	struct Thread {
 		Thread() { tracker=0; manager=0; thread=0;  mutex=0; }
@@ -121,7 +113,6 @@ private:
 	Job* AllocateJob();
 	void AddJob(Job* j);
 	void ProcessJob(Thread* th, Job* j);
-	vector3f ZLUTAlign(Thread *th, const LocalizationJob& job, vector3f pos);
 
 	void SetTrackerImage(CPUTracker* trk, Job *job);
 
