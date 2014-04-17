@@ -333,3 +333,24 @@ T erf(T x)
 }
 
 
+
+/*
+Cubic B-spline. Has continuous derivative when knots are distinct
+	  B(i - 1) = 1/6 * (1 - t) ^ 3
+	  B(i + 0) = 1/6 * (3*t^3 - 6*t^2 + 4)
+	  B(i + 1) = 1/6 * (-3*t^3 + 3*t^2 + 3t + 1)
+	  B(i + 2) = 1/6 * t^3
+*/
+
+inline void ComputeBSplineWeights(float w[], float t)
+{
+	float t2=t*t;
+	float t3=t2*t;
+	float omt = 1-t;
+	w[0] = 1.0f/6 * omt*omt*omt;
+	w[1] = 1.0f/6 * (3*t3 - 6*t2 + 4);
+	w[2] = 1.0f/6 * (-3*t3 + 3*t2 + 3*t + 1);
+	w[3] = 1.0f/6 * t3;
+}
+
+
