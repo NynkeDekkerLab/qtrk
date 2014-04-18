@@ -57,6 +57,12 @@ struct vector3 {
 	vector3 operator-(const vector3& o) const {
 		return vector3(x-o.x,y-o.y,z-o.z);
 	}
+	vector3 operator-(float a) const {
+		return vector3(x-a,y-a,z-a); 
+	}
+	vector3 operator+(float a) const {
+		return vector3(x+a,y+a,z+a); 
+	}
 	vector3 operator-() const {
 		return vector3(-x,-y,-z);
 	}

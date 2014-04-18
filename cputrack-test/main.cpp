@@ -359,11 +359,9 @@ void WriteRadialProf(const char *file, ImageData& d)
 	WriteImageAsCSV(file, radprof, radialsteps, 1);
 }
 
-void TestFisherFast(const char *lutfile)
+void TestZRange(const char *lutfile)
 {
 	ImageData lut = ReadJPEGFile(lutfile);
-
-	float z = 60.0f;
 	vector3f delta(0.001f,0.001f, 0.001f);
 
 	float zlutMin=0;
@@ -375,8 +373,6 @@ void TestFisherFast(const char *lutfile)
 	settings.Update();
 	
 	float maxVal=10000;
-
-	vector3f smppos(settings.width/2,settings.height/2, z);
 	std::vector<float> stdv;
 	dbgprintf("High-res LUT range...\n");
 	SampleFisherMatrix fm( maxVal);
@@ -386,45 +382,66 @@ void TestFisherFast(const char *lutfile)
 	ResampleLUT(&trk, &lut, 150, &rescaledLUT);
 	trk.SetLocalizationMode(LT_QI|LT_LocalizeZ);
 
-	int nstep= InDebugMode ? 50 : 1000;
-	std::vector<vector3f> positions;
-	std::vector<float> stdevz, imgsmp;
+	int nstep= InDebugMode ? 20 : 1000;
+	int smpPerStep = InDebugMode ? 10 : 500;
+	std::vector<vector3f> truepos, positions,crlb;
+	std::vector<float> stdevz;
 	for (int i=0;i<nstep;i++)
 	{
 		float z = 1 + i / (float)nstep * (rescaledLUT.h-2);
-		vector3f pos = vector3f( smppos.x, smppos.y, z);
-		positions.push_back(pos);
+		vector3f pos = vector3f(settings.width/2, settings.height/2, z);
+		truepos.push_back(pos);
 		Matrix3X3 invFisherLUT = fm.Compute(pos, delta, rescaledLUT, settings.width, settings.height, zlutMin, zlutMax).Inverse();
-		vector3f stdev = sqrt(invFisherLUT.diag());
-		stdevz.push_back(stdev.z);
+		crlb.push_back(sqrt(invFisherLUT.diag()));
 
 		ImageData img=ImageData::alloc(settings.width,settings.height);
-		GenerateImageFromLUT(&img, &rescaledLUT, zlutMin, zlutMax, pos);
-		LocalizationJob job(i, 0, 0, 0);
-		trk.ScheduleImageData(&img, &job);
-		imgsmp.push_back(img.at(img.w/4, img.h/2)); // 
+
+		for (int j=0;j<smpPerStep; j++) {
+			vector3f rndvec(rand_uniform<float>(), rand_uniform<float>(), rand_uniform<float>());
+			vector3f rndpos = pos + vector3f(1,1,0.1) * (rndvec-0.5f); // 0.1 plane is still a lot larger than the 0.02 typical accuracy
+			GenerateImageFromLUT(&img, &rescaledLUT, zlutMin, zlutMax, rndpos);
+			LocalizationJob job(positions.size(), 0, 0, 0);
+			trk.ScheduleImageData(&img, &job);
+			positions.push_back(rndpos);
+		}
+//		imgsmp.push_back(img.at(img.w/4, img.h/2)); // 
+		dbgprintf("[%d] z=%f Min std deviation: X=%f nm, Y=%f nm, Z=%f nm.\n", i, z, crlb[i].x,crlb[i].y,crlb[i].z);
 		img.free();
-//		dbgprintf("[%d] z=%f Min std deviation: X=%f nm, Y=%f nm, Z=%f nm.\n", i, z, stdev.x,stdev.y,stdev.z);
 	}
-	WaitForFinish(&trk, nstep);
-	std::vector<float> output;
-	std::vector<float> errz(nstep);
-	std::vector<float> zresult(nstep);
-	for (int i=0;i<nstep;i++) {
+	WaitForFinish(&trk, positions.size());
+	std::vector<vector3f> trkmean(nstep), trkstd(nstep);
+	std::vector<vector3f> resultpos(nstep*smpPerStep);
+	for (int i=0;i<positions.size();i++) {
 		LocalizationResult lr;
 		trk.FetchResults(&lr, 1);
-		zresult[lr.job.frame]=lr.pos.z;
-		errz[lr.job.frame] = zresult[lr.job.frame] - positions[lr.job.frame].z;
+		resultpos[lr.job.frame]=lr.pos;
 	} 
-
-	for(int i=0;i<nstep;i++) {
-		dbgprintf("errz[%d]:%f.  z=%f, true=%f\n", i,  errz[i], zresult[i], positions[i].z);
-		output.push_back(positions[i].z);
-		output.push_back(errz[i]);
-		output.push_back(stdevz[i]);
-		output.push_back(imgsmp[i]);
+	for (int i=0;i<nstep;i++) {
+		for (int j=0;j<smpPerStep;j ++) {
+			vector3f err=resultpos[i*smpPerStep+j]-positions[i*smpPerStep+j];
+			trkmean[i]+=err;
+		}
+		vector3f variance;
+		for (int j=0;j<smpPerStep;j ++) {
+			vector3f err=resultpos[i*smpPerStep+j]-positions[i*smpPerStep+j];
+			err -= trkmean[i];
+			variance += err*err;
+		}
+		trkstd[i] = sqrt(variance);
 	}
-	WriteImageAsCSV("lutrange-zerr.txt", &output[0], 4, output.size()/4);
+
+	std::vector<float> output;
+	for(int i=0;i<nstep;i++) {
+		dbgprintf("trkstd[%d]:%f. crlb=%f bias=%f true=%f\n", i, trkstd[i].z, crlb[i].z, trkmean[i].z, truepos[i].z);
+		output.push_back(truepos[i].z);
+		output.push_back(trkmean[i].x);
+		output.push_back(trkstd[i].x);
+		output.push_back(trkmean[i].z);
+		output.push_back(trkstd[i].z);
+		output.push_back(crlb[i].x);
+		output.push_back(crlb[i].z);
+	}
+	WriteImageAsCSV("zrange_z_bx_sx_bz_sz_fx_fz.txt", &output[0], 7, output.size()/7);
 	lut.free();
 	rescaledLUT.free();
 }
@@ -660,8 +677,10 @@ int main()
 	Matrix3X3::test();
 #endif
 
-	TestFisher("lut000.jpg");
+//	TestFisher("lut000.jpg");
 
+
+	TestZRange("lut000.jpg");
 	//QTrkTest();
 //	TestCMOSNoiseInfluence<QueuedCPUTracker>("lut000.jpg");
 
