@@ -136,6 +136,7 @@
     <ClInclude Include="BeadFinder.h" />
     <ClInclude Include="BenchmarkLUT.h" />
     <ClInclude Include="cpu_tracker.h" />
+    <ClInclude Include="CubicBSpline.h" />
     <ClInclude Include="dllmacros.h" />
     <ClInclude Include="FisherMatrix.h" />
     <ClInclude Include="hash_templates.h" />

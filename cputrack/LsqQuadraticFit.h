@@ -1,8 +1,8 @@
 
 #pragma once
 
-#ifndef LSQFIT_FUNC 
-	#define LSQFIT_FUNC
+#ifndef CUDA_SUPPORTED_FUNC 
+	#define CUDA_SUPPORTED_FUNC 
 #endif
 
 template<typename T>
@@ -15,7 +15,7 @@ public:
 	struct Coeff {
 		T s40, s30, s20, s10, s21, s11, s01, s00;
 
-        LSQFIT_FUNC void abc(T& a, T& b, T& c, T& d) {
+        CUDA_SUPPORTED_FUNC void abc(T& a, T& b, T& c, T& d) {
 			d = s40 * (s20 * s00 - s10 * s10) - s30 * (s30 * s00 - s10 * s20) + s20 * (s30 * s10 - s20 * s20);
 
 			a = (s21*(s20 * s00 - s10 * s10) - s11*(s30 * s00 - s10 * s20) + s01*(s30 * s10 - s20 * s20)) / d;
@@ -24,44 +24,44 @@ public:
 		}
 	};
 
-	LSQFIT_FUNC LsqSqQuadFit(uint numPts, const T* xval, const T* yval, const T* weights=0)
+	CUDA_SUPPORTED_FUNC LsqSqQuadFit(uint numPts, const T* xval, const T* yval, const T* weights=0)
 	{
 		calculate(numPts, xval, yval, weights);
 		xoffset =0;
 	}
 
-	LSQFIT_FUNC LsqSqQuadFit()
+	CUDA_SUPPORTED_FUNC LsqSqQuadFit()
 	{
 		a=b=c=d=0;
 		xoffset =0;
 	}
 
-	LSQFIT_FUNC void calculate(uint numPts, const T* X, const T* Y, const T* weights)
+	CUDA_SUPPORTED_FUNC void calculate(uint numPts, const T* X, const T* Y, const T* weights)
 	{
 		Coeff co = computeSums(X, Y, weights, numPts);
 		co.abc(a,b,c,d);
 	}
     
-	LSQFIT_FUNC T compute(T pos)
+	CUDA_SUPPORTED_FUNC T compute(T pos)
 	{
 		pos -= xoffset;
 		return a*pos*pos + b*pos + c;
 	}
 
-	LSQFIT_FUNC T computeDeriv(T pos)
+	CUDA_SUPPORTED_FUNC T computeDeriv(T pos)
 	{
 		pos -= xoffset;
 		return 2*a*pos + b;
 	}
 
-	LSQFIT_FUNC T maxPos()
+	CUDA_SUPPORTED_FUNC T maxPos()
 	{
 		return -b/(2*a);
 	}
    
 private:
 
-    LSQFIT_FUNC Coeff computeSums(const T* X, const T* Y, const T* weights, uint numPts) // get sum of x
+    CUDA_SUPPORTED_FUNC Coeff computeSums(const T* X, const T* Y, const T* weights, uint numPts) // get sum of x
     {
         //notation sjk to mean the sum of x_i^j*y_i^k. 
     /*    s40 = getSx4(); //sum of x^4
@@ -132,10 +132,10 @@ private:
 template<typename T, int numPts=3>
 class ComputeMaxInterp {
 public:
-	static LSQFIT_FUNC T max_(T a, T b) { return a>b ? a : b; }
-	static LSQFIT_FUNC T min_(T a, T b) { return a<b ? a : b; }
+	static CUDA_SUPPORTED_FUNC T max_(T a, T b) { return a>b ? a : b; }
+	static CUDA_SUPPORTED_FUNC T min_(T a, T b) { return a<b ? a : b; }
 
-	static LSQFIT_FUNC T Compute(T* data, int len, const  T* weights)
+	static CUDA_SUPPORTED_FUNC T Compute(T* data, int len, const  T* weights)
 	{
 		int iMax=0;
 		T vMax=data[0];

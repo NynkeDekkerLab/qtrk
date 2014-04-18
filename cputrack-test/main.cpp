@@ -7,7 +7,9 @@
 #include "../cputrack/LsqQuadraticFit.h"
 #include "../utils/ExtractBeadImages.h"
 #include "../cputrack/BenchmarkLUT.h"
+#include "../cputrack/CubicBSpline.h"
 #include <time.h>
+
 
 
 
@@ -421,13 +423,14 @@ void TestZRange(const char *lutfile)
 			vector3f err=resultpos[i*smpPerStep+j]-positions[i*smpPerStep+j];
 			trkmean[i]+=err;
 		}
+		trkmean[i]/=smpPerStep;
 		vector3f variance;
 		for (int j=0;j<smpPerStep;j ++) {
 			vector3f err=resultpos[i*smpPerStep+j]-positions[i*smpPerStep+j];
 			err -= trkmean[i];
 			variance += err*err;
 		}
-		trkstd[i] = sqrt(variance);
+		trkstd[i] = sqrt(variance) / (smpPerStep-1);
 	}
 
 	std::vector<float> output;
@@ -661,26 +664,32 @@ void TestQuadrantAlign()
 }
 
 
+
+static void TestBSplineMax(float maxpos)
+{
+	const int N=100;
+	float v[N];
+
+	for (int i=0;i<N;i++)
+		v[i] = -sqrt(1+(i-maxpos)*(i-maxpos));
+	float max = ComputeSplineFitMaxPos(v, N);
+	dbgprintf("Max: %f, true: %f\n", max, maxpos); 
+}
+
+
 int main()
 {
-	/*
-	const int N=5;
-	float x[N],y[N],w[N]={0.1f, 0.5f, 1.0f, 0.4f, 0.1f };
-	for (int i=0;i<N;i++) { x[i]=i-2; y[i]=x[i]*x[i]-2*x[i]+1.0f; }
-	LsqSqQuadFit<float> fit(N, x, y, w);
-	dbgprintf("f(1)(fit) = %f.  f(1)=%f\n", fit.compute(1.0f), sq(1)-2*1+1);
-	LsqSqQuadFit<float> fit2(N, x, y, w);
-	dbgprintf("f(1) = %f\n", fit2.compute(1.0f));
-	*/
 
 #ifdef _DEBUG
 	Matrix3X3::test();
 #endif
 
-//	TestFisher("lut000.jpg");
+	TestFisher("lut000.jpg");
 
-
-	TestZRange("lut000.jpg");
+//	TestBSplineMax(-1);
+//	TestBSplineMax(99.9);
+//	TestBSplineMax(34.23);
+	//TestZRange("lut000.jpg");
 	//QTrkTest();
 //	TestCMOSNoiseInfluence<QueuedCPUTracker>("lut000.jpg");
 

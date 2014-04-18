@@ -95,7 +95,7 @@ public:
 	{
 		float* prof= ALLOCA_ARRAY(float, zlut_res);
 		ComputeRadialProfile(prof,zlut_res,angularSteps, zlut_minradius, zlut_maxradius, center, false, boundaryHit, normalizeProfile);
-		return LUTProfileCompare(prof, zlutIndex, cmpprof);
+		return LUTProfileCompare(prof, zlutIndex, cmpprof, LUTProfMaxQuadraticFit);
 	}
 	
 	void FourierTransform2D();
@@ -103,17 +103,11 @@ public:
 
 	void Normalize(float *image=0);
 	void SetRadialZLUT(float* data, int planes, int res, int num_zluts, float minradius, float maxradius, int angularSteps, bool copyMemory, bool useCorrelation, float* radialweights=0);
-	float LUTProfileCompare(float* profile, int zlutIndex, float* cmpProf);
+	enum LUTProfileMaxComputeMode { LUTProfMaxQuadraticFit, LUTProfMaxSplineFit };
+	float LUTProfileCompare(float* profile, int zlutIndex, float* cmpProf, LUTProfileMaxComputeMode maxPosMethod);
 	float* GetDebugImage() { return debugImage; }
 
 	void ApplyOffsetGain(float *offset, float *gain, float offsetFactor, float gainFactor);
-
-	vector3d ZLUTAlignGradientStep(vector3d pos, int beadIndex,vector3d* diff, vector3d step, vector3d deriv_delta);
-	vector3d ZLUTAlignNewtonRaphsonIndependentStep(vector3d pos, int beadIndex,vector3d* diff, vector3d deriv_delta);
-	vector3d ZLUTAlignNewtonRaphson3DStep(vector3d pos, int beadIndex,vector3d* diff, vector3d deriv_delta);
-	vector3d ZLUTAlignSecantMethod(vector3d pos, int beadIndex, int iterations, vector3d deriv_delta);
-
-	double ZLUTAlign_ComputeScore(vector3d pos, int beadIndex);
 
 	void AllocateQIFFTs(int nsteps);
 	vector3f QuadrantAlign(vector3f initial, int beadIndex, int angularStepsPerQuadrant, bool& boundaryHit);

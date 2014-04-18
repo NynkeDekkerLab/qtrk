@@ -19,6 +19,7 @@ CPU only tracker
 #include "cpu_tracker.h"
 #include "LsqQuadraticFit.h"
 #include "random_distr.h"
+#include "CubicBSpline.h"
 
 #define SFFT_BOTH 
 #include "../cudatrack/simplefft.h"
@@ -755,7 +756,7 @@ void CPUTracker::SetRadialZLUT(float* data, int planes, int res, int numLUTs, fl
 }
 
 
-float CPUTracker::LUTProfileCompare(float* rprof, int zlutIndex, float* cmpProf)
+float CPUTracker::LUTProfileCompare (float* rprof, int zlutIndex, float* cmpProf, LUTProfileMaxComputeMode maxPosComputeMode)
 {
 	if (!zluts)
 		return 0.0f;
@@ -765,19 +766,13 @@ float CPUTracker::LUTProfileCompare(float* rprof, int zlutIndex, float* cmpProf)
 	//WriteImageAsCSV("zlutradprof-cpu.txt", rprof, zlut_res, 1);
 
 	// Now compare the radial profile to the profiles stored in Z
-
 	float* zlut_sel = GetRadialZLUT(zlutIndex);
 
 	for (int k=0;k<zlut_planes;k++) {
 		float diffsum = 0.0f;
 		for (int r = 0; r<zlut_res;r++) {
-			float d;
-			if (zlut_useCorrelation) 
-				d = rprof[r]*zlut_sel[k*zlut_res+r];
-			else {
-				float diff = rprof[r]-zlut_sel[k*zlut_res+r];
-				d = -diff*diff;
-			}
+			float d = rprof[r]-zlut_sel[k*zlut_res+r];
+			d = -d*d;
 			if(!zlut_radialweights.empty())
 				d *= zlut_radialweights[r];
 			diffsum += d;
@@ -789,21 +784,12 @@ float CPUTracker::LUTProfileCompare(float* rprof, int zlutIndex, float* cmpProf)
 		//cmpProf->resize(zlut_planes);
 		std::copy(rprof_diff, rprof_diff+zlut_planes, cmpProf);
 	}
-	
-#ifdef _DEBUG
-/*	static int started=0;
-	std::string file = GetLocalModulePath() + "/zlutcmp-cpu.txt";
-	if( zlutIndex == 0) {
-		if (started++==0) remove(file.c_str());
-		WriteArrayAsCSVRow(file.c_str(), rprof_diff, zlut_planes, true);
-	}*/
-#endif
 
-	float z = ComputeMaxInterp<float, ZLUT_LSQFIT_NWEIGHTS>::Compute(rprof_diff, zlut_planes, ZLUTWeights);
-	return z;
+	if (maxPosComputeMode == LUTProfMaxQuadraticFit)
+		return ComputeMaxInterp<float, ZLUT_LSQFIT_NWEIGHTS>::Compute(rprof_diff, zlut_planes, ZLUTWeights);
+	else
+		return ComputeSplineFitMaxPos(rprof_diff, zlut_planes);
 }
-
-
 
 
 void CPUTracker::SaveImage(const char *filename)

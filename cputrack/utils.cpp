@@ -12,6 +12,7 @@
 #include "LsqQuadraticFit.h"
 #include "QueuedTracker.h"
 #include "threads.h"
+#include "CubicBSpline.h"
 
 static std::string logFilename;
 
