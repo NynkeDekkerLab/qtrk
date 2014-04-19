@@ -99,7 +99,7 @@ float CUDA_SUPPORTED_FUNC ComputeSplineFitMaxPos(T* data, int len)
 		float w,w2;
 		ComputeBSplineDerivatives(t, &data[i-1], w, w2);
 		float dx=w/w2;
-		dbgprintf("[%d]: x=%f, w=%f, w2=%f. dx=%f\n", it, x,w,w2, -dx);
+//		dbgprintf("[%d]: x=%f, w=%f, w2=%f. dx=%f\n", it, x,w,w2, -dx);
 		x -= dx;
 	}
 	if (x<0) x=0;
