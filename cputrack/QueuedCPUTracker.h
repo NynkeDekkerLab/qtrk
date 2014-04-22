@@ -22,6 +22,7 @@ public:
 	void GetRadialZLUT(float* zlut) override;
 	void GetRadialZLUTSize(int& count ,int& planes, int& rsteps) override;
 	void SetRadialWeights(float* rweights) override;
+	void SetRadialWeights(std::vector<float> weights) { SetRadialWeights(&weights[0]); }
 	void ScheduleLocalization(void* data, int pitch, QTRK_PixelDataType pdt, const LocalizationJob *jobInfo) override;
 
 	void EnableRadialZLUTCompareProfile(bool enabled);

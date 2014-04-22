@@ -361,6 +361,16 @@ void WriteRadialProf(const char *file, ImageData& d)
 	WriteImageAsCSV(file, radprof, radialsteps, 1);
 }
 
+
+std::vector<float> ComputeRadialWeights(int rsteps, float minRadius, float maxRadius)
+{
+	std::vector<float> wnd(rsteps);
+	for(int x=0;x<rsteps;x++)
+		wnd[x]=Lerp(minRadius, maxRadius, x/(float)rsteps) / (0.5f * (minRadius+maxRadius));
+	return wnd;
+}
+
+
 void TestZRange(const char *lutfile)
 {
 	ImageData lut = ReadJPEGFile(lutfile);
@@ -382,10 +392,11 @@ void TestZRange(const char *lutfile)
 	QueuedCPUTracker trk(settings);
 	ImageData rescaledLUT;
 	ResampleLUT(&trk, &lut, 150, &rescaledLUT);
+	trk.SetRadialWeights(ComputeStetsonWindow(settings.zlut_radialsteps));
 	trk.SetLocalizationMode(LT_QI|LT_LocalizeZ);
 
-	int nstep= InDebugMode ? 20 : 50;
-	int smpPerStep = InDebugMode ? 10 : 300;
+	int nstep= InDebugMode ? 20 : 2000;
+	int smpPerStep = InDebugMode ? 10 : 1000;
 	std::vector<vector3f> truepos, positions,crlb;
 	std::vector<float> stdevz;
 	for (int i=0;i<nstep;i++)
@@ -448,7 +459,7 @@ void TestZRange(const char *lutfile)
 		mean_std += trkstd[i];
 	}
 	dbgprintf("mean z err: %f\n", (mean_std/nstep).z);
-	WriteImageAsCSV("zrange_z_bx_sx_bz_sz_fx_fz.txt", &output[0], 7, output.size()/7);
+	WriteImageAsCSV("zrange_z_bx_sx_bz_sz_fx_fz_stetson.txt", &output[0], 7, output.size()/7);
 	lut.free();
 	rescaledLUT.free();
 }

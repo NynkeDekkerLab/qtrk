@@ -486,26 +486,30 @@ CDLL_EXPORT void qtrk_get_profile_report(QueuedTracker* qtrk, LStrHandle str)
 
 
 CDLL_EXPORT void qtrk_compute_fisher(LVArray2D<float> **lut, QTrkSettings* cfg, vector3f* pos, LVArray2D<float> ** fisherMatrix, 
-		LVArray2D<float> ** inverseMatrix, vector3f* xyzVariance, int Nsamples, float lutIntensityScale)
+		LVArray2D<float> ** inverseMatrix, vector3f* xyzVariance, int Nsamples, float maxPixelValue)
 {
 	QTrkComputedConfig cc (*cfg);
-	LUTFisherMatrix fm( (*lut)->elem, cc.zlut_radialsteps, (*lut)->dimSizes[1], cc.width, cc.height, cc.zlut_minradius, cc.zlut_maxradius, lutIntensityScale );
-	fm.Compute(*pos, Nsamples, *xyzVariance);
-
+	ImageData lutImg( (*lut)->elem, (*lut)->dimSizes[1], (*lut)->dimSizes[0] );
+	SampleFisherMatrix fm(maxPixelValue);
+	Matrix3X3 mat = fm.ComputeAverageFisher(*pos, Nsamples, vector3f(1,1,1), vector3f(1,1,1)*0.001f, cfg->width, cfg->height, [&](ImageData&out, vector3f pos) {
+		GenerateImageFromLUT(&out, &lutImg, cc.zlut_minradius,cc.zlut_maxradius, pos);
+	});
+	
 	if (fisherMatrix) {
 		ResizeLVArray2D( fisherMatrix, 3, 3);
 		for (int i=0;i<9;i++)
-			(*fisherMatrix)->elem[i] = fm.matrix[i];
+			(*fisherMatrix)->elem[i] = mat[i];
 	}
 
 	if (inverseMatrix) {
+		Matrix3X3 inv = mat.Inverse();
 		ResizeLVArray2D( inverseMatrix, 3, 3);
 		for (int i=0;i<9;i++)
-			(*inverseMatrix)->elem[i] = fm.inverse[i];
+			(*inverseMatrix)->elem[i] = inv[i];
 	}
 
 	if (xyzVariance)
-		*xyzVariance = fm.MinVariance();
+		*xyzVariance = mat.Inverse().diag();
 }
 
 
@@ -573,7 +577,7 @@ CDLL_EXPORT void qtrk_simulate_tracking(QueuedTracker* qtrk, int nsmp, int beadI
 			vector3f pos = *centerPos + *range * vector3f(rand_uniform<float>(), rand_uniform<float>(), rand_uniform<float>());
 			positions[i]=pos;
 			GenerateImageFromLUT( &img, &zlut, qtrk->cfg.zlut_minradius, qtrk->cfg.zlut_maxradius, pos);
-			ApplyPoissonNoise(img, 
+			ApplyPoissonNoise(img, photonsPerWell);
 			qtrk->ScheduleLocalization((uchar*)img.data, sizeof(float)*img.w, QTrkFloat,i,i,0,beadIndex);
 		}
 

@@ -109,7 +109,7 @@ public:
 		return fisher;
 	}
 
-	Matrix3X3 ComputeAverage(vector3f pos, int Nsamples, vector3f sampleRange, vector3f delta, int w,int h, std::function<void(ImageData& out, vector3f pos)> imggen)
+	Matrix3X3 ComputeAverageFisher(vector3f pos, int Nsamples, vector3f sampleRange, vector3f delta, int w,int h, std::function<void(ImageData& out, vector3f pos)> imggen)
 	{
 		Matrix3X3* results = new Matrix3X3[Nsamples];
 
@@ -135,7 +135,6 @@ public:
 			accum += results[i];
 		delete[] results;
 
-		// Compute inverse
 		Matrix3X3 matrix = accum;
 		matrix *= 1.0f/Nsamples;
 		return matrix;

@@ -102,7 +102,8 @@ public:
 	void FourierRadialProfile(float* dst, int radialSteps, int angularSteps, float minradius, float maxradius);
 
 	void Normalize(float *image=0);
-	void SetRadialZLUT(float* data, int planes, int res, int num_zluts, float minradius, float maxradius, int angularSteps, bool copyMemory, bool useCorrelation, float* radialweights=0);
+	void SetRadialZLUT(float* data, int planes, int res, int num_zluts, float minradius, float maxradius, int angularSteps, bool copyMemory, bool useCorrelation);
+	void SetRadialWeights(float *w);
 	enum LUTProfileMaxComputeMode { LUTProfMaxQuadraticFit, LUTProfMaxSplineFit };
 	float LUTProfileCompare(float* profile, int zlutIndex, float* cmpProf, LUTProfileMaxComputeMode maxPosMethod);
 	float* GetDebugImage() { return debugImage; }

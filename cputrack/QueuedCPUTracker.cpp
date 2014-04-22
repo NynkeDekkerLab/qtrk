@@ -364,13 +364,20 @@ void QueuedCPUTracker::SetRadialWeights(float *rweights)
 		zcmp.assign(rweights, rweights + cfg.zlut_radialsteps);
 	else
 		zcmp.clear();
+
+	for (int i=0;i<threads.size();i++){
+		threads[i].lock();
+		threads[i].tracker->SetRadialWeights(rweights);
+		threads[i].unlock();
+	}
+
 }
 
 void QueuedCPUTracker::UpdateZLUTs()
 {
 	for (int i=0;i<threads.size();i++){
 		threads[i].lock();
-		threads[i].tracker->SetRadialZLUT(zluts, zlut_planes, cfg.zlut_radialsteps, zlut_count, cfg.zlut_minradius, cfg.zlut_maxradius, cfg.zlut_angularsteps, false, false, zcmp.empty() ? 0 : &zcmp[0]);
+		threads[i].tracker->SetRadialZLUT(zluts, zlut_planes, cfg.zlut_radialsteps, zlut_count, cfg.zlut_minradius, cfg.zlut_maxradius, cfg.zlut_angularsteps, false, false);
 		threads[i].unlock();
 	}
 }

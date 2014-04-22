@@ -721,7 +721,7 @@ void CPUTracker::ComputeRadialProfile(float* dst, int radialSteps, int angularSt
 	}
 }
 
-void CPUTracker::SetRadialZLUT(float* data, int planes, int res, int numLUTs, float minradius, float maxradius, int angularSteps, bool copyMemory, bool useCorrelation, float* radweights)
+void CPUTracker::SetRadialZLUT(float* data, int planes, int res, int numLUTs, float minradius, float maxradius, int angularSteps, bool copyMemory, bool useCorrelation)
 {
 	if (zluts && zlut_memoryOwner)
 		delete[] zluts;
@@ -747,7 +747,10 @@ void CPUTracker::SetRadialZLUT(float* data, int planes, int res, int numLUTs, fl
 
 	qa_fft_forward = new kissfft<scalar_t>(res*2,false);
 	qa_fft_backward = new kissfft<scalar_t>(res*2,true);
+}
 
+void CPUTracker::SetRadialWeights(float* radweights)
+{
 	if (radweights) {
 		zlut_radialweights.resize(zlut_res);
 		std::copy(radweights, radweights+zlut_res, zlut_radialweights.begin());
