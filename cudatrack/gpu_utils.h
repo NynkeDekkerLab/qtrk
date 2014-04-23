@@ -4,7 +4,7 @@
 #include <vector>
 #include <cstdarg>
 
-#define LSQFIT_FUNC __device__ __host__
+#define CUDA_SUPPORTED_FUNC __device__ __host__
 #include "LsqQuadraticFit.h"
 
 #define CUBOTH __device__ __host__

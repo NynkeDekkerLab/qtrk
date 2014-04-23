@@ -442,7 +442,7 @@ void WriteTrace(std::string filename, vector3f* results, int nResults)
 
 	for (int i=0;i<nResults;i++)
 	{
-		fprintf(f, "%f\t%f\t%f\n", results[i].x, results[i].y, results[i].z);
+		fprintf(f, "%.7f\t%.7f\t%.7f\n", results[i].x, results[i].y, results[i].z);
 	}
 
 	fclose(f);
@@ -453,7 +453,7 @@ void WriteArrayAsCSVRow(const char *file, float* d, int len, bool append)
 	FILE *f = fopen(file, append?"a":"w");
 	if(f) {
 		for (int i=0;i<len;i++)
-			fprintf(f, "%f\t", d[i]);
+			fprintf(f, "%.7f\t", d[i]);
 
 		fprintf(f, "\n");
 		fclose(f);

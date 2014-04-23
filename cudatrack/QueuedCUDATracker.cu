@@ -48,8 +48,6 @@ Issues:
 #include "gpu_utils.h"
 #include "ImageSampler.h"
 
-#define LSQFIT_FUNC __device__ __host__
-#include "LsqQuadraticFit.h"
 
 #include "Kernels.h"
 #include "DebugResultCompare.h"

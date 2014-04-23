@@ -23,6 +23,7 @@
     <ClInclude Include="..\utils\tinydir.h" />
     <ClInclude Include="..\cudatrack\QI.h" />
     <ClInclude Include="..\cudatrack\QI_impl.h" />
+    <ClInclude Include="..\cputrack\LsqQuadraticFit.h" />
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="test.cu" />

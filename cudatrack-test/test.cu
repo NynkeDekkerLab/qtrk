@@ -28,6 +28,8 @@
 #include <thrust/reduce.h>
 #include <thrust/functional.h>
 
+#include "FisherMatrix.h"
+
 void BenchmarkParams();
 
 std::string getPath(const char *file)
@@ -703,11 +705,16 @@ int CmdLineRun(int argc, char*argv[])
 	check_arg(args, "count", &count);
 
 	std::string outputfile, fixlutfile, inputposfile, bmlutfile, rescaledlutfile;
+	std::string radialWeightsFile;
 	check_strarg(args, "output", &outputfile);
 	check_strarg(args, "fixlut", &fixlutfile);
 	check_strarg(args, "bmlut", &bmlutfile);
 	check_strarg(args, "inputpos", &inputposfile);
 	check_strarg(args, "regenlut", &rescaledlutfile);
+	check_strarg(args, "radweights", &radialWeightsFile);
+
+	std::string crlboutput;
+	check_strarg(args, "crlb", &crlboutput);
 
 	std::vector< vector3f > inputPos;
 	if (!inputposfile.empty()) {
@@ -728,12 +735,11 @@ int CmdLineRun(int argc, char*argv[])
 	check_arg(args, "qi_angstep_factor", &cfg.qi_angstep_factor);
 	check_arg(args, "downsample", &cfg.downsample);
 
-	int zlutAlign=0, fourierLUT=0;
+	int zlutAlign=0;
 	check_arg(args, "zlutalign", &zlutAlign);
-	check_arg(args, "fourierlut", &fourierLUT);
 
-	float elecperbit = 15;
-	check_arg(args, "epb", &elecperbit);
+	float pixelmax = 28 * 255;
+	check_arg(args, "pixelmax", &pixelmax);
 
 	std::string lutsmpfile;
 	check_strarg(args, "lutsmpfile", &lutsmpfile);
@@ -752,26 +758,21 @@ int CmdLineRun(int argc, char*argv[])
 	{
 		lut = ReadJPEGFile(fixlutfile.c_str());
 
-		if (fourierLUT) {
-
+		if(!rescaledlutfile.empty()) {
+			// rescaling allowed
+			ImageData newlut;
+			ResampleLUT(qtrk, &lut, lut.h, &newlut, rescaledlutfile.c_str()); 
+			lut.free();
+			lut=newlut;
 		}
-		else {
-			if(!rescaledlutfile.empty()) {
-				// rescaling allowed
-				ImageData newlut;
-				ResampleLUT(qtrk, &lut, lut.h, &newlut, rescaledlutfile.c_str()); 
-				lut.free();
-				lut=newlut;
-			}
-			else if (lut.w != qtrk->cfg.zlut_radialsteps) {
-				lut.free();
-				dbgprintf("Invalid LUT size (%d). Expecting %d radialsteps\n", lut.w, qtrk->cfg.zlut_radialsteps);
-				delete qtrk;
-				return -1;
-			}
-
-			qtrk->SetRadialZLUT(lut.data,1,lut.h);
+		else if (lut.w != qtrk->cfg.zlut_radialsteps) {
+			lut.free();
+			dbgprintf("Invalid LUT size (%d). Expecting %d radialsteps\n", lut.w, qtrk->cfg.zlut_radialsteps);
+			delete qtrk;
+			return -1;
 		}
+
+		qtrk->SetRadialZLUT(lut.data,1,lut.h);
 	}
 	else
 	{
@@ -798,19 +799,37 @@ int CmdLineRun(int argc, char*argv[])
 		}
 	}
 
+	if (!radialWeightsFile.empty())
+	{
+		auto rwd = ReadCSV(radialWeightsFile.c_str());
+		std::vector<float> rw(rwd.size());
+		if (rw.size() == qtrk->cfg.zlut_radialsteps)
+			qtrk->SetRadialWeights(&rw[0]);
+		else  {
+			dbgprintf("Invalid # radial weights");
+			delete qtrk;
+		}
+	}
+
 	std::vector<ImageData> imgs (inputPos.size());
+
+	std::vector<vector3f> crlb(inputPos.size());
 
 	for (int i=0;i<inputPos.size();i++) {
 		imgs[i]=ImageData::alloc(cfg.width, cfg.height);
 		//vector3f pos = centerpos + range*vector3f(rand_uniform<float>()-0.5f, rand_uniform<float>()-0.5f, rand_uniform<float>()-0.5f)*2;
 
 		auto p = inputPos[i];
-		if (!bmlut.lut_w)
+		if (!bmlut.lut_w) {
 			GenerateImageFromLUT(&imgs[i], &lut, qtrk->cfg.zlut_minradius, qtrk->cfg.zlut_maxradius, p);
-		else
+			if (!crlboutput.empty()) {
+				SampleFisherMatrix sfm(pixelmax);
+				crlb[i]=sfm.Compute(p, vector3f(1,1,1)*0.001f, lut, qtrk->cfg.width,qtrk->cfg.height, qtrk->cfg.zlut_minradius, qtrk->cfg.zlut_maxradius).Inverse().diag();
+			}
+		} else
 			bmlut.GenerateSample(&imgs[i], p, qtrk->cfg.zlut_minradius, qtrk->cfg.zlut_maxradius);
 		imgs[i].normalize();
-		if (elecperbit > 0) ApplyPoissonNoise(imgs[i], 255 * elecperbit, 255);
+		if (pixelmax > 0) ApplyPoissonNoise(imgs[i], pixelmax, 255);
 		if(i==0 && !lutsmpfile.empty()) WriteJPEGFile(lutsmpfile.c_str(), imgs[i]);
 	}
 
@@ -833,6 +852,8 @@ int CmdLineRun(int argc, char*argv[])
 		qtrk->FetchResults(&r,1);
 		results[r.job.frame]=r.pos;
 	}
+	if (!crlboutput.empty())
+		WriteTrace(crlboutput, &crlb[0], crlb.size());
 	WriteTrace(outputfile, results, inputPos.size());
 	delete[] results;
 	

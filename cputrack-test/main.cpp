@@ -371,7 +371,7 @@ std::vector<float> ComputeRadialWeights(int rsteps, float minRadius, float maxRa
 }
 
 
-void TestZRange(const char *lutfile)
+void TestZRange(const char *lutfile, int stetson=0)
 {
 	ImageData lut = ReadJPEGFile(lutfile);
 	vector3f delta(0.001f,0.001f, 0.001f);
@@ -392,11 +392,19 @@ void TestZRange(const char *lutfile)
 	QueuedCPUTracker trk(settings);
 	ImageData rescaledLUT;
 	ResampleLUT(&trk, &lut, 150, &rescaledLUT);
-	trk.SetRadialWeights(ComputeStetsonWindow(settings.zlut_radialsteps));
+	if (stetson) {
+		//auto s = ComputeStetsonWindow(settings.zlut_radialsteps);
+		//auto s = ComputeRadialWeights(settings.zlut_radialsteps, settings.zlut_minradius,settings.zlut_maxradius);
+		std::vector<float> rw(settings.zlut_radialsteps);
+		for (int i=0;i<settings.zlut_radialsteps;i++)
+			rw[i]=1.0f*stetson;
+		trk.SetRadialWeights(rw);
+		WriteImageAsCSV("stetsonwnd.txt", &rw[0], settings.zlut_radialsteps, 1);
+	}
 	trk.SetLocalizationMode(LT_QI|LT_LocalizeZ);
 
-	int nstep= InDebugMode ? 20 : 2000;
-	int smpPerStep = InDebugMode ? 10 : 1000;
+	int nstep= InDebugMode ? 20 : 500;
+	int smpPerStep = InDebugMode ? 10 : 100;
 	std::vector<vector3f> truepos, positions,crlb;
 	std::vector<float> stdevz;
 	for (int i=0;i<nstep;i++)
@@ -459,7 +467,7 @@ void TestZRange(const char *lutfile)
 		mean_std += trkstd[i];
 	}
 	dbgprintf("mean z err: %f\n", (mean_std/nstep).z);
-	WriteImageAsCSV("zrange_z_bx_sx_bz_sz_fx_fz_stetson.txt", &output[0], 7, output.size()/7);
+	WriteImageAsCSV( SPrintf("zrange_z_bx_sx_bz_sz_fx_fz_stetson%d.txt", stetson).c_str(), &output[0], 7, output.size()/7);
 	lut.free();
 	rescaledLUT.free();
 }
@@ -661,7 +669,8 @@ int main()
 //	TestBSplineMax(-1);
 //	TestBSplineMax(99.9);
 //	TestBSplineMax(34.23);
-	TestZRange("lut000.jpg");
+	TestZRange("lut000.jpg", 0);
+
 //	SimpleTest();
 //	QTrkTest();
 //	TestCMOSNoiseInfluence<QueuedCPUTracker>("lut000.jpg");
