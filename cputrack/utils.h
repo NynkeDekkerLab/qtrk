@@ -102,7 +102,7 @@ void ComputeCRP(float* dst, int radialSteps, int angularSteps, float minradius, 
 void ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float minradius, float maxradius, vector2f center, ImageData* src, float mean, bool normalize);
 void NormalizeRadialProfile(float* prof, int rsteps);
 void NormalizeZLUT(float *zlut, int numLUTs, int planes, int radialsteps);
-void GenerateImageFromLUT(ImageData* image, ImageData* zlut, float minradius, float maxradius, vector3f pos);
+void GenerateImageFromLUT(ImageData* image, ImageData* zlut, float minradius, float maxradius, vector3f pos, bool useSplineInterp=true);
 void ApplyPoissonNoise(ImageData& img, float poissonMax, float maxValue=255);
 void ApplyGaussianNoise(ImageData& img, float sigma);
 void WriteComplexImageAsCSV(const char* file, std::complex<float>* d, int w,int h, const char *labels[]=0);

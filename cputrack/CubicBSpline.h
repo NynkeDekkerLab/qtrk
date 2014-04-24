@@ -22,9 +22,6 @@ inline void CUDA_SUPPORTED_FUNC ComputeBSplineWeights(float w[], float t)
 	w[2] = 1.0f/6 * (-3*t3 + 3*t2 + 3*t + 1);
 	w[3] = 1.0f/6 * t3;
 }
-
-inline void ComputeBSplineDerivatives(float t, float w[], float* w2=0)
-{
 /*
 	  B(i - 1) = 1/6 * (1 - t) ^ 3
 	  B(i + 0) = 1/6 * (3*t^3 - 6*t^2 + 4)
@@ -41,23 +38,6 @@ inline void ComputeBSplineDerivatives(float t, float w[], float* w2=0)
 	  B''(i + 1) = 1/2 * (-3t^2 + 2t + 1)	=		1/2 * (-6*t + 2) = -3t + 1
     B''(i + 2) = 1/2 * t^2 =								1/2 * 2 * t			= t
 		*/
-	float t2=t*t;
-	float t3=t2*t;
-	float omt=1-t;
-
-	w[0] = -0.5f * omt*omt;
-	w[1] = 0.5f * (3*t2 - 4*t);
-	w[2] = 0.5f * (-3*t2 + 2*t + 1);
-	w[3] = 0.5f * t2;
-
-	if (w2) {
-		w2[0] = omt;
-		w2[1] = 3*t - 2;
-		w2[2] = -3*t + 1;
-		w2[3] = t;
-	}
-}
-
 template<typename T>
 void CUDA_SUPPORTED_FUNC ComputeBSplineDerivatives(float t, T* k, T& deriv, T& deriv2)
 {
@@ -90,15 +70,15 @@ float CUDA_SUPPORTED_FUNC ComputeSplineFitMaxPos(T* data, int len)
 	// x'(t) = w'(0, t) * p(0) + w'(1, t) * p(1) + w'(2, t) * p(2) + w'(3, t) * p(3)
 	// x''(t) = w''(0, t) * p(0) + w''(1, t) * p(1) + w'(2, t) * p(2) + w'(3, t) * p(3)
 
-	float x = iMax;
+	T x = iMax;
 	for(int it=0;it<5;it++) {
 		if (x < 1 )x = 1;
 		if (x >= len-2) x = len-2;
 		int i = (int)x;
-		float t=x-i;
-		float w,w2;
+		T t=x-i;
+		T w,w2;
 		ComputeBSplineDerivatives(t, &data[i-1], w, w2);
-		float dx=w/w2;
+		T dx=w/w2;
 //		dbgprintf("[%d]: x=%f, w=%f, w2=%f. dx=%f\n", it, x,w,w2, -dx);
 		x -= dx;
 	}

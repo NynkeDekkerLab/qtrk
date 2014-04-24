@@ -59,7 +59,7 @@ public:
 
 #define BUILDLUT_IMAGELUT 1
 #define BUILDLUT_FOURIER 2
-	virtual void BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, uint flags, int plane) = 0;
+	virtual void BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, uint flags, int plane, vector2f* known_pos=0) = 0;
 	virtual void FinalizeLUT() = 0;
 	
 	virtual int GetResultCount() = 0;

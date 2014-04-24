@@ -106,6 +106,8 @@ public:
 	void SetRadialWeights(float *w);
 	enum LUTProfileMaxComputeMode { LUTProfMaxQuadraticFit, LUTProfMaxSplineFit };
 	float LUTProfileCompare(float* profile, int zlutIndex, float* cmpProf, LUTProfileMaxComputeMode maxPosMethod);
+	float LUTProfileCompareAdjustedWeights(float* rprof, int zlutIndex, float z_estim);
+
 	float* GetDebugImage() { return debugImage; }
 
 	void ApplyOffsetGain(float *offset, float *gain, float offsetFactor, float gainFactor);

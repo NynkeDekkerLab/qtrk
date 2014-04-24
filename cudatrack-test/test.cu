@@ -158,7 +158,7 @@ void QTrkCompareTest()
 			GenerateTestImage(img, center.x, center.y, s, 0.0f);
 			WriteJPEGFile("qtrkzlutimg.jpg", img);
 
-			qtrk.BuildLUT(img.data,img.pitch(),QTrkFloat, 0, x);
+			qtrk.BuildLUT(img.data,img.pitch(),QTrkFloat, 0, x, 0);
 			if (cpucmp) 
 				qtrkcpu.BuildLUT(img.data,img.pitch(),QTrkFloat, 0, x);
 		}
@@ -821,7 +821,7 @@ int CmdLineRun(int argc, char*argv[])
 
 		auto p = inputPos[i];
 		if (!bmlut.lut_w) {
-			GenerateImageFromLUT(&imgs[i], &lut, qtrk->cfg.zlut_minradius, qtrk->cfg.zlut_maxradius, p);
+			GenerateImageFromLUT(&imgs[i], &lut, qtrk->cfg.zlut_minradius, qtrk->cfg.zlut_maxradius, p, false);
 			if (!crlboutput.empty()) {
 				SampleFisherMatrix sfm(pixelmax);
 				crlb[i]=sfm.Compute(p, vector3f(1,1,1)*0.001f, lut, qtrk->cfg.width,qtrk->cfg.height, qtrk->cfg.zlut_minradius, qtrk->cfg.zlut_maxradius).Inverse().diag();
@@ -833,29 +833,39 @@ int CmdLineRun(int argc, char*argv[])
 		if(i==0 && !lutsmpfile.empty()) WriteJPEGFile(lutsmpfile.c_str(), imgs[i]);
 	}
 
-	qtrk->SetLocalizationMode((LocMode_t)(LT_QI|LT_LocalizeZ| LT_NormalizeProfile | (zlutAlign ? LT_ZLUTAlign : 0)));
+	int locMode = LT_LocalizeZ | LT_NormalizeProfile | LT_LocalizeZWeighted;
+	if (qtrk->cfg.qi_iterations > 0) 
+		locMode |= LT_QI;
+	if (zlutAlign)
+		locMode |= LT_ZLUTAlign;
+
+	qtrk->SetLocalizationMode((LocMode_t)locMode);
 	double tstart=GetPreciseTime();
 
 	int img=0;
 	for (int i=0;i<inputPos.size();i++)
 	{
 		LocalizationJob job(i, 0, 0, 0);
-		qtrk->ScheduleLocalization((uchar*)imgs[i].data, sizeof(float)*cfg.width, QTrkFloat, &job);
+		qtrk->ScheduleImageData(&imgs[i], &job);
 	}
 
 	WaitForFinish(qtrk, inputPos.size());
 	double tend = GetPreciseTime();
 
-	vector3f* results=new vector3f[inputPos.size()];
+	std::vector<vector3f> results(inputPos.size());
 	for (int i=0;i<inputPos.size();i++) {
 		LocalizationResult r;
 		qtrk->FetchResults(&r,1);
 		results[r.job.frame]=r.pos;
 	}
+	vector3f meanErr, stdevErr;
+	MeanStDevError(inputPos, results, meanErr, stdevErr);
+	dbgprintf("Mean err X=%f,Z=%f. St deviation: X=%f,Z=%f\n", meanErr.x,meanErr.y,stdevErr.x,stdevErr.z);
+
 	if (!crlboutput.empty())
 		WriteTrace(crlboutput, &crlb[0], crlb.size());
-	WriteTrace(outputfile, results, inputPos.size());
-	delete[] results;
+
+	WriteTrace(outputfile, &results[0], inputPos.size());
 	
 	if (lut.data) lut.free();
 	delete qtrk;
@@ -876,7 +886,7 @@ int main(int argc, char *argv[])
 //	TestBenchmarkLUT();
 //	testLinearArray();
 //	TestTextureFetch();
-	TestGauss2D(true);
+//	TestGauss2D(true);
 //	MultipleLUTTest();
 
 //	TestSurfaceReadWrite();
@@ -885,7 +895,7 @@ int main(int argc, char *argv[])
 //	TestImageLUT("../cputrack-test/lut000.jpg");
 	//TestRadialLUTGradientMethod();
 
-//	BenchmarkParams();
+	BenchmarkParams();
 
 //	BasicQTrkTest();
 //	TestCMOSNoiseInfluence<QueuedCUDATracker>("../cputrack-test/lut000.jpg");
@@ -897,11 +907,11 @@ int main(int argc, char *argv[])
 //CompareAccuracy("../cputrack-test/lut000.jpg");
 //QTrkCompareTest();
 
-	ProfileSpeedVsROI(LT_OnlyCOM, "speeds-com.txt", false, 0);
+	/*ProfileSpeedVsROI(LT_OnlyCOM, "speeds-com.txt", false, 0);
 	ProfileSpeedVsROI(LT_OnlyCOM, "speeds-com-z.txt", true, 0);
 	for (int qi_it=1;qi_it<=4;qi_it++) {
 		ProfileSpeedVsROI(LT_QI, SPrintf("speeds-qi-%d-iterations.txt",qi_it).c_str(), true, qi_it);
-	}
+	}*/
 
 	/*auto info = SpeedCompareTest(80, false);
 	auto infogc = SpeedCompareTest(80, true);

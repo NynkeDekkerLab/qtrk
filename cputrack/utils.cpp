@@ -308,24 +308,41 @@ void ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float m
 
 inline float sq(float x) { return x*x; }
 
-void GenerateImageFromLUT(ImageData* image, ImageData* zlut, float minradius, float maxradius, vector3f pos)
+void GenerateImageFromLUT(ImageData* image, ImageData* zlut, float minradius, float maxradius, vector3f pos, bool splineInterp)
 {
 //	lut.w = radialcov * ( (image->w/2 * roicov ) - minradius );
 //	lut.w = radialcov * ( maxradius - minradius );
 
-	int iz = std::max(1, std::min(zlut->h-3, (int)pos.z));
-	float weights[4];
-	float fz = pos.z-iz;
-	ComputeBSplineWeights(weights, fz);
 	float radialcov = zlut->w / (maxradius-minradius);
-
-	// Interpolate ZLUT using B-spline weights
 	float* zinterp = (float*)ALLOCA(zlut->w * sizeof(float));
-	for (int r=0;r<zlut->w;r++) {
-		float zlutv = 0;
-		for (int i=0;i<4;i++)
-			zlutv += weights[i] * zlut->at(r, i-1+iz);
-		zinterp[r] = zlutv;
+
+	if (splineInterp) {
+		int iz = std::max(1, std::min(zlut->h-3, (int)pos.z));
+		float weights[4];
+		float fz = pos.z-iz;
+		ComputeBSplineWeights(weights, fz);
+		// Interpolate ZLUT using B-spline weights
+		for (int r=0;r<zlut->w;r++) {
+			float zlutv = 0;
+			for (int i=0;i<4;i++)
+				zlutv += weights[i] * zlut->at(r, i-1+iz);
+			zinterp[r] = zlutv;
+		}
+	}
+	else {
+		// The two Z planes to interpolate between
+		int iz = (int)pos.z;
+		if (iz < 0) 
+			zinterp = zlut->data;
+		else if (iz>=zlut->h-1)
+			zinterp = &zlut->data[ (zlut->h-1)*zlut->w ];
+		else {
+			float* zlut0 = &zlut->data [ (int)pos.z * zlut->w ]; 
+			float* zlut1 = &zlut->data [ ((int)pos.z + 1) * zlut->w ];
+			zinterp = (float*)ALLOCA(sizeof(float)*zlut->w);
+			for (int r=0;r<zlut->w;r++) 
+				zinterp[r] = Lerp(zlut0[r], zlut1[r], pos.z-iz);
+		}
 	}
 
 	for (int y=0;y<image->h;y++)

@@ -34,7 +34,7 @@ T conjugate(const T &v) { return T(v.real(),-v.imag()); }
 
 const scalar_t QIWeights[QI_LSQFIT_NWEIGHTS] = QI_LSQFIT_WEIGHTS;
 const float ZLUTWeights[ZLUT_LSQFIT_NWEIGHTS] = ZLUT_LSQFIT_WEIGHTS;
-
+const double ZLUTWeights_d[ZLUT_LSQFIT_NWEIGHTS] = ZLUT_LSQFIT_WEIGHTS;
 
 static int clamp(int v, int a,int b) { return std::max(a, std::min(b, v)); }
 
@@ -765,7 +765,6 @@ float CPUTracker::LUTProfileCompare (float* rprof, int zlutIndex, float* cmpProf
 		return 0.0f;
 	
 	float* rprof_diff = ALLOCA_ARRAY(float, zlut_planes);
-
 	//WriteImageAsCSV("zlutradprof-cpu.txt", rprof, zlut_res, 1);
 
 	// Now compare the radial profile to the profiles stored in Z
@@ -792,6 +791,39 @@ float CPUTracker::LUTProfileCompare (float* rprof, int zlutIndex, float* cmpProf
 		return ComputeMaxInterp<float, ZLUT_LSQFIT_NWEIGHTS>::Compute(rprof_diff, zlut_planes, ZLUTWeights);
 	else
 		return ComputeSplineFitMaxPos(rprof_diff, zlut_planes);
+}
+
+
+float CPUTracker::LUTProfileCompareAdjustedWeights(float* rprof, int zlutIndex, float z_estim)
+{
+	if (!zluts)
+		return 0.0f;
+	
+	double* rprof_diff = ALLOCA_ARRAY(double, zlut_planes);
+
+	// Now compare the radial profile to the profiles stored in Z
+	float* zlut_sel = GetRadialZLUT(zlutIndex);
+
+	int zi = (int)z_estim;
+	if (zi > zlut_planes-2) zi = zlut_planes-2;
+	float* z0 = &zlut_sel[zi*zlut_res];
+	float* z1 = &zlut_sel[(zi+1)*zlut_res];
+	double* zlut_weights = ALLOCA_ARRAY(double, zlut_res);
+	for (int i=0;i<zlut_res;i++)
+		zlut_weights[i] = fabs((double)z1[i]-(double)z0[i]) * ( zlut_minradius + (zlut_maxradius - zlut_minradius) * i/(float)zlut_res );
+
+	for (int k=0;k<zlut_planes;k++) {
+		double diffsum = 0.0f;
+		for (int r = 0; r<zlut_res;r++) {
+			double d = (double)rprof[r]-(double)zlut_sel[k*zlut_res+r];
+			d = -d*d;
+			d *= zlut_weights[r];
+			diffsum += d;
+		}
+		rprof_diff[k] = diffsum;
+	}
+	//return ComputeSplineFitMaxPos(rprof_diff,zlut_planes);
+	return ComputeMaxInterp<double, ZLUT_LSQFIT_NWEIGHTS>::Compute(rprof_diff, zlut_planes, ZLUTWeights_d);
 }
 
 

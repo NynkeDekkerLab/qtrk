@@ -371,17 +371,22 @@ std::vector<float> ComputeRadialWeights(int rsteps, float minRadius, float maxRa
 }
 
 
-void TestZRange(const char *lutfile, int stetson=0)
+void TestZRange(const char *lutfile, int extraFlags, int clean_lut)
 {
 	ImageData lut = ReadJPEGFile(lutfile);
 	vector3f delta(0.001f,0.001f, 0.001f);
+
+	if (clean_lut) {
+		BenchmarkLUT::CleanupLUT(lut);
+		WriteJPEGFile( std::string(lutfile).substr(0, strlen(lutfile)-4).append("_bmlut.jpg").c_str(), lut );
+	}
 
 	float zlutMin=0;
 	float zlutMax=40;
 	QTrkComputedConfig settings;
 	settings.zlut_minradius = zlutMin;
 	settings.zlut_maxradius = zlutMax;
-	settings.width = settings.height = 80;
+	settings.width = settings.height = 40;
 	settings.Update();
 	
 	float maxVal=10000;
@@ -391,20 +396,11 @@ void TestZRange(const char *lutfile, int stetson=0)
 
 	QueuedCPUTracker trk(settings);
 	ImageData rescaledLUT;
-	ResampleLUT(&trk, &lut, 150, &rescaledLUT);
-	if (stetson) {
-		//auto s = ComputeStetsonWindow(settings.zlut_radialsteps);
-		//auto s = ComputeRadialWeights(settings.zlut_radialsteps, settings.zlut_minradius,settings.zlut_maxradius);
-		std::vector<float> rw(settings.zlut_radialsteps);
-		for (int i=0;i<settings.zlut_radialsteps;i++)
-			rw[i]=1.0f*stetson;
-		trk.SetRadialWeights(rw);
-		WriteImageAsCSV("stetsonwnd.txt", &rw[0], settings.zlut_radialsteps, 1);
-	}
-	trk.SetLocalizationMode(LT_QI|LT_LocalizeZ);
+	ResampleLUT(&trk, &lut, lut.h, &rescaledLUT);
+	trk.SetLocalizationMode(LT_QI|LT_LocalizeZ|LT_NormalizeProfile|extraFlags);
 
 	int nstep= InDebugMode ? 20 : 500;
-	int smpPerStep = InDebugMode ? 10 : 100;
+	int smpPerStep = InDebugMode ? 2 : 100;
 	std::vector<vector3f> truepos, positions,crlb;
 	std::vector<float> stdevz;
 	for (int i=0;i<nstep;i++)
@@ -419,7 +415,7 @@ void TestZRange(const char *lutfile, int stetson=0)
 
 		for (int j=0;j<smpPerStep; j++) {
 			vector3f rndvec(rand_uniform<float>(), rand_uniform<float>(), rand_uniform<float>());
-			vector3f rndpos = pos + vector3f(1,1,1) * (rndvec-0.5f); // 0.1 plane is still a lot larger than the 0.02 typical accuracy
+			vector3f rndpos = pos + vector3f(1,1,0.1) * (rndvec-0.5f); // 0.1 plane is still a lot larger than the 0.02 typical accuracy
 			GenerateImageFromLUT(&img, &rescaledLUT, zlutMin, zlutMax, rndpos);
 			ApplyPoissonNoise(img, maxVal);
 			LocalizationJob job(positions.size(), 0, 0, 0);
@@ -445,9 +441,15 @@ void TestZRange(const char *lutfile, int stetson=0)
 		trkmean[i]/=smpPerStep;
 		vector3f variance;
 		for (int j=0;j<smpPerStep;j ++) {
-			vector3f err=resultpos[i*smpPerStep+j]-positions[i*smpPerStep+j];
+			vector3f r = resultpos[i*smpPerStep+j];
+			vector3f t = positions[i*smpPerStep+j];;
+			vector3f err=r-t;
 			err -= trkmean[i];
 			variance += err*err;
+
+			if (InDebugMode) {
+				dbgprintf("Result: x=%f,y=%f,z=%f. True: x=%f,y=%f,z=%f\n", r.x,r.y,r.z,t.x,t.y,t.z);
+			}
 		}
 		trkstd[i] = sqrt(variance / (smpPerStep-1));
 	}
@@ -467,7 +469,7 @@ void TestZRange(const char *lutfile, int stetson=0)
 		mean_std += trkstd[i];
 	}
 	dbgprintf("mean z err: %f\n", (mean_std/nstep).z);
-	WriteImageAsCSV( SPrintf("zrange_z_bx_sx_bz_sz_fx_fz_stetson%d.txt", stetson).c_str(), &output[0], 7, output.size()/7);
+	WriteImageAsCSV( SPrintf("zrange_z_bx_sx_bz_sz_fx_fz_flags%d_cleanlut_%d.txt",extraFlags,clean_lut).c_str(), &output[0], 7, output.size()/7);
 	lut.free();
 	rescaledLUT.free();
 }
@@ -669,8 +671,11 @@ int main()
 //	TestBSplineMax(-1);
 //	TestBSplineMax(99.9);
 //	TestBSplineMax(34.23);
-	TestZRange("lut000.jpg", 0);
-
+//	TestZRange("lut000.jpg", 0, 0);
+//	TestZRange("lut000.jpg", 0, 1);
+	TestZRange("lut000.jpg", LT_LocalizeZWeighted, 0);
+//	TestZRange("lut000.jpg", LT_LocalizeZWeighted, 1);
+	
 //	SimpleTest();
 //	QTrkTest();
 //	TestCMOSNoiseInfluence<QueuedCPUTracker>("lut000.jpg");

@@ -18,6 +18,7 @@ public:
 	void Load(ImageData* lut);
 	void Load(const char *file);
 
+	static void CleanupLUT(ImageData& lut);
 	void GenerateLUT(ImageData* lut);
 	void GenerateSample(ImageData* image, vector3f pos, float minRadius, float maxRadius);
 protected:

@@ -28,7 +28,7 @@ public:
 	void EnableRadialZLUTCompareProfile(bool enabled);
 	void GetRadialZLUTCompareProfile(float* dst); // dst = [count * planes]
 
-	void BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, uint flags, int plane) override;
+	void BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, uint flags, int plane, vector2f* known_pos=0) override;
 	void FinalizeLUT() override;
 
 	void GetImageZLUTSize(int* dims);

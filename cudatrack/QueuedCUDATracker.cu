@@ -471,7 +471,7 @@ __global__ void AddProfilesToZLUT(float* d_src, int nbeads, int radialsteps, int
 
 
 
-void QueuedCUDATracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, uint flags, int plane)
+void QueuedCUDATracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, uint flags, int plane, vector2f* known_pos)
 {
 	// Copy to image 
 	Device* d = streams[0]->device;
@@ -495,15 +495,14 @@ void QueuedCUDATracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, 
 		else
 			trk.SetImage16Bit((ushort*)img_data,pitch);
 
-		vector2f com = trk.ComputeMeanAndCOM();
-		bool bhit;
-		positions[i] = trk.ComputeQI(com, cfg.qi_iterations, cfg.qi_radialsteps, cfg.qi_angstepspq, cfg.qi_angstep_factor, cfg.qi_minradius, cfg.qi_maxradius, bhit);
-		trk.ComputeRadialProfile(&profiles[i * cfg.zlut_radialsteps], cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, positions[i], false, 0, true);
-	//	if (i == 2) WriteArrayAsCSVRow("rlut-test.csv", &profiles[i * cfg.zlut_radialsteps], cfg.zlut_radialsteps, plane>0);
-
-/*		for (int r=0;r<cfg.zlut_radialsteps;r++) {
-			zlut_build_buf [i * (cfg.zlut_radialsteps*d->radial_zlut.h) + plane * cfg.zlut_radialsteps + r ] += 
-		}*/
+		if(known_pos)
+			positions[i] = known_pos[i];
+		else {
+			vector2f com = trk.ComputeMeanAndCOM();
+			bool bhit;
+			positions[i] = trk.ComputeQI(com, cfg.qi_iterations, cfg.qi_radialsteps, cfg.qi_angstepspq, cfg.qi_angstep_factor, cfg.qi_minradius, cfg.qi_maxradius, bhit);
+			trk.ComputeRadialProfile(&profiles[i * cfg.zlut_radialsteps], cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, positions[i], false, 0, true);
+		}
 	});
 
 	// add to device 0 LUT

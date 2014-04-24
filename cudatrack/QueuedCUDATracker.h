@@ -78,7 +78,7 @@ public:
 	void GetRadialZLUTSize(int& count, int& planes, int &radialSteps) override;
 	int FetchResults(LocalizationResult* results, int maxResults) override;
 
-	void BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, uint flags, int plane) override;
+	void BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, uint flags, int plane, vector2f* known_pos) override;
 	void FinalizeLUT() override;
 
 	void EnableRadialZLUTCompareProfile(bool enabled) {}

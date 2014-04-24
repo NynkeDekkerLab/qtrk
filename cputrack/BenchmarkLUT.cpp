@@ -97,3 +97,9 @@ void BenchmarkLUT::GenerateSample(ImageData* image, vector3f pos, float minRadiu
 			image->at(x,y) = Interpolate1D(normprof, profpos);
 		}
 }
+
+void BenchmarkLUT::CleanupLUT(ImageData& lut)
+{
+	BenchmarkLUT bm(&lut);
+	bm.GenerateLUT(&lut);
+}

@@ -38,12 +38,12 @@ void ResampleLUT(T* qtrk, ImageData* lut, int zplanes, ImageData* newlut, const 
 	qtrk->SetRadialZLUT(0, 1, zplanes);
 	for (int i=0;i<zplanes;i++)
 	{
-		GenerateImageFromLUT(&img, lut, qtrk->cfg.zlut_minradius, qtrk->cfg.zlut_maxradius, vector3f(cfg.width/2, cfg.height/2, i/(float)zplanes * lut->h));
+		vector2f pos(cfg.width/2,cfg.height/2);
+		GenerateImageFromLUT(&img, lut, qtrk->cfg.zlut_minradius, qtrk->cfg.zlut_maxradius, vector3f(pos.x,pos.y, i/(float)zplanes * lut->h), false);
 		img.normalize();
 		//if (i == 0)
 		//	WriteJPEGFile(SPrintf("smp-%s",jpgfile).c_str(), img);
-
-		qtrk->BuildLUT(img.data, sizeof(float)*img.w, QTrkFloat, buildLUTFlags, i);
+		qtrk->BuildLUT(img.data, sizeof(float)*img.w, QTrkFloat, buildLUTFlags, i, &pos);
 	}
 	qtrk->FinalizeLUT();
 
@@ -410,4 +410,31 @@ RunTrackerResults RunTracker(const char *lutfile, QTrkSettings *cfg, bool useGC,
 		rescaledBuffer.free();
 
 	return r;
+}
+
+
+static void ResizeLUT(ImageData& lut, ImageData& resized, QTrkSettings* cfg)
+{
+	QTrkComputedConfig cc(*cfg);
+
+	int nsmp = (int) ceil( (float)lut.w/cc.zlut_radialsteps );
+	resized = ImageData::alloc(cc.zlut_radialsteps, lut.h);
+	float *c = ALLOCA_ARRAY(float, cc.zlut_radialsteps);
+	for (int y=0;y<lut.h;y++) {
+		for (int i=0;i<cc.zlut_radialsteps;i++)c[i]=0;
+		for(int x=0;x<lut.w;x++) {
+			float pos = x/(float)lut.w * cc.zlut_radialsteps;
+			float frac= (int)pos - pos;
+			int p=(int)pos;
+			float v=lut.at(x,y);
+			c[p] += frac;
+			resized.at(p,y) += frac*v;
+			if (p<cc.zlut_radialsteps-1) {
+				c[p+1] += 1-frac;
+				resized.at(p+1,y) += (1-frac)*v;
+			}
+		}
+		for (int x=0;x<cc.zlut_radialsteps;x++)
+			resized.at(x,y) /= c[x];
+	}
 }
