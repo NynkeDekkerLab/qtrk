@@ -41,8 +41,8 @@ void ResampleLUT(T* qtrk, ImageData* lut, int zplanes, ImageData* newlut, const 
 		vector2f pos(cfg.width/2,cfg.height/2);
 		GenerateImageFromLUT(&img, lut, qtrk->cfg.zlut_minradius, qtrk->cfg.zlut_maxradius, vector3f(pos.x,pos.y, i/(float)zplanes * lut->h), false);
 		img.normalize();
-		//if (i == 0)
-		//	WriteJPEGFile(SPrintf("smp-%s",jpgfile).c_str(), img);
+		if (i == zplanes/2)
+			WriteJPEGFile(SPrintf("smp-%s",jpgfile).c_str(), img);
 		qtrk->BuildLUT(img.data, sizeof(float)*img.w, QTrkFloat, buildLUTFlags, i, &pos);
 	}
 	qtrk->FinalizeLUT();

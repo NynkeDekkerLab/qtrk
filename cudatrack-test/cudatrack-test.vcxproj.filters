@@ -52,7 +52,6 @@
     <ClCompile Include="..\cputrack\QueuedTracker.cpp" />
     <ClCompile Include="..\cputrack\QueuedCPUTracker.cpp" />
     <ClCompile Include="..\utils\ExtractBeadImages.cpp" />
-    <ClCompile Include="Benchmark.cpp" />
     <ClCompile Include="..\cputrack\BenchmarkLUT.cpp" />
   </ItemGroup>
 </Project>

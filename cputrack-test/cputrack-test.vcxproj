@@ -78,6 +78,7 @@
     <ClCompile Include="..\cputrack\TeLibJpeg\jmemsrc.c" />
     <ClCompile Include="..\cputrack\utils.cpp" />
     <ClCompile Include="..\utils\ExtractBeadImages.cpp" />
+    <ClCompile Include="Benchmark.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
