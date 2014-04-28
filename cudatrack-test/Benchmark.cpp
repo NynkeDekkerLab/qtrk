@@ -28,7 +28,7 @@ SpeedAccResult SpeedAccTest(ImageData& lut, QTrkSettings *cfg, int N, vector3f c
 	std::vector<ImageData> imgs(NImg);
 	const float R=5;
 	
-	QueuedTracker* trk = CreateQueuedTracker(*cfg);
+	QueuedTracker* trk = new QueuedCPUTracker(*cfg);// CreateQueuedTracker(*cfg);
 
 	ImageData resizedLUT = ImageData::alloc(trk->cfg.zlut_radialsteps, lut.h);
 	ResampleLUT(trk, &lut, lut.h, &resizedLUT, SPrintf("lut_resized_%s.jpg", name).c_str());
@@ -50,7 +50,7 @@ SpeedAccResult SpeedAccTest(ImageData& lut, QTrkSettings *cfg, int N, vector3f c
 		truepos.push_back(pos);
 	}
 
-	int flags= LT_LocalizeZ|LT_NormalizeProfile|LT_LocalizeZWeighted;
+	int flags= LT_LocalizeZ|LT_NormalizeProfile;//|LT_LocalizeZWeighted;
 	if (cfg->qi_iterations>0) flags|=LT_QI;
 
 	trk->SetLocalizationMode((LocMode_t)flags);
@@ -122,7 +122,8 @@ void BenchmarkROISizes(const char *name, int n, int MaxPixelValue, int qi_iterat
 		cfg.zlut_angular_coverage = 0.7f;
 		cfg.zlut_roi_coverage = 1;
 		cfg.zlut_radial_coverage = 2.5f;
-
+		cfg.zlut_minradius = 0;
+		cfg.qi_minradius = 0;
 		rois.push_back(roi);
 
 		cfg.width = roi;

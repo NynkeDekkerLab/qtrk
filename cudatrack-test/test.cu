@@ -875,7 +875,7 @@ int CmdLineRun(int argc, char*argv[])
 
 int main(int argc, char *argv[])
 {
-	listDevices();
+	//listDevices();
 
 	if (argc > 1)
 	{
