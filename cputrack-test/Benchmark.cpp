@@ -19,7 +19,7 @@ struct SpeedAccResult{
 
 
 
-SpeedAccResult SpeedAccTest(ImageData& lut, QTrkSettings *cfg, int N, vector3f centerpos, vector3f range, const char *name, int MaxPixelValue)
+SpeedAccResult SpeedAccTest(ImageData& lut, QTrkSettings *cfg, int N, vector3f centerpos, vector3f range, const char *name, int MaxPixelValue, int extraFlags=0)
 {
 	typedef QueuedTracker TrkType;
 	std::vector<vector3f> results, truepos;
@@ -30,8 +30,8 @@ SpeedAccResult SpeedAccTest(ImageData& lut, QTrkSettings *cfg, int N, vector3f c
 	
 	QueuedTracker* trk = new QueuedCPUTracker(*cfg);// CreateQueuedTracker(*cfg);
 
-	ImageData resizedLUT = ImageData::alloc(trk->cfg.zlut_radialsteps, lut.h);
-	ResampleLUT(trk, &lut, lut.h, &resizedLUT, SPrintf("lut_resized_%s.jpg", name).c_str());
+	ImageData resizedLUT;
+	ResampleLUT(trk, &lut, lut.h, &resizedLUT, SPrintf("lut_resized_%s", name).c_str());
 
 	Matrix3X3 fisher;
 
@@ -45,12 +45,12 @@ SpeedAccResult SpeedAccTest(ImageData& lut, QTrkSettings *cfg, int N, vector3f c
 
 		imgs[i].normalize();
 		if (MaxPixelValue> 0) ApplyPoissonNoise(imgs[i], MaxPixelValue);
-		if(i==0) WriteJPEGFile(name, imgs[i]);
+		//if(i==0) WriteJPEGFile(name, imgs[i]);
 
 		truepos.push_back(pos);
 	}
 
-	int flags= LT_LocalizeZ|LT_NormalizeProfile;//|LT_LocalizeZWeighted;
+	int flags= LT_LocalizeZ|LT_NormalizeProfile|extraFlags;
 	if (cfg->qi_iterations>0) flags|=LT_QI;
 
 	trk->SetLocalizationMode((LocMode_t)flags);
@@ -102,12 +102,12 @@ SpeedAccResult SpeedAccTest(ImageData& lut, QTrkSettings *cfg, int N, vector3f c
 	return r;
 }
 
-void BenchmarkROISizes(const char *name, int n, int MaxPixelValue, int qi_iterations)
+void BenchmarkROISizes(const char *name, int n, int MaxPixelValue, int qi_iterations, int extraFlags)
 {
 	std::vector<SpeedAccResult> results;
 	std::vector<int> rois;
 
-	const char *lutfile = "refbeadlut.jpg";
+	const char *lutfile = "lut000.jpg";
 	ImageData lut = ReadJPEGFile(lutfile);
 
 	for (int roi=20;roi<=180;roi+=10) {
@@ -125,13 +125,17 @@ void BenchmarkROISizes(const char *name, int n, int MaxPixelValue, int qi_iterat
 		cfg.zlut_radial_coverage = 2.5f;
 		cfg.zlut_minradius = 0;
 		cfg.qi_minradius = 0;
+		cfg.com_bgcorrection = 0;
+		cfg.xc1_profileLength = roi*0.8f;
+		cfg.xc1_profileWidth = roi*0.2f;
+		cfg.xc1_iterations = 1;
 		rois.push_back(roi);
 
 		cfg.width = roi;
 		cfg.height = roi;
 
-		vector3f pos(cfg.width/2, cfg.height/2, lut.h/2);
-		results.push_back(SpeedAccTest(lut, &cfg, n, pos, vector3f(2,2,2), SPrintf("roi%dtestimg.jpg", cfg.width).c_str(), MaxPixelValue));
+		vector3f pos(cfg.width/2, cfg.height/2, lut.h/3);
+		results.push_back(SpeedAccTest(lut, &cfg, n, pos, vector3f(1,1,1)*10, SPrintf("roi%dtestimg.jpg", cfg.width).c_str(), MaxPixelValue, extraFlags));
 		auto lr = results.back();
 		dbgprintf("ROI:%d, #QI:%d, Speed=%d img/s, Mean.X: %f.  St. Dev.X: %f;  Mean.Z: %f.  St. Dev.Z: %f\n", roi, qi_iterations, lr.speed, lr.bias.x, lr.acc.x, lr.bias.z, lr.acc.z);
 	
@@ -239,9 +243,19 @@ void BenchmarkParams()
 #ifdef _DEBUG
 	int n = 50;
 #else
-	int n = 10000;
+	int n = 1000;
 #endif
 
+	int mpv = 10000;
+
+	BenchmarkROISizes("roi_xcor.txt", n, mpv, 0, LT_XCor1D);
+	BenchmarkROISizes("roi_xcorwz.txt", n, mpv, 0, LT_XCor1D | LT_LocalizeZWeighted);
+	for (int i=0;i<4;i++)
+		BenchmarkROISizes(SPrintf("roi_qi%d.txt",i).c_str(), n, mpv, i, 0);
+	for (int i=0;i<4;i++)
+		BenchmarkROISizes(SPrintf("roi_qi%dwz.txt",i).c_str(), n, mpv, i,  LT_LocalizeZWeighted);
+
+/*
 	QTrkSettings basecfg;
 	basecfg.width = 80;
 	basecfg.height = 80;
@@ -255,13 +269,7 @@ void BenchmarkParams()
 	basecfg.qi_angstep_factor = 2;
 	basecfg.zlut_angular_coverage = 0.7f;
 
-
-	int mpv = 0;//255  *28;
-
-	for (int i=0;i<4;i++)
-		BenchmarkROISizes(SPrintf("roi_qi%d.txt",i).c_str(), n, mpv, i);
-
-/*	BenchmarkConfigParamRange (n, &QTrkSettings::qi_radial_coverage, &basecfg, linspace(0.2f, 4.0f, 20), "qi_rad_cov_noise", mpv );
+	BenchmarkConfigParamRange (n, &QTrkSettings::qi_radial_coverage, &basecfg, linspace(0.2f, 4.0f, 20), "qi_rad_cov_noise", mpv );
 	BenchmarkConfigParamRange (n, &QTrkSettings::zlut_radial_coverage, &basecfg, linspace(0.2f, 4.0f, 20), "zlut_rad_cov_noise", mpv);
 	BenchmarkConfigParamRange (n, &QTrkSettings::qi_iterations, &basecfg, linspace(1, 6, 6), "qi_iterations_noise", mpv);
 	BenchmarkZAccuracy("zpos-noise.txt", n, mpv);

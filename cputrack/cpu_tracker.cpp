@@ -222,7 +222,8 @@ vector2f CPUTracker::ComputeXCorInterpolated(vector2f initial, int iterations, i
 				n += outside?0:1;
 				MARKPIXELI(xp, yp);
 			}
-			s/=n;
+			if (n >0) s/=n;
+			else s=0;
 			prof [x] = s;
 			prof_rev [xcorw-x-1] = s;
 		}
@@ -242,7 +243,8 @@ vector2f CPUTracker::ComputeXCorInterpolated(vector2f initial, int iterations, i
 				n += outside?0:1;
 				MARKPIXELI(xp,yp);
 			}
-			s/=n;
+			if (n >0) s/=n;
+			else s=0;
 			prof[y] = s;
 			prof_rev [xcorw-y-1] =s;
 		}

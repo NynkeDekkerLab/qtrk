@@ -445,19 +445,17 @@ SpeedInfo SpeedCompareTest(int w, LocalizeModeEnum locMode, bool haveZLUT, int q
 
 void ProfileSpeedVsROI(LocalizeModeEnum locMode, const char *outputcsv, bool haveZLUT, int qi_iterations)
 {
-	int N=24;
-	float* values = new float[N*3];
+	std::vector<float> values;
 
-	for (int i=0;i<N;i++) {
-		int roi = 40+i*5;
+	for (int roi=20;roi<=180;roi+=10) { // same as BenchmarkROIAccuracy()
 		SpeedInfo info = SpeedCompareTest(roi, locMode, haveZLUT, qi_iterations);
-		values[i*3+0] = roi;
-		values[i*3+1] = info.speed_cpu;
-		values[i*3+2] = info.speed_gpu;
+		values.push_back( roi);
+		values.push_back(info.speed_cpu);
+		values.push_back( info.speed_gpu);
 	}
 
 	const char *labels[] = { "ROI", "CPU", "CUDA" };
-	WriteImageAsCSV(outputcsv, values, 3, N, labels);
+	WriteImageAsCSV(outputcsv, &values[0], 3, values.size()/3, labels);
 	delete[] values;
 }
 
@@ -895,7 +893,7 @@ int main(int argc, char *argv[])
 //	TestImageLUT("../cputrack-test/lut000.jpg");
 	//TestRadialLUTGradientMethod();
 
-	BenchmarkParams();
+	//BenchmarkParams();
 
 //	BasicQTrkTest();
 //	TestCMOSNoiseInfluence<QueuedCUDATracker>("../cputrack-test/lut000.jpg");
@@ -907,11 +905,11 @@ int main(int argc, char *argv[])
 //CompareAccuracy("../cputrack-test/lut000.jpg");
 //QTrkCompareTest();
 
-	/*ProfileSpeedVsROI(LT_OnlyCOM, "speeds-com.txt", false, 0);
+	ProfileSpeedVsROI(LT_OnlyCOM, "speeds-com.txt", false, 0);
 	ProfileSpeedVsROI(LT_OnlyCOM, "speeds-com-z.txt", true, 0);
 	for (int qi_it=1;qi_it<=4;qi_it++) {
 		ProfileSpeedVsROI(LT_QI, SPrintf("speeds-qi-%d-iterations.txt",qi_it).c_str(), true, qi_it);
-	}*/
+	}
 
 	/*auto info = SpeedCompareTest(80, false);
 	auto infogc = SpeedCompareTest(80, true);

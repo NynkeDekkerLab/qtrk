@@ -400,12 +400,10 @@ void TestZRange(const char *lutfile, int extraFlags, int clean_lut)
 		WriteJPEGFile( std::string(lutfile).substr(0, strlen(lutfile)-4).append("_bmlut.jpg").c_str(), lut );
 	}
 
-	float zlutMin=0;
-	float zlutMax=40;
 	QTrkComputedConfig settings;
-	settings.zlut_minradius = zlutMin;
-	settings.zlut_maxradius = zlutMax;
-	settings.width = settings.height = 40;
+	settings.zlut_minradius = 0;
+	settings.qi_minradius = 0;
+	settings.width = settings.height = 100;
 	settings.Update();
 	
 	float maxVal=10000;
@@ -418,8 +416,8 @@ void TestZRange(const char *lutfile, int extraFlags, int clean_lut)
 	ResampleLUT(&trk, &lut, lut.h, &rescaledLUT);
 	trk.SetLocalizationMode(LT_QI|LT_LocalizeZ|LT_NormalizeProfile|extraFlags);
 
-	int nstep= InDebugMode ? 20 : 500;
-	int smpPerStep = InDebugMode ? 2 : 100;
+	int nstep= InDebugMode ? 20 : 1000;
+	int smpPerStep = InDebugMode ? 2 : 200;
 	std::vector<vector3f> truepos, positions,crlb;
 	std::vector<float> stdevz;
 	for (int i=0;i<nstep;i++)
@@ -427,7 +425,7 @@ void TestZRange(const char *lutfile, int extraFlags, int clean_lut)
 		float z = 1 + i / (float)nstep * (rescaledLUT.h-2);
 		vector3f pos = vector3f(settings.width/2, settings.height/2, z);
 		truepos.push_back(pos);
-		Matrix3X3 invFisherLUT = fm.Compute(pos, delta, rescaledLUT, settings.width, settings.height, zlutMin, zlutMax).Inverse();
+		Matrix3X3 invFisherLUT = fm.Compute(pos, delta, rescaledLUT, settings.width, settings.height, settings.zlut_minradius, settings.zlut_maxradius).Inverse();
 		crlb.push_back(sqrt(invFisherLUT.diag()));
 
 		ImageData img=ImageData::alloc(settings.width,settings.height);
@@ -435,7 +433,7 @@ void TestZRange(const char *lutfile, int extraFlags, int clean_lut)
 		for (int j=0;j<smpPerStep; j++) {
 			vector3f rndvec(rand_uniform<float>(), rand_uniform<float>(), rand_uniform<float>());
 			vector3f rndpos = pos + vector3f(1,1,0.1) * (rndvec-0.5f); // 0.1 plane is still a lot larger than the 0.02 typical accuracy
-			GenerateImageFromLUT(&img, &rescaledLUT, zlutMin, zlutMax, rndpos);
+			GenerateImageFromLUT(&img, &rescaledLUT, settings.zlut_minradius, settings.zlut_maxradius, rndpos);
 			ApplyPoissonNoise(img, maxVal);
 			LocalizationJob job(positions.size(), 0, 0, 0);
 			trk.ScheduleImageData(&img, &job);
@@ -698,11 +696,11 @@ int main()
 //	TestBSplineMax(-1);
 //	TestBSplineMax(99.9);
 //	TestBSplineMax(34.23);
-//	TestZRange("lut000.jpg", 0, 0);
-//	TestZRange("lut000.jpg", 0, 1);
-//	TestZRange("lut000.jpg", LT_LocalizeZWeighted, 0);
-//	TestZRange("lut000.jpg", LT_LocalizeZWeighted, 1);
-	
+/*	TestZRange("lut000.jpg", 0, 0);
+	TestZRange("lut000.jpg", 0, 1);
+	TestZRange("lut000.jpg", LT_LocalizeZWeighted, 0);
+	TestZRange("lut000.jpg", LT_LocalizeZWeighted, 1);
+	*/
 //	QTrkTest();
 //	TestCMOSNoiseInfluence<QueuedCPUTracker>("lut000.jpg");
 

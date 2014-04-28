@@ -53,5 +53,6 @@
     <ClCompile Include="..\cputrack\QueuedCPUTracker.cpp" />
     <ClCompile Include="..\utils\ExtractBeadImages.cpp" />
     <ClCompile Include="..\cputrack\BenchmarkLUT.cpp" />
+    <ClCompile Include="..\cputrack-test\Benchmark.cpp" />
   </ItemGroup>
 </Project>
