@@ -30,6 +30,25 @@ const bool InDebugMode =
 #endif
 	;
 
+void RescaleLUT(CPUTracker* trk, ImageData* lut)
+{
+
+}
+
+void SmallROITest(const char *lutfile)
+{
+	int w=30;
+
+	ImageData lutimg = ReadJPEGFile(lutfile);
+	CPUTracker trk(w,w);
+//	ImageData 
+
+	for (int i=0;i<lutimg.h;i++) {
+	//	trk.ComputeRadialProfile(&nlut
+	}
+	
+}
+
 void SpeedTest()
 {
 #ifdef _DEBUG
@@ -639,7 +658,9 @@ void TestQuadrantAlign()
 void SimpleTest()
 {
 	QTrkSettings cfg;
-	cfg.width = cfg.height = 80;
+	cfg.qi_minradius=0;
+	cfg.zlut_minradius = 0;
+	cfg.width = cfg.height = 30;
 	auto locModeQI = (LocMode_t)(LT_QI | LT_NormalizeProfile | LT_LocalizeZ);
 	auto results = RunTracker<QueuedCPUTracker> ("lut000.jpg", &cfg, false, "qi", locModeQI, 1000, 10000/255 );
 
@@ -659,24 +680,29 @@ static void TestBSplineMax(float maxpos)
 	dbgprintf("Max: %f, true: %f\n", max, maxpos); 
 }
 
+void BenchmarkParams();
 
 
 int main()
 {
 
 #ifdef _DEBUG
-	Matrix3X3::test();
+//	Matrix3X3::test();
 #endif
+//	SimpleTest();
+
+	BenchmarkParams();
+
+//	SmallROITest("lut000.jpg");
 
 //	TestBSplineMax(-1);
 //	TestBSplineMax(99.9);
 //	TestBSplineMax(34.23);
 //	TestZRange("lut000.jpg", 0, 0);
 //	TestZRange("lut000.jpg", 0, 1);
-	TestZRange("lut000.jpg", LT_LocalizeZWeighted, 0);
+//	TestZRange("lut000.jpg", LT_LocalizeZWeighted, 0);
 //	TestZRange("lut000.jpg", LT_LocalizeZWeighted, 1);
 	
-//	SimpleTest();
 //	QTrkTest();
 //	TestCMOSNoiseInfluence<QueuedCPUTracker>("lut000.jpg");
 
@@ -684,7 +710,6 @@ int main()
 //	Gauss2DTest<QueuedCPUTracker>();
 	
 	//SpeedTest();
-	//SmallImageTest();
 	//PixelationErrorTest();
 	//ZTrackingTest();
 	//Test2DTracking();

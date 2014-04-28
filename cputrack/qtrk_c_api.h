@@ -63,12 +63,12 @@ struct QTrkSettings {
 		xc1_profileLength = 128;
 		xc1_profileWidth = 32;
 		xc1_iterations = 2;
-		zlut_minradius = 5.0f;
+		zlut_minradius = 1.0f;
 		zlut_angular_coverage = 0.7f;
 		zlut_radial_coverage = 3.0f;
 		zlut_roi_coverage = 1.0f;
 		qi_iterations = 4;
-		qi_minradius = 5;
+		qi_minradius = 1;
 		qi_angular_coverage = 0.7f;
 		qi_radial_coverage = 3.0f; 
 		qi_roi_coverage = 1.0f;

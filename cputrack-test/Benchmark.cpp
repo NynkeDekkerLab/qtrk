@@ -1,7 +1,7 @@
 
 #include "QueuedTracker.h"
 #include "QueuedCPUTracker.h"
-#include "../cputrack-test/SharedTests.h"
+#include "SharedTests.h"
 #include <functional>
 #include "BenchmarkLUT.h"
 #include "FisherMatrix.h"
@@ -97,7 +97,6 @@ SpeedAccResult SpeedAccTest(ImageData& lut, QTrkSettings *cfg, int N, vector3f c
 	fisher *= 1.0f/NImg;
 	r.crlb = sqrt(fisher.Inverse().diag());
 	r.speed = N/(tend-tstart);
-	dbgprintf("ROI:%d, Speed=%d img/s, Mean.X: %f.  St. Dev.X: %f;  Mean.Z: %f.  St. Dev.Z: %f\n", cfg->width, r.speed, r.bias.x, r.acc.x, r.bias.z, r.acc.z);
 	resizedLUT.free();
 	delete trk;
 	return r;
@@ -111,7 +110,7 @@ void BenchmarkROISizes(const char *name, int n, int MaxPixelValue, int qi_iterat
 	const char *lutfile = "refbeadlut.jpg";
 	ImageData lut = ReadJPEGFile(lutfile);
 
-	for (int roi=30;roi<=180;roi+=10) {
+	for (int roi=20;roi<=180;roi+=10) {
 	//for (int roi=90;roi<100;roi+=10) {
 		QTrkSettings cfg;
 		cfg.qi_angstep_factor = 1.3f;
@@ -119,6 +118,8 @@ void BenchmarkROISizes(const char *name, int n, int MaxPixelValue, int qi_iterat
 		cfg.qi_angular_coverage = 0.7f;
 		cfg.qi_roi_coverage = 1;
 		cfg.qi_radial_coverage = 2.5f;
+		cfg.qi_minradius=0;
+		cfg.zlut_minradius=0;
 		cfg.zlut_angular_coverage = 0.7f;
 		cfg.zlut_roi_coverage = 1;
 		cfg.zlut_radial_coverage = 2.5f;
@@ -129,8 +130,11 @@ void BenchmarkROISizes(const char *name, int n, int MaxPixelValue, int qi_iterat
 		cfg.width = roi;
 		cfg.height = roi;
 
-		vector3f pos(cfg.width/2, cfg.height/2, lut.h/4);
+		vector3f pos(cfg.width/2, cfg.height/2, lut.h/2);
 		results.push_back(SpeedAccTest(lut, &cfg, n, pos, vector3f(2,2,2), SPrintf("roi%dtestimg.jpg", cfg.width).c_str(), MaxPixelValue));
+		auto lr = results.back();
+		dbgprintf("ROI:%d, #QI:%d, Speed=%d img/s, Mean.X: %f.  St. Dev.X: %f;  Mean.Z: %f.  St. Dev.Z: %f\n", roi, qi_iterations, lr.speed, lr.bias.x, lr.acc.x, lr.bias.z, lr.acc.z);
+	
 	}
 	lut.free();
 
