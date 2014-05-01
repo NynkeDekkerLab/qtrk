@@ -39,7 +39,7 @@ void ResampleLUT(T* qtrk, ImageData* lut, int zplanes, ImageData* newlut, const 
 	for (int i=0;i<zplanes;i++)
 	{
 		vector2f pos(cfg.width/2,cfg.height/2);
-		GenerateImageFromLUT(&img, lut, qtrk->cfg.zlut_minradius, qtrk->cfg.zlut_maxradius, vector3f(pos.x,pos.y, i/(float)zplanes * lut->h), false);
+		GenerateImageFromLUT(&img, lut, qtrk->cfg.zlut_minradius, qtrk->cfg.zlut_maxradius, vector3f(pos.x,pos.y, i/(float)zplanes * lut->h), true);
 		img.normalize();
 		if (i == zplanes/2)
 			WriteJPEGFile(SPrintf("smp-%s",jpgfile).c_str(), img);
@@ -314,11 +314,11 @@ static double WaitForFinish(QueuedTracker* qtrk, int N)
 static void MeanStDevError(const std::vector<vector3f>&  truepos, const std::vector<vector3f>&  v, vector3f &meanErr, vector3f & stdev) 
 {
 	meanErr=vector3f();
-	for (int i=0;i<v.size();i++) meanErr+=v[i]-truepos[i]; 
+	for (size_t i=0;i<v.size();i++) meanErr+=v[i]-truepos[i]; 
 	meanErr*=1.0f/v.size();
 
 	vector3f r;
-	for (int i=0;i<v.size();i++) {
+	for (uint i=0;i<v.size();i++) {
 		vector3f d = (v[i]-truepos[i])-meanErr;
 		r+= d*d;
 	}
@@ -392,7 +392,7 @@ RunTrackerResults RunTracker(const char *lutfile, QTrkSettings *cfg, bool useGC,
 	WaitForFinish(&trk, N);
 
 	results.resize(trk.GetResultCount());
-	for (int i=0;i<results.size();i++) {
+	for (uint i=0;i<results.size();i++) {
 		LocalizationResult r;
 		trk.FetchResults(&r,1);
 		results[r.job.frame]=r.pos;

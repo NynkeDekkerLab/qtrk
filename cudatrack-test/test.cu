@@ -456,7 +456,6 @@ void ProfileSpeedVsROI(LocalizeModeEnum locMode, const char *outputcsv, bool hav
 
 	const char *labels[] = { "ROI", "CPU", "CUDA" };
 	WriteImageAsCSV(outputcsv, &values[0], 3, values.size()/3, labels);
-	delete[] values;
 }
 
 

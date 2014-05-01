@@ -761,7 +761,7 @@ void CPUTracker::SetRadialWeights(float* radweights)
 }
 
 
-float CPUTracker::LUTProfileCompare (float* rprof, int zlutIndex, float* cmpProf, LUTProfileMaxComputeMode maxPosComputeMode)
+float CPUTracker::LUTProfileCompare (float* rprof, int zlutIndex, float* cmpProf, LUTProfileMaxComputeMode maxPosComputeMode, float* fitcurve)
 {
 	if (!zluts)
 		return 0.0f;
@@ -789,8 +789,18 @@ float CPUTracker::LUTProfileCompare (float* rprof, int zlutIndex, float* cmpProf
 		std::copy(rprof_diff, rprof_diff+zlut_planes, cmpProf);
 	}
 
-	if (maxPosComputeMode == LUTProfMaxQuadraticFit)
-		return ComputeMaxInterp<float, ZLUT_LSQFIT_NWEIGHTS>::Compute(rprof_diff, zlut_planes, ZLUTWeights);
+	if (maxPosComputeMode == LUTProfMaxQuadraticFit) {
+		if (fitcurve) {
+			LsqSqQuadFit<float> fit;
+			float z= ComputeMaxInterp<float, ZLUT_LSQFIT_NWEIGHTS>::Compute(rprof_diff, zlut_planes, ZLUTWeights, &fit);
+			int iMax = std::max_element(rprof_diff, rprof_diff+zlut_planes) - rprof_diff;
+			for (int i=0;i<zlut_planes;i++)
+				fitcurve[i] = fit.compute(i-iMax);
+			return z;
+		} else {
+			return ComputeMaxInterp<float, ZLUT_LSQFIT_NWEIGHTS>::Compute(rprof_diff, zlut_planes, ZLUTWeights);
+		}
+	}
 	else
 		return ComputeSplineFitMaxPos(rprof_diff, zlut_planes);
 }
