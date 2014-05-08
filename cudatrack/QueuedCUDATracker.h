@@ -187,6 +187,7 @@ protected:
 	bool useTextureCache; // speed up using texture cache. 
 	float gc_offsetFactor, gc_gainFactor;
 	Threads::Mutex gc_mutex;
+	std::vector<float> gc_offset, gc_gain;///cpu size buffers are needed because BuildLUT uses CPU tracking
 
 	QI qi;
 	QI qalign;
@@ -203,7 +204,8 @@ protected:
 	Stream* CreateStream(Device* device, int streamIndex);
 	void CopyStreamResults(Stream* s);
 	void StreamUpdateZLUTSize(Stream *s);
-	void CPU_ApplyGainCorrection(Stream *s);
+	void CPU_ApplyOffsetGain(CPUTracker* trk, int beadIndex);
+
 
 public:
 	// Profiling
