@@ -600,7 +600,7 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 		s->images.copyToDevice(s->hostImageBuf.data(), true, s->stream); 
 	}
 
-	if (!d->calib_gain.isEmpty()) {
+	if (!d->calib_gain.isEmpty() || !d->calib_offset.isEmpty()) {
 		dim3 numThreads(16, 16, 2);
 		dim3 numBlocks((cfg.width + numThreads.x - 1 ) / numThreads.x,
 				(cfg.height + numThreads.y - 1) / numThreads.y,
@@ -752,17 +752,23 @@ void QueuedCUDATracker::Device::SetPixelCalibrationImages(float* offset, float* 
 {
 	cudaSetDevice(index);
 
-	if (offset == 0) {
-		calib_gain.free();
+	if (offset == 0)
 		calib_offset.free();
-	}
-	else if (radial_zlut.count > 0) {
-		calib_gain = cudaImageListf::alloc(img_width,img_height,radial_zlut.count);
-		calib_offset = cudaImageListf::alloc(img_width,img_height,radial_zlut.count);
+
+	if (gain == 0)
+		calib_gain.free();
+
+	if (radial_zlut.count > 0) {
+
+		if (gain)
+			calib_gain = cudaImageListf::alloc(img_width,img_height,radial_zlut.count);
+
+		if (offset)
+			calib_offset = cudaImageListf::alloc(img_width,img_height,radial_zlut.count);
 
 		for (int j=0;j<radial_zlut.count;j++) {
-			calib_gain.copyImageToDevice(j, &gain[img_width*img_height*j]);
-			calib_offset.copyImageToDevice(j, &offset[img_width*img_height*j]);
+			if (gain) calib_gain.copyImageToDevice(j, &gain[img_width*img_height*j]);
+			if (offset) calib_offset.copyImageToDevice(j, &offset[img_width*img_height*j]);
 		}
 	}
 }

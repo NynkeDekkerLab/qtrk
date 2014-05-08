@@ -168,8 +168,8 @@ __global__ void ApplyOffsetGain (BaseKernelParams kp, cudaImageListf calib_gain,
 		int bead = kp.locParams[jobIdx].zlutIndex;
 
 		float value = kp.images.pixel(x,y,jobIdx);
-		float offset = calib_offset.pixel(x,y,bead);
-		float gain = calib_gain.pixel(x,y,bead);
+		float offset = calib_offset.isEmpty() ? 0 : calib_offset.pixel(x,y,bead);
+		float gain = calib_gain.isEmpty() ? 1 : calib_gain.pixel(x,y,bead);
 		kp.images.pixel(x,y,jobIdx) = (value + offset*offsetFactor) * gain*gainFactor;
 	}
 }

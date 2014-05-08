@@ -9,6 +9,7 @@
 #include "../cputrack/BenchmarkLUT.h"
 #include "../cputrack/CubicBSpline.h"
 #include <time.h>
+#include <fstream>
 
 
 
@@ -381,6 +382,37 @@ void WriteRadialProf(const char *file, ImageData& d)
 }
 
 
+ImageData ReadLUTFile(const char *lutfile)
+{
+	PathSeperator sep(lutfile);
+	if(sep.extension == "jpg") {
+		return ReadJPEGFile(lutfile);
+	}
+	else {
+		std::string fn  =lutfile;
+		fn = std::string(fn.begin(), fn.begin()+fn.find('#'));
+		int lutIndex = atoi( std::string( ( sep.extension.begin() + sep.extension.find('#') )++, sep.extension.end()).c_str());
+
+		int nbeads, nplanes, nsteps;
+		FILE *f = fopen(fn.c_str(), "rb");
+
+		if (!f)
+			throw std::runtime_error("Can't open " + fn);
+
+		fread(&nbeads, 4, 1, f);
+		fread(&nplanes, 4, 1, f);
+		fread(&nsteps, 4, 1, f);
+
+
+		fseek(f, 12 + 4* (nsteps*nplanes * lutIndex), SEEK_SET);
+		ImageData lut = ImageData::alloc(nsteps,nplanes);
+		fread(lut.data, 4, nsteps*nplanes,f);
+		fclose(f);
+		lut.normalize();
+		return lut;
+	}
+}
+
 std::vector<float> ComputeRadialWeights(int rsteps, float minRadius, float maxRadius)
 {
 	std::vector<float> wnd(rsteps);
@@ -390,11 +422,12 @@ std::vector<float> ComputeRadialWeights(int rsteps, float minRadius, float maxRa
 }
 
 
+
 enum RWeightMode { RWNone, RWUniform, RWRadial, RWDerivative };
 
 void TestZRange(const char *name, const char *lutfile, int extraFlags, int clean_lut, RWeightMode weightMode=RWNone )
 {
-	ImageData lut = ReadJPEGFile(lutfile);
+	ImageData lut = ReadLUTFile(lutfile);
 	vector3f delta(0.001f,0.001f, 0.001f);
 
 	if (clean_lut) {
@@ -754,9 +787,17 @@ int main()
 	//TestZRange("cleanlut10", "lut10.jpg", LT_LocalizeZWeighted, 1);
 	//TestZRange("cleanlut10", "lut10.jpg", LT_LocalizeZWeighted, 1);
 
-	TestZRange("rbinw", "lut000.jpg", 0, 0, RWUniform);
-	TestZRange("rbinw", "lut000.jpg", 0, 0, RWRadial);
-	TestZRange("rbinw", "lut000.jpg", 0, 0, RWDerivative);
+	ImageData img=ReadLUTFile("lut000.jpg");
+	img.mean();
+
+
+	TestZRange("rbin1x", "1x.radialzlut#4", 0, 0, RWUniform);
+	TestZRange("rbin1x", "1x.radialzlut#4", 0, 0, RWRadial);
+	TestZRange("rbin1x", "1x.radialzlut#4", 0, 0, RWDerivative);
+
+	TestZRange("rbin10x", "10x.radialzlut#4", 0, 0, RWUniform);
+	TestZRange("rbin10x", "10x.radialzlut#4", 0, 0, RWRadial);
+	TestZRange("rbin10x", "10x.radialzlut#4", 0, 0, RWDerivative);
 
 //	QTrkTest();
 //	TestCMOSNoiseInfluence<QueuedCPUTracker>("lut000.jpg");
