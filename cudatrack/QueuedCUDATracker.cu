@@ -495,6 +495,8 @@ void QueuedCUDATracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, 
 		else
 			trk.SetImage16Bit((ushort*)img_data,pitch);
 
+		CPU_ApplyOffsetGain(&trk, i);
+
 		if(known_pos)
 			positions[i] = known_pos[i];
 		else {
@@ -737,6 +739,35 @@ void QueuedCUDATracker::SetPixelCalibrationImages(float* offset, float* gain)
 {
 	for (uint i=0;i<devices.size();i++) {
 		devices[i]->SetPixelCalibrationImages(offset, gain, cfg.width, cfg.height);
+	}
+
+	// Copy to CPU side buffers for BuildLUT
+	int nelem = devices[0]->radial_zlut.count * cfg.width * cfg.height;
+	if (offset && gc_offset.size()!=nelem) { 
+		gc_offset.resize(nelem);
+		gc_offset.assign(offset,offset+nelem);
+	}
+	if (!offset) gc_offset.clear();
+
+	if (gain && gc_gain.size()!=nelem) {
+		gc_gain.reserve(nelem);
+		gc_gain.assign(gain, gain+nelem);
+	}
+	if (!gain) gc_gain.clear();
+}
+
+
+void QueuedCUDATracker::CPU_ApplyOffsetGain(CPUTracker* trk, int beadIndex)
+{
+	if (!gc_offset.empty() || !gc_gain.empty()) {
+		int index = cfg.width*cfg.height*beadIndex;
+
+		gc_mutex.lock();
+		float gf = gc_gainFactor, of = gc_offsetFactor;
+		gc_mutex.unlock();
+
+		trk->ApplyOffsetGain(gc_offset.empty() ? 0:  &gc_offset[index] , gc_gain.empty() ? 0: &gc_gain[index], of, gf);
+//		if (j->job.frame%100==0)
 	}
 }
 

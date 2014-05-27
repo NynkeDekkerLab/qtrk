@@ -160,14 +160,22 @@ void QueuedCPUTracker::SetPixelCalibrationImages(float* offset, float* gain)
 	if (zlut_count > 0) {
 		int nelem = cfg.width*cfg.height*zlut_count;
 
-		if (calib_gain == 0)  {
+		if (calib_gain == 0 && gain)  {
 			calib_gain = new float[nelem];
 			memcpy(calib_gain, gain, sizeof(float)*nelem);
 		}
+		else if (calib_gain && gain == 0) {
+			delete[] calib_gain;
+			calib_gain = 0;
+		}
 
-		if (calib_offset == 0) {
+		if (calib_offset == 0 && offset) {
 			calib_offset = new float[nelem];
 			memcpy(calib_offset, offset, sizeof(float)*nelem);
+		}
+		else if (calib_offset && offset == 0) {
+			delete[] calib_offset;
+			calib_offset = 0;
 		}
 
 #ifdef _DEBUG
@@ -240,6 +248,21 @@ void QueuedCPUTracker::WorkerThreadMain(void* arg)
 	//dbgprintf("Thread %p ending.\n", arg);
 }
 
+void QueuedCPUTracker::ApplyOffsetGain(CPUTracker* trk, int beadIndex)
+{
+	if (calib_offset || calib_gain) {
+		int index = cfg.width*cfg.height*beadIndex;
+
+		//gc_mutex.lock();
+		//float gf = gc_gainFactor, of = gc_offsetFactor;
+		//gc_mutex.unlock();
+		float gf=1,of=1;
+
+		trk->ApplyOffsetGain(calib_offset ? &calib_offset[index] : 0, calib_gain ? &calib_gain[index] : 0, of, gf);
+//		if (j->job.frame%100==0)
+	}
+}
+
 void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 {
 	CPUTracker* trk = th->tracker;
@@ -251,16 +274,7 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 		trk->srcImage[0]=trk->srcImage[1]=trk->srcImage[2]=trk->srcImage[3]=0;
 	}
 
-	if (calib_offset && calib_gain) {
-		int index = cfg.width*cfg.height*j->job.zlutIndex;
-
-		gc_mutex.lock();
-		float gf = gc_gainFactor, of = gc_offsetFactor;
-		gc_mutex.unlock();
-
-		trk->ApplyOffsetGain(&calib_offset[index], &calib_gain[index], of, gf);
-//		if (j->job.frame%100==0)
-	}
+	ApplyOffsetGain(trk, j->job.zlutIndex);
 
 //	dbgprintf("Job: id %d, bead %d\n", j->id, j->zlut);
 
@@ -560,6 +574,7 @@ void QueuedCPUTracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, u
 		} else {
 			trk.SetImage16Bit((ushort*)img_data,pitch);
 		}
+		ApplyOffsetGain(&trk, i);
 
 		vector2f pos;
 

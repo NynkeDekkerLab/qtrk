@@ -98,8 +98,18 @@ void CPUTracker::SetImageFloat(float *src)
 
 void CPUTracker::ApplyOffsetGain(float* offset, float *gain, float offsetFactor, float gainFactor) 
 {
-	for (int i=0;i<width*height;i++)
-		srcImage[i] = (srcImage[i]+offset[i]*offsetFactor)*gain[i]*gainFactor;
+	if (offset && !gain) {
+		for (int i=0;i<width*height;i++)
+			srcImage[i] = srcImage[i]+offset[i]*offsetFactor;
+	}
+	if (gain && !offset) {
+		for (int i=0;i<width*height;i++)
+			srcImage[i] = srcImage[i]*gain[i]*gainFactor;
+	}
+	if (gain && offset)  {
+		for (int i=0;i<width*height;i++)
+			srcImage[i] = (srcImage[i]+offset[i]*offsetFactor)*gain[i]*gainFactor;
+	}
 }
 
 

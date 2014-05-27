@@ -187,7 +187,7 @@ CDLL_EXPORT void DLL_CALLCONV qtrk_set_pixel_calib_factors(QueuedTracker* qtrk, 
 CDLL_EXPORT void DLL_CALLCONV qtrk_set_pixel_calib(QueuedTracker* qtrk, LVArray3D<float>** offset, LVArray3D<float>** gain, ErrorCluster* e)
 {
 	if (ValidateTracker(qtrk, e, "set pixel calibration images")) {
-		int count ,planes, radialSteps;
+		int count, planes, radialSteps;
 		qtrk->GetRadialZLUTSize(count, planes, radialSteps);
 
 		float *offset_data = 0, *gain_data = 0;
