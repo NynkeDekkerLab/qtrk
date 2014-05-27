@@ -649,7 +649,6 @@ void QICompare(const char *lutfile )
 }
 
 
-
 void TestBenchmarkLUT()
 {
 	BenchmarkLUT bml("refbeadlut.jpg");
@@ -870,6 +869,7 @@ int CmdLineRun(int argc, char*argv[])
 	return 0;
 }
 
+
 int main(int argc, char *argv[])
 {
 	//listDevices();
@@ -879,41 +879,46 @@ int main(int argc, char *argv[])
 		return CmdLineRun(argc, argv);
 	}
 
+	try {
+	//	TestBenchmarkLUT();
+	//	testLinearArray();
+	//	TestTextureFetch();
+	//	TestGauss2D(true);
+	//	MultipleLUTTest();
 
-//	TestBenchmarkLUT();
-//	testLinearArray();
-//	TestTextureFetch();
-//	TestGauss2D(true);
-//	MultipleLUTTest();
+	//	TestSurfaceReadWrite();
+	//	TestImage4D();
+	//	TestImage4DMemory();
+	//	TestImageLUT("../cputrack-test/lut000.jpg");
+	//	TestRadialLUTGradientMethod();
 
-//	TestSurfaceReadWrite();
-//	TestImage4D();
-//	TestImage4DMemory();
-//	TestImageLUT("../cputrack-test/lut000.jpg");
-	//TestRadialLUTGradientMethod();
 
-	//BenchmarkParams();
+//		BenchmarkParams();
 
-//	BasicQTrkTest();
-//	TestCMOSNoiseInfluence<QueuedCUDATracker>("../cputrack-test/lut000.jpg");
+	//	BasicQTrkTest();
+	//	TestCMOSNoiseInfluence<QueuedCUDATracker>("../cputrack-test/lut000.jpg");
 
-#ifdef QI_DEBUG
-	QICompare("../cputrack-test/lut000.jpg");
-#endif
+	#ifdef QI_DEBUG
+		QICompare("../cputrack-test/lut000.jpg");
+	#endif
 
-//CompareAccuracy("../cputrack-test/lut000.jpg");
-//QTrkCompareTest();
+		//CompareAccuracy("../cputrack-test/lut000.jpg");
+		//QTrkCompareTest();
 
-	ProfileSpeedVsROI(LT_OnlyCOM, "speeds-com.txt", false, 0);
-	ProfileSpeedVsROI(LT_OnlyCOM, "speeds-com-z.txt", true, 0);
-	for (int qi_it=1;qi_it<=4;qi_it++) {
-		ProfileSpeedVsROI(LT_QI, SPrintf("speeds-qi-%d-iterations.txt",qi_it).c_str(), true, qi_it);
+	/*	ProfileSpeedVsROI(LT_OnlyCOM, "speeds-com.txt", false, 0);
+		ProfileSpeedVsROI(LT_OnlyCOM, "speeds-com-z.txt", true, 0);
+		for (int qi_it=1;qi_it<=4;qi_it++) {
+			ProfileSpeedVsROI(LT_QI, SPrintf("speeds-qi-%d-iterations.txt",qi_it).c_str(), true, qi_it);
+		}*/
+
+		/*auto info = SpeedCompareTest(80, false);
+		auto infogc = SpeedCompareTest(80, true);
+		dbgprintf("[gainc=false] CPU: %f, GPU: %f\n", info.speed_cpu, info.speed_gpu); 
+		dbgprintf("[gainc=true] CPU: %f, GPU: %f\n", infogc.speed_cpu, infogc.speed_gpu); 
+		*/
+
+	} catch (const std::exception& e) {
+		dbgprintf("Exception: %s\n", e.what());
 	}
-
-	/*auto info = SpeedCompareTest(80, false);
-	auto infogc = SpeedCompareTest(80, true);
-	dbgprintf("[gainc=false] CPU: %f, GPU: %f\n", info.speed_cpu, info.speed_gpu); 
-	dbgprintf("[gainc=true] CPU: %f, GPU: %f\n", infogc.speed_cpu, infogc.speed_gpu); 
-	*/
 	return 0;
 }

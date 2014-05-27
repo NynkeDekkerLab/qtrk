@@ -669,34 +669,51 @@ void CPUTracker::ComputeQuadrantProfile(scalar_t* dst, int radialSteps, int angu
 
 vector2f CPUTracker::ComputeMeanAndCOM(float bgcorrection)
 {
-	float sum=0, sum2=0;
-	float momentX=0;
-	float momentY=0;
+	double sum=0, sum2=0;
+	double momentX=0;
+	double momentY=0;
+	// Order is important 
+	//COM: x:53.959133, y:53.958984
+	//COM: x:53.958984, y:53.959133 
 
-	for (int y=0;y<height;y++)
-		for (int x=0;x<width;x++) {
+	for (int y=0;y<height;y++) {
+		for (int x=0;x<width;x++)  {
 			float v = GetPixel(x,y);
 			sum += v;
 			sum2 += v*v;
 		}
+	}
 
 	float invN = 1.0f/(width*height);
 	mean = sum * invN;
 	stdev = sqrtf(sum2 * invN - mean * mean);
 	sum = 0.0f;
 
-	for (int y=0;y<height;y++)
-		for(int x=0;x<width;x++)
-		{
+	float *ymom = ALLOCA_ARRAY(float, width);
+	float *xmom = ALLOCA_ARRAY(float, height);
+
+	for(int x=0;x<width;x++)
+		ymom[x]=0;
+	for(int y=0;y<height;y++)
+		xmom[y]=0;
+
+	for(int x=0;x<width;x++) {
+		for (int y=0;y<height;y++) {
 			float v = GetPixel(x,y);
 			v = std::max(0.0f, fabs(v-mean)-bgcorrection*stdev);
 			sum += v;
-			momentX += x*v;
-			momentY += y*v;
+//			xmom[y] += x*v;
+	//		ymom[x] += y*v;
+			momentX += x*(double)v;
+			momentY += y*(double)v;
 		}
+	}
+	
+	//for (int 
+
 	vector2f com;
-	com.x = momentX / (float)sum;
-	com.y = momentY / (float)sum;
+	com.x = (float)( momentX / sum );
+	com.y = (float)( momentY / sum );
 	return com;
 }
 

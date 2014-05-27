@@ -36,19 +36,6 @@ void RescaleLUT(CPUTracker* trk, ImageData* lut)
 
 }
 
-void SmallROITest(const char *lutfile)
-{
-	int w=30;
-
-	ImageData lutimg = ReadJPEGFile(lutfile);
-	CPUTracker trk(w,w);
-//	ImageData 
-
-	for (int i=0;i<lutimg.h;i++) {
-	//	trk.ComputeRadialProfile(&nlut
-	}
-	
-}
 
 void SpeedTest()
 {
@@ -422,6 +409,27 @@ std::vector<float> ComputeRadialWeights(int rsteps, float minRadius, float maxRa
 }
 
 
+void TestBias()
+{
+	ImageData lut = ReadLUTFile("lut000.jpg");
+
+	ImageData img = ImageData::alloc(80,80);
+	CPUTracker trk(img.w,img.h);
+
+	float o =18.03f;
+	GenerateImageFromLUT(&img, &lut, 0, img.w/2, vector3f(img.w/2+o, img.h/2+o, lut.h/2));
+	trk.SetImageFloat(img.data);
+
+	vector2f com = trk.ComputeMeanAndCOM();
+	dbgprintf("COM: x:%f, y:%f\n", com.x,com.y);
+	bool bhit;
+	vector2f qi = trk.ComputeQI(com, 1, img.w, 3*img.w/4, 1, 0, img.w/2, bhit);
+	dbgprintf("QI: x: %f, y:%f\n", qi.x,qi.y);
+
+	img.free();
+
+	lut.free();
+}
 
 enum RWeightMode { RWNone, RWUniform, RWRadial, RWDerivative };
 
@@ -764,6 +772,109 @@ void GenerateZLUTFittingCurve(const char *lutfile)
 void BenchmarkParams();
 
 
+
+
+static SpeedAccResult AccBiasTest(ImageData& lut, QueuedTracker *trk, int N, vector3f centerpos, vector3f range, const char *name, int MaxPixelValue, int extraFlags=0)
+{
+	typedef QueuedTracker TrkType;
+	std::vector<vector3f> results, truepos;
+
+	int NImg=N;//std::max(1,N/20);
+	std::vector<ImageData> imgs(NImg);
+	const float R=5;
+	
+	int flags= LT_LocalizeZ|LT_NormalizeProfile|extraFlags;
+	if (trk->cfg.qi_iterations>0) flags|=LT_QI;
+
+	trk->SetLocalizationMode((LocMode_t)flags);
+	Matrix3X3 fisher;
+	for (int i=0;i<NImg;i++) {
+		imgs[i]=ImageData::alloc(trk->cfg.width,trk->cfg.height);
+		vector3f pos = centerpos + range*vector3f(rand_uniform<float>()-0.5f, rand_uniform<float>()-0.5f, rand_uniform<float>()-0.5f)*1;
+		GenerateImageFromLUT(&imgs[i], &lut, trk->cfg.zlut_minradius, trk->cfg.zlut_maxradius, vector3f( pos.x,pos.y, pos.z));
+
+		SampleFisherMatrix fm(MaxPixelValue);
+		fisher += fm.Compute(pos, vector3f(1,1,1)*0.001f, lut, trk->cfg.width,trk->cfg.height, trk->cfg.zlut_minradius,trk->cfg.zlut_maxradius);
+
+		imgs[i].normalize();
+		if (MaxPixelValue> 0) ApplyPoissonNoise(imgs[i], MaxPixelValue);
+		//if(i==0) WriteJPEGFile(name, imgs[i]);
+
+		LocalizationJob job(i, 0, 0, 0);
+		trk->ScheduleLocalization((uchar*)imgs[i%NImg].data, sizeof(float)*trk->cfg.width, QTrkFloat, &job);
+		truepos.push_back(pos);
+	}
+	WaitForFinish(trk, N);
+
+	results.resize(trk->GetResultCount());
+	for (uint i=0;i<results.size();i++) {
+		LocalizationResult r;
+		trk->FetchResults(&r,1);
+		results[r.job.frame]=r.pos;
+	}
+
+	for (int i=0;i<NImg;i++)
+		imgs[i].free();
+
+	SpeedAccResult r;
+	r.Compute(results, [&](int index) { return truepos[index]; });
+
+	fisher *= 1.0f/NImg;
+	r.crlb = sqrt(fisher.Inverse().diag());
+	return r;
+}
+
+
+void ScatterBiasArea(int roi, float scan_width, int steps, int samples, int qi_it, float angstep)
+{
+	std::vector<float> u=linspace(roi/2-scan_width/2,roi/2+scan_width/2, steps);
+	
+	QTrkSettings cfg;
+	cfg.width=cfg.height=roi;
+	cfg.qi_angstep_factor = angstep;
+	cfg.qi_iterations = qi_it;
+	cfg.qi_angular_coverage = 0.7f;
+	cfg.qi_roi_coverage = 1;
+	cfg.qi_radial_coverage = 1.5f;
+	cfg.qi_minradius=0;
+	cfg.zlut_minradius=0;
+	cfg.zlut_angular_coverage = 0.7f;
+	cfg.zlut_roi_coverage = 1;
+	cfg.zlut_radial_coverage = 1.5f;
+	cfg.zlut_minradius = 0;
+	cfg.qi_minradius = 0;
+	cfg.com_bgcorrection = 0;
+	cfg.xc1_profileLength = roi*0.8f;
+	cfg.xc1_profileWidth = roi*0.2f;
+	cfg.xc1_iterations = 1;
+
+	ImageData lut,orglut = ReadJPEGFile("lut000.jpg");
+	vector3f ct(roi/2,roi/2,lut.h/2 + 0.123f);
+	float dx = scan_width/steps;
+
+	QueuedCPUTracker trk(cfg);
+	ResampleLUT(&trk, &orglut, orglut.h, &lut);
+
+	std::string fn = SPrintf( "sb_area_roi%d_scan%d_steps%d_qit%d.txt", roi, (int)scan_width, steps, qi_it);
+
+	for (int y=0;y<steps;y++)  {
+		for (int x=0;x<steps;x++)
+		{
+			vector3f cpos( (x-steps/2) * dx, (y-steps/2) * dx, 0 );
+
+			cfg.qi_iterations = qi_it;
+			auto r= AccBiasTest(orglut, &trk, samples, cpos+ct, vector3f(), 0, 30000, qi_it < 0 ? LT_XCor1D : 0);
+			
+			float row[] = { r.acc.x, r.acc.y, r.acc.z, r.bias.x, r.bias.y, r.bias.z,  r.crlb.x, r.crlb.z, samples };
+			WriteArrayAsCSVRow(fn.c_str(), row, 9, x+y>0);
+
+			dbgprintf("X=%d,Y=%d\n", x,y);
+		}
+	}
+	orglut.free();
+}
+
+
 int main()
 {
 
@@ -774,6 +885,7 @@ int main()
 
 //	GenerateZLUTFittingCurve("lut000.jpg");
 
+	TestBias();
 //	BenchmarkParams();
 
 //	SmallROITest("lut000.jpg");
@@ -786,10 +898,21 @@ int main()
 	//TestZRange("cleanlut1", "lut000.jpg", LT_LocalizeZWeighted, 1);
 	//TestZRange("cleanlut10", "lut10.jpg", LT_LocalizeZWeighted, 1);
 	//TestZRange("cleanlut10", "lut10.jpg", LT_LocalizeZWeighted, 1);
+	
+	int N=100;
+	ScatterBiasArea(80, 2, 30, N, 0, 1);
+	ScatterBiasArea(80, 80, 80, N, 0, 1);
+
+	ScatterBiasArea(80, 2, 30, N, 2, 1);
+	ScatterBiasArea(80, 80, 80, N, 2, 1);
+
+	ScatterBiasArea(80, 2, 30, N, -1, 1);
+	ScatterBiasArea(80, 80, 80, N, -1, 1);
+/*
+
 
 	ImageData img=ReadLUTFile("lut000.jpg");
 	img.mean();
-
 
 	TestZRange("rbin1x", "1x.radialzlut#4", 0, 0, RWUniform);
 	TestZRange("rbin1x", "1x.radialzlut#4", 0, 0, RWRadial);
@@ -798,7 +921,7 @@ int main()
 	TestZRange("rbin10x", "10x.radialzlut#4", 0, 0, RWUniform);
 	TestZRange("rbin10x", "10x.radialzlut#4", 0, 0, RWRadial);
 	TestZRange("rbin10x", "10x.radialzlut#4", 0, 0, RWDerivative);
-
+	*/
 //	QTrkTest();
 //	TestCMOSNoiseInfluence<QueuedCPUTracker>("lut000.jpg");
 
