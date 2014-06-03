@@ -61,7 +61,7 @@ ResultManager::ResultManager(const char *outfile, const char* frameInfoFile, Res
 		WriteBinaryFileHeader();
 	}
 
-	dbgprintf("Allocating ResultManager with %d beads and writeinterval %d\n", cfg->numBeads, cfg->writeInterval);
+	dbgprintf("Allocating ResultManager with %d beads, %d motor columns and writeinterval %d\n", cfg->numBeads, cfg->numFrameInfoColumns, cfg->writeInterval);
 }
 
 void ResultManager::WriteBinaryFileHeader()
