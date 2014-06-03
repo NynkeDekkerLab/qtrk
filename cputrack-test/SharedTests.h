@@ -3,6 +3,8 @@
 #include "random_distr.h"
 #include <direct.h> // _mkdir()
 
+#include "FisherMatrix.h"
+
 /*
 void ResampleFourierLUT(QueuedTracker* qtrk, ImageData* orglut, ImageData* flut, int zplanes, const char *jpgfile)
 {
@@ -39,9 +41,9 @@ void ResampleLUT(T* qtrk, ImageData* lut, int zplanes, ImageData* newlut, const 
 	for (int i=0;i<zplanes;i++)
 	{
 		vector2f pos(cfg.width/2,cfg.height/2);
-		GenerateImageFromLUT(&img, lut, qtrk->cfg.zlut_minradius, qtrk->cfg.zlut_maxradius, vector3f(pos.x,pos.y, i/(float)zplanes * lut->h), false);
+		GenerateImageFromLUT(&img, lut, qtrk->cfg.zlut_minradius, qtrk->cfg.zlut_maxradius, vector3f(pos.x,pos.y, i/(float)zplanes * lut->h), true);
 		img.normalize();
-		if (i == zplanes/2)
+		if (i == zplanes/2 && jpgfile)
 			WriteJPEGFile(SPrintf("smp-%s",jpgfile).c_str(), img);
 		qtrk->BuildLUT(img.data, sizeof(float)*img.w, QTrkFloat, buildLUTFlags, i, &pos);
 	}
@@ -49,7 +51,6 @@ void ResampleLUT(T* qtrk, ImageData* lut, int zplanes, ImageData* newlut, const 
 
 	*newlut = ImageData::alloc(cfg.zlut_radialsteps, zplanes);
 	qtrk->GetRadialZLUT(newlut->data);
-	newlut->normalize();
 
 	img.free();
 
@@ -314,11 +315,11 @@ static double WaitForFinish(QueuedTracker* qtrk, int N)
 static void MeanStDevError(const std::vector<vector3f>&  truepos, const std::vector<vector3f>&  v, vector3f &meanErr, vector3f & stdev) 
 {
 	meanErr=vector3f();
-	for (int i=0;i<v.size();i++) meanErr+=v[i]-truepos[i]; 
+	for (size_t i=0;i<v.size();i++) meanErr+=v[i]-truepos[i]; 
 	meanErr*=1.0f/v.size();
 
 	vector3f r;
-	for (int i=0;i<v.size();i++) {
+	for (uint i=0;i<v.size();i++) {
 		vector3f d = (v[i]-truepos[i])-meanErr;
 		r+= d*d;
 	}
@@ -392,7 +393,7 @@ RunTrackerResults RunTracker(const char *lutfile, QTrkSettings *cfg, bool useGC,
 	WaitForFinish(&trk, N);
 
 	results.resize(trk.GetResultCount());
-	for (int i=0;i<results.size();i++) {
+	for (uint i=0;i<results.size();i++) {
 		LocalizationResult r;
 		trk.FetchResults(&r,1);
 		results[r.job.frame]=r.pos;
@@ -438,3 +439,124 @@ static void ResizeLUT(ImageData& lut, ImageData& resized, QTrkSettings* cfg)
 			resized.at(x,y) /= c[x];
 	}
 }
+
+
+template<typename T>
+std::vector<T> logspace(T a, T b, int N)
+{
+	std::vector<T> r (N);
+
+	T a_ = log(a);
+	T b_ = log(b);
+
+	for (int i=0;i<N;i++)
+		r[i] = exp( (b_ - a_) * (i/(float)(N-1)) + a_);
+	return r;
+}
+
+template<typename T>
+std::vector<T> linspace(T a, T b, int N)
+{
+	std::vector<T> r (N);
+	for (int i=0;i<N;i++)
+		r[i] = (b - a) * (i/(float)(N-1)) + a;
+	return r;
+}
+
+
+struct SpeedAccResult{
+	vector3f acc,bias,crlb;
+	int speed;
+	void Compute(const std::vector<vector3f>& results, std::function< vector3f(int x) > truepos) {
+
+		vector3f s;
+		for(int i=0;i<results.size();i++) {
+			s+=results[i]-truepos(i);
+		}
+		s*=1.0f/results.size();
+		bias=s;
+
+		acc=vector3f();
+		for (uint i=0;i<results.size();i++) {
+			vector3f d = results[i]-truepos(i); 
+			vector3f errMinusMeanErr = d - s;
+			acc += errMinusMeanErr*errMinusMeanErr;
+		}
+		acc = sqrt(acc/results.size());
+
+	}
+};
+
+
+
+
+static SpeedAccResult SpeedAccTest(ImageData& lut, QTrkSettings *cfg, int N, vector3f centerpos, vector3f range, const char *name, int MaxPixelValue, int extraFlags=0)
+{
+	typedef QueuedTracker TrkType;
+	int NImg=N;//std::max(1,N/20);
+	std::vector<vector3f> results, truepos (NImg);
+
+	std::vector<ImageData> imgs(NImg);
+	const float R=5;
+	
+	QueuedTracker* trk = new QueuedCPUTracker(*cfg);// CreateQueuedTracker(*cfg);
+
+	ImageData resizedLUT;
+	ResampleLUT(trk, &lut, lut.h, &resizedLUT, name ? SPrintf("lut-%s", name).c_str() : 0);
+
+	Matrix3X3 fisher;
+
+//	for (int i=0;i<NImg;i++) {
+	parallel_for(NImg, [&](int i) {
+		imgs[i]=ImageData::alloc(cfg->width,cfg->height);
+		vector3f pos = centerpos + range*vector3f(rand_uniform<float>()-0.5f, rand_uniform<float>()-0.5f, rand_uniform<float>()-0.5f)*1;
+		GenerateImageFromLUT(&imgs[i], &resizedLUT, trk->cfg.zlut_minradius, trk->cfg.zlut_maxradius, vector3f( pos.x,pos.y, pos.z));
+
+		SampleFisherMatrix fm(MaxPixelValue);
+		fisher += fm.Compute(pos, vector3f(1,1,1)*0.001f, resizedLUT, cfg->width,cfg->height, trk->cfg.zlut_minradius,trk->cfg.zlut_maxradius);
+
+		imgs[i].normalize();
+		if (MaxPixelValue> 0) ApplyPoissonNoise(imgs[i], MaxPixelValue);
+		//if(i==0) WriteJPEGFile(name, imgs[i]);
+
+		truepos[i]=pos;
+	});
+
+	int flags= LT_LocalizeZ|LT_NormalizeProfile|extraFlags;
+	if (cfg->qi_iterations>0) flags|=LT_QI;
+
+	trk->SetLocalizationMode((LocMode_t)flags);
+	double tstart=GetPreciseTime();
+
+	int img=0;
+	for (int i=0;i<N;i++)
+	{
+		LocalizationJob job(i, 0, 0, 0);
+		trk->ScheduleLocalization((uchar*)imgs[i%NImg].data, sizeof(float)*cfg->width, QTrkFloat, &job);
+	}
+
+
+	WaitForFinish(trk, N);
+	double tend = GetPreciseTime();
+
+	results.resize(trk->GetResultCount());
+	for (uint i=0;i<results.size();i++) {
+		LocalizationResult r;
+		trk->FetchResults(&r,1);
+		results[r.job.frame]=r.pos;
+	}
+
+	for (int i=0;i<NImg;i++)
+		imgs[i].free();
+
+	SpeedAccResult r;
+	r.Compute(results, [&](int index) { return truepos[index]; });
+
+	r.speed = N/(tend-tstart);
+	fisher *= 1.0f/NImg;
+	r.crlb = sqrt(fisher.Inverse().diag());
+	resizedLUT.free();
+	delete trk;
+	return r;
+}
+

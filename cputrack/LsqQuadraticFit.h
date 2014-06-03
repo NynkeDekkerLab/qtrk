@@ -135,7 +135,7 @@ public:
 	static CUDA_SUPPORTED_FUNC T max_(T a, T b) { return a>b ? a : b; }
 	static CUDA_SUPPORTED_FUNC T min_(T a, T b) { return a<b ? a : b; }
 
-	static CUDA_SUPPORTED_FUNC T Compute(T* data, int len, const  T* weights)
+	static CUDA_SUPPORTED_FUNC T Compute(T* data, int len, const  T* weights, LsqSqQuadFit<T>* fit=0)
 	{
 		int iMax=0;
 		T vMax=data[0];
@@ -157,6 +157,7 @@ public:
 				xs[i-startPos] = i-iMax;
 
 			LsqSqQuadFit<T> qfit(numpoints, xs, &data[startPos], weights);
+			if (fit) *fit = qfit;
 			//printf("iMax: %d. qfit: data[%d]=%f\n", iMax, startPos, data[startPos]);
 			//for (int k=0;k<numpoints;k++) {
 		//		printf("data[%d]=%f\n", startPos+k, data[startPos]);

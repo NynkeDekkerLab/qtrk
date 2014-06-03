@@ -9,6 +9,7 @@
 #include "../cputrack/BenchmarkLUT.h"
 #include "../cputrack/CubicBSpline.h"
 #include <time.h>
+#include <fstream>
 
 
 
@@ -35,19 +36,6 @@ void RescaleLUT(CPUTracker* trk, ImageData* lut)
 
 }
 
-void SmallROITest(const char *lutfile)
-{
-	int w=30;
-
-	ImageData lutimg = ReadJPEGFile(lutfile);
-	CPUTracker trk(w,w);
-//	ImageData 
-
-	for (int i=0;i<lutimg.h;i++) {
-	//	trk.ComputeRadialProfile(&nlut
-	}
-	
-}
 
 void SpeedTest()
 {
@@ -72,7 +60,7 @@ void SpeedTest()
 		tracker->mean = 0.0f;
 		tracker->ComputeRadialProfile(&zlut[x*radialSteps], radialSteps, 64, 1, zradius, center, false);	
 	}
-	tracker->SetRadialZLUT(zlut, zplanes, radialSteps, 1,1, zradius, 64, true, true);
+	tracker->SetRadialZLUT(zlut, zplanes, radialSteps, 1,1, zradius, true, true);
 	delete[] zlut;
 
 	// Speed test
@@ -390,9 +378,42 @@ std::vector<float> ComputeRadialWeights(int rsteps, float minRadius, float maxRa
 }
 
 
-void TestZRange(const char *lutfile, int extraFlags, int clean_lut)
+void TestBias()
 {
-	ImageData lut = ReadJPEGFile(lutfile);
+	ImageData lut = ReadLUTFile("lut000.jpg");
+
+	ImageData img = ImageData::alloc(80,80);
+	CPUTracker trk(img.w,img.h);
+
+	float o = 12.03f;
+	vector3f pos (img.w/2+o, img.h/2+o, lut.h/2);
+	NormalizeZLUT(lut.data, 1, lut.h, lut.w);
+	GenerateImageFromLUT(&img, &lut, 0, img.w/2, pos, false);
+	ApplyPoissonNoise(img, 10000);
+	WriteJPEGFile("TestBias-smp.jpg", img);
+	trk.SetImageFloat(img.data);
+
+	vector2f com = trk.ComputeMeanAndCOM();
+	dbgprintf("COM: x:%f, y:%f\n", com.x,com.y);
+	bool bhit;
+	vector2f qi = trk.ComputeQI(com, 1, img.w, 3*img.w/4, 1, 0, img.w/2, bhit);
+	dbgprintf("QI: x: %f, y:%f\n", qi.x,qi.y);
+
+	trk.SetRadialZLUT(lut.data, lut.h, lut.w, 1, 0, img.w/2, true, false);
+	float z = trk.ComputeZ(qi,3*img.w, 0, 0, 0, 0, false);
+	float znorm = trk.ComputeZ(qi,3*img.w, 0, 0, 0, 0, true);
+
+	dbgprintf("Z: %f, ZNorm: %f, true:%f\n", z, znorm, pos.z);
+
+	img.free();
+	lut.free();
+}
+
+enum RWeightMode { RWNone, RWUniform, RWRadial, RWDerivative };
+
+void TestZRange(const char *name, const char *lutfile, int extraFlags, int clean_lut, RWeightMode weightMode=RWNone )
+{
+	ImageData lut = ReadLUTFile(lutfile);
 	vector3f delta(0.001f,0.001f, 0.001f);
 
 	if (clean_lut) {
@@ -414,13 +435,24 @@ void TestZRange(const char *lutfile, int extraFlags, int clean_lut)
 	QueuedCPUTracker trk(settings);
 	ImageData rescaledLUT;
 	ResampleLUT(&trk, &lut, lut.h, &rescaledLUT);
-	trk.SetLocalizationMode(LT_QI|LT_LocalizeZ|LT_NormalizeProfile|extraFlags);
 
-	int nstep= InDebugMode ? 20 : 1000;
-	int smpPerStep = InDebugMode ? 2 : 200;
+	int f = 0;
+	if (weightMode == RWDerivative)
+		f |= LT_LocalizeZWeighted;
+	else if(weightMode == RWRadial) {
+		std::vector<float> w(settings.zlut_radialsteps);
+		for (int i=0;i<settings.zlut_radialsteps;i++)
+			w[i]= settings.zlut_minradius + i/(float)settings.zlut_radialsteps*settings.zlut_maxradius;
+		trk.SetRadialWeights(&w[0]);
+	}
+
+	trk.SetLocalizationMode(LT_QI|LT_LocalizeZ|LT_NormalizeProfile|extraFlags|f);
+
+	uint nstep= InDebugMode ? 20 : 1000;
+	uint smpPerStep = InDebugMode ? 2 : 200;
 	std::vector<vector3f> truepos, positions,crlb;
 	std::vector<float> stdevz;
-	for (int i=0;i<nstep;i++)
+	for (uint i=0;i<nstep;i++)
 	{
 		float z = 1 + i / (float)nstep * (rescaledLUT.h-2);
 		vector3f pos = vector3f(settings.width/2, settings.height/2, z);
@@ -430,7 +462,7 @@ void TestZRange(const char *lutfile, int extraFlags, int clean_lut)
 
 		ImageData img=ImageData::alloc(settings.width,settings.height);
 
-		for (int j=0;j<smpPerStep; j++) {
+		for (uint j=0;j<smpPerStep; j++) {
 			vector3f rndvec(rand_uniform<float>(), rand_uniform<float>(), rand_uniform<float>());
 			vector3f rndpos = pos + vector3f(1,1,0.1) * (rndvec-0.5f); // 0.1 plane is still a lot larger than the 0.02 typical accuracy
 			GenerateImageFromLUT(&img, &rescaledLUT, settings.zlut_minradius, settings.zlut_maxradius, rndpos);
@@ -445,19 +477,19 @@ void TestZRange(const char *lutfile, int extraFlags, int clean_lut)
 	WaitForFinish(&trk, positions.size());
 	std::vector<vector3f> trkmean(nstep), trkstd(nstep);
 	std::vector<vector3f> resultpos(nstep*smpPerStep);
-	for (int i=0;i<positions.size();i++) {
+	for (uint i=0;i<positions.size();i++) {
 		LocalizationResult lr;
 		trk.FetchResults(&lr, 1);
 		resultpos[lr.job.frame]=lr.pos;
 	} 
-	for (int i=0;i<nstep;i++) {
-		for (int j=0;j<smpPerStep;j ++) {
+	for (uint i=0;i<nstep;i++) {
+		for (uint j=0;j<smpPerStep;j ++) {
 			vector3f err=resultpos[i*smpPerStep+j]-positions[i*smpPerStep+j];
 			trkmean[i]+=err;
 		}
 		trkmean[i]/=smpPerStep;
 		vector3f variance;
-		for (int j=0;j<smpPerStep;j ++) {
+		for (uint j=0;j<smpPerStep;j ++) {
 			vector3f r = resultpos[i*smpPerStep+j];
 			vector3f t = positions[i*smpPerStep+j];;
 			vector3f err=r-t;
@@ -473,7 +505,7 @@ void TestZRange(const char *lutfile, int extraFlags, int clean_lut)
 
 	vector3f mean_std;
 	std::vector<float> output;
-	for(int i=0;i<nstep;i++) {
+	for(uint i=0;i<nstep;i++) {
 		dbgprintf("trkstd[%d]:%f crlb=%f bias=%f true=%f\n", i, trkstd[i].z, crlb[i].z, trkmean[i].z, truepos[i].z);
 		output.push_back(truepos[i].z);
 		output.push_back(trkmean[i].x);
@@ -486,7 +518,7 @@ void TestZRange(const char *lutfile, int extraFlags, int clean_lut)
 		mean_std += trkstd[i];
 	}
 	dbgprintf("mean z err: %f\n", (mean_std/nstep).z);
-	WriteImageAsCSV( SPrintf("zrange_z_bx_sx_bz_sz_fx_fz_flags%d_cleanlut_%d.txt",extraFlags,clean_lut).c_str(), &output[0], 7, output.size()/7);
+	WriteImageAsCSV( SPrintf("%s_%d_flags%d_cl%d.txt",name, weightMode, extraFlags,clean_lut).c_str(), &output[0], 7, output.size()/7);
 	lut.free();
 	rescaledLUT.free();
 }
@@ -502,7 +534,7 @@ void AutoBeadFindTest()
 
 	auto results=BeadFinder::Find(&img, smp.data, &cfg);
 
-	for (int i=0;i<results.size();i++) {
+	for (uint i=0;i<results.size();i++) {
 		dbgprintf("beadpos: x=%d, y=%d\n", results[i].x, results[i].y);
 		img.at(results[i].x+cfg.roi/2, results[i].y+cfg.roi/2) = 1.0f;
 	}
@@ -678,7 +710,156 @@ static void TestBSplineMax(float maxpos)
 	dbgprintf("Max: %f, true: %f\n", max, maxpos); 
 }
 
+void GenerateZLUTFittingCurve(const char *lutfile)
+{
+	QTrkSettings settings;
+	settings.width = settings.height = 80;
+
+	QueuedCPUTracker qt(settings);
+	ImageData lut = ReadJPEGFile(lutfile);
+	ImageData nlut;
+	ResampleLUT(&qt, &lut, lut.h, &nlut);
+
+	CPUTracker trk(settings.width,settings.height);
+
+	ImageData smp = ImageData::alloc(settings.width,settings.height);
+
+	trk.SetRadialZLUT(nlut.data, nlut.h, nlut.w, 1, qt.cfg.zlut_minradius, qt.cfg.zlut_maxradius, false, false);
+
+	int N=8;
+	for (int z=0;z<6;z++) {
+		vector3f pos(settings.width/2,settings.height/2, nlut.h * (1+z) / (float)N + 0.123f);
+		GenerateImageFromLUT(&smp, &nlut, qt.cfg.zlut_minradius, qt.cfg.zlut_maxradius, pos);
+		ApplyPoissonNoise(smp, 10000);
+		WriteJPEGFile( SPrintf("zlutfitcurve-smpimg-z%d.jpg", z).c_str(), smp);
+		trk.SetImageFloat(smp.data);
+		std::vector<float> profile(qt.cfg.zlut_radialsteps), cmpProf(nlut.h), fitted(nlut.h);
+		trk.ComputeRadialProfile(&profile[0], qt.cfg.zlut_radialsteps, qt.cfg.zlut_angularsteps, qt.cfg.zlut_minradius, qt.cfg.zlut_maxradius, pos.xy(), false);
+		trk.LUTProfileCompare(&profile[0], 0, &cmpProf[0], CPUTracker::LUTProfMaxQuadraticFit, &fitted[0]);
+
+		WriteArrayAsCSVRow("zlutfitcurve-profile.txt", &profile[0], profile.size(), z>0);
+		WriteArrayAsCSVRow("zlutfitcurve-cmpprof.txt", &cmpProf[0], cmpProf.size(), z>0);
+		WriteArrayAsCSVRow("zlutfitcurve-fitted.txt", &fitted[0], fitted.size(), z>0);
+	}
+
+	smp.free();
+	nlut.free();
+	lut.free();
+}
+
 void BenchmarkParams();
+
+
+
+
+static SpeedAccResult AccBiasTest(ImageData& lut, QueuedTracker *trk, int N, vector3f centerpos, vector3f range, const char *name, int MaxPixelValue, int extraFlags=0)
+{
+	typedef QueuedTracker TrkType;
+	std::vector<vector3f> results, truepos;
+
+	int NImg=N;//std::max(1,N/20);
+	std::vector<ImageData> imgs(NImg);
+	const float R=5;
+	
+	int flags= LT_LocalizeZ|LT_NormalizeProfile|extraFlags;
+	if (trk->cfg.qi_iterations>0) flags|=LT_QI;
+
+	trk->SetLocalizationMode((LocMode_t)flags);
+	Matrix3X3 fisher;
+	for (int i=0;i<NImg;i++) {
+		imgs[i]=ImageData::alloc(trk->cfg.width,trk->cfg.height);
+		vector3f pos = centerpos + range*vector3f(rand_uniform<float>()-0.5f, rand_uniform<float>()-0.5f, rand_uniform<float>()-0.5f)*1;
+		GenerateImageFromLUT(&imgs[i], &lut, trk->cfg.zlut_minradius, trk->cfg.zlut_maxradius, vector3f( pos.x,pos.y, pos.z));
+
+		SampleFisherMatrix fm(MaxPixelValue);
+		fisher += fm.Compute(pos, vector3f(1,1,1)*0.001f, lut, trk->cfg.width,trk->cfg.height, trk->cfg.zlut_minradius,trk->cfg.zlut_maxradius);
+
+		imgs[i].normalize();
+		if (MaxPixelValue> 0) ApplyPoissonNoise(imgs[i], MaxPixelValue);
+		//if(i==0) WriteJPEGFile(name, imgs[i]);
+
+		LocalizationJob job(i, 0, 0, 0);
+		trk->ScheduleLocalization((uchar*)imgs[i%NImg].data, sizeof(float)*trk->cfg.width, QTrkFloat, &job);
+		truepos.push_back(pos);
+	}
+	WaitForFinish(trk, N);
+
+	results.resize(trk->GetResultCount());
+	for (uint i=0;i<results.size();i++) {
+		LocalizationResult r;
+		trk->FetchResults(&r,1);
+		results[r.job.frame]=r.pos;
+	}
+
+	for (int i=0;i<NImg;i++)
+		imgs[i].free();
+
+	SpeedAccResult r;
+	r.Compute(results, [&](int index) { return truepos[index]; });
+
+	fisher *= 1.0f/NImg;
+	r.crlb = sqrt(fisher.Inverse().diag());
+	return r;
+}
+
+
+void ScatterBiasArea(int roi, float scan_width, int steps, int samples, int qi_it, float angstep)
+{
+	std::vector<float> u=linspace(roi/2-scan_width/2,roi/2+scan_width/2, steps);
+	
+	QTrkComputedConfig cfg;
+	cfg.width=cfg.height=roi;
+	cfg.qi_angstep_factor = angstep;
+	cfg.qi_iterations = qi_it;
+	cfg.qi_angular_coverage = 0.7f;
+	cfg.qi_roi_coverage = 1;
+	cfg.qi_radial_coverage = 1.5f;
+	cfg.qi_minradius=0;
+	cfg.zlut_minradius=0;
+	cfg.zlut_angular_coverage = 0.7f;
+	cfg.zlut_roi_coverage = 1;
+	cfg.zlut_radial_coverage = 1.5f;
+	cfg.zlut_minradius = 0;
+	cfg.qi_minradius = 0;
+	cfg.com_bgcorrection = 0;
+	cfg.xc1_profileLength = roi*0.8f;
+	cfg.xc1_profileWidth = roi*0.2f;
+	cfg.xc1_iterations = 1;
+	cfg.Update();
+
+	ImageData lut,orglut = ReadLUTFile("10x.radialzlut#4");
+	vector3f ct(roi/2,roi/2,lut.h/2 + 0.123f);
+	float dx = scan_width/steps;
+
+	QueuedCPUTracker trk(cfg);
+	ResampleLUT(&trk, &orglut, orglut.h, &lut);
+	int maxval = 10000;
+
+	ImageData tmp=ImageData::alloc(roi,roi);
+	GenerateImageFromLUT(&tmp, &lut, 0, cfg.zlut_maxradius, vector3f(roi/2,roi/2,lut.h/2));
+	ApplyPoissonNoise(tmp, maxval);
+
+	std::string fn = SPrintf( "sb_area_roi%d_scan%d_steps%d_qit%d_N%d", roi, (int)scan_width, steps, qi_it, samples);
+	WriteJPEGFile( (fn + ".jpg").c_str(), tmp);
+	tmp.free();
+
+	fn += ".txt";
+	for (int y=0;y<steps;y++)  {
+		for (int x=0;x<steps;x++)
+		{
+			vector3f cpos( (x+0.5f-steps/2) * dx, (y+0.5f-steps/2) * dx, 0 );
+
+			cfg.qi_iterations = qi_it;
+			auto r= AccBiasTest(orglut, &trk, samples, cpos+ct, vector3f(), 0, maxval, qi_it < 0 ? LT_XCor1D : 0);
+			
+			float row[] = { r.acc.x, r.acc.y, r.acc.z, r.bias.x, r.bias.y, r.bias.z,  r.crlb.x, r.crlb.z, samples };
+			WriteArrayAsCSVRow(fn.c_str(), row, 9, x+y>0);
+
+			dbgprintf("X=%d,Y=%d\n", x,y);
+		}
+	}
+	orglut.free();
+}
 
 
 int main()
@@ -689,17 +870,40 @@ int main()
 #endif
 //	SimpleTest();
 
-	BenchmarkParams();
+//	GenerateZLUTFittingCurve("lut000.jpg");
+
+	TestBias();
+
 
 //	SmallROITest("lut000.jpg");
 
 //	TestBSplineMax(-1);
 //	TestBSplineMax(99.9);
 //	TestBSplineMax(34.23);
-/*	TestZRange("lut000.jpg", 0, 0);
-	TestZRange("lut000.jpg", 0, 1);
-	TestZRange("lut000.jpg", LT_LocalizeZWeighted, 0);
-	TestZRange("lut000.jpg", LT_LocalizeZWeighted, 1);
+
+	//TestZRange("cleanlut1", "lut000.jpg", LT_LocalizeZWeighted, 0);
+	//TestZRange("cleanlut1", "lut000.jpg", LT_LocalizeZWeighted, 1);
+	//TestZRange("cleanlut10", "lut10.jpg", LT_LocalizeZWeighted, 1);
+	//TestZRange("cleanlut10", "lut10.jpg", LT_LocalizeZWeighted, 1);
+	
+	/*BenchmarkParams();
+	int N=50;
+	ScatterBiasArea(80, 4, 100, N, 1, 1);
+	ScatterBiasArea(80, 4, 100, N, 2, 1);
+	ScatterBiasArea(80, 4, 100, N, 0, 1);
+	ScatterBiasArea(80, 4, 100, N, -1, 1);
+	*/
+/*
+	ImageData img=ReadLUTFile("lut000.jpg");
+	img.mean();
+
+	TestZRange("rbin1x", "1x.radialzlut#4", 0, 0, RWUniform);
+	TestZRange("rbin1x", "1x.radialzlut#4", 0, 0, RWRadial);
+	TestZRange("rbin1x", "1x.radialzlut#4", 0, 0, RWDerivative);
+
+	TestZRange("rbin10x", "10x.radialzlut#4", 0, 0, RWUniform);
+	TestZRange("rbin10x", "10x.radialzlut#4", 0, 0, RWRadial);
+	TestZRange("rbin10x", "10x.radialzlut#4", 0, 0, RWDerivative);
 	*/
 //	QTrkTest();
 //	TestCMOSNoiseInfluence<QueuedCPUTracker>("lut000.jpg");

@@ -31,7 +31,7 @@ enum QTRK_PixelDataType
 
 #pragma pack(push, 1)
 
-// 32 bytes
+// 24 bytes
 struct LocalizationJob {
 	LocalizationJob() {
 		frame=timestamp=zlutIndex=0; 
@@ -46,9 +46,9 @@ struct LocalizationJob {
 
 
 // DONT CHANGE, Mapped to labview clusters!
-// 60 bytes
+// 13*4 = 52 bytes
 struct LocalizationResult {
-	LocalizationJob job;
+	LocalizationJob job; //24
 	vector3f pos;
 	vector2f pos2D() { return vector2f(pos.x,pos.y); }
 	vector2f firstGuess; // COM pos

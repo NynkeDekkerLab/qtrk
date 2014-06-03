@@ -21,14 +21,6 @@ void dbgsetlogfile(const char*path)
 	logFilename = path;
 }
 
-vector2f vector2f::random(vector2f center, float R)
-{
-	float ang = rand_uniform<float>() * 2 * 3.141593f;
-	float r = rand_uniform<float>() * R;
-
-	return vector2f(center.x + r*cos(ang), center.y + r*sin(ang));
-}
-
 
 std::string GetLocalModuleFilename()
 {
@@ -273,6 +265,9 @@ void ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float m
 	for (int i=0;i<radialSteps;i++)
 		dst[i]=0.0f;
 
+//	center.x += 0.5f;
+//	center.y += 0.5f;
+
 	bool trace=false;
 	float rstep = (maxradius-minradius) / radialSteps;
 	int totalsmp = 0;
@@ -308,7 +303,7 @@ void ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float m
 
 inline float sq(float x) { return x*x; }
 
-void GenerateImageFromLUT(ImageData* image, ImageData* zlut, float minradius, float maxradius, vector3f pos, bool splineInterp)
+void GenerateImageFromLUT(ImageData* image, ImageData* zlut, float minradius, float maxradius, vector3f pos, bool splineInterp, int oversampleSubdiv)
 {
 //	lut.w = radialcov * ( (image->w/2 * roicov ) - minradius );
 //	lut.w = radialcov * ( maxradius - minradius );
@@ -345,19 +340,33 @@ void GenerateImageFromLUT(ImageData* image, ImageData* zlut, float minradius, fl
 		}
 	}
 
+	int oversampleWidth=oversampleSubdiv,oversampleHeight=oversampleSubdiv;
+	float oxstep = 1.0f / oversampleWidth;
+	float oystep = 1.0f / oversampleHeight;
+
 	for (int y=0;y<image->h;y++)
 		for (int x=0;x<image->w;x++) 
 		{
-			float pixr = sqrtf( sq(x-pos.x) + sq(y-pos.y) );
-			float r = (pixr - minradius) * radialcov;
+			float s = 0.0f;
 
-			if (r > zlut->w-2)
-				r = zlut->w-2;
-			if (r < 0) r = 0;
+			for (int ox=0;ox<oversampleWidth;ox++)
+				for (int oy=0;oy<oversampleHeight;oy++) {
 
-			int i=(int)r;
-			float v = Lerp(zinterp[i], zinterp[i+1], r-i);
-			image->at(x,y) = v; 
+					float X = x+(ox+0.5f)*oxstep - pos.x - 0.5f;
+					float Y = y+(oy+0.5f)*oystep - pos.y - 0.5f;
+
+					float pixr = sqrtf(X*X+Y*Y);
+					float r = (pixr - minradius) * radialcov;
+
+					if (r > zlut->w-2)
+						r = zlut->w-2;
+					if (r < 0) r = 0;
+
+					int i=(int)r;
+					s += Lerp(zinterp[i], zinterp[i+1], r-i);
+				}
+		
+			image->at(x,y) = s/(oversampleWidth*oversampleHeight); 
 		}
 }
 
@@ -391,7 +400,7 @@ void ApplyPoissonNoise(ImageData& img, float poissonMax, float maxval)
 	float ratio = maxval / poissonMax;
 
 	for (int x=0;x<img.numPixels();x++) {
-		img[x] = rand_poisson<float>(poissonMax*img[x]) * ratio;
+		img[x] = (int)(rand_poisson<float>(poissonMax*img[x]) * ratio );
 	}
 }
 
@@ -646,3 +655,36 @@ std::vector<float> ComputeStetsonWindow(int rsteps)
 	}
 	return wnd;
 }
+
+
+ImageData ReadLUTFile(const char *lutfile)
+{
+	PathSeperator sep(lutfile);
+	if(sep.extension == "jpg") {
+		return ReadJPEGFile(lutfile);
+	}
+	else {
+		std::string fn  =lutfile;
+		fn = std::string(fn.begin(), fn.begin()+fn.find('#'));
+		int lutIndex = atoi( std::string( ( sep.extension.begin() + sep.extension.find('#') )++, sep.extension.end()).c_str());
+
+		int nbeads, nplanes, nsteps;
+		FILE *f = fopen(fn.c_str(), "rb");
+
+		if (!f)
+			throw std::runtime_error("Can't open " + fn);
+
+		fread(&nbeads, 4, 1, f);
+		fread(&nplanes, 4, 1, f);
+		fread(&nsteps, 4, 1, f);
+
+
+		fseek(f, 12 + 4* (nsteps*nplanes * lutIndex), SEEK_SET);
+		ImageData lut = ImageData::alloc(nsteps,nplanes);
+		fread(lut.data, 4, nsteps*nplanes,f);
+		fclose(f);
+		lut.normalize();
+		return lut;
+	}
+}
+

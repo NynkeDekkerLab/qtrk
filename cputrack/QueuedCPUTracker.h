@@ -116,6 +116,7 @@ private:
 	void ProcessJob(Thread* th, Job* j);
 
 	void SetTrackerImage(CPUTracker* trk, Job *job);
+	void ApplyOffsetGain(CPUTracker* trk, int beadIndex);
 
 	static void WorkerThreadMain(void* arg);
 };

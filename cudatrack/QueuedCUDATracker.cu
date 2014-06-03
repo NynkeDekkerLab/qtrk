@@ -495,6 +495,8 @@ void QueuedCUDATracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, 
 		else
 			trk.SetImage16Bit((ushort*)img_data,pitch);
 
+		CPU_ApplyOffsetGain(&trk, i);
+
 		if(known_pos)
 			positions[i] = known_pos[i];
 		else {
@@ -600,7 +602,7 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 		s->images.copyToDevice(s->hostImageBuf.data(), true, s->stream); 
 	}
 
-	if (!d->calib_gain.isEmpty()) {
+	if (!d->calib_gain.isEmpty() || !d->calib_offset.isEmpty()) {
 		dim3 numThreads(16, 16, 2);
 		dim3 numBlocks((cfg.width + numThreads.x - 1 ) / numThreads.x,
 				(cfg.height + numThreads.y - 1) / numThreads.y,
@@ -738,6 +740,35 @@ void QueuedCUDATracker::SetPixelCalibrationImages(float* offset, float* gain)
 	for (uint i=0;i<devices.size();i++) {
 		devices[i]->SetPixelCalibrationImages(offset, gain, cfg.width, cfg.height);
 	}
+
+	// Copy to CPU side buffers for BuildLUT
+	int nelem = devices[0]->radial_zlut.count * cfg.width * cfg.height;
+	if (offset && gc_offset.size()!=nelem) { 
+		gc_offset.resize(nelem);
+		gc_offset.assign(offset,offset+nelem);
+	}
+	if (!offset) gc_offset.clear();
+
+	if (gain && gc_gain.size()!=nelem) {
+		gc_gain.reserve(nelem);
+		gc_gain.assign(gain, gain+nelem);
+	}
+	if (!gain) gc_gain.clear();
+}
+
+
+void QueuedCUDATracker::CPU_ApplyOffsetGain(CPUTracker* trk, int beadIndex)
+{
+	if (!gc_offset.empty() || !gc_gain.empty()) {
+		int index = cfg.width*cfg.height*beadIndex;
+
+		gc_mutex.lock();
+		float gf = gc_gainFactor, of = gc_offsetFactor;
+		gc_mutex.unlock();
+
+		trk->ApplyOffsetGain(gc_offset.empty() ? 0:  &gc_offset[index] , gc_gain.empty() ? 0: &gc_gain[index], of, gf);
+//		if (j->job.frame%100==0)
+	}
 }
 
 void QueuedCUDATracker::SetPixelCalibrationFactors(float offsetFactor, float gainFactor)
@@ -752,17 +783,23 @@ void QueuedCUDATracker::Device::SetPixelCalibrationImages(float* offset, float* 
 {
 	cudaSetDevice(index);
 
-	if (offset == 0) {
-		calib_gain.free();
+	if (offset == 0)
 		calib_offset.free();
-	}
-	else if (radial_zlut.count > 0) {
-		calib_gain = cudaImageListf::alloc(img_width,img_height,radial_zlut.count);
-		calib_offset = cudaImageListf::alloc(img_width,img_height,radial_zlut.count);
+
+	if (gain == 0)
+		calib_gain.free();
+
+	if (radial_zlut.count > 0) {
+
+		if (gain)
+			calib_gain = cudaImageListf::alloc(img_width,img_height,radial_zlut.count);
+
+		if (offset)
+			calib_offset = cudaImageListf::alloc(img_width,img_height,radial_zlut.count);
 
 		for (int j=0;j<radial_zlut.count;j++) {
-			calib_gain.copyImageToDevice(j, &gain[img_width*img_height*j]);
-			calib_offset.copyImageToDevice(j, &offset[img_width*img_height*j]);
+			if (gain) calib_gain.copyImageToDevice(j, &gain[img_width*img_height*j]);
+			if (offset) calib_offset.copyImageToDevice(j, &offset[img_width*img_height*j]);
 		}
 	}
 }

@@ -16,22 +16,34 @@
 #include <cstddef>
 #include <complex>
 
-
+#include "random_distr.h"
 
 #pragma pack(push, 4)
-struct vector2f {
-	vector2f() {x=y=0.0f; }
-	vector2f(float X,float Y) { x=X;y=Y; }
-	float x,y;
 
-	static vector2f random(vector2f center, float R);
+template<typename T>
+struct vector2 {
+	vector2() {x=y=0.0; }
+	template<typename Tx, typename Ty>
+	vector2(Tx X,Ty Y) { x=(T)X;y=(T)Y; }
+	T x,y;
+
+	static vector2 random(vector2 center, T R)
+	{
+		T ang = rand_uniform<T>() * 2 * 3.141593;
+		T r = rand_uniform<T>() * R;
+
+		return vector2(center.x + r*(T)cos(ang), center.y + r*(T)sin(ang));
+	}
 };
+
+typedef vector2<float> vector2f;
+typedef vector2<double> vector2d;
 
 template<typename T>
 struct vector3 {
 	vector3() { x=y=z=0.0f; }
 	template<typename Tx, typename Ty, typename Tz>
-	vector3(Tx X,Ty Y,Tz Z) { x=X; y=Y; z=Z; }
+	vector3(Tx X,Ty Y,Tz Z) { x=(T)X; y=(T)Y; z=(T)Z; }
 	template<typename Tc> 
 	vector3(const vector3<Tc>& o) : x(o.x),y(o.y),z(o.z) {}
 	T x,y,z;
@@ -88,6 +100,12 @@ struct vector3 {
 	friend vector3 operator/(T a, vector3<T> b) {
 		return vector3<T>(a/b.x,a/b.y,a/b.z);
 	}
+
+	vector2<T> xy()
+	{
+		return vector2<T>(x,y);
+	}
+
 };
 
 template<typename T>

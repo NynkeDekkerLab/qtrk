@@ -71,16 +71,6 @@ public:
 //		WriteImageAsCSV("imgmy.csv", imgmy.data, imgpx.w, imgpx.h);
 //		WriteImageAsCSV("imgmz.csv", imgmz.data, imgpx.w, imgpx.h);
 
-		if(t==501) {
-//			WriteImageAsCSV("imgmz.csv", imgmz.data, imgpz.w, imgpz.h);
-			WriteJPEGFile("mu_dz500pz.jpg", imgpz);
-			WriteJPEGFile("mu_dz500mz.jpg", imgmz);
-		} 
-		if(t==502) {
-
-			WriteJPEGFile("mu_dz502.jpg", imgpz);
-		}
-
 		ImgDeriv(imgpx, imgmx, delta.x);
 		ImgDeriv(imgpy, imgmy, delta.y);
 		ImgDeriv(imgpz, imgmz, delta.z);

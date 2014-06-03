@@ -54,7 +54,7 @@ CPUTracker::CPUTracker(int w, int h, int xcorwindow)
 	std::fill(debugImage, debugImage+w*h, 0.0f);
 
 	zluts = 0;
-	zlut_planes = zlut_res = zlut_count = zlut_angularSteps = 0;
+	zlut_planes = zlut_res = zlut_count = 0;
 	zlut_minradius = zlut_maxradius = 0.0f;
 	xcorw = xcorwindow;
 	qa_fft_forward = qa_fft_backward = 0;
@@ -98,8 +98,18 @@ void CPUTracker::SetImageFloat(float *src)
 
 void CPUTracker::ApplyOffsetGain(float* offset, float *gain, float offsetFactor, float gainFactor) 
 {
-	for (int i=0;i<width*height;i++)
-		srcImage[i] = (srcImage[i]+offset[i]*offsetFactor)*gain[i]*gainFactor;
+	if (offset && !gain) {
+		for (int i=0;i<width*height;i++)
+			srcImage[i] = srcImage[i]+offset[i]*offsetFactor;
+	}
+	if (gain && !offset) {
+		for (int i=0;i<width*height;i++)
+			srcImage[i] = srcImage[i]*gain[i]*gainFactor;
+	}
+	if (gain && offset)  {
+		for (int i=0;i<width*height;i++)
+			srcImage[i] = (srcImage[i]+offset[i]*offsetFactor)*gain[i]*gainFactor;
+	}
 }
 
 
@@ -669,34 +679,51 @@ void CPUTracker::ComputeQuadrantProfile(scalar_t* dst, int radialSteps, int angu
 
 vector2f CPUTracker::ComputeMeanAndCOM(float bgcorrection)
 {
-	float sum=0, sum2=0;
-	float momentX=0;
-	float momentY=0;
+	double sum=0, sum2=0;
+	double momentX=0;
+	double momentY=0;
+	// Order is important 
+	//COM: x:53.959133, y:53.958984
+	//COM: x:53.958984, y:53.959133 
 
-	for (int y=0;y<height;y++)
-		for (int x=0;x<width;x++) {
+	for (int y=0;y<height;y++) {
+		for (int x=0;x<width;x++)  {
 			float v = GetPixel(x,y);
 			sum += v;
 			sum2 += v*v;
 		}
+	}
 
 	float invN = 1.0f/(width*height);
 	mean = sum * invN;
 	stdev = sqrtf(sum2 * invN - mean * mean);
 	sum = 0.0f;
 
-	for (int y=0;y<height;y++)
-		for(int x=0;x<width;x++)
-		{
+	float *ymom = ALLOCA_ARRAY(float, width);
+	float *xmom = ALLOCA_ARRAY(float, height);
+
+	for(int x=0;x<width;x++)
+		ymom[x]=0;
+	for(int y=0;y<height;y++)
+		xmom[y]=0;
+
+	for(int x=0;x<width;x++) {
+		for (int y=0;y<height;y++) {
 			float v = GetPixel(x,y);
 			v = std::max(0.0f, fabs(v-mean)-bgcorrection*stdev);
 			sum += v;
-			momentX += x*v;
-			momentY += y*v;
+//			xmom[y] += x*v;
+	//		ymom[x] += y*v;
+			momentX += x*(double)v;
+			momentY += y*(double)v;
 		}
+	}
+	
+	//for (int 
+
 	vector2f com;
-	com.x = momentX / (float)sum;
-	com.y = momentY / (float)sum;
+	com.x = (float)( momentX / sum );
+	com.y = (float)( momentY / sum );
 	return com;
 }
 
@@ -723,7 +750,7 @@ void CPUTracker::ComputeRadialProfile(float* dst, int radialSteps, int angularSt
 	}
 }
 
-void CPUTracker::SetRadialZLUT(float* data, int planes, int res, int numLUTs, float minradius, float maxradius, int angularSteps, bool copyMemory, bool useCorrelation)
+void CPUTracker::SetRadialZLUT(float* data, int planes, int res, int numLUTs, float minradius, float maxradius, bool copyMemory, bool useCorrelation)
 {
 	if (zluts && zlut_memoryOwner)
 		delete[] zluts;
@@ -739,7 +766,6 @@ void CPUTracker::SetRadialZLUT(float* data, int planes, int res, int numLUTs, fl
 	zlut_count = numLUTs;
 	zlut_minradius = minradius;
 	zlut_maxradius = maxradius;
-	zlut_angularSteps = angularSteps;
 	zlut_useCorrelation = useCorrelation;
 
 	if (qa_fft_backward) {
@@ -761,7 +787,7 @@ void CPUTracker::SetRadialWeights(float* radweights)
 }
 
 
-float CPUTracker::LUTProfileCompare (float* rprof, int zlutIndex, float* cmpProf, LUTProfileMaxComputeMode maxPosComputeMode)
+float CPUTracker::LUTProfileCompare (float* rprof, int zlutIndex, float* cmpProf, LUTProfileMaxComputeMode maxPosComputeMode, float* fitcurve)
 {
 	if (!zluts)
 		return 0.0f;
@@ -789,8 +815,18 @@ float CPUTracker::LUTProfileCompare (float* rprof, int zlutIndex, float* cmpProf
 		std::copy(rprof_diff, rprof_diff+zlut_planes, cmpProf);
 	}
 
-	if (maxPosComputeMode == LUTProfMaxQuadraticFit)
-		return ComputeMaxInterp<float, ZLUT_LSQFIT_NWEIGHTS>::Compute(rprof_diff, zlut_planes, ZLUTWeights);
+	if (maxPosComputeMode == LUTProfMaxQuadraticFit) {
+		if (fitcurve) {
+			LsqSqQuadFit<float> fit;
+			float z= ComputeMaxInterp<float, ZLUT_LSQFIT_NWEIGHTS>::Compute(rprof_diff, zlut_planes, ZLUTWeights, &fit);
+			int iMax = std::max_element(rprof_diff, rprof_diff+zlut_planes) - rprof_diff;
+			for (int i=0;i<zlut_planes;i++)
+				fitcurve[i] = fit.compute(i-iMax);
+			return z;
+		} else {
+			return ComputeMaxInterp<float, ZLUT_LSQFIT_NWEIGHTS>::Compute(rprof_diff, zlut_planes, ZLUTWeights);
+		}
+	}
 	else
 		return ComputeSplineFitMaxPos(rprof_diff, zlut_planes);
 }

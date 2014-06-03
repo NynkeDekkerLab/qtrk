@@ -187,30 +187,36 @@ CDLL_EXPORT void DLL_CALLCONV qtrk_set_pixel_calib_factors(QueuedTracker* qtrk, 
 CDLL_EXPORT void DLL_CALLCONV qtrk_set_pixel_calib(QueuedTracker* qtrk, LVArray3D<float>** offset, LVArray3D<float>** gain, ErrorCluster* e)
 {
 	if (ValidateTracker(qtrk, e, "set pixel calibration images")) {
-		int count ,planes, radialSteps;
+		int count, planes, radialSteps;
 		qtrk->GetRadialZLUTSize(count, planes, radialSteps);
 
-		if( (*offset)->dimSizes[0] == 0 ){
-			qtrk->SetPixelCalibrationImages(0,0);
-			return;
+		float *offset_data = 0, *gain_data = 0;
+
+		if((*offset)->dimSizes[0] != 0) {
+			if (qtrk->cfg.width != (*offset)->dimSizes[2] || qtrk->cfg.height != (*offset)->dimSizes[1]) {
+				ArgumentErrorMsg(e, SPrintf("set_pixel_calib: Offset images passed with invalid dimension (%d,%d)", (*offset)->dimSizes[2], (*offset)->dimSizes[1]));
+				return;
+			}
+			if (count != (*offset)->dimSizes[0]) {
+				ArgumentErrorMsg(e, SPrintf("set_pixel_calib: Expecting offset to have %d images (same as ZLUT). %d given", count, (*offset)->dimSizes[0]));
+				return;
+			}
+			offset_data = (*offset)->elem;
 		}
 
-		if (qtrk->cfg.width != (*gain)->dimSizes[2] || qtrk->cfg.height != (*gain)->dimSizes[1]) {
-			ArgumentErrorMsg(e, SPrintf("set_pixel_calib: Gain images passed with invalid dimension (%d,%d)", (*gain)->dimSizes[2], (*gain)->dimSizes[1]));
-			return;
+		if((*gain)->dimSizes[0] != 0) {
+			if (qtrk->cfg.width != (*gain)->dimSizes[2] || qtrk->cfg.height != (*gain)->dimSizes[1]) {
+				ArgumentErrorMsg(e, SPrintf("set_pixel_calib: Gain images passed with invalid dimension (%d,%d)", (*gain)->dimSizes[2], (*gain)->dimSizes[1]));
+				return;
+			}
+			if (count != (*gain)->dimSizes[0]) {
+				ArgumentErrorMsg(e, SPrintf("set_pixel_calib: Expecting gain to have %d images (same as ZLUT). %d given", count, (*gain)->dimSizes[0]));
+				return;
+			}
+			gain_data = (*gain)->elem;
 		}
 
-		if (qtrk->cfg.width != (*offset)->dimSizes[2] || qtrk->cfg.height != (*offset)->dimSizes[1]) {
-			ArgumentErrorMsg(e, SPrintf("set_pixel_calib: Offset images passed with invalid dimension (%d,%d)", (*offset)->dimSizes[2], (*offset)->dimSizes[1]));
-			return;
-		}
-
-		if (count != (*offset)->dimSizes[0] || count != (*gain)->dimSizes[0]) {
-			ArgumentErrorMsg(e, SPrintf("set_pixel_calib: Expecting gain/offset to have %d images (same as ZLUT). %d/%d given", count, (*gain)->dimSizes[0], (*offset)->dimSizes[0]));
-			return;
-		}
-
-		qtrk->SetPixelCalibrationImages( (*offset)->elem, (*gain)->elem );
+		qtrk->SetPixelCalibrationImages(offset_data, gain_data);
 	}
 }
 

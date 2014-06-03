@@ -36,7 +36,7 @@ public:
 	// The ZLUT system stores 'zlut_count' number of 2D zlut's, so every bead can be tracked with its own unique ZLUT.
 	float* zluts; // size: zlut_planes*zlut_count*zlut_res,		indexing: zlut[index * (zlut_planes * zlut_res) + plane * zlut_res + r]
 	bool zlut_memoryOwner; // is this instance the owner of the zluts memory, or is it external?
-	int zlut_planes, zlut_res, zlut_count, zlut_angularSteps; 
+	int zlut_planes, zlut_res, zlut_count; 
 	float zlut_minradius, zlut_maxradius;
 	bool zlut_useCorrelation;
 	std::vector<float> zlut_radialweights;
@@ -102,10 +102,10 @@ public:
 	void FourierRadialProfile(float* dst, int radialSteps, int angularSteps, float minradius, float maxradius);
 
 	void Normalize(float *image=0);
-	void SetRadialZLUT(float* data, int planes, int res, int num_zluts, float minradius, float maxradius, int angularSteps, bool copyMemory, bool useCorrelation);
+	void SetRadialZLUT(float* data, int planes, int res, int num_zluts, float minradius, float maxradius, bool copyMemory, bool useCorrelation);
 	void SetRadialWeights(float *w);
 	enum LUTProfileMaxComputeMode { LUTProfMaxQuadraticFit, LUTProfMaxSplineFit };
-	float LUTProfileCompare(float* profile, int zlutIndex, float* cmpProf, LUTProfileMaxComputeMode maxPosMethod);
+	float LUTProfileCompare(float* profile, int zlutIndex, float* cmpProf, LUTProfileMaxComputeMode maxPosMethod, float* lsqfittedcurve=0);
 	float LUTProfileCompareAdjustedWeights(float* rprof, int zlutIndex, float z_estim);
 
 	float* GetDebugImage() { return debugImage; }

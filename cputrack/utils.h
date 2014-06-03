@@ -102,7 +102,7 @@ void ComputeCRP(float* dst, int radialSteps, int angularSteps, float minradius, 
 void ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float minradius, float maxradius, vector2f center, ImageData* src, float mean, bool normalize);
 void NormalizeRadialProfile(float* prof, int rsteps);
 void NormalizeZLUT(float *zlut, int numLUTs, int planes, int radialsteps);
-void GenerateImageFromLUT(ImageData* image, ImageData* zlut, float minradius, float maxradius, vector3f pos, bool useSplineInterp=true);
+void GenerateImageFromLUT(ImageData* image, ImageData* zlut, float minradius, float maxradius, vector3f pos, bool useSplineInterp=true, int ovs=4);
 void ApplyPoissonNoise(ImageData& img, float poissonMax, float maxValue=255);
 void ApplyGaussianNoise(ImageData& img, float sigma);
 void WriteComplexImageAsCSV(const char* file, std::complex<float>* d, int w,int h, const char *labels[]=0);
@@ -125,6 +125,7 @@ struct PathSeperator {
 std::string file_ext(const char *f);
 
 ImageData ReadJPEGFile(const char *fn);
+ImageData ReadLUTFile(const char *lutfile);
 int ReadJPEGFile(uchar* srcbuf, int srclen, uchar** data, int* width, int*height);
 void WriteJPEGFile(uchar* data,int w,int h, const char * filename, int quality);
 void FloatToJPEGFile (const char *name, const float* d, int w,int h);
