@@ -16,8 +16,8 @@ void BenchmarkROISizes(const char *name, int n, int MaxPixelValue, int qi_iterat
 	std::vector<SpeedAccResult> results;
 	std::vector<int> rois;
 
-	const char *lutfile = "lut000.jpg";
-	ImageData lut = ReadJPEGFile(lutfile);
+	const char *lutfile = "10x.radialzlut#4";
+	ImageData lut = ReadLUTFile(lutfile);
 
 	for (int roi=20;roi<=180;roi+=10) {
 	//for (int roi=90;roi<100;roi+=10) {
@@ -133,8 +133,6 @@ void BenchmarkParams()
 	int mpv = 10000;
 	vector3f range;
 
-	/*
-
 	for (int bias=0;bias<2;bias++) {
 		for (int i=0;i<4;i++)
 			BenchmarkROISizes(SPrintf("roi_qi%d_bias%d.txt",i,bias).c_str(), n, mpv, i, 0, range);
@@ -142,8 +140,8 @@ void BenchmarkParams()
 			//BenchmarkROISizes(SPrintf("roi_qi%dwz.txt",i).c_str(), n, mpv, i,  LT_LocalizeZWeighted, range);
 		BenchmarkROISizes( SPrintf("roi_xcor_bias%d.txt", bias).c_str(), n, mpv, 0, LT_XCor1D, range);
 //		BenchmarkROISizes("roi_xcorwz_bias%d.txt", n, mpv, 0, LT_XCor1D | LT_LocalizeZWeighted, range);
-		range=vector3f(1,1,1);
-	}*/
+		range=vector3f(3,3,3);
+	}
 
 	QTrkSettings basecfg;
 	basecfg.width = 80;

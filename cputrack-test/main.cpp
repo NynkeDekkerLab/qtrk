@@ -369,37 +369,6 @@ void WriteRadialProf(const char *file, ImageData& d)
 }
 
 
-ImageData ReadLUTFile(const char *lutfile)
-{
-	PathSeperator sep(lutfile);
-	if(sep.extension == "jpg") {
-		return ReadJPEGFile(lutfile);
-	}
-	else {
-		std::string fn  =lutfile;
-		fn = std::string(fn.begin(), fn.begin()+fn.find('#'));
-		int lutIndex = atoi( std::string( ( sep.extension.begin() + sep.extension.find('#') )++, sep.extension.end()).c_str());
-
-		int nbeads, nplanes, nsteps;
-		FILE *f = fopen(fn.c_str(), "rb");
-
-		if (!f)
-			throw std::runtime_error("Can't open " + fn);
-
-		fread(&nbeads, 4, 1, f);
-		fread(&nplanes, 4, 1, f);
-		fread(&nsteps, 4, 1, f);
-
-
-		fseek(f, 12 + 4* (nsteps*nplanes * lutIndex), SEEK_SET);
-		ImageData lut = ImageData::alloc(nsteps,nplanes);
-		fread(lut.data, 4, nsteps*nplanes,f);
-		fclose(f);
-		lut.normalize();
-		return lut;
-	}
-}
-
 std::vector<float> ComputeRadialWeights(int rsteps, float minRadius, float maxRadius)
 {
 	std::vector<float> wnd(rsteps);
@@ -791,7 +760,7 @@ static SpeedAccResult AccBiasTest(ImageData& lut, QueuedTracker *trk, int N, vec
 	for (int i=0;i<NImg;i++) {
 		imgs[i]=ImageData::alloc(trk->cfg.width,trk->cfg.height);
 		vector3f pos = centerpos + range*vector3f(rand_uniform<float>()-0.5f, rand_uniform<float>()-0.5f, rand_uniform<float>()-0.5f)*1;
-		GenerateImageFromLUT(&imgs[i], &lut, trk->cfg.zlut_minradius, trk->cfg.zlut_maxradius, vector3f( pos.x,pos.y, pos.z));
+		GenerateImageFromLUT(&imgs[i], &lut, trk->cfg.zlut_minradius, trk->cfg.zlut_maxradius, vector3f( pos.x,pos.y, pos.z), false);
 
 		SampleFisherMatrix fm(MaxPixelValue);
 		fisher += fm.Compute(pos, vector3f(1,1,1)*0.001f, lut, trk->cfg.width,trk->cfg.height, trk->cfg.zlut_minradius,trk->cfg.zlut_maxradius);
@@ -829,7 +798,7 @@ void ScatterBiasArea(int roi, float scan_width, int steps, int samples, int qi_i
 {
 	std::vector<float> u=linspace(roi/2-scan_width/2,roi/2+scan_width/2, steps);
 	
-	QTrkSettings cfg;
+	QTrkComputedConfig cfg;
 	cfg.width=cfg.height=roi;
 	cfg.qi_angstep_factor = angstep;
 	cfg.qi_iterations = qi_it;
@@ -847,23 +816,32 @@ void ScatterBiasArea(int roi, float scan_width, int steps, int samples, int qi_i
 	cfg.xc1_profileLength = roi*0.8f;
 	cfg.xc1_profileWidth = roi*0.2f;
 	cfg.xc1_iterations = 1;
+	cfg.Update();
 
-	ImageData lut,orglut = ReadJPEGFile("lut000.jpg");
+	ImageData lut,orglut = ReadLUTFile("10x.radialzlut#4");
 	vector3f ct(roi/2,roi/2,lut.h/2 + 0.123f);
 	float dx = scan_width/steps;
 
 	QueuedCPUTracker trk(cfg);
 	ResampleLUT(&trk, &orglut, orglut.h, &lut);
+	int maxval = 10000;
 
-	std::string fn = SPrintf( "sb_area_roi%d_scan%d_steps%d_qit%d.txt", roi, (int)scan_width, steps, qi_it);
+	ImageData tmp=ImageData::alloc(roi,roi);
+	GenerateImageFromLUT(&tmp, &lut, 0, cfg.zlut_maxradius, vector3f(roi/2,roi/2,lut.h/2));
+	ApplyPoissonNoise(tmp, maxval);
 
+	std::string fn = SPrintf( "sb_area_roi%d_scan%d_steps%d_qit%d_N%d", roi, (int)scan_width, steps, qi_it, samples);
+	WriteJPEGFile( (fn + ".jpg").c_str(), tmp);
+	tmp.free();
+
+	fn += ".txt";
 	for (int y=0;y<steps;y++)  {
 		for (int x=0;x<steps;x++)
 		{
-			vector3f cpos( (x-steps/2) * dx, (y-steps/2) * dx, 0 );
+			vector3f cpos( (x+0.5f-steps/2) * dx, (y+0.5f-steps/2) * dx, 0 );
 
 			cfg.qi_iterations = qi_it;
-			auto r= AccBiasTest(orglut, &trk, samples, cpos+ct, vector3f(), 0, 30000, qi_it < 0 ? LT_XCor1D : 0);
+			auto r= AccBiasTest(orglut, &trk, samples, cpos+ct, vector3f(), 0, maxval, qi_it < 0 ? LT_XCor1D : 0);
 			
 			float row[] = { r.acc.x, r.acc.y, r.acc.z, r.bias.x, r.bias.y, r.bias.z,  r.crlb.x, r.crlb.z, samples };
 			WriteArrayAsCSVRow(fn.c_str(), row, 9, x+y>0);
@@ -885,8 +863,9 @@ int main()
 
 //	GenerateZLUTFittingCurve("lut000.jpg");
 
-	TestBias();
-//	BenchmarkParams();
+//	TestBias();
+
+	BenchmarkParams();
 
 //	SmallROITest("lut000.jpg");
 
@@ -899,18 +878,17 @@ int main()
 	//TestZRange("cleanlut10", "lut10.jpg", LT_LocalizeZWeighted, 1);
 	//TestZRange("cleanlut10", "lut10.jpg", LT_LocalizeZWeighted, 1);
 	
-	int N=100;
-	ScatterBiasArea(80, 2, 30, N, 0, 1);
-	ScatterBiasArea(80, 80, 80, N, 0, 1);
-
-	ScatterBiasArea(80, 2, 30, N, 2, 1);
-	ScatterBiasArea(80, 80, 80, N, 2, 1);
-
-	ScatterBiasArea(80, 2, 30, N, -1, 1);
-	ScatterBiasArea(80, 80, 80, N, -1, 1);
+	int N=50;
+	ScatterBiasArea(80, 2, 50, N, 0, 1);
+	ScatterBiasArea(80, 2, 50, N, 1, 1);
+	ScatterBiasArea(80, 2, 50, N, 2, 1);
+	ScatterBiasArea(80, 8, 100, N, 0, 1);
+	ScatterBiasArea(80, 8, 100, N, 2, 1);
+	ScatterBiasArea(80, 8, 100, N, -1, 1);
+	ScatterBiasArea(80, 4, 50, N, -1, 1);
+	ScatterBiasArea(80, 4, 50, N, 2, 1);
+	ScatterBiasArea(80, 2, 50, N, -1, 1);
 /*
-
-
 	ImageData img=ReadLUTFile("lut000.jpg");
 	img.mean();
 
