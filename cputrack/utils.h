@@ -32,9 +32,11 @@ void normalize(TPixel* d, uint w,uint h)
 		d[k]=(d[k]-minv)/(maxv-minv);
 }
 
-inline float Lerp(float a, float b, float x) { return a + (b-a)*x; }
+template<typename T>
+inline T Lerp(T a, T b, float x) { return a + (b-a)*x; }
 
-inline float Interpolate(float* image, int width, int height, float x,float y, bool* outside=0)
+template<typename T>
+inline T Interpolate(T* image, int width, int height, float x,float y, bool* outside=0)
 {
 	int rx=x, ry=y;
 	if (rx<0 || ry <0 || rx+1 >= width || ry+1>=height) {
@@ -43,13 +45,13 @@ inline float Interpolate(float* image, int width, int height, float x,float y, b
 	}
 	if (outside) *outside=false;
 
-	float v00 = image[width*ry+rx];
-	float v10 = image[width*ry+rx+1];
-	float v01 = image[width*(ry+1)+rx];
-	float v11 = image[width*(ry+1)+rx+1];
+	T v00 = image[width*ry+rx];
+	T v10 = image[width*ry+rx+1];
+	T v01 = image[width*(ry+1)+rx];
+	T v11 = image[width*(ry+1)+rx+1];
 
-	float v0 = Lerp(v00, v10, x-rx);
-	float v1 = Lerp(v01, v11, x-rx);
+	T v0 = Lerp(v00, v10, x-rx);
+	T v1 = Lerp(v01, v11, x-rx);
 
 	return Lerp(v0, v1, y-ry);
 }
@@ -69,32 +71,38 @@ inline T Interpolate1D(const std::vector<T>& d, float x)
 	return Interpolate1D(&d[0],d.size(),x);
 }
 
-struct ImageData;
-
 void WriteImageAsCSV(const char* file, float* d, int w,int h, const char *labels[]=0);
 
-struct ImageData {
-	float* data;
+template<typename T>
+struct TImageData {
+	T* data;
 	int w,h;
-	ImageData() { data=0;w=h=0;}
-	ImageData(float *d, int w, int h) : data(d), w(w),h(h) {}
-	float& at(int x, int y) { return data[w*y+x]; }
-	float interpolate(float x, float y, bool *outside=0) { return Interpolate(data, w,h, x,y,outside); }
+	TImageData() { data=0;w=h=0;}
+	TImageData(T *d, int w, int h) : data(d), w(w),h(h) {}
+	template<typename Ta> void set(Ta *src) { for (int i=0;i<w*h;i++) data[i] = src[i]; }
+	template<typename Ta> void set(TImageData<Ta> &src) { set(src.data); }
+
+	T& at(int x, int y) { return data[w*y+x]; }
+	T interpolate(float x, float y, bool *outside=0) { return Interpolate(data, w,h, x,y,outside); }
 	int numPixels() { return w*h; }
-	int pitch() { return sizeof(float)*w; } // bytes per line
+	int pitch() { return sizeof(T)*w; } // bytes per line
 	void normalize() { ::normalize(data,w,h); }
-	float mean() {
-		float s=0.0f;
+	T mean() {
+		T s=0.0f;
 		for(int x=0;x<w*h;x++)
 			s+=data[x];
 		return s/(w*h);
 	}
-	float& operator[](int i) { return data[i]; }
+	T& operator[](int i) { return data[i]; }
 
-	static ImageData alloc(int w,int h) { return ImageData(new float[w*h], w,h); }
+	static TImageData alloc(int w,int h) { return TImageData<T>(new T[w*h], w,h); }
 	void free() { delete[] data; }
 	void writeAsCSV(const char *filename, const char *labels[]=0) { WriteImageAsCSV(filename, data, w,h,labels); }
 };
+
+
+typedef TImageData<float> ImageData;
+typedef TImageData<double> ImageDatad;
 
 std::vector<float> ComputeStetsonWindow(int rsteps);
 float ComputeBgCorrectedCOM1D(float *data, int len, float cf=2.0f);

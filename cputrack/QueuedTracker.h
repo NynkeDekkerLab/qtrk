@@ -10,7 +10,9 @@
 
 #include "qtrk_c_api.h"
 
-struct ImageData;
+template<typename T>
+struct TImageData;
+typedef TImageData<float> ImageData;
 
 // minimum number of samples for a profile radial bin. Below this the image mean will be used
 #define MIN_RADPROFILE_SMP_COUNT 4

@@ -51,6 +51,7 @@ void ResampleLUT(T* qtrk, ImageData* lut, int zplanes, ImageData* newlut, const 
 
 	*newlut = ImageData::alloc(cfg.zlut_radialsteps, zplanes);
 	qtrk->GetRadialZLUT(newlut->data);
+	newlut->normalize();
 
 	img.free();
 
@@ -504,23 +505,27 @@ static SpeedAccResult SpeedAccTest(ImageData& lut, QTrkSettings *cfg, int N, vec
 	ImageData resizedLUT;
 	ResampleLUT(trk, &lut, lut.h, &resizedLUT, name ? SPrintf("lut-%s", name).c_str() : 0);
 
-	Matrix3X3 fisher;
+	std::vector<Matrix3X3> fishers(NImg);
 
-//	for (int i=0;i<NImg;i++) {
-	parallel_for(NImg, [&](int i) {
+	for (int i=0;i<NImg;i++) {
+//	parallel_for(NImg, [&](int i) {
 		imgs[i]=ImageData::alloc(cfg->width,cfg->height);
 		vector3f pos = centerpos + range*vector3f(rand_uniform<float>()-0.5f, rand_uniform<float>()-0.5f, rand_uniform<float>()-0.5f)*1;
 		GenerateImageFromLUT(&imgs[i], &resizedLUT, trk->cfg.zlut_minradius, trk->cfg.zlut_maxradius, vector3f( pos.x,pos.y, pos.z));
 
 		SampleFisherMatrix fm(MaxPixelValue);
-		fisher += fm.Compute(pos, vector3f(1,1,1)*0.001f, resizedLUT, cfg->width,cfg->height, trk->cfg.zlut_minradius,trk->cfg.zlut_maxradius);
+		fishers[i] = fm.Compute(pos, vector3f(1,1,1)*0.001f, resizedLUT, cfg->width,cfg->height, trk->cfg.zlut_minradius,trk->cfg.zlut_maxradius);
 
 		imgs[i].normalize();
 		if (MaxPixelValue> 0) ApplyPoissonNoise(imgs[i], MaxPixelValue);
 		//if(i==0) WriteJPEGFile(name, imgs[i]);
 
 		truepos[i]=pos;
-	});
+//	});
+	}
+
+	Matrix3X3 fisher;
+	for (int i=0;i<NImg;i++) fisher+=fishers[i];
 
 	int flags= LT_LocalizeZ|LT_NormalizeProfile|extraFlags;
 	if (cfg->qi_iterations>0) flags|=LT_QI;

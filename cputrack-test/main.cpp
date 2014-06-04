@@ -872,7 +872,7 @@ int main()
 
 //	GenerateZLUTFittingCurve("lut000.jpg");
 
-	TestBias();
+//	TestBias();
 
 
 //	SmallROITest("lut000.jpg");
@@ -886,13 +886,13 @@ int main()
 	//TestZRange("cleanlut10", "lut10.jpg", LT_LocalizeZWeighted, 1);
 	//TestZRange("cleanlut10", "lut10.jpg", LT_LocalizeZWeighted, 1);
 	
-	/*BenchmarkParams();
+	BenchmarkParams();
 	int N=50;
 	ScatterBiasArea(80, 4, 100, N, 1, 1);
 	ScatterBiasArea(80, 4, 100, N, 2, 1);
 	ScatterBiasArea(80, 4, 100, N, 0, 1);
 	ScatterBiasArea(80, 4, 100, N, -1, 1);
-	*/
+	
 /*
 	ImageData img=ReadLUTFile("lut000.jpg");
 	img.mean();
