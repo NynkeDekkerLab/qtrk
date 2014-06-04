@@ -67,7 +67,8 @@ public:
 	bool KeepInsideBoundaries(vector2f *center, float radius);
 	bool CheckBoundaries(vector2f center, float radius);
 	vector2f ComputeXCorInterpolated(vector2f initial, int iterations, int profileWidth, bool& boundaryHit);
-	vector2f ComputeQI(vector2f initial, int iterations, int radialSteps, int angularStepsPerQuadrant, float angStepIterationFactor, float minRadius, float maxRadius, bool& boundaryHit);
+	vector2f ComputeQI(vector2f initial, int iterations, int radialSteps, int angularStepsPerQuadrant, 
+		float angStepIterationFactor, float minRadius, float maxRadius, bool& boundaryHit, float* radialweights=0);
 
 	struct Gauss2DResult {
 		vector2f pos;
@@ -89,7 +90,7 @@ public:
 
 	vector2f ComputeMeanAndCOM(float bgcorrection=0.0f);
 	void ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float minradius, float maxradius, vector2f center, bool crp, bool* boundaryHit=0, bool normalize=true);
-	void ComputeQuadrantProfile(scalar_t* dst, int radialSteps, int angularSteps, int quadrant, float minRadius, float maxRadius, vector2f center);
+	void ComputeQuadrantProfile(scalar_t* dst, int radialSteps, int angularSteps, int quadrant, float minRadius, float maxRadius, vector2f center, float* radialWeights=0);
 
 	float ComputeZ(vector2f center, int angularSteps, int zlutIndex, bool* boundaryHit=0, float* profile=0, float* cmpprof=0, bool normalizeProfile=true)
 	{

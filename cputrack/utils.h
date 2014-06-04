@@ -1,6 +1,7 @@
 #pragma once
 
 #include "std_incl.h"
+#include "scalar_types.h"
 
 template<typename T> bool isNAN(const T& v) { 
 	return !(v == v); 
@@ -100,11 +101,23 @@ struct TImageData {
 	void writeAsCSV(const char *filename, const char *labels[]=0) { WriteImageAsCSV(filename, data, w,h,labels); }
 };
 
+template<typename T>
+T StdDeviation(T* start, T* end) {
+	T sum=0,sum2=0;
+	for (T* s = start; s!=end; ++s) {
+		sum+=*s; sum2+=(*s)*(*s);
+	}
+
+	T invN = 1.0f/(end-start);
+	T mean = sum * invN;
+	return sqrt(sum2 * invN - mean * mean);
+}
+
 
 typedef TImageData<float> ImageData;
 typedef TImageData<double> ImageDatad;
 
-std::vector<float> ComputeStetsonWindow(int rsteps);
+std::vector<float> ComputeRadialBinWindow(int rsteps);
 float ComputeBgCorrectedCOM1D(float *data, int len, float cf=2.0f);
 void ComputeCRP(float* dst, int radialSteps, int angularSteps, float minradius, float maxradius, vector2f center, ImageData* src,float mean, float*crpmap=0);
 void ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float minradius, float maxradius, vector2f center, ImageData* src, float mean, bool normalize);

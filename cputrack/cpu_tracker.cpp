@@ -284,7 +284,7 @@ void CPUTracker::AllocateQIFFTs(int nr)
 }
 
 vector2f CPUTracker::ComputeQI(vector2f initial, int iterations, int radialSteps, int angularStepsPerQ, 
-	float angStepIterationFactor, float minRadius, float maxRadius, bool& boundaryHit)
+	float angStepIterationFactor, float minRadius, float maxRadius, bool& boundaryHit, float* radialWeights)
 {
 	int nr=radialSteps;
 #ifdef _DEBUG
@@ -319,7 +319,7 @@ vector2f CPUTracker::ComputeQI(vector2f initial, int iterations, int radialSteps
 		boundaryHit = CheckBoundaries(center, maxRadius);
 
 		for (int q=0;q<4;q++) {
-			ComputeQuadrantProfile(buf+q*nr, nr, angsteps, q, minRadius, maxRadius, center);
+			ComputeQuadrantProfile(buf+q*nr, nr, angsteps, q, minRadius, maxRadius, center, radialWeights);
 		}
 #ifdef QI_DEBUG
 		cmp_cpu_qi_prof.assign (buf,buf+4*nr);
@@ -403,7 +403,7 @@ scalar_t CPUTracker::QI_ComputeOffset(complex_t* profile, int nr, int axisForDeb
 	}
 
 	scalar_t maxPos = ComputeMaxInterp<scalar_t, QI_LSQFIT_NWEIGHTS>::Compute(autoconv, nr*2, QIWeights);
-	return (maxPos - nr) / (3.14159265359f * 0.5f);
+	return (maxPos - nr) * (3.14159265359f / 4);
 }
 
 
@@ -436,7 +436,8 @@ scalar_t CPUTracker::QuadrantAlign_ComputeOffset(complex_t* profile, complex_t* 
 //	WriteImageAsCSV("qa_autoconv.txt", autoconv, nr*2, 1);
 
 	scalar_t maxPos = ComputeMaxInterp<scalar_t, QI_LSQFIT_NWEIGHTS>::Compute(autoconv, nr*2, QIWeights);
-	return (maxPos - nr) / (3.14159265359f * 0.5f);
+	return (maxPos - nr) * (3.14159265359f / 4);
+	
 }
 
 
@@ -478,7 +479,7 @@ vector3f CPUTracker::QuadrantAlign(vector3f pos, int beadIndex, int angularSteps
 
 	boundaryHit = CheckBoundaries(vector2f(pos.x,pos.y), zlut_maxradius);
 	for (int q=0;q<4;q++) {
-		float *quadrantProfile = buf+q*res;
+		scalar_t *quadrantProfile = buf+q*res;
 		ComputeQuadrantProfile(quadrantProfile, res, angularStepsPerQuadrant, q, zlut_minradius, zlut_maxradius, vector2f(pos.x,pos.y));
 		NormalizeRadialProfile(quadrantProfile, res);
 	}
@@ -629,7 +630,7 @@ float CPUTracker::ComputeAsymmetry(vector2f center, int radialSteps, int angular
 
 
 void CPUTracker::ComputeQuadrantProfile(scalar_t* dst, int radialSteps, int angularSteps,
-				int quadrant, float minRadius, float maxRadius, vector2f center)
+				int quadrant, float minRadius, float maxRadius, vector2f center ,float* radialWeights)
 {
 	const int qmat[] = {
 		1, 1,
@@ -668,6 +669,7 @@ void CPUTracker::ComputeQuadrantProfile(scalar_t* dst, int radialSteps, int angu
 		}
 
 		dst[i] = nPixels>=MIN_RADPROFILE_SMP_COUNT ? sum/nPixels : mean;
+		if (radialWeights) dst[i] *= radialWeights[i];
 		total += dst[i];
 	}
 	#ifdef QI_DBG_EXPORT

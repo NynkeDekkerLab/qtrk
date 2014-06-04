@@ -136,11 +136,11 @@ void BenchmarkParams()
 	for (int bias=0;bias<2;bias++) {
 		for (int i=0;i<4;i++)
 			BenchmarkROISizes(SPrintf("roi_qi%d_bias%d.txt",i,bias).c_str(), n, mpv, i, 0, range);
-//		for (int i=0;i<4;i++)
-			//BenchmarkROISizes(SPrintf("roi_qi%dwz.txt",i).c_str(), n, mpv, i,  LT_LocalizeZWeighted, range);
+		for (int i=0;i<4;i++)
+			BenchmarkROISizes(SPrintf("roi_qi%d_bias%d_wz.txt",i,bias).c_str(), n, mpv, i, LT_LocalizeZWeighted, range);
 		BenchmarkROISizes( SPrintf("roi_xcor_bias%d.txt", bias).c_str(), n, mpv, 0, LT_XCor1D, range);
-//		BenchmarkROISizes("roi_xcorwz_bias%d.txt", n, mpv, 0, LT_XCor1D | LT_LocalizeZWeighted, range);
-		range=vector3f(3,3,3);
+		BenchmarkROISizes( SPrintf("roi_xcor_bias%d_wz.txt",bias).c_str(), n, mpv, 0, LT_XCor1D | LT_LocalizeZWeighted, range);
+		range=vector3f(5,5,5);
 	}
 
 	QTrkSettings basecfg;

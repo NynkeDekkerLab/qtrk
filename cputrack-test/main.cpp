@@ -385,18 +385,27 @@ void TestBias()
 	ImageData img = ImageData::alloc(80,80);
 	CPUTracker trk(img.w,img.h);
 
-	float o = 12.03f;
+	float o = 2.03f;
 	vector3f pos (img.w/2+o, img.h/2+o, lut.h/2);
 	NormalizeZLUT(lut.data, 1, lut.h, lut.w);
-	GenerateImageFromLUT(&img, &lut, 0, img.w/2, pos, false);
-	ApplyPoissonNoise(img, 10000);
+	lut.normalize();
+
+	srand(time(0));
+	for (int i=0;i<10;i++) {
+		GenerateImageFromLUT(&img, &lut, 0, img.w/2, pos, false);
+		ApplyPoissonNoise(img, 11050);
+		float stdev = StdDeviation(img.data, img.data + img.w);
+		dbgprintf("Noise level std: %f\n",stdev);
+	}
+
 	WriteJPEGFile("TestBias-smp.jpg", img);
 	trk.SetImageFloat(img.data);
 
 	vector2f com = trk.ComputeMeanAndCOM();
 	dbgprintf("COM: x:%f, y:%f\n", com.x,com.y);
 	bool bhit;
-	vector2f qi = trk.ComputeQI(com, 1, img.w, 3*img.w/4, 1, 0, img.w/2, bhit);
+	auto rw = ComputeRadialBinWindow(img.w);
+	vector2f qi = trk.ComputeQI(com, 3, img.w, 3*img.w/4, 1, 0, img.w/2, bhit, &rw[0]);
 	dbgprintf("QI: x: %f, y:%f\n", qi.x,qi.y);
 
 	trk.SetRadialZLUT(lut.data, lut.h, lut.w, 1, 0, img.w/2, true, false);
@@ -872,7 +881,7 @@ int main()
 
 //	GenerateZLUTFittingCurve("lut000.jpg");
 
-//	TestBias();
+	TestBias();
 
 
 //	SmallROITest("lut000.jpg");
@@ -887,11 +896,11 @@ int main()
 	//TestZRange("cleanlut10", "lut10.jpg", LT_LocalizeZWeighted, 1);
 	
 	BenchmarkParams();
-	int N=50;
+/*	int N=50;
 	ScatterBiasArea(80, 4, 100, N, 1, 1);
 	ScatterBiasArea(80, 4, 100, N, 2, 1);
 	ScatterBiasArea(80, 4, 100, N, 0, 1);
-	ScatterBiasArea(80, 4, 100, N, -1, 1);
+	ScatterBiasArea(80, 4, 100, N, -1, 1);*/
 	
 /*
 	ImageData img=ReadLUTFile("lut000.jpg");

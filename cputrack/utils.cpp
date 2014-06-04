@@ -227,7 +227,7 @@ float ComputeBgCorrectedCOM1D(float *data, int len, float cf)
 	return moment / (float)sum;
 }
 
-void NormalizeRadialProfile(float* prof, int rsteps)
+void NormalizeRadialProfile(scalar_t * prof, int rsteps)
 {
 	double sum=0.0f;
 	for (int i=0;i<rsteps;i++)
@@ -643,15 +643,16 @@ int NearestPowerOf3(int v)
 }
 
 
-std::vector<float> ComputeStetsonWindow(int rsteps)
+std::vector<float> ComputeRadialBinWindow(int rsteps)
 {
 	std::vector<float> wnd(rsteps);
-	for (int x=0;x<rsteps;x++) {
-		float t2=rsteps/5.0f;
-		float t1=rsteps/1.0f;
-		float rm=rsteps-1;
-		float fall=1-expf( -(rm-x)*(rm-x)/t2 ), rise=1-expf(-x*x/t1);
-		wnd[x]=rise*fall*x/(float)rsteps*2;
+	for (int i=0;i<rsteps;i++) {
+		float x = i/(float)rsteps;
+		float t2 = 0.05f; 
+		float t1 = 0.01f;
+		float fall = 1.0f-expf(-sq(1-x)/t2);
+		float rise = 1.0f-expf(-sq(x)/t1);
+		wnd[i] = sqrtf(fall*rise*x*2);
 	}
 	return wnd;
 }

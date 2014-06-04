@@ -115,6 +115,8 @@ QueuedCPUTracker::QueuedCPUTracker(const QTrkComputedConfig& cc)
 	processJobs = false;
 	jobsInProgress = 0;
 	dbgPrintResults = false;
+
+	qi_radialbinweights = ComputeRadialBinWindow(cfg.qi_radialsteps);
 	
 	calib_gain = calib_offset = 0;
 	gc_gainFactor = gc_offsetFactor = 1.0f;
@@ -296,7 +298,7 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 		result.pos.y = resultPos.y;
 	} else if (localizeMode & LT_QI ){ 
 		result.firstGuess = com;
-		vector2f resultPos = trk->ComputeQI(com, cfg.qi_iterations, cfg.qi_radialsteps, cfg.qi_angstepspq, cfg.qi_angstep_factor, cfg.qi_minradius, cfg.qi_maxradius, boundaryHit);
+		vector2f resultPos = trk->ComputeQI(com, cfg.qi_iterations, cfg.qi_radialsteps, cfg.qi_angstepspq, cfg.qi_angstep_factor, cfg.qi_minradius, cfg.qi_maxradius, boundaryHit, &qi_radialbinweights[0]);
 		result.pos.x = resultPos.x;
 		result.pos.y = resultPos.y;
 	} else if (localizeMode & LT_Gaussian2D) {

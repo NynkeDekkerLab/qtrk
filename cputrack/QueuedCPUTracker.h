@@ -93,6 +93,7 @@ private:
 	bool zlut_enablecmpprof;
 	int zlut_count, zlut_planes;
 	std::vector<float> zcmp;
+	std::vector<float> qi_radialbinweights;
 	float* GetZLUTByIndex(int index) { return &zluts[ index * (zlut_planes*cfg.zlut_radialsteps) ]; }
 	void UpdateZLUTs();
 
