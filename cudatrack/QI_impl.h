@@ -63,7 +63,7 @@ __device__ void ComputeQuadrantProfile(cudaImageListf& images, int idx, float* d
 }
 
 template<typename TImageSampler>
-__global__ void QI_ComputeProfile(BaseKernelParams kp, float3* positions, float* quadrants, float2* profiles, float2* reverseProfiles, const QIParams qiParams, int angularSteps)
+__global__ void QI_ComputeProfile(BaseKernelParams kp, float3* positions, float* quadrants, float2* profiles, float2* reverseProfiles, const QIParams qiParams, float* d_radialweights, int angularSteps)
 {
 	int idx = threadIdx.x + blockDim.x * blockIdx.x;
 	if (idx < kp.njobs) {
@@ -95,16 +95,18 @@ __global__ void QI_ComputeProfile(BaseKernelParams kp, float3* positions, float*
 		// qL = q1 + q2   (concat0)
 		// qR = q0 + q3   (concat1)
 		for(int r=0;r<nr;r++) {
-			x0[nr-r-1] = make_float2(q1[r]+q2[r], 0);
-			x1[r] = make_float2(q0[r]+q3[r],0);
+			float rw = d_radialweights[r];
+			x0[nr-r-1] = make_float2(rw*(q1[r]+q2[r]), 0);
+			x1[r] = make_float2( rw*(q0[r]+q3[r]),0);
 		}
 
 		// Build Iy = [ qB(-r)  qT(r) ]
 		// qT = q0 + q1
 		// qB = q2 + q3
 		for(int r=0;r<nr;r++) {
-			y1[r] = make_float2(q0[r]+q1[r],0);
-			y0[nr-r-1] = make_float2(q2[r]+q3[r],0);
+			float rw = d_radialweights[r];
+			y1[r] = make_float2( rw * ( q0[r]+q1[r] ),0);
+			y0[nr-r-1] = make_float2( rw * (q2[r]+q3[r]),0);
 		}
 
 		for(int r=0;r<nr*2;r++)
@@ -137,7 +139,7 @@ __device__ float QI_ComputeAxisOffset(cufftComplex* autoconv, int fftlen, float*
 	const float QIWeights[QI_LSQFIT_NWEIGHTS] = QI_LSQFIT_WEIGHTS;
 
 	compute_t maxPos = ComputeMaxInterp<compute_t>::Compute(shiftbuf, fftlen, QIWeights);
-	compute_t offset = (maxPos - nr) / (3.14159265359f * 0.5f);
+	compute_t offset = (maxPos - nr) * (3.14159265359f / 4);
 	return offset;
 }
 
@@ -293,7 +295,7 @@ void QI::Iterate(BaseKernelParams& p, device_vec<float3>* initial, device_vec<fl
 		dp.cos_sin_table = d->qi_trigtable.data;
 
 		QI_ComputeProfile <TImageSampler> <<< blocks(p.njobs), threads(), 0, s->stream >>> (p, initial->data, 
-			s->d_quadrants.data, s->d_QIprofiles.data, s->d_QIprofiles_reverse.data, dp, angularSteps);
+			s->d_quadrants.data, s->d_QIprofiles.data, s->d_QIprofiles_reverse.data, dp, d->d_radialweights.data, angularSteps);
 
 #ifdef QI_DEBUG
 		DbgCopyResult(s->d_quadrants, cmp_gpu_qi_prof);
@@ -329,6 +331,9 @@ void QI::InitDevice(DeviceInstance*d, QTrkComputedConfig& cc)
 		qi_radialgrid[i]=make_float2(cos(ang), sin(ang));
 	}
 	d->qi_trigtable = qi_radialgrid;
+
+	std::vector<float> rweights = ComputeRadialBinWindow(cc.qi_radialsteps);
+	d->d_radialweights = rweights;
 
 	QIParams dp = params;
 	dp.cos_sin_table = d->qi_trigtable.data;

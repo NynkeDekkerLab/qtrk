@@ -37,6 +37,7 @@ public:
 	{
 		device_vec<float2> qi_trigtable;
 		QIParams * d_qiparams;
+		device_vec<float> d_radialweights;
 
 		~DeviceInstance() { cudaFree(d_qiparams); }
 		DeviceInstance() { d_qiparams=0; }

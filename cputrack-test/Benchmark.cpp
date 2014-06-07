@@ -27,13 +27,11 @@ void BenchmarkROISizes(const char *name, int n, int MaxPixelValue, int qi_iterat
 		cfg.qi_angular_coverage = 0.7f;
 		cfg.qi_roi_coverage = 1;
 		cfg.qi_radial_coverage = 2.5f;
-		cfg.qi_minradius=0;
-		cfg.zlut_minradius=0;
+		cfg.qi_minradius=2;
+		cfg.zlut_minradius=2;
 		cfg.zlut_angular_coverage = 0.7f;
 		cfg.zlut_roi_coverage = 1;
 		cfg.zlut_radial_coverage = 2.5f;
-		cfg.zlut_minradius = 0;
-		cfg.qi_minradius = 0;
 		cfg.com_bgcorrection = 0;
 		cfg.xc1_profileLength = roi*0.8f;
 		cfg.xc1_profileWidth = roi*0.2f;
@@ -134,9 +132,9 @@ void BenchmarkParams()
 	vector3f range;
 
 	for (int bias=0;bias<2;bias++) {
-		for (int i=0;i<4;i++)
+		for (int i=0;i<5;i++)
 			BenchmarkROISizes(SPrintf("roi_qi%d_bias%d.txt",i,bias).c_str(), n, mpv, i, 0, range);
-		for (int i=0;i<4;i++)
+		for (int i=0;i<5;i++)
 			BenchmarkROISizes(SPrintf("roi_qi%d_bias%d_wz.txt",i,bias).c_str(), n, mpv, i, LT_LocalizeZWeighted, range);
 		BenchmarkROISizes( SPrintf("roi_xcor_bias%d.txt", bias).c_str(), n, mpv, 0, LT_XCor1D, range);
 		BenchmarkROISizes( SPrintf("roi_xcor_bias%d_wz.txt",bias).c_str(), n, mpv, 0, LT_XCor1D | LT_LocalizeZWeighted, range);

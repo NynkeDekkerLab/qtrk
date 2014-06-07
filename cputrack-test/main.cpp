@@ -868,12 +868,12 @@ void ScatterBiasArea(int roi, float scan_width, int steps, int samples, int qi_i
 		}
 	}
 	orglut.free();
+	lut.free();
 }
 
 
 int main()
 {
-
 #ifdef _DEBUG
 //	Matrix3X3::test();
 #endif
@@ -896,12 +896,14 @@ int main()
 	//TestZRange("cleanlut10", "lut10.jpg", LT_LocalizeZWeighted, 1);
 	
 	BenchmarkParams();
-/*	int N=50;
+	int N=50;
+	/*ScatterBiasArea(80, 4, 100, N, 3, 1);
+	ScatterBiasArea(80, 4, 100, N, 4, 1);
 	ScatterBiasArea(80, 4, 100, N, 1, 1);
 	ScatterBiasArea(80, 4, 100, N, 2, 1);
 	ScatterBiasArea(80, 4, 100, N, 0, 1);
-	ScatterBiasArea(80, 4, 100, N, -1, 1);*/
-	
+	ScatterBiasArea(80, 4, 100, N, -1, 1);
+	*/
 /*
 	ImageData img=ReadLUTFile("lut000.jpg");
 	img.mean();
