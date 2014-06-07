@@ -11,7 +11,7 @@ const float img_mean = 75, img_sigma = 1.62f; // as measured
 const float ElectronsPerBit = img_mean / (img_sigma*img_sigma); 
 
 
-void BenchmarkROISizes(const char *name, int n, int MaxPixelValue, int qi_iterations, int extraFlags, vector3f range)
+void BenchmarkROISizes(const char *name, int n, int MaxPixelValue, int qi_iterations, int extraFlags, float range_in_nm, float pixel_size, float lutstep)
 {
 	std::vector<SpeedAccResult> results;
 	std::vector<int> rois;
@@ -42,7 +42,8 @@ void BenchmarkROISizes(const char *name, int n, int MaxPixelValue, int qi_iterat
 		cfg.height = roi;
 
 		vector3f pos(cfg.width/2, cfg.height/2, lut.h/3);
-		results.push_back(SpeedAccTest(lut, &cfg, n, pos,range, SPrintf("roi%dtestimg.jpg", cfg.width).c_str(), MaxPixelValue, extraFlags));
+		vector3f range(range_in_nm / pixel_size, range_in_nm / pixel_size, range_in_nm / lutstep);
+		results.push_back(SpeedAccTest(lut, &cfg, n, pos, range, SPrintf("roi%dtestimg.jpg", cfg.width).c_str(), MaxPixelValue, extraFlags));
 		auto lr = results.back();
 		dbgprintf("ROI:%d, #QI:%d, Speed=%d img/s, Mean.X: %f.  St. Dev.X: %f;  Mean.Z: %f.  St. Dev.Z: %f\n", roi, qi_iterations, lr.speed, lr.bias.x, lr.acc.x, lr.bias.z, lr.acc.z);
 	}
@@ -129,16 +130,17 @@ void BenchmarkParams()
 #endif
 
 	int mpv = 10000;
-	vector3f range;
+	float range_in_nm=0;
+	float pixel_size = 120, lutstep = 50;
 
 	for (int bias=0;bias<2;bias++) {
 		for (int i=0;i<5;i++)
-			BenchmarkROISizes(SPrintf("roi_qi%d_bias%d.txt",i,bias).c_str(), n, mpv, i, 0, range);
+			BenchmarkROISizes(SPrintf("roi_qi%d_bias%d.txt",i,bias).c_str(), n, mpv, i, 0, range_in_nm, pixel_size, lutstep);
 		for (int i=0;i<5;i++)
-			BenchmarkROISizes(SPrintf("roi_qi%d_bias%d_wz.txt",i,bias).c_str(), n, mpv, i, LT_LocalizeZWeighted, range);
-		BenchmarkROISizes( SPrintf("roi_xcor_bias%d.txt", bias).c_str(), n, mpv, 0, LT_XCor1D, range);
-		BenchmarkROISizes( SPrintf("roi_xcor_bias%d_wz.txt",bias).c_str(), n, mpv, 0, LT_XCor1D | LT_LocalizeZWeighted, range);
-		range=vector3f(5,5,5);
+			BenchmarkROISizes(SPrintf("roi_qi%d_bias%d_wz.txt",i,bias).c_str(), n, mpv, i, LT_LocalizeZWeighted, range_in_nm, pixel_size, lutstep);
+		BenchmarkROISizes( SPrintf("roi_xcor_bias%d.txt", bias).c_str(), n, mpv, 0, LT_XCor1D, range_in_nm, pixel_size, lutstep);
+		BenchmarkROISizes( SPrintf("roi_xcor_bias%d_wz.txt",bias).c_str(), n, mpv, 0, LT_XCor1D | LT_LocalizeZWeighted, range_in_nm, pixel_size, lutstep);
+		range_in_nm = 200;
 	}
 
 	QTrkSettings basecfg;
@@ -146,8 +148,8 @@ void BenchmarkParams()
 	basecfg.height = 80;
 	basecfg.qi_iterations = 4;
 	basecfg.qi_roi_coverage = 1;
-	basecfg.qi_minradius=0;
-	basecfg.zlut_minradius=0;
+	basecfg.qi_minradius=1;
+	basecfg.zlut_minradius=1;
 	basecfg.qi_radial_coverage = 2.5f;
 	basecfg.qi_angular_coverage = 0.7f;
 	basecfg.zlut_roi_coverage = 1;

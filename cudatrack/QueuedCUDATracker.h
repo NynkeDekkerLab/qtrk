@@ -17,6 +17,7 @@
 #include "gpu_utils.h"
 #include "cudaImageList.h"
 
+class CPUTracker;
 
 template<typename T>
 struct cudaImageList;
