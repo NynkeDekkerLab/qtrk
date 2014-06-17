@@ -1,4 +1,3 @@
-
 // Defines the interface for trackers (both CPU and CUDA)
 
 #pragma once
@@ -13,6 +12,7 @@
 template<typename T>
 struct TImageData;
 typedef TImageData<float> ImageData;
+class CImageData;
 
 // minimum number of samples for a profile radial bin. Below this the image mean will be used
 #define MIN_RADPROFILE_SMP_COUNT 4
@@ -61,6 +61,7 @@ public:
 
 #define BUILDLUT_IMAGELUT 1
 #define BUILDLUT_FOURIER 2
+#define BUILDLUT_NORMALIZE 4
 	virtual void BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, uint flags, int plane, vector2f* known_pos=0) = 0;
 	virtual void FinalizeLUT() = 0;
 	
@@ -83,6 +84,13 @@ public:
 	QTrkComputedConfig cfg;
 
 	void ScheduleLocalization(uchar* data, int pitch, QTRK_PixelDataType pdt, uint frame, uint timestamp, vector3f* initial, uint zlutIndex);
+	void ComputeZBiasCorrection(int bias_planes, CImageData* result, int smpPerPixel, bool useSplineInterp);
+	float ZLUTBiasCorrection(float z, int zlut_planes, int bead);
+	void SetZLUTBiasCorrection(const CImageData& data); // w=zlut_planes, h=zlut_count
+	CImageData *GetZLUTBiasCorrection();
+
+protected:
+	CImageData* zlut_bias_correction;
 };
 
 void CopyImageToFloat(uchar* data, int width, int height, int pitch, QTRK_PixelDataType pdt, float* dst);

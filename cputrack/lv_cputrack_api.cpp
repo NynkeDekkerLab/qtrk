@@ -203,12 +203,12 @@ CDLL_EXPORT void DLL_CALLCONV generate_test_image(LVArray2D<float> **img, float 
 
 
 CDLL_EXPORT void DLL_CALLCONV generate_image_from_lut(LVArray2D<float>** image, LVArray2D<float>** lut, 
-					float *LUTradii, vector3f* position, float pixel_max)
+					float *LUTradii, vector3f* position, float pixel_max, int useSplineInterp, int samplesPerPixel)
 {
 	ImageData img((*image)->elem, (*image)->dimSizes[1], (*image)->dimSizes[0]);
 	ImageData zlut((*lut)->elem, (*lut)->dimSizes[1], (*lut)->dimSizes[0]);
 
-	GenerateImageFromLUT(&img, &zlut, LUTradii[0], LUTradii[1], *position);
+	GenerateImageFromLUT(&img, &zlut, LUTradii[0], LUTradii[1], *position, useSplineInterp!=0, samplesPerPixel);
 	if (pixel_max>0) {
 		img.normalize();
 		ApplyPoissonNoise(img, pixel_max);

@@ -454,6 +454,17 @@ CDLL_EXPORT int qtrk_idle(QueuedTracker* qtrk, ErrorCluster* e)
 	return 0;
 }
 
+CDLL_EXPORT void qtrk_compute_zlut_bias_table(QueuedTracker* qtrk, int bias_planes, LVArray2D<float>** lvresult, int smpPerPixel, int useSplineInterp,ErrorCluster* e)
+{
+	if(ValidateTracker(qtrk, e,"compute_zlut_bias_table")) {
+		CImageData result;
+		qtrk->ComputeZBiasCorrection(bias_planes, &result, smpPerPixel, useSplineInterp!=0);
+
+		ResizeLVArray2D(lvresult, result.h, result.w);
+		result.copyTo ( (*lvresult)->elem );
+	}
+}
+
 CDLL_EXPORT void DLL_CALLCONV qtrk_generate_gaussian_spot(LVArray2D<float>** image, vector2f* pos, float sigma, float I0, float Ibg, int applyNoise)
 {
 	ImageData img((*image)->elem, (*image)->dimSizes[1], (*image)->dimSizes[0]);

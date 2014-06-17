@@ -337,6 +337,9 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 		if (localizeMode & LT_LocalizeZWeighted) {
 			result.pos.z = trk->LUTProfileCompareAdjustedWeights(prof, j->job.zlutIndex, result.pos.z);
 		}
+
+		if (zlut_bias_correction)
+			result.pos.z = ZLUTBiasCorrection(result.pos.z, zlut_planes, j->job.zlutIndex);
 	}
 
 	if(dbgPrintResults)
@@ -357,6 +360,8 @@ void QueuedCPUTracker::SetRadialZLUT(float* data, int num_zluts, int planes)
 {
 //	jobs_mutex.lock();
 //	results_mutex.lock();
+	if (zlut_bias_correction)
+		delete zlut_bias_correction;
 
 	if (zluts) delete[] zluts;
 	int res = cfg.zlut_radialsteps;
@@ -621,7 +626,7 @@ void QueuedCPUTracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, u
 			}
 		}
 		else {
-			trk.ComputeRadialProfile(tmp, cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, pos, false, 0, true);
+			trk.ComputeRadialProfile(tmp, cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, pos, false, 0, (flags&BUILDLUT_NORMALIZE)!=0);
 		}
 	//	WriteArrayAsCSVRow("rlut-test.csv", tmp, cfg.zlut_radialsteps, plane>0);
 		for(int i=0;i<cfg.zlut_radialsteps;i++) 
@@ -694,3 +699,6 @@ void QueuedCPUTracker::SetTrackerImage(CPUTracker* trk, Job* j)
 	}
 
 }
+
+
+

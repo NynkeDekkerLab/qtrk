@@ -829,7 +829,10 @@ float CPUTracker::LUTProfileCompare (float* rprof, int zlutIndex, float* cmpProf
 			return ComputeMaxInterp<float, ZLUT_LSQFIT_NWEIGHTS>::Compute(rprof_diff, zlut_planes, ZLUTWeights);
 		}
 	}
-	else
+	else if (maxPosComputeMode == LUTProfMaxSimpleInterp) {
+		assert(0);
+		return 0;
+	} else 
 		return ComputeSplineFitMaxPos(rprof_diff, zlut_planes);
 }
 

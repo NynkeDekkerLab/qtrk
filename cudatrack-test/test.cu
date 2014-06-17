@@ -905,11 +905,12 @@ int main(int argc, char *argv[])
 		//CompareAccuracy("../cputrack-test/lut000.jpg");
 		//QTrkCompareTest();
 
-	/*	ProfileSpeedVsROI(LT_OnlyCOM, "speeds-com.txt", false, 0);
+		ProfileSpeedVsROI(LT_OnlyCOM, "speeds-com.txt", false, 0);
 		ProfileSpeedVsROI(LT_OnlyCOM, "speeds-com-z.txt", true, 0);
+		ProfileSpeedVsROI(LT_XCor1D, "speeds-xcor.txt", true, 0);
 		for (int qi_it=1;qi_it<=4;qi_it++) {
 			ProfileSpeedVsROI(LT_QI, SPrintf("speeds-qi-%d-iterations.txt",qi_it).c_str(), true, qi_it);
-		}*/
+		}
 
 		/*auto info = SpeedCompareTest(80, false);
 		auto infogc = SpeedCompareTest(80, true);

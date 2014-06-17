@@ -81,12 +81,22 @@ struct TImageData {
 	TImageData() { data=0;w=h=0;}
 	TImageData(T *d, int w, int h) : data(d), w(w),h(h) {}
 	template<typename Ta> void set(Ta *src) { for (int i=0;i<w*h;i++) data[i] = src[i]; }
-	template<typename Ta> void set(TImageData<Ta> &src) { set(src.data); }
-
+	template<typename Ta> void set(const TImageData<Ta> &src) { 
+		if (!data || numPixels()!=src.numPixels()) { 
+			free(); 
+			w=src.w; h=src.h; 
+			if(src.data) { data=new T[src.w*src.h]; }
+		}
+		set(src.data); 
+	}
+	void copyTo(float *dst) {
+		for (int i=0;i<w*h;i++) dst[i]=data[i];
+	}
 	T& at(int x, int y) { return data[w*y+x]; }
 	T interpolate(float x, float y, bool *outside=0) { return Interpolate(data, w,h, x,y,outside); }
-	int numPixels() { return w*h; }
-	int pitch() { return sizeof(T)*w; } // bytes per line
+	T interpolate1D(int y, float x) { return Interpolate1D(&data[w*y], w, x); }
+	int numPixels() const { return w*h; }
+	int pitch() const { return sizeof(T)*w; } // bytes per line
 	void normalize() { ::normalize(data,w,h); }
 	T mean() {
 		T s=0.0f;
@@ -97,8 +107,31 @@ struct TImageData {
 	T& operator[](int i) { return data[i]; }
 
 	static TImageData alloc(int w,int h) { return TImageData<T>(new T[w*h], w,h); }
-	void free() { delete[] data; }
+	void free() { if(data) delete[] data;data=0; }
 	void writeAsCSV(const char *filename, const char *labels[]=0) { WriteImageAsCSV(filename, data, w,h,labels); }
+};
+
+class CImageData : public TImageData<float> {
+public:
+	CImageData(int w,int h) : TImageData<float>(new float[w*h],w,h) { 
+	}
+	CImageData(const CImageData& other) {
+		data=0; set(other);
+	}
+	CImageData() {}
+	~CImageData() { free(); }
+	CImageData(const TImageData<float> &src) {
+		data=0; set(src);
+	}
+	
+	CImageData& operator=(const CImageData& src) {
+		set(src);
+		return *this;
+	}
+	CImageData& operator=(const TImageData<float>& src) {
+		set(src);
+		return *this;
+	}
 };
 
 template<typename T>

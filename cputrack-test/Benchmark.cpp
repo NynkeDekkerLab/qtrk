@@ -16,7 +16,7 @@ void BenchmarkROISizes(const char *name, int n, int MaxPixelValue, int qi_iterat
 	std::vector<SpeedAccResult> results;
 	std::vector<int> rois;
 
-	const char *lutfile = "10x.radialzlut#4";
+	const char *lutfile = "zrange\\exp_qi.radialzlut#169";
 	ImageData lut = ReadLUTFile(lutfile);
 
 	for (int roi=20;roi<=180;roi+=10) {
@@ -41,7 +41,7 @@ void BenchmarkROISizes(const char *name, int n, int MaxPixelValue, int qi_iterat
 		cfg.width = roi;
 		cfg.height = roi;
 
-		vector3f pos(cfg.width/2, cfg.height/2, lut.h/3);
+		vector3f pos(cfg.width/2, cfg.height/2, lut.h/2);
 		vector3f range(range_in_nm / pixel_size, range_in_nm / pixel_size, range_in_nm / lutstep);
 		results.push_back(SpeedAccTest(lut, &cfg, n, pos, range, SPrintf("roi%dtestimg.jpg", cfg.width).c_str(), MaxPixelValue, extraFlags));
 		auto lr = results.back();

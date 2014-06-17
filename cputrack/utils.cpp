@@ -665,9 +665,10 @@ ImageData ReadLUTFile(const char *lutfile)
 		return ReadJPEGFile(lutfile);
 	}
 	else {
-		std::string fn  =lutfile;
+		std::string fn = lutfile;
 		fn = std::string(fn.begin(), fn.begin()+fn.find('#'));
-		int lutIndex = atoi( std::string( ( sep.extension.begin() + sep.extension.find('#') )++, sep.extension.end()).c_str());
+		std::string num( ++( sep.extension.begin() + sep.extension.find('#') ), sep.extension.end());
+		int lutIndex = atoi(num.c_str());
 
 		int nbeads, nplanes, nsteps;
 		FILE *f = fopen(fn.c_str(), "rb");

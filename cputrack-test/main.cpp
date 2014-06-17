@@ -392,7 +392,7 @@ void TestBias()
 
 	srand(time(0));
 	for (int i=0;i<10;i++) {
-		GenerateImageFromLUT(&img, &lut, 0, img.w/2, pos, false);
+		GenerateImageFromLUT(&img, &lut, 0, img.w/2, pos, true);
 		ApplyPoissonNoise(img, 11050);
 		float stdev = StdDeviation(img.data, img.data + img.w);
 		dbgprintf("Noise level std: %f\n",stdev);
@@ -418,12 +418,53 @@ void TestBias()
 	lut.free();
 }
 
-enum RWeightMode { RWNone, RWUniform, RWRadial, RWDerivative };
+void TestZRangeBias(const char *name, const char *lutfile, bool normProf)
+{
+	ImageData lut = ReadLUTFile(lutfile);
 
-void TestZRange(const char *name, const char *lutfile, int extraFlags, int clean_lut, RWeightMode weightMode=RWNone )
+	QTrkComputedConfig settings;
+	settings.width=settings.height=100;
+	settings.Update();
+	ImageData img=ImageData::alloc(settings.width,settings.height);
+
+	CPUTracker trk(settings.width,settings.height);
+	NormalizeZLUT(lut.data, 1, lut.h, lut.w);
+	trk.SetRadialZLUT(lut.data, lut.h, lut.w, 1, 1, settings.qi_maxradius, true, false);
+	float* prof= ALLOCA_ARRAY(float,lut.w);
+
+	int N=1000;
+	std::vector< vector2f> results (N);
+	for (int i=0;i<N;i++) {
+		vector3f pos (settings.width/2, settings.height/2, i/(float)N*lut.h);
+		GenerateImageFromLUT(&img, &lut, 1, settings.qi_maxradius, pos);
+		if(InDebugMode&&i==0){
+			WriteJPEGFile(SPrintf("%s-smp.jpg",name).c_str(),img);
+		}
+
+		trk.SetImageFloat(img.data);
+		//trk.ComputeRadialProfile(prof,lut.w,settings.zlut_angularsteps, settings.zlut_minradius, settings.zlut_maxradius, pos.xy(), false);
+		//float z=trk.LUTProfileCompare(prof, 0, 0, normProf ? CPUTracker::LUTProfMaxSplineFit : CPUTracker::LUTProfMaxQuadraticFit); result: splines no go!
+		float z = trk.ComputeZ(pos.xy(), settings.zlut_angularsteps, 0, 0, 0, 0,true);
+		results[i].x = pos.z;
+		results[i].y = z-pos.z;
+	}
+
+	WriteImageAsCSV(SPrintf("%s-results.txt", name).c_str(),(float*) &results[0], 2, N);
+
+	lut.free();
+	img.free();
+}
+
+enum RWeightMode { RWNone, RWUniform, RWRadial, RWDerivative, RWStetson };
+
+void TestZRange(const char *name, const char *lutfile, int extraFlags, int clean_lut, RWeightMode weightMode=RWNone, bool biasMap=false, bool biasCorrect=false)
 {
 	ImageData lut = ReadLUTFile(lutfile);
 	vector3f delta(0.001f,0.001f, 0.001f);
+
+	if(PathSeperator(lutfile).extension != "jpg"){
+		WriteJPEGFile(SPrintf("%s-lut.jpg",name).c_str(), lut);
+	}
 
 	if (clean_lut) {
 		BenchmarkLUT::CleanupLUT(lut);
@@ -431,8 +472,9 @@ void TestZRange(const char *name, const char *lutfile, int extraFlags, int clean
 	}
 
 	QTrkComputedConfig settings;
-	settings.zlut_minradius = 0;
-	settings.qi_minradius = 0;
+	settings.qi_iterations = 2;
+	settings.zlut_minradius = 1;
+	settings.qi_minradius = 1;
 	settings.width = settings.height = 100;
 	settings.Update();
 	
@@ -445,6 +487,13 @@ void TestZRange(const char *name, const char *lutfile, int extraFlags, int clean
 	ImageData rescaledLUT;
 	ResampleLUT(&trk, &lut, lut.h, &rescaledLUT);
 
+	if (biasCorrect) {
+		CImageData result;
+		trk.ComputeZBiasCorrection(lut.h*3, &result, 4, true);
+
+		WriteImageAsCSV(SPrintf("%s-biasc.txt", name).c_str(), result.data, result.w, result.h);
+	}
+
 	int f = 0;
 	if (weightMode == RWDerivative)
 		f |= LT_LocalizeZWeighted;
@@ -454,11 +503,18 @@ void TestZRange(const char *name, const char *lutfile, int extraFlags, int clean
 			w[i]= settings.zlut_minradius + i/(float)settings.zlut_radialsteps*settings.zlut_maxradius;
 		trk.SetRadialWeights(&w[0]);
 	}
+	else if (weightMode == RWStetson)
+		trk.SetRadialWeights( ComputeRadialBinWindow(settings.zlut_radialsteps) );
 
 	trk.SetLocalizationMode(LT_QI|LT_LocalizeZ|LT_NormalizeProfile|extraFlags|f);
 
-	uint nstep= InDebugMode ? 20 : 1000;
-	uint smpPerStep = InDebugMode ? 2 : 200;
+	uint nstep= InDebugMode ? 20 : 500;
+	uint smpPerStep = InDebugMode ? 2 : 100;
+	if (biasMap) {
+		smpPerStep=1;
+		nstep=InDebugMode? 200 : 1000;
+	}
+
 	std::vector<vector3f> truepos, positions,crlb;
 	std::vector<float> stdevz;
 	for (uint i=0;i<nstep;i++)
@@ -473,14 +529,19 @@ void TestZRange(const char *name, const char *lutfile, int extraFlags, int clean
 
 		for (uint j=0;j<smpPerStep; j++) {
 			vector3f rndvec(rand_uniform<float>(), rand_uniform<float>(), rand_uniform<float>());
+			if (biasMap) rndvec=vector3f();
 			vector3f rndpos = pos + vector3f(1,1,0.1) * (rndvec-0.5f); // 0.1 plane is still a lot larger than the 0.02 typical accuracy
-			GenerateImageFromLUT(&img, &rescaledLUT, settings.zlut_minradius, settings.zlut_maxradius, rndpos);
-			ApplyPoissonNoise(img, maxVal);
+			GenerateImageFromLUT(&img, &rescaledLUT, settings.zlut_minradius, settings.zlut_maxradius, rndpos, true);
+			img.normalize();
+			if (!biasMap) ApplyPoissonNoise(img, maxVal);
 			LocalizationJob job(positions.size(), 0, 0, 0);
 			trk.ScheduleImageData(&img, &job);
 			positions.push_back(rndpos);
+			if(j==0 && InDebugMode) {
+				WriteJPEGFile(SPrintf("%s-sampleimg.jpg",name).c_str(), img);
+			}
 		}
-		dbgprintf("[%d] z=%f Min std deviation: X=%f, Y=%f, Z=%f nm.\n", i, z, crlb[i].x,crlb[i].y,crlb[i].z);
+		dbgprintf("[%d] z=%f Min std deviation: X=%f, Y=%f, Z=%f.\n", i, z, crlb[i].x,crlb[i].y,crlb[i].z);
 		img.free();
 	}
 	WaitForFinish(&trk, positions.size());
@@ -509,7 +570,8 @@ void TestZRange(const char *name, const char *lutfile, int extraFlags, int clean
 				dbgprintf("Result: x=%f,y=%f,z=%f. True: x=%f,y=%f,z=%f\n", r.x,r.y,r.z,t.x,t.y,t.z);
 			}
 		}
-		trkstd[i] = sqrt(variance / (smpPerStep-1));
+		if (biasMap) trkstd[i]=vector3f();
+		else trkstd[i] = sqrt(variance / (smpPerStep-1));
 	}
 
 	vector3f mean_std;
@@ -882,20 +944,25 @@ int main()
 //	GenerateZLUTFittingCurve("lut000.jpg");
 
 	TestBias();
-
+	TestZRangeBias("ref169-norm", "zrange\\exp_qi.radialzlut#169", true);
+	TestZRangeBias("ref169-raw", "zrange\\exp_qi.radialzlut#169", false);
 
 //	SmallROITest("lut000.jpg");
 
-//	TestBSplineMax(-1);
-//	TestBSplineMax(99.9);
-//	TestBSplineMax(34.23);
+	//TestZRange("lut227-ref","lut227.jpg", 0, 0, RWStetson);
+	TestZRange("zrange\\lut169ref-biasmap-c","zrange\\exp_qi.radialzlut#169", 0, 0, RWStetson, true, true);
+	TestZRange("zrange\\lut169ref-biasmap","zrange\\exp_qi.radialzlut#169", 0, 0, RWStetson, true, false);
+	TestZRange("zrange\\lut169ref","zrange\\exp_qi.radialzlut#169", 0, 0, RWStetson, false, false);
+	TestZRange("zrange\\lut169ref-c","zrange\\exp_qi.radialzlut#169", 0, 0, RWStetson, false, true);
+	TestZRange("zrange\\lut013tether","zrange\\exp_qi.radialzlut#13", 0, 0, RWStetson, false, false);
+	TestZRange("zrange\\lut013tether-c","zrange\\exp_qi.radialzlut#13", 0, 0, RWStetson, false, true);
 
 	//TestZRange("cleanlut1", "lut000.jpg", LT_LocalizeZWeighted, 0);
 	//TestZRange("cleanlut1", "lut000.jpg", LT_LocalizeZWeighted, 1);
 	//TestZRange("cleanlut10", "lut10.jpg", LT_LocalizeZWeighted, 1);
 	//TestZRange("cleanlut10", "lut10.jpg", LT_LocalizeZWeighted, 1);
 	
-	BenchmarkParams();
+//	BenchmarkParams();
 	int N=50;
 	/*ScatterBiasArea(80, 4, 100, N, 3, 1);
 	ScatterBiasArea(80, 4, 100, N, 4, 1);

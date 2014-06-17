@@ -407,6 +407,7 @@ namespace TraceViewer
 
 				for (int j = 0; j < data.Length; j++)
 				{
+					var time = data[j].id;
 					var pos = data[j].positions[bead];
 
 					if (refBead>=0) {
@@ -416,10 +417,10 @@ namespace TraceViewer
 						pos.z-=refpos.z;
 					}
 
-					if (xs != null) xs.Points.AddY(pos.x);
-					if (ys != null) ys.Points.AddY(pos.y);
-					if (zs != null) zs.Points.AddY(pos.z);
-					if (ims != null) ims.Points.AddY(data[j].imageMeans[refBead]);
+					if (xs != null) xs.Points.Add(new DataPoint(time, pos.x));
+					if (ys != null) ys.Points.Add(new DataPoint(time, pos.y));
+					if (zs != null) zs.Points.Add(new DataPoint(time, pos.z));
+					if (ims != null) ims.Points.Add(new DataPoint(time, data[j].imageMeans[refBead]));
 				}
 
 				if (xs != null) chart.Series.Add(xs);
@@ -432,14 +433,14 @@ namespace TraceViewer
 				Series mzs = new Series("Magnet Z") { ChartType = SeriesChartType.FastLine };
 				chart.Series.Add(mzs);
 				for (int i = 0; i < data.Length; i++)
-					mzs.Points.AddY(data[i].frameInfo[0]);
+					mzs.Points.Add(new DataPoint(data[i].id, data[i].frameInfo[0]));
 			}
 			if (checkMagnetRot.Checked)
 			{
 				Series mrs = new Series("Magnet Rotation") { ChartType = SeriesChartType.FastLine };
 				chart.Series.Add(mrs);
 				for (int i = 0; i < data.Length; i++)
-					mrs.Points.AddY(data[i].frameInfo[1]);
+					mrs.Points.Add(new DataPoint(data[i].id, data[i].frameInfo[1]));
 			}
 			chart.ResetAutoValues();
 			chart.ResumeLayout();

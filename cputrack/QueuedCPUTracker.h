@@ -92,10 +92,12 @@ private:
 	float* zlut_cmpprofiles;
 	bool zlut_enablecmpprof;
 	int zlut_count, zlut_planes;
+
 	std::vector<float> zcmp;
 	std::vector<float> qi_radialbinweights;
 	float* GetZLUTByIndex(int index) { return &zluts[ index * (zlut_planes*cfg.zlut_radialsteps) ]; }
 	void UpdateZLUTs();
+
 
 	int image_lut_dims[4], image_lut_nElem_per_bead;
 	int ImageLUTNumBeads() { return image_lut_dims[0]; }
