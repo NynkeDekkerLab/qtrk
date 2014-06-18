@@ -1,7 +1,6 @@
 #include "std_incl.h"
 #include "QueuedTracker.h"
 #include "utils.h"
-#include "cpu_tracker.h"
 
 void QTrkComputedConfig::Update()
 {
@@ -55,15 +54,10 @@ void QTrkComputedConfig::WriteToLog()
 
 QueuedTracker::QueuedTracker()
 {
-	zlut_bias_correction=0;
 }
 
 QueuedTracker::~QueuedTracker()
 {
-	if (zlut_bias_correction) {
-		zlut_bias_correction->free();
-		delete zlut_bias_correction;
-	}
 }
 
 void QueuedTracker::ScheduleImageData(ImageData* data, const LocalizationJob* job)
@@ -115,6 +109,7 @@ int QueuedTracker::ScheduleFrame(void *imgptr, int pitch, int width, int height,
 }
 
 
+
 float QueuedTracker::ZLUTBiasCorrection(float z, int zlut_planes, int bead)
 {
 	/*
@@ -132,7 +127,8 @@ float QueuedTracker::ZLUTBiasCorrection(float z, int zlut_planes, int bead)
 	
 	float pos = z;
 	for (int k=0;k<4;k++) {
-		float bias = zlut_bias_correction->interpolate1D(bead, pos / (float)zlut_planes * zlut_bias_correction->w);
+		float tblpos = pos / (float)zlut_planes * zlut_bias_correction->w;
+		float bias = zlut_bias_correction->interpolate1D(bead, tblpos);
 		pos = z - bias;
 	}
 	return pos;
@@ -172,7 +168,7 @@ void QueuedTracker::ComputeZBiasCorrection(int bias_planes, CImageData* result, 
 		bool bhit;
 		trk.SetImageFloat(img.data);
 		//vector2f qi = trk.ComputeQI(pos.xy(), 2, cfg.qi_radialsteps, cfg.qi_angstepspq, cfg.qi_angstep_factor, cfg.qi_minradius, cfg.qi_maxradius, bhit, &qi_rweights[0]);
-		float z = trk.ComputeZ(pos.xy(), cfg.zlut_angularsteps, bead);
+		float z = trk.ComputeZ(pos.xy(), cfg.zlut_angularsteps, 0);
 		zlut_bias_correction->at(plane, bead) = z - pos.z;
 
 //		trk.ComputeRadialProfile(
