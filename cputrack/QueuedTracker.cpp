@@ -1,6 +1,7 @@
 #include "std_incl.h"
 #include "QueuedTracker.h"
 #include "utils.h"
+#include "cpu_tracker.h"
 
 void QTrkComputedConfig::Update()
 {
