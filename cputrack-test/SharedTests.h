@@ -38,6 +38,7 @@ void ResampleLUT(T* qtrk, ImageData* lut, int zplanes, ImageData* newlut, const 
 	ImageData img = ImageData::alloc(cfg.width,cfg.height);
 
 	qtrk->SetRadialZLUT(0, 1, zplanes);
+	qtrk->BeginLUT(buildLUTFlags);
 	for (int i=0;i<zplanes;i++)
 	{
 		vector2f pos(cfg.width/2,cfg.height/2);
@@ -45,7 +46,7 @@ void ResampleLUT(T* qtrk, ImageData* lut, int zplanes, ImageData* newlut, const 
 		img.normalize();
 		if (i == zplanes/2 && jpgfile)
 			WriteJPEGFile(SPrintf("smp-%s",jpgfile).c_str(), img);
-		qtrk->BuildLUT(img.data, sizeof(float)*img.w, QTrkFloat, buildLUTFlags, i, &pos);
+		qtrk->BuildLUT(img.data, sizeof(float)*img.w, QTrkFloat, i, &pos);
 	}
 	qtrk->FinalizeLUT();
 
@@ -491,7 +492,7 @@ struct SpeedAccResult{
 
 
 
-static SpeedAccResult SpeedAccTest(ImageData& lut, QTrkSettings *cfg, int N, vector3f centerpos, vector3f range, const char *name, int MaxPixelValue, int extraFlags=0)
+static SpeedAccResult SpeedAccTest(ImageData& lut, QTrkSettings *cfg, int N, vector3f centerpos, vector3f range, const char *name, int MaxPixelValue, int extraFlags=0, int buildLUTFlags=0)
 {
 	typedef QueuedTracker TrkType;
 	int NImg=N;//std::max(1,N/20);
@@ -503,7 +504,10 @@ static SpeedAccResult SpeedAccTest(ImageData& lut, QTrkSettings *cfg, int N, vec
 	QueuedTracker* trk = new QueuedCPUTracker(*cfg);// CreateQueuedTracker(*cfg);
 
 	ImageData resizedLUT;
-	ResampleLUT(trk, &lut, lut.h, &resizedLUT);
+	ResampleLUT(trk, &lut, lut.h, &resizedLUT, 0, buildLUTFlags);
+
+	if (buildLUTFlags&BUILDLUT_BIASCORRECT)
+		trk->ComputeZBiasCorrection(lut.h*10, 0, 4, true);
 
 	std::vector<Matrix3X3> fishers(NImg);
 

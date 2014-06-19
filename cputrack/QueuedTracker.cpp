@@ -55,6 +55,7 @@ void QTrkComputedConfig::WriteToLog()
 
 QueuedTracker::QueuedTracker()
 {
+	zlut_bias_correction=0;
 }
 
 QueuedTracker::~QueuedTracker()
@@ -151,8 +152,8 @@ void QueuedTracker::ComputeZBiasCorrection(int bias_planes, CImageData* result, 
 
 	zlut_bias_correction = new CImageData(bias_planes, count);
 
-	//parallel_for(count*bias_planes, [&](int job) {
-	for (int job=0;job<count*bias_planes;job++) {
+	parallel_for(count*bias_planes, [&](int job) {
+	//for (int job=0;job<count*bias_planes;job++) {
 		int bead = job/bias_planes;
 		int plane = job%bias_planes;
 		
@@ -168,18 +169,17 @@ void QueuedTracker::ComputeZBiasCorrection(int bias_planes, CImageData* result, 
 
 		bool bhit;
 		trk.SetImageFloat(img.data);
-		//vector2f qi = trk.ComputeQI(pos.xy(), 2, cfg.qi_radialsteps, cfg.qi_angstepspq, cfg.qi_angstep_factor, cfg.qi_minradius, cfg.qi_maxradius, bhit, &qi_rweights[0]);
-		float z = trk.ComputeZ(pos.xy(), cfg.zlut_angularsteps, 0);
+		vector2f com = trk.ComputeMeanAndCOM();
+		vector2f qi = trk.ComputeQI(com, 2, cfg.qi_radialsteps, cfg.qi_angstepspq, cfg.qi_angstep_factor, cfg.qi_minradius, cfg.qi_maxradius, bhit, &qi_rweights[0]);
+		float z = trk.ComputeZ(qi, cfg.zlut_angularsteps, 0);
 		zlut_bias_correction->at(plane, bead) = z - pos.z;
 
-//		trk.ComputeRadialProfile(
+		//trk.ComputeRadialProfile(
 		img.free();
-
 		if ((job%(count*bias_planes/10)) == 0) 
 			dbgprintf("job=%d\n", job);
-	}
-
-	//});
+//	}
+	});
 
 	if (result)
 		*result = *zlut_bias_correction;

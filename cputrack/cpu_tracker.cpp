@@ -789,28 +789,56 @@ void CPUTracker::SetRadialWeights(float* radweights)
 }
 
 
-float CPUTracker::LUTProfileCompare (float* rprof, int zlutIndex, float* cmpProf, LUTProfileMaxComputeMode maxPosComputeMode, float* fitcurve)
+float CPUTracker::LUTProfileCompare (float* rprof, int zlutIndex, float* cmpProf, LUTProfileMaxComputeMode maxPosComputeMode, float* fitcurve, int *maxPos)
 {
 	if (!zluts)
 		return 0.0f;
 	
-	float* rprof_diff = ALLOCA_ARRAY(float, zlut_planes);
+	double* rprof_diff = ALLOCA_ARRAY(double, zlut_planes);
 	//WriteImageAsCSV("zlutradprof-cpu.txt", rprof, zlut_res, 1);
 
 	// Now compare the radial profile to the profiles stored in Z
 	float* zlut_sel = GetRadialZLUT(zlutIndex);
 
+#if 0
+	float* zlut_norm = ALLOCA_ARRAY(float, zlut_res);
+	float* prof_norm = ALLOCA_ARRAY(float, zlut_res);
+	for (int r=0;r<zlut_res;r++)
+		prof_norm[r] = rprof[r] * zlut_radialweights[r];
+	NormalizeRadialProfile(prof_norm, zlut_res);
+
 	for (int k=0;k<zlut_planes;k++) {
-		float diffsum = 0.0f;
+		double diffsum = 0.0f;
+
+		if (zlut_radialweights.empty()) {
+			for (int r=0;r<zlut_res;r++)  zlut_norm[r]=zlut_sel[k*zlut_res+r];
+		} else {
+			for (int r=0;r<zlut_res;r++) {
+				zlut_norm[r] = zlut_sel[k*zlut_res+r] * zlut_radialweights[r];
+			}
+		}
+		NormalizeRadialProfile(zlut_norm, zlut_res);
+
 		for (int r = 0; r<zlut_res;r++) {
-			float d = rprof[r]-zlut_sel[k*zlut_res+r];
+			double d = prof_norm[r]-zlut_norm[r];
 			d = -d*d;
-			if(!zlut_radialweights.empty())
-				d *= zlut_radialweights[r];
 			diffsum += d;
 		}
 		rprof_diff[k] = diffsum;
 	}
+#else
+	for (int k=0;k<zlut_planes;k++) {
+		double diffsum = 0.0f;
+		for (int r = 0; r<zlut_res;r++) {
+			double d = rprof[r]-zlut_sel[k*zlut_res+r];
+			if (!zlut_radialweights.empty())
+				d*=zlut_radialweights[r];
+			d = -d*d;
+			diffsum += d;
+		}
+		rprof_diff[k] = diffsum;
+	}
+#endif
 
 	if (cmpProf) {
 		//cmpProf->resize(zlut_planes);
@@ -818,15 +846,19 @@ float CPUTracker::LUTProfileCompare (float* rprof, int zlutIndex, float* cmpProf
 	}
 
 	if (maxPosComputeMode == LUTProfMaxQuadraticFit) {
+		if (maxPos) {
+			*maxPos = std::max_element(rprof_diff, rprof_diff+zlut_planes) - rprof_diff;
+		}
+
 		if (fitcurve) {
-			LsqSqQuadFit<float> fit;
-			float z= ComputeMaxInterp<float, ZLUT_LSQFIT_NWEIGHTS>::Compute(rprof_diff, zlut_planes, ZLUTWeights, &fit);
+			LsqSqQuadFit<double> fit;
+			float z= ComputeMaxInterp<double, ZLUT_LSQFIT_NWEIGHTS>::Compute(rprof_diff, zlut_planes, ZLUTWeights_d, &fit);
 			int iMax = std::max_element(rprof_diff, rprof_diff+zlut_planes) - rprof_diff;
 			for (int i=0;i<zlut_planes;i++)
 				fitcurve[i] = fit.compute(i-iMax);
 			return z;
 		} else {
-			return ComputeMaxInterp<float, ZLUT_LSQFIT_NWEIGHTS>::Compute(rprof_diff, zlut_planes, ZLUTWeights);
+			return ComputeMaxInterp<double, ZLUT_LSQFIT_NWEIGHTS>::Compute(rprof_diff, zlut_planes, ZLUTWeights_d);
 		}
 	}
 	else if (maxPosComputeMode == LUTProfMaxSimpleInterp) {

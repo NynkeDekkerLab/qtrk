@@ -109,7 +109,7 @@ CDLL_EXPORT void DLL_CALLCONV set_image_float(CPUTracker* tracker, LVArray2D<flo
 }
 
 
-CDLL_EXPORT float DLL_CALLCONV compute_z(CPUTracker* tracker, float* center, int angularSteps, int zlut_index, uint *error, LVArray<float>** profile, LVArray<float>** errorCurve)
+CDLL_EXPORT float DLL_CALLCONV compute_z(CPUTracker* tracker, float* center, int angularSteps, int zlut_index, uint *error, LVArray<float>** profile, int* bestIndex, LVArray<float>** errorCurve)
 {
 	bool boundaryHit=false;
 	if (profile) 
@@ -119,7 +119,13 @@ CDLL_EXPORT float DLL_CALLCONV compute_z(CPUTracker* tracker, float* center, int
 		ResizeLVArray(errorCurve, tracker->zlut_planes);
 	}
 
-	float z =  tracker->ComputeZ(*(vector2f*)center, angularSteps, zlut_index, &boundaryHit, profile ? (*profile)->elem : 0, (*errorCurve)->elem);
+	int maxPos;
+	float* prof = profile ? (*profile)->elem : ALLOCA_ARRAY(float, tracker->zlut_res);
+	tracker->ComputeRadialProfile(prof,tracker->zlut_res,angularSteps, tracker->zlut_minradius, tracker->zlut_maxradius,*(vector2f*) center, false, &boundaryHit, true);
+	float z= tracker->LUTProfileCompare(prof, zlut_index, errorCurve ? (*errorCurve)->elem : 0, CPUTracker::LUTProfMaxQuadraticFit, 0, &maxPos);
+
+	if (bestIndex) *bestIndex=maxPos;
+
 	if (error)
 		*error = boundaryHit?1:0;
 	return z;
@@ -166,13 +172,17 @@ CDLL_EXPORT void DLL_CALLCONV compute_radial_profile(CPUTracker* tracker, LVArra
 
 
 
-CDLL_EXPORT void DLL_CALLCONV set_ZLUT(CPUTracker* tracker, LVArray3D<float>** pZlut, float *radii, int angular_steps, bool useCorrelation, LVArray<float>** radialweights)
+CDLL_EXPORT void DLL_CALLCONV set_ZLUT(CPUTracker* tracker, LVArray3D<float>** pZlut, float *radii, int angular_steps, bool useCorrelation, LVArray<float>** radialweights, bool normalize)
 {
 	LVArray3D<float>* zlut = *pZlut;
 
 	int numLUTs = zlut->dimSizes[0];
 	int planes = zlut->dimSizes[1];
 	int res = zlut->dimSizes[2];
+
+	if (normalize) {
+		NormalizeZLUT( zlut->elem , numLUTs, planes, res);
+	}
 
 	tracker->SetRadialZLUT(zlut->elem, planes, res, numLUTs, radii[0], radii[1], true, useCorrelation);
 	if (radialweights)

@@ -28,7 +28,8 @@ public:
 	void EnableRadialZLUTCompareProfile(bool enabled);
 	void GetRadialZLUTCompareProfile(float* dst); // dst = [count * planes]
 
-	void BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, uint flags, int plane, vector2f* known_pos=0) override;
+	void BeginLUT(uint flags);
+	void BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, int plane, vector2f* known_pos=0) override;
 	void FinalizeLUT() override;
 
 	void GetImageZLUTSize(int* dims);
@@ -92,12 +93,12 @@ private:
 	float* zlut_cmpprofiles;
 	bool zlut_enablecmpprof;
 	int zlut_count, zlut_planes;
+	uint zlut_buildflags;
 
 	std::vector<float> zcmp;
 	std::vector<float> qi_radialbinweights;
 	float* GetZLUTByIndex(int index) { return &zluts[ index * (zlut_planes*cfg.zlut_radialsteps) ]; }
 	void UpdateZLUTs();
-
 
 	int image_lut_dims[4], image_lut_nElem_per_bead;
 	int ImageLUTNumBeads() { return image_lut_dims[0]; }

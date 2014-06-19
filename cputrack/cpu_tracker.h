@@ -94,7 +94,7 @@ public:
 
 	float ComputeZ(vector2f center, int angularSteps, int zlutIndex, bool* boundaryHit=0, float* profile=0, float* cmpprof=0, bool normalizeProfile=true)
 	{
-		float* prof= ALLOCA_ARRAY(float, zlut_res);
+		float* prof = profile ? profile : ALLOCA_ARRAY(float, zlut_res);
 		ComputeRadialProfile(prof,zlut_res,angularSteps, zlut_minradius, zlut_maxradius, center, false, boundaryHit, normalizeProfile);
 		return LUTProfileCompare(prof, zlutIndex, cmpprof, LUTProfMaxQuadraticFit);
 	}
@@ -106,7 +106,7 @@ public:
 	void SetRadialZLUT(float* data, int planes, int res, int num_zluts, float minradius, float maxradius, bool copyMemory, bool useCorrelation);
 	void SetRadialWeights(float *w);
 	enum LUTProfileMaxComputeMode { LUTProfMaxQuadraticFit, LUTProfMaxSplineFit, LUTProfMaxSimpleInterp };
-	float LUTProfileCompare(float* profile, int zlutIndex, float* cmpProf, LUTProfileMaxComputeMode maxPosMethod, float* lsqfittedcurve=0);
+	float LUTProfileCompare(float* profile, int zlutIndex, float* cmpProf, LUTProfileMaxComputeMode maxPosMethod, float* lsqfittedcurve=0, int *maxPos=0);
 	float LUTProfileCompareAdjustedWeights(float* rprof, int zlutIndex, float z_estim);
 
 	float* GetDebugImage() { return debugImage; }

@@ -489,7 +489,7 @@ void TestZRange(const char *name, const char *lutfile, int extraFlags, int clean
 
 	if (biasCorrect) {
 		CImageData result;
-		trk.ComputeZBiasCorrection(lut.h*3, &result, 4, true);
+		trk.ComputeZBiasCorrection(lut.h*10, &result, 4, true);
 
 		WriteImageAsCSV(SPrintf("%s-biasc.txt", name).c_str(), result.data, result.w, result.h);
 	}
@@ -508,11 +508,11 @@ void TestZRange(const char *name, const char *lutfile, int extraFlags, int clean
 
 	trk.SetLocalizationMode(LT_QI|LT_LocalizeZ|LT_NormalizeProfile|extraFlags|f);
 
-	uint nstep= InDebugMode ? 20 : 500;
-	uint smpPerStep = InDebugMode ? 2 : 100;
+	uint nstep= InDebugMode ? 20 : 1000;
+	uint smpPerStep = InDebugMode ? 2 : 200;
 	if (biasMap) {
 		smpPerStep=1;
-		nstep=InDebugMode? 200 : 1000;
+		nstep=InDebugMode? 200 : 2000;
 	}
 
 	std::vector<vector3f> truepos, positions,crlb;
@@ -618,50 +618,6 @@ void AutoBeadFindTest()
 }
 
 
-void TestImageLUT()
-{
-	QTrkSettings cfg;
-	cfg.width=cfg.height=100;
-
-	QueuedCPUTracker trk(cfg);
-
-	// [ count, planes, height, width ] 
-	int nplanes=10;
-	int dims[] = { 1, nplanes, cfg.height*0.7f,cfg.width*0.7f };
-	trk.SetImageZLUT(0, 0, dims);
-
-	ImageData img=ImageData::alloc(cfg.width,cfg.height);
-	ImageData lut = ReadJPEGFile("refbeadlut.jpg");
-
-	for (int i=0;i<nplanes;i++) {
-		GenerateImageFromLUT(&img, &lut, trk.cfg.zlut_minradius, trk.cfg.zlut_maxradius, vector3f(img.w/2,img.h/2, i));
-		trk.BuildLUT(img.data, img.pitch(), QTrkFloat, true, i);
-	}
-	trk.FinalizeLUT();
-
-	float *ilut = new float [dims[0]*dims[1]*dims[2]*dims[3]];
-	trk.GetImageZLUT(ilut);
-	ImageData ilutImg (ilut, dims[3], dims[1]*dims[2]);
-	WriteJPEGFile("ilut.jpg", ilutImg);
-	delete[] ilut;
-
-	int nsmp = 10;
-	for (int i=0;i<nsmp;i++) {
-		vector3f pos(img.w/2+rand_uniform<float>()-0.5f ,img.h/2-rand_uniform<float>()-0.5f,nplanes/2.0f);
-		GenerateImageFromLUT(&img, &lut, trk.cfg.zlut_minradius, trk.cfg.zlut_maxradius, vector3f(pos.x,pos.y,pos.z));
-		ApplyPoissonNoise(img, 28 * 255, 255);
-		CPUTracker ct(cfg.width,cfg.height);
-		bool bhit;
-		ct.SetImageFloat(img.data);
-		vector2f qipos = ct.ComputeQI(ct.ComputeMeanAndCOM(), 2, trk.cfg.qi_radialsteps, trk.cfg.qi_angstepspq, trk.cfg.qi_angstep_factor, trk.cfg.qi_minradius, trk.cfg.qi_maxradius, bhit);
-
-		dbgprintf("QIPos: %f,%f;\t", qipos.x,qipos.y);
-		dbgprintf("QI Error: %f,%f\n", qipos.x-pos.x,qipos.y-pos.y);
-	}
-
-	lut.free();
-	img.free();
-}
 
 void TestFourierLUT()
 {
@@ -962,7 +918,7 @@ int main()
 	//TestZRange("cleanlut10", "lut10.jpg", LT_LocalizeZWeighted, 1);
 	//TestZRange("cleanlut10", "lut10.jpg", LT_LocalizeZWeighted, 1);
 	
-//	BenchmarkParams();
+	BenchmarkParams();
 	int N=50;
 	/*ScatterBiasArea(80, 4, 100, N, 3, 1);
 	ScatterBiasArea(80, 4, 100, N, 4, 1);

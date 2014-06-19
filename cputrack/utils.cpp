@@ -243,6 +243,21 @@ void NormalizeRadialProfile(scalar_t * prof, int rsteps)
 	double invTotalrms = 1.0f/sqrt(rmssum2/rsteps);
 	for (int i=0;i<rsteps;i++)
 		prof[i] *= invTotalrms;
+		
+/*
+	scalar_t minVal = prof[0];
+	for (int i=0;i<rsteps;i++)
+		if(prof[i]<minVal) minVal=prof[i]; 
+
+	float rms=0;
+	for (int i=0;i<rsteps;i++) {
+		prof[i]-=minVal;
+		rms += prof[i]*prof[i];
+	}
+	rms=1.0f/sqrt(rms);
+	for (int i=0;i<rsteps;i++) {
+		prof[i]*=rms;
+	}*/
 }
 
 

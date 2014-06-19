@@ -567,7 +567,12 @@ bool QueuedCPUTracker::SetImageZLUT(float* src, float *radial_lut, int* dims)
 }
 
 
-void QueuedCPUTracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, uint flags, int plane, vector2f* known_pos)
+void QueuedCPUTracker::BeginLUT(uint flags)
+{
+	zlut_buildflags = flags;
+}
+
+void QueuedCPUTracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, int plane, vector2f* known_pos)
 {
 	parallel_for(zlut_count,[&] (int i) {
 //	for(int i=0;i<zlut_count;i++) {
@@ -593,7 +598,7 @@ void QueuedCPUTracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, u
 			pos = trk.ComputeQI(com, cfg.qi_iterations, cfg.qi_radialsteps, cfg.qi_angstepspq, cfg.qi_angstep_factor, cfg.qi_minradius, cfg.qi_maxradius, bhit);
 			dbgprintf("BuildLUT() COMPos: %f,%f, QIPos: x=%f, y=%f\n", com.x,com.y, pos.x, pos.y);
 		}
-		if (flags & BUILDLUT_IMAGELUT) {
+		if (zlut_buildflags & BUILDLUT_IMAGELUT) {
 			int h=ImageLUTHeight(), w=ImageLUTWidth();
 			float* lut_dst = &image_lut[ i * image_lut_nElem_per_bead + w*h* plane ];
 
@@ -617,7 +622,7 @@ void QueuedCPUTracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, u
 		float *bead_zlut=GetZLUTByIndex(i);
 		float *tmp = new float[cfg.zlut_radialsteps];
 
-		if (flags & BUILDLUT_FOURIER){
+		if (zlut_buildflags  & BUILDLUT_FOURIER){
 			trk.FourierRadialProfile(tmp, cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius);
 			if (plane==0) {
 				for (int i=0;i<trk.width*trk.height;i++)
@@ -626,7 +631,7 @@ void QueuedCPUTracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, u
 			}
 		}
 		else {
-			trk.ComputeRadialProfile(tmp, cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, pos, false, 0, (flags&BUILDLUT_NORMALIZE)!=0);
+			trk.ComputeRadialProfile(tmp, cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, pos, false, 0, (zlut_buildflags&BUILDLUT_NORMALIZE)!=0);
 		}
 	//	WriteArrayAsCSVRow("rlut-test.csv", tmp, cfg.zlut_radialsteps, plane>0);
 		for(int i=0;i<cfg.zlut_radialsteps;i++) 
