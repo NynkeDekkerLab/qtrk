@@ -700,7 +700,7 @@ void QueuedCUDATracker::CopyStreamResults(Stream *s)
 		r.firstGuess =  vector2f( s->com[a].x, s->com[a].y );
 		r.pos = vector3f( s->results[a].x , s->results[a].y, s->results[a].z);
 		r.imageMean = s->imgMeans[a];
-
+		r.pos.z = ZLUTBiasCorrection(s->results[a].z, devices[0]->radial_zlut.h, j.zlutIndex);
 		results.push_back(r);
 	}
 	resultCount+=s->JobCount();

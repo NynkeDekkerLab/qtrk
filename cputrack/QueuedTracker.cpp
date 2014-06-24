@@ -114,6 +114,9 @@ int QueuedTracker::ScheduleFrame(void *imgptr, int pitch, int width, int height,
 
 float QueuedTracker::ZLUTBiasCorrection(float z, int zlut_planes, int bead)
 {
+	if (!zlut_bias_correction)
+		return z;
+
 	/*
         bias = d(r,4);
         measured_pos = d(r,1) + bias;
@@ -125,7 +128,7 @@ float QueuedTracker::ZLUTBiasCorrection(float z, int zlut_planes, int bead)
 		*/
 
 	// we have to reverse the bias table: we know that true_z + bias(true_z) = measured_z, but we can only get bias(measured_z)
-	// A simple solution is to iterate:
+	// It seems that one can iterate towards the right position:
 	
 	float pos = z;
 	for (int k=0;k<4;k++) {
