@@ -808,5 +808,15 @@ namespace TraceViewer
 			ExportTextTracesDialog(BeadSelection);
 		}
 
+		private void importBeadSelectionToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var ofd = new OpenFileDialog();
+			if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+			{
+				var beads = File.ReadAllText(ofd.FileName).Split('\t', ' ','\n').Select(s=>int.Parse(s)).ToArray();
+				BeadSelection = beads;
+			}
+		}
+
 	}
 }

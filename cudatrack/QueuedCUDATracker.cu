@@ -200,6 +200,7 @@ QueuedCUDATracker::QueuedCUDATracker(const QTrkComputedConfig& cc, int batchSize
 	batchesDone = 0;
 	useTextureCache = true;
 	resultCount = 0;
+	zlut_build_flags=0;
 
 	quitScheduler = false;
 	schedulingThread = Threads::Create(SchedulingThreadEntryPoint, this);
@@ -470,8 +471,13 @@ __global__ void AddProfilesToZLUT(float* d_src, int nbeads, int radialsteps, int
 }
 
 
+void QueuedCUDATracker::BeginLUT(uint flags)
+{
+	zlut_build_flags = flags;
+}
 
-void QueuedCUDATracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, uint flags, int plane, vector2f* known_pos)
+
+void QueuedCUDATracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, int plane, vector2f* known_pos)
 {
 	// Copy to image 
 	Device* d = streams[0]->device;

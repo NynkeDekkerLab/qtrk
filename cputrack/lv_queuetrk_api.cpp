@@ -372,7 +372,7 @@ CDLL_EXPORT void qtrk_build_lut_plane(QueuedTracker* qtrk, LVArray3D<float> **da
 			return;
 		}
 
-		qtrk->BuildLUT( (*data)->elem, sizeof(float*) * qtrk->cfg.width, QTrkFloat, false, plane);
+		qtrk->BuildLUT( (*data)->elem, sizeof(float*) * qtrk->cfg.width, QTrkFloat, plane);
 	}
 }
 
@@ -462,6 +462,21 @@ CDLL_EXPORT void qtrk_compute_zlut_bias_table(QueuedTracker* qtrk, int bias_plan
 
 		ResizeLVArray2D(lvresult, result.h, result.w);
 		result.copyTo ( (*lvresult)->elem );
+	}
+}
+
+CDLL_EXPORT void qtrk_set_zlut_bias_table(QueuedTracker* qtrk, LVArray2D<float>** biastbl, ErrorCluster* e)
+{
+	if (ValidateTracker(qtrk, e,"set zlut bias table")) {
+		int numbeads,planes,radialsteps;
+		qtrk->GetRadialZLUTSize(numbeads, planes, radialsteps);
+
+		if ((*biastbl)->dimSizes[1] != numbeads) {
+			ArgumentErrorMsg(e, SPrintf( "Bias table should be [numbeads] high and [biasplanes] wide. Expected #beads=%d", numbeads) );
+		}
+		else {
+			qtrk->SetZLUTBiasCorrection( ImageData( (*biastbl)->elem, (*biastbl)->dimSizes[0], (*biastbl)->dimSizes[1] ) );
+		}
 	}
 }
 

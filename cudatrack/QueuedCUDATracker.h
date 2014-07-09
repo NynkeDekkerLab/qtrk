@@ -79,7 +79,8 @@ public:
 	void GetRadialZLUTSize(int& count, int& planes, int &radialSteps) override;
 	int FetchResults(LocalizationResult* results, int maxResults) override;
 
-	void BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, uint flags, int plane, vector2f* known_pos) override;
+	void BeginLUT(uint flags) override;
+	void BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, int plane, vector2f* known_pos) override;
 	void FinalizeLUT() override;
 
 	void EnableRadialZLUTCompareProfile(bool enabled) {}
@@ -189,6 +190,7 @@ protected:
 	float gc_offsetFactor, gc_gainFactor;
 	Threads::Mutex gc_mutex;
 	std::vector<float> gc_offset, gc_gain;///cpu size buffers are needed because BuildLUT uses CPU tracking
+	uint zlut_build_flags;
 
 	QI qi;
 	QI qalign;
