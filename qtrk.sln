@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cudatrack-test", "cudatrack-test\cudatrack-test.vcxproj", "{BEC9EC33-3C02-4F31-BDA6-B8068A215AA9}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cputrack", "cputrack\cputrack.vcxproj", "{1790E71E-B0EE-4BF9-8C27-0CD6C1B6DF4B}"
@@ -10,8 +10,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lvcputrack", "cputrack\lvcputrack.vcxproj", "{6F4803EC-15BB-459B-95A7-75F475B0928E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Labview bindings", "Labview bindings", "{3D2A7C19-E408-440A-8ECA-FFC4DC67F5FF}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MATLAB", "MATLAB", "{1DB1DFBD-ECF3-432F-8B1B-44092D431FB5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "C++ dll", "C++ dll", "{BF7A8579-0AE8-4F88-A069-F1D88DC10C1E}"
 EndProject
@@ -30,8 +28,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoTracker", "AutoTracker\AutoTracker.csproj", "{0EC57D9C-A6B3-499A-B3A1-FD0F62930C0C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TraceViewer", "TraceViewer\TraceViewer.csproj", "{9580D1A1-7CDC-404D-9287-E197AAB839E2}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "elleSR", "utils\superres\elleSR\elleSR.vcxproj", "{1DBA30DE-68B0-40A2-9A47-F7BFA0F79C13}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -200,20 +196,6 @@ Global
 		{9580D1A1-7CDC-404D-9287-E197AAB839E2}.Release|x64.ActiveCfg = Release|x86
 		{9580D1A1-7CDC-404D-9287-E197AAB839E2}.Release|x86.ActiveCfg = Release|x86
 		{9580D1A1-7CDC-404D-9287-E197AAB839E2}.Release|x86.Build.0 = Release|x86
-		{1DBA30DE-68B0-40A2-9A47-F7BFA0F79C13}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{1DBA30DE-68B0-40A2-9A47-F7BFA0F79C13}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
-		{1DBA30DE-68B0-40A2-9A47-F7BFA0F79C13}.Debug|Mixed Platforms.Build.0 = Debug|Win32
-		{1DBA30DE-68B0-40A2-9A47-F7BFA0F79C13}.Debug|Win32.ActiveCfg = Debug|Win32
-		{1DBA30DE-68B0-40A2-9A47-F7BFA0F79C13}.Debug|Win32.Build.0 = Debug|Win32
-		{1DBA30DE-68B0-40A2-9A47-F7BFA0F79C13}.Debug|x64.ActiveCfg = Debug|Win32
-		{1DBA30DE-68B0-40A2-9A47-F7BFA0F79C13}.Debug|x86.ActiveCfg = Debug|Win32
-		{1DBA30DE-68B0-40A2-9A47-F7BFA0F79C13}.Release|Any CPU.ActiveCfg = Release|Win32
-		{1DBA30DE-68B0-40A2-9A47-F7BFA0F79C13}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{1DBA30DE-68B0-40A2-9A47-F7BFA0F79C13}.Release|Mixed Platforms.Build.0 = Release|Win32
-		{1DBA30DE-68B0-40A2-9A47-F7BFA0F79C13}.Release|Win32.ActiveCfg = Release|Win32
-		{1DBA30DE-68B0-40A2-9A47-F7BFA0F79C13}.Release|Win32.Build.0 = Release|Win32
-		{1DBA30DE-68B0-40A2-9A47-F7BFA0F79C13}.Release|x64.ActiveCfg = Release|Win32
-		{1DBA30DE-68B0-40A2-9A47-F7BFA0F79C13}.Release|x86.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -228,6 +210,5 @@ Global
 		{ABB7D1D8-B6AD-4225-B2BB-345F1794BA88} = {BF7A8579-0AE8-4F88-A069-F1D88DC10C1E}
 		{6F4803EC-15BB-459B-95A7-75F475B0928E} = {3D2A7C19-E408-440A-8ECA-FFC4DC67F5FF}
 		{74D6A840-874D-40D4-A85D-6241870EBCE9} = {3D2A7C19-E408-440A-8ECA-FFC4DC67F5FF}
-		{1DBA30DE-68B0-40A2-9A47-F7BFA0F79C13} = {1DB1DFBD-ECF3-432F-8B1B-44092D431FB5}
 	EndGlobalSection
 EndGlobal
