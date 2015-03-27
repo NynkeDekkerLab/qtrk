@@ -1077,8 +1077,8 @@ void TestCOMAndQI(const char* image, int OutputMode)
 
 				ImageData resImage = ResizeImage(curImage,10);
 				for(int i = -3; i<=3; i++){
-					resImage.data[((int)(com.x*10)+i)+((int)(com.y*10))*img.w*10] = 0;
-					resImage.data[((int)(com.x*10))+((int)(com.y*10)+i)*img.w*10] = 0;
+					resImage.data[((int)(qi.x*10)+i)+((int)(qi.y*10))*img.w*10] = 0;
+					resImage.data[((int)(qi.x*10))+((int)(qi.y*10)+i)*img.w*10] = 0;
 				}
 				sprintf(buf,"Crop-%d-res-%d.jpg",x_i,qi_iterations);
 				output->outputImage(resImage,buf);
