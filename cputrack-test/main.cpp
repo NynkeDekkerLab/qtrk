@@ -10,7 +10,7 @@
 #include "../cputrack/CubicBSpline.h"
 #include <time.h>
 #include <fstream>
-
+#include <string>
 
 
 
@@ -179,8 +179,6 @@ void SmallImageTest()
 	delete tracker;
 }
 
-
- 
 void OutputProfileImg()
 {
 	CPUTracker *tracker = new CPUTracker(128,128, 16);
@@ -259,7 +257,6 @@ void PixelationErrorTest()
 	delete tracker;
 }
 
-
 void BuildConvergenceMap(int iterations)
 {
 	int W=80, H=80;
@@ -322,6 +319,7 @@ void CRP_TestGeneratedData()
 	ReadJPEGFile(&lutdata[0], lutdata.size(), &lut, &lutw, &luth);
 	delete[] img;
 }
+
 void CorrectedRadialProfileTest()
 {
 	// read image
@@ -368,7 +366,6 @@ void WriteRadialProf(const char *file, ImageData& d)
 	WriteImageAsCSV(file, radprof, radialsteps, 1);
 }
 
-
 std::vector<float> ComputeRadialWeights(int rsteps, float minRadius, float maxRadius)
 {
 	std::vector<float> wnd(rsteps);
@@ -376,7 +373,6 @@ std::vector<float> ComputeRadialWeights(int rsteps, float minRadius, float maxRa
 		wnd[x]=Lerp(minRadius, maxRadius, x/(float)rsteps) / (0.5f * (minRadius+maxRadius));
 	return wnd;
 }
-
 
 void TestBias()
 {
@@ -617,8 +613,6 @@ void AutoBeadFindTest()
 	smp.free();
 }
 
-
-
 void TestFourierLUT()
 {
 	QTrkSettings cfg;
@@ -644,7 +638,6 @@ void TestFourierLUT()
 	dbgprintf("FourierLUT: X= %f. stdev: %f\tZ=%f,  stdev: %f\n", resultsZA.meanErr.x, resultsZA.stdev.x, resultsZA.meanErr.z, resultsZA.stdev.z);
 	dbgprintf("Only QI:   X= %f. stdev: %f\tZ=%f,  stdev: %f\n", resultsQI.meanErr.x, resultsQI.stdev.x, resultsQI.meanErr.z, resultsQI.stdev.z);
 }
-
 
 void TestFourierLUTOnDataset()
 {
@@ -679,7 +672,6 @@ void TestZLUTAlign()
 	dbgprintf("ZLUTAlign: X= %f. stdev: %f\tZ=%f,  stdev: %f\n", resultsZA.meanErr.x, resultsZA.stdev.x, resultsZA.meanErr.z, resultsZA.stdev.z);
 	dbgprintf("Only QI:   X= %f. stdev: %f\tZ=%f,  stdev: %f\n", resultsQI.meanErr.x, resultsQI.stdev.x, resultsQI.meanErr.z, resultsQI.stdev.z);
 }
-
 
 void TestQuadrantAlign()
 {
@@ -776,9 +768,6 @@ void GenerateZLUTFittingCurve(const char *lutfile)
 
 void BenchmarkParams();
 
-
-
-
 static SpeedAccResult AccBiasTest(ImageData& lut, QueuedTracker *trk, int N, vector3f centerpos, vector3f range, const char *name, int MaxPixelValue, int extraFlags=0)
 {
 	typedef QueuedTracker TrkType;
@@ -828,7 +817,6 @@ static SpeedAccResult AccBiasTest(ImageData& lut, QueuedTracker *trk, int N, vec
 	r.crlb = sqrt(fisher.Inverse().diag());
 	return r;
 }
-
 
 void ScatterBiasArea(int roi, float scan_width, int steps, int samples, int qi_it, float angstep)
 {
@@ -889,12 +877,233 @@ void ScatterBiasArea(int roi, float scan_width, int steps, int samples, int qi_i
 	lut.free();
 }
 
+void GetFormattedTimeString(char* output)
+{
+	time_t rawtime;
+	struct tm * timeinfo;
+	time(&rawtime);
+	timeinfo = localtime(&rawtime);
+	sprintf(output, "%02d%02d%02d-%02d%02d%02d",timeinfo->tm_year-100,timeinfo->tm_mon+1,timeinfo->tm_mday,timeinfo->tm_hour,timeinfo->tm_min,timeinfo->tm_sec);
+}
+
+#define OutputConsole			1
+#define OutputFile				2
+#define OutputConsoleAndFile	3
+#define OutputImages			4
+class outputter
+{
+public:
+	outputter(int mode = 1, const char* fileName = "OutputFile")	{ init(mode, fileName); }
+
+	~outputter(){
+		if(modes.File)
+			fclose(outputFile);	
+	}
+
+	void outputString(const char* out){
+		if(modes.Console){
+			printf_s("%s\n", out);
+		}
+
+		if(modes.File){
+			fprintf_s(outputFile,"%s\n",out);
+		}
+	}
+
+	void outputImage(ImageData img, const char* filename){
+		if(modes.Images){
+			char buf[256];
+			sprintf(buf,"%s%s",folder,filename);
+			FloatToJPEGFile(buf,img.data,img.w,img.h);
+		}
+	}
+
+private:
+	void init(int mode, const char* FileName){
+		modes.Console	= mode & OutputConsole;
+		modes.File		= mode & OutputFile;
+		modes.Images	= mode & OutputImages;
+		
+		if(!modes.Console && !modes.File){
+			modes.Console = true;
+			printf_s("No output mode selected, using console by default.\nUse output mode 1 for Console, 2 for File and 3 for both.\n");
+		}
+
+		if(modes.File || modes.Images){
+			char date[14];
+			GetFormattedTimeString(date);
+			folder=(char *)malloc(128*sizeof(char));
+			sprintf(folder,"D:\\TestImages\\TestOutput\\%s\\",date);
+			CreateDirectory((LPCTSTR)folder,NULL);
+		}
+
+		if(modes.File){
+			char outfile[64];
+			sprintf(outfile,"%s%s.txt",folder,FileName);
+			outputFile = fopen(outfile,"w+");
+		}
+	}
+	struct outputModes{
+		bool File;
+		bool Console;
+		bool Images;
+	};
+	outputModes modes;
+	FILE* outputFile;
+	char* folder;
+};
+
+ImageData CropImage(ImageData img, int x, int y, int w, int h, outputter* output = NULL)
+{
+	ImageData croppedImg = ImageData::alloc(w,h);
+
+	if( x < 0 || y < 0 || x + w > img.w || y + h > img.h){
+		if(output){
+			char buf[256];
+			sprintf(buf,"Cropping error, using original image.\nCrop settings: x: %d, y: %d, w: %d, h: %d, img.w: %d, img.h: %d\n",x,y,w,h,img.w,img.h);
+			output->outputString(buf);
+		}
+		return img;
+	}
+
+	for(int x_i = x; x_i < x+w; x_i++){
+		for(int y_i = y; y_i < y+h; y_i++){
+			//printf_s("crop x: %d, y: %d, tot: %d; img x: %d, y: %d, tot: %d",x_i-x,y_i-y,(x_i-x)+w*(y_i-y),(x_i),y_i,x_i+img.w*y_i);
+			croppedImg.data[x_i-x+(y_i-y)*w] = img.data[x_i+img.w*y_i];
+		}
+	}
+	return croppedImg;
+}
+
+ImageData ResizeImage(ImageData img, int factor)
+{
+	ImageData resizedImg = ImageData::alloc(img.w*factor,img.h*factor);
+	resizedImg.w = img.w*factor;
+	resizedImg.h = img.h*factor;
+
+	for(int x_i=0;x_i<img.w;x_i++){
+		for(int y_i=0;y_i<img.h;y_i++){
+			for(int x_fact=0;x_fact<factor;x_fact++){
+				for(int y_fact=0;y_fact<factor;y_fact++){
+					resizedImg.data[x_i*factor+x_fact+(y_i*factor+y_fact)*resizedImg.w] = img.data[x_i+y_i*img.w];
+				}
+			}
+		}
+	}
+	return resizedImg;
+}
+
+void TestCOMAndQI(const char* image, int OutputMode)
+{
+	bool SaveEveryImage = true;
+	
+	char buf[256];
+	const char* imgname = image;
+	ImageData oriImg = ReadJPEGFile(imgname);
+
+	// Get only filename without path
+	/*std::string str = std::string(imgname);
+	size_t pos = str.find_last_of("\\");
+	str = str.substr(pos+1);*/
+	outputter* output = new outputter(OutputMode);
+
+	sprintf(buf,"Using file %s",imgname);
+	output->outputString(buf);
+
+	int initX = 1613;
+	int initY = 1426;
+	int ROISize = 80;
+
+	sprintf(buf,"Using settings x: %d, y: %d, ROI: %d",initX,initY,ROISize);
+	output->outputString(buf);
+
+	for(int x_i = 0; x_i < 100; x_i ++){
+		int x = initX+x_i;
+		int y = initY;
+		ImageData img = CropImage(oriImg,x,y,ROISize,ROISize,output);
+		
+		sprintf(buf,"%d - ROI (%d,%d) -> (%d,%d)",x_i,x,y,x+ROISize,y+ROISize);
+		output->outputString(buf);
+		
+		CPUTracker trk(img.w,img.h);
+		trk.SetImageFloat(img.data);
+		sprintf(buf,"Crop-%d.jpg",x_i);
+		output->outputImage(img,buf);
+		vector2f com = trk.ComputeMeanAndCOM();
+		sprintf(buf,"%f %f",com.x,com.y);
+		output->outputString(buf);
+
+		vector2f initial(com.x, com.y);
+
+		if(SaveEveryImage){
+				ImageData curImage = ImageData::alloc(img.w,img.h);
+				img.copyTo(curImage.data);
+				curImage.w = img.w;
+				curImage.h = img.h;
+
+				ImageData resImage = ResizeImage(curImage,10);
+				
+				//curImage.data[((int)com.x)+((int)com.y)*img.w] = 0;
+				//sprintf(buf,"Crop-%d-%s.jpg",x_i,"COM");
+				//output->outputImage(curImage,buf);
+
+				for(int i = -3; i<=3; i++){
+					resImage.data[((int)(com.x*10)+i)+((int)(com.y*10))*img.w*10] = 0;
+					resImage.data[((int)(com.x*10))+((int)(com.y*10)+i)*img.w*10] = 0;
+				}
+				sprintf(buf,"Crop-%d-res-%s.jpg",x_i,"COM");
+				output->outputImage(resImage,buf);
+
+
+				delete[] curImage.data;
+				delete[] resImage.data;
+		}
+
+		bool boundaryHit = false;
+		for(int qi_iterations = 1; qi_iterations < 10; qi_iterations++){
+			vector2f qi = trk.ComputeQI(initial, qi_iterations, 64, 16,ANGSTEPF, 5,50, boundaryHit);
+			sprintf(buf,"%f %f",qi.x,qi.y);
+			output->outputString(buf);
+			boundaryHit = false;
+
+			if(SaveEveryImage){
+				ImageData curImage = ImageData::alloc(img.w,img.h);
+				img.copyTo(curImage.data);
+				curImage.w = img.w;
+				curImage.h = img.h;
+				//curImage.data[((int)qi.x)+((int)qi.y)*img.w] = 0;
+				//sprintf(buf,"Crop-%d-%d.jpg",x_i,qi_iterations);
+				//output->outputImage(curImage,buf);
+
+				ImageData resImage = ResizeImage(curImage,10);
+				for(int i = -3; i<=3; i++){
+					resImage.data[((int)(com.x*10)+i)+((int)(com.y*10))*img.w*10] = 0;
+					resImage.data[((int)(com.x*10))+((int)(com.y*10)+i)*img.w*10] = 0;
+				}
+				sprintf(buf,"Crop-%d-res-%d.jpg",x_i,qi_iterations);
+				output->outputImage(resImage,buf);
+
+				delete[] curImage.data;
+				delete[] resImage.data;
+			}
+
+		}
+		delete[] img.data;
+	}
+
+	delete[] oriImg.data;
+	delete output;
+}
 
 int main()
 {
 #ifdef _DEBUG
 //	Matrix3X3::test();
 #endif
+	
+	TestCOMAndQI("D:\\TestImages\\img00095.jpg", OutputFile+OutputImages);
+
+	
 //	SimpleTest();
 
 //	GenerateZLUTFittingCurve("lut000.jpg");
@@ -912,12 +1121,12 @@ int main()
 	TestZRange("zrange\\lut169ref-c","zrange\\exp_qi.radialzlut#169", 0, 0, RWStetson, false, true);
 	TestZRange("zrange\\lut013tether","zrange\\exp_qi.radialzlut#13", 0, 0, RWStetson, false, false);
 	TestZRange("zrange\\lut013tether-c","zrange\\exp_qi.radialzlut#13", 0, 0, RWStetson, false, true);*/
-
+/*
 	TestZRange("zrange\\longlut1-c","zrange\\long.radialzlut#1", 0,0, RWStetson, false, true);
 	TestZRange("zrange\\longlut1","zrange\\long.radialzlut#1", 0,0, RWStetson, false, false);
 	TestZRange("zrange\\longlut3-c","zrange\\long.radialzlut#3", 0,0, RWStetson, false, true);
 	TestZRange("zrange\\longlut3","zrange\\long.radialzlut#3", 0,0, RWStetson, false, false);
-
+*/
 	//TestZRange("cleanlut1", "lut000.jpg", LT_LocalizeZWeighted, 0);
 	//TestZRange("cleanlut1", "lut000.jpg", LT_LocalizeZWeighted, 1);
 	//TestZRange("cleanlut10", "lut10.jpg", LT_LocalizeZWeighted, 1);
