@@ -896,6 +896,7 @@ public:
 	~outputter(){
 		if(modes.File)
 			fclose(outputFile);	
+		free(folder);
 	}
 
 	void outputString(const char* out){
@@ -1016,24 +1017,25 @@ void TestCOMAndQI(const char* image, int OutputMode)
 	output->outputString(buf);
 
 	for(int x_i = -ROISize; x_i <= ROISize; x_i ++){
-		int x = initX+x_i;
-		int y = initY;
-		ImageData img = CropImage(oriImg,x,y,ROISize,ROISize,output);
+		for(int y_i = -ROISize; y_i <= ROISize; y_i ++){
+			int x = initX+x_i;
+			int y = initY+y_i;
+			ImageData img = CropImage(oriImg,x,y,ROISize,ROISize,output);
 		
-		sprintf(buf,"%d - ROI (%d,%d) -> (%d,%d)",x_i,x,y,x+ROISize,y+ROISize);
-		output->outputString(buf);
+			sprintf(buf,"%d,%d - ROI (%d,%d) -> (%d,%d)",x_i,y_i,x,y,x+ROISize,y+ROISize);
+			output->outputString(buf);
 		
-		CPUTracker trk(img.w,img.h);
-		trk.SetImageFloat(img.data);
-		sprintf(buf,"Crop-%d.jpg",x);
-		output->outputImage(img,buf);
-		vector2f com = trk.ComputeMeanAndCOM();
-		sprintf(buf,"%f %f",com.x,com.y);
-		output->outputString(buf);
+			CPUTracker trk(img.w,img.h);
+			trk.SetImageFloat(img.data);
+			sprintf(buf,"Crop-%d,%d.jpg",x,y);
+			output->outputImage(img,buf);
+			vector2f com = trk.ComputeMeanAndCOM();
+			sprintf(buf,"%f %f",com.x,com.y);
+			output->outputString(buf);
 
-		vector2f initial(com.x, com.y);
+			vector2f initial(com.x, com.y);
 
-		if(SaveEveryImage){
+			if(SaveEveryImage){
 				ImageData curImage = ImageData::alloc(img.w,img.h);
 				img.copyTo(curImage.data);
 				curImage.w = img.w;
@@ -1055,38 +1057,39 @@ void TestCOMAndQI(const char* image, int OutputMode)
 
 				delete[] curImage.data;
 				delete[] resImage.data;
-		}
-
-		bool boundaryHit = false;
-		for(int qi_iterations = 1; qi_iterations < 10; qi_iterations++){
-			vector2f qi = trk.ComputeQI(initial, qi_iterations, 64, 16,ANGSTEPF, 5,50, boundaryHit);
-			sprintf(buf,"%f %f",qi.x,qi.y);
-			output->outputString(buf);
-			boundaryHit = false;
-
-			if(SaveEveryImage){
-				ImageData curImage = ImageData::alloc(img.w,img.h);
-				img.copyTo(curImage.data);
-				curImage.w = img.w;
-				curImage.h = img.h;
-				//curImage.data[((int)qi.x)+((int)qi.y)*img.w] = 0;
-				//sprintf(buf,"Crop-%d-%d.jpg",x_i,qi_iterations);
-				//output->outputImage(curImage,buf);
-
-				ImageData resImage = ResizeImage(curImage,10);
-				for(int i = -3; i<=3; i++){
-					resImage.data[((int)(qi.x*10)+i)+((int)(qi.y*10))*img.w*10] = 0;
-					resImage.data[((int)(qi.x*10))+((int)(qi.y*10)+i)*img.w*10] = 0;
-				}
-				sprintf(buf,"Crop-%d-res-%d.jpg",x_i,qi_iterations);
-				output->outputImage(resImage,buf);
-
-				delete[] curImage.data;
-				delete[] resImage.data;
 			}
 
+			bool boundaryHit = false;
+			for(int qi_iterations = 1; qi_iterations < 10; qi_iterations++){
+				vector2f qi = trk.ComputeQI(initial, qi_iterations, 64, 16,ANGSTEPF, 5,50, boundaryHit);
+				sprintf(buf,"%f %f",qi.x,qi.y);
+				output->outputString(buf);
+				boundaryHit = false;
+
+				if(SaveEveryImage){
+					ImageData curImage = ImageData::alloc(img.w,img.h);
+					img.copyTo(curImage.data);
+					curImage.w = img.w;
+					curImage.h = img.h;
+					//curImage.data[((int)qi.x)+((int)qi.y)*img.w] = 0;
+					//sprintf(buf,"Crop-%d-%d.jpg",x_i,qi_iterations);
+					//output->outputImage(curImage,buf);
+
+					ImageData resImage = ResizeImage(curImage,10);
+					for(int i = -3; i<=3; i++){
+						resImage.data[((int)(qi.x*10)+i)+((int)(qi.y*10))*img.w*10] = 0;
+						resImage.data[((int)(qi.x*10))+((int)(qi.y*10)+i)*img.w*10] = 0;
+					}
+					sprintf(buf,"Crop-%d-res-%d.jpg",x_i,qi_iterations);
+					output->outputImage(resImage,buf);
+
+					delete[] curImage.data;
+					delete[] resImage.data;
+				}
+
+			}
+			delete[] img.data;
 		}
-		delete[] img.data;
 	}
 
 	delete[] oriImg.data;
