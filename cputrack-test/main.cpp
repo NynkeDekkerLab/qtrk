@@ -12,8 +12,6 @@
 #include <fstream>
 #include <string>
 
-
-
 #include "SharedTests.h"
 
 template<typename T> T sq(T x) { return x*x; }
@@ -926,7 +924,7 @@ private:
 		
 		if(!modes.Console && !modes.File){
 			modes.Console = true;
-			printf_s("No output mode selected, using console by default.\nUse output mode 1 for Console, 2 for File and 3 for both.\n");
+			printf_s("No output mode selected, using console by default.\n");
 		}
 
 		if(modes.File || modes.Images){
@@ -995,7 +993,7 @@ ImageData ResizeImage(ImageData img, int factor)
 
 void TestCOMAndQI(const char* image, int OutputMode)
 {
-	bool SaveEveryImage = true;
+	bool SaveEveryImage = false;
 	
 	char buf[256];
 	const char* imgname = image;
@@ -1017,7 +1015,7 @@ void TestCOMAndQI(const char* image, int OutputMode)
 	sprintf(buf,"Using settings x: %d, y: %d, ROI: %d",initX,initY,ROISize);
 	output->outputString(buf);
 
-	for(int x_i = 0; x_i < 100; x_i ++){
+	for(int x_i = -ROISize; x_i <= ROISize; x_i ++){
 		int x = initX+x_i;
 		int y = initY;
 		ImageData img = CropImage(oriImg,x,y,ROISize,ROISize,output);
@@ -1027,7 +1025,7 @@ void TestCOMAndQI(const char* image, int OutputMode)
 		
 		CPUTracker trk(img.w,img.h);
 		trk.SetImageFloat(img.data);
-		sprintf(buf,"Crop-%d.jpg",x_i);
+		sprintf(buf,"Crop-%d.jpg",x);
 		output->outputImage(img,buf);
 		vector2f com = trk.ComputeMeanAndCOM();
 		sprintf(buf,"%f %f",com.x,com.y);
