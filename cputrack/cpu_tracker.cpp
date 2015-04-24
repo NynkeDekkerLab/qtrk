@@ -605,7 +605,6 @@ float CPUTracker::ComputeAsymmetry(vector2f center, int radialSteps, int angular
 	if (!dstAngProf) 
 		dstAngProf = (float*)ALLOCA(sizeof(float)*radialSteps);
 
-	double totalrmssum2 = 0.0f;
 	float rstep = (maxRadius-minRadius) / radialSteps;
 
 	for (int a=0;a<angularSteps;a++) {

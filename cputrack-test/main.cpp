@@ -9,8 +9,11 @@
 #include "../cputrack/BenchmarkLUT.h"
 #include "../cputrack/CubicBSpline.h"
 #include <time.h>
-#include <fstream>
 #include <string>
+#include <stdio.h>
+#include <iostream>
+#include <fstream>
+#include <sstream>
 
 #include "SharedTests.h"
 
@@ -875,6 +878,8 @@ void ScatterBiasArea(int roi, float scan_width, int steps, int samples, int qi_i
 	lut.free();
 }
 
+std::string int2str(int a) { return std::to_string(static_cast<long long>(a)); } // Needed because int overload of to_string does not yet exist in used compiler
+
 void GetFormattedTimeString(char* output)
 {
 	time_t rawtime;
@@ -891,38 +896,49 @@ void GetFormattedTimeString(char* output)
 class outputter
 {
 public:
-	outputter(int mode = 1, const char* fileName = "OutputFile")	{ init(mode, fileName); }
+	outputter(int mode = 1)	{ init(mode); }
 
 	~outputter(){
 		if(modes.File)
 			fclose(outputFile);	
-		free(folder);
 	}
 
-	void outputString(const char* out){
+	void outputString(std::string out){
 		if(modes.Console){
-			printf_s("%s\n", out);
+			std::cout << out << std::endl;
 		}
 
 		if(modes.File){
-			fprintf_s(outputFile,"%s\n",out);
+			if(!outputFile)
+				newFile("OutputFile");
+			fprintf_s(outputFile,"%s\n",out.c_str());
 		}
 	}
 
-	void outputImage(ImageData img, const char* filename){
+	void outputImage(ImageData img, std::string filename = "UsedImage"){
 		if(modes.Images){
-			char buf[256];
-			sprintf(buf,"%s%s",folder,filename);
-			FloatToJPEGFile(buf,img.data,img.w,img.h);
+			std::string file = folder + filename + ".jpg";
+			FloatToJPEGFile(file.c_str(),img.data,img.w,img.h);
+		}
+	}
+
+	void newFile(std::string filename){
+		if(modes.File){
+			if(outputFile)
+				fclose(outputFile);
+			std::string outfile = folder + filename + ".txt";
+			outputFile = fopen(outfile.c_str(),"w+");
 		}
 	}
 
 private:
-	void init(int mode, const char* FileName){
+	void init(int mode){
 		modes.Console	= mode & OutputConsole;
 		modes.File		= mode & OutputFile;
 		modes.Images	= mode & OutputImages;
 		
+		outputFile	= NULL;
+
 		if(!modes.Console && !modes.File){
 			modes.Console = true;
 			printf_s("No output mode selected, using console by default.\n");
@@ -931,15 +947,8 @@ private:
 		if(modes.File || modes.Images){
 			char date[14];
 			GetFormattedTimeString(date);
-			folder=(char *)malloc(128*sizeof(char));
-			sprintf(folder,"D:\\TestImages\\TestOutput\\%s\\",date);
-			CreateDirectory((LPCTSTR)folder,NULL);
-		}
-
-		if(modes.File){
-			char outfile[64];
-			sprintf(outfile,"%s%s.txt",folder,FileName);
-			outputFile = fopen(outfile,"w+");
+			folder = "D:\\TestImages\\TestOutput\\" + std::string(date) + "\\";
+			CreateDirectory((LPCTSTR)folder.c_str(),NULL);
 		}
 	}
 	struct outputModes{
@@ -949,7 +958,7 @@ private:
 	};
 	outputModes modes;
 	FILE* outputFile;
-	char* folder;
+	std::string folder;
 };
 
 ImageData CropImage(ImageData img, int x, int y, int w, int h, outputter* output = NULL)
@@ -960,15 +969,16 @@ ImageData CropImage(ImageData img, int x, int y, int w, int h, outputter* output
 		if(output){
 			char buf[256];
 			sprintf(buf,"Cropping error, using original image.\nCrop settings: x: %d, y: %d, w: %d, h: %d, img.w: %d, img.h: %d\n",x,y,w,h,img.w,img.h);
-			output->outputString(buf);
+			std::string out = "Cropping error, using original image.\nCrop settings: x: ";
+			out += int2str(x) + " y: " + int2str(y) + " w: " + int2str(w) + " img.w: " + int2str(img.w) + " img.h: " + int2str(img.h);
+			output->outputString(out);
 		}
 		return img;
 	}
 
 	for(int x_i = x; x_i < x+w; x_i++){
 		for(int y_i = y; y_i < y+h; y_i++){
-			//printf_s("crop x: %d, y: %d, tot: %d; img x: %d, y: %d, tot: %d",x_i-x,y_i-y,(x_i-x)+w*(y_i-y),(x_i),y_i,x_i+img.w*y_i);
-			croppedImg.data[x_i-x+(y_i-y)*w] = img.data[x_i+img.w*y_i];
+			croppedImg.at(x_i-x,y_i-y) = img.at(x_i,y_i);
 		}
 	}
 	return croppedImg;
@@ -977,14 +987,12 @@ ImageData CropImage(ImageData img, int x, int y, int w, int h, outputter* output
 ImageData ResizeImage(ImageData img, int factor)
 {
 	ImageData resizedImg = ImageData::alloc(img.w*factor,img.h*factor);
-	resizedImg.w = img.w*factor;
-	resizedImg.h = img.h*factor;
-
+	
 	for(int x_i=0;x_i<img.w;x_i++){
 		for(int y_i=0;y_i<img.h;y_i++){
 			for(int x_fact=0;x_fact<factor;x_fact++){
 				for(int y_fact=0;y_fact<factor;y_fact++){
-					resizedImg.data[x_i*factor+x_fact+(y_i*factor+y_fact)*resizedImg.w] = img.data[x_i+y_i*img.w];
+					resizedImg.at(x_i*factor+x_fact,y_i*factor+y_fact) = img.at(x_i,y_i);
 				}
 			}
 		}
@@ -992,13 +1000,30 @@ ImageData ResizeImage(ImageData img, int factor)
 	return resizedImg;
 }
 
+
+ImageData AddImages(ImageData img1, ImageData img2, vector2f displacement)
+{
+	ImageData addedImg = ImageData::alloc(img1.w,img1.h);
+
+	for(int x_i=0;x_i<img1.w;x_i++){
+		for(int y_i=0;y_i<img2.h;y_i++){
+			if(x_i-displacement.x > 0 && x_i-displacement.x < img1.w && y_i-displacement.y > 0 && y_i-displacement.y < img1.h) {
+				addedImg.at(x_i,y_i) = ( img1.at(x_i,y_i) + img2.at(x_i-displacement.x,y_i-displacement.y) )/2;
+			} else {
+				addedImg.at(x_i,y_i) = img1.at(x_i,y_i);
+			}
+		}
+	}
+	return addedImg;
+}
+
 void TestCOMAndQI(const char* image, int OutputMode)
 {
 	bool SaveEveryImage = false;
 	
 	char buf[256];
-	const char* imgname = image;
-	ImageData oriImg = ReadJPEGFile(imgname);
+	std::string out;
+	ImageData oriImg = ReadJPEGFile(image);
 
 	// Get only filename without path
 	/*std::string str = std::string(imgname);
@@ -1006,94 +1031,225 @@ void TestCOMAndQI(const char* image, int OutputMode)
 	str = str.substr(pos+1);*/
 	outputter* output = new outputter(OutputMode);
 
-	sprintf(buf,"Using file %s",imgname);
-	output->outputString(buf);
+	int ROISize = 120;
+	int displacements = 0;
 
-	int initX = 1613;
-	int initY = 1426;
-	int ROISize = 80;
-
-	sprintf(buf,"Using settings x: %d, y: %d, ROI: %d",initX,initY,ROISize);
-	output->outputString(buf);
-
-	for(int x_i = -ROISize; x_i <= ROISize; x_i ++){
-		for(int y_i = -ROISize; y_i <= ROISize; y_i ++){
-			int x = initX+x_i;
-			int y = initY+y_i;
-			ImageData img = CropImage(oriImg,x,y,ROISize,ROISize,output);
+	FILE* beadlist = fopen("D:\\TestImages\\beadlist.txt","r");
+	if(!beadlist)
+		return output->outputString("Error reading beadlist");
+	while(!feof(beadlist)){
+		int initX = 0;
+		int initY = 0;
+		fscanf(beadlist,"%d\t%d\n",&initX,&initY);
 		
-			sprintf(buf,"%d,%d - ROI (%d,%d) -> (%d,%d)",x_i,y_i,x,y,x+ROISize,y+ROISize);
-			output->outputString(buf);
+		out = "QI-"+int2str(initX)+","+int2str(initY);
+		output->newFile(out);
 		
-			CPUTracker trk(img.w,img.h);
-			trk.SetImageFloat(img.data);
-			sprintf(buf,"Crop-%d,%d.jpg",x,y);
-			output->outputImage(img,buf);
-			vector2f com = trk.ComputeMeanAndCOM();
-			sprintf(buf,"%f %f",com.x,com.y);
-			output->outputString(buf);
+		out = "Using file " + std::string(image);
+		output->outputString(out);
+		out = "Using settings x: "+int2str(initX)+", y: "+int2str(initY)+", ROI: "+int2str(ROISize);
+		output->outputString(out);
 
-			vector2f initial(com.x, com.y);
+		//float* dstAngProf = (float*)ALLOCA(sizeof(float)*64);
 
-			if(SaveEveryImage){
-				ImageData curImage = ImageData::alloc(img.w,img.h);
-				img.copyTo(curImage.data);
-				curImage.w = img.w;
-				curImage.h = img.h;
-
-				ImageData resImage = ResizeImage(curImage,10);
-				
-				//curImage.data[((int)com.x)+((int)com.y)*img.w] = 0;
-				//sprintf(buf,"Crop-%d-%s.jpg",x_i,"COM");
-				//output->outputImage(curImage,buf);
-
-				for(int i = -3; i<=3; i++){
-					resImage.data[((int)(com.x*10)+i)+((int)(com.y*10))*img.w*10] = 0;
-					resImage.data[((int)(com.x*10))+((int)(com.y*10)+i)*img.w*10] = 0;
-				}
-				sprintf(buf,"Crop-%d-res-%s.jpg",x_i,"COM");
-				output->outputImage(resImage,buf);
-
-
-				delete[] curImage.data;
-				delete[] resImage.data;
-			}
-
-			bool boundaryHit = false;
-			for(int qi_iterations = 1; qi_iterations < 10; qi_iterations++){
-				vector2f qi = trk.ComputeQI(initial, qi_iterations, 64, 16,ANGSTEPF, 5,50, boundaryHit);
-				sprintf(buf,"%f %f",qi.x,qi.y);
+		for(int x_i = -displacements; x_i <= displacements; x_i ++){
+			for(int y_i = -displacements; y_i <= displacements; y_i ++){
+				int x = initX + x_i - ROISize/2;
+				int y = initY + y_i - ROISize/2;
+				ImageData img = CropImage(oriImg,x,y,ROISize,ROISize,output);
+				sprintf(buf,"Crop-%d,%d",x,y);
+				output->outputImage(img,buf);
+				sprintf(buf,"%d,%d - ROI (%d,%d) -> (%d,%d)",x_i,y_i,x,y,x+ROISize,y+ROISize);
 				output->outputString(buf);
-				boundaryHit = false;
+		
+				CPUTracker trk(img.w,img.h);
+				trk.SetImageFloat(img.data);
+				vector2f com = trk.ComputeMeanAndCOM();
+				//float asym = trk.ComputeAsymmetry(com,64,64,5,50,dstAngProf);
+				sprintf(buf,"%f %f",com.x,com.y);
+				output->outputString(buf);
 
-				if(SaveEveryImage){
+				vector2f initial(com.x, com.y);
+
+				/*if(SaveEveryImage){
 					ImageData curImage = ImageData::alloc(img.w,img.h);
 					img.copyTo(curImage.data);
 					curImage.w = img.w;
 					curImage.h = img.h;
-					//curImage.data[((int)qi.x)+((int)qi.y)*img.w] = 0;
-					//sprintf(buf,"Crop-%d-%d.jpg",x_i,qi_iterations);
-					//output->outputImage(curImage,buf);
 
 					ImageData resImage = ResizeImage(curImage,10);
+				
+					//curImage.data[((int)com.x)+((int)com.y)*img.w] = 0;
+					//sprintf(buf,"Crop-%d-%s",x_i,"COM");
+					//output->outputImage(curImage,buf);
+
 					for(int i = -3; i<=3; i++){
-						resImage.data[((int)(qi.x*10)+i)+((int)(qi.y*10))*img.w*10] = 0;
-						resImage.data[((int)(qi.x*10))+((int)(qi.y*10)+i)*img.w*10] = 0;
+						resImage.data[((int)(com.x*10)+i)+((int)(com.y*10))*img.w*10] = 0;
+						resImage.data[((int)(com.x*10))+((int)(com.y*10)+i)*img.w*10] = 0;
 					}
-					sprintf(buf,"Crop-%d-res-%d.jpg",x_i,qi_iterations);
+					sprintf(buf,"Crop-%d-res-%s",x_i,"COM");
 					output->outputImage(resImage,buf);
 
-					delete[] curImage.data;
-					delete[] resImage.data;
-				}
 
+					curImage.free();
+					resImage.free();
+				}*/
+
+				bool boundaryHit = false;
+				for(int qi_iterations = 1; qi_iterations < 10; qi_iterations++){
+					vector2f qi = trk.ComputeQI(initial, qi_iterations, 64, 16,ANGSTEPF, 5,50, boundaryHit);
+					//float asym = trk.ComputeAsymmetry(qi,64,64,5,50,dstAngProf);
+					sprintf(buf,"%f %f",qi.x,qi.y);
+					output->outputString(buf);
+					boundaryHit = false;
+
+					/*if(SaveEveryImage){
+						ImageData curImage = ImageData::alloc(img.w,img.h);
+						img.copyTo(curImage.data);
+						curImage.w = img.w;
+						curImage.h = img.h;
+						//curImage.data[((int)qi.x)+((int)qi.y)*img.w] = 0;
+						//sprintf(buf,"Crop-%d-%d",x_i,qi_iterations);
+						//output->outputImage(curImage,buf);
+
+						ImageData resImage = ResizeImage(curImage,10);
+						for(int i = -3; i<=3; i++){
+							resImage.data[((int)(qi.x*10)+i)+((int)(qi.y*10))*img.w*10] = 0;
+							resImage.data[((int)(qi.x*10))+((int)(qi.y*10)+i)*img.w*10] = 0;
+						}
+						sprintf(buf,"Crop-%d-res-%d",x_i,qi_iterations);
+						output->outputImage(resImage,buf);
+
+						curImage.free();
+						resImage.free();
+					}*/
+
+				}
+				img.free();
 			}
-			delete[] img.data;
 		}
 	}
-
-	delete[] oriImg.data;
+	fclose(beadlist);
+	oriImg.free();
 	delete output;
+}
+
+void TestInterference(const char* image, int OutputMode)
+{
+	char buf[256];
+	ImageData oriImg = ReadJPEGFile(image);
+	outputter* output = new outputter(OutputMode);
+	
+	sprintf(buf,"Using file %s",image);
+	output->outputString(buf);
+
+	int ROISize = 120;
+	vector2f displacement = vector2f(60,0);
+
+	ImageData added = AddImages(oriImg,oriImg,displacement);
+	output->outputImage(added,"Added");
+
+	FILE* beadlist = fopen("D:\\TestImages\\beadlist.txt","r");
+	if(!beadlist)
+		return output->outputString("Error reading beadlist");
+	while(!feof(beadlist))
+	{
+		int initX = 0;
+		int initY = 0;
+		fscanf(beadlist,"%d\t%d\n",&initX,&initY);
+		
+		sprintf(buf,"Interference-%d,%d",initX,initY);
+		output->newFile(buf);
+		
+		sprintf(buf,"Using settings x: %d, y: %d, ROI: %d",initX,initY,ROISize);
+		output->outputString(buf);
+
+		int x = initX - ROISize/2;
+		int y = initY - ROISize/2;
+		
+		ImageData source = CropImage(added,x,y,ROISize,ROISize,output);
+		sprintf(buf,"Interference-%d,%d",x,y);
+		output->outputImage(source,buf);
+
+		source.free();
+	}
+	fclose(beadlist);
+	added.free();
+	delete output;
+	oriImg.free();
+}
+
+void TestNoise(const char* image, int OutputMode)
+{
+	char buf[256];
+	ImageData oriImg = ReadJPEGFile(image);
+	outputter* output = new outputter(OutputMode);
+	
+	sprintf(buf,"Using file %s",image);
+	output->outputString(buf);
+
+	int ROISize = 120;
+
+	FILE* beadlist = fopen("D:\\TestImages\\beadlist.txt","r");
+	if(!beadlist)
+		return output->outputString("Error reading beadlist");
+	while(!feof(beadlist))
+	{
+		int initX = 0;
+		int initY = 0;
+		fscanf(beadlist,"%d\t%d\n",&initX,&initY);
+
+		sprintf(buf,"Background-%d,%d",initX,initY);
+		output->newFile(buf);
+
+		int x = initX - ROISize/2;
+		int y = initY - ROISize/2;
+
+		ImageData img = CropImage(oriImg,x,y,ROISize,ROISize,output);
+		ApplyGaussianNoise(img,4*StdDeviation(img.data, img.data + img.w));
+		
+		sprintf(buf,"Background-%d,%d",initX,initY);
+		output->outputImage(img,buf);
+		img.free();
+	}
+
+	oriImg.free();
+}
+
+void PrintMenu()
+{
+	using namespace std;
+	cout << "0. Quit\n";
+	cout << "1. Com and QI\n";
+	cout << "2. Background\n";
+	cout << "?. Menu\n";
+	cout << "Input the number of the test or 0 to quit\n";
+}
+
+void RunTests(const char* image, int OutputMode)
+{
+	ImageData source = ReadJPEGFile(image);
+	outputter* output = new outputter(OutputMode);
+
+	PrintMenu();
+	std::cout << "Select test:\n";
+	int inChar;
+	while(inChar = std::cin.get() != '0'){
+		std::cout << inChar;
+		switch(inChar){
+			case '1':
+				TestCOMAndQI(image,OutputMode);
+				break;
+			default:
+				std::cout << "Wrong input\n";
+			case '?':
+				PrintMenu();
+				break;
+		}
+	}
+	
+	delete output;
+	source.free();
 }
 
 int main()
@@ -1101,9 +1257,10 @@ int main()
 #ifdef _DEBUG
 //	Matrix3X3::test();
 #endif
-	
-	TestCOMAndQI("D:\\TestImages\\img00095.jpg", OutputFile+OutputImages);
-
+//	RunTests("D:\\TestImages\\img00095.jpg", OutputConsole);
+	TestCOMAndQI("D:\\TestImages\\img00095.jpg", OutputConsoleAndFile+OutputImages);
+//	TestInterference("D:\\TestImages\\img00095.jpg", OutputConsole+OutputImages);
+//	TestNoise("D:\\TestImages\\img00095.jpg", OutputConsole+OutputImages);
 	
 //	SimpleTest();
 
@@ -1134,7 +1291,7 @@ int main()
 	//TestZRange("cleanlut10", "lut10.jpg", LT_LocalizeZWeighted, 1);
 	
 //	BenchmarkParams();
-	int N=50;
+//	int N=50;
 	/*ScatterBiasArea(80, 4, 100, N, 3, 1);
 	ScatterBiasArea(80, 4, 100, N, 4, 1);
 	ScatterBiasArea(80, 4, 100, N, 1, 1);
@@ -1177,5 +1334,7 @@ int main()
 	//TestImageLUT();
 
 	//CorrectedRadialProfileTest();
+	
+	system("pause");
 	return 0;
 }
