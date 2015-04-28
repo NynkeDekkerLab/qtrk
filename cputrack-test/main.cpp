@@ -1090,7 +1090,7 @@ void TestROIDisplacement(std::vector<BeadPos> beads, ImageData oriImg, outputter
 
 	for(int ii = 0; ii < beads.size(); ii++){
 
-		out = "ROI-"+int2str(beads.at(ii).x)+","+int2str(beads.at(ii).y);
+		out = ""+int2str(beads.at(ii).x)+","+int2str(beads.at(ii).y)+"-ROI";
 		output->newFile(out);
 		
 		//float* dstAngProf = (float*)ALLOCA(sizeof(float)*64);
@@ -1100,7 +1100,7 @@ void TestROIDisplacement(std::vector<BeadPos> beads, ImageData oriImg, outputter
 				int x = beads.at(ii).x + x_i - ROISize/2;
 				int y = beads.at(ii).y + y_i - ROISize/2;
 				ImageData img = CropImage(oriImg,x,y,ROISize,ROISize,output);
-				sprintf(buf,"%d,%d-Crop",x,y);
+				sprintf(buf,"%d,%d-Crop",beads.at(ii).x + x_i, beads.at(ii).y + y_i);
 				output->outputImage(img,buf);
 				sprintf(buf,"%d,%d - ROI (%d,%d) -> (%d,%d)",x_i,y_i,x,y,x+ROISize,y+ROISize);
 				output->outputString(buf);
@@ -1112,6 +1112,32 @@ void TestROIDisplacement(std::vector<BeadPos> beads, ImageData oriImg, outputter
 	}
 }
 
+void TestInterference(std::vector<BeadPos> beads, ImageData oriImg, outputter* output, int ROISize, vector2f displacement = vector2f(60,0))
+{
+	std::string out;
+	char buf[256];
+
+	ImageData added = AddImages(oriImg,oriImg,displacement);
+	//output->outputImage(added,"Added");
+
+	for(int ii = 0; ii < beads.size(); ii++){
+
+		out = ""+int2str(beads.at(ii).x)+","+int2str(beads.at(ii).y)+"-Inter";
+		output->newFile(out);
+
+		int x = beads.at(ii).x - ROISize/2;
+		int y = beads.at(ii).y - ROISize/2;
+
+		ImageData img = CropImage(added,x,y,ROISize,ROISize,output);
+		sprintf(buf,"%d,%d-Inter",beads.at(ii).x,beads.at(ii).y);
+		output->outputImage(img,buf);
+
+		RunCOMAndQI(img,output);
+		img.free();
+	}
+}
+
+/*
 void TestInterference(const char* image, int OutputMode)
 {
 	char buf[256];
@@ -1155,7 +1181,7 @@ void TestInterference(const char* image, int OutputMode)
 	added.free();
 	delete output;
 	oriImg.free();
-}
+}*/
 
 void TestNoise(const char* image, int OutputMode)
 {
@@ -1215,6 +1241,7 @@ void RunTest(Tests test, const char* image, outputter* output, int ROISize)
 		TestROIDisplacement(beads,source,output,ROISize);
 		break;
 	case Inter:
+		TestInterference(beads,source,output,ROISize);
 		break;
 	case Noise:
 		break;
