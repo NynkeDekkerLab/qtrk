@@ -37,7 +37,6 @@ void RescaleLUT(CPUTracker* trk, ImageData* lut)
 
 }
 
-
 void SpeedTest()
 {
 #ifdef _DEBUG
@@ -889,17 +888,18 @@ void GetFormattedTimeString(char* output)
 	sprintf(output, "%02d%02d%02d-%02d%02d%02d",timeinfo->tm_year-100,timeinfo->tm_mon+1,timeinfo->tm_mday,timeinfo->tm_hour,timeinfo->tm_min,timeinfo->tm_sec);
 }
 
-#define OutputConsole			1
-#define OutputFile				2
-#define OutputConsoleAndFile	3
-#define OutputImages			4
+enum OutputModes{
+	Console = 1,
+	Files = 2,
+	Images = 4
+};
 class outputter
 {
 public:
 	outputter(int mode = 1)	{ init(mode); }
 
 	~outputter(){
-		if(modes.File)
+		if(modes.File && outputFile != NULL)
 			fclose(outputFile);	
 	}
 
@@ -922,6 +922,15 @@ public:
 		}
 	}
 
+	template<typename T>
+	void outputArray(T* arr, int size){
+		std::ostringstream out;
+		for(int ii=0;ii<size;ii++){
+			out << "[" << ii << "] : " << arr[ii] << "\n";
+		}
+		outputString(out.str());
+	}
+
 	void newFile(std::string filename){
 		if(modes.File){
 			if(outputFile)
@@ -933,9 +942,9 @@ public:
 
 private:
 	void init(int mode){
-		modes.Console	= mode & OutputConsole;
-		modes.File		= mode & OutputFile;
-		modes.Images	= mode & OutputImages;
+		modes.Console	= (mode & Console) != 0;
+		modes.File		= (mode & Files) != 0;
+		modes.Images	= (mode & Images) != 0;
 		
 		outputFile	= NULL;
 
@@ -1016,6 +1025,78 @@ ImageData AddImages(ImageData img1, ImageData img2, vector2f displacement)
 	return addedImg;
 }
 
+ImageData GaussMask(ImageData img, float sigma) 
+{
+	ImageData gaussImg = ImageData::alloc(img.w,img.h);
+	vector2f centre = vector2f(img.w/2,img.h/2);
+	for(int x_i=0;x_i<img.w;x_i++){
+		for(int y_i=0;y_i<img.h;y_i++){
+			float gaussfact = expf(- (x_i-centre.x)*(x_i-centre.x) / (2*sigma*sigma) - (y_i-centre.y)*(y_i-centre.y) / (2*sigma*sigma));
+			gaussImg.at(x_i,y_i) = img.at(x_i,y_i)*gaussfact;
+		}
+	}
+
+	return gaussImg;
+}
+
+void GetOuterEdges(float* out,int size, ImageData img){
+	int x,y=0;
+	for(int ii = 0; ii < size; ii++){
+		if(ii < img.w){ // Top
+			x = ii;
+			y = 0;
+		}
+		else if(ii < img.w + img.h - 1){ // Right
+			x = img.w-1;
+			y = ii-(img.w-1);
+		}
+		else if(ii < img.w * 2 + img.h - 2){ // Bottom
+			y = img.h-1;
+			x = ii-(img.h+img.w-1);
+		}
+		else{ // Left
+			x = 0;
+			y = ii-(img.h+img.w*2-3);
+		}
+		out[ii] = img.at(x,y);
+	}
+}
+
+float BackgroundMedian(ImageData img){
+	int size = img.w * 2 + img.h * 2 - 4;
+	float* outeredge = new float[size];
+	GetOuterEdges(outeredge,size,img);
+	std::sort(outeredge,outeredge+size);
+	float median;
+	if(size % 2 == 0)
+		median = (outeredge[(int)(size/2-1)] + outeredge[(int)(size/2+1)])/2;
+	else
+		median = outeredge[size/2];
+	delete[] outeredge;
+	return median;
+}
+
+float BackgroundStdDev(ImageData img){
+	int size = img.w * 2 + img.h * 2 - 4;
+	float* outeredge = new float[size];
+	GetOuterEdges(outeredge,size,img);
+	float stddev = ComputeStdDev(outeredge,size);
+	delete[] outeredge;
+	return stddev;
+}
+
+float BackgroundRMS(ImageData img){
+	int size = img.w * 2 + img.h * 2 - 4;
+	float* outeredge = new float[size];
+	GetOuterEdges(outeredge,size,img);
+	float sqsum = 0.0f;
+	for(int ii = 0; ii < size; ii++){
+		sqsum += outeredge[ii]*outeredge[ii];
+	}
+	delete[] outeredge;
+	return sqrt(1/(float)size*sqsum);
+}
+
 void RunCOMAndQI(ImageData img, outputter* output){
 	char buf[256];
 	CPUTracker trk(img.w,img.h);
@@ -1026,31 +1107,7 @@ void RunCOMAndQI(ImageData img, outputter* output){
 	output->outputString(buf);
 
 	vector2f initial(com.x, com.y);
-
-	/*if(SaveEveryImage){
-		ImageData curImage = ImageData::alloc(img.w,img.h);
-		img.copyTo(curImage.data);
-		curImage.w = img.w;
-		curImage.h = img.h;
-
-		ImageData resImage = ResizeImage(curImage,10);
-				
-		//curImage.data[((int)com.x)+((int)com.y)*img.w] = 0;
-		//sprintf(buf,"Crop-%d-%s",x_i,"COM");
-		//output->outputImage(curImage,buf);
-
-		for(int i = -3; i<=3; i++){
-			resImage.data[((int)(com.x*10)+i)+((int)(com.y*10))*img.w*10] = 0;
-			resImage.data[((int)(com.x*10))+((int)(com.y*10)+i)*img.w*10] = 0;
-		}
-		sprintf(buf,"Crop-%d-res-%s",x_i,"COM");
-		output->outputImage(resImage,buf);
-
-
-		curImage.free();
-		resImage.free();
-	}*/
-
+	
 	bool boundaryHit = false;
 	for(int qi_iterations = 1; qi_iterations < 10; qi_iterations++){
 		vector2f qi = trk.ComputeQI(initial, qi_iterations, 64, 16,ANGSTEPF, 5,50, boundaryHit);
@@ -1058,55 +1115,27 @@ void RunCOMAndQI(ImageData img, outputter* output){
 		sprintf(buf,"%f %f",qi.x,qi.y);
 		output->outputString(buf);
 		boundaryHit = false;
-
-		/*if(SaveEveryImage){
-			ImageData curImage = ImageData::alloc(img.w,img.h);
-			img.copyTo(curImage.data);
-			curImage.w = img.w;
-			curImage.h = img.h;
-			//curImage.data[((int)qi.x)+((int)qi.y)*img.w] = 0;
-			//sprintf(buf,"Crop-%d-%d",x_i,qi_iterations);
-			//output->outputImage(curImage,buf);
-
-			ImageData resImage = ResizeImage(curImage,10);
-			for(int i = -3; i<=3; i++){
-				resImage.data[((int)(qi.x*10)+i)+((int)(qi.y*10))*img.w*10] = 0;
-				resImage.data[((int)(qi.x*10))+((int)(qi.y*10)+i)*img.w*10] = 0;
-			}
-			sprintf(buf,"Crop-%d-res-%d",x_i,qi_iterations);
-			output->outputImage(resImage,buf);
-
-			curImage.free();
-			resImage.free();
-		}*/
-
 	}
 }
 
 void TestROIDisplacement(std::vector<BeadPos> beads, ImageData oriImg, outputter* output, int ROISize, int maxdisplacement = 0)
 {
 	std::string out;
-	char buf[256];
 
-	for(int ii = 0; ii < beads.size(); ii++){
+	for(uint ii = 0; ii < beads.size(); ii++){
 
 		out = ""+int2str(beads.at(ii).x)+","+int2str(beads.at(ii).y)+"-ROI";
 		output->newFile(out);
 		
-		//float* dstAngProf = (float*)ALLOCA(sizeof(float)*64);
-
 		for(int x_i = -maxdisplacement; x_i <= maxdisplacement; x_i++){
 			for(int y_i = -maxdisplacement; y_i <= maxdisplacement; y_i++){
 				int x = beads.at(ii).x + x_i - ROISize/2;
 				int y = beads.at(ii).y + y_i - ROISize/2;
 				ImageData img = CropImage(oriImg,x,y,ROISize,ROISize,output);
-				sprintf(buf,"%d,%d-Crop",beads.at(ii).x + x_i, beads.at(ii).y + y_i);
-				output->outputImage(img,buf);
-				sprintf(buf,"%d,%d - ROI (%d,%d) -> (%d,%d)",x_i,y_i,x,y,x+ROISize,y+ROISize);
-				output->outputString(buf);
-	
+				output->outputImage(img,SPrintf("%d,%d-Crop",beads.at(ii).x + x_i, beads.at(ii).y + y_i));
+				output->outputString(SPrintf("%d,%d - ROI (%d,%d) -> (%d,%d)",x_i,y_i,x,y,x+ROISize,y+ROISize));
 				RunCOMAndQI(img,output);
-				img.free();
+				img.free();				
 			}
 		}
 	}
@@ -1115,12 +1144,11 @@ void TestROIDisplacement(std::vector<BeadPos> beads, ImageData oriImg, outputter
 void TestInterference(std::vector<BeadPos> beads, ImageData oriImg, outputter* output, int ROISize, vector2f displacement = vector2f(60,0))
 {
 	std::string out;
-	char buf[256];
 
 	ImageData added = AddImages(oriImg,oriImg,displacement);
 	//output->outputImage(added,"Added");
 
-	for(int ii = 0; ii < beads.size(); ii++){
+	for(uint ii = 0; ii < beads.size(); ii++){
 
 		out = ""+int2str(beads.at(ii).x)+","+int2str(beads.at(ii).y)+"-Inter";
 		output->newFile(out);
@@ -1129,101 +1157,39 @@ void TestInterference(std::vector<BeadPos> beads, ImageData oriImg, outputter* o
 		int y = beads.at(ii).y - ROISize/2;
 
 		ImageData img = CropImage(added,x,y,ROISize,ROISize,output);
-		sprintf(buf,"%d,%d-Inter",beads.at(ii).x,beads.at(ii).y);
-		output->outputImage(img,buf);
+		output->outputImage(img,SPrintf("%d,%d-Inter",beads.at(ii).x,beads.at(ii).y));
 
 		RunCOMAndQI(img,output);
 		img.free();
 	}
 }
 
-/*
-void TestInterference(const char* image, int OutputMode)
+void TestBackground(std::vector<BeadPos> beads, ImageData oriImg, outputter* output, int ROISize)
 {
-	char buf[256];
-	ImageData oriImg = ReadJPEGFile(image);
-	outputter* output = new outputter(OutputMode);
+	std::string out;
 	
-	sprintf(buf,"Using file %s",image);
-	output->outputString(buf);
-
-	int ROISize = 120;
-	vector2f displacement = vector2f(60,0);
-
-	ImageData added = AddImages(oriImg,oriImg,displacement);
-	output->outputImage(added,"Added");
-
-	FILE* beadlist = fopen("D:\\TestImages\\beadlist.txt","r");
-	if(!beadlist)
-		return output->outputString("Error reading beadlist");
-	while(!feof(beadlist))
-	{
-		int initX = 0;
-		int initY = 0;
-		fscanf(beadlist,"%d\t%d\n",&initX,&initY);
-		
-		sprintf(buf,"Interference-%d,%d",initX,initY);
-		output->newFile(buf);
-		
-		sprintf(buf,"Using settings x: %d, y: %d, ROI: %d",initX,initY,ROISize);
-		output->outputString(buf);
-
-		int x = initX - ROISize/2;
-		int y = initY - ROISize/2;
-		
-		ImageData source = CropImage(added,x,y,ROISize,ROISize,output);
-		sprintf(buf,"Interference-%d,%d",x,y);
-		output->outputImage(source,buf);
-
-		source.free();
-	}
-	fclose(beadlist);
-	added.free();
-	delete output;
-	oriImg.free();
-}*/
-
-void TestNoise(const char* image, int OutputMode)
-{
-	char buf[256];
-	ImageData oriImg = ReadJPEGFile(image);
-	outputter* output = new outputter(OutputMode);
+	out = "Beads-Background";
+	output->newFile(out);
 	
-	sprintf(buf,"Using file %s",image);
-	output->outputString(buf);
-
-	int ROISize = 120;
-
-	FILE* beadlist = fopen("D:\\TestImages\\beadlist.txt","r");
-	if(!beadlist)
-		return output->outputString("Error reading beadlist");
-	while(!feof(beadlist))
-	{
-		int initX = 0;
-		int initY = 0;
-		fscanf(beadlist,"%d\t%d\n",&initX,&initY);
-
-		sprintf(buf,"Background-%d,%d",initX,initY);
-		output->newFile(buf);
-
-		int x = initX - ROISize/2;
-		int y = initY - ROISize/2;
-
+	for(uint ii = 0; ii < beads.size(); ii++){
+		int x = beads.at(ii).x - ROISize/2;
+		int y = beads.at(ii).y - ROISize/2;
 		ImageData img = CropImage(oriImg,x,y,ROISize,ROISize,output);
-		ApplyGaussianNoise(img,4*StdDeviation(img.data, img.data + img.w));
-		
-		sprintf(buf,"Background-%d,%d",initX,initY);
-		output->outputImage(img,buf);
-		img.free();
+		output->outputImage(img,SPrintf("%d,%d-Crop",beads.at(ii).x, beads.at(ii).y));
+		output->outputString(SPrintf("%d,%d-Crop",beads.at(ii).x, beads.at(ii).y));
+		output->outputString(SPrintf("median: %f",BackgroundMedian(img)));
+		output->outputString(SPrintf("sigma: %f",BackgroundStdDev(img)));
+		output->outputString(SPrintf("rms: %f",BackgroundRMS(img)));
+		output->outputString("");
+		img.free();	
 	}
-
-	oriImg.free();
 }
 
 enum Tests{
 	ROIDis,
 	Inter,
-	Noise
+	Noise,
+	Backg
 };
 
 void RunTest(Tests test, const char* image, outputter* output, int ROISize)
@@ -1245,6 +1211,9 @@ void RunTest(Tests test, const char* image, outputter* output, int ROISize)
 		break;
 	case Noise:
 		break;
+	case Backg:
+		TestBackground(beads,source,output,ROISize);
+		break;
 	};
 	source.free();
 }
@@ -1254,7 +1223,9 @@ void PrintMenu(outputter* output)
 	output->outputString("0. Quit",true);
 	output->outputString("1. ROI Displacement",true);
 	output->outputString("2. Interference",true);
-	output->outputString("3. Background",true);
+	output->outputString("3. Noise",true);
+	output->outputString("4. Background",true);
+	output->outputString("r. Change ROI size",true);
 	output->outputString("?. Menu",true);
 }
 
@@ -1285,6 +1256,15 @@ void SelectTests(const char* image, int OutputMode)
 				RunTest(Noise,image,output,ROISize);
 				output->outputString("Test done!",true);
 				break;
+			case '4':
+				RunTest(Backg,image,output,ROISize);
+				output->outputString("Test done!",true);
+				break;
+			case 'R':
+			case 'r':
+				output->outputString(SPrintf("Enter new ROI size (currently %d)",ROISize),true);
+				std::cin >>ROISize;
+				break;
 			default:
 				output->outputString("Wrong input",true);
 			case '?':
@@ -1301,10 +1281,7 @@ int main()
 #ifdef _DEBUG
 //	Matrix3X3::test();
 #endif
-	SelectTests("D:\\TestImages\\img00095.jpg", OutputFile+OutputImages);
-//	TestCOMAndQI("D:\\TestImages\\img00095.jpg", OutputConsoleAndFile+OutputImages);
-//	TestInterference("D:\\TestImages\\img00095.jpg", OutputConsole+OutputImages);
-//	TestNoise("D:\\TestImages\\img00095.jpg", OutputConsole+OutputImages);
+	SelectTests("D:\\TestImages\\img00095.jpg", Files+Images);
 	
 //	SimpleTest();
 
