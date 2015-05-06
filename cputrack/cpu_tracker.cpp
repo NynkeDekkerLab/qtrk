@@ -700,20 +700,25 @@ vector2f CPUTracker::ComputeMeanAndCOM(float bgcorrection)
 	stdev = sqrtf(sum2 * invN - mean * mean);
 	sum = 0.0f;
 
-	float *ymom = ALLOCA_ARRAY(float, width);
+	/*float *ymom = ALLOCA_ARRAY(float, width);
 	float *xmom = ALLOCA_ARRAY(float, height);
 
 	for(int x=0;x<width;x++)
 		ymom[x]=0;
 	for(int y=0;y<height;y++)
-		xmom[y]=0;
+		xmom[y]=0;*/
 
+	vector2f centre = vector2f(width/2,height/2);
+	float sigma = 20;
+	float devi = 1/(2*sigma*sigma);
 	for(int x=0;x<width;x++) {
 		for (int y=0;y<height;y++) {
 			float v = GetPixel(x,y);
-			v = std::max(0.0f, fabs(v-mean)-bgcorrection*stdev);
+			float xabs = (x-centre.x); float yabs = (y-centre.y);
+			float gaussfact = expf(- xabs*xabs*devi - yabs*yabs*devi);
+			v = std::max(0.0f, fabs(v-mean)-bgcorrection*stdev)*gaussfact;
 			sum += v;
-//			xmom[y] += x*v;
+	//		xmom[y] += x*v;
 	//		ymom[x] += y*v;
 			momentX += x*(double)v;
 			momentY += y*(double)v;
