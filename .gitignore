@@ -2,3 +2,14 @@ qtrk.v11.suo
 qtrk.sdf
 qtrk.opensdf
 *.cache
+*.obj
+*.pdb
+*.idb
+*.tlog
+*.lastbuildstate
+*.unsuccessfulbuild
+*.log
+*.user
+*.manifest
+*.rc
+cputrack-test/Debug-Single/cputrack-test-sd.exe.embed.manifest.res
