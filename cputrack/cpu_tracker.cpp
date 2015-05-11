@@ -709,7 +709,7 @@ vector2f CPUTracker::ComputeMeanAndCOM(float bgcorrection)
 		xmom[y]=0;*/
 
 	vector2f centre = vector2f(width/2,height/2);
-	float sigma = 20;
+	float sigma = width/4; // Suppress to 5% at edges
 	float devi = 1/(2*sigma*sigma);
 	for(int x=0;x<width;x++) {
 		for (int y=0;y<height;y++) {
