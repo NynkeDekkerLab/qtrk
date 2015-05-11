@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cudatrack-test", "cudatrack-test\cudatrack-test.vcxproj", "{BEC9EC33-3C02-4F31-BDA6-B8068A215AA9}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cputrack", "cputrack\cputrack.vcxproj", "{1790E71E-B0EE-4BF9-8C27-0CD6C1B6DF4B}"

@@ -13,3 +13,7 @@ qtrk.opensdf
 *.manifest
 *.rc
 cputrack-test/Debug-Single/cputrack-test-sd.exe.embed.manifest.res
+*.suo
+*.deps
+cudatrack/Debug/qtrkcudad-labview.dll.embed.manifest.res
+*.ipch
