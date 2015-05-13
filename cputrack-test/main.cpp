@@ -8,19 +8,15 @@
 #include "../utils/ExtractBeadImages.h"
 #include "../cputrack/BenchmarkLUT.h"
 #include "../cputrack/CubicBSpline.h"
-#include <time.h>
 #include <string>
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <time.h>
 
+#include "testutils.h"
 #include "SharedTests.h"
-
-template<typename T> T sq(T x) { return x*x; }
-template<typename T> T distance(T x, T y) { return sqrt(x*x+y*y); }
-
-float distance(vector2f a,vector2f b) { return distance(a.x-b.x,a.y-b.y); }
 
 const float ANGSTEPF = 1.5f;
 
@@ -877,242 +873,26 @@ void ScatterBiasArea(int roi, float scan_width, int steps, int samples, int qi_i
 	lut.free();
 }
 
-std::string int2str(int a) { return std::to_string(static_cast<long long>(a)); } // Needed because int overload of to_string does not yet exist in used compiler
-
-void GetFormattedTimeString(char* output)
-{
-	time_t rawtime;
-	struct tm * timeinfo;
-	time(&rawtime);
-	timeinfo = localtime(&rawtime);
-	sprintf(output, "%02d%02d%02d-%02d%02d%02d",timeinfo->tm_year-100,timeinfo->tm_mon+1,timeinfo->tm_mday,timeinfo->tm_hour,timeinfo->tm_min,timeinfo->tm_sec);
-}
-
-enum OutputModes{
-	Console = 1,
-	Files = 2,
-	Images = 4
-};
-class outputter
-{
-public:
-	outputter(int mode = 1)	{ init(mode); }
-
-	~outputter(){
-		if(modes.File && outputFile != NULL)
-			fclose(outputFile);	
-	}
-
-	void outputString(std::string out, bool ConsoleOnly = false){
-		if(modes.Console || ConsoleOnly){
-			std::cout << out << std::endl;
-		}
-
-		if(modes.File && !ConsoleOnly){
-			if(!outputFile)
-				newFile("OutputFile");
-			fprintf_s(outputFile,"%s\n",out.c_str());
-		}
-	}
-
-	void outputImage(ImageData img, std::string filename = "UsedImage"){
-		if(modes.Images){
-			std::string file = folder + filename + ".jpg";
-			FloatToJPEGFile(file.c_str(),img.data,img.w,img.h);
-		}
-	}
-
-	template<typename T>
-	void outputArray(T* arr, int size){
-		std::ostringstream out;
-		for(int ii=0;ii<size;ii++){
-			out << "[" << ii << "] : " << arr[ii] << "\n";
-		}
-		outputString(out.str());
-	}
-
-	void newFile(std::string filename){
-		if(modes.File){
-			if(outputFile)
-				fclose(outputFile);
-			std::string outfile = folder + filename + ".txt";
-			outputFile = fopen(outfile.c_str(),"w+");
-		}
-	}
-
-private:
-	void init(int mode){
-		modes.Console	= (mode & Console) != 0;
-		modes.File		= (mode & Files) != 0;
-		modes.Images	= (mode & Images) != 0;
-		
-		outputFile	= NULL;
-
-		if(!modes.Console && !modes.File){
-			modes.Console = true;
-			printf_s("No output mode selected, using console by default.\n");
-		}
-
-		if(modes.File || modes.Images){
-			char date[14];
-			GetFormattedTimeString(date);
-			folder = "D:\\TestImages\\TestOutput\\" + std::string(date) + "\\";
-			CreateDirectory((LPCTSTR)folder.c_str(),NULL);
-		}
-	}
-	struct outputModes{
-		bool File;
-		bool Console;
-		bool Images;
-	};
-	outputModes modes;
-	FILE* outputFile;
-	std::string folder;
-};
-
-ImageData CropImage(ImageData img, int x, int y, int w, int h, outputter* output = NULL)
-{
-	ImageData croppedImg = ImageData::alloc(w,h);
-
-	if( x < 0 || y < 0 || x + w > img.w || y + h > img.h){
-		if(output){
-			char buf[256];
-			sprintf(buf,"Cropping error, using original image.\nCrop settings: x: %d, y: %d, w: %d, h: %d, img.w: %d, img.h: %d\n",x,y,w,h,img.w,img.h);
-			std::string out = "Cropping error, using original image.\nCrop settings: x: ";
-			out += int2str(x) + " y: " + int2str(y) + " w: " + int2str(w) + " img.w: " + int2str(img.w) + " img.h: " + int2str(img.h);
-			output->outputString(out);
-		}
-		return img;
-	}
-
-	for(int x_i = x; x_i < x+w; x_i++){
-		for(int y_i = y; y_i < y+h; y_i++){
-			croppedImg.at(x_i-x,y_i-y) = img.at(x_i,y_i);
-		}
-	}
-	return croppedImg;
-}
-
-ImageData ResizeImage(ImageData img, int factor)
-{
-	ImageData resizedImg = ImageData::alloc(img.w*factor,img.h*factor);
-	
-	for(int x_i=0;x_i<img.w;x_i++){
-		for(int y_i=0;y_i<img.h;y_i++){
-			for(int x_fact=0;x_fact<factor;x_fact++){
-				for(int y_fact=0;y_fact<factor;y_fact++){
-					resizedImg.at(x_i*factor+x_fact,y_i*factor+y_fact) = img.at(x_i,y_i);
-				}
-			}
-		}
-	}
-	return resizedImg;
-}
-
-ImageData AddImages(ImageData img1, ImageData img2, vector2f displacement)
-{
-	ImageData addedImg = ImageData::alloc(img1.w,img1.h);
-
-	for(int x_i=0;x_i<img1.w;x_i++){
-		for(int y_i=0;y_i<img2.h;y_i++){
-			if(x_i-displacement.x > 0 && x_i-displacement.x < img1.w && y_i-displacement.y > 0 && y_i-displacement.y < img1.h) {
-				addedImg.at(x_i,y_i) = ( img1.at(x_i,y_i) + img2.at(x_i-displacement.x,y_i-displacement.y) )/2;
-			} else {
-				addedImg.at(x_i,y_i) = img1.at(x_i,y_i);
-			}
-		}
-	}
-	return addedImg;
-}
-
-ImageData GaussMask(ImageData img, float sigma) 
-{
-	ImageData gaussImg = ImageData::alloc(img.w,img.h);
-	vector2f centre = vector2f(img.w/2,img.h/2);
-	for(int x_i=0;x_i<img.w;x_i++){
-		for(int y_i=0;y_i<img.h;y_i++){
-			float gaussfact = expf(- (x_i-centre.x)*(x_i-centre.x) / (2*sigma*sigma) - (y_i-centre.y)*(y_i-centre.y) / (2*sigma*sigma));
-			gaussImg.at(x_i,y_i) = img.at(x_i,y_i)*gaussfact;
-		}
-	}
-
-	return gaussImg;
-}
-
-void GetOuterEdges(float* out,int size, ImageData img){
-	int x,y=0;
-	for(int ii = 0; ii < size; ii++){
-		if(ii < img.w){ // Top
-			x = ii;
-			y = 0;
-		}
-		else if(ii < img.w + img.h - 1){ // Right
-			x = img.w-1;
-			y = ii-(img.w-1);
-		}
-		else if(ii < img.w * 2 + img.h - 2){ // Bottom
-			y = img.h-1;
-			x = ii-(img.h+img.w-1);
-		}
-		else{ // Left
-			x = 0;
-			y = ii-(img.h+img.w*2-3);
-		}
-		out[ii] = img.at(x,y);
-	}
-}
-
-float BackgroundMedian(ImageData img){
-	int size = img.w * 2 + img.h * 2 - 4;
-	float* outeredge = new float[size];
-	GetOuterEdges(outeredge,size,img);
-	std::sort(outeredge,outeredge+size);
-	float median;
-	if(size % 2 == 0)
-		median = (outeredge[(int)(size/2-1)] + outeredge[(int)(size/2+1)])/2;
-	else
-		median = outeredge[size/2];
-	delete[] outeredge;
-	return median;
-}
-
-float BackgroundStdDev(ImageData img){
-	int size = img.w * 2 + img.h * 2 - 4;
-	float* outeredge = new float[size];
-	GetOuterEdges(outeredge,size,img);
-	float stddev = ComputeStdDev(outeredge,size);
-	delete[] outeredge;
-	return stddev;
-}
-
-float BackgroundRMS(ImageData img){
-	int size = img.w * 2 + img.h * 2 - 4;
-	float* outeredge = new float[size];
-	GetOuterEdges(outeredge,size,img);
-	float sqsum = 0.0f;
-	for(int ii = 0; ii < size; ii++){
-		sqsum += outeredge[ii]*outeredge[ii];
-	}
-	delete[] outeredge;
-	return sqrt(1/(float)size*sqsum);
-}
-
 void RunCOMAndQI(ImageData img, outputter* output){
 	char buf[256];
 	CPUTracker trk(img.w,img.h);
 	trk.SetImageFloat(img.data);
+	double t = GetPreciseTime();
 	vector2f com = trk.ComputeMeanAndCOM();
+	t = GetPreciseTime() - t;
 	//float asym = trk.ComputeAsymmetry(com,64,64,5,50,dstAngProf);
-	sprintf(buf,"%f %f",com.x,com.y);
+	sprintf(buf,"%f %f %f",com.x,com.y,t);
 	output->outputString(buf);
 
 	vector2f initial(com.x, com.y);
 	
 	bool boundaryHit = false;
 	for(int qi_iterations = 1; qi_iterations < 10; qi_iterations++){
+		t = GetPreciseTime();
 		vector2f qi = trk.ComputeQI(initial, qi_iterations, 64, 16,ANGSTEPF, 5,50, boundaryHit);
+		t = GetPreciseTime() - t;
 		//float asym = trk.ComputeAsymmetry(qi,64,64,5,50,dstAngProf);
-		sprintf(buf,"%f %f",qi.x,qi.y);
+		sprintf(buf,"%f %f %f",qi.x,qi.y,t);
 		output->outputString(buf);
 		boundaryHit = false;
 	}
@@ -1120,20 +900,25 @@ void RunCOMAndQI(ImageData img, outputter* output){
 
 void TestROIDisplacement(std::vector<BeadPos> beads, ImageData oriImg, outputter* output, int ROISize, int maxdisplacement = 0)
 {
-	std::string out;
-
 	for(uint ii = 0; ii < beads.size(); ii++){
 
-		out = ""+int2str(beads.at(ii).x)+","+int2str(beads.at(ii).y)+"-ROI";
-		output->newFile(out);
+		output->newFile(SPrintf("%d,%d-ROI",beads.at(ii).x,beads.at(ii).y));
 		
 		for(int x_i = -maxdisplacement; x_i <= maxdisplacement; x_i++){
 			for(int y_i = -maxdisplacement; y_i <= maxdisplacement; y_i++){
 				int x = beads.at(ii).x + x_i - ROISize/2;
 				int y = beads.at(ii).y + y_i - ROISize/2;
-				ImageData img = CropImage(oriImg,x,y,ROISize,ROISize,output);
+				ImageData img = CropImage(oriImg,x,y,ROISize,ROISize);
 				output->outputImage(img,SPrintf("%d,%d-Crop",beads.at(ii).x + x_i, beads.at(ii).y + y_i));
 				output->outputString(SPrintf("%d,%d - ROI (%d,%d) -> (%d,%d)",x_i,y_i,x,y,x+ROISize,y+ROISize));
+				
+				/*ImageData gaussmask = GaussMask(img,20);
+				output->outputImage(gaussmask,SPrintf("%d,%d-Sigma20",beads.at(ii).x + x_i, beads.at(ii).y + y_i));
+				gaussmask.free();
+				gaussmask = GaussMask(img,50);
+				output->outputImage(gaussmask,SPrintf("%d,%d-Sigma50",beads.at(ii).x + x_i, beads.at(ii).y + y_i));
+				gaussmask.free();*/
+				
 				RunCOMAndQI(img,output);
 				img.free();				
 			}
@@ -1143,25 +928,23 @@ void TestROIDisplacement(std::vector<BeadPos> beads, ImageData oriImg, outputter
 
 void TestInterference(std::vector<BeadPos> beads, ImageData oriImg, outputter* output, int ROISize, vector2f displacement = vector2f(60,0))
 {
-	std::string out;
-
 	ImageData added = AddImages(oriImg,oriImg,displacement);
 	//output->outputImage(added,"Added");
 
 	for(uint ii = 0; ii < beads.size(); ii++){
-
-		out = ""+int2str(beads.at(ii).x)+","+int2str(beads.at(ii).y)+"-Inter";
-		output->newFile(out);
+		output->newFile(SPrintf("%d,%d-Inter",beads.at(ii).x,beads.at(ii).y));
 
 		int x = beads.at(ii).x - ROISize/2;
 		int y = beads.at(ii).y - ROISize/2;
 
-		ImageData img = CropImage(added,x,y,ROISize,ROISize,output);
+		ImageData img = CropImage(added,x,y,ROISize,ROISize);
 		output->outputImage(img,SPrintf("%d,%d-Inter",beads.at(ii).x,beads.at(ii).y));
 
 		RunCOMAndQI(img,output);
 		img.free();
 	}
+
+	added.free();
 }
 
 void TestBackground(std::vector<BeadPos> beads, ImageData oriImg, outputter* output, int ROISize)
@@ -1174,7 +957,7 @@ void TestBackground(std::vector<BeadPos> beads, ImageData oriImg, outputter* out
 	for(uint ii = 0; ii < beads.size(); ii++){
 		int x = beads.at(ii).x - ROISize/2;
 		int y = beads.at(ii).y - ROISize/2;
-		ImageData img = CropImage(oriImg,x,y,ROISize,ROISize,output);
+		ImageData img = CropImage(oriImg,x,y,ROISize,ROISize);
 		output->outputImage(img,SPrintf("%d,%d-Crop",beads.at(ii).x, beads.at(ii).y));
 		output->outputString(SPrintf("%d,%d-Crop",beads.at(ii).x, beads.at(ii).y));
 		output->outputString(SPrintf("median: %f",BackgroundMedian(img)));
@@ -1196,11 +979,19 @@ void RunTest(Tests test, const char* image, outputter* output, int ROISize)
 {
 	ImageData source = ReadJPEGFile(image);
 	std::vector<BeadPos> beads = read_beadlist("D:\\TestImages\\beadlist.txt");
-	output->newFile("TestInfo");
-	std::string out = "";
+	output->newFile("TestInfo","a");
 
-	out = "image " + std::string(image) + "\nbeadlist D:\\TestImages\\beadlist.txt\nnumBeads " + int2str(beads.size());
-	output->outputString(out);
+	if(test == ROIDis)
+		output->outputString("ROI Displacement test");
+	else if(test == Inter)
+		output->outputString("Interference test");
+	else if(test == Noise)
+		output->outputString("Noise test");
+	else if(test == Backg)
+		output->outputString("Background test");
+	output->outputString(SPrintf("Image %s\nBeadlist D:\\TestImages\\beadlist.txt\nNumBeads %d\nROISize %d",image,beads.size(),ROISize));
+	
+	double t0 = GetPreciseTime();
 
 	switch(test){
 	case ROIDis:
@@ -1215,6 +1006,10 @@ void RunTest(Tests test, const char* image, outputter* output, int ROISize)
 		TestBackground(beads,source,output,ROISize);
 		break;
 	};
+
+	double t1 = GetPreciseTime();
+	output->newFile("TestInfo","a");
+	output->outputString(SPrintf("Duration %f\n",t1-t0));
 	source.free();
 }
 
@@ -1232,8 +1027,9 @@ void PrintMenu(outputter* output)
 void SelectTests(const char* image, int OutputMode)
 {
 	outputter* output = new outputter(OutputMode);
+	int testNum = 1;
 	int ROISize = 120;
-
+	
 	PrintMenu(output);
 	char inChar;
 	do
@@ -1263,7 +1059,7 @@ void SelectTests(const char* image, int OutputMode)
 			case 'R':
 			case 'r':
 				output->outputString(SPrintf("Enter new ROI size (currently %d)",ROISize),true);
-				std::cin >>ROISize;
+				std::cin >> ROISize;
 				break;
 			default:
 				output->outputString("Wrong input",true);
