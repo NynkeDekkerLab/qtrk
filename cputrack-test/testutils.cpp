@@ -144,6 +144,24 @@ ImageData GaussMask(ImageData img, float sigma)
 	return gaussImg;
 }
 
+ImageData SkewImage(ImageData img, int fact) 
+{
+	ImageData skewImg = ImageData::alloc(img.w,img.h);
+	vector2f centre = vector2f(img.w/2,img.h/2);
+	float median  = BackgroundMedian(img);
+	float stddev  = BackgroundStdDev(img);
+	float maxskew = median*stddev;
+	for(int x_i=0;x_i<img.w;x_i++){
+		for(int y_i=0;y_i<img.h;y_i++){
+			int diagonalOffset = (y_i - x_i*img.h/img.w);
+			float skew = fact*((float)diagonalOffset/img.h)*maxskew;
+			skewImg.at(x_i,y_i) = img.at(x_i,y_i)+skew;
+		}
+	}
+
+	return skewImg;
+}
+
 void GetOuterEdges(float* out,int size, ImageData img){
 	int x,y=0;
 	for(int ii = 0; ii < size; ii++){

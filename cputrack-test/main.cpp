@@ -911,16 +911,9 @@ void TestROIDisplacement(std::vector<BeadPos> beads, ImageData oriImg, outputter
 				ImageData img = CropImage(oriImg,x,y,ROISize,ROISize);
 				output->outputImage(img,SPrintf("%d,%d-Crop",beads.at(ii).x + x_i, beads.at(ii).y + y_i));
 				output->outputString(SPrintf("%d,%d - ROI (%d,%d) -> (%d,%d)",x_i,y_i,x,y,x+ROISize,y+ROISize));
-				
-				/*ImageData gaussmask = GaussMask(img,20);
-				output->outputImage(gaussmask,SPrintf("%d,%d-Sigma20",beads.at(ii).x + x_i, beads.at(ii).y + y_i));
-				gaussmask.free();
-				gaussmask = GaussMask(img,50);
-				output->outputImage(gaussmask,SPrintf("%d,%d-Sigma50",beads.at(ii).x + x_i, beads.at(ii).y + y_i));
-				gaussmask.free();*/
-				
+
 				RunCOMAndQI(img,output);
-				img.free();				
+				img.free();	
 			}
 		}
 	}
@@ -947,6 +940,24 @@ void TestInterference(std::vector<BeadPos> beads, ImageData oriImg, outputter* o
 	added.free();
 }
 
+void TestSkew(std::vector<BeadPos> beads, ImageData oriImg, outputter* output, int ROISize)
+{
+	for(uint ii = 0; ii < beads.size(); ii++){
+		output->newFile(SPrintf("%d,%d-Skew",beads.at(ii).x,beads.at(ii).y));
+
+		int x = beads.at(ii).x - ROISize/2;
+		int y = beads.at(ii).y - ROISize/2;
+
+		ImageData img = CropImage(oriImg,x,y,ROISize,ROISize);
+		ImageData skewImg = SkewImage(img,3);
+		output->outputImage(skewImg,SPrintf("%d,%d-Skew",beads.at(ii).x,beads.at(ii).y));
+
+		RunCOMAndQI(skewImg,output);
+		img.free();
+		skewImg.free();
+	}
+}
+
 void TestBackground(std::vector<BeadPos> beads, ImageData oriImg, outputter* output, int ROISize)
 {
 	std::string out;
@@ -971,7 +982,7 @@ void TestBackground(std::vector<BeadPos> beads, ImageData oriImg, outputter* out
 enum Tests{
 	ROIDis,
 	Inter,
-	Noise,
+	Skew,
 	Backg
 };
 
@@ -985,8 +996,8 @@ void RunTest(Tests test, const char* image, outputter* output, int ROISize)
 		output->outputString("ROI Displacement test");
 	else if(test == Inter)
 		output->outputString("Interference test");
-	else if(test == Noise)
-		output->outputString("Noise test");
+	else if(test == Skew)
+		output->outputString("Skew test");
 	else if(test == Backg)
 		output->outputString("Background test");
 	output->outputString(SPrintf("Image %s\nBeadlist D:\\TestImages\\beadlist.txt\nNumBeads %d\nROISize %d",image,beads.size(),ROISize));
@@ -1000,7 +1011,8 @@ void RunTest(Tests test, const char* image, outputter* output, int ROISize)
 	case Inter:
 		TestInterference(beads,source,output,ROISize);
 		break;
-	case Noise:
+	case Skew:
+		TestSkew(beads,source,output,ROISize);
 		break;
 	case Backg:
 		TestBackground(beads,source,output,ROISize);
@@ -1018,7 +1030,7 @@ void PrintMenu(outputter* output)
 	output->outputString("0. Quit",true);
 	output->outputString("1. ROI Displacement",true);
 	output->outputString("2. Interference",true);
-	output->outputString("3. Noise",true);
+	output->outputString("3. Skew",true);
 	output->outputString("4. Background",true);
 	output->outputString("r. Change ROI size",true);
 	output->outputString("?. Menu",true);
@@ -1049,7 +1061,7 @@ void SelectTests(const char* image, int OutputMode)
 				output->outputString("Test done!",true);
 				break;
 			case '3':
-				RunTest(Noise,image,output,ROISize);
+				RunTest(Skew,image,output,ROISize);
 				output->outputString("Test done!",true);
 				break;
 			case '4':

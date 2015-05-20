@@ -41,6 +41,7 @@ ImageData CropImage(ImageData img, int x, int y, int w, int h);
 ImageData ResizeImage(ImageData img, int factor);
 ImageData AddImages(ImageData img1, ImageData img2, vector2f displacement);
 ImageData GaussMask(ImageData img, float sigma);
+ImageData SkewImage(ImageData img, int fact);
 
 void GetOuterEdges(float* out,int size, ImageData img);
 float BackgroundMedian(ImageData img);
