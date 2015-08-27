@@ -9,15 +9,6 @@
 
 float distance(vector2f a,vector2f b) { return distance(a.x-b.x,a.y-b.y); }
 
-void GetFormattedTimeString(char* output)
-{
-	time_t rawtime;
-	struct tm * timeinfo;
-	time(&rawtime);
-	timeinfo = localtime(&rawtime);
-	sprintf(output, "%02d%02d%02d-%02d%02d%02d",timeinfo->tm_year-100,timeinfo->tm_mon+1,timeinfo->tm_mday,timeinfo->tm_hour,timeinfo->tm_min,timeinfo->tm_sec);
-}
-
 outputter::outputter(int mode)	{ init(mode); }
 
 outputter::~outputter(){
@@ -42,15 +33,6 @@ void outputter::outputImage(ImageData img, std::string filename){
 		std::string file = folder + filename + ".jpg";
 		FloatToJPEGFile(file.c_str(),img.data,img.w,img.h);
 	}
-}
-
-template<typename T>
-void outputter::outputArray(T* arr, int size){
-	std::ostringstream out;
-	for(int ii=0;ii<size;ii++){
-		out << "[" << ii << "] : " << arr[ii] << "\n";
-	}
-	outputString(out.str());
 }
 
 void outputter::newFile(std::string filename, const char* mode){

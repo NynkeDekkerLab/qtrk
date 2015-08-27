@@ -106,7 +106,7 @@ public:
 	void SetRadialZLUT(float* data, int planes, int res, int num_zluts, float minradius, float maxradius, bool copyMemory, bool useCorrelation);
 	void SetRadialWeights(float *w);
 	enum LUTProfileMaxComputeMode { LUTProfMaxQuadraticFit, LUTProfMaxSplineFit, LUTProfMaxSimpleInterp };
-	float LUTProfileCompare(float* profile, int zlutIndex, float* cmpProf, LUTProfileMaxComputeMode maxPosMethod, float* lsqfittedcurve=0, int *maxPos=0);
+	float LUTProfileCompare(float* profile, int zlutIndex, float* cmpProf, LUTProfileMaxComputeMode maxPosMethod, float* lsqfittedcurve=0, int *maxPos=0, int frameNum = 0);
 	float LUTProfileCompareAdjustedWeights(float* rprof, int zlutIndex, float z_estim);
 
 	float* GetDebugImage() { return debugImage; }

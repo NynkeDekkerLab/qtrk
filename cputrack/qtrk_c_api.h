@@ -126,6 +126,7 @@ struct QTrkComputedConfig : public QTrkSettings
 	QTrkComputedConfig(const QTrkSettings& base) { *((QTrkSettings*)this)=base; Update(); }
 	void Update();
 	void WriteToLog();
+	void WriteToFile();
 
 	// Computed from QTrkSettings
 	int zlut_radialsteps;

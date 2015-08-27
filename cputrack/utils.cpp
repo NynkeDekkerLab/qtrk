@@ -13,6 +13,36 @@
 #include "QueuedTracker.h"
 #include "threads.h"
 #include "CubicBSpline.h"
+#include "time.h"
+#include <tchar.h>
+
+std::string GetCurrentOutputPath(bool ext)
+{
+	std::string base = "D:\\TestImages\\TestOutput\\";
+	std::string search = base + "*";
+	LPCSTR w_folder = _T(search.c_str());
+	
+	WIN32_FIND_DATA FindFileData;
+	HANDLE hFind;
+	
+	hFind = FindFirstFile(w_folder,&FindFileData);
+	std::string dirName;
+	while(FindNextFile(hFind,&FindFileData))
+		dirName = FindFileData.cFileName;
+	if(ext)
+		return SPrintf("%s%s\\%s",base.c_str(),dirName.c_str(),"ZLUTDiag\\");
+	else
+		return SPrintf("%s%s",base.c_str(),dirName.c_str());
+}
+
+void GetFormattedTimeString(char* output)
+{
+	time_t rawtime;
+	struct tm * timeinfo;
+	time(&rawtime);
+	timeinfo = localtime(&rawtime);
+	sprintf(output, "%02d%02d%02d-%02d%02d%02d",timeinfo->tm_year-100,timeinfo->tm_mon+1,timeinfo->tm_mday,timeinfo->tm_hour,timeinfo->tm_min,timeinfo->tm_sec);
+}
 
 static std::string logFilename;
 
@@ -20,7 +50,6 @@ void dbgsetlogfile(const char*path)
 {
 	logFilename = path;
 }
-
 
 std::string GetLocalModuleFilename()
 {

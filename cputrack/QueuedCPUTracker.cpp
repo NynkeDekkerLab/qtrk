@@ -96,6 +96,13 @@ int QueuedCPUTracker::GetQueueLength(int *maxQueueLength)
 QueuedCPUTracker::QueuedCPUTracker(const QTrkComputedConfig& cc) 
 	: jobs_mutex("jobs"), jobs_buffer_mutex("jobs_buffer"), results_mutex("results")
 {
+	bool diagMode = true;
+	if(diagMode){
+		std::string folder = GetCurrentOutputPath();
+		if(GetFileAttributesA(folder.c_str()) & FILE_ATTRIBUTE_DIRECTORY)
+			CreateDirectory((LPCTSTR)folder.c_str(),NULL);
+	}
+	
 	cfg = cc;
 	quitWork = false;
 
@@ -272,6 +279,8 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 
 	SetTrackerImage(trk, j);
 
+	//FloatToJPEGFile("dbg.jpg",(float*)j->data,cfg.width,cfg.height);
+
 	if (localizeMode & LT_ClearFirstFourPixels) {
 		trk->srcImage[0]=trk->srcImage[1]=trk->srcImage[2]=trk->srcImage[3]=0;
 	}
@@ -330,7 +339,7 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 				// update with Quadrant Align
 				result.pos = trk->QuadrantAlign(result.pos, j->job.zlutIndex, cfg.qi_angstepspq, boundaryHit);
 			}
-			result.pos.z = trk->LUTProfileCompare(prof, j->job.zlutIndex, cmpprof, CPUTracker::LUTProfMaxQuadraticFit);
+			result.pos.z = trk->LUTProfileCompare(prof, j->job.zlutIndex, cmpprof, CPUTracker::LUTProfMaxQuadraticFit,(float*)0,(int*)0,j->job.frame);
 			//dbgprintf("[%d] x=%f, y=%f, z=%f\n", i, result.pos.x,result.pos.y,result.pos.z);
 		}
 

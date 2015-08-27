@@ -7,6 +7,9 @@ template<typename T> bool isNAN(const T& v) {
 	return !(v == v); 
 }
 
+void GetFormattedTimeString(char* output);
+std::string GetCurrentOutputPath(bool ext = true);
+
 void dbgout(const std::string& s);
 std::string SPrintf(const char *fmt, ...);
 void dbgprintf(const char *fmt,...);

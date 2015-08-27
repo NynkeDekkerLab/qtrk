@@ -15,15 +15,22 @@ enum OutputModes{
 	Images = 4
 };
 
-void GetFormattedTimeString(char* output);
 class outputter{
 public:
 	outputter(int mode = 1);
 	~outputter();
 	void outputString(std::string out, bool ConsoleOnly = false);
 	void outputImage(ImageData img, std::string filename = "UsedImage");
+	
 	template<typename T>
-	void outputArray(T* arr, int size);
+	void outputArray(T* arr, int size){
+		std::ostringstream out;
+		for(int ii=0;ii<size;ii++){
+			out << "[" << ii << "] : " << arr[ii] << "\n";
+		}
+		outputString(out.str());
+	}
+
 	void newFile(std::string filename, const char* mode = "w+");
 private:
 	void init(int mode);

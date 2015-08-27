@@ -52,6 +52,8 @@ public:
 	void SetConfigValue(std::string name, std::string value) override;
 
 	std::string GetProfileReport() { return "CPU tracker currently has no profile reporting"; }
+
+	float* GetZLUTByIndex(int index) { return &zluts[ index * (zlut_planes*cfg.zlut_radialsteps) ]; }
 private:
 	struct Thread {
 		Thread() { tracker=0; manager=0; thread=0;  mutex=0; }
@@ -97,7 +99,7 @@ private:
 
 	std::vector<float> zcmp;
 	std::vector<float> qi_radialbinweights;
-	float* GetZLUTByIndex(int index) { return &zluts[ index * (zlut_planes*cfg.zlut_radialsteps) ]; }
+	
 	void UpdateZLUTs();
 
 	int image_lut_dims[4], image_lut_nElem_per_bead;

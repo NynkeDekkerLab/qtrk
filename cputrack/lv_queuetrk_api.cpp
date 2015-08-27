@@ -343,7 +343,7 @@ CDLL_EXPORT uint qtrk_queue_frame(QueuedTracker* qtrk, uchar* image, int pitch, 
 	LocalizationJob jobInfo = *pJobInfo;
 	int nQueued;
 	if ( (nQueued=qtrk->ScheduleFrame(image, pitch, w,h, pos, numROI, (QTRK_PixelDataType)pdt, &jobInfo)) != numROI) {
-		ArgumentErrorMsg(e, SPrintf( "Not all ROIs (%d out of %d) where queued. Check image borders vs ROIs.", nQueued, numROI));
+		ArgumentErrorMsg(e, SPrintf( "Not all ROIs (%d out of %d) were queued. Check image borders vs ROIs.", nQueued, numROI));
 	}
 	return jobInfo.timestamp;
 }

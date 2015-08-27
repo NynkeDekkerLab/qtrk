@@ -792,17 +792,50 @@ void CPUTracker::SetRadialWeights(float* radweights)
 		zlut_radialweights.clear();
 }
 
-
-float CPUTracker::LUTProfileCompare (float* rprof, int zlutIndex, float* cmpProf, LUTProfileMaxComputeMode maxPosComputeMode, float* fitcurve, int *maxPos)
+float CPUTracker::LUTProfileCompare (float* rprof, int zlutIndex, float* cmpProf, LUTProfileMaxComputeMode maxPosComputeMode, float* fitcurve, int *maxPos, int frameNum)
 {
+	/* From this function save:
+		- Frame number?
+		
+		- Original image
+		- Profile
+		- LUT
+		- Error curve
+		- Final value
+	*/
+
+	bool diagMode = true;
+	bool freeMem = false;
+	std::string outputName;
+
+	if(diagMode){
+		outputName = SPrintf("%s%05d-%05d",GetCurrentOutputPath().c_str(),zlutIndex,frameNum);
+		
+		if (FILE *file = fopen(SPrintf("%s.jpg",outputName.c_str()).c_str(), "r")) {
+			fclose(file);
+			printf("File exists\n");
+		}
+		SaveImage(SPrintf("%s.jpg",outputName.c_str()).c_str());
+		FloatToJPEGFile(SPrintf("%s-prof.jpg",outputName.c_str()).c_str(), rprof, zlut_res, 1);
+
+		if(!fitcurve){
+			fitcurve = new float[zlut_planes];
+			freeMem = true;
+		}
+	}
+
 	if (!zluts)
 		return 0.0f;
-	
+
 	double* rprof_diff = ALLOCA_ARRAY(double, zlut_planes);
 	//WriteImageAsCSV("zlutradprof-cpu.txt", rprof, zlut_res, 1);
 
 	// Now compare the radial profile to the profiles stored in Z
 	float* zlut_sel = GetRadialZLUT(zlutIndex);
+
+	if(diagMode){
+		FloatToJPEGFile(SPrintf("%s-zlut.jpg",outputName.c_str()).c_str(),zlut_sel,zlut_res,zlut_planes);
+	}
 
 #if 0
 	float* zlut_norm = ALLOCA_ARRAY(float, zlut_res);
@@ -860,6 +893,19 @@ float CPUTracker::LUTProfileCompare (float* rprof, int zlutIndex, float* cmpProf
 			int iMax = std::max_element(rprof_diff, rprof_diff+zlut_planes) - rprof_diff;
 			for (int i=0;i<zlut_planes;i++)
 				fitcurve[i] = fit.compute(i-iMax);
+			
+			if(diagMode){
+				FILE* f = fopen(SPrintf("%s-out.txt",outputName.c_str()).c_str(),"w+");
+				fprintf_s(f,"z: %f\n",z);
+				for (int i=0;i<zlut_planes;i++)
+					fprintf_s(f,"%f\t%f\n",rprof_diff[i],fitcurve[i]);
+
+				fclose(f);
+
+				if(freeMem)
+					delete[] fitcurve;
+			}
+			
 			return z;
 		} else {
 			return ComputeMaxInterp<double, ZLUT_LSQFIT_NWEIGHTS>::Compute(rprof_diff, zlut_planes, ZLUTWeights_d);

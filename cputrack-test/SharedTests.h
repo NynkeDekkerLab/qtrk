@@ -36,7 +36,7 @@ void ResampleLUT(T* qtrk, ImageData* lut, int zplanes, ImageData* newlut, const 
 {
 	QTrkComputedConfig& cfg = qtrk->cfg;
 	ImageData img = ImageData::alloc(cfg.width,cfg.height);
-
+	
 	qtrk->SetRadialZLUT(0, 1, zplanes);
 	qtrk->BeginLUT(buildLUTFlags);
 	for (int i=0;i<zplanes;i++)
