@@ -320,6 +320,7 @@ vector2f CPUTracker::ComputeQI(vector2f initial, int iterations, int radialSteps
 
 		for (int q=0;q<4;q++) {
 			ComputeQuadrantProfile(buf+q*nr, nr, angsteps, q, minRadius, maxRadius, center, radialWeights);
+			//NormalizeRadialProfile(buf+q*nr, nr);
 		}
 #ifdef QI_DEBUG
 		cmp_cpu_qi_prof.assign (buf,buf+4*nr);
@@ -402,6 +403,13 @@ scalar_t CPUTracker::QI_ComputeOffset(complex_t* profile, int nr, int axisForDeb
 		autoconv[x] = fft_out2[(x+nr)%(nr*2)].real();
 	}
 
+	float* profileReal = ALLOCA_ARRAY(float, nr*2);
+	for(int x=0;x<nr*2;x++)  {
+		profileReal[x] = profile[x].real();
+	}
+	WriteArrayAsCSVRow(SPrintf("D:\\TestImages\\AutoconvProf-%d.txt",axisForDebug).c_str()	,profileReal,nr*2,false);
+	WriteArrayAsCSVRow(SPrintf("D:\\TestImages\\Autoconv-%d.txt",axisForDebug).c_str()		,autoconv,nr*2,false); // */
+	
 	scalar_t maxPos = ComputeMaxInterp<scalar_t, QI_LSQFIT_NWEIGHTS>::Compute(autoconv, nr*2, QIWeights);
 	return (maxPos - nr) * (3.14159265359f / 4);
 }
@@ -671,12 +679,10 @@ void CPUTracker::ComputeQuadrantProfile(scalar_t* dst, int radialSteps, int angu
 		if (radialWeights) dst[i] *= radialWeights[i];
 		total += dst[i];
 	}
-	#ifdef QI_DBG_EXPORT
-	WriteImageAsCSV(SPrintf("qprof%d.txt", quadrant).c_str(), dst, 1, radialSteps);
-	#endif
+	
+	WriteImageAsCSV(SPrintf("D:\\TestImages\\qprof%d.txt", quadrant).c_str(), dst, 1, radialSteps);	
+	//WriteArrayAsCSVRow("D:\\TestImages\\radialWeights.csv",radialWeights,radialSteps,false);
 }
-
-
 
 vector2f CPUTracker::ComputeMeanAndCOM(float bgcorrection)
 {
@@ -708,15 +714,19 @@ vector2f CPUTracker::ComputeMeanAndCOM(float bgcorrection)
 	for(int y=0;y<height;y++)
 		xmom[y]=0;*/
 
-	vector2f centre = vector2f(width/2,height/2);
-	float sigma = width/4; // Suppress to 5% at edges
-	float devi = 1/(2*sigma*sigma);
+	// Comments: Gaussian mask not currently used
+	//vector2f centre = vector2f((float)width/2,(float)height/2);
+	//float sigma = (float)width/4; // Suppress to 5% at edges
+	//float devi = 1/(2*sigma*sigma);
+	
 	for(int x=0;x<width;x++) {
 		for (int y=0;y<height;y++) {
 			float v = GetPixel(x,y);
-			float xabs = (x-centre.x); float yabs = (y-centre.y);
-			float gaussfact = expf(- xabs*xabs*devi - yabs*yabs*devi);
-			v = std::max(0.0f, fabs(v-mean)-bgcorrection*stdev)*gaussfact;
+			
+			//float xabs = (x-centre.x); float yabs = (y-centre.y);
+			//float gaussfact = 1.0f;//expf(- xabs*xabs*devi - yabs*yabs*devi);
+
+			v = std::max(0.0f, fabs(v-mean)-bgcorrection*stdev);//*gaussfact;
 			sum += v;
 	//		xmom[y] += x*v;
 	//		ymom[x] += y*v;
@@ -804,7 +814,7 @@ float CPUTracker::LUTProfileCompare (float* rprof, int zlutIndex, float* cmpProf
 		- Final value
 	*/
 
-	bool diagMode = true;
+	bool diagMode = false;
 	bool freeMem = false;
 	std::string outputName;
 
@@ -817,6 +827,7 @@ float CPUTracker::LUTProfileCompare (float* rprof, int zlutIndex, float* cmpProf
 		}
 		SaveImage(SPrintf("%s.jpg",outputName.c_str()).c_str());
 		FloatToJPEGFile(SPrintf("%s-prof.jpg",outputName.c_str()).c_str(), rprof, zlut_res, 1);
+
 
 		if(!fitcurve){
 			fitcurve = new float[zlut_planes];
@@ -889,16 +900,35 @@ float CPUTracker::LUTProfileCompare (float* rprof, int zlutIndex, float* cmpProf
 
 		if (fitcurve) {
 			LsqSqQuadFit<double> fit;
-			float z= ComputeMaxInterp<double, ZLUT_LSQFIT_NWEIGHTS>::Compute(rprof_diff, zlut_planes, ZLUTWeights_d, &fit);
+			float z = ComputeMaxInterp<double, ZLUT_LSQFIT_NWEIGHTS>::Compute(rprof_diff, zlut_planes, ZLUTWeights_d, &fit);
 			int iMax = std::max_element(rprof_diff, rprof_diff+zlut_planes) - rprof_diff;
 			for (int i=0;i<zlut_planes;i++)
 				fitcurve[i] = fit.compute(i-iMax);
 			
 			if(diagMode){
+				// Calculate errorcurve of found ZLUT plane with itself
+				double* int_prof = ALLOCA_ARRAY(double, zlut_res);
+				for (int r = 0; r<zlut_res;r++) {
+					int_prof[r] = Lerp(zlut_sel[(int)z*zlut_res+r],zlut_sel[((int)z+1)*zlut_res+r],z-(int)z);
+				}
+
+				double* plane_auto_diff = ALLOCA_ARRAY(double, zlut_planes);
+				for (int k=0;k<zlut_planes;k++) {
+					double diffsum = 0.0f;
+					for (int r = 0; r<zlut_res;r++) {
+						double d = int_prof[r] - zlut_sel[k*zlut_res+r];
+						if (!zlut_radialweights.empty())
+							d*=zlut_radialweights[r];
+						d = -d*d;
+						diffsum += d;
+					}
+					plane_auto_diff[k] = diffsum;
+				}
+
 				FILE* f = fopen(SPrintf("%s-out.txt",outputName.c_str()).c_str(),"w+");
 				fprintf_s(f,"z: %f\n",z);
 				for (int i=0;i<zlut_planes;i++)
-					fprintf_s(f,"%f\t%f\n",rprof_diff[i],fitcurve[i]);
+					fprintf_s(f,"%f\t%f\t%f\n",rprof_diff[i],fitcurve[i],plane_auto_diff[i]);
 
 				fclose(f);
 

@@ -27,6 +27,7 @@ public:
 
 	void EnableRadialZLUTCompareProfile(bool enabled);
 	void GetRadialZLUTCompareProfile(float* dst); // dst = [count * planes]
+	void ZLUTSelfTest();
 
 	void BeginLUT(uint flags);
 	void BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, int plane, vector2f* known_pos=0) override;

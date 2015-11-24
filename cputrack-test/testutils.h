@@ -7,6 +7,10 @@
 template<typename T> T sq(T x) { return x*x; }
 template<typename T> T distance(T x, T y) { return sqrt(x*x+y*y); }
 
+bool DirExists(const std::string& dirName_in);
+int NumFilesInDir(const std::string& dirName_in);
+int NumJpgInDir(const std::string& dirName_in);
+
 float distance(vector2f a,vector2f b);
 
 enum OutputModes{
@@ -48,7 +52,7 @@ ImageData CropImage(ImageData img, int x, int y, int w, int h);
 ImageData ResizeImage(ImageData img, int factor);
 ImageData AddImages(ImageData img1, ImageData img2, vector2f displacement);
 ImageData GaussMask(ImageData img, float sigma);
-ImageData SkewImage(ImageData img, int fact);
+ImageData SkewImage(ImageData img, float fact);
 
 void GetOuterEdges(float* out,int size, ImageData img);
 float BackgroundMedian(ImageData img);

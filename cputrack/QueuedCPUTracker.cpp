@@ -96,7 +96,7 @@ int QueuedCPUTracker::GetQueueLength(int *maxQueueLength)
 QueuedCPUTracker::QueuedCPUTracker(const QTrkComputedConfig& cc) 
 	: jobs_mutex("jobs"), jobs_buffer_mutex("jobs_buffer"), results_mutex("results")
 {
-	bool diagMode = true;
+	bool diagMode = false;
 	if(diagMode){
 		std::string folder = GetCurrentOutputPath();
 		if(GetFileAttributesA(folder.c_str()) & FILE_ATTRIBUTE_DIRECTORY)
@@ -330,6 +330,7 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 			} else {
 				trk->ComputeRadialProfile(prof,cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, result.pos2D(), false, &boundaryHit, normalizeProfile );
 			}
+
 			float *cmpprof = 0;
 
 			if (zlut_enablecmpprof)
@@ -341,6 +342,7 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 			}
 			result.pos.z = trk->LUTProfileCompare(prof, j->job.zlutIndex, cmpprof, CPUTracker::LUTProfMaxQuadraticFit,(float*)0,(int*)0,j->job.frame);
 			//dbgprintf("[%d] x=%f, y=%f, z=%f\n", i, result.pos.x,result.pos.y,result.pos.z);
+			
 		}
 
 		if (localizeMode & LT_LocalizeZWeighted) {
@@ -700,10 +702,37 @@ void QueuedCPUTracker::FinalizeLUT()
 	}
 }
 
+void QueuedCPUTracker::ZLUTSelfTest()
+{
+	if (zluts){
+		/*bool compEnabled = zlut_enablecmpprof;
+		if(!compEnabled)
+			EnableRadialZLUTCompareProfile(true);*/
+
+
+		threads[0].lock();
+		CPUTracker* trk = threads[0].tracker;
+		
+		for (int ii=0;ii<zlut_count;ii++) {
+			//trk.SetRadialZLUT(&zluts[cfg.zlut_radialsteps*zlut_planes*ii],zlut_planes,cfg.zlut_radialsteps,zlut_count,cfg.zlut_minradius,cfg.zlut_maxradius,false,false);
+			
+			float* curZLUT = GetZLUTByIndex(ii);			
+			for(int plane=0;plane<zlut_planes;plane++){
+				float* cmpprof = new float[zlut_planes];
+				trk->LUTProfileCompare(&curZLUT[plane*cfg.zlut_radialsteps],ii,cmpprof,CPUTracker::LUTProfMaxQuadraticFit);
+				WriteArrayAsCSVRow("D:\\TestImages\\zlutSelfTest.csv",cmpprof,zlut_planes,true);
+				delete[] cmpprof;
+			}			
+		}
+
+		threads[0].unlock();
+		
+		//EnableRadialZLUTCompareProfile(compEnabled);
+	}
+}
 
 void QueuedCPUTracker::SetTrackerImage(CPUTracker* trk, Job* j)
 {
-
 	if (j->dataType == QTrkU8) {
 		trk->SetImage8Bit(j->data, cfg.width);
 	} else if (j->dataType == QTrkU16) {
@@ -711,7 +740,6 @@ void QueuedCPUTracker::SetTrackerImage(CPUTracker* trk, Job* j)
 	} else {
 		trk->SetImageFloat((float*)j->data);
 	}
-
 }
 
 

@@ -164,8 +164,8 @@ void GenerateTestImage(ImageData& img, float xp, float yp, float size, float SNr
 	float S = 1.0f/sqrt(size);
 	for (int y=0;y<img.h;y++) {
 		for (int x=0;x<img.w;x++) {
-			float X = x - xp;
-			float Y = y - yp;
+			float X = x - xp + 0.5;
+			float Y = y - yp + 0.5;
 			float r = sqrtf(X*X+Y*Y)+1;
 			float v = sinf(r/(5*S)) * expf(-r*r*S*0.001f);
 			img.at(x,y)=v;
@@ -315,6 +315,9 @@ void ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float m
 	bool trace=false;
 	float rstep = (maxradius-minradius) / radialSteps;
 	int totalsmp = 0;
+
+	//FILE* f = fopen("D:\\TestImages\\test.csv","w");
+
 	for (int i=0;i<radialSteps; i++) {
 		double sum = 0.0f;
 
@@ -329,6 +332,8 @@ void ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float m
 				sum += v;
 				nsamples++;
 			}
+
+			//fprintf(f,"%d\t%d\t%f\n",i,a,v);
 		}
 
 		if (trace) {
@@ -339,6 +344,8 @@ void ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float m
 	}
 	if(trace)
 		dbgprintf("\n");
+
+	//fclose(f);
 
 	if (normalize) 
 		NormalizeRadialProfile(dst, radialSteps);

@@ -9,6 +9,57 @@
 
 float distance(vector2f a,vector2f b) { return distance(a.x-b.x,a.y-b.y); }
 
+bool DirExists(const std::string& dirName_in)
+{
+  DWORD ftyp = GetFileAttributesA(dirName_in.c_str());
+  if (ftyp == INVALID_FILE_ATTRIBUTES)
+    return false;  //something is wrong with your path!
+
+  if (ftyp & FILE_ATTRIBUTE_DIRECTORY)
+    return true;   // this is a directory!
+
+  return false;    // this is not a directory!
+}
+
+int NumFilesInDir(const std::string& dirName_in)
+{
+	WIN32_FIND_DATA FindFileData;
+	HANDLE hFind;
+
+	std::string dirName = dirName_in + "*";
+	hFind = FindFirstFile(dirName.c_str(),&FindFileData);
+	if (hFind == INVALID_HANDLE_VALUE) {
+		printf ("FindFirstFile failed (%d)\n", GetLastError());
+		return 0;
+	} 
+	int out = -1;
+	while(FindNextFile(hFind,&FindFileData)){
+		out++;
+	}
+	return out;
+}
+
+int NumJpgInDir(const std::string& dirName_in)
+{
+	WIN32_FIND_DATA FindFileData;
+	HANDLE hFind;
+
+	std::string dirName = dirName_in + "*";
+	hFind = FindFirstFile(dirName.c_str(),&FindFileData);
+	if (hFind == INVALID_HANDLE_VALUE) {
+		printf ("FindFirstFile failed (%d)\n", GetLastError());
+		return 0;
+	} 
+	int out = -1;
+	while(FindNextFile(hFind,&FindFileData)){
+		std::string name = FindFileData.cFileName;
+		if(name.find(".jpg")!=name.npos) {
+			out++;
+		}
+	}
+	return out;
+}
+
 outputter::outputter(int mode)	{ init(mode); }
 
 outputter::~outputter(){
@@ -126,7 +177,7 @@ ImageData GaussMask(ImageData img, float sigma)
 	return gaussImg;
 }
 
-ImageData SkewImage(ImageData img, int fact) 
+ImageData SkewImage(ImageData img, float fact) 
 {
 	ImageData skewImg = ImageData::alloc(img.w,img.h);
 	vector2f centre = vector2f(img.w/2,img.h/2);
