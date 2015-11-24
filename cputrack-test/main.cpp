@@ -29,7 +29,7 @@ const bool InDebugMode =
 
 void RescaleLUT(CPUTracker* trk, ImageData* lut)
 {
-	// abcd
+
 }
 
 void SpeedTest()
