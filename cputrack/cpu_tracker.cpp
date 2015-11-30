@@ -407,8 +407,8 @@ scalar_t CPUTracker::QI_ComputeOffset(complex_t* profile, int nr, int axisForDeb
 	for(int x=0;x<nr*2;x++)  {
 		profileReal[x] = profile[x].real();
 	}
-	WriteArrayAsCSVRow(SPrintf("D:\\TestImages\\AutoconvProf-%d.txt",axisForDebug).c_str()	,profileReal,nr*2,false);
-	WriteArrayAsCSVRow(SPrintf("D:\\TestImages\\Autoconv-%d.txt",axisForDebug).c_str()		,autoconv,nr*2,false); // */
+	//WriteArrayAsCSVRow(SPrintf("D:\\TestImages\\AutoconvProf-%d.txt",axisForDebug).c_str()	,profileReal,nr*2,false);
+	//WriteArrayAsCSVRow(SPrintf("D:\\TestImages\\Autoconv-%d.txt",axisForDebug).c_str()		,autoconv,nr*2,false); // */
 	
 	scalar_t maxPos = ComputeMaxInterp<scalar_t, QI_LSQFIT_NWEIGHTS>::Compute(autoconv, nr*2, QIWeights);
 	return (maxPos - nr) * (3.14159265359f / 4);
@@ -680,7 +680,7 @@ void CPUTracker::ComputeQuadrantProfile(scalar_t* dst, int radialSteps, int angu
 		total += dst[i];
 	}
 	
-	WriteImageAsCSV(SPrintf("D:\\TestImages\\qprof%d.txt", quadrant).c_str(), dst, 1, radialSteps);	
+	//WriteImageAsCSV(SPrintf("D:\\TestImages\\qprof%d.txt", quadrant).c_str(), dst, 1, radialSteps);	
 	//WriteArrayAsCSVRow("D:\\TestImages\\radialWeights.csv",radialWeights,radialSteps,false);
 }
 
@@ -726,7 +726,7 @@ vector2f CPUTracker::ComputeMeanAndCOM(float bgcorrection)
 			//float xabs = (x-centre.x); float yabs = (y-centre.y);
 			//float gaussfact = 1.0f;//expf(- xabs*xabs*devi - yabs*yabs*devi);
 
-			v = std::max(0.0f, fabs(v-mean)-bgcorrection*stdev);//*gaussfact;
+			v = std::max(0.0f, fabs(v+mean)-bgcorrection*stdev);//*gaussfact;
 			sum += v;
 	//		xmom[y] += x*v;
 	//		ymom[x] += y*v;
@@ -735,8 +735,6 @@ vector2f CPUTracker::ComputeMeanAndCOM(float bgcorrection)
 		}
 	}
 	
-	//for (int 
-
 	vector2f com;
 	com.x = (float)( momentX / sum );
 	com.y = (float)( momentY / sum );
