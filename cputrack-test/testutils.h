@@ -35,7 +35,9 @@ public:
 		outputString(out.str());
 	}
 
-	void newFile(std::string filename, const char* mode = "w+");
+	void newFile(std::string filename, const char* mode = "a");
+
+	std::string folder;
 private:
 	void init(int mode);
 	struct outputModes{
@@ -45,7 +47,6 @@ private:
 	};
 	outputModes modes;
 	FILE* outputFile;
-	std::string folder;
 };
 
 ImageData CropImage(ImageData img, int x, int y, int w, int h);

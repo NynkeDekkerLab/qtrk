@@ -78,6 +78,7 @@
     <ClCompile Include="..\cputrack\memdbg.cpp" />
     <ClCompile Include="..\cputrack\QueuedCPUTracker.cpp" />
     <ClCompile Include="..\cputrack\QueuedTracker.cpp" />
+    <ClCompile Include="..\cputrack\ResultManager.cpp" />
     <ClCompile Include="..\cputrack\TeLibJpeg\jmemdst.c" />
     <ClCompile Include="..\cputrack\TeLibJpeg\jmemsrc.c" />
     <ClCompile Include="..\cputrack\utils.cpp" />
@@ -94,6 +95,7 @@
     <ClInclude Include="..\cputrack\kissfft.h" />
     <ClInclude Include="..\cputrack\QueuedCPUTracker.h" />
     <ClInclude Include="..\cputrack\QueuedTracker.h" />
+    <ClInclude Include="..\cputrack\ResultManager.h" />
     <ClInclude Include="..\cputrack\std_incl.h" />
     <ClInclude Include="..\cputrack\TeLibJpeg\jmemdstsrc.h" />
     <ClInclude Include="..\cputrack\utils.h" />

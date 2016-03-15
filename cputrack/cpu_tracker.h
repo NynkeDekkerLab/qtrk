@@ -42,6 +42,8 @@ public:
 	std::vector<float> zlut_radialweights;
 	kissfft<scalar_t> *qa_fft_forward, *qa_fft_backward;
 
+	bool testRun;
+
 	float* GetRadialZLUT(int index)  { return &zluts[zlut_res*zlut_planes*index]; }
 
 	XCor1DBuffer* xcorBuffer;
@@ -62,7 +64,7 @@ public:
 	float& GetPixel(int x, int y) { return srcImage[width*y+x]; }
 	int GetWidth() { return width; }
 	int GetHeight() { return height; }
-	CPUTracker(int w, int h, int xcorwindow=128);
+	CPUTracker(int w, int h, int xcorwindow=128, bool testRun = false);
 	~CPUTracker();
 	bool KeepInsideBoundaries(vector2f *center, float radius);
 	bool CheckBoundaries(vector2f center, float radius);
@@ -106,6 +108,11 @@ public:
 	void SetRadialZLUT(float* data, int planes, int res, int num_zluts, float minradius, float maxradius, bool copyMemory, bool useCorrelation);
 	void SetRadialWeights(float *w);
 	enum LUTProfileMaxComputeMode { LUTProfMaxQuadraticFit, LUTProfMaxSplineFit, LUTProfMaxSimpleInterp };
+
+	void CalculateErrorCurve(double* errorcurve_dest, float* profile, float* zlut_sel);
+	void CalculateInterpolatedZLUTProfile(float* profile_dest, float z, int zlutIndex);
+	float CalculateErrorFlag(double* prof1, double* prof2);
+
 	float LUTProfileCompare(float* profile, int zlutIndex, float* cmpProf, LUTProfileMaxComputeMode maxPosMethod, float* lsqfittedcurve=0, int *maxPos=0, int frameNum = 0);
 	float LUTProfileCompareAdjustedWeights(float* rprof, int zlutIndex, float z_estim);
 

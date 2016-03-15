@@ -535,6 +535,8 @@ void WriteArrayAsCSVRow(const char *file, float* d, int len, bool append)
 		fprintf(f, "\n");
 		fclose(f);
 	}
+	else
+		dbgprintf("WriteArrayAsCSVRow: Unable to open file %s\n", file);
 }
 
 void WriteImageAsCSV(const char* file, float* d, int w,int h, const char* labels[])

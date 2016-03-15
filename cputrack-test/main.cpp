@@ -16,6 +16,7 @@
 #include <time.h>
 #include "testutils.h"
 #include "SharedTests.h"
+#include "ResultManager.h"
 
 const float ANGSTEPF = 1.5f;
 
@@ -999,7 +1000,7 @@ void BuildZLUT(std::string folder, outputter* output)
 	std::vector<BeadPos> beads = read_beadlist(SPrintf("%sbeadlist.txt",folder.c_str()));
 
 
-	int numImgInStack = 1219;
+	int numImgInStack = 1218;
 	int numPositions = 1001; // 10nm/frame
 	float range = 10.0f; // total range 25.0 um -> 35.0 um
 	float umPerImg = range/numImgInStack;
@@ -1007,7 +1008,7 @@ void BuildZLUT(std::string folder, outputter* output)
 	QTrkComputedConfig cfg;
 	cfg.width=cfg.height = ROISize;
 	cfg.qi_angstep_factor = 1;
-	cfg.qi_iterations = 2;
+	cfg.qi_iterations = 6;
 	cfg.qi_angular_coverage = 0.7f;
 	cfg.qi_roi_coverage = 1;
 	cfg.qi_radial_coverage = 1.5f;
@@ -1023,17 +1024,21 @@ void BuildZLUT(std::string folder, outputter* output)
 	cfg.xc1_profileWidth = ROISize*0.2f;
 	cfg.xc1_iterations = 1;
 	cfg.Update();
-	
-	int zplanes = 1000;
+	cfg.WriteToFile();
+
+	int zplanes = 50;
 
 	QueuedCPUTracker* qtrk = new QueuedCPUTracker(cfg);
+	qtrk->SetLocalizationMode(LT_NormalizeProfile | LT_QI);
 	qtrk->SetRadialZLUT(0, beads.size(), zplanes);
 	qtrk->BeginLUT(0);
 
 	int pxPerBead = ROISize*ROISize;
 	int memSizePerBead = pxPerBead*sizeof(float);
+	int startFrame = 400;
 	for(int plane = 0; plane < zplanes; plane++){
-		int frameNum = (int)numImgInStack*((float)plane/zplanes);
+		output->outputString(SPrintf("Frame %d/%d",plane+1,zplanes),true);
+		int frameNum = startFrame+(int)(numImgInStack-startFrame)*((float)plane/zplanes);
 		std::string file = SPrintf("%s\img%05d.jpg",folder.c_str(),frameNum);
 		
 		ImageData frame = ReadJPEGFile(file.c_str());
@@ -1045,8 +1050,9 @@ void BuildZLUT(std::string folder, outputter* output)
 			pos.x = beads.at(ii).x - ROISize/2;
 			pos.y = beads.at(ii).y - ROISize/2;
 			ImageData crop = CropImage(frame,pos.x,pos.y,ROISize,ROISize);
-			output->outputImage(crop,SPrintf("%d-%05d",ii,plane));
+			//output->outputImage(crop,SPrintf("%d-%05d",ii,plane));
 			memcpy(data+ii*pxPerBead,crop.data,memSizePerBead);
+			crop.free();
 		}
 		
 		/*
@@ -1056,7 +1062,7 @@ void BuildZLUT(std::string folder, outputter* output)
 
 		ImageData allBeads = ImageData(data,ROISize,ROISize*beads.size());
 		output->outputImage(allBeads,SPrintf("allBeads-%05d",frameNum));//*/
-
+		
 		qtrk->BuildLUT(data, sizeof(float)*ROISize, QTrkFloat, plane);
 		
 		frame.free();
@@ -1069,6 +1075,7 @@ void BuildZLUT(std::string folder, outputter* output)
 		ImageData lut = ImageData::alloc(cfg.zlut_radialsteps,zplanes);
 		memcpy(lut.data,qtrk->GetZLUTByIndex(ii),cfg.zlut_radialsteps*zplanes*sizeof(float));
 		//output->outputImage(lut,SPrintf("lut%03d,%d",beads.at(ii).x,beads.at(ii).y));
+		output->outputImage(lut,SPrintf("lut%03d",ii));
 		lut.free();
 	}
 
@@ -1078,9 +1085,9 @@ void BuildZLUT(std::string folder, outputter* output)
 
 void RunZTrace(std::string imagePath, std::string zlutPath, outputter* output)
 {
-	int ROISize = 120;
-	//std::vector<BeadPos> beads = read_beadlist(SPrintf("%sbeadlist.txt",imagePath.c_str()));
-	std::vector<BeadPos> beads = read_labview_beadlist(SPrintf("%sbeadlist.txt",imagePath.c_str()));
+	int ROISize = 100;
+	std::vector<BeadPos> beads = read_beadlist(SPrintf("%sbeadlist.txt",imagePath.c_str()));
+	//std::vector<BeadPos> beads = read_labview_beadlist(SPrintf("%sbeadlist.txt",imagePath.c_str()));
 	if(beads.size() == 0){
 		output->outputString("Empty beadlist!",true);
 		return;
@@ -1100,6 +1107,7 @@ void RunZTrace(std::string imagePath, std::string zlutPath, outputter* output)
 	output->outputString("ZLUT angular coverage (default 0.7)",true);
 	std::cin >> cfg.zlut_angular_coverage;
 	*/
+	/*
 	cfg.width = cfg.height = ROISize;
 	cfg.qi_angstep_factor = 1;
 	cfg.qi_iterations = 6;
@@ -1114,11 +1122,30 @@ void RunZTrace(std::string imagePath, std::string zlutPath, outputter* output)
 	cfg.com_bgcorrection = 0;
 	cfg.xc1_profileLength = ROISize*0.8f;
 	cfg.xc1_profileWidth = ROISize*0.2f;
-	cfg.xc1_iterations = 1;	
-	
+	cfg.xc1_iterations = 1;
+	cfg.testRun = true;
+	*/
+	cfg.width=cfg.height = ROISize;
+	cfg.qi_angstep_factor = 1;
+	cfg.qi_iterations = 6;
+	cfg.qi_angular_coverage = 0.7f;
+	cfg.qi_roi_coverage = 1;
+	cfg.qi_radial_coverage = 1.5f;
+	cfg.qi_minradius=0;
+	cfg.zlut_minradius=0;
+	cfg.zlut_angular_coverage = 0.7f;
+	cfg.zlut_roi_coverage = 1;
+	cfg.zlut_radial_coverage = 1.5f;
+	cfg.zlut_minradius = 0;
+	cfg.qi_minradius = 0;
+	cfg.com_bgcorrection = 0;
+	cfg.xc1_profileLength = ROISize*0.8f;
+	cfg.xc1_profileWidth = ROISize*0.2f;
+	cfg.xc1_iterations = 1;
+	cfg.testRun = true;
 	cfg.Update();
 	cfg.WriteToFile();
-	
+
 	std::string file = SPrintf("%s\lut%03d.jpg",zlutPath.c_str(),0);
 	ImageData lut = ReadJPEGFile(file.c_str());
 
@@ -1145,20 +1172,62 @@ void RunZTrace(std::string imagePath, std::string zlutPath, outputter* output)
 		positions[ii].y = beads.at(ii).y - ROISize/2;
 	}
 
+
+
 	QueuedCPUTracker* qtrk = new QueuedCPUTracker(cfg);
 	qtrk->SetRadialZLUT(zluts,beads.size(),zplanes);
 	qtrk->FinalizeLUT();
 	
-	//qtrk->ZLUTSelfTest();
-
-	qtrk->SetLocalizationMode(LT_QI | LT_LocalizeZ);
-
 	/*for(int ii = 0; ii < beads.size(); ii++){
 		ImageData lut = ImageData::alloc(cfg.zlut_radialsteps,zplanes);
 		memcpy(lut.data,qtrk->GetZLUTByIndex(ii),cfg.zlut_radialsteps*zplanes*sizeof(float));
 		output->outputImage(lut,SPrintf("lut-%d,%d",beads.at(ii).x,beads.at(ii).y));
 		lut.free();
 	}*/
+	//qtrk->ZLUTSelfTest();
+
+	qtrk->SetLocalizationMode(LT_QI | LT_LocalizeZ | LT_NormalizeProfile);
+
+	ResultManagerConfig RMcfg;
+	RMcfg.numBeads = beads.size();
+	RMcfg.numFrameInfoColumns = 0;
+	RMcfg.scaling = vector3f(1.0f,1.0f,1.0f);
+	RMcfg.offset  = vector3f(0.0f,0.0f,0.0f);
+	RMcfg.writeInterval = 25;
+	RMcfg.maxFramesInMemory = 100;
+	RMcfg.binaryOutput = false;
+
+	std::vector<std::string> colnames;
+	for(int ii = 0;ii<RMcfg.numFrameInfoColumns;ii++){
+		colnames.push_back(SPrintf("%d",ii));
+	}
+
+	ResultManager* RM = new ResultManager(
+		SPrintf("%s\\RMOutput.txt",output->folder.c_str()).c_str(),
+		SPrintf("%s\\RMFrameInfo.txt",output->folder.c_str()).c_str(),
+		&RMcfg, colnames);
+	
+	RM->SetTracker(qtrk);
+
+	int numFramesToTrack = NumJpgInDir(imagePath + "*");
+	for(int ii = 0; ii < numFramesToTrack; ii++){
+		std::string file = SPrintf("%s\img%05d.jpg",imagePath.c_str(),ii);
+		ImageData img = ReadJPEGFile(file.c_str());
+
+		LocalizationJob job(ii, 0, 0, 0);
+		int queued = qtrk->ScheduleFrame(img.data,sizeof(float)*img.w,img.w,img.h,positions,beads.size(),QTrkFloat,&job);
+		//output->outputString(SPrintf("Queueing frame %d. Current Queue size: %d. Added: %d.",ii,qtrk->GetQueueLength(),queued),true);
+		ResultManager::FrameCounters cnt = RM->GetFrameCounters();
+		output->outputString(SPrintf("Queueing frame %d. Current Queue size: %d.\n\tcaptured: %d\n\tprocessed: %d\n\tlocalizations: %d\n\tLOST: %d\n",ii,qtrk->GetQueueLength(),cnt.capturedFrames,cnt.processedFrames,cnt.localizationsDone,cnt.lostFrames),true);
+
+		img.free();
+	}
+
+	while(qtrk->GetQueueLength() != 0);
+	RM->Flush();
+	delete RM;
+	
+	/*  NO RESULT MANAGER
 
 	int numFramesToTrack = NumJpgInDir(imagePath + "*");
 	for(int ii = 0; ii < numFramesToTrack; ii++){
@@ -1185,15 +1254,15 @@ void RunZTrace(std::string imagePath, std::string zlutPath, outputter* output)
 			output->outputString(SPrintf("frame %d, bead %d: %f %f %f",lr.job.frame,lr.job.zlutIndex,lr.pos.x,lr.pos.y,lr.pos.z));
 		}
 	}
-
+	*/
 	/*ImageData allLuts = ImageData::alloc(res,zplanes*beads.size());
 	memcpy(allLuts.data,zluts,res*zplanes*beads.size()*sizeof(float));
 	output->outputImage(allLuts,"allLuts");
 	allLuts.free();//*/
 
 	qtrk->ClearResults();
-	delete positions;
 	delete qtrk;
+	delete positions;
 	delete[] zluts;	
 }
 
@@ -1316,11 +1385,12 @@ void ManTest()
 		cfg.xc1_profileLength = ROISize*0.8f;
 		cfg.xc1_profileWidth = ROISize*0.2f;
 		cfg.xc1_iterations = 4;	
+		cfg.testRun = true;
 	
 		cfg.Update();
 
 		QueuedCPUTracker* qtrk = new QueuedCPUTracker(cfg);
-		qtrk->SetLocalizationMode(LT_QI | LT_LocalizeZ);
+		qtrk->SetLocalizationMode(LT_QI | LT_LocalizeZ | LT_NormalizeProfile);
 		LocalizationJob job(0, 0, 0, 0);
 		ROIPosition pos;
 		pos.x = 0;
@@ -1399,11 +1469,12 @@ void SelectTests(const char* image, int OutputMode)
 				output->outputString("Test done!",true);
 				break;
 			case '5':
-				BuildZLUT("L:\\BN\\ND\\Shared\\Jordi\\TestMovie150507_2\\images\\jpg\\Zstack\\",output);
+				//BuildZLUT("L:\\BN\\ND\\Shared\\Jordi\\TestMovie150507_2\\images\\jpg\\Zstack\\",output);
+				BuildZLUT("D:\\TestImages\\TestMovie150507_2\\images\\jpg\\Zstack\\",output);
 				output->outputString("ZLUTs Built",true);
 				break;
 			case '6':
-				while(!(DirExists(imagesPath) && NumJpgInDir(imagesPath) > 0)){
+				/*while(!(DirExists(imagesPath) && NumJpgInDir(imagesPath) > 0)){
 					output->outputString("Enter image folder (with beadlist):",true);
 					std::cin >> imagesPath;
 					output->outputString(SPrintf("%d jpgs in folder",NumJpgInDir(imagesPath)),true);
@@ -1413,8 +1484,10 @@ void SelectTests(const char* image, int OutputMode)
 					std::cin >> LUTPath;
 					output->outputString(SPrintf("%d jpgs in folder",NumJpgInDir(LUTPath)),true);
 				}
-				RunZTrace(imagesPath,LUTPath,output);
-				//RunZTrace("L:\\BN\\ND\\Shared\\Jordi\\TestMovie150507_2\\images\\jpg\\Illumination150\\","D:\\TestImages\\TestOutput\\150624-165647\\",output);
+				RunZTrace(imagesPath,LUTPath,output);*/
+				//RunZTrace("L:\\BN\\ND\\Shared\\Jordi\\20150804_TestMovie\\images\\jordi_test\\jpg\\","L:\\BN\\ND\\Shared\\Jordi\\20150804_TestMovie\\images\\lut\\",output);
+				//RunZTrace("D:\\TestImages\\20150804_TestMovie\\images\\jordi_test\\jpg\\","D:\\TestImages\\20150804_TestMovie\\images\\lut\\",output);
+				RunZTrace("D:\\TestImages\\TestMovie150507_2\\images\\jpg\\Zstack\\","D:\\TestImages\\TestMovie150507_2\\ZLUTS_50planes\\",output);
 				break;
 			case 'm':
 				ManTest();
@@ -1440,8 +1513,8 @@ int main()
 #ifdef _DEBUG
 //	Matrix3X3::test();
 #endif
-//	SelectTests("D:\\TestImages\\img00095.jpg", Files+Images);
-	ManTest();
+	SelectTests("D:\\TestImages\\img00095.jpg", Files+Images);
+//	ManTest();
 
 //	SimpleTest();
 

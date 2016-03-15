@@ -158,9 +158,9 @@ void QTrkCompareTest()
 			GenerateTestImage(img, center.x, center.y, s, 0.0f);
 			WriteJPEGFile("qtrkzlutimg.jpg", img);
 
-			qtrk.BuildLUT(img.data,img.pitch(),QTrkFloat, 0, x, 0);
+			qtrk.BuildLUT(img.data,img.pitch(),QTrkFloat, 0, (vector2f*)(0));
 			if (cpucmp) 
-				qtrkcpu.BuildLUT(img.data,img.pitch(),QTrkFloat, 0, x);
+				qtrkcpu.BuildLUT(img.data,img.pitch(),QTrkFloat, 0);
 		}
 		qtrk.FinalizeLUT();
 		if (cpucmp) qtrkcpu.FinalizeLUT();
@@ -327,7 +327,7 @@ float SpeedTest(const QTrkSettings& cfg, QueuedTracker* qtrk, int count, bool ha
 			vector2f center( cfg.width/2, cfg.height/2 );
 			float s = zmin + (zmax-zmin) * x/(float)(zplanes-1);
 			GenerateTestImage(img, center.x, center.y, s, 0.0f);
-			qtrk->BuildLUT(img.data,img.pitch(),QTrkFloat, 0, x);
+			qtrk->BuildLUT(img.data,img.pitch(),QTrkFloat, 0);
 		}
 		qtrk->FinalizeLUT();
 	}
@@ -611,7 +611,7 @@ void QICompare(const char *lutfile )
 
 	srand(0);
 	const int N=1;
-	gpu.SetLocalizationMode( LT_QI);
+	gpu.SetLocalizationMode(LT_QI);
 	cpu.SetLocalizationMode(LT_QI);
 	for (int i=0;i<N;i++) {
 		LocalizationJob job(i, 0, 0, 0);
@@ -869,6 +869,20 @@ int CmdLineRun(int argc, char*argv[])
 	return 0;
 }
 
+__global__ void VectorAdd(int *a, int *b, int *c, int n)
+{
+	/*
+	int i;
+	for(i = 0; i < n; i++)
+		c[i] = a[i]+b[i];
+	*/
+	
+	int i = threadIdx.x;
+	if(i < n)
+		c[i] = a[i] + b[i];
+}
+
+#define SIZE 200
 
 int main(int argc, char *argv[])
 {
@@ -880,6 +894,52 @@ int main(int argc, char *argv[])
 	}
 
 	try {
+		/*
+		int *a, *b, *c;
+		int *d_a, *d_b, *d_c;
+
+		a = (int *)malloc(SIZE*sizeof(int));
+		b = (int *)malloc(SIZE*sizeof(int));
+		c = (int *)malloc(SIZE*sizeof(int));
+
+		cudaMalloc( &d_a, SIZE*sizeof(int));
+		cudaMalloc( &d_b, SIZE*sizeof(int));
+		cudaMalloc( &d_c, SIZE*sizeof(int));
+
+		for(int ii = 0; ii < SIZE; ii++) {
+			a[ii] = 2*ii;
+			b[ii] = ii;
+			c[ii] = 0;
+		}
+
+		cudaMemcpy(d_a, a, SIZE*sizeof(int),cudaMemcpyHostToDevice);
+		cudaMemcpy(d_b, b, SIZE*sizeof(int),cudaMemcpyHostToDevice);
+		cudaMemcpy(d_c, c, SIZE*sizeof(int),cudaMemcpyHostToDevice);
+
+		VectorAdd <<< 1, SIZE >>> (d_a, d_b, d_c, SIZE);
+
+		cudaDeviceSynchronize();
+		cudaError_t error = cudaGetLastError();
+
+		cudaMemcpy(c, d_c, SIZE*sizeof(int),cudaMemcpyDeviceToHost);
+		//printf("Errors:\n1: %s\n2: %s\n3: %s\n4: %s \n",e1,e2,e3,e4);
+		
+		for( int ii = 0; ii < SIZE; ii=ii+20){
+			printf("a[%03d] = %d\tc[%03d] = %d\n", ii, a[ii], ii, c[ii]);
+		}
+
+		free(a);
+		free(b);
+		free(c);
+
+		cudaFree(d_a);
+		cudaFree(d_b);
+		cudaFree(d_c);
+
+		cudaDeviceProp deviceProp;
+		cudaGetDeviceProperties(&deviceProp, 0);
+		printf("%s\n",deviceProp.name);
+		*/
 	//	TestBenchmarkLUT();
 	//	testLinearArray();
 	//	TestTextureFetch();
@@ -895,22 +955,19 @@ int main(int argc, char *argv[])
 
 //		BenchmarkParams();
 
-	//	BasicQTrkTest();
+		BasicQTrkTest();
+	//	QICompare("../cputrack-test/lut000.jpg");
 	//	TestCMOSNoiseInfluence<QueuedCUDATracker>("../cputrack-test/lut000.jpg");
-
-	#ifdef QI_DEBUG
-		QICompare("../cputrack-test/lut000.jpg");
-	#endif
 
 		//CompareAccuracy("../cputrack-test/lut000.jpg");
 		//QTrkCompareTest();
-
+		/*
 		ProfileSpeedVsROI(LT_OnlyCOM, "speeds-com.txt", false, 0);
 		ProfileSpeedVsROI(LT_OnlyCOM, "speeds-com-z.txt", true, 0);
 		ProfileSpeedVsROI(LT_XCor1D, "speeds-xcor.txt", true, 0);
 		for (int qi_it=1;qi_it<=4;qi_it++) {
 			ProfileSpeedVsROI(LT_QI, SPrintf("speeds-qi-%d-iterations.txt",qi_it).c_str(), true, qi_it);
-		}
+		}*/
 
 		/*auto info = SpeedCompareTest(80, false);
 		auto infogc = SpeedCompareTest(80, true);
@@ -921,5 +978,6 @@ int main(int argc, char *argv[])
 	} catch (const std::exception& e) {
 		dbgprintf("Exception: %s\n", e.what());
 	}
+	system("pause");
 	return 0;
 }

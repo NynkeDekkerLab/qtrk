@@ -188,7 +188,6 @@ void ResultManager::WriteTextResults()
 	}
 	if(finfo) fclose(finfo);
 	if(f) fclose(f);
-
 }
 
 void ResultManager::Write()
@@ -257,7 +256,7 @@ bool ResultManager::Update()
 			Write();
 		}
 
-		dbgprintf("Removing %d frames from memory\n", del);
+		//dbgprintf("Removing %d frames from memory\n", del);
 		
 		for (int i=0;i<del;i++)
 			delete frameResults[i];

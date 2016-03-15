@@ -67,7 +67,7 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
     <CudaCompile>
       <Include>../cputrack</Include>
-      <CodeGeneration>compute_20,sm_20</CodeGeneration>
+      <CodeGeneration>compute_20,sm_20;compute_30,sm_30</CodeGeneration>
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -97,9 +97,9 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
     <CudaCompile>
       <Include>../cputrack</Include>
-      <CodeGeneration>compute_20,sm_20</CodeGeneration>
       <Optimization>O2</Optimization>
       <Runtime>MT</Runtime>
+      <CodeGeneration>compute_20,sm_20;compute_30,sm_30</CodeGeneration>
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -117,6 +117,7 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
   <ItemGroup>
     <ClInclude Include="..\cputrack\BeadFinder.h" />
     <ClInclude Include="..\cputrack\cpu_tracker.h" />
+    <ClInclude Include="..\cputrack\qtrk_c_api.h" />
     <ClInclude Include="..\cputrack\QueuedTracker.h" />
     <ClInclude Include="..\cputrack\ResultManager.h" />
     <ClInclude Include="..\cputrack\TeLibJpeg\jmemdstsrc.h" />

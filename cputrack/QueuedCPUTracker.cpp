@@ -96,8 +96,7 @@ int QueuedCPUTracker::GetQueueLength(int *maxQueueLength)
 QueuedCPUTracker::QueuedCPUTracker(const QTrkComputedConfig& cc) 
 	: jobs_mutex("jobs"), jobs_buffer_mutex("jobs_buffer"), results_mutex("results")
 {
-	bool diagMode = false;
-	if(diagMode){
+	if(cc.testRun){
 		std::string folder = GetCurrentOutputPath();
 		if(GetFileAttributesA(folder.c_str()) & FILE_ATTRIBUTE_DIRECTORY)
 			CreateDirectory((LPCTSTR)folder.c_str(),NULL);
@@ -111,7 +110,7 @@ QueuedCPUTracker::QueuedCPUTracker(const QTrkComputedConfig& cc)
 		dbgprintf("Using %d threads\n", cfg.numThreads);
 	} 
 
-	maxQueueSize = std::max(2,cfg.numThreads) * 50;
+	maxQueueSize = std::max(2,cfg.numThreads) * 250;
 	jobCount = 0;
 	resultCount = 0;
 
@@ -224,7 +223,7 @@ void QueuedCPUTracker::Start()
 		threads[k].mutex->name = SPrintf("thread%d", k);
 		threads[k].mutex->trace = true;
 #endif
-		threads[k].tracker = new CPUTracker(downsampleWidth, downsampleHeight, cfg.xc1_profileLength);
+		threads[k].tracker = new CPUTracker(downsampleWidth, downsampleHeight, cfg.xc1_profileLength, cfg.testRun);
 		threads[k].manager = this;
 		threads[k].tracker->trackerID = k;
 	}
@@ -607,7 +606,7 @@ void QueuedCPUTracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, i
 			vector2f com = trk.ComputeMeanAndCOM();
 			bool bhit;
 			pos = trk.ComputeQI(com, cfg.qi_iterations, cfg.qi_radialsteps, cfg.qi_angstepspq, cfg.qi_angstep_factor, cfg.qi_minradius, cfg.qi_maxradius, bhit);
-			dbgprintf("BuildLUT() COMPos: %f,%f, QIPos: x=%f, y=%f\n", com.x,com.y, pos.x, pos.y);
+			//dbgprintf("BuildLUT() COMPos: %f,%f, QIPos: x=%f, y=%f\n", com.x,com.y, pos.x, pos.y);
 		}
 		if (zlut_buildflags & BUILDLUT_IMAGELUT) {
 			int h=ImageLUTHeight(), w=ImageLUTWidth();

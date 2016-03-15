@@ -155,9 +155,10 @@ QueuedCUDATracker::QueuedCUDATracker(const QTrkComputedConfig& cc, int batchSize
 
 	cudaGetDeviceProperties(&deviceProp, devices[0]->index);
 
-	if (deviceProp.kernelExecTimeoutEnabled) {
-		throw std::runtime_error(SPrintf("CUDA Kernel execution timeout is enabled for %s. Disable WDDM Time-out Detection and Recovery (TDR) in the nVidia NSight Monitor before running this code", deviceProp.name));
-	}
+	if (deviceProp.kernelExecTimeoutEnabled) 
+		throw std::runtime_error(SPrintf("CUDA Tracker init error: CUDA Kernel execution timeout is enabled for %s. Disable WDDM Time-out Detection and Recovery (TDR) in the nVidia NSight Monitor before running this code", deviceProp.name));
+	if (deviceProp.major < 2)
+		throw std::runtime_error("CUDA Tracker init error: GPU not supported, capability < 2.0");
 
 	numThreads = deviceProp.warpSize;
 	
@@ -380,8 +381,7 @@ QueuedCUDATracker::Stream* QueuedCUDATracker::GetReadyStream()
 		Stream *best = 0;
 		for (int i=0;i<streams.size();i++) 
 		{
-			Stream*s = streams[i];
-
+			Stream*s = streams[i];			
 			if (s->state == Stream::StreamIdle) {
 				if (!best || (s->JobCount() > best->JobCount()))
 					best = s;
@@ -512,7 +512,7 @@ void QueuedCUDATracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, 
 			trk.ComputeRadialProfile(&profiles[i * cfg.zlut_radialsteps], cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, positions[i], false, 0, true);
 		}
 	});
-
+	
 	// add to device 0 LUT
 	device_vec<float> d_profiles (nbeads * cfg.zlut_radialsteps);
 	d_profiles.copyToDevice(profiles, nbeads * cfg.zlut_radialsteps);
@@ -538,6 +538,14 @@ void QueuedCUDATracker::FinalizeLUT()
 	}
 
 	SetRadialZLUT(tmp, src.count, src.h);
+	
+	for(int bead = 0; bead < src.count; bead++){
+		for(int step = 0; step < cfg.zlut_radialsteps; step++){
+			dbgprintf("%f ",tmp[(bead * cfg.zlut_radialsteps)+step]);
+		}
+	}
+	dbgprintf("\n"); //*/
+
 	delete[] tmp;
 }
 

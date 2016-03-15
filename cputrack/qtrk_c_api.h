@@ -67,7 +67,7 @@ struct QTrkSettings {
 		zlut_angular_coverage = 0.7f;
 		zlut_radial_coverage = 3.0f;
 		zlut_roi_coverage = 1.0f;
-		qi_iterations = 4;
+		qi_iterations = 5;
 		qi_minradius = 1;
 		qi_angular_coverage = 0.7f;
 		qi_radial_coverage = 3.0f; 
@@ -78,6 +78,7 @@ struct QTrkSettings {
 		gauss2D_iterations = 6;
 		gauss2D_sigma = 4;
 		downsample = 0;
+		testRun = false;
 	}
 	int width, height;
 	int numThreads;
@@ -111,6 +112,8 @@ struct QTrkSettings {
 	float gauss2D_sigma;
 
 	int downsample; // 0 = original, 1 = 1x (W=W/2,H=H/2)
+
+	bool testRun;
 };
 
 struct ROIPosition

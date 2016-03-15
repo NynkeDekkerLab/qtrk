@@ -91,7 +91,18 @@ void outputter::newFile(std::string filename, const char* mode){
 		if(outputFile)
 			fclose(outputFile);
 		std::string outfile = folder + filename + ".txt";
+		while(fopen(outfile.c_str(),"r")){
+			std::cout << "Output file " << filename << " already exists, please specify new filename:\n";
+			std::cin >> filename;
+			outfile = folder + filename + ".txt";
+		}
 		outputFile = fopen(outfile.c_str(),mode);
+		while(!outputFile){
+			std::cout << "Error creating output file "<< outfile << "\n\n";
+			std::cout << "Error " << outfile << " already exists, please specify new file path:\n";
+			std::cin >> outfile;
+			outputFile = fopen(outfile.c_str(),mode);
+		}
 	}
 }
 
