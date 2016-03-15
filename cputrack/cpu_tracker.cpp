@@ -728,7 +728,6 @@ vector2f CPUTracker::ComputeMeanAndCOM(float bgcorrection)
 			//float xabs = (x-centre.x); float yabs = (y-centre.y);
 			//float gaussfact = 1.0f;//expf(- xabs*xabs*devi - yabs*yabs*devi);
 
-			v = std::max(0.0f, fabs(v-mean)-bgcorrection*stdev);//*gaussfact;
 			sum += v;
 	//		xmom[y] += x*v;
 	//		ymom[x] += y*v;
