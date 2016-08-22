@@ -1,0 +1,37 @@
+\hypertarget{simplefft_8h}{}\section{cudatrack/simplefft.h File Reference}
+\label{simplefft_8h}\index{cudatrack/simplefft.\+h@{cudatrack/simplefft.\+h}}
+{\ttfamily \#include $<$complex$>$}\\*
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structsfft_1_1complex}{sfft\+::complex$<$ T $>$}
+\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \hyperlink{namespacesfft}{sfft}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{simplefft_8h_acfebaca1d9d8f48864704773594876b7}{S\+F\+F\+T\+\_\+\+B\+O\+TH}~\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T $>$ }\\\hyperlink{simplefft_8h_acfebaca1d9d8f48864704773594876b7}{S\+F\+F\+T\+\_\+\+B\+O\+TH} void \hyperlink{namespacesfft_a6fd4eed54bb67483098b21032bf68bf5}{sfft\+::swap} (T \&a, T \&b)
+\item 
+{\footnotesize template$<$typename T , int sign$>$ }\\\hyperlink{simplefft_8h_acfebaca1d9d8f48864704773594876b7}{S\+F\+F\+T\+\_\+\+B\+O\+TH} void \hyperlink{namespacesfft_afe126ab208ddda6ebf1082ba5fccf97c}{sfft\+::fft} (size\+\_\+t N, std\+::complex$<$ T $>$ $\ast$zs, complex$<$ T $>$ $\ast$twiddles)
+\item 
+{\footnotesize template$<$typename T $>$ }\\std\+::vector$<$ complex$<$ T $>$ $>$ \hyperlink{namespacesfft_adb7a1a523f70985b8e7c17bcb6e1c30f}{sfft\+::fill\+\_\+twiddles} (int N)
+\item 
+{\footnotesize template$<$typename T $>$ }\\\hyperlink{simplefft_8h_acfebaca1d9d8f48864704773594876b7}{S\+F\+F\+T\+\_\+\+B\+O\+TH} void \hyperlink{namespacesfft_af570d5b3d61e3da21700a7ba5773e00a}{sfft\+::fft\+\_\+forward} (size\+\_\+t N, complex$<$ T $>$ $\ast$zs, complex$<$ T $>$ $\ast$twiddles)
+\item 
+{\footnotesize template$<$typename T $>$ }\\\hyperlink{simplefft_8h_acfebaca1d9d8f48864704773594876b7}{S\+F\+F\+T\+\_\+\+B\+O\+TH} void \hyperlink{namespacesfft_aa248f213f81b23b17801fc26fd2e0324}{sfft\+::fft\+\_\+inverse} (size\+\_\+t N, complex$<$ T $>$ $\ast$zs, complex$<$ T $>$ $\ast$twiddles)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\index{simplefft.\+h@{simplefft.\+h}!S\+F\+F\+T\+\_\+\+B\+O\+TH@{S\+F\+F\+T\+\_\+\+B\+O\+TH}}
+\index{S\+F\+F\+T\+\_\+\+B\+O\+TH@{S\+F\+F\+T\+\_\+\+B\+O\+TH}!simplefft.\+h@{simplefft.\+h}}
+\subsubsection[{\texorpdfstring{S\+F\+F\+T\+\_\+\+B\+O\+TH}{SFFT_BOTH}}]{\setlength{\rightskip}{0pt plus 5cm}\#define S\+F\+F\+T\+\_\+\+B\+O\+TH~\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+host\+\_\+\+\_\+}\hypertarget{simplefft_8h_acfebaca1d9d8f48864704773594876b7}{}\label{simplefft_8h_acfebaca1d9d8f48864704773594876b7}

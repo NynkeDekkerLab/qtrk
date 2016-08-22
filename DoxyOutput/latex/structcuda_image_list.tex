@@ -1,0 +1,607 @@
+\hypertarget{structcuda_image_list}{}\section{cuda\+Image\+List$<$ T $>$ Struct Template Reference}
+\label{structcuda_image_list}\index{cuda\+Image\+List$<$ T $>$@{cuda\+Image\+List$<$ T $>$}}
+
+
+{\ttfamily \#include $<$cuda\+Image\+List.\+h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \hyperlink{structcuda_image_list_a1b8db76e0fc065a9133a753dcf8664b6a197720e0aff172992408e8de3cbd6e4a}{Max\+Image\+Width} = 8192
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{gpu__utils_8h_ac50b87a58396e77c6168aa6f3be3c189}{C\+U\+B\+O\+TH} int \hyperlink{structcuda_image_list_a4f2cf476a48fe70d5d1849212017883b}{fullwidth} ()
+\item 
+\hyperlink{gpu__utils_8h_ac50b87a58396e77c6168aa6f3be3c189}{C\+U\+B\+O\+TH} int \hyperlink{structcuda_image_list_abec8121a698e04d7d3afa21b77a673a8}{fullheight} ()
+\item 
+\hyperlink{gpu__utils_8h_ac50b87a58396e77c6168aa6f3be3c189}{C\+U\+B\+O\+TH} int \hyperlink{structcuda_image_list_a6759021920d3f07b1b46049a3d3ab78e}{capacity} ()
+\item 
+\hyperlink{gpu__utils_8h_ac50b87a58396e77c6168aa6f3be3c189}{C\+U\+B\+O\+TH} int \hyperlink{structcuda_image_list_a7f29b098dc0916fff9a396c8250c560c}{numpixels} ()
+\item 
+\hyperlink{gpu__utils_8h_ac50b87a58396e77c6168aa6f3be3c189}{C\+U\+B\+O\+TH} bool \hyperlink{structcuda_image_list_a27f76df59ecf2802d89ce123f21a2780}{is\+Empty} ()
+\item 
+{\footnotesize template$<$int Flags$>$ }\\void \hyperlink{structcuda_image_list_a1e1ba9d79be0038996d1d4a65042a4db}{allocate\+Host\+Image\+Buffer} (\hyperlink{classpinned__array}{pinned\+\_\+array}$<$ T, Flags $>$ \&host\+Img\+Buf)
+\item 
+\hyperlink{gpu__utils_8h_ac50b87a58396e77c6168aa6f3be3c189}{C\+U\+B\+O\+TH} T $\ast$ \hyperlink{structcuda_image_list_a5e6745abe38ecdfab4b5e9913e26c952}{get} (int i)
+\item 
+\hyperlink{gpu__utils_8h_ac50b87a58396e77c6168aa6f3be3c189}{C\+U\+B\+O\+TH} T \hyperlink{structcuda_image_list_a12659cbcf3d4801ea8e6c354efd58baa}{pixel\+\_\+oobcheck} (int x, int y, int img\+Index, T border=0.\+0f)
+\item 
+\hyperlink{gpu__utils_8h_ac50b87a58396e77c6168aa6f3be3c189}{C\+U\+B\+O\+TH} T \& \hyperlink{structcuda_image_list_a3688416d9034449c1493e593c8456eb2}{pixel} (int x, int y, int img\+Index)
+\item 
+\hyperlink{gpu__utils_8h_ac50b87a58396e77c6168aa6f3be3c189}{C\+U\+B\+O\+TH} T $\ast$ \hyperlink{structcuda_image_list_aab7ac2329d20752d4364c87a21d76092}{pixel\+Address} (int x, int y, int img\+Index)
+\item 
+\hyperlink{gpu__utils_8h_ac50b87a58396e77c6168aa6f3be3c189}{C\+U\+B\+O\+TH} bool \hyperlink{structcuda_image_list_a0be4b46f22a09af571d491bbc99fc62c}{boundary\+Hit} (float2 center, float radius)
+\item 
+void \hyperlink{structcuda_image_list_a9c8aaf572231ec29a583e1ecb3954288}{free} ()
+\item 
+void \hyperlink{structcuda_image_list_a656201f3b644a8435b1c7a37951ff672}{copy\+Image\+To\+Host} (int img, T $\ast$dst, bool async=false, cuda\+Stream\+\_\+t s=0)
+\item 
+void \hyperlink{structcuda_image_list_aecf1932bc3e9fceff797da80fd19b0a5}{copy\+Image\+To\+Device} (int img, T $\ast$src, bool async=false, cuda\+Stream\+\_\+t s=0)
+\item 
+void \hyperlink{structcuda_image_list_a5bb9d8aaf4bf1c96bc3e50b6b4407756}{copy\+To\+Host} (T $\ast$dst, bool async=false, cuda\+Stream\+\_\+t s=0)
+\item 
+void \hyperlink{structcuda_image_list_a090c71fb373e9f7d52a3694a835a5f18}{copy\+To\+Device} (T $\ast$src, bool async=false, cuda\+Stream\+\_\+t s=0)
+\item 
+void \hyperlink{structcuda_image_list_a76f7051f3ddc025ae684030e86413412}{copy\+To\+Device} (T $\ast$src, int num\+Images, bool async=false, cuda\+Stream\+\_\+t s=0)
+\item 
+void \hyperlink{structcuda_image_list_a641a7d5e6610bb1c9759a8a9abb94c63}{clear} ()
+\item 
+\hyperlink{gpu__utils_8h_ac50b87a58396e77c6168aa6f3be3c189}{C\+U\+B\+O\+TH} int \hyperlink{structcuda_image_list_ab2932830664bc51c062c9a1bbca38a37}{total\+Num\+Pixels} ()
+\item 
+\hyperlink{gpu__utils_8h_ac50b87a58396e77c6168aa6f3be3c189}{C\+U\+B\+O\+TH} int \hyperlink{structcuda_image_list_a6d7497e075d8501461099e602d69dc78}{total\+Num\+Bytes} ()
+\item 
+\hyperlink{gpu__utils_8h_ac50b87a58396e77c6168aa6f3be3c189}{C\+U\+B\+O\+TH} T \hyperlink{structcuda_image_list_a9f9060dfb911251c4170cad388aeccab}{interpolate} (float x, float y, int idx, bool \&outside)
+\item 
+void \hyperlink{structcuda_image_list_a36a72cb4f9e988aa7ce04866592aa55d}{bind} (texture$<$ T, cuda\+Texture\+Type2D, cuda\+Read\+Mode\+Element\+Type $>$ \&texref)
+\item 
+void \hyperlink{structcuda_image_list_a5fd1e6014eb7f4a91e04344e208c70fe}{unbind} (texture$<$ T, cuda\+Texture\+Type2D, cuda\+Read\+Mode\+Element\+Type $>$ \&texref)
+\item 
+\hyperlink{gpu__utils_8h_ac50b87a58396e77c6168aa6f3be3c189}{C\+U\+B\+O\+TH} void \hyperlink{structcuda_image_list_a579fe28a4c876eb211cd2e5548447a2c}{compute\+Image\+Pos} (int \&x, int \&y, int idx)
+\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ T \hyperlink{structcuda_image_list_a0c1befe3e606950d6dd8d78da273ffd8}{interpolate\+From\+Texture} (texture$<$ T, cuda\+Texture\+Type2D, cuda\+Read\+Mode\+Element\+Type $>$ texref, float x, float y, int idx, bool \&outside)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{structcuda_image_list}{cuda\+Image\+List}$<$ T $>$ \hyperlink{structcuda_image_list_ae998034684c0aa6c4e0eceda64fa8e63}{empty\+List} ()
+\item 
+static \hyperlink{structcuda_image_list}{cuda\+Image\+List}$<$ T $>$ \hyperlink{structcuda_image_list_abfee870822f21abd6a8d5563ec26199d}{alloc} (int \hyperlink{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{w}, int \hyperlink{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}{h}, int amount)
+\item 
+static \hyperlink{gpu__utils_8h_ac50b87a58396e77c6168aa6f3be3c189}{C\+U\+B\+O\+TH} T \hyperlink{structcuda_image_list_afa122427dc703d5c4a13b87d5926de20}{interp} (T a, T b, float x)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+T $\ast$ \hyperlink{structcuda_image_list_a5e32f3d282240b52b543b693723ee8ed}{data}
+\item 
+size\+\_\+t \hyperlink{structcuda_image_list_a5a52e30551cba6350cbedbb2eb5693b5}{pitch}
+\item 
+int \hyperlink{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{w}
+\item 
+int \hyperlink{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}{h}
+\item 
+int \hyperlink{structcuda_image_list_aecc60af52765a600acbebacf2f28c0db}{count}
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Enumeration Documentation}
+\subsubsection[{\texorpdfstring{anonymous enum}{anonymous enum}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ anonymous enum}\hypertarget{structcuda_image_list_a1b8db76e0fc065a9133a753dcf8664b6}{}\label{structcuda_image_list_a1b8db76e0fc065a9133a753dcf8664b6}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Max\+Image\+Width@{Max\+Image\+Width}!cuda\+Image\+List@{cuda\+Image\+List}}\index{cuda\+Image\+List@{cuda\+Image\+List}!Max\+Image\+Width@{Max\+Image\+Width}}\item[{\em 
+Max\+Image\+Width\hypertarget{structcuda_image_list_a1b8db76e0fc065a9133a753dcf8664b6a197720e0aff172992408e8de3cbd6e4a}{}\label{structcuda_image_list_a1b8db76e0fc065a9133a753dcf8664b6a197720e0aff172992408e8de3cbd6e4a}
+}]\end{description}
+\end{Desc}
+
+\begin{DoxyCode}
+20 \{ \hyperlink{structcuda_image_list_a1b8db76e0fc065a9133a753dcf8664b6a197720e0aff172992408e8de3cbd6e4a}{MaxImageWidth} = 8192 \};
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\index{cuda\+Image\+List@{cuda\+Image\+List}!alloc@{alloc}}
+\index{alloc@{alloc}!cuda\+Image\+List@{cuda\+Image\+List}}
+\subsubsection[{\texorpdfstring{alloc(int w, int h, int amount)}{alloc(int w, int h, int amount)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ static {\bf cuda\+Image\+List}$<$T$>$ {\bf cuda\+Image\+List}$<$ T $>$\+::alloc (
+\begin{DoxyParamCaption}
+\item[{int}]{w, }
+\item[{int}]{h, }
+\item[{int}]{amount}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}\hypertarget{structcuda_image_list_abfee870822f21abd6a8d5563ec26199d}{}\label{structcuda_image_list_abfee870822f21abd6a8d5563ec26199d}
+
+\begin{DoxyCode}
+36                                                             \{
+37         \hyperlink{structcuda_image_list}{cudaImageList} imgl;
+38         imgl.\hyperlink{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{w} = \hyperlink{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{w}; imgl.\hyperlink{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}{h} = \hyperlink{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}{h};
+39         imgl.\hyperlink{structcuda_image_list_aecc60af52765a600acbebacf2f28c0db}{count} = amount;
+40 
+41         \textcolor{keywordflow}{if} (cudaMallocPitch(&imgl.\hyperlink{structcuda_image_list_a5e32f3d282240b52b543b693723ee8ed}{data}, &imgl.\hyperlink{structcuda_image_list_a5a52e30551cba6350cbedbb2eb5693b5}{pitch}, \textcolor{keyword}{sizeof}(T)*imgl.
+      \hyperlink{structcuda_image_list_a4f2cf476a48fe70d5d1849212017883b}{fullwidth}(), imgl.\hyperlink{structcuda_image_list_abec8121a698e04d7d3afa21b77a673a8}{fullheight}()) != cudaSuccess) \{
+42             \textcolor{keywordflow}{throw} std::bad\_alloc(\hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"cudaImageListf<%s> alloc %dx%dx%d failed"}, \textcolor{keyword}{typeid}(T).name(
+      ), \hyperlink{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{w}, \hyperlink{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}{h}, amount).c\_str());
+43         \}
+44         \textcolor{keywordflow}{return} imgl;
+45     \}
+\end{DoxyCode}
+\index{cuda\+Image\+List@{cuda\+Image\+List}!allocate\+Host\+Image\+Buffer@{allocate\+Host\+Image\+Buffer}}
+\index{allocate\+Host\+Image\+Buffer@{allocate\+Host\+Image\+Buffer}!cuda\+Image\+List@{cuda\+Image\+List}}
+\subsubsection[{\texorpdfstring{allocate\+Host\+Image\+Buffer(pinned\+\_\+array$<$ T, Flags $>$ \&host\+Img\+Buf)}{allocateHostImageBuffer(pinned_array< T, Flags > &hostImgBuf)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ template$<$int Flags$>$ void {\bf cuda\+Image\+List}$<$ T $>$\+::allocate\+Host\+Image\+Buffer (
+\begin{DoxyParamCaption}
+\item[{{\bf pinned\+\_\+array}$<$ T, Flags $>$ \&}]{host\+Img\+Buf}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{structcuda_image_list_a1e1ba9d79be0038996d1d4a65042a4db}{}\label{structcuda_image_list_a1e1ba9d79be0038996d1d4a65042a4db}
+
+\begin{DoxyCode}
+48                                                                      \{
+49         hostImgBuf.\hyperlink{classpinned__array_afcb2e45a55852c293d11c67de5064007}{init}( \hyperlink{structcuda_image_list_a7f29b098dc0916fff9a396c8250c560c}{numpixels}() );
+50     \}
+\end{DoxyCode}
+\index{cuda\+Image\+List@{cuda\+Image\+List}!bind@{bind}}
+\index{bind@{bind}!cuda\+Image\+List@{cuda\+Image\+List}}
+\subsubsection[{\texorpdfstring{bind(texture$<$ T, cuda\+Texture\+Type2\+D, cuda\+Read\+Mode\+Element\+Type $>$ \&texref)}{bind(texture< T, cudaTextureType2D, cudaReadModeElementType > &texref)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ void {\bf cuda\+Image\+List}$<$ T $>$\+::bind (
+\begin{DoxyParamCaption}
+\item[{texture$<$ T, cuda\+Texture\+Type2D, cuda\+Read\+Mode\+Element\+Type $>$ \&}]{texref}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{structcuda_image_list_a36a72cb4f9e988aa7ce04866592aa55d}{}\label{structcuda_image_list_a36a72cb4f9e988aa7ce04866592aa55d}
+
+\begin{DoxyCode}
+166                                                                               \{
+167         cudaChannelFormatDesc desc = cudaCreateChannelDesc<T>();
+168         cudaBindTexture2D(NULL, &texref, \hyperlink{structcuda_image_list_a5e32f3d282240b52b543b693723ee8ed}{data}, &desc, \hyperlink{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{w}, \hyperlink{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}{h}*\hyperlink{structcuda_image_list_aecc60af52765a600acbebacf2f28c0db}{count}, 
+      \hyperlink{structcuda_image_list_a5a52e30551cba6350cbedbb2eb5693b5}{pitch});
+169     \}
+\end{DoxyCode}
+\index{cuda\+Image\+List@{cuda\+Image\+List}!boundary\+Hit@{boundary\+Hit}}
+\index{boundary\+Hit@{boundary\+Hit}!cuda\+Image\+List@{cuda\+Image\+List}}
+\subsubsection[{\texorpdfstring{boundary\+Hit(float2 center, float radius)}{boundaryHit(float2 center, float radius)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ {\bf C\+U\+B\+O\+TH} bool {\bf cuda\+Image\+List}$<$ T $>$\+::boundary\+Hit (
+\begin{DoxyParamCaption}
+\item[{float2}]{center, }
+\item[{float}]{radius}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{structcuda_image_list_a0be4b46f22a09af571d491bbc99fc62c}{}\label{structcuda_image_list_a0be4b46f22a09af571d491bbc99fc62c}
+
+\begin{DoxyCode}
+80     \{
+81         \textcolor{keywordflow}{return} center.x + radius >= \hyperlink{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{w} ||
+82             center.x - radius < 0 ||
+83             center.y + radius >= \hyperlink{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}{h} ||
+84             center.y - radius < 0;
+85     \}
+\end{DoxyCode}
+\index{cuda\+Image\+List@{cuda\+Image\+List}!capacity@{capacity}}
+\index{capacity@{capacity}!cuda\+Image\+List@{cuda\+Image\+List}}
+\subsubsection[{\texorpdfstring{capacity()}{capacity()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ {\bf C\+U\+B\+O\+TH} int {\bf cuda\+Image\+List}$<$ T $>$\+::capacity (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{structcuda_image_list_a6759021920d3f07b1b46049a3d3ab78e}{}\label{structcuda_image_list_a6759021920d3f07b1b46049a3d3ab78e}
+
+\begin{DoxyCode}
+22 \{ \textcolor{keywordflow}{return} \hyperlink{structcuda_image_list_aecc60af52765a600acbebacf2f28c0db}{count}; \}
+\end{DoxyCode}
+\index{cuda\+Image\+List@{cuda\+Image\+List}!clear@{clear}}
+\index{clear@{clear}!cuda\+Image\+List@{cuda\+Image\+List}}
+\subsubsection[{\texorpdfstring{clear()}{clear()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ void {\bf cuda\+Image\+List}$<$ T $>$\+::clear (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{structcuda_image_list_a641a7d5e6610bb1c9759a8a9abb94c63}{}\label{structcuda_image_list_a641a7d5e6610bb1c9759a8a9abb94c63}
+
+\begin{DoxyCode}
+136                  \{
+137         \textcolor{keywordflow}{if}(\hyperlink{structcuda_image_list_a5e32f3d282240b52b543b693723ee8ed}{data}) cudaMemset2D(\hyperlink{structcuda_image_list_a5e32f3d282240b52b543b693723ee8ed}{data}, \hyperlink{structcuda_image_list_a5a52e30551cba6350cbedbb2eb5693b5}{pitch}, 0, \hyperlink{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{w}*\textcolor{keyword}{sizeof}(T), \hyperlink{structcuda_image_list_aecc60af52765a600acbebacf2f28c0db}{count}*
+      \hyperlink{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}{h});
+138     \}
+\end{DoxyCode}
+\index{cuda\+Image\+List@{cuda\+Image\+List}!compute\+Image\+Pos@{compute\+Image\+Pos}}
+\index{compute\+Image\+Pos@{compute\+Image\+Pos}!cuda\+Image\+List@{cuda\+Image\+List}}
+\subsubsection[{\texorpdfstring{compute\+Image\+Pos(int \&x, int \&y, int idx)}{computeImagePos(int &x, int &y, int idx)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ {\bf C\+U\+B\+O\+TH} void {\bf cuda\+Image\+List}$<$ T $>$\+::compute\+Image\+Pos (
+\begin{DoxyParamCaption}
+\item[{int \&}]{x, }
+\item[{int \&}]{y, }
+\item[{int}]{idx}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{structcuda_image_list_a579fe28a4c876eb211cd2e5548447a2c}{}\label{structcuda_image_list_a579fe28a4c876eb211cd2e5548447a2c}
+
+\begin{DoxyCode}
+175     \{
+176         y += idx * \hyperlink{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}{h};
+177     \}
+\end{DoxyCode}
+\index{cuda\+Image\+List@{cuda\+Image\+List}!copy\+Image\+To\+Device@{copy\+Image\+To\+Device}}
+\index{copy\+Image\+To\+Device@{copy\+Image\+To\+Device}!cuda\+Image\+List@{cuda\+Image\+List}}
+\subsubsection[{\texorpdfstring{copy\+Image\+To\+Device(int img, T $\ast$src, bool async=false, cuda\+Stream\+\_\+t s=0)}{copyImageToDevice(int img, T *src, bool async=false, cudaStream_t s=0)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ void {\bf cuda\+Image\+List}$<$ T $>$\+::copy\+Image\+To\+Device (
+\begin{DoxyParamCaption}
+\item[{int}]{img, }
+\item[{T $\ast$}]{src, }
+\item[{bool}]{async = {\ttfamily false}, }
+\item[{cuda\+Stream\+\_\+t}]{s = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{structcuda_image_list_aecf1932bc3e9fceff797da80fd19b0a5}{}\label{structcuda_image_list_aecf1932bc3e9fceff797da80fd19b0a5}
+
+\begin{DoxyCode}
+106                                                                                 \{
+107         T* dst = \hyperlink{structcuda_image_list_aab7ac2329d20752d4364c87a21d76092}{pixelAddress} (0,0, img); 
+108 
+109         \textcolor{keywordflow}{if} (async)
+110             cudaMemcpy2DAsync(dst, \hyperlink{structcuda_image_list_a5a52e30551cba6350cbedbb2eb5693b5}{pitch}, src, \hyperlink{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{w}*\textcolor{keyword}{sizeof}(T), \hyperlink{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{w}*\textcolor{keyword}{sizeof}(T), 
+      \hyperlink{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}{h}, cudaMemcpyHostToDevice, s);
+111         \textcolor{keywordflow}{else}
+112             cudaMemcpy2D(dst, \hyperlink{structcuda_image_list_a5a52e30551cba6350cbedbb2eb5693b5}{pitch}, src, \hyperlink{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{w}*\textcolor{keyword}{sizeof}(T), \hyperlink{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{w}*\textcolor{keyword}{sizeof}(T), \hyperlink{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}{h}, cudaMemcpyHostToDevice);
+113     \}
+\end{DoxyCode}
+\index{cuda\+Image\+List@{cuda\+Image\+List}!copy\+Image\+To\+Host@{copy\+Image\+To\+Host}}
+\index{copy\+Image\+To\+Host@{copy\+Image\+To\+Host}!cuda\+Image\+List@{cuda\+Image\+List}}
+\subsubsection[{\texorpdfstring{copy\+Image\+To\+Host(int img, T $\ast$dst, bool async=false, cuda\+Stream\+\_\+t s=0)}{copyImageToHost(int img, T *dst, bool async=false, cudaStream_t s=0)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ void {\bf cuda\+Image\+List}$<$ T $>$\+::copy\+Image\+To\+Host (
+\begin{DoxyParamCaption}
+\item[{int}]{img, }
+\item[{T $\ast$}]{dst, }
+\item[{bool}]{async = {\ttfamily false}, }
+\item[{cuda\+Stream\+\_\+t}]{s = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{structcuda_image_list_a656201f3b644a8435b1c7a37951ff672}{}\label{structcuda_image_list_a656201f3b644a8435b1c7a37951ff672}
+
+\begin{DoxyCode}
+97                                                                               \{
+98         T* src = \hyperlink{structcuda_image_list_aab7ac2329d20752d4364c87a21d76092}{pixelAddress} (0,0, img); 
+99 
+100         \textcolor{keywordflow}{if} (async)
+101             cudaMemcpy2DAsync(dst, \textcolor{keyword}{sizeof}(T)*\hyperlink{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{w}, src, \hyperlink{structcuda_image_list_a5a52e30551cba6350cbedbb2eb5693b5}{pitch}, w*\textcolor{keyword}{sizeof}(T), \hyperlink{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}{h}, cudaMemcpyDeviceToHost, 
+      s);
+102         \textcolor{keywordflow}{else}
+103             cudaMemcpy2D(dst, \textcolor{keyword}{sizeof}(T)*w, src, \hyperlink{structcuda_image_list_a5a52e30551cba6350cbedbb2eb5693b5}{pitch}, w*\textcolor{keyword}{sizeof}(T), \hyperlink{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}{h}, cudaMemcpyDeviceToHost);
+104     \}
+\end{DoxyCode}
+\index{cuda\+Image\+List@{cuda\+Image\+List}!copy\+To\+Device@{copy\+To\+Device}}
+\index{copy\+To\+Device@{copy\+To\+Device}!cuda\+Image\+List@{cuda\+Image\+List}}
+\subsubsection[{\texorpdfstring{copy\+To\+Device(\+T $\ast$src, bool async=false, cuda\+Stream\+\_\+t s=0)}{copyToDevice(T *src, bool async=false, cudaStream_t s=0)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ void {\bf cuda\+Image\+List}$<$ T $>$\+::copy\+To\+Device (
+\begin{DoxyParamCaption}
+\item[{T $\ast$}]{src, }
+\item[{bool}]{async = {\ttfamily false}, }
+\item[{cuda\+Stream\+\_\+t}]{s = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{structcuda_image_list_a090c71fb373e9f7d52a3694a835a5f18}{}\label{structcuda_image_list_a090c71fb373e9f7d52a3694a835a5f18}
+
+\begin{DoxyCode}
+122                                                                   \{
+123         \textcolor{keywordflow}{if} (async)
+124             cudaMemcpy2DAsync(\hyperlink{structcuda_image_list_a5e32f3d282240b52b543b693723ee8ed}{data}, \hyperlink{structcuda_image_list_a5a52e30551cba6350cbedbb2eb5693b5}{pitch}, src, \hyperlink{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{w}*\textcolor{keyword}{sizeof}(T), \hyperlink{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{w}*\textcolor{keyword}{sizeof}(T), 
+      \hyperlink{structcuda_image_list_aecc60af52765a600acbebacf2f28c0db}{count}*\hyperlink{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}{h}, cudaMemcpyHostToDevice, s);
+125         \textcolor{keywordflow}{else}
+126             cudaMemcpy2D(\hyperlink{structcuda_image_list_a5e32f3d282240b52b543b693723ee8ed}{data}, \hyperlink{structcuda_image_list_a5a52e30551cba6350cbedbb2eb5693b5}{pitch}, src, \hyperlink{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{w}*\textcolor{keyword}{sizeof}(T), \hyperlink{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{w}*\textcolor{keyword}{sizeof}(T), 
+      \hyperlink{structcuda_image_list_aecc60af52765a600acbebacf2f28c0db}{count}*\hyperlink{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}{h}, cudaMemcpyHostToDevice);
+127     \}
+\end{DoxyCode}
+\index{cuda\+Image\+List@{cuda\+Image\+List}!copy\+To\+Device@{copy\+To\+Device}}
+\index{copy\+To\+Device@{copy\+To\+Device}!cuda\+Image\+List@{cuda\+Image\+List}}
+\subsubsection[{\texorpdfstring{copy\+To\+Device(\+T $\ast$src, int num\+Images, bool async=false, cuda\+Stream\+\_\+t s=0)}{copyToDevice(T *src, int numImages, bool async=false, cudaStream_t s=0)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ void {\bf cuda\+Image\+List}$<$ T $>$\+::copy\+To\+Device (
+\begin{DoxyParamCaption}
+\item[{T $\ast$}]{src, }
+\item[{int}]{num\+Images, }
+\item[{bool}]{async = {\ttfamily false}, }
+\item[{cuda\+Stream\+\_\+t}]{s = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{structcuda_image_list_a76f7051f3ddc025ae684030e86413412}{}\label{structcuda_image_list_a76f7051f3ddc025ae684030e86413412}
+
+\begin{DoxyCode}
+129                                                                                  \{
+130         \textcolor{keywordflow}{if} (async)
+131             cudaMemcpy2DAsync(\hyperlink{structcuda_image_list_a5e32f3d282240b52b543b693723ee8ed}{data}, \hyperlink{structcuda_image_list_a5a52e30551cba6350cbedbb2eb5693b5}{pitch}, src, \hyperlink{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{w}*\textcolor{keyword}{sizeof}(T), \hyperlink{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{w}*\textcolor{keyword}{sizeof}(T), numImages*
+      \hyperlink{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}{h}, cudaMemcpyHostToDevice, s);
+132         \textcolor{keywordflow}{else}
+133             cudaMemcpy2D(\hyperlink{structcuda_image_list_a5e32f3d282240b52b543b693723ee8ed}{data}, \hyperlink{structcuda_image_list_a5a52e30551cba6350cbedbb2eb5693b5}{pitch}, src, \hyperlink{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{w}*\textcolor{keyword}{sizeof}(T), \hyperlink{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{w}*\textcolor{keyword}{sizeof}(T), numImages*
+      \hyperlink{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}{h}, cudaMemcpyHostToDevice);
+134     \}
+\end{DoxyCode}
+\index{cuda\+Image\+List@{cuda\+Image\+List}!copy\+To\+Host@{copy\+To\+Host}}
+\index{copy\+To\+Host@{copy\+To\+Host}!cuda\+Image\+List@{cuda\+Image\+List}}
+\subsubsection[{\texorpdfstring{copy\+To\+Host(\+T $\ast$dst, bool async=false, cuda\+Stream\+\_\+t s=0)}{copyToHost(T *dst, bool async=false, cudaStream_t s=0)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ void {\bf cuda\+Image\+List}$<$ T $>$\+::copy\+To\+Host (
+\begin{DoxyParamCaption}
+\item[{T $\ast$}]{dst, }
+\item[{bool}]{async = {\ttfamily false}, }
+\item[{cuda\+Stream\+\_\+t}]{s = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{structcuda_image_list_a5bb9d8aaf4bf1c96bc3e50b6b4407756}{}\label{structcuda_image_list_a5bb9d8aaf4bf1c96bc3e50b6b4407756}
+
+\begin{DoxyCode}
+115                                                                 \{
+116         \textcolor{keywordflow}{if} (async)
+117             cudaMemcpy2DAsync(dst, \textcolor{keyword}{sizeof}(T)*\hyperlink{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{w}, \hyperlink{structcuda_image_list_a5e32f3d282240b52b543b693723ee8ed}{data}, \hyperlink{structcuda_image_list_a5a52e30551cba6350cbedbb2eb5693b5}{pitch}, w*\textcolor{keyword}{sizeof}(T), 
+      \hyperlink{structcuda_image_list_aecc60af52765a600acbebacf2f28c0db}{count}*\hyperlink{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}{h}, cudaMemcpyDeviceToHost, s);
+118         \textcolor{keywordflow}{else}
+119             cudaMemcpy2D(dst, \textcolor{keyword}{sizeof}(T)*w, \hyperlink{structcuda_image_list_a5e32f3d282240b52b543b693723ee8ed}{data}, \hyperlink{structcuda_image_list_a5a52e30551cba6350cbedbb2eb5693b5}{pitch}, w*\textcolor{keyword}{sizeof}(T), 
+      \hyperlink{structcuda_image_list_aecc60af52765a600acbebacf2f28c0db}{count}*\hyperlink{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}{h}, cudaMemcpyDeviceToHost);
+120     \}
+\end{DoxyCode}
+\index{cuda\+Image\+List@{cuda\+Image\+List}!empty\+List@{empty\+List}}
+\index{empty\+List@{empty\+List}!cuda\+Image\+List@{cuda\+Image\+List}}
+\subsubsection[{\texorpdfstring{empty\+List()}{emptyList()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ static {\bf cuda\+Image\+List}$<$T$>$ {\bf cuda\+Image\+List}$<$ T $>$\+::empty\+List (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}\hypertarget{structcuda_image_list_ae998034684c0aa6c4e0eceda64fa8e63}{}\label{structcuda_image_list_ae998034684c0aa6c4e0eceda64fa8e63}
+
+\begin{DoxyCode}
+25                                         \{
+26         \hyperlink{structcuda_image_list}{cudaImageList} imgl;
+27         imgl.\hyperlink{structcuda_image_list_a5e32f3d282240b52b543b693723ee8ed}{data} = 0;
+28         imgl.\hyperlink{structcuda_image_list_a5a52e30551cba6350cbedbb2eb5693b5}{pitch} = 0;
+29         imgl.\hyperlink{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{w} = imgl.\hyperlink{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}{h} = 0;
+30         imgl.\hyperlink{structcuda_image_list_aecc60af52765a600acbebacf2f28c0db}{count} = 0;
+31         \textcolor{keywordflow}{return} imgl;
+32     \}
+\end{DoxyCode}
+\index{cuda\+Image\+List@{cuda\+Image\+List}!free@{free}}
+\index{free@{free}!cuda\+Image\+List@{cuda\+Image\+List}}
+\subsubsection[{\texorpdfstring{free()}{free()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ void {\bf cuda\+Image\+List}$<$ T $>$\+::free (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{structcuda_image_list_a9c8aaf572231ec29a583e1ecb3954288}{}\label{structcuda_image_list_a9c8aaf572231ec29a583e1ecb3954288}
+
+\begin{DoxyCode}
+89     \{
+90         \textcolor{keywordflow}{if}(\hyperlink{structcuda_image_list_a5e32f3d282240b52b543b693723ee8ed}{data}) \{
+91             cudaFree(\hyperlink{structcuda_image_list_a5e32f3d282240b52b543b693723ee8ed}{data});
+92             \hyperlink{structcuda_image_list_a5e32f3d282240b52b543b693723ee8ed}{data}=0;
+93         \}
+94     \}
+\end{DoxyCode}
+\index{cuda\+Image\+List@{cuda\+Image\+List}!fullheight@{fullheight}}
+\index{fullheight@{fullheight}!cuda\+Image\+List@{cuda\+Image\+List}}
+\subsubsection[{\texorpdfstring{fullheight()}{fullheight()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ {\bf C\+U\+B\+O\+TH} int {\bf cuda\+Image\+List}$<$ T $>$\+::fullheight (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{structcuda_image_list_abec8121a698e04d7d3afa21b77a673a8}{}\label{structcuda_image_list_abec8121a698e04d7d3afa21b77a673a8}
+
+\begin{DoxyCode}
+18 \{ \textcolor{keywordflow}{return} \hyperlink{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}{h}*\hyperlink{structcuda_image_list_aecc60af52765a600acbebacf2f28c0db}{count}; \}
+\end{DoxyCode}
+\index{cuda\+Image\+List@{cuda\+Image\+List}!fullwidth@{fullwidth}}
+\index{fullwidth@{fullwidth}!cuda\+Image\+List@{cuda\+Image\+List}}
+\subsubsection[{\texorpdfstring{fullwidth()}{fullwidth()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ {\bf C\+U\+B\+O\+TH} int {\bf cuda\+Image\+List}$<$ T $>$\+::fullwidth (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{structcuda_image_list_a4f2cf476a48fe70d5d1849212017883b}{}\label{structcuda_image_list_a4f2cf476a48fe70d5d1849212017883b}
+
+\begin{DoxyCode}
+17 \{ \textcolor{keywordflow}{return} \hyperlink{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{w}; \}
+\end{DoxyCode}
+\index{cuda\+Image\+List@{cuda\+Image\+List}!get@{get}}
+\index{get@{get}!cuda\+Image\+List@{cuda\+Image\+List}}
+\subsubsection[{\texorpdfstring{get(int i)}{get(int i)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ {\bf C\+U\+B\+O\+TH} T$\ast$ {\bf cuda\+Image\+List}$<$ T $>$\+::get (
+\begin{DoxyParamCaption}
+\item[{int}]{i}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{structcuda_image_list_a5e6745abe38ecdfab4b5e9913e26c952}{}\label{structcuda_image_list_a5e6745abe38ecdfab4b5e9913e26c952}
+
+\begin{DoxyCode}
+52                          \{
+53         \textcolor{keywordflow}{return} (T*)(((\textcolor{keywordtype}{char}*)\hyperlink{structcuda_image_list_a5e32f3d282240b52b543b693723ee8ed}{data}) + \hyperlink{structcuda_image_list_a5a52e30551cba6350cbedbb2eb5693b5}{pitch}*\hyperlink{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}{h}*i);
+54     \}
+\end{DoxyCode}
+\index{cuda\+Image\+List@{cuda\+Image\+List}!interp@{interp}}
+\index{interp@{interp}!cuda\+Image\+List@{cuda\+Image\+List}}
+\subsubsection[{\texorpdfstring{interp(\+T a, T b, float x)}{interp(T a, T b, float x)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ static {\bf C\+U\+B\+O\+TH} T {\bf cuda\+Image\+List}$<$ T $>$\+::interp (
+\begin{DoxyParamCaption}
+\item[{T}]{a, }
+\item[{T}]{b, }
+\item[{float}]{x}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}\hypertarget{structcuda_image_list_afa122427dc703d5c4a13b87d5926de20}{}\label{structcuda_image_list_afa122427dc703d5c4a13b87d5926de20}
+
+\begin{DoxyCode}
+143 \{ \textcolor{keywordflow}{return} a + (b-a)*x; \}
+\end{DoxyCode}
+\index{cuda\+Image\+List@{cuda\+Image\+List}!interpolate@{interpolate}}
+\index{interpolate@{interpolate}!cuda\+Image\+List@{cuda\+Image\+List}}
+\subsubsection[{\texorpdfstring{interpolate(float x, float y, int idx, bool \&outside)}{interpolate(float x, float y, int idx, bool &outside)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ {\bf C\+U\+B\+O\+TH} T {\bf cuda\+Image\+List}$<$ T $>$\+::interpolate (
+\begin{DoxyParamCaption}
+\item[{float}]{x, }
+\item[{float}]{y, }
+\item[{int}]{idx, }
+\item[{bool \&}]{outside}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{structcuda_image_list_a9f9060dfb911251c4170cad388aeccab}{}\label{structcuda_image_list_a9f9060dfb911251c4170cad388aeccab}
+
+\begin{DoxyCode}
+146     \{
+147         \textcolor{keywordtype}{int} rx=x, ry=y;
+148 
+149         \textcolor{keywordflow}{if} (rx < 0 || ry < 0 || rx >= \hyperlink{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{w}-1 || ry >= \hyperlink{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}{h}-1) \{
+150             outside=\textcolor{keyword}{true};
+151             \textcolor{keywordflow}{return} 0.0f;
+152         \}
+153 
+154         T v00 = \hyperlink{structcuda_image_list_a3688416d9034449c1493e593c8456eb2}{pixel}(rx, ry, idx);
+155         T v10 = \hyperlink{structcuda_image_list_a3688416d9034449c1493e593c8456eb2}{pixel}(rx+1, ry, idx);
+156         T v01 = \hyperlink{structcuda_image_list_a3688416d9034449c1493e593c8456eb2}{pixel}(rx, ry+1, idx);
+157         T v11 = \hyperlink{structcuda_image_list_a3688416d9034449c1493e593c8456eb2}{pixel}(rx+1, ry+1, idx);
+158 
+159         T v0 = \hyperlink{structcuda_image_list_afa122427dc703d5c4a13b87d5926de20}{interp} (v00, v10, x-rx);
+160         T v1 = \hyperlink{structcuda_image_list_afa122427dc703d5c4a13b87d5926de20}{interp} (v01, v11, x-rx);
+161 
+162         outside=\textcolor{keyword}{false};
+163         \textcolor{keywordflow}{return} \hyperlink{structcuda_image_list_afa122427dc703d5c4a13b87d5926de20}{interp} (v0, v1, y-ry);
+164     \}
+\end{DoxyCode}
+\index{cuda\+Image\+List@{cuda\+Image\+List}!interpolate\+From\+Texture@{interpolate\+From\+Texture}}
+\index{interpolate\+From\+Texture@{interpolate\+From\+Texture}!cuda\+Image\+List@{cuda\+Image\+List}}
+\subsubsection[{\texorpdfstring{interpolate\+From\+Texture(texture$<$ T, cuda\+Texture\+Type2\+D, cuda\+Read\+Mode\+Element\+Type $>$ texref, float x, float y, int idx, bool \&outside)}{interpolateFromTexture(texture< T, cudaTextureType2D, cudaReadModeElementType > texref, float x, float y, int idx, bool &outside)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ \+\_\+\+\_\+device\+\_\+\+\_\+ T {\bf cuda\+Image\+List}$<$ T $>$\+::interpolate\+From\+Texture (
+\begin{DoxyParamCaption}
+\item[{texture$<$ T, cuda\+Texture\+Type2D, cuda\+Read\+Mode\+Element\+Type $>$}]{texref, }
+\item[{float}]{x, }
+\item[{float}]{y, }
+\item[{int}]{idx, }
+\item[{bool \&}]{outside}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{structcuda_image_list_a0c1befe3e606950d6dd8d78da273ffd8}{}\label{structcuda_image_list_a0c1befe3e606950d6dd8d78da273ffd8}
+
+\begin{DoxyCode}
+181     \{
+182         \textcolor{keywordtype}{int} rx=x, ry=y;
+183 
+184         \textcolor{keywordflow}{if} (rx < 0 || ry < 0 || rx >= \hyperlink{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{w}-1 || ry >= \hyperlink{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}{h}-1) \{
+185             outside=\textcolor{keyword}{true};
+186             \textcolor{keywordflow}{return} 0.0f;
+187         \}
+188 
+189         \hyperlink{structcuda_image_list_a579fe28a4c876eb211cd2e5548447a2c}{computeImagePos}(rx, ry, idx);
+190 
+191         \textcolor{keywordtype}{float} fx=x-floor(x), fy = y-floor(y);
+192         \textcolor{keywordtype}{float} u = rx + 0.5f;
+193         \textcolor{keywordtype}{float} v = ry + 0.5f;
+194 
+195         T v00 = tex2D(texref, u, v);
+196         T v10 = tex2D(texref, u+1, v);
+197         T v01 = tex2D(texref, u, v+1);
+198         T v11 = tex2D(texref, u+1, v+1);
+199 
+200         T v0 = \hyperlink{structcuda_image_list_afa122427dc703d5c4a13b87d5926de20}{interp} (v00, v10, fx);
+201         T v1 = \hyperlink{structcuda_image_list_afa122427dc703d5c4a13b87d5926de20}{interp} (v01, v11, fx);
+202 
+203         outside = \textcolor{keyword}{false};
+204         \textcolor{keywordflow}{return} \hyperlink{structcuda_image_list_afa122427dc703d5c4a13b87d5926de20}{interp} (v0, v1, fy);
+205     \}
+\end{DoxyCode}
+\index{cuda\+Image\+List@{cuda\+Image\+List}!is\+Empty@{is\+Empty}}
+\index{is\+Empty@{is\+Empty}!cuda\+Image\+List@{cuda\+Image\+List}}
+\subsubsection[{\texorpdfstring{is\+Empty()}{isEmpty()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ {\bf C\+U\+B\+O\+TH} bool {\bf cuda\+Image\+List}$<$ T $>$\+::is\+Empty (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{structcuda_image_list_a27f76df59ecf2802d89ce123f21a2780}{}\label{structcuda_image_list_a27f76df59ecf2802d89ce123f21a2780}
+
+\begin{DoxyCode}
+34 \{ \textcolor{keywordflow}{return} \hyperlink{structcuda_image_list_a5e32f3d282240b52b543b693723ee8ed}{data}==0; \}
+\end{DoxyCode}
+\index{cuda\+Image\+List@{cuda\+Image\+List}!numpixels@{numpixels}}
+\index{numpixels@{numpixels}!cuda\+Image\+List@{cuda\+Image\+List}}
+\subsubsection[{\texorpdfstring{numpixels()}{numpixels()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ {\bf C\+U\+B\+O\+TH} int {\bf cuda\+Image\+List}$<$ T $>$\+::numpixels (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{structcuda_image_list_a7f29b098dc0916fff9a396c8250c560c}{}\label{structcuda_image_list_a7f29b098dc0916fff9a396c8250c560c}
+
+\begin{DoxyCode}
+23 \{ \textcolor{keywordflow}{return} \hyperlink{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{w}*\hyperlink{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}{h}*\hyperlink{structcuda_image_list_aecc60af52765a600acbebacf2f28c0db}{count}; \}
+\end{DoxyCode}
+\index{cuda\+Image\+List@{cuda\+Image\+List}!pixel@{pixel}}
+\index{pixel@{pixel}!cuda\+Image\+List@{cuda\+Image\+List}}
+\subsubsection[{\texorpdfstring{pixel(int x, int y, int img\+Index)}{pixel(int x, int y, int imgIndex)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ {\bf C\+U\+B\+O\+TH} T\& {\bf cuda\+Image\+List}$<$ T $>$\+::pixel (
+\begin{DoxyParamCaption}
+\item[{int}]{x, }
+\item[{int}]{y, }
+\item[{int}]{img\+Index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{structcuda_image_list_a3688416d9034449c1493e593c8456eb2}{}\label{structcuda_image_list_a3688416d9034449c1493e593c8456eb2}
+
+\begin{DoxyCode}
+65                                                \{
+66         \hyperlink{structcuda_image_list_a579fe28a4c876eb211cd2e5548447a2c}{computeImagePos}(x,y,imgIndex);
+67         T* row = (T*) ( (\textcolor{keywordtype}{char}*)\hyperlink{structcuda_image_list_a5e32f3d282240b52b543b693723ee8ed}{data} + y*\hyperlink{structcuda_image_list_a5a52e30551cba6350cbedbb2eb5693b5}{pitch} );
+68         \textcolor{keywordflow}{return} row[x];
+69     \}
+\end{DoxyCode}
+\index{cuda\+Image\+List@{cuda\+Image\+List}!pixel\+\_\+oobcheck@{pixel\+\_\+oobcheck}}
+\index{pixel\+\_\+oobcheck@{pixel\+\_\+oobcheck}!cuda\+Image\+List@{cuda\+Image\+List}}
+\subsubsection[{\texorpdfstring{pixel\+\_\+oobcheck(int x, int y, int img\+Index, T border=0.\+0f)}{pixel_oobcheck(int x, int y, int imgIndex, T border=0.0f)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ {\bf C\+U\+B\+O\+TH} T {\bf cuda\+Image\+List}$<$ T $>$\+::pixel\+\_\+oobcheck (
+\begin{DoxyParamCaption}
+\item[{int}]{x, }
+\item[{int}]{y, }
+\item[{int}]{img\+Index, }
+\item[{T}]{border = {\ttfamily 0.0f}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{structcuda_image_list_a12659cbcf3d4801ea8e6c354efd58baa}{}\label{structcuda_image_list_a12659cbcf3d4801ea8e6c354efd58baa}
+
+\begin{DoxyCode}
+56                                                                       \{
+57         \textcolor{keywordflow}{if} (x < 0 || x >= \hyperlink{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{w} || y < 0 || y >= \hyperlink{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}{h})
+58             \textcolor{keywordflow}{return} border;
+59 
+60         \hyperlink{structcuda_image_list_a579fe28a4c876eb211cd2e5548447a2c}{computeImagePos}(x,y,imgIndex);
+61         T* row = (T*) ( (\textcolor{keywordtype}{char}*)\hyperlink{structcuda_image_list_a5e32f3d282240b52b543b693723ee8ed}{data} + y*\hyperlink{structcuda_image_list_a5a52e30551cba6350cbedbb2eb5693b5}{pitch} );
+62         \textcolor{keywordflow}{return} row[x];
+63     \}
+\end{DoxyCode}
+\index{cuda\+Image\+List@{cuda\+Image\+List}!pixel\+Address@{pixel\+Address}}
+\index{pixel\+Address@{pixel\+Address}!cuda\+Image\+List@{cuda\+Image\+List}}
+\subsubsection[{\texorpdfstring{pixel\+Address(int x, int y, int img\+Index)}{pixelAddress(int x, int y, int imgIndex)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ {\bf C\+U\+B\+O\+TH} T$\ast$ {\bf cuda\+Image\+List}$<$ T $>$\+::pixel\+Address (
+\begin{DoxyParamCaption}
+\item[{int}]{x, }
+\item[{int}]{y, }
+\item[{int}]{img\+Index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{structcuda_image_list_aab7ac2329d20752d4364c87a21d76092}{}\label{structcuda_image_list_aab7ac2329d20752d4364c87a21d76092}
+
+\begin{DoxyCode}
+71                                                       \{
+72         \hyperlink{structcuda_image_list_a579fe28a4c876eb211cd2e5548447a2c}{computeImagePos}(x,y,imgIndex);
+73         T* row = (T*) ( (\textcolor{keywordtype}{char}*)\hyperlink{structcuda_image_list_a5e32f3d282240b52b543b693723ee8ed}{data} + y*\hyperlink{structcuda_image_list_a5a52e30551cba6350cbedbb2eb5693b5}{pitch} );
+74         \textcolor{keywordflow}{return} row + x;
+75     \}
+\end{DoxyCode}
+\index{cuda\+Image\+List@{cuda\+Image\+List}!total\+Num\+Bytes@{total\+Num\+Bytes}}
+\index{total\+Num\+Bytes@{total\+Num\+Bytes}!cuda\+Image\+List@{cuda\+Image\+List}}
+\subsubsection[{\texorpdfstring{total\+Num\+Bytes()}{totalNumBytes()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ {\bf C\+U\+B\+O\+TH} int {\bf cuda\+Image\+List}$<$ T $>$\+::total\+Num\+Bytes (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{structcuda_image_list_a6d7497e075d8501461099e602d69dc78}{}\label{structcuda_image_list_a6d7497e075d8501461099e602d69dc78}
+
+\begin{DoxyCode}
+141 \{ \textcolor{keywordflow}{return} \hyperlink{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{w}*\hyperlink{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}{h}*\hyperlink{structcuda_image_list_aecc60af52765a600acbebacf2f28c0db}{count}*\textcolor{keyword}{sizeof}(T); \}
+\end{DoxyCode}
+\index{cuda\+Image\+List@{cuda\+Image\+List}!total\+Num\+Pixels@{total\+Num\+Pixels}}
+\index{total\+Num\+Pixels@{total\+Num\+Pixels}!cuda\+Image\+List@{cuda\+Image\+List}}
+\subsubsection[{\texorpdfstring{total\+Num\+Pixels()}{totalNumPixels()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ {\bf C\+U\+B\+O\+TH} int {\bf cuda\+Image\+List}$<$ T $>$\+::total\+Num\+Pixels (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{structcuda_image_list_ab2932830664bc51c062c9a1bbca38a37}{}\label{structcuda_image_list_ab2932830664bc51c062c9a1bbca38a37}
+
+\begin{DoxyCode}
+140 \{ \textcolor{keywordflow}{return} \hyperlink{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{w}*\hyperlink{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}{h}*\hyperlink{structcuda_image_list_aecc60af52765a600acbebacf2f28c0db}{count}; \}
+\end{DoxyCode}
+\index{cuda\+Image\+List@{cuda\+Image\+List}!unbind@{unbind}}
+\index{unbind@{unbind}!cuda\+Image\+List@{cuda\+Image\+List}}
+\subsubsection[{\texorpdfstring{unbind(texture$<$ T, cuda\+Texture\+Type2\+D, cuda\+Read\+Mode\+Element\+Type $>$ \&texref)}{unbind(texture< T, cudaTextureType2D, cudaReadModeElementType > &texref)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ void {\bf cuda\+Image\+List}$<$ T $>$\+::unbind (
+\begin{DoxyParamCaption}
+\item[{texture$<$ T, cuda\+Texture\+Type2D, cuda\+Read\+Mode\+Element\+Type $>$ \&}]{texref}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{structcuda_image_list_a5fd1e6014eb7f4a91e04344e208c70fe}{}\label{structcuda_image_list_a5fd1e6014eb7f4a91e04344e208c70fe}
+
+\begin{DoxyCode}
+170                                                                                 \{
+171         cudaUnbindTexture(&texref);
+172     \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\index{cuda\+Image\+List@{cuda\+Image\+List}!count@{count}}
+\index{count@{count}!cuda\+Image\+List@{cuda\+Image\+List}}
+\subsubsection[{\texorpdfstring{count}{count}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ int {\bf cuda\+Image\+List}$<$ T $>$\+::count}\hypertarget{structcuda_image_list_aecc60af52765a600acbebacf2f28c0db}{}\label{structcuda_image_list_aecc60af52765a600acbebacf2f28c0db}
+\index{cuda\+Image\+List@{cuda\+Image\+List}!data@{data}}
+\index{data@{data}!cuda\+Image\+List@{cuda\+Image\+List}}
+\subsubsection[{\texorpdfstring{data}{data}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ T$\ast$ {\bf cuda\+Image\+List}$<$ T $>$\+::data}\hypertarget{structcuda_image_list_a5e32f3d282240b52b543b693723ee8ed}{}\label{structcuda_image_list_a5e32f3d282240b52b543b693723ee8ed}
+\index{cuda\+Image\+List@{cuda\+Image\+List}!h@{h}}
+\index{h@{h}!cuda\+Image\+List@{cuda\+Image\+List}}
+\subsubsection[{\texorpdfstring{h}{h}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ int {\bf cuda\+Image\+List}$<$ T $>$\+::h}\hypertarget{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}{}\label{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}
+\index{cuda\+Image\+List@{cuda\+Image\+List}!pitch@{pitch}}
+\index{pitch@{pitch}!cuda\+Image\+List@{cuda\+Image\+List}}
+\subsubsection[{\texorpdfstring{pitch}{pitch}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ size\+\_\+t {\bf cuda\+Image\+List}$<$ T $>$\+::pitch}\hypertarget{structcuda_image_list_a5a52e30551cba6350cbedbb2eb5693b5}{}\label{structcuda_image_list_a5a52e30551cba6350cbedbb2eb5693b5}
+\index{cuda\+Image\+List@{cuda\+Image\+List}!w@{w}}
+\index{w@{w}!cuda\+Image\+List@{cuda\+Image\+List}}
+\subsubsection[{\texorpdfstring{w}{w}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ int {\bf cuda\+Image\+List}$<$ T $>$\+::w}\hypertarget{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{}\label{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+cudatrack/\hyperlink{cuda_image_list_8h}{cuda\+Image\+List.\+h}\end{DoxyCompactItemize}

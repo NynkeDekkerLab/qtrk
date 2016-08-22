@@ -1,0 +1,246 @@
+\hypertarget{class_thread_pool}{}\section{Thread\+Pool$<$ T\+Work\+Item, T\+Functor $>$ Class Template Reference}
+\label{class_thread_pool}\index{Thread\+Pool$<$ T\+Work\+Item, T\+Functor $>$@{Thread\+Pool$<$ T\+Work\+Item, T\+Functor $>$}}
+
+
+{\ttfamily \#include $<$threads.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_thread_pool_a4bf2c70dcc87ba357f2027946646c07c}{Thread\+Pool} (T\+Functor f, int Nthreads=-\/1)
+\item 
+\hyperlink{class_thread_pool_a67d508c151b2248a01aee26ad3409fc2}{$\sim$\+Thread\+Pool} ()
+\item 
+void \hyperlink{class_thread_pool_aa690b8055c0183d5a058b22b5a62bb74}{Process\+Array} (T\+Work\+Item $\ast$items, int n)
+\item 
+void \hyperlink{class_thread_pool_aef1a04d9ec3eef39a43cc45f471611d7}{Add\+Work} (T\+Work\+Item w)
+\item 
+void \hyperlink{class_thread_pool_a12e588b81c0cf6bf93f4ac2f0c50b4e8}{Wait\+Until\+Done} ()
+\item 
+bool \hyperlink{class_thread_pool_aa77d821a3c6a448256da4fd61e6c8fb2}{Is\+Done} ()
+\item 
+void \hyperlink{class_thread_pool_a91bfc016ba30df063ef0b5e0f1448e02}{Quit} ()
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{class_thread_pool_ac3ba2c63821d18d21f3face879fbf9a4}{Item\+Done} ()
+\item 
+bool \hyperlink{class_thread_pool_a3e9222d0af2a9b55bdb6102014ec28f3}{Get\+New\+Item} (T\+Work\+Item \&item)
+\end{DoxyCompactItemize}
+\subsection*{Static Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \hyperlink{class_thread_pool_a21a711c365a2fb1dcd34b7a2271512d6}{Thread\+Entry\+Point} (void $\ast$param)
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ \hyperlink{struct_threads_1_1_handle}{Threads\+::\+Handle} $\ast$ $>$ \hyperlink{class_thread_pool_ab0f1d51386c0070f4752a256ca2534ff}{threads}
+\item 
+\hyperlink{struct_threads_1_1_mutex}{Threads\+::\+Mutex} \hyperlink{class_thread_pool_ae889b134298a051739ae1bdfa211f6c9}{work\+Mutex}
+\item 
+std\+::list$<$ T\+Work\+Item $>$ \hyperlink{class_thread_pool_a65b1014672bad573aa4b161e9258f121}{work}
+\item 
+int \hyperlink{class_thread_pool_a0caf4cf7d4057f9550989b09b9ba65ad}{in\+Progress}
+\item 
+\hyperlink{class_atomic}{Atomic}$<$ bool $>$ \hyperlink{class_thread_pool_adb492ef4e81a157c98302daea9aeb737}{quit}
+\item 
+T\+Functor \hyperlink{class_thread_pool_acf21a97033a7a3dc8852c2621dc10e7f}{worker}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Thread\+Pool@{Thread\+Pool}!Thread\+Pool@{Thread\+Pool}}
+\index{Thread\+Pool@{Thread\+Pool}!Thread\+Pool@{Thread\+Pool}}
+\subsubsection[{\texorpdfstring{Thread\+Pool(\+T\+Functor f, int Nthreads=-\/1)}{ThreadPool(TFunctor f, int Nthreads=-1)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+Work\+Item, typename T\+Functor$>$ {\bf Thread\+Pool}$<$ T\+Work\+Item, T\+Functor $>$\+::{\bf Thread\+Pool} (
+\begin{DoxyParamCaption}
+\item[{T\+Functor}]{f, }
+\item[{int}]{Nthreads = {\ttfamily -\/1}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_thread_pool_a4bf2c70dcc87ba357f2027946646c07c}{}\label{class_thread_pool_a4bf2c70dcc87ba357f2027946646c07c}
+
+\begin{DoxyCode}
+179                                             : \hyperlink{class_thread_pool_acf21a97033a7a3dc8852c2621dc10e7f}{worker}(f) \{
+180         \textcolor{keywordflow}{if} (Nthreads<0) 
+181             Nthreads = \hyperlink{struct_threads_acb1d9a14cf18f2fcbc1bf07f51b4ba81}{Threads::GetCPUCount}();
+182         \hyperlink{class_thread_pool_ab0f1d51386c0070f4752a256ca2534ff}{threads}.resize(Nthreads);
+183         \hyperlink{class_thread_pool_adb492ef4e81a157c98302daea9aeb737}{quit}=\textcolor{keyword}{false};
+184         \hyperlink{class_thread_pool_a0caf4cf7d4057f9550989b09b9ba65ad}{inProgress}=0;
+185         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<Nthreads;i++)
+186             \hyperlink{class_thread_pool_ab0f1d51386c0070f4752a256ca2534ff}{threads}[i]=\hyperlink{struct_threads_ab6aa79b1b2c148b8d384916d58e2443e}{Threads::Create}(&\hyperlink{class_thread_pool_a21a711c365a2fb1dcd34b7a2271512d6}{ThreadEntryPoint},\textcolor{keyword}{this});
+187     \}
+\end{DoxyCode}
+\index{Thread\+Pool@{Thread\+Pool}!````~Thread\+Pool@{$\sim$\+Thread\+Pool}}
+\index{````~Thread\+Pool@{$\sim$\+Thread\+Pool}!Thread\+Pool@{Thread\+Pool}}
+\subsubsection[{\texorpdfstring{$\sim$\+Thread\+Pool()}{~ThreadPool()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+Work\+Item, typename T\+Functor$>$ {\bf Thread\+Pool}$<$ T\+Work\+Item, T\+Functor $>$\+::$\sim${\bf Thread\+Pool} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_thread_pool_a67d508c151b2248a01aee26ad3409fc2}{}\label{class_thread_pool_a67d508c151b2248a01aee26ad3409fc2}
+
+\begin{DoxyCode}
+188                   \{
+189         \hyperlink{class_thread_pool_a91bfc016ba30df063ef0b5e0f1448e02}{Quit}();
+190     \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\index{Thread\+Pool@{Thread\+Pool}!Add\+Work@{Add\+Work}}
+\index{Add\+Work@{Add\+Work}!Thread\+Pool@{Thread\+Pool}}
+\subsubsection[{\texorpdfstring{Add\+Work(\+T\+Work\+Item w)}{AddWork(TWorkItem w)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+Work\+Item, typename T\+Functor$>$ void {\bf Thread\+Pool}$<$ T\+Work\+Item, T\+Functor $>$\+::Add\+Work (
+\begin{DoxyParamCaption}
+\item[{T\+Work\+Item}]{w}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_thread_pool_aef1a04d9ec3eef39a43cc45f471611d7}{}\label{class_thread_pool_aef1a04d9ec3eef39a43cc45f471611d7}
+
+\begin{DoxyCode}
+195                               \{
+196         \hyperlink{class_thread_pool_ae889b134298a051739ae1bdfa211f6c9}{workMutex}.\hyperlink{struct_threads_1_1_mutex_af3cb09072ecd935be502deb78f4519d5}{lock}();
+197         \hyperlink{class_thread_pool_a65b1014672bad573aa4b161e9258f121}{work}.push\_back(w);
+198         \hyperlink{class_thread_pool_ae889b134298a051739ae1bdfa211f6c9}{workMutex}.\hyperlink{struct_threads_1_1_mutex_ad78fadce2239c6d359986e443822f6f6}{unlock}();
+199     \}
+\end{DoxyCode}
+\index{Thread\+Pool@{Thread\+Pool}!Get\+New\+Item@{Get\+New\+Item}}
+\index{Get\+New\+Item@{Get\+New\+Item}!Thread\+Pool@{Thread\+Pool}}
+\subsubsection[{\texorpdfstring{Get\+New\+Item(\+T\+Work\+Item \&item)}{GetNewItem(TWorkItem &item)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+Work\+Item, typename T\+Functor$>$ bool {\bf Thread\+Pool}$<$ T\+Work\+Item, T\+Functor $>$\+::Get\+New\+Item (
+\begin{DoxyParamCaption}
+\item[{T\+Work\+Item \&}]{item}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}\hypertarget{class_thread_pool_a3e9222d0af2a9b55bdb6102014ec28f3}{}\label{class_thread_pool_a3e9222d0af2a9b55bdb6102014ec28f3}
+
+\begin{DoxyCode}
+231                                      \{
+232         \hyperlink{class_thread_pool_ae889b134298a051739ae1bdfa211f6c9}{workMutex}.\hyperlink{struct_threads_1_1_mutex_af3cb09072ecd935be502deb78f4519d5}{lock}();
+233         \textcolor{keywordtype}{bool} r = !\hyperlink{class_thread_pool_a65b1014672bad573aa4b161e9258f121}{work}.empty();
+234         \textcolor{keywordflow}{if} (r) \{
+235             item = \hyperlink{class_thread_pool_a65b1014672bad573aa4b161e9258f121}{work}.front();
+236             \hyperlink{class_thread_pool_a65b1014672bad573aa4b161e9258f121}{work}.pop\_front();
+237             \hyperlink{class_thread_pool_a0caf4cf7d4057f9550989b09b9ba65ad}{inProgress}++;
+238         \}
+239         \hyperlink{class_thread_pool_ae889b134298a051739ae1bdfa211f6c9}{workMutex}.\hyperlink{struct_threads_1_1_mutex_ad78fadce2239c6d359986e443822f6f6}{unlock}();
+240         \textcolor{keywordflow}{return} r;
+241     \}
+\end{DoxyCode}
+\index{Thread\+Pool@{Thread\+Pool}!Is\+Done@{Is\+Done}}
+\index{Is\+Done@{Is\+Done}!Thread\+Pool@{Thread\+Pool}}
+\subsubsection[{\texorpdfstring{Is\+Done()}{IsDone()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+Work\+Item, typename T\+Functor$>$ bool {\bf Thread\+Pool}$<$ T\+Work\+Item, T\+Functor $>$\+::Is\+Done (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_thread_pool_aa77d821a3c6a448256da4fd61e6c8fb2}{}\label{class_thread_pool_aa77d821a3c6a448256da4fd61e6c8fb2}
+
+\begin{DoxyCode}
+203                   \{
+204         \hyperlink{class_thread_pool_ae889b134298a051739ae1bdfa211f6c9}{workMutex}.\hyperlink{struct_threads_1_1_mutex_af3cb09072ecd935be502deb78f4519d5}{lock}();
+205         \textcolor{keywordtype}{bool} r=\hyperlink{class_thread_pool_a65b1014672bad573aa4b161e9258f121}{work}.empty() && \hyperlink{class_thread_pool_a0caf4cf7d4057f9550989b09b9ba65ad}{inProgress}==0;
+206         \hyperlink{class_thread_pool_ae889b134298a051739ae1bdfa211f6c9}{workMutex}.\hyperlink{struct_threads_1_1_mutex_ad78fadce2239c6d359986e443822f6f6}{unlock}();
+207         \textcolor{keywordflow}{return} r;
+208     \}
+\end{DoxyCode}
+\index{Thread\+Pool@{Thread\+Pool}!Item\+Done@{Item\+Done}}
+\index{Item\+Done@{Item\+Done}!Thread\+Pool@{Thread\+Pool}}
+\subsubsection[{\texorpdfstring{Item\+Done()}{ItemDone()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+Work\+Item, typename T\+Functor$>$ void {\bf Thread\+Pool}$<$ T\+Work\+Item, T\+Functor $>$\+::Item\+Done (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}\hypertarget{class_thread_pool_ac3ba2c63821d18d21f3face879fbf9a4}{}\label{class_thread_pool_ac3ba2c63821d18d21f3face879fbf9a4}
+
+\begin{DoxyCode}
+226                     \{
+227         \hyperlink{class_thread_pool_ae889b134298a051739ae1bdfa211f6c9}{workMutex}.\hyperlink{struct_threads_1_1_mutex_af3cb09072ecd935be502deb78f4519d5}{lock}();
+228         \hyperlink{class_thread_pool_a0caf4cf7d4057f9550989b09b9ba65ad}{inProgress}--;
+229         \hyperlink{class_thread_pool_ae889b134298a051739ae1bdfa211f6c9}{workMutex}.\hyperlink{struct_threads_1_1_mutex_ad78fadce2239c6d359986e443822f6f6}{unlock}();
+230     \}
+\end{DoxyCode}
+\index{Thread\+Pool@{Thread\+Pool}!Process\+Array@{Process\+Array}}
+\index{Process\+Array@{Process\+Array}!Thread\+Pool@{Thread\+Pool}}
+\subsubsection[{\texorpdfstring{Process\+Array(\+T\+Work\+Item $\ast$items, int n)}{ProcessArray(TWorkItem *items, int n)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+Work\+Item, typename T\+Functor$>$ void {\bf Thread\+Pool}$<$ T\+Work\+Item, T\+Functor $>$\+::Process\+Array (
+\begin{DoxyParamCaption}
+\item[{T\+Work\+Item $\ast$}]{items, }
+\item[{int}]{n}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_thread_pool_aa690b8055c0183d5a058b22b5a62bb74}{}\label{class_thread_pool_aa690b8055c0183d5a058b22b5a62bb74}
+
+\begin{DoxyCode}
+191                                                \{
+192         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=0;i<n;i++)
+193             \hyperlink{class_thread_pool_aef1a04d9ec3eef39a43cc45f471611d7}{AddWork}(items[i]);
+194     \}
+\end{DoxyCode}
+\index{Thread\+Pool@{Thread\+Pool}!Quit@{Quit}}
+\index{Quit@{Quit}!Thread\+Pool@{Thread\+Pool}}
+\subsubsection[{\texorpdfstring{Quit()}{Quit()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+Work\+Item, typename T\+Functor$>$ void {\bf Thread\+Pool}$<$ T\+Work\+Item, T\+Functor $>$\+::Quit (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_thread_pool_a91bfc016ba30df063ef0b5e0f1448e02}{}\label{class_thread_pool_a91bfc016ba30df063ef0b5e0f1448e02}
+
+\begin{DoxyCode}
+209                 \{
+210         \hyperlink{class_thread_pool_adb492ef4e81a157c98302daea9aeb737}{quit}=\textcolor{keyword}{true};
+211         \textcolor{keywordflow}{for}(\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} i=0;i<\hyperlink{class_thread_pool_ab0f1d51386c0070f4752a256ca2534ff}{threads}.size();i++)
+212             \hyperlink{struct_threads_a66c81807dee0d29c5ae6d254860e94d2}{Threads::WaitAndClose}(\hyperlink{class_thread_pool_ab0f1d51386c0070f4752a256ca2534ff}{threads}[i]);
+213         \hyperlink{class_thread_pool_ab0f1d51386c0070f4752a256ca2534ff}{threads}.clear();
+214     \}
+\end{DoxyCode}
+\index{Thread\+Pool@{Thread\+Pool}!Thread\+Entry\+Point@{Thread\+Entry\+Point}}
+\index{Thread\+Entry\+Point@{Thread\+Entry\+Point}!Thread\+Pool@{Thread\+Pool}}
+\subsubsection[{\texorpdfstring{Thread\+Entry\+Point(void $\ast$param)}{ThreadEntryPoint(void *param)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+Work\+Item, typename T\+Functor$>$ static void {\bf Thread\+Pool}$<$ T\+Work\+Item, T\+Functor $>$\+::Thread\+Entry\+Point (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{param}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}, {\ttfamily [protected]}}\hypertarget{class_thread_pool_a21a711c365a2fb1dcd34b7a2271512d6}{}\label{class_thread_pool_a21a711c365a2fb1dcd34b7a2271512d6}
+
+\begin{DoxyCode}
+216                                               \{
+217         \hyperlink{class_thread_pool}{ThreadPool}* pool = ( \hyperlink{class_thread_pool}{ThreadPool} *)param;
+218         TWorkItem item;
+219         \textcolor{keywordflow}{while} (!pool->\hyperlink{class_thread_pool_adb492ef4e81a157c98302daea9aeb737}{quit}) \{
+220             \textcolor{keywordflow}{if} ( pool->\hyperlink{class_thread_pool_a3e9222d0af2a9b55bdb6102014ec28f3}{GetNewItem}(item) ) \{
+221                 pool->\hyperlink{class_thread_pool_acf21a97033a7a3dc8852c2621dc10e7f}{worker}(item);
+222                 pool->\hyperlink{class_thread_pool_ac3ba2c63821d18d21f3face879fbf9a4}{ItemDone}();
+223             \} \textcolor{keywordflow}{else} \hyperlink{struct_threads_a803a0b6899fb5e09ee7f56bd1986a287}{Threads::Sleep}(1);
+224         \}
+225     \}
+\end{DoxyCode}
+\index{Thread\+Pool@{Thread\+Pool}!Wait\+Until\+Done@{Wait\+Until\+Done}}
+\index{Wait\+Until\+Done@{Wait\+Until\+Done}!Thread\+Pool@{Thread\+Pool}}
+\subsubsection[{\texorpdfstring{Wait\+Until\+Done()}{WaitUntilDone()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+Work\+Item, typename T\+Functor$>$ void {\bf Thread\+Pool}$<$ T\+Work\+Item, T\+Functor $>$\+::Wait\+Until\+Done (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_thread_pool_a12e588b81c0cf6bf93f4ac2f0c50b4e8}{}\label{class_thread_pool_a12e588b81c0cf6bf93f4ac2f0c50b4e8}
+
+\begin{DoxyCode}
+200                          \{
+201         \textcolor{keywordflow}{while}(!\hyperlink{class_thread_pool_aa77d821a3c6a448256da4fd61e6c8fb2}{IsDone}()) \hyperlink{struct_threads_a803a0b6899fb5e09ee7f56bd1986a287}{Threads::Sleep}(1);
+202     \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\index{Thread\+Pool@{Thread\+Pool}!in\+Progress@{in\+Progress}}
+\index{in\+Progress@{in\+Progress}!Thread\+Pool@{Thread\+Pool}}
+\subsubsection[{\texorpdfstring{in\+Progress}{inProgress}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+Work\+Item, typename T\+Functor$>$ int {\bf Thread\+Pool}$<$ T\+Work\+Item, T\+Functor $>$\+::in\+Progress\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_thread_pool_a0caf4cf7d4057f9550989b09b9ba65ad}{}\label{class_thread_pool_a0caf4cf7d4057f9550989b09b9ba65ad}
+\index{Thread\+Pool@{Thread\+Pool}!quit@{quit}}
+\index{quit@{quit}!Thread\+Pool@{Thread\+Pool}}
+\subsubsection[{\texorpdfstring{quit}{quit}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+Work\+Item, typename T\+Functor$>$ {\bf Atomic}$<$bool$>$ {\bf Thread\+Pool}$<$ T\+Work\+Item, T\+Functor $>$\+::quit\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_thread_pool_adb492ef4e81a157c98302daea9aeb737}{}\label{class_thread_pool_adb492ef4e81a157c98302daea9aeb737}
+\index{Thread\+Pool@{Thread\+Pool}!threads@{threads}}
+\index{threads@{threads}!Thread\+Pool@{Thread\+Pool}}
+\subsubsection[{\texorpdfstring{threads}{threads}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+Work\+Item, typename T\+Functor$>$ std\+::vector$<${\bf Threads\+::\+Handle}$\ast$$>$ {\bf Thread\+Pool}$<$ T\+Work\+Item, T\+Functor $>$\+::threads\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_thread_pool_ab0f1d51386c0070f4752a256ca2534ff}{}\label{class_thread_pool_ab0f1d51386c0070f4752a256ca2534ff}
+\index{Thread\+Pool@{Thread\+Pool}!work@{work}}
+\index{work@{work}!Thread\+Pool@{Thread\+Pool}}
+\subsubsection[{\texorpdfstring{work}{work}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+Work\+Item, typename T\+Functor$>$ std\+::list$<$T\+Work\+Item$>$ {\bf Thread\+Pool}$<$ T\+Work\+Item, T\+Functor $>$\+::work\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_thread_pool_a65b1014672bad573aa4b161e9258f121}{}\label{class_thread_pool_a65b1014672bad573aa4b161e9258f121}
+\index{Thread\+Pool@{Thread\+Pool}!worker@{worker}}
+\index{worker@{worker}!Thread\+Pool@{Thread\+Pool}}
+\subsubsection[{\texorpdfstring{worker}{worker}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+Work\+Item, typename T\+Functor$>$ T\+Functor {\bf Thread\+Pool}$<$ T\+Work\+Item, T\+Functor $>$\+::worker\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_thread_pool_acf21a97033a7a3dc8852c2621dc10e7f}{}\label{class_thread_pool_acf21a97033a7a3dc8852c2621dc10e7f}
+\index{Thread\+Pool@{Thread\+Pool}!work\+Mutex@{work\+Mutex}}
+\index{work\+Mutex@{work\+Mutex}!Thread\+Pool@{Thread\+Pool}}
+\subsubsection[{\texorpdfstring{work\+Mutex}{workMutex}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+Work\+Item, typename T\+Functor$>$ {\bf Threads\+::\+Mutex} {\bf Thread\+Pool}$<$ T\+Work\+Item, T\+Functor $>$\+::work\+Mutex\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_thread_pool_ae889b134298a051739ae1bdfa211f6c9}{}\label{class_thread_pool_ae889b134298a051739ae1bdfa211f6c9}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+cputrack/\hyperlink{threads_8h}{threads.\+h}\end{DoxyCompactItemize}

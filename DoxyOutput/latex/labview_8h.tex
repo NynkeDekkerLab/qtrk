@@ -1,0 +1,85 @@
+\hypertarget{labview_8h}{}\section{cputrack/labview.h File Reference}
+\label{labview_8h}\index{cputrack/labview.\+h@{cputrack/labview.\+h}}
+{\ttfamily \#include \char`\"{}extcode.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}niimaq.\+h\char`\"{}}\\*
+{\ttfamily \#include $<$complex$>$}\\*
+{\ttfamily \#include \char`\"{}lv\+\_\+prolog.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}lv\+\_\+epilog.\+h\char`\"{}}\\*
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_error_cluster}{Error\+Cluster}
+\item 
+struct \hyperlink{struct_l_v_array}{L\+V\+Array$<$ T $>$}
+\item 
+struct \hyperlink{struct_l_v_array2_d}{L\+V\+Array2\+D$<$ T $>$}
+\item 
+struct \hyperlink{struct_l_v_array3_d}{L\+V\+Array3\+D$<$ T $>$}
+\item 
+struct \hyperlink{struct_l_v_array_n_d}{L\+V\+Array\+N\+D$<$ T, N $>$}
+\item 
+struct \hyperlink{struct_l_v_data_type}{L\+V\+Data\+Type$<$ T $>$}
+\item 
+struct \hyperlink{struct_l_v_data_type_3_01float_01_4}{L\+V\+Data\+Type$<$ float $>$}
+\item 
+struct \hyperlink{struct_l_v_data_type_3_01double_01_4}{L\+V\+Data\+Type$<$ double $>$}
+\item 
+struct \hyperlink{struct_l_v_data_type_3_01int8__t_01_4}{L\+V\+Data\+Type$<$ int8\+\_\+t $>$}
+\item 
+struct \hyperlink{struct_l_v_data_type_3_01int16__t_01_4}{L\+V\+Data\+Type$<$ int16\+\_\+t $>$}
+\item 
+struct \hyperlink{struct_l_v_data_type_3_01int32__t_01_4}{L\+V\+Data\+Type$<$ int32\+\_\+t $>$}
+\item 
+struct \hyperlink{struct_l_v_data_type_3_01int64__t_01_4}{L\+V\+Data\+Type$<$ int64\+\_\+t $>$}
+\item 
+struct \hyperlink{struct_l_v_data_type_3_01uint8__t_01_4}{L\+V\+Data\+Type$<$ uint8\+\_\+t $>$}
+\item 
+struct \hyperlink{struct_l_v_data_type_3_01uint16__t_01_4}{L\+V\+Data\+Type$<$ uint16\+\_\+t $>$}
+\item 
+struct \hyperlink{struct_l_v_data_type_3_01uint32__t_01_4}{L\+V\+Data\+Type$<$ uint32\+\_\+t $>$}
+\item 
+struct \hyperlink{struct_l_v_data_type_3_01uint64__t_01_4}{L\+V\+Data\+Type$<$ uint64\+\_\+t $>$}
+\item 
+struct \hyperlink{struct_l_v_data_type_3_01std_1_1complex_3_01float_01_4_01_4}{L\+V\+Data\+Type$<$ std\+::complex$<$ float $>$ $>$}
+\item 
+struct \hyperlink{struct_l_v_data_type_3_01std_1_1complex_3_01double_01_4_01_4}{L\+V\+Data\+Type$<$ std\+::complex$<$ double $>$ $>$}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{labview_8h_aad1fb0afc8b1317eaa65cb286caa95d6}{\+\_\+\+S\+T\+D\+I\+N\+T\+\_\+H}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{struct_l_v_array}{L\+V\+Array}$<$ float $>$ $\ast$$\ast$ \hyperlink{group__lab__functions_gaf69538484a43fed57d6ee809dfbaff15}{pp\+Float\+Array}
+\item 
+typedef \hyperlink{struct_l_v_array2_d}{L\+V\+Array2D}$<$ float $>$ $\ast$$\ast$ \hyperlink{group__lab__functions_ga9a0eab7581aef17aa559d7138d7574f8}{pp\+Float\+Array2}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T $>$ }\\void \hyperlink{group__lab__functions_gaeb000b717bd3ec4502c7dd215ab5031e}{Resize\+L\+V\+Array2D} (\hyperlink{struct_l_v_array2_d}{L\+V\+Array2D}$<$ T $>$ $\ast$$\ast$\&d, int rows, int cols)
+\item 
+{\footnotesize template$<$typename T $>$ }\\void \hyperlink{group__lab__functions_gabeb483ad1312a277d2b8c6740fbed35f}{Resize\+L\+V\+Array3D} (\hyperlink{struct_l_v_array3_d}{L\+V\+Array3D}$<$ T $>$ $\ast$$\ast$\&d, int depth, int rows, int cols)
+\item 
+{\footnotesize template$<$typename T , int N$>$ }\\void \hyperlink{group__lab__functions_ga5008b8a19809d8fad16db159c6aff923}{Resize\+L\+V\+Array} (\hyperlink{struct_l_v_array_n_d}{L\+V\+Array\+ND}$<$ T, N $>$ $\ast$$\ast$\&d, int $\ast$dims)
+\item 
+{\footnotesize template$<$typename T $>$ }\\void \hyperlink{group__lab__functions_ga586b44022495cbba4d9d8d07cbb40212}{Resize\+L\+V\+Array} (\hyperlink{struct_l_v_array}{L\+V\+Array}$<$ T $>$ $\ast$$\ast$\&d, int elems)
+\item 
+void \hyperlink{group__lab__functions_ga40d026eb54005767d41bee6c4a059e92}{Argument\+Error\+Msg} (\hyperlink{struct_error_cluster}{Error\+Cluster} $\ast$e, const std\+::string \&msg)
+\item 
+void \hyperlink{group__lab__functions_gafa2a79fe1916d42003e1977c5275e94b}{Set\+L\+V\+String} (L\+Str\+Handle str, const char $\ast$text)
+\item 
+Mg\+Err \hyperlink{group__lab__functions_ga1363f444ed040befa4d285e576743907}{Fill\+Error\+Cluster} (Mg\+Err err, const char $\ast$message, \hyperlink{struct_error_cluster}{Error\+Cluster} $\ast$error)
+\item 
+std\+::vector$<$ std\+::string $>$ \hyperlink{group__lab__functions_gaada2e36cea8ad6f5c5a9371c7f71839c}{L\+V\+Get\+String\+Array} (int count, L\+Str\+Handle $\ast$str)
+\item 
+bool \hyperlink{group__lab__functions_ga4d26499106cd9ee7e2197a1c785d2dc8}{Validate\+Tracker} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$tracker, \hyperlink{struct_error_cluster}{Error\+Cluster} $\ast$e, const char $\ast$funcname)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\index{labview.\+h@{labview.\+h}!\+\_\+\+S\+T\+D\+I\+N\+T\+\_\+H@{\+\_\+\+S\+T\+D\+I\+N\+T\+\_\+H}}
+\index{\+\_\+\+S\+T\+D\+I\+N\+T\+\_\+H@{\+\_\+\+S\+T\+D\+I\+N\+T\+\_\+H}!labview.\+h@{labview.\+h}}
+\subsubsection[{\texorpdfstring{\+\_\+\+S\+T\+D\+I\+N\+T\+\_\+H}{_STDINT_H}}]{\setlength{\rightskip}{0pt plus 5cm}\#define \+\_\+\+S\+T\+D\+I\+N\+T\+\_\+H}\hypertarget{labview_8h_aad1fb0afc8b1317eaa65cb286caa95d6}{}\label{labview_8h_aad1fb0afc8b1317eaa65cb286caa95d6}

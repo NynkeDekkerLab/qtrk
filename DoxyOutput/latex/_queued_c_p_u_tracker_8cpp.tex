@@ -1,0 +1,43 @@
+\hypertarget{_queued_c_p_u_tracker_8cpp}{}\section{cputrack/\+Queued\+C\+P\+U\+Tracker.cpp File Reference}
+\label{_queued_c_p_u_tracker_8cpp}\index{cputrack/\+Queued\+C\+P\+U\+Tracker.\+cpp@{cputrack/\+Queued\+C\+P\+U\+Tracker.\+cpp}}
+{\ttfamily \#include \char`\"{}std\+\_\+incl.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Queued\+C\+P\+U\+Tracker.\+h\char`\"{}}\\*
+{\ttfamily \#include $<$float.\+h$>$}\\*
+{\ttfamily \#include $<$functional$>$}\\*
+{\ttfamily \#include \char`\"{}Debug\+Result\+Compare.\+h\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$ \hyperlink{_queued_c_p_u_tracker_8cpp_a04e7674e3705eefff30b5d6f5d3ab925}{Create\+Queued\+Tracker} (const \hyperlink{struct_q_trk_computed_config}{Q\+Trk\+Computed\+Config} \&cc)
+\item 
+void \hyperlink{_queued_c_p_u_tracker_8cpp_aaaffbe16cb81407e06fe55d9868b3603}{Set\+C\+U\+D\+A\+Devices} (int $\ast$dev, int ndev)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\index{Queued\+C\+P\+U\+Tracker.\+cpp@{Queued\+C\+P\+U\+Tracker.\+cpp}!Create\+Queued\+Tracker@{Create\+Queued\+Tracker}}
+\index{Create\+Queued\+Tracker@{Create\+Queued\+Tracker}!Queued\+C\+P\+U\+Tracker.\+cpp@{Queued\+C\+P\+U\+Tracker.\+cpp}}
+\subsubsection[{\texorpdfstring{Create\+Queued\+Tracker(const Q\+Trk\+Computed\+Config \&cc)}{CreateQueuedTracker(const QTrkComputedConfig &cc)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Queued\+Tracker}$\ast$ Create\+Queued\+Tracker (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\+Trk\+Computed\+Config} \&}]{cc}
+\end{DoxyParamCaption}
+)}\hypertarget{_queued_c_p_u_tracker_8cpp_a04e7674e3705eefff30b5d6f5d3ab925}{}\label{_queued_c_p_u_tracker_8cpp_a04e7674e3705eefff30b5d6f5d3ab925}
+
+\begin{DoxyCode}
+9                                                                 \{ 
+10     \textcolor{keywordflow}{return} \textcolor{keyword}{new} \hyperlink{class_queued_c_p_u_tracker}{QueuedCPUTracker}(cc);
+11 \}
+\end{DoxyCode}
+\index{Queued\+C\+P\+U\+Tracker.\+cpp@{Queued\+C\+P\+U\+Tracker.\+cpp}!Set\+C\+U\+D\+A\+Devices@{Set\+C\+U\+D\+A\+Devices}}
+\index{Set\+C\+U\+D\+A\+Devices@{Set\+C\+U\+D\+A\+Devices}!Queued\+C\+P\+U\+Tracker.\+cpp@{Queued\+C\+P\+U\+Tracker.\+cpp}}
+\subsubsection[{\texorpdfstring{Set\+C\+U\+D\+A\+Devices(int $\ast$dev, int ndev)}{SetCUDADevices(int *dev, int ndev)}}]{\setlength{\rightskip}{0pt plus 5cm}void Set\+C\+U\+D\+A\+Devices (
+\begin{DoxyParamCaption}
+\item[{int $\ast$}]{dev, }
+\item[{int}]{ndev}
+\end{DoxyParamCaption}
+)}\hypertarget{_queued_c_p_u_tracker_8cpp_aaaffbe16cb81407e06fe55d9868b3603}{}\label{_queued_c_p_u_tracker_8cpp_aaaffbe16cb81407e06fe55d9868b3603}
+
+\begin{DoxyCode}
+12                                         \{
+13 \}
+\end{DoxyCode}

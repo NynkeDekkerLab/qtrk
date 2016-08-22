@@ -33,7 +33,7 @@ struct cudaImageList {
 
 	CUBOTH bool isEmpty() { return data==0; }
 
-	static cudaImageList<T> alloc(int w,int h, int amount) {
+	static cudaImageList<T> alloc(int w, int h, int amount) {
 		cudaImageList imgl;
 		imgl.w = w; imgl.h = h;
 		imgl.count = amount;
@@ -114,21 +114,21 @@ struct cudaImageList {
 
 	void copyToHost(T* dst, bool async=false, cudaStream_t s=0) {
 		if (async)
-			cudaMemcpy2DAsync(dst, sizeof(T)*w, data, pitch, w*sizeof(T), count*h, cudaMemcpyDeviceToHost);
+			cudaMemcpy2DAsync(dst, sizeof(T)*w, data, pitch, w*sizeof(T), count*h, cudaMemcpyDeviceToHost, s);
 		else
 			cudaMemcpy2D(dst, sizeof(T)*w, data, pitch, w*sizeof(T), count*h, cudaMemcpyDeviceToHost);
 	}
 	
 	void copyToDevice(T* src, bool async=false, cudaStream_t s=0) {
 		if (async)
-			cudaMemcpy2DAsync(data, pitch, src, w*sizeof(T), w*sizeof(T), count*h, cudaMemcpyHostToDevice);
+			cudaMemcpy2DAsync(data, pitch, src, w*sizeof(T), w*sizeof(T), count*h, cudaMemcpyHostToDevice, s);
 		else
 			cudaMemcpy2D(data, pitch, src, w*sizeof(T), w*sizeof(T), count*h, cudaMemcpyHostToDevice);
 	}
 
 	void copyToDevice(T* src, int numImages, bool async=false, cudaStream_t s=0) {
 		if (async)
-			cudaMemcpy2DAsync(data, pitch, src, w*sizeof(T), w*sizeof(T), numImages*h, cudaMemcpyHostToDevice);
+			cudaMemcpy2DAsync(data, pitch, src, w*sizeof(T), w*sizeof(T), numImages*h, cudaMemcpyHostToDevice, s);
 		else
 			cudaMemcpy2D(data, pitch, src, w*sizeof(T), w*sizeof(T), numImages*h, cudaMemcpyHostToDevice);
 	}
@@ -137,8 +137,8 @@ struct cudaImageList {
 		if(data) cudaMemset2D(data, pitch, 0, w*sizeof(T), count*h);
 	}
 
-	CUBOTH int totalNumPixels() { return pitch*h*count; }
-	CUBOTH int totalNumBytes() { return pitch*h*count*sizeof(T); }
+	CUBOTH int totalNumPixels() { return w*h*count; }
+	CUBOTH int totalNumBytes() { return w*h*count*sizeof(T); }
 	
 	CUBOTH static inline T interp(T a, T b, float x) { return a + (b-a)*x; }
 

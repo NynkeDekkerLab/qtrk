@@ -1,0 +1,261 @@
+\hypertarget{struct_q_trk_computed_config}{}\section{Q\+Trk\+Computed\+Config Struct Reference}
+\label{struct_q_trk_computed_config}\index{Q\+Trk\+Computed\+Config@{Q\+Trk\+Computed\+Config}}
+
+
+Structure for derived settings computed from base settings in \hyperlink{struct_q_trk_settings}{Q\+Trk\+Settings}.  
+
+
+
+
+{\ttfamily \#include $<$qtrk\+\_\+c\+\_\+api.\+h$>$}
+
+Inheritance diagram for Q\+Trk\+Computed\+Config\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{struct_q_trk_computed_config}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{struct_q_trk_computed_config_ad738ca026c9b8b214c45dbffa71be9bf}{Q\+Trk\+Computed\+Config} ()
+\item 
+\hyperlink{struct_q_trk_computed_config_aa129e2fc92125cfe3e3e54bdc22b0872}{Q\+Trk\+Computed\+Config} (const \hyperlink{struct_q_trk_settings}{Q\+Trk\+Settings} \&base)
+\item 
+void \hyperlink{struct_q_trk_computed_config_a26980879d30db548c6b2a2589616d7ee}{Update} ()
+\begin{DoxyCompactList}\small\item\em Compute the derived settings. \end{DoxyCompactList}\item 
+void \hyperlink{struct_q_trk_computed_config_a032b48136d299b59fe90b35ad0ade0a2}{Write\+To\+Log} ()
+\begin{DoxyCompactList}\small\item\em Write all settings to specified log file (Jelmer) \end{DoxyCompactList}\item 
+void \hyperlink{struct_q_trk_computed_config_a824634b46aeafc68c21d5951f92495c3}{Write\+To\+File} ()
+\begin{DoxyCompactList}\small\item\em Write all settings to specified output file (Jordi, to combine with \hyperlink{struct_q_trk_settings_aef52bd8e2fdba83af4ce3b4367180d9f}{Q\+Trk\+Settings.\+test\+Run}) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{struct_q_trk_computed_config_ad1a121fa7d3152df6788ff285e4d2dc6}{zlut\+\_\+radialsteps}
+\begin{DoxyCompactList}\small\item\em Number of radial steps to sample on. \end{DoxyCompactList}\item 
+int \hyperlink{struct_q_trk_computed_config_a01653574d81ab70e4910c984fb7f7482}{zlut\+\_\+angularsteps}
+\begin{DoxyCompactList}\small\item\em Number of angular steps to sample on. \end{DoxyCompactList}\item 
+float \hyperlink{struct_q_trk_computed_config_a13ceb0d4551d3bd5343ecce7a093d65b}{zlut\+\_\+maxradius}
+\begin{DoxyCompactList}\small\item\em Max radius in pixels of the sampling circle. \end{DoxyCompactList}\item 
+int \hyperlink{struct_q_trk_computed_config_ab1a11e7a567a3267c57f77626c6c9c93}{qi\+\_\+radialsteps}
+\begin{DoxyCompactList}\small\item\em Number of radial steps to sample on. \end{DoxyCompactList}\item 
+int \hyperlink{struct_q_trk_computed_config_a1ba87257b24e5b7e427aa92dd4114792}{qi\+\_\+angstepspq}
+\begin{DoxyCompactList}\small\item\em Number of angular steps to sample on. \end{DoxyCompactList}\item 
+float \hyperlink{struct_q_trk_computed_config_a9784dbeb638bde1f3204f9ca5af720c6}{qi\+\_\+maxradius}
+\begin{DoxyCompactList}\small\item\em Max radius in pixels of the sampling circle. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Structure for derived settings computed from base settings in \hyperlink{struct_q_trk_settings}{Q\+Trk\+Settings}. 
+
+Compiled without padding to line up with Lab\+V\+I\+EW alignment. \begin{DoxyWarning}{Warning}
+Changing this requires changing of the linked Lab\+V\+I\+EW cluster Q\+Trk\+Settings.\+ctl. 
+\end{DoxyWarning}
+\begin{DoxyNote}{Note}
+All settings are always defined, eventhough only one of the three 2D localization algorithms is used. 
+\end{DoxyNote}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Q\+Trk\+Computed\+Config@{Q\+Trk\+Computed\+Config}!Q\+Trk\+Computed\+Config@{Q\+Trk\+Computed\+Config}}
+\index{Q\+Trk\+Computed\+Config@{Q\+Trk\+Computed\+Config}!Q\+Trk\+Computed\+Config@{Q\+Trk\+Computed\+Config}}
+\subsubsection[{\texorpdfstring{Q\+Trk\+Computed\+Config()}{QTrkComputedConfig()}}]{\setlength{\rightskip}{0pt plus 5cm}Q\+Trk\+Computed\+Config\+::\+Q\+Trk\+Computed\+Config (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{struct_q_trk_computed_config_ad738ca026c9b8b214c45dbffa71be9bf}{}\label{struct_q_trk_computed_config_ad738ca026c9b8b214c45dbffa71be9bf}
+
+\begin{DoxyCode}
+171 \{\}
+\end{DoxyCode}
+\index{Q\+Trk\+Computed\+Config@{Q\+Trk\+Computed\+Config}!Q\+Trk\+Computed\+Config@{Q\+Trk\+Computed\+Config}}
+\index{Q\+Trk\+Computed\+Config@{Q\+Trk\+Computed\+Config}!Q\+Trk\+Computed\+Config@{Q\+Trk\+Computed\+Config}}
+\subsubsection[{\texorpdfstring{Q\+Trk\+Computed\+Config(const Q\+Trk\+Settings \&base)}{QTrkComputedConfig(const QTrkSettings &base)}}]{\setlength{\rightskip}{0pt plus 5cm}Q\+Trk\+Computed\+Config\+::\+Q\+Trk\+Computed\+Config (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\+Trk\+Settings} \&}]{base}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{struct_q_trk_computed_config_aa129e2fc92125cfe3e3e54bdc22b0872}{}\label{struct_q_trk_computed_config_aa129e2fc92125cfe3e3e54bdc22b0872}
+
+\begin{DoxyCode}
+172 \{ *((\hyperlink{struct_q_trk_settings}{QTrkSettings}*)\textcolor{keyword}{this})=base; \hyperlink{struct_q_trk_computed_config_a26980879d30db548c6b2a2589616d7ee}{Update}(); \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\index{Q\+Trk\+Computed\+Config@{Q\+Trk\+Computed\+Config}!Update@{Update}}
+\index{Update@{Update}!Q\+Trk\+Computed\+Config@{Q\+Trk\+Computed\+Config}}
+\subsubsection[{\texorpdfstring{Update()}{Update()}}]{\setlength{\rightskip}{0pt plus 5cm}void Q\+Trk\+Computed\+Config\+::\+Update (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{struct_q_trk_computed_config_a26980879d30db548c6b2a2589616d7ee}{}\label{struct_q_trk_computed_config_a26980879d30db548c6b2a2589616d7ee}
+
+
+Compute the derived settings. 
+
+
+\begin{DoxyCode}
+7 \{
+8     \textcolor{keywordtype}{int} roi = \hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width} / 2;
+9 
+10     \hyperlink{struct_q_trk_computed_config_a13ceb0d4551d3bd5343ecce7a093d65b}{zlut\_maxradius} = roi*\hyperlink{struct_q_trk_settings_a33db8dee144b4a042f5440fa1f210e6a}{zlut\_roi\_coverage};
+11     \textcolor{keywordtype}{float} zlut\_perimeter = 2*3.141593f*\hyperlink{struct_q_trk_computed_config_a13ceb0d4551d3bd5343ecce7a093d65b}{zlut\_maxradius};
+12     \hyperlink{struct_q_trk_computed_config_a01653574d81ab70e4910c984fb7f7482}{zlut\_angularsteps} = zlut\_perimeter*\hyperlink{struct_q_trk_settings_a8892aa193827371fc06ee94254e68b09}{zlut\_angular\_coverage};
+13     \hyperlink{struct_q_trk_computed_config_ad1a121fa7d3152df6788ff285e4d2dc6}{zlut\_radialsteps} = (\hyperlink{struct_q_trk_computed_config_a13ceb0d4551d3bd5343ecce7a093d65b}{zlut\_maxradius}-
+      \hyperlink{struct_q_trk_settings_a1a14537a9e784c65eed512e72ee86c02}{zlut\_minradius})*\hyperlink{struct_q_trk_settings_ae57544152a8a129bae6cb934feead1c7}{zlut\_radial\_coverage};
+14 
+15     \hyperlink{struct_q_trk_computed_config_a9784dbeb638bde1f3204f9ca5af720c6}{qi\_maxradius} = roi*\hyperlink{struct_q_trk_settings_ab9567d21cc1517713a746c2173de4264}{qi\_roi\_coverage};
+16     \textcolor{keywordtype}{float} qi\_perimeter = 2*3.141593f*\hyperlink{struct_q_trk_computed_config_a9784dbeb638bde1f3204f9ca5af720c6}{qi\_maxradius};
+17     \hyperlink{struct_q_trk_computed_config_a1ba87257b24e5b7e427aa92dd4114792}{qi\_angstepspq} = qi\_perimeter*\hyperlink{struct_q_trk_settings_a08800ed7809dc4bde16d0a6fee08ecdd}{qi\_angular\_coverage}/4;
+18     \hyperlink{struct_q_trk_computed_config_ab1a11e7a567a3267c57f77626c6c9c93}{qi\_radialsteps} = (\hyperlink{struct_q_trk_computed_config_a9784dbeb638bde1f3204f9ca5af720c6}{qi\_maxradius}-\hyperlink{struct_q_trk_settings_a7b5f3e61b4dcab6330c56e7bcd96e82d}{qi\_minradius})*
+      \hyperlink{struct_q_trk_settings_abee59fa2f68d9e514500062f73b1d512}{qi\_radial\_coverage};
+19 
+20     \hyperlink{struct_q_trk_computed_config_ab1a11e7a567a3267c57f77626c6c9c93}{qi\_radialsteps} = \hyperlink{utils_8cpp_a93409977ae90735769d0d2f37b19604e}{NearestPowerOf2}(\hyperlink{struct_q_trk_computed_config_ab1a11e7a567a3267c57f77626c6c9c93}{qi\_radialsteps});
+21 \}
+\end{DoxyCode}
+\index{Q\+Trk\+Computed\+Config@{Q\+Trk\+Computed\+Config}!Write\+To\+File@{Write\+To\+File}}
+\index{Write\+To\+File@{Write\+To\+File}!Q\+Trk\+Computed\+Config@{Q\+Trk\+Computed\+Config}}
+\subsubsection[{\texorpdfstring{Write\+To\+File()}{WriteToFile()}}]{\setlength{\rightskip}{0pt plus 5cm}void Q\+Trk\+Computed\+Config\+::\+Write\+To\+File (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{struct_q_trk_computed_config_a824634b46aeafc68c21d5951f92495c3}{}\label{struct_q_trk_computed_config_a824634b46aeafc68c21d5951f92495c3}
+
+
+Write all settings to specified output file (Jordi, to combine with \hyperlink{struct_q_trk_settings_aef52bd8e2fdba83af4ce3b4367180d9f}{Q\+Trk\+Settings.\+test\+Run}) 
+
+
+\begin{DoxyCode}
+57 \{
+58     std::string path = \hyperlink{utils_8cpp_a5db0cac9cdabe121a5e8f63bb22c3cc4}{GetCurrentOutputPath}(\textcolor{keyword}{false});
+59     FILE* f = fopen(\hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"%s\(\backslash\)\(\backslash\)UsedSettings.txt"},path.c\_str()).c\_str(),\textcolor{stringliteral}{"w+"});
+60 
+61 \textcolor{preprocessor}{#define WRITEVAR(v) fprintf\_s(f,"Setting: %s set to %g\(\backslash\)n", #v, (float) v)}
+62     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width});
+63     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height});
+64     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_a8c6f1c671b527155afd5dad894c152da}{numThreads});
+65     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_a795682a80b672b594ebd225aebf3fb16}{cuda\_device});
+66     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_a18ce353ffb049d1c86254a773a6fe49d}{com\_bgcorrection});
+67     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_a1a14537a9e784c65eed512e72ee86c02}{zlut\_minradius});
+68     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_ae57544152a8a129bae6cb934feead1c7}{zlut\_radial\_coverage});
+69     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_a8892aa193827371fc06ee94254e68b09}{zlut\_angular\_coverage});
+70     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_a33db8dee144b4a042f5440fa1f210e6a}{zlut\_roi\_coverage}); 
+71     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_a12105babb328a9a7ec90f0eab074fabb}{qi\_iterations});
+72     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_a7b5f3e61b4dcab6330c56e7bcd96e82d}{qi\_minradius});
+73     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_abee59fa2f68d9e514500062f73b1d512}{qi\_radial\_coverage});
+74     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_a08800ed7809dc4bde16d0a6fee08ecdd}{qi\_angular\_coverage});
+75     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_ab9567d21cc1517713a746c2173de4264}{qi\_roi\_coverage});
+76     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_aceebf67ba9ecc215d49c6b2739afae3d}{qi\_angstep\_factor});
+77     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_a8f38457c4ec183f78a0191b247ab6b51}{xc1\_profileLength});
+78     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_a80de240523eb79408593d26e6ef07ef7}{xc1\_profileWidth});
+79     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_a0bc4efdffbb8ad272d1c9facfdf0e171}{xc1\_iterations});
+80     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_aa5ae2b9e5700fe2eab58f9084389c3ad}{gauss2D\_iterations});
+81     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_a950fc67c972c608570ef2dd27fcfaf4d}{gauss2D\_sigma});
+82     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_computed_config_ad1a121fa7d3152df6788ff285e4d2dc6}{zlut\_radialsteps});
+83     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_computed_config_a01653574d81ab70e4910c984fb7f7482}{zlut\_angularsteps});
+84     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_computed_config_a13ceb0d4551d3bd5343ecce7a093d65b}{zlut\_maxradius});
+85     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_computed_config_ab1a11e7a567a3267c57f77626c6c9c93}{qi\_radialsteps});
+86     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_computed_config_a1ba87257b24e5b7e427aa92dd4114792}{qi\_angstepspq});
+87     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_computed_config_a9784dbeb638bde1f3204f9ca5af720c6}{qi\_maxradius});
+88     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_ad10a141ae7d18c2e6ce487f147dd7c02}{downsample});
+89 \textcolor{preprocessor}{#undef WRITEVAR}
+90 
+91     fclose(f);
+92 \}
+\end{DoxyCode}
+\index{Q\+Trk\+Computed\+Config@{Q\+Trk\+Computed\+Config}!Write\+To\+Log@{Write\+To\+Log}}
+\index{Write\+To\+Log@{Write\+To\+Log}!Q\+Trk\+Computed\+Config@{Q\+Trk\+Computed\+Config}}
+\subsubsection[{\texorpdfstring{Write\+To\+Log()}{WriteToLog()}}]{\setlength{\rightskip}{0pt plus 5cm}void Q\+Trk\+Computed\+Config\+::\+Write\+To\+Log (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{struct_q_trk_computed_config_a032b48136d299b59fe90b35ad0ade0a2}{}\label{struct_q_trk_computed_config_a032b48136d299b59fe90b35ad0ade0a2}
+
+
+Write all settings to specified log file (Jelmer) 
+
+
+\begin{DoxyCode}
+24 \{
+25 \textcolor{preprocessor}{#define WRITEVAR(v) dbgprintf("Setting: %s set to %g\(\backslash\)n", #v, (float) v)}
+26     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width});
+27     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height});
+28     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_a8c6f1c671b527155afd5dad894c152da}{numThreads});
+29     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_a795682a80b672b594ebd225aebf3fb16}{cuda\_device});
+30     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_a18ce353ffb049d1c86254a773a6fe49d}{com\_bgcorrection});
+31     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_a1a14537a9e784c65eed512e72ee86c02}{zlut\_minradius});
+32     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_ae57544152a8a129bae6cb934feead1c7}{zlut\_radial\_coverage});
+33     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_a8892aa193827371fc06ee94254e68b09}{zlut\_angular\_coverage});
+34     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_a33db8dee144b4a042f5440fa1f210e6a}{zlut\_roi\_coverage}); 
+35     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_a12105babb328a9a7ec90f0eab074fabb}{qi\_iterations});
+36     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_a7b5f3e61b4dcab6330c56e7bcd96e82d}{qi\_minradius});
+37     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_abee59fa2f68d9e514500062f73b1d512}{qi\_radial\_coverage});
+38     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_a08800ed7809dc4bde16d0a6fee08ecdd}{qi\_angular\_coverage});
+39     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_ab9567d21cc1517713a746c2173de4264}{qi\_roi\_coverage});
+40     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_aceebf67ba9ecc215d49c6b2739afae3d}{qi\_angstep\_factor});
+41     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_a8f38457c4ec183f78a0191b247ab6b51}{xc1\_profileLength});
+42     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_a80de240523eb79408593d26e6ef07ef7}{xc1\_profileWidth});
+43     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_a0bc4efdffbb8ad272d1c9facfdf0e171}{xc1\_iterations});
+44     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_aa5ae2b9e5700fe2eab58f9084389c3ad}{gauss2D\_iterations});
+45     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_a950fc67c972c608570ef2dd27fcfaf4d}{gauss2D\_sigma});
+46     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_computed_config_ad1a121fa7d3152df6788ff285e4d2dc6}{zlut\_radialsteps});
+47     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_computed_config_a01653574d81ab70e4910c984fb7f7482}{zlut\_angularsteps});
+48     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_computed_config_a13ceb0d4551d3bd5343ecce7a093d65b}{zlut\_maxradius});
+49     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_computed_config_ab1a11e7a567a3267c57f77626c6c9c93}{qi\_radialsteps});
+50     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_computed_config_a1ba87257b24e5b7e427aa92dd4114792}{qi\_angstepspq});
+51     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_computed_config_a9784dbeb638bde1f3204f9ca5af720c6}{qi\_maxradius});
+52     \hyperlink{_queued_tracker_8cpp_ab7f8fd911b15411f3172a7811e2fc0c6}{WRITEVAR}(\hyperlink{struct_q_trk_settings_ad10a141ae7d18c2e6ce487f147dd7c02}{downsample});
+53 \textcolor{preprocessor}{#undef WRITEVAR}
+54 \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\index{Q\+Trk\+Computed\+Config@{Q\+Trk\+Computed\+Config}!qi\+\_\+angstepspq@{qi\+\_\+angstepspq}}
+\index{qi\+\_\+angstepspq@{qi\+\_\+angstepspq}!Q\+Trk\+Computed\+Config@{Q\+Trk\+Computed\+Config}}
+\subsubsection[{\texorpdfstring{qi\+\_\+angstepspq}{qi_angstepspq}}]{\setlength{\rightskip}{0pt plus 5cm}int Q\+Trk\+Computed\+Config\+::qi\+\_\+angstepspq}\hypertarget{struct_q_trk_computed_config_a1ba87257b24e5b7e427aa92dd4114792}{}\label{struct_q_trk_computed_config_a1ba87257b24e5b7e427aa92dd4114792}
+
+
+Number of angular steps to sample on. 
+
+\index{Q\+Trk\+Computed\+Config@{Q\+Trk\+Computed\+Config}!qi\+\_\+maxradius@{qi\+\_\+maxradius}}
+\index{qi\+\_\+maxradius@{qi\+\_\+maxradius}!Q\+Trk\+Computed\+Config@{Q\+Trk\+Computed\+Config}}
+\subsubsection[{\texorpdfstring{qi\+\_\+maxradius}{qi_maxradius}}]{\setlength{\rightskip}{0pt plus 5cm}float Q\+Trk\+Computed\+Config\+::qi\+\_\+maxradius}\hypertarget{struct_q_trk_computed_config_a9784dbeb638bde1f3204f9ca5af720c6}{}\label{struct_q_trk_computed_config_a9784dbeb638bde1f3204f9ca5af720c6}
+
+
+Max radius in pixels of the sampling circle. 
+
+\index{Q\+Trk\+Computed\+Config@{Q\+Trk\+Computed\+Config}!qi\+\_\+radialsteps@{qi\+\_\+radialsteps}}
+\index{qi\+\_\+radialsteps@{qi\+\_\+radialsteps}!Q\+Trk\+Computed\+Config@{Q\+Trk\+Computed\+Config}}
+\subsubsection[{\texorpdfstring{qi\+\_\+radialsteps}{qi_radialsteps}}]{\setlength{\rightskip}{0pt plus 5cm}int Q\+Trk\+Computed\+Config\+::qi\+\_\+radialsteps}\hypertarget{struct_q_trk_computed_config_ab1a11e7a567a3267c57f77626c6c9c93}{}\label{struct_q_trk_computed_config_ab1a11e7a567a3267c57f77626c6c9c93}
+
+
+Number of radial steps to sample on. 
+
+\index{Q\+Trk\+Computed\+Config@{Q\+Trk\+Computed\+Config}!zlut\+\_\+angularsteps@{zlut\+\_\+angularsteps}}
+\index{zlut\+\_\+angularsteps@{zlut\+\_\+angularsteps}!Q\+Trk\+Computed\+Config@{Q\+Trk\+Computed\+Config}}
+\subsubsection[{\texorpdfstring{zlut\+\_\+angularsteps}{zlut_angularsteps}}]{\setlength{\rightskip}{0pt plus 5cm}int Q\+Trk\+Computed\+Config\+::zlut\+\_\+angularsteps}\hypertarget{struct_q_trk_computed_config_a01653574d81ab70e4910c984fb7f7482}{}\label{struct_q_trk_computed_config_a01653574d81ab70e4910c984fb7f7482}
+
+
+Number of angular steps to sample on. 
+
+\index{Q\+Trk\+Computed\+Config@{Q\+Trk\+Computed\+Config}!zlut\+\_\+maxradius@{zlut\+\_\+maxradius}}
+\index{zlut\+\_\+maxradius@{zlut\+\_\+maxradius}!Q\+Trk\+Computed\+Config@{Q\+Trk\+Computed\+Config}}
+\subsubsection[{\texorpdfstring{zlut\+\_\+maxradius}{zlut_maxradius}}]{\setlength{\rightskip}{0pt plus 5cm}float Q\+Trk\+Computed\+Config\+::zlut\+\_\+maxradius}\hypertarget{struct_q_trk_computed_config_a13ceb0d4551d3bd5343ecce7a093d65b}{}\label{struct_q_trk_computed_config_a13ceb0d4551d3bd5343ecce7a093d65b}
+
+
+Max radius in pixels of the sampling circle. 
+
+\index{Q\+Trk\+Computed\+Config@{Q\+Trk\+Computed\+Config}!zlut\+\_\+radialsteps@{zlut\+\_\+radialsteps}}
+\index{zlut\+\_\+radialsteps@{zlut\+\_\+radialsteps}!Q\+Trk\+Computed\+Config@{Q\+Trk\+Computed\+Config}}
+\subsubsection[{\texorpdfstring{zlut\+\_\+radialsteps}{zlut_radialsteps}}]{\setlength{\rightskip}{0pt plus 5cm}int Q\+Trk\+Computed\+Config\+::zlut\+\_\+radialsteps}\hypertarget{struct_q_trk_computed_config_ad1a121fa7d3152df6788ff285e4d2dc6}{}\label{struct_q_trk_computed_config_ad1a121fa7d3152df6788ff285e4d2dc6}
+
+
+Number of radial steps to sample on. 
+
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+cputrack/\hyperlink{qtrk__c__api_8h}{qtrk\+\_\+c\+\_\+api.\+h}\item 
+cputrack/\hyperlink{_queued_tracker_8cpp}{Queued\+Tracker.\+cpp}\end{DoxyCompactItemize}

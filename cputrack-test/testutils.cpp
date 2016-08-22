@@ -122,7 +122,10 @@ void outputter::init(int mode){
 		char date[14];
 		GetFormattedTimeString(date);
 		folder = "D:\\TestImages\\TestOutput\\" + std::string(date) + "\\";
-		CreateDirectory((LPCTSTR)folder.c_str(),NULL);
+		if(!CreateDirectory((LPCTSTR)folder.c_str(),NULL)){
+			printf_s("Error creating output folder");
+			throw("");
+		}
 	}
 }
 

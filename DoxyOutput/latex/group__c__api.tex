@@ -1,0 +1,349 @@
+\hypertarget{group__c__api}{}\section{A\+PI -\/ C}
+\label{group__c__api}\index{A\+P\+I -\/ C@{A\+P\+I -\/ C}}
+
+
+A\+PI functions available to a C or .N\+ET program.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{dllmacros_8h_af97e4004759ff877db017c3d1a855482}{C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} \hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$\hyperlink{dllmacros_8h_a6596c37c55424b395798708344d63791}{D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} \hyperlink{group__c__api_ga6f577c7b65dcdcb107ccdd7bb1f8883f}{Q\+Trk\+Create\+Instance} (\hyperlink{struct_q_trk_settings}{Q\+Trk\+Settings} $\ast$cfg)
+\begin{DoxyCompactList}\small\item\em Create a Q\+Trk instance and return a pointer to it. \end{DoxyCompactList}\item 
+\hyperlink{dllmacros_8h_af97e4004759ff877db017c3d1a855482}{C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} void \hyperlink{dllmacros_8h_a6596c37c55424b395798708344d63791}{D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} \hyperlink{group__c__api_ga4262000013c06b69780a3e24c1d6e5b4}{Q\+Trk\+Free\+Instance} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$qtrk)
+\item 
+\hyperlink{dllmacros_8h_af97e4004759ff877db017c3d1a855482}{C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} void \hyperlink{dllmacros_8h_a6596c37c55424b395798708344d63791}{D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} \hyperlink{group__c__api_ga4f179d9a21e4d0878fb0b7b93d2ca758}{Q\+Trk\+Set\+Localization\+Mode} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$qtrk, \hyperlink{qtrk__c__api_8h_a6ba72ec1daa19642f85a47defe8f0812}{Loc\+Mode\+\_\+t} loc\+Type)
+\item 
+\hyperlink{dllmacros_8h_af97e4004759ff877db017c3d1a855482}{C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} void \hyperlink{dllmacros_8h_a6596c37c55424b395798708344d63791}{D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} \hyperlink{group__c__api_gacbe5d60ebb4af5dc16a061e94ed321ab}{Q\+Trk\+Schedule\+Localization} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$qtrk, void $\ast$data, int pitch, \hyperlink{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0b}{Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type} pdt, const \hyperlink{struct_localization_job}{Localization\+Job} $\ast$job\+Info)
+\item 
+\hyperlink{dllmacros_8h_af97e4004759ff877db017c3d1a855482}{C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} void \hyperlink{dllmacros_8h_a6596c37c55424b395798708344d63791}{D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} \hyperlink{group__c__api_gaf26eb7c51cc81961c873246322dea1a4}{Q\+Trk\+Clear\+Results} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$qtrk)
+\item 
+\hyperlink{dllmacros_8h_af97e4004759ff877db017c3d1a855482}{C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} void \hyperlink{dllmacros_8h_a6596c37c55424b395798708344d63791}{D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} \hyperlink{group__c__api_ga77a94e6a0f70958385240b81ca2d31c9}{Q\+Trk\+Flush} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$qtrk)
+\item 
+\hyperlink{dllmacros_8h_af97e4004759ff877db017c3d1a855482}{C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} int \hyperlink{dllmacros_8h_a6596c37c55424b395798708344d63791}{D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} \hyperlink{group__c__api_gae5ef39f758a31d9fc493da07d358cc04}{Q\+Trk\+Schedule\+Frame} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$qtrk, void $\ast$imgptr, int pitch, int width, int height, \hyperlink{struct_r_o_i_position}{R\+O\+I\+Position} $\ast$positions, int num\+R\+OI, \hyperlink{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0b}{Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type} pdt, const \hyperlink{struct_localization_job}{Localization\+Job} $\ast$job\+Info)
+\item 
+\hyperlink{dllmacros_8h_af97e4004759ff877db017c3d1a855482}{C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} void \hyperlink{dllmacros_8h_a6596c37c55424b395798708344d63791}{D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} \hyperlink{group__c__api_ga1a3edf23919c33a549b2fb0b778684a9}{Q\+Trk\+Set\+Radial\+Z\+L\+UT} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$qtrk, float $\ast$data, int count, int planes, float $\ast$zcmp=0)
+\item 
+\hyperlink{dllmacros_8h_af97e4004759ff877db017c3d1a855482}{C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} void \hyperlink{dllmacros_8h_a6596c37c55424b395798708344d63791}{D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} \hyperlink{group__c__api_gab5d2705f9d756f2c57568a50755e9212}{Q\+Trk\+Get\+Radial\+Z\+L\+UT} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$qtrk, float $\ast$dst)
+\item 
+\hyperlink{dllmacros_8h_af97e4004759ff877db017c3d1a855482}{C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} void \hyperlink{dllmacros_8h_a6596c37c55424b395798708344d63791}{D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} \hyperlink{group__c__api_ga870e97e334d0f265eeaa969286bbc32f}{Q\+Trk\+Get\+Radial\+Z\+L\+U\+T\+Size} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$qtrk, int $\ast$count, int $\ast$planes, int $\ast$radialsteps)
+\item 
+\hyperlink{dllmacros_8h_af97e4004759ff877db017c3d1a855482}{C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} void \hyperlink{dllmacros_8h_a6596c37c55424b395798708344d63791}{D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} \hyperlink{group__c__api_ga4c0fafa8ed3afa1f77145049c2fe399b}{Q\+Trk\+Build\+L\+UT} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$qtrk, void $\ast$data, int pitch, \hyperlink{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0b}{Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type} pdt, bool image\+L\+UT, int plane)
+\item 
+\hyperlink{dllmacros_8h_af97e4004759ff877db017c3d1a855482}{C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} void \hyperlink{dllmacros_8h_a6596c37c55424b395798708344d63791}{D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} \hyperlink{group__c__api_ga001b7cce7559916db5198075f4b7ff21}{Q\+Trk\+Finalize\+L\+UT} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$qtrk)
+\item 
+\hyperlink{dllmacros_8h_af97e4004759ff877db017c3d1a855482}{C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} int \hyperlink{dllmacros_8h_a6596c37c55424b395798708344d63791}{D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} \hyperlink{group__c__api_gacec9880407759cffad8c29ad2eeb1e19}{Q\+Trk\+Get\+Result\+Count} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$qtrk)
+\item 
+\hyperlink{dllmacros_8h_af97e4004759ff877db017c3d1a855482}{C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} int \hyperlink{dllmacros_8h_a6596c37c55424b395798708344d63791}{D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} \hyperlink{group__c__api_ga8fac708f09e509fca0004a7dad8c2872}{Q\+Trk\+Fetch\+Results} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$qtrk, \hyperlink{struct_localization_result}{Localization\+Result} $\ast$results, int max\+Results)
+\item 
+\hyperlink{dllmacros_8h_af97e4004759ff877db017c3d1a855482}{C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} int \hyperlink{dllmacros_8h_a6596c37c55424b395798708344d63791}{D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} \hyperlink{group__c__api_ga3f127b31b11968ff65ce6593ecab2378}{Q\+Trk\+Get\+Queue\+Length} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$qtrk, int $\ast$max\+Queue\+Len)
+\item 
+\hyperlink{dllmacros_8h_af97e4004759ff877db017c3d1a855482}{C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} bool \hyperlink{dllmacros_8h_a6596c37c55424b395798708344d63791}{D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} \hyperlink{group__c__api_ga050d8107baef0439f34e34d951da83fd}{Q\+Trk\+Is\+Idle} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$qtrk)
+\item 
+\hyperlink{dllmacros_8h_af97e4004759ff877db017c3d1a855482}{C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} void \hyperlink{dllmacros_8h_a6596c37c55424b395798708344d63791}{D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} \hyperlink{group__c__api_ga2e1032468e06d1f27e9484c8aa93a008}{Q\+Trk\+Get\+Profile\+Report} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$qtrk, char $\ast$dst, int max\+Str\+Len)
+\item 
+\hyperlink{dllmacros_8h_af97e4004759ff877db017c3d1a855482}{C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} void \hyperlink{dllmacros_8h_a6596c37c55424b395798708344d63791}{D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} \hyperlink{group__c__api_gaba90d158e873117ee01076aef9ed99ae}{Q\+Trk\+Get\+Warnings} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$qtrk, char $\ast$dst, int max\+Str\+Len)
+\item 
+\hyperlink{dllmacros_8h_af97e4004759ff877db017c3d1a855482}{C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} void \hyperlink{dllmacros_8h_a6596c37c55424b395798708344d63791}{D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} \hyperlink{group__c__api_ga2e4eb3e4449138cd29ff40e1c1b06535}{Q\+Trk\+Get\+Computed\+Config} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$qtrk, \hyperlink{struct_q_trk_computed_config}{Q\+Trk\+Computed\+Config} $\ast$cfg)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A\+PI functions available to a C or .N\+ET program. 
+
+These D\+L\+Ls are compiled by the {\itshape cputrack} and {\itshape cudatrack} projects. 
+
+\subsection{Function Documentation}
+\index{A\+P\+I -\/ C@{A\+P\+I -\/ C}!Q\+Trk\+Build\+L\+UT@{Q\+Trk\+Build\+L\+UT}}
+\index{Q\+Trk\+Build\+L\+UT@{Q\+Trk\+Build\+L\+UT}!A\+P\+I -\/ C@{A\+P\+I -\/ C}}
+\subsubsection[{\texorpdfstring{Q\+Trk\+Build\+L\+U\+T(\+Queued\+Tracker $\ast$qtrk, void $\ast$data, int pitch, Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type pdt, bool image\+L\+U\+T, int plane)}{QTrkBuildLUT(QueuedTracker *qtrk, void *data, int pitch, QTRK_PixelDataType pdt, bool imageLUT, int plane)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} void {\bf D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} Q\+Trk\+Build\+L\+UT (
+\begin{DoxyParamCaption}
+\item[{{\bf Queued\+Tracker} $\ast$}]{qtrk, }
+\item[{void $\ast$}]{data, }
+\item[{int}]{pitch, }
+\item[{{\bf Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type}}]{pdt, }
+\item[{bool}]{image\+L\+UT, }
+\item[{int}]{plane}
+\end{DoxyParamCaption}
+)}\hypertarget{group__c__api_ga4c0fafa8ed3afa1f77145049c2fe399b}{}\label{group__c__api_ga4c0fafa8ed3afa1f77145049c2fe399b}
+
+\begin{DoxyCode}
+65 \{
+66     qtrk->\hyperlink{class_queued_tracker_aaeb04a5a2a4fe47ef48b8aefabc1bdb7}{BuildLUT}(data, pitch, pdt, imageLUT, plane);
+67 \}
+\end{DoxyCode}
+\index{A\+P\+I -\/ C@{A\+P\+I -\/ C}!Q\+Trk\+Clear\+Results@{Q\+Trk\+Clear\+Results}}
+\index{Q\+Trk\+Clear\+Results@{Q\+Trk\+Clear\+Results}!A\+P\+I -\/ C@{A\+P\+I -\/ C}}
+\subsubsection[{\texorpdfstring{Q\+Trk\+Clear\+Results(\+Queued\+Tracker $\ast$qtrk)}{QTrkClearResults(QueuedTracker *qtrk)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} void {\bf D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} Q\+Trk\+Clear\+Results (
+\begin{DoxyParamCaption}
+\item[{{\bf Queued\+Tracker} $\ast$}]{qtrk}
+\end{DoxyParamCaption}
+)}\hypertarget{group__c__api_gaf26eb7c51cc81961c873246322dea1a4}{}\label{group__c__api_gaf26eb7c51cc81961c873246322dea1a4}
+
+\begin{DoxyCode}
+31 \{
+32     qtrk->\hyperlink{class_queued_tracker_a5e46c8ce4bd3b965bedd8aac095304c2}{ClearResults}();
+33 \}
+\end{DoxyCode}
+\index{A\+P\+I -\/ C@{A\+P\+I -\/ C}!Q\+Trk\+Create\+Instance@{Q\+Trk\+Create\+Instance}}
+\index{Q\+Trk\+Create\+Instance@{Q\+Trk\+Create\+Instance}!A\+P\+I -\/ C@{A\+P\+I -\/ C}}
+\subsubsection[{\texorpdfstring{Q\+Trk\+Create\+Instance(\+Q\+Trk\+Settings $\ast$cfg)}{QTrkCreateInstance(QTrkSettings *cfg)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} {\bf Queued\+Tracker}$\ast$ {\bf D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} Q\+Trk\+Create\+Instance (
+\begin{DoxyParamCaption}
+\item[{{\bf Q\+Trk\+Settings} $\ast$}]{cfg}
+\end{DoxyParamCaption}
+)}\hypertarget{group__c__api_ga6f577c7b65dcdcb107ccdd7bb1f8883f}{}\label{group__c__api_ga6f577c7b65dcdcb107ccdd7bb1f8883f}
+
+
+Create a Q\+Trk instance and return a pointer to it. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em cfg} & Pointer to the structure with the desired tracking settings. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the created Q\+Trk instance. 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+6 \{
+7     \textcolor{keywordflow}{return} \hyperlink{_queued_c_p_u_tracker_8cpp_a04e7674e3705eefff30b5d6f5d3ab925}{CreateQueuedTracker}(*cfg);
+8 \}
+\end{DoxyCode}
+\index{A\+P\+I -\/ C@{A\+P\+I -\/ C}!Q\+Trk\+Fetch\+Results@{Q\+Trk\+Fetch\+Results}}
+\index{Q\+Trk\+Fetch\+Results@{Q\+Trk\+Fetch\+Results}!A\+P\+I -\/ C@{A\+P\+I -\/ C}}
+\subsubsection[{\texorpdfstring{Q\+Trk\+Fetch\+Results(\+Queued\+Tracker $\ast$qtrk, Localization\+Result $\ast$results, int max\+Results)}{QTrkFetchResults(QueuedTracker *qtrk, LocalizationResult *results, int maxResults)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} int {\bf D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} Q\+Trk\+Fetch\+Results (
+\begin{DoxyParamCaption}
+\item[{{\bf Queued\+Tracker} $\ast$}]{qtrk, }
+\item[{{\bf Localization\+Result} $\ast$}]{results, }
+\item[{int}]{max\+Results}
+\end{DoxyParamCaption}
+)}\hypertarget{group__c__api_ga8fac708f09e509fca0004a7dad8c2872}{}\label{group__c__api_ga8fac708f09e509fca0004a7dad8c2872}
+
+\begin{DoxyCode}
+81 \{
+82     \textcolor{keywordflow}{return} qtrk->\hyperlink{class_queued_tracker_a171688832558d40838790c90ba9f8fc0}{FetchResults}(results, maxResults);
+83 \}
+\end{DoxyCode}
+\index{A\+P\+I -\/ C@{A\+P\+I -\/ C}!Q\+Trk\+Finalize\+L\+UT@{Q\+Trk\+Finalize\+L\+UT}}
+\index{Q\+Trk\+Finalize\+L\+UT@{Q\+Trk\+Finalize\+L\+UT}!A\+P\+I -\/ C@{A\+P\+I -\/ C}}
+\subsubsection[{\texorpdfstring{Q\+Trk\+Finalize\+L\+U\+T(\+Queued\+Tracker $\ast$qtrk)}{QTrkFinalizeLUT(QueuedTracker *qtrk)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} void {\bf D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} Q\+Trk\+Finalize\+L\+UT (
+\begin{DoxyParamCaption}
+\item[{{\bf Queued\+Tracker} $\ast$}]{qtrk}
+\end{DoxyParamCaption}
+)}\hypertarget{group__c__api_ga001b7cce7559916db5198075f4b7ff21}{}\label{group__c__api_ga001b7cce7559916db5198075f4b7ff21}
+
+\begin{DoxyCode}
+70 \{
+71     qtrk->\hyperlink{class_queued_tracker_aa856650c99d15216ad3246d3485b9d9e}{FinalizeLUT}();
+72 \}
+\end{DoxyCode}
+\index{A\+P\+I -\/ C@{A\+P\+I -\/ C}!Q\+Trk\+Flush@{Q\+Trk\+Flush}}
+\index{Q\+Trk\+Flush@{Q\+Trk\+Flush}!A\+P\+I -\/ C@{A\+P\+I -\/ C}}
+\subsubsection[{\texorpdfstring{Q\+Trk\+Flush(\+Queued\+Tracker $\ast$qtrk)}{QTrkFlush(QueuedTracker *qtrk)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} void {\bf D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} Q\+Trk\+Flush (
+\begin{DoxyParamCaption}
+\item[{{\bf Queued\+Tracker} $\ast$}]{qtrk}
+\end{DoxyParamCaption}
+)}\hypertarget{group__c__api_ga77a94e6a0f70958385240b81ca2d31c9}{}\label{group__c__api_ga77a94e6a0f70958385240b81ca2d31c9}
+
+\begin{DoxyCode}
+36 \{
+37     qtrk->\hyperlink{class_queued_tracker_a97cf826c17ab9b3e55d8ecd513d58098}{Flush}();
+38 \}
+\end{DoxyCode}
+\index{A\+P\+I -\/ C@{A\+P\+I -\/ C}!Q\+Trk\+Free\+Instance@{Q\+Trk\+Free\+Instance}}
+\index{Q\+Trk\+Free\+Instance@{Q\+Trk\+Free\+Instance}!A\+P\+I -\/ C@{A\+P\+I -\/ C}}
+\subsubsection[{\texorpdfstring{Q\+Trk\+Free\+Instance(\+Queued\+Tracker $\ast$qtrk)}{QTrkFreeInstance(QueuedTracker *qtrk)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} void {\bf D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} Q\+Trk\+Free\+Instance (
+\begin{DoxyParamCaption}
+\item[{{\bf Queued\+Tracker} $\ast$}]{qtrk}
+\end{DoxyParamCaption}
+)}\hypertarget{group__c__api_ga4262000013c06b69780a3e24c1d6e5b4}{}\label{group__c__api_ga4262000013c06b69780a3e24c1d6e5b4}
+
+\begin{DoxyCode}
+11 \{
+12     \textcolor{keyword}{delete} qtrk;
+13 \}
+\end{DoxyCode}
+\index{A\+P\+I -\/ C@{A\+P\+I -\/ C}!Q\+Trk\+Get\+Computed\+Config@{Q\+Trk\+Get\+Computed\+Config}}
+\index{Q\+Trk\+Get\+Computed\+Config@{Q\+Trk\+Get\+Computed\+Config}!A\+P\+I -\/ C@{A\+P\+I -\/ C}}
+\subsubsection[{\texorpdfstring{Q\+Trk\+Get\+Computed\+Config(\+Queued\+Tracker $\ast$qtrk, Q\+Trk\+Computed\+Config $\ast$cfg)}{QTrkGetComputedConfig(QueuedTracker *qtrk, QTrkComputedConfig *cfg)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} void {\bf D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} Q\+Trk\+Get\+Computed\+Config (
+\begin{DoxyParamCaption}
+\item[{{\bf Queued\+Tracker} $\ast$}]{qtrk, }
+\item[{{\bf Q\+Trk\+Computed\+Config} $\ast$}]{cfg}
+\end{DoxyParamCaption}
+)}\hypertarget{group__c__api_ga2e4eb3e4449138cd29ff40e1c1b06535}{}\label{group__c__api_ga2e4eb3e4449138cd29ff40e1c1b06535}
+
+\begin{DoxyCode}
+108 \{
+109     *cfg = qtrk->\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg};
+110 \}
+\end{DoxyCode}
+\index{A\+P\+I -\/ C@{A\+P\+I -\/ C}!Q\+Trk\+Get\+Profile\+Report@{Q\+Trk\+Get\+Profile\+Report}}
+\index{Q\+Trk\+Get\+Profile\+Report@{Q\+Trk\+Get\+Profile\+Report}!A\+P\+I -\/ C@{A\+P\+I -\/ C}}
+\subsubsection[{\texorpdfstring{Q\+Trk\+Get\+Profile\+Report(\+Queued\+Tracker $\ast$qtrk, char $\ast$dst, int max\+Str\+Len)}{QTrkGetProfileReport(QueuedTracker *qtrk, char *dst, int maxStrLen)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} void {\bf D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} Q\+Trk\+Get\+Profile\+Report (
+\begin{DoxyParamCaption}
+\item[{{\bf Queued\+Tracker} $\ast$}]{qtrk, }
+\item[{char $\ast$}]{dst, }
+\item[{int}]{max\+Str\+Len}
+\end{DoxyParamCaption}
+)}\hypertarget{group__c__api_ga2e1032468e06d1f27e9484c8aa93a008}{}\label{group__c__api_ga2e1032468e06d1f27e9484c8aa93a008}
+
+\begin{DoxyCode}
+97 \{
+98     strncpy(dst, qtrk->\hyperlink{class_queued_tracker_afb595aa118f6cd87b4502d2cdfe53215}{GetProfileReport}().c\_str(), maxStrLen);
+99 \}
+\end{DoxyCode}
+\index{A\+P\+I -\/ C@{A\+P\+I -\/ C}!Q\+Trk\+Get\+Queue\+Length@{Q\+Trk\+Get\+Queue\+Length}}
+\index{Q\+Trk\+Get\+Queue\+Length@{Q\+Trk\+Get\+Queue\+Length}!A\+P\+I -\/ C@{A\+P\+I -\/ C}}
+\subsubsection[{\texorpdfstring{Q\+Trk\+Get\+Queue\+Length(\+Queued\+Tracker $\ast$qtrk, int $\ast$max\+Queue\+Len)}{QTrkGetQueueLength(QueuedTracker *qtrk, int *maxQueueLen)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} int {\bf D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} Q\+Trk\+Get\+Queue\+Length (
+\begin{DoxyParamCaption}
+\item[{{\bf Queued\+Tracker} $\ast$}]{qtrk, }
+\item[{int $\ast$}]{max\+Queue\+Len}
+\end{DoxyParamCaption}
+)}\hypertarget{group__c__api_ga3f127b31b11968ff65ce6593ecab2378}{}\label{group__c__api_ga3f127b31b11968ff65ce6593ecab2378}
+
+\begin{DoxyCode}
+87 \{
+88     \textcolor{keywordflow}{return} qtrk->\hyperlink{class_queued_tracker_a7109701fb33a1eb1f4a5512205cb7bde}{GetQueueLength}(maxQueueLen);
+89 \}
+\end{DoxyCode}
+\index{A\+P\+I -\/ C@{A\+P\+I -\/ C}!Q\+Trk\+Get\+Radial\+Z\+L\+UT@{Q\+Trk\+Get\+Radial\+Z\+L\+UT}}
+\index{Q\+Trk\+Get\+Radial\+Z\+L\+UT@{Q\+Trk\+Get\+Radial\+Z\+L\+UT}!A\+P\+I -\/ C@{A\+P\+I -\/ C}}
+\subsubsection[{\texorpdfstring{Q\+Trk\+Get\+Radial\+Z\+L\+U\+T(\+Queued\+Tracker $\ast$qtrk, float $\ast$dst)}{QTrkGetRadialZLUT(QueuedTracker *qtrk, float *dst)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} void {\bf D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} Q\+Trk\+Get\+Radial\+Z\+L\+UT (
+\begin{DoxyParamCaption}
+\item[{{\bf Queued\+Tracker} $\ast$}]{qtrk, }
+\item[{float $\ast$}]{dst}
+\end{DoxyParamCaption}
+)}\hypertarget{group__c__api_gab5d2705f9d756f2c57568a50755e9212}{}\label{group__c__api_gab5d2705f9d756f2c57568a50755e9212}
+
+\begin{DoxyCode}
+54 \{
+55     qtrk->\hyperlink{class_queued_tracker_a7e92adfa46401d802eaff7687e43dad7}{GetRadialZLUT}(dst);
+56 \}
+\end{DoxyCode}
+\index{A\+P\+I -\/ C@{A\+P\+I -\/ C}!Q\+Trk\+Get\+Radial\+Z\+L\+U\+T\+Size@{Q\+Trk\+Get\+Radial\+Z\+L\+U\+T\+Size}}
+\index{Q\+Trk\+Get\+Radial\+Z\+L\+U\+T\+Size@{Q\+Trk\+Get\+Radial\+Z\+L\+U\+T\+Size}!A\+P\+I -\/ C@{A\+P\+I -\/ C}}
+\subsubsection[{\texorpdfstring{Q\+Trk\+Get\+Radial\+Z\+L\+U\+T\+Size(\+Queued\+Tracker $\ast$qtrk, int $\ast$count, int $\ast$planes, int $\ast$radialsteps)}{QTrkGetRadialZLUTSize(QueuedTracker *qtrk, int *count, int *planes, int *radialsteps)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} void {\bf D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} Q\+Trk\+Get\+Radial\+Z\+L\+U\+T\+Size (
+\begin{DoxyParamCaption}
+\item[{{\bf Queued\+Tracker} $\ast$}]{qtrk, }
+\item[{int $\ast$}]{count, }
+\item[{int $\ast$}]{planes, }
+\item[{int $\ast$}]{radialsteps}
+\end{DoxyParamCaption}
+)}\hypertarget{group__c__api_ga870e97e334d0f265eeaa969286bbc32f}{}\label{group__c__api_ga870e97e334d0f265eeaa969286bbc32f}
+
+\begin{DoxyCode}
+59 \{
+60     qtrk->\hyperlink{class_queued_tracker_a95e19cdbbaa59eb676a24aaf95058b27}{GetRadialZLUTSize}(*count, *planes, *radialsteps);
+61 \}
+\end{DoxyCode}
+\index{A\+P\+I -\/ C@{A\+P\+I -\/ C}!Q\+Trk\+Get\+Result\+Count@{Q\+Trk\+Get\+Result\+Count}}
+\index{Q\+Trk\+Get\+Result\+Count@{Q\+Trk\+Get\+Result\+Count}!A\+P\+I -\/ C@{A\+P\+I -\/ C}}
+\subsubsection[{\texorpdfstring{Q\+Trk\+Get\+Result\+Count(\+Queued\+Tracker $\ast$qtrk)}{QTrkGetResultCount(QueuedTracker *qtrk)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} int {\bf D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} Q\+Trk\+Get\+Result\+Count (
+\begin{DoxyParamCaption}
+\item[{{\bf Queued\+Tracker} $\ast$}]{qtrk}
+\end{DoxyParamCaption}
+)}\hypertarget{group__c__api_gacec9880407759cffad8c29ad2eeb1e19}{}\label{group__c__api_gacec9880407759cffad8c29ad2eeb1e19}
+
+\begin{DoxyCode}
+76 \{
+77     \textcolor{keywordflow}{return} qtrk->\hyperlink{class_queued_tracker_a362a26027dc6bd40864e59de1ac32de2}{GetResultCount}();
+78 \}
+\end{DoxyCode}
+\index{A\+P\+I -\/ C@{A\+P\+I -\/ C}!Q\+Trk\+Get\+Warnings@{Q\+Trk\+Get\+Warnings}}
+\index{Q\+Trk\+Get\+Warnings@{Q\+Trk\+Get\+Warnings}!A\+P\+I -\/ C@{A\+P\+I -\/ C}}
+\subsubsection[{\texorpdfstring{Q\+Trk\+Get\+Warnings(\+Queued\+Tracker $\ast$qtrk, char $\ast$dst, int max\+Str\+Len)}{QTrkGetWarnings(QueuedTracker *qtrk, char *dst, int maxStrLen)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} void {\bf D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} Q\+Trk\+Get\+Warnings (
+\begin{DoxyParamCaption}
+\item[{{\bf Queued\+Tracker} $\ast$}]{qtrk, }
+\item[{char $\ast$}]{dst, }
+\item[{int}]{max\+Str\+Len}
+\end{DoxyParamCaption}
+)}\hypertarget{group__c__api_gaba90d158e873117ee01076aef9ed99ae}{}\label{group__c__api_gaba90d158e873117ee01076aef9ed99ae}
+
+\begin{DoxyCode}
+102 \{
+103     strncpy(dst, qtrk->\hyperlink{class_queued_tracker_aafb754ef37092a96f95a3094eba58398}{GetWarnings}().c\_str(), maxStrLen);
+104 \}
+\end{DoxyCode}
+\index{A\+P\+I -\/ C@{A\+P\+I -\/ C}!Q\+Trk\+Is\+Idle@{Q\+Trk\+Is\+Idle}}
+\index{Q\+Trk\+Is\+Idle@{Q\+Trk\+Is\+Idle}!A\+P\+I -\/ C@{A\+P\+I -\/ C}}
+\subsubsection[{\texorpdfstring{Q\+Trk\+Is\+Idle(\+Queued\+Tracker $\ast$qtrk)}{QTrkIsIdle(QueuedTracker *qtrk)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} bool {\bf D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} Q\+Trk\+Is\+Idle (
+\begin{DoxyParamCaption}
+\item[{{\bf Queued\+Tracker} $\ast$}]{qtrk}
+\end{DoxyParamCaption}
+)}\hypertarget{group__c__api_ga050d8107baef0439f34e34d951da83fd}{}\label{group__c__api_ga050d8107baef0439f34e34d951da83fd}
+
+\begin{DoxyCode}
+92 \{
+93     \textcolor{keywordflow}{return} qtrk->\hyperlink{class_queued_tracker_a8b879a9359f4e2081e69b0932f8e9908}{IsIdle}();
+94 \}
+\end{DoxyCode}
+\index{A\+P\+I -\/ C@{A\+P\+I -\/ C}!Q\+Trk\+Schedule\+Frame@{Q\+Trk\+Schedule\+Frame}}
+\index{Q\+Trk\+Schedule\+Frame@{Q\+Trk\+Schedule\+Frame}!A\+P\+I -\/ C@{A\+P\+I -\/ C}}
+\subsubsection[{\texorpdfstring{Q\+Trk\+Schedule\+Frame(\+Queued\+Tracker $\ast$qtrk, void $\ast$imgptr, int pitch, int width, int height, R\+O\+I\+Position $\ast$positions, int num\+R\+O\+I, Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type pdt, const Localization\+Job $\ast$job\+Info)}{QTrkScheduleFrame(QueuedTracker *qtrk, void *imgptr, int pitch, int width, int height, ROIPosition *positions, int numROI, QTRK_PixelDataType pdt, const LocalizationJob *jobInfo)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} int {\bf D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} Q\+Trk\+Schedule\+Frame (
+\begin{DoxyParamCaption}
+\item[{{\bf Queued\+Tracker} $\ast$}]{qtrk, }
+\item[{void $\ast$}]{imgptr, }
+\item[{int}]{pitch, }
+\item[{int}]{width, }
+\item[{int}]{height, }
+\item[{{\bf R\+O\+I\+Position} $\ast$}]{positions, }
+\item[{int}]{num\+R\+OI, }
+\item[{{\bf Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type}}]{pdt, }
+\item[{const {\bf Localization\+Job} $\ast$}]{job\+Info}
+\end{DoxyParamCaption}
+)}\hypertarget{group__c__api_gae5ef39f758a31d9fc493da07d358cc04}{}\label{group__c__api_gae5ef39f758a31d9fc493da07d358cc04}
+
+\begin{DoxyCode}
+42 \{
+43     \textcolor{keywordflow}{return} qtrk->\hyperlink{class_queued_tracker_ab80776ec6e8b2202d858f1c9cb989240}{ScheduleFrame}(imgptr, pitch, width, height, positions, numROI, pdt, jobInfo);
+44 \}
+\end{DoxyCode}
+\index{A\+P\+I -\/ C@{A\+P\+I -\/ C}!Q\+Trk\+Schedule\+Localization@{Q\+Trk\+Schedule\+Localization}}
+\index{Q\+Trk\+Schedule\+Localization@{Q\+Trk\+Schedule\+Localization}!A\+P\+I -\/ C@{A\+P\+I -\/ C}}
+\subsubsection[{\texorpdfstring{Q\+Trk\+Schedule\+Localization(\+Queued\+Tracker $\ast$qtrk, void $\ast$data, int pitch, Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type pdt, const Localization\+Job $\ast$job\+Info)}{QTrkScheduleLocalization(QueuedTracker *qtrk, void *data, int pitch, QTRK_PixelDataType pdt, const LocalizationJob *jobInfo)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} void {\bf D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} Q\+Trk\+Schedule\+Localization (
+\begin{DoxyParamCaption}
+\item[{{\bf Queued\+Tracker} $\ast$}]{qtrk, }
+\item[{void $\ast$}]{data, }
+\item[{int}]{pitch, }
+\item[{{\bf Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type}}]{pdt, }
+\item[{const {\bf Localization\+Job} $\ast$}]{job\+Info}
+\end{DoxyParamCaption}
+)}\hypertarget{group__c__api_gacbe5d60ebb4af5dc16a061e94ed321ab}{}\label{group__c__api_gacbe5d60ebb4af5dc16a061e94ed321ab}
+
+\begin{DoxyCode}
+26 \{
+27     qtrk->\hyperlink{class_queued_tracker_a233dffd15fe3cef8a53c698bba9befb4}{ScheduleLocalization}(data,pitch,pdt,jobInfo);
+28 \}
+\end{DoxyCode}
+\index{A\+P\+I -\/ C@{A\+P\+I -\/ C}!Q\+Trk\+Set\+Localization\+Mode@{Q\+Trk\+Set\+Localization\+Mode}}
+\index{Q\+Trk\+Set\+Localization\+Mode@{Q\+Trk\+Set\+Localization\+Mode}!A\+P\+I -\/ C@{A\+P\+I -\/ C}}
+\subsubsection[{\texorpdfstring{Q\+Trk\+Set\+Localization\+Mode(\+Queued\+Tracker $\ast$qtrk, Loc\+Mode\+\_\+t loc\+Type)}{QTrkSetLocalizationMode(QueuedTracker *qtrk, LocMode_t locType)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} void {\bf D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} Q\+Trk\+Set\+Localization\+Mode (
+\begin{DoxyParamCaption}
+\item[{{\bf Queued\+Tracker} $\ast$}]{qtrk, }
+\item[{{\bf Loc\+Mode\+\_\+t}}]{loc\+Type}
+\end{DoxyParamCaption}
+)}\hypertarget{group__c__api_ga4f179d9a21e4d0878fb0b7b93d2ca758}{}\label{group__c__api_ga4f179d9a21e4d0878fb0b7b93d2ca758}
+
+\begin{DoxyCode}
+18 \{
+19     qtrk->\hyperlink{class_queued_tracker_aed430b5578d7a3e75f4d4d6c6dbb7e45}{SetLocalizationMode}(locType);
+20 \}
+\end{DoxyCode}
+\index{A\+P\+I -\/ C@{A\+P\+I -\/ C}!Q\+Trk\+Set\+Radial\+Z\+L\+UT@{Q\+Trk\+Set\+Radial\+Z\+L\+UT}}
+\index{Q\+Trk\+Set\+Radial\+Z\+L\+UT@{Q\+Trk\+Set\+Radial\+Z\+L\+UT}!A\+P\+I -\/ C@{A\+P\+I -\/ C}}
+\subsubsection[{\texorpdfstring{Q\+Trk\+Set\+Radial\+Z\+L\+U\+T(\+Queued\+Tracker $\ast$qtrk, float $\ast$data, int count, int planes, float $\ast$zcmp=0)}{QTrkSetRadialZLUT(QueuedTracker *qtrk, float *data, int count, int planes, float *zcmp=0)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} void {\bf D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} Q\+Trk\+Set\+Radial\+Z\+L\+UT (
+\begin{DoxyParamCaption}
+\item[{{\bf Queued\+Tracker} $\ast$}]{qtrk, }
+\item[{float $\ast$}]{data, }
+\item[{int}]{count, }
+\item[{int}]{planes, }
+\item[{float $\ast$}]{zcmp = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}\hypertarget{group__c__api_ga1a3edf23919c33a549b2fb0b778684a9}{}\label{group__c__api_ga1a3edf23919c33a549b2fb0b778684a9}
+
+\begin{DoxyCode}
+49 \{
+50     qtrk->\hyperlink{class_queued_tracker_a77c3d8414993d2aa3ddfca4c8b40e71d}{SetRadialZLUT}(data, count, planes, zcmp);
+51 \}
+\end{DoxyCode}

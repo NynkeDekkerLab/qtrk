@@ -1,0 +1,904 @@
+\hypertarget{class_queued_tracker}{}\section{Queued\+Tracker Class Reference}
+\label{class_queued_tracker}\index{Queued\+Tracker@{Queued\+Tracker}}
+
+
+Abstract tracker interface, implemented by \hyperlink{class_queued_c_u_d_a_tracker}{Queued\+C\+U\+D\+A\+Tracker} and \hyperlink{class_queued_c_p_u_tracker}{Queued\+C\+P\+U\+Tracker}.  
+
+
+
+
+{\ttfamily \#include $<$Queued\+Tracker.\+h$>$}
+
+Inheritance diagram for Queued\+Tracker\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_queued_tracker}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef std\+::map$<$ std\+::string, std\+::string $>$ \hyperlink{class_queued_tracker_af6073682cd9e87e6f3e84f93cf9be373}{Config\+Value\+Map}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_queued_tracker_a483d1506b7b317d705cc7997805b5904}{Queued\+Tracker} ()
+\item 
+virtual \hyperlink{class_queued_tracker_aa60a3ac6e97b8a7a84b49dd9b6c8b615}{$\sim$\+Queued\+Tracker} ()
+\item 
+virtual void \hyperlink{class_queued_tracker_aed430b5578d7a3e75f4d4d6c6dbb7e45}{Set\+Localization\+Mode} (\hyperlink{qtrk__c__api_8h_a6ba72ec1daa19642f85a47defe8f0812}{Loc\+Mode\+\_\+t} loc\+Type)=0
+\begin{DoxyCompactList}\small\item\em Select which algorithm is to be used. \end{DoxyCompactList}\item 
+virtual void \hyperlink{class_queued_tracker_ae1fa56f8629d8d4ad621889fbd9e4a46}{Set\+Pixel\+Calibration\+Images} (float $\ast$offset, float $\ast$gain)=0
+\item 
+virtual void \hyperlink{class_queued_tracker_ab9dd540b5c8452718944b47520fda402}{Set\+Pixel\+Calibration\+Factors} (float offset\+Factor, float gain\+Factor)=0
+\item 
+virtual void \hyperlink{class_queued_tracker_a233dffd15fe3cef8a53c698bba9befb4}{Schedule\+Localization} (void $\ast$data, int pitch, \hyperlink{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0b}{Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type} pdt, const \hyperlink{struct_localization_job}{Localization\+Job} $\ast$job\+Info)=0
+\begin{DoxyCompactList}\small\item\em Add a job to the queue to be processed. A job entails running the required algorithms on a single region of interest. \end{DoxyCompactList}\item 
+void \hyperlink{class_queued_tracker_afa6cfa13cba4d05fac9f7baa96b12f89}{Schedule\+Image\+Data} (\hyperlink{_queued_tracker_8h_a2d6726594ce64e82b9222b183f2571d1}{Image\+Data} $\ast$data, const \hyperlink{struct_localization_job}{Localization\+Job} $\ast$job\+Info)
+\begin{DoxyCompactList}\small\item\em Quick function to schedule a single R\+OI from an \hyperlink{utils_8h_a2d6726594ce64e82b9222b183f2571d1}{Image\+Data} object. \end{DoxyCompactList}\item 
+virtual void \hyperlink{class_queued_tracker_a5e46c8ce4bd3b965bedd8aac095304c2}{Clear\+Results} ()=0
+\begin{DoxyCompactList}\small\item\em Clear results. \end{DoxyCompactList}\item 
+virtual void \hyperlink{class_queued_tracker_a97cf826c17ab9b3e55d8ecd513d58098}{Flush} ()=0
+\begin{DoxyCompactList}\small\item\em Stop waiting for more jobs to do, and just process the current batch. \end{DoxyCompactList}\item 
+virtual int \hyperlink{class_queued_tracker_ab80776ec6e8b2202d858f1c9cb989240}{Schedule\+Frame} (void $\ast$imgptr, int pitch, int width, int height, \hyperlink{struct_r_o_i_position}{R\+O\+I\+Position} $\ast$positions, int num\+R\+OI, \hyperlink{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0b}{Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type} pdt, const \hyperlink{struct_localization_job}{Localization\+Job} $\ast$job\+Info)
+\begin{DoxyCompactList}\small\item\em Schedule an entire frame at once, allowing for further optimizations. \end{DoxyCompactList}\item 
+virtual void \hyperlink{class_queued_tracker_a77c3d8414993d2aa3ddfca4c8b40e71d}{Set\+Radial\+Z\+L\+UT} (float $\ast$data, int count, int planes)=0
+\begin{DoxyCompactList}\small\item\em Set the radial lookup tables to be used for z tracking. \end{DoxyCompactList}\item 
+virtual void \hyperlink{class_queued_tracker_a7e92adfa46401d802eaff7687e43dad7}{Get\+Radial\+Z\+L\+UT} (float $\ast$dst)=0
+\begin{DoxyCompactList}\small\item\em Get the radial lookup tables used for z tracking. \end{DoxyCompactList}\item 
+virtual void \hyperlink{class_queued_tracker_a95e19cdbbaa59eb676a24aaf95058b27}{Get\+Radial\+Z\+L\+U\+T\+Size} (int \&count, int \&planes, int \&radialsteps)=0
+\begin{DoxyCompactList}\small\item\em Get the dimensions of the radial lookup table data. \end{DoxyCompactList}\item 
+virtual void \hyperlink{class_queued_tracker_aaf4a1a0f17e2df7bc6dded2729d920f4}{Set\+Radial\+Weights} (float $\ast$zcmp)=0
+\begin{DoxyCompactList}\small\item\em Set radial weights used for comparing L\+UT profiles. \end{DoxyCompactList}\item 
+virtual void \hyperlink{class_queued_tracker_a53791fa740351a32ff707be9688aa99d}{Enable\+Radial\+Z\+L\+U\+T\+Compare\+Profile} (bool enabled)=0
+\begin{DoxyCompactList}\small\item\em Set a flag to enable saving of error curves. \end{DoxyCompactList}\item 
+virtual void \hyperlink{class_queued_tracker_ae6cc12f988a4f99d03a9783b4f978e7e}{Get\+Radial\+Z\+L\+U\+T\+Compare\+Profile} (float $\ast$dst)=0
+\begin{DoxyCompactList}\small\item\em Get saved error curve. \end{DoxyCompactList}\item 
+virtual void \hyperlink{class_queued_tracker_a29cd6f896d8bcdd93ee4a54bb7823f97}{Get\+Image\+Z\+L\+U\+T\+Size} (int $\ast$dims)
+\begin{DoxyCompactList}\small\item\em Get the dimensions of the image lookup table data. \end{DoxyCompactList}\item 
+virtual void \hyperlink{class_queued_tracker_af7d71b3673778f83f6494328182519ad}{Get\+Image\+Z\+L\+UT} (float $\ast$dst)
+\begin{DoxyCompactList}\small\item\em Get the image lookup tables used. \end{DoxyCompactList}\item 
+virtual bool \hyperlink{class_queued_tracker_abd440db1fddc0715bd41b90f1d169ee6}{Set\+Image\+Z\+L\+UT} (float $\ast$src, float $\ast$radial\+\_\+zlut, int $\ast$dims)
+\begin{DoxyCompactList}\small\item\em Set the image lookup tables to be used for z tracking. \end{DoxyCompactList}\item 
+virtual void \hyperlink{class_queued_tracker_aee4863d19778314cd30499cb85bd5251}{Begin\+L\+UT} (\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} flags)=0
+\item 
+virtual void \hyperlink{class_queued_tracker_aaeb04a5a2a4fe47ef48b8aefabc1bdb7}{Build\+L\+UT} (void $\ast$data, int pitch, \hyperlink{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0b}{Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type} pdt, int plane, \hyperlink{std__incl_8h_aba974726076ec2d63a67114c536d123e}{vector2f} $\ast$known\+\_\+pos=0)=0
+\item 
+virtual void \hyperlink{class_queued_tracker_aa856650c99d15216ad3246d3485b9d9e}{Finalize\+L\+UT} ()=0
+\item 
+virtual int \hyperlink{class_queued_tracker_a362a26027dc6bd40864e59de1ac32de2}{Get\+Result\+Count} ()=0
+\item 
+virtual int \hyperlink{class_queued_tracker_a171688832558d40838790c90ba9f8fc0}{Fetch\+Results} (\hyperlink{struct_localization_result}{Localization\+Result} $\ast$results, int max\+Results)=0
+\item 
+virtual int \hyperlink{class_queued_tracker_a7109701fb33a1eb1f4a5512205cb7bde}{Get\+Queue\+Length} (int $\ast$max\+Queue\+Len=0)=0
+\item 
+virtual bool \hyperlink{class_queued_tracker_a8b879a9359f4e2081e69b0932f8e9908}{Is\+Idle} ()=0
+\item 
+virtual void \hyperlink{class_queued_tracker_a0d96ad4feea320c3ba90d196b4690d3b}{Set\+Config\+Value} (std\+::string name, std\+::string value)=0
+\item 
+virtual \hyperlink{class_queued_tracker_af6073682cd9e87e6f3e84f93cf9be373}{Config\+Value\+Map} \hyperlink{class_queued_tracker_afdb95cbf31f14716b3872e15a2319d62}{Get\+Config\+Values} ()=0
+\item 
+virtual std\+::string \hyperlink{class_queued_tracker_afb595aa118f6cd87b4502d2cdfe53215}{Get\+Profile\+Report} ()
+\item 
+virtual std\+::string \hyperlink{class_queued_tracker_aafb754ef37092a96f95a3094eba58398}{Get\+Warnings} ()
+\item 
+virtual bool \hyperlink{class_queued_tracker_aeae109b520ca5b15e008030edfc179c4}{Get\+Debug\+Image} (int ID, int $\ast$w, int $\ast$h, float $\ast$$\ast$p\+Data)
+\item 
+\hyperlink{_queued_tracker_8h_a2d6726594ce64e82b9222b183f2571d1}{Image\+Data} \hyperlink{class_queued_tracker_a37756db08d454ad904193dd4e6f652b1}{Debug\+Image} (int ID)
+\item 
+void \hyperlink{class_queued_tracker_a43a79ee2536d7e32f2168a19fc978f14}{Schedule\+Localization} (\hyperlink{std__incl_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar} $\ast$data, int pitch, \hyperlink{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0b}{Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type} pdt, \hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} frame, \hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} timestamp, \hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f} $\ast$initial, \hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} zlut\+Index)
+\item 
+void \hyperlink{class_queued_tracker_a8dbbbccee47ca764db7cd0b9c5fa140e}{Compute\+Z\+Bias\+Correction} (int bias\+\_\+planes, \hyperlink{class_c_image_data}{C\+Image\+Data} $\ast$result, int smp\+Per\+Pixel, bool use\+Spline\+Interp)
+\item 
+float \hyperlink{class_queued_tracker_a5db67617f39aba7d9874222d3fa1c02f}{Z\+L\+U\+T\+Bias\+Correction} (float z, int zlut\+\_\+planes, int bead)
+\item 
+void \hyperlink{class_queued_tracker_a44b2acf1496f571f7139141c11e39ba0}{Set\+Z\+L\+U\+T\+Bias\+Correction} (const \hyperlink{class_c_image_data}{C\+Image\+Data} \&data)
+\item 
+\hyperlink{class_c_image_data}{C\+Image\+Data} $\ast$ \hyperlink{class_queued_tracker_a15e820c55638c970a8ed5a441a16d41e}{Get\+Z\+L\+U\+T\+Bias\+Correction} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{struct_q_trk_computed_config}{Q\+Trk\+Computed\+Config} \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_c_image_data}{C\+Image\+Data} $\ast$ \hyperlink{class_queued_tracker_a6f5a5a506c622ee1c174cd497c5152b9}{zlut\+\_\+bias\+\_\+correction}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Abstract tracker interface, implemented by \hyperlink{class_queued_c_u_d_a_tracker}{Queued\+C\+U\+D\+A\+Tracker} and \hyperlink{class_queued_c_p_u_tracker}{Queued\+C\+P\+U\+Tracker}. 
+
+\subsection{Member Typedef Documentation}
+\index{Queued\+Tracker@{Queued\+Tracker}!Config\+Value\+Map@{Config\+Value\+Map}}
+\index{Config\+Value\+Map@{Config\+Value\+Map}!Queued\+Tracker@{Queued\+Tracker}}
+\subsubsection[{\texorpdfstring{Config\+Value\+Map}{ConfigValueMap}}]{\setlength{\rightskip}{0pt plus 5cm}typedef std\+::map$<$std\+::string, std\+::string$>$ {\bf Queued\+Tracker\+::\+Config\+Value\+Map}}\hypertarget{class_queued_tracker_af6073682cd9e87e6f3e84f93cf9be373}{}\label{class_queued_tracker_af6073682cd9e87e6f3e84f93cf9be373}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Queued\+Tracker@{Queued\+Tracker}!Queued\+Tracker@{Queued\+Tracker}}
+\index{Queued\+Tracker@{Queued\+Tracker}!Queued\+Tracker@{Queued\+Tracker}}
+\subsubsection[{\texorpdfstring{Queued\+Tracker()}{QueuedTracker()}}]{\setlength{\rightskip}{0pt plus 5cm}Queued\+Tracker\+::\+Queued\+Tracker (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_queued_tracker_a483d1506b7b317d705cc7997805b5904}{}\label{class_queued_tracker_a483d1506b7b317d705cc7997805b5904}
+
+\begin{DoxyCode}
+95 \{
+96     \hyperlink{class_queued_tracker_a6f5a5a506c622ee1c174cd497c5152b9}{zlut\_bias\_correction}=0;
+97 \}
+\end{DoxyCode}
+\index{Queued\+Tracker@{Queued\+Tracker}!````~Queued\+Tracker@{$\sim$\+Queued\+Tracker}}
+\index{````~Queued\+Tracker@{$\sim$\+Queued\+Tracker}!Queued\+Tracker@{Queued\+Tracker}}
+\subsubsection[{\texorpdfstring{$\sim$\+Queued\+Tracker()}{~QueuedTracker()}}]{\setlength{\rightskip}{0pt plus 5cm}Queued\+Tracker\+::$\sim$\+Queued\+Tracker (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{class_queued_tracker_aa60a3ac6e97b8a7a84b49dd9b6c8b615}{}\label{class_queued_tracker_aa60a3ac6e97b8a7a84b49dd9b6c8b615}
+
+\begin{DoxyCode}
+100 \{
+101 \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\index{Queued\+Tracker@{Queued\+Tracker}!Begin\+L\+UT@{Begin\+L\+UT}}
+\index{Begin\+L\+UT@{Begin\+L\+UT}!Queued\+Tracker@{Queued\+Tracker}}
+\subsubsection[{\texorpdfstring{Begin\+L\+U\+T(uint flags)=0}{BeginLUT(uint flags)=0}}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Queued\+Tracker\+::\+Begin\+L\+UT (
+\begin{DoxyParamCaption}
+\item[{{\bf uint}}]{flags}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}\hypertarget{class_queued_tracker_aee4863d19778314cd30499cb85bd5251}{}\label{class_queued_tracker_aee4863d19778314cd30499cb85bd5251}
+
+
+Implemented in \hyperlink{class_queued_c_u_d_a_tracker_ac6a9934c5a2bd06ecb503abace83c222}{Queued\+C\+U\+D\+A\+Tracker}, and \hyperlink{class_queued_c_p_u_tracker_af4b7390a38d56cc45670a60586e20051}{Queued\+C\+P\+U\+Tracker}.
+
+\index{Queued\+Tracker@{Queued\+Tracker}!Build\+L\+UT@{Build\+L\+UT}}
+\index{Build\+L\+UT@{Build\+L\+UT}!Queued\+Tracker@{Queued\+Tracker}}
+\subsubsection[{\texorpdfstring{Build\+L\+U\+T(void $\ast$data, int pitch, Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type pdt, int plane, vector2f $\ast$known\+\_\+pos=0)=0}{BuildLUT(void *data, int pitch, QTRK_PixelDataType pdt, int plane, vector2f *known_pos=0)=0}}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Queued\+Tracker\+::\+Build\+L\+UT (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{data, }
+\item[{int}]{pitch, }
+\item[{{\bf Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type}}]{pdt, }
+\item[{int}]{plane, }
+\item[{{\bf vector2f} $\ast$}]{known\+\_\+pos = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}\hypertarget{class_queued_tracker_aaeb04a5a2a4fe47ef48b8aefabc1bdb7}{}\label{class_queued_tracker_aaeb04a5a2a4fe47ef48b8aefabc1bdb7}
+
+
+Implemented in \hyperlink{class_queued_c_u_d_a_tracker_a16da9256e496b6689079330a062c7529}{Queued\+C\+U\+D\+A\+Tracker}, and \hyperlink{class_queued_c_p_u_tracker_ac73750c7446b69b070ab24742b02660f}{Queued\+C\+P\+U\+Tracker}.
+
+\index{Queued\+Tracker@{Queued\+Tracker}!Clear\+Results@{Clear\+Results}}
+\index{Clear\+Results@{Clear\+Results}!Queued\+Tracker@{Queued\+Tracker}}
+\subsubsection[{\texorpdfstring{Clear\+Results()=0}{ClearResults()=0}}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Queued\+Tracker\+::\+Clear\+Results (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}\hypertarget{class_queued_tracker_a5e46c8ce4bd3b965bedd8aac095304c2}{}\label{class_queued_tracker_a5e46c8ce4bd3b965bedd8aac095304c2}
+
+
+Clear results. 
+
+
+
+Implemented in \hyperlink{class_queued_c_u_d_a_tracker_a41b207c9abf386f57ab9f99994e92b4c}{Queued\+C\+U\+D\+A\+Tracker}, and \hyperlink{class_queued_c_p_u_tracker_a24f0731281b361dfb857448ce98d0aa3}{Queued\+C\+P\+U\+Tracker}.
+
+\index{Queued\+Tracker@{Queued\+Tracker}!Compute\+Z\+Bias\+Correction@{Compute\+Z\+Bias\+Correction}}
+\index{Compute\+Z\+Bias\+Correction@{Compute\+Z\+Bias\+Correction}!Queued\+Tracker@{Queued\+Tracker}}
+\subsubsection[{\texorpdfstring{Compute\+Z\+Bias\+Correction(int bias\+\_\+planes, C\+Image\+Data $\ast$result, int smp\+Per\+Pixel, bool use\+Spline\+Interp)}{ComputeZBiasCorrection(int bias_planes, CImageData *result, int smpPerPixel, bool useSplineInterp)}}]{\setlength{\rightskip}{0pt plus 5cm}void Queued\+Tracker\+::\+Compute\+Z\+Bias\+Correction (
+\begin{DoxyParamCaption}
+\item[{int}]{bias\+\_\+planes, }
+\item[{{\bf C\+Image\+Data} $\ast$}]{result, }
+\item[{int}]{smp\+Per\+Pixel, }
+\item[{bool}]{use\+Spline\+Interp}
+\end{DoxyParamCaption}
+)}\hypertarget{class_queued_tracker_a8dbbbccee47ca764db7cd0b9c5fa140e}{}\label{class_queued_tracker_a8dbbbccee47ca764db7cd0b9c5fa140e}
+
+\begin{DoxyCode}
+174 \{
+175     \textcolor{keywordtype}{int} count,zlut\_planes,radialsteps;
+176     \hyperlink{class_queued_tracker_a95e19cdbbaa59eb676a24aaf95058b27}{GetRadialZLUTSize}(count, zlut\_planes, radialsteps);
+177     \textcolor{keywordtype}{float}* zlut\_data = \textcolor{keyword}{new} \textcolor{keywordtype}{float}[count*zlut\_planes*radialsteps];
+178     \hyperlink{class_queued_tracker_a7e92adfa46401d802eaff7687e43dad7}{GetRadialZLUT}(zlut\_data);
+179 
+180     std::vector<float> qi\_rweights = \hyperlink{utils_8cpp_a8657c1536ca3621943042411f4644e21}{ComputeRadialBinWindow}(
+      \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_computed_config_ab1a11e7a567a3267c57f77626c6c9c93}{qi\_radialsteps});
+181     std::vector<float> zlut\_rweights = \hyperlink{utils_8cpp_a8657c1536ca3621943042411f4644e21}{ComputeRadialBinWindow}(
+      \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_computed_config_ad1a121fa7d3152df6788ff285e4d2dc6}{zlut\_radialsteps});
+182 
+183     \textcolor{keywordflow}{if} (\hyperlink{class_queued_tracker_a6f5a5a506c622ee1c174cd497c5152b9}{zlut\_bias\_correction})
+184         \textcolor{keyword}{delete} \hyperlink{class_queued_tracker_a6f5a5a506c622ee1c174cd497c5152b9}{zlut\_bias\_correction};
+185 
+186     \hyperlink{class_queued_tracker_a6f5a5a506c622ee1c174cd497c5152b9}{zlut\_bias\_correction} = \textcolor{keyword}{new} \hyperlink{class_c_image_data}{CImageData}(bias\_planes, count);
+187 
+188     \hyperlink{threads_8h_a6693c34b211b5d81e0d7a362457d0449}{parallel\_for}(count*bias\_planes, [&](\textcolor{keywordtype}{int} job) \{
+189     \textcolor{comment}{//for (int job=0;job<count*bias\_planes;job++) \{}
+190         \textcolor{keywordtype}{int} bead = job/bias\_planes;
+191         \textcolor{keywordtype}{int} plane = job%bias\_planes;
+192         
+193         \textcolor{keywordtype}{float} *zlut\_ptr = &zlut\_data[ bead * (zlut\_planes*radialsteps) ];
+194         \hyperlink{class_c_p_u_tracker}{CPUTracker} trk (\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width},\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height});
+195         \hyperlink{struct_t_image_data}{ImageData} zlut(zlut\_ptr, radialsteps, zlut\_planes);
+196         trk.SetRadialZLUT(zlut.data, zlut.h, zlut.w, 1, \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_a1a14537a9e784c65eed512e72ee86c02}{zlut\_minradius},
+      \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_computed_config_a13ceb0d4551d3bd5343ecce7a093d65b}{zlut\_maxradius}, \textcolor{keyword}{false}, \textcolor{keyword}{false});
+197         trk.SetRadialWeights(&zlut\_rweights[0]);
+198 
+199         \hyperlink{structvector3}{vector3f} pos(\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width}/2,\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height}/2, plane /(\textcolor{keywordtype}{float}) bias\_planes * 
+      zlut\_planes );
+200         \hyperlink{struct_t_image_data}{ImageData} img = \hyperlink{struct_t_image_data_a8ae528964e70c0d0a98b8481cc8b083e}{ImageData::alloc}(\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width},
+      \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height});
+201         \hyperlink{utils_8cpp_af574edb94793976b749c0240c79b1c48}{GenerateImageFromLUT}(&img, &zlut, \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.
+      \hyperlink{struct_q_trk_settings_a1a14537a9e784c65eed512e72ee86c02}{zlut\_minradius}, \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_computed_config_a13ceb0d4551d3bd5343ecce7a093d65b}{zlut\_maxradius}, pos, useSplineInterp,smpPerPixel);
+202 
+203         \textcolor{keywordtype}{bool} bhit;
+204         trk.SetImageFloat(img.\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data});
+205         \hyperlink{structvector2}{vector2f} com = trk.ComputeMeanAndCOM();
+206         \hyperlink{structvector2}{vector2f} qi = trk.ComputeQI(com, 2, \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_computed_config_ab1a11e7a567a3267c57f77626c6c9c93}{qi\_radialsteps}, 
+      \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_computed_config_a1ba87257b24e5b7e427aa92dd4114792}{qi\_angstepspq}, \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_aceebf67ba9ecc215d49c6b2739afae3d}{qi\_angstep\_factor}, 
+      \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_a7b5f3e61b4dcab6330c56e7bcd96e82d}{qi\_minradius}, \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_computed_config_a9784dbeb638bde1f3204f9ca5af720c6}{qi\_maxradius}, bhit, &qi\_rweights[0]);
+207         \textcolor{keywordtype}{float} z = trk.ComputeZ(qi, \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_computed_config_a01653574d81ab70e4910c984fb7f7482}{zlut\_angularsteps}, 0);
+208         \hyperlink{class_queued_tracker_a6f5a5a506c622ee1c174cd497c5152b9}{zlut\_bias\_correction}->\hyperlink{struct_t_image_data_ad13c1527ffabe17b997c38090ec5e6b9}{at}(plane, bead) = z - pos.z;
+209 
+210         \textcolor{comment}{//trk.ComputeRadialProfile(}
+211         img.\hyperlink{struct_t_image_data_a60a60e309657216a2e35809fdc582b11}{free}();
+212         \textcolor{keywordflow}{if} ((job%(count*bias\_planes/10)) == 0) 
+213             \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"job=%d\(\backslash\)n"}, job);
+214 \textcolor{comment}{//  \}}
+215     \});
+216 
+217     \textcolor{keywordflow}{if} (result)
+218         *result = *\hyperlink{class_queued_tracker_a6f5a5a506c622ee1c174cd497c5152b9}{zlut\_bias\_correction};
+219 \}
+\end{DoxyCode}
+\index{Queued\+Tracker@{Queued\+Tracker}!Debug\+Image@{Debug\+Image}}
+\index{Debug\+Image@{Debug\+Image}!Queued\+Tracker@{Queued\+Tracker}}
+\subsubsection[{\texorpdfstring{Debug\+Image(int I\+D)}{DebugImage(int ID)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image\+Data} Queued\+Tracker\+::\+Debug\+Image (
+\begin{DoxyParamCaption}
+\item[{int}]{ID}
+\end{DoxyParamCaption}
+)}\hypertarget{class_queued_tracker_a37756db08d454ad904193dd4e6f652b1}{}\label{class_queued_tracker_a37756db08d454ad904193dd4e6f652b1}
+
+\begin{DoxyCode}
+119 \{
+120     \hyperlink{struct_t_image_data}{ImageData} img;
+121     \hyperlink{class_queued_tracker_aeae109b520ca5b15e008030edfc179c4}{GetDebugImage}(ID, &img.\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w}, &img.\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h}, &img.\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data});
+122     \textcolor{keywordflow}{return} img;
+123 \}
+\end{DoxyCode}
+\index{Queued\+Tracker@{Queued\+Tracker}!Enable\+Radial\+Z\+L\+U\+T\+Compare\+Profile@{Enable\+Radial\+Z\+L\+U\+T\+Compare\+Profile}}
+\index{Enable\+Radial\+Z\+L\+U\+T\+Compare\+Profile@{Enable\+Radial\+Z\+L\+U\+T\+Compare\+Profile}!Queued\+Tracker@{Queued\+Tracker}}
+\subsubsection[{\texorpdfstring{Enable\+Radial\+Z\+L\+U\+T\+Compare\+Profile(bool enabled)=0}{EnableRadialZLUTCompareProfile(bool enabled)=0}}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Queued\+Tracker\+::\+Enable\+Radial\+Z\+L\+U\+T\+Compare\+Profile (
+\begin{DoxyParamCaption}
+\item[{bool}]{enabled}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}\hypertarget{class_queued_tracker_a53791fa740351a32ff707be9688aa99d}{}\label{class_queued_tracker_a53791fa740351a32ff707be9688aa99d}
+
+
+Set a flag to enable saving of error curves. 
+
+Errors obtained by comparing a radial profile to a Z\+L\+UT will be kept in memory rather than destroyed. Only saves for one localization. Error curve can be retreived by \hyperlink{class_queued_tracker_ae6cc12f988a4f99d03a9783b4f978e7e}{Get\+Radial\+Z\+L\+U\+T\+Compare\+Profile}.
+
+\begin{DoxyNote}{Note}
+Not implemented for C\+U\+DA. 
+\end{DoxyNote}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em enabled} & Flag (boolean) to save error curves. Default is false. \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \hyperlink{class_queued_c_u_d_a_tracker_aa8b23ddd77fd1826fbcf5c2d58135f13}{Queued\+C\+U\+D\+A\+Tracker}, and \hyperlink{class_queued_c_p_u_tracker_accb203fae1a724f6ac870c4dc402dda7}{Queued\+C\+P\+U\+Tracker}.
+
+\index{Queued\+Tracker@{Queued\+Tracker}!Fetch\+Results@{Fetch\+Results}}
+\index{Fetch\+Results@{Fetch\+Results}!Queued\+Tracker@{Queued\+Tracker}}
+\subsubsection[{\texorpdfstring{Fetch\+Results(\+Localization\+Result $\ast$results, int max\+Results)=0}{FetchResults(LocalizationResult *results, int maxResults)=0}}]{\setlength{\rightskip}{0pt plus 5cm}virtual int Queued\+Tracker\+::\+Fetch\+Results (
+\begin{DoxyParamCaption}
+\item[{{\bf Localization\+Result} $\ast$}]{results, }
+\item[{int}]{max\+Results}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}\hypertarget{class_queued_tracker_a171688832558d40838790c90ba9f8fc0}{}\label{class_queued_tracker_a171688832558d40838790c90ba9f8fc0}
+
+
+Implemented in \hyperlink{class_queued_c_u_d_a_tracker_acc1a34b83a9f7cc84ede58ce7eaec45e}{Queued\+C\+U\+D\+A\+Tracker}, and \hyperlink{class_queued_c_p_u_tracker_a8e74a4528a84ac83624d217e62cdef05}{Queued\+C\+P\+U\+Tracker}.
+
+\index{Queued\+Tracker@{Queued\+Tracker}!Finalize\+L\+UT@{Finalize\+L\+UT}}
+\index{Finalize\+L\+UT@{Finalize\+L\+UT}!Queued\+Tracker@{Queued\+Tracker}}
+\subsubsection[{\texorpdfstring{Finalize\+L\+U\+T()=0}{FinalizeLUT()=0}}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Queued\+Tracker\+::\+Finalize\+L\+UT (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}\hypertarget{class_queued_tracker_aa856650c99d15216ad3246d3485b9d9e}{}\label{class_queued_tracker_aa856650c99d15216ad3246d3485b9d9e}
+
+
+Implemented in \hyperlink{class_queued_c_u_d_a_tracker_a628a79df6cce9a1df9a4da78da266578}{Queued\+C\+U\+D\+A\+Tracker}, and \hyperlink{class_queued_c_p_u_tracker_a9d94101b69e1f514473bfedc012ec785}{Queued\+C\+P\+U\+Tracker}.
+
+\index{Queued\+Tracker@{Queued\+Tracker}!Flush@{Flush}}
+\index{Flush@{Flush}!Queued\+Tracker@{Queued\+Tracker}}
+\subsubsection[{\texorpdfstring{Flush()=0}{Flush()=0}}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Queued\+Tracker\+::\+Flush (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}\hypertarget{class_queued_tracker_a97cf826c17ab9b3e55d8ecd513d58098}{}\label{class_queued_tracker_a97cf826c17ab9b3e55d8ecd513d58098}
+
+
+Stop waiting for more jobs to do, and just process the current batch. 
+
+
+
+Implemented in \hyperlink{class_queued_c_u_d_a_tracker_a4407b12d3fc2e2969840ccc233ec96bc}{Queued\+C\+U\+D\+A\+Tracker}, and \hyperlink{class_queued_c_p_u_tracker_a9b332b6fb228e9c655eb2fb12d8dfbc6}{Queued\+C\+P\+U\+Tracker}.
+
+\index{Queued\+Tracker@{Queued\+Tracker}!Get\+Config\+Values@{Get\+Config\+Values}}
+\index{Get\+Config\+Values@{Get\+Config\+Values}!Queued\+Tracker@{Queued\+Tracker}}
+\subsubsection[{\texorpdfstring{Get\+Config\+Values()=0}{GetConfigValues()=0}}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf Config\+Value\+Map} Queued\+Tracker\+::\+Get\+Config\+Values (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}\hypertarget{class_queued_tracker_afdb95cbf31f14716b3872e15a2319d62}{}\label{class_queued_tracker_afdb95cbf31f14716b3872e15a2319d62}
+
+
+Implemented in \hyperlink{class_queued_c_u_d_a_tracker_a16a5fb006a594f950484df6a9d1cfd2f}{Queued\+C\+U\+D\+A\+Tracker}, and \hyperlink{class_queued_c_p_u_tracker_af06013bc5f92d5570aa6244ca1768fcf}{Queued\+C\+P\+U\+Tracker}.
+
+\index{Queued\+Tracker@{Queued\+Tracker}!Get\+Debug\+Image@{Get\+Debug\+Image}}
+\index{Get\+Debug\+Image@{Get\+Debug\+Image}!Queued\+Tracker@{Queued\+Tracker}}
+\subsubsection[{\texorpdfstring{Get\+Debug\+Image(int I\+D, int $\ast$w, int $\ast$h, float $\ast$$\ast$p\+Data)}{GetDebugImage(int ID, int *w, int *h, float **pData)}}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool Queued\+Tracker\+::\+Get\+Debug\+Image (
+\begin{DoxyParamCaption}
+\item[{int}]{ID, }
+\item[{int $\ast$}]{w, }
+\item[{int $\ast$}]{h, }
+\item[{float $\ast$$\ast$}]{p\+Data}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{class_queued_tracker_aeae109b520ca5b15e008030edfc179c4}{}\label{class_queued_tracker_aeae109b520ca5b15e008030edfc179c4}
+
+
+Reimplemented in \hyperlink{class_queued_c_p_u_tracker_a4db75a5bfcb5ee2891177da9f6448557}{Queued\+C\+P\+U\+Tracker}.
+
+
+\begin{DoxyCode}
+213 \{ \textcolor{keywordflow}{return} \textcolor{keyword}{false}; \} \textcolor{comment}{// deallocate result with delete[] }
+\end{DoxyCode}
+\index{Queued\+Tracker@{Queued\+Tracker}!Get\+Image\+Z\+L\+UT@{Get\+Image\+Z\+L\+UT}}
+\index{Get\+Image\+Z\+L\+UT@{Get\+Image\+Z\+L\+UT}!Queued\+Tracker@{Queued\+Tracker}}
+\subsubsection[{\texorpdfstring{Get\+Image\+Z\+L\+U\+T(float $\ast$dst)}{GetImageZLUT(float *dst)}}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Queued\+Tracker\+::\+Get\+Image\+Z\+L\+UT (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{dst}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{class_queued_tracker_af7d71b3673778f83f6494328182519ad}{}\label{class_queued_tracker_af7d71b3673778f83f6494328182519ad}
+
+
+Get the image lookup tables used. 
+
+\begin{DoxyNote}{Note}
+Use of image L\+UT is currently not clear. Radial Z\+L\+UT is always used.
+\end{DoxyNote}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em dst} & Pointer to the pre-\/allocated memory in which to save the data. \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented in \hyperlink{class_queued_c_p_u_tracker_a53b0d922963c771e804fb624f7d39821}{Queued\+C\+P\+U\+Tracker}.
+
+
+\begin{DoxyCode}
+180 \{\}
+\end{DoxyCode}
+\index{Queued\+Tracker@{Queued\+Tracker}!Get\+Image\+Z\+L\+U\+T\+Size@{Get\+Image\+Z\+L\+U\+T\+Size}}
+\index{Get\+Image\+Z\+L\+U\+T\+Size@{Get\+Image\+Z\+L\+U\+T\+Size}!Queued\+Tracker@{Queued\+Tracker}}
+\subsubsection[{\texorpdfstring{Get\+Image\+Z\+L\+U\+T\+Size(int $\ast$dims)}{GetImageZLUTSize(int *dims)}}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Queued\+Tracker\+::\+Get\+Image\+Z\+L\+U\+T\+Size (
+\begin{DoxyParamCaption}
+\item[{int $\ast$}]{dims}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{class_queued_tracker_a29cd6f896d8bcdd93ee4a54bb7823f97}{}\label{class_queued_tracker_a29cd6f896d8bcdd93ee4a54bb7823f97}
+
+
+Get the dimensions of the image lookup table data. 
+
+\begin{DoxyNote}{Note}
+Use of image L\+UT is currently not clear. Radial Z\+L\+UT is always used.
+\end{DoxyNote}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em dims} & Reference to pre-\/allocated int array. Returns \mbox{[} count, planes, height, width \mbox{]}. \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented in \hyperlink{class_queued_c_p_u_tracker_a399b87fd1542b05fc9e9c80c1dd6b664}{Queued\+C\+P\+U\+Tracker}.
+
+
+\begin{DoxyCode}
+172 \{\}
+\end{DoxyCode}
+\index{Queued\+Tracker@{Queued\+Tracker}!Get\+Profile\+Report@{Get\+Profile\+Report}}
+\index{Get\+Profile\+Report@{Get\+Profile\+Report}!Queued\+Tracker@{Queued\+Tracker}}
+\subsubsection[{\texorpdfstring{Get\+Profile\+Report()}{GetProfileReport()}}]{\setlength{\rightskip}{0pt plus 5cm}virtual std\+::string Queued\+Tracker\+::\+Get\+Profile\+Report (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{class_queued_tracker_afb595aa118f6cd87b4502d2cdfe53215}{}\label{class_queued_tracker_afb595aa118f6cd87b4502d2cdfe53215}
+
+
+Reimplemented in \hyperlink{class_queued_c_u_d_a_tracker_a8969dbbc3824ca4ccb492e8eecbd6632}{Queued\+C\+U\+D\+A\+Tracker}, and \hyperlink{class_queued_c_p_u_tracker_a241d002353241975d49c1e80cd967524}{Queued\+C\+P\+U\+Tracker}.
+
+
+\begin{DoxyCode}
+210 \{ \textcolor{keywordflow}{return} \textcolor{stringliteral}{""}; \}
+\end{DoxyCode}
+\index{Queued\+Tracker@{Queued\+Tracker}!Get\+Queue\+Length@{Get\+Queue\+Length}}
+\index{Get\+Queue\+Length@{Get\+Queue\+Length}!Queued\+Tracker@{Queued\+Tracker}}
+\subsubsection[{\texorpdfstring{Get\+Queue\+Length(int $\ast$max\+Queue\+Len=0)=0}{GetQueueLength(int *maxQueueLen=0)=0}}]{\setlength{\rightskip}{0pt plus 5cm}virtual int Queued\+Tracker\+::\+Get\+Queue\+Length (
+\begin{DoxyParamCaption}
+\item[{int $\ast$}]{max\+Queue\+Len = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}\hypertarget{class_queued_tracker_a7109701fb33a1eb1f4a5512205cb7bde}{}\label{class_queued_tracker_a7109701fb33a1eb1f4a5512205cb7bde}
+
+
+Implemented in \hyperlink{class_queued_c_u_d_a_tracker_acd209a7709c4776a585af6bd24768b13}{Queued\+C\+U\+D\+A\+Tracker}, and \hyperlink{class_queued_c_p_u_tracker_a7e1a888cfcc2eb97e059d6711ddfc8af}{Queued\+C\+P\+U\+Tracker}.
+
+\index{Queued\+Tracker@{Queued\+Tracker}!Get\+Radial\+Z\+L\+UT@{Get\+Radial\+Z\+L\+UT}}
+\index{Get\+Radial\+Z\+L\+UT@{Get\+Radial\+Z\+L\+UT}!Queued\+Tracker@{Queued\+Tracker}}
+\subsubsection[{\texorpdfstring{Get\+Radial\+Z\+L\+U\+T(float $\ast$dst)=0}{GetRadialZLUT(float *dst)=0}}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Queued\+Tracker\+::\+Get\+Radial\+Z\+L\+UT (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{dst}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}\hypertarget{class_queued_tracker_a7e92adfa46401d802eaff7687e43dad7}{}\label{class_queued_tracker_a7e92adfa46401d802eaff7687e43dad7}
+
+
+Get the radial lookup tables used for z tracking. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em dst} & Pointer to the pre-\/allocated memory in which to save the data. \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \hyperlink{class_queued_c_u_d_a_tracker_a1298fa3749c2ffaf7e48370ca15e3beb}{Queued\+C\+U\+D\+A\+Tracker}, and \hyperlink{class_queued_c_p_u_tracker_a9c4f1687ca9347508594a9df46defad8}{Queued\+C\+P\+U\+Tracker}.
+
+\index{Queued\+Tracker@{Queued\+Tracker}!Get\+Radial\+Z\+L\+U\+T\+Compare\+Profile@{Get\+Radial\+Z\+L\+U\+T\+Compare\+Profile}}
+\index{Get\+Radial\+Z\+L\+U\+T\+Compare\+Profile@{Get\+Radial\+Z\+L\+U\+T\+Compare\+Profile}!Queued\+Tracker@{Queued\+Tracker}}
+\subsubsection[{\texorpdfstring{Get\+Radial\+Z\+L\+U\+T\+Compare\+Profile(float $\ast$dst)=0}{GetRadialZLUTCompareProfile(float *dst)=0}}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Queued\+Tracker\+::\+Get\+Radial\+Z\+L\+U\+T\+Compare\+Profile (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{dst}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}\hypertarget{class_queued_tracker_ae6cc12f988a4f99d03a9783b4f978e7e}{}\label{class_queued_tracker_ae6cc12f988a4f99d03a9783b4f978e7e}
+
+
+Get saved error curve. 
+
+See \hyperlink{class_queued_tracker_a53791fa740351a32ff707be9688aa99d}{Enable\+Radial\+Z\+L\+U\+T\+Compare\+Profile}. \begin{DoxyNote}{Note}
+Not implemented for C\+U\+DA. 
+\end{DoxyNote}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em dst} & Pointer to the pre-\/allocated memory in which to save the error curve. Size is {\ttfamily count} $\ast$ {\ttfamily planes}. \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \hyperlink{class_queued_c_u_d_a_tracker_a1d75d74655c9da2a9cb305f95944b1e3}{Queued\+C\+U\+D\+A\+Tracker}, and \hyperlink{class_queued_c_p_u_tracker_afdc97ea9b0e7eba6d2678a0536c39c37}{Queued\+C\+P\+U\+Tracker}.
+
+\index{Queued\+Tracker@{Queued\+Tracker}!Get\+Radial\+Z\+L\+U\+T\+Size@{Get\+Radial\+Z\+L\+U\+T\+Size}}
+\index{Get\+Radial\+Z\+L\+U\+T\+Size@{Get\+Radial\+Z\+L\+U\+T\+Size}!Queued\+Tracker@{Queued\+Tracker}}
+\subsubsection[{\texorpdfstring{Get\+Radial\+Z\+L\+U\+T\+Size(int \&count, int \&planes, int \&radialsteps)=0}{GetRadialZLUTSize(int &count, int &planes, int &radialsteps)=0}}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Queued\+Tracker\+::\+Get\+Radial\+Z\+L\+U\+T\+Size (
+\begin{DoxyParamCaption}
+\item[{int \&}]{count, }
+\item[{int \&}]{planes, }
+\item[{int \&}]{radialsteps}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}\hypertarget{class_queued_tracker_a95e19cdbbaa59eb676a24aaf95058b27}{}\label{class_queued_tracker_a95e19cdbbaa59eb676a24aaf95058b27}
+
+
+Get the dimensions of the radial lookup table data. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em count} & Reference to pre-\/allocated int. Returns number of lookup tables. \\
+\hline
+\mbox{\tt in,out}  & {\em planes} & Reference to pre-\/allocated int. Returns number of planes per lookup table. \\
+\hline
+\mbox{\tt in,out}  & {\em radialsteps} & Reference to pre-\/allocated int. Returns number of steps per plane. \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \hyperlink{class_queued_c_u_d_a_tracker_a4af9b4b3778d9cb13823fe486db23ab9}{Queued\+C\+U\+D\+A\+Tracker}, and \hyperlink{class_queued_c_p_u_tracker_a57c77fc0ceada2aeffc018970d9d18d8}{Queued\+C\+P\+U\+Tracker}.
+
+\index{Queued\+Tracker@{Queued\+Tracker}!Get\+Result\+Count@{Get\+Result\+Count}}
+\index{Get\+Result\+Count@{Get\+Result\+Count}!Queued\+Tracker@{Queued\+Tracker}}
+\subsubsection[{\texorpdfstring{Get\+Result\+Count()=0}{GetResultCount()=0}}]{\setlength{\rightskip}{0pt plus 5cm}virtual int Queued\+Tracker\+::\+Get\+Result\+Count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}\hypertarget{class_queued_tracker_a362a26027dc6bd40864e59de1ac32de2}{}\label{class_queued_tracker_a362a26027dc6bd40864e59de1ac32de2}
+
+
+Implemented in \hyperlink{class_queued_c_u_d_a_tracker_aeb508df96e1cbcfaf8f0bf330e01d35c}{Queued\+C\+U\+D\+A\+Tracker}, and \hyperlink{class_queued_c_p_u_tracker_a0424c92dec3952cf9197a5a9161e2188}{Queued\+C\+P\+U\+Tracker}.
+
+\index{Queued\+Tracker@{Queued\+Tracker}!Get\+Warnings@{Get\+Warnings}}
+\index{Get\+Warnings@{Get\+Warnings}!Queued\+Tracker@{Queued\+Tracker}}
+\subsubsection[{\texorpdfstring{Get\+Warnings()}{GetWarnings()}}]{\setlength{\rightskip}{0pt plus 5cm}virtual std\+::string Queued\+Tracker\+::\+Get\+Warnings (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{class_queued_tracker_aafb754ef37092a96f95a3094eba58398}{}\label{class_queued_tracker_aafb754ef37092a96f95a3094eba58398}
+
+\begin{DoxyCode}
+211 \{ \textcolor{keywordflow}{return} \textcolor{stringliteral}{""}; \}
+\end{DoxyCode}
+\index{Queued\+Tracker@{Queued\+Tracker}!Get\+Z\+L\+U\+T\+Bias\+Correction@{Get\+Z\+L\+U\+T\+Bias\+Correction}}
+\index{Get\+Z\+L\+U\+T\+Bias\+Correction@{Get\+Z\+L\+U\+T\+Bias\+Correction}!Queued\+Tracker@{Queued\+Tracker}}
+\subsubsection[{\texorpdfstring{Get\+Z\+L\+U\+T\+Bias\+Correction()}{GetZLUTBiasCorrection()}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf C\+Image\+Data} $\ast$ Queued\+Tracker\+::\+Get\+Z\+L\+U\+T\+Bias\+Correction (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_queued_tracker_a15e820c55638c970a8ed5a441a16d41e}{}\label{class_queued_tracker_a15e820c55638c970a8ed5a441a16d41e}
+
+\begin{DoxyCode}
+228 \{
+229     \textcolor{keywordflow}{if} (\hyperlink{class_queued_tracker_a6f5a5a506c622ee1c174cd497c5152b9}{zlut\_bias\_correction}) \textcolor{keywordflow}{return} \textcolor{keyword}{new} \hyperlink{class_c_image_data}{CImageData}(*
+      \hyperlink{class_queued_tracker_a6f5a5a506c622ee1c174cd497c5152b9}{zlut\_bias\_correction});
+230     \textcolor{keywordflow}{return} 0;
+231 \}
+\end{DoxyCode}
+\index{Queued\+Tracker@{Queued\+Tracker}!Is\+Idle@{Is\+Idle}}
+\index{Is\+Idle@{Is\+Idle}!Queued\+Tracker@{Queued\+Tracker}}
+\subsubsection[{\texorpdfstring{Is\+Idle()=0}{IsIdle()=0}}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool Queued\+Tracker\+::\+Is\+Idle (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}\hypertarget{class_queued_tracker_a8b879a9359f4e2081e69b0932f8e9908}{}\label{class_queued_tracker_a8b879a9359f4e2081e69b0932f8e9908}
+
+
+Implemented in \hyperlink{class_queued_c_u_d_a_tracker_a147dbe75048a901f137e130ac61a6f7b}{Queued\+C\+U\+D\+A\+Tracker}, and \hyperlink{class_queued_c_p_u_tracker_a16ec7c17782c4f001dec0dab12970cba}{Queued\+C\+P\+U\+Tracker}.
+
+\index{Queued\+Tracker@{Queued\+Tracker}!Schedule\+Frame@{Schedule\+Frame}}
+\index{Schedule\+Frame@{Schedule\+Frame}!Queued\+Tracker@{Queued\+Tracker}}
+\subsubsection[{\texorpdfstring{Schedule\+Frame(void $\ast$imgptr, int pitch, int width, int height, R\+O\+I\+Position $\ast$positions, int num\+R\+O\+I, Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type pdt, const Localization\+Job $\ast$job\+Info)}{ScheduleFrame(void *imgptr, int pitch, int width, int height, ROIPosition *positions, int numROI, QTRK_PixelDataType pdt, const LocalizationJob *jobInfo)}}]{\setlength{\rightskip}{0pt plus 5cm}int Queued\+Tracker\+::\+Schedule\+Frame (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{imgptr, }
+\item[{int}]{pitch, }
+\item[{int}]{width, }
+\item[{int}]{height, }
+\item[{{\bf R\+O\+I\+Position} $\ast$}]{positions, }
+\item[{int}]{num\+R\+OI, }
+\item[{{\bf Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type}}]{pdt, }
+\item[{const {\bf Localization\+Job} $\ast$}]{job\+Info}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{class_queued_tracker_ab80776ec6e8b2202d858f1c9cb989240}{}\label{class_queued_tracker_ab80776ec6e8b2202d858f1c9cb989240}
+
+
+Schedule an entire frame at once, allowing for further optimizations. 
+
+Queues each R\+OI within the frame seperatly with \hyperlink{class_queued_tracker_a233dffd15fe3cef8a53c698bba9befb4}{Schedule\+Localization}.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em imgptr} & Pointer to the top-\/left pixel of the frame. \\
+\hline
+\mbox{\tt in}  & {\em pitch} & Size in bytes of one row in memory. \\
+\hline
+\mbox{\tt in}  & {\em width} & Width of the frame in pixels. \\
+\hline
+\mbox{\tt in}  & {\em height} & Height of the frame in pixels. \\
+\hline
+\mbox{\tt in}  & {\em positions} & Array of \hyperlink{struct_r_o_i_position}{R\+O\+I\+Position} with the top-\/left pixel of each R\+OI to be queued. \\
+\hline
+\mbox{\tt in}  & {\em num\+R\+OI} & Number of R\+O\+Is to handle within the frame. \\
+\hline
+\mbox{\tt in}  & {\em pdt} & Data type of the image given through {\ttfamily imgptr}. \\
+\hline
+\mbox{\tt in}  & {\em job\+Info} & \hyperlink{struct_localization_job}{Localization\+Job} with information about the frame.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Amount of R\+O\+Is queued. 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+126 \{
+127     \hyperlink{std__incl_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar}* img = (\hyperlink{std__incl_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar}*)imgptr;
+128     \textcolor{keywordtype}{int} bpp = \hyperlink{_queued_tracker_8h_adb31752069847fe598de8c312becda1b}{PDT\_BytesPerPixel}(pdt);
+129     \textcolor{keywordtype}{int} count=0;
+130     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<numROI;i++)\{
+131         \hyperlink{struct_r_o_i_position}{ROIPosition}& pos = positions[i];
+132 
+133         \textcolor{keywordflow}{if} (pos.\hyperlink{struct_r_o_i_position_a7ec9344e32faa05e10a72705ed24e9f5}{x} < 0 || pos.\hyperlink{struct_r_o_i_position_aa790f0665220dffa8d196003f6c01b47}{y} < 0 || pos.\hyperlink{struct_r_o_i_position_a7ec9344e32faa05e10a72705ed24e9f5}{x} + \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width} > width || pos.
+      \hyperlink{struct_r_o_i_position_aa790f0665220dffa8d196003f6c01b47}{y} + \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height} > height) \{
+134             \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"Skipping ROI %d. Outside of image.\(\backslash\)n"}, i);
+135             \textcolor{keywordflow}{continue};
+136         \}
+137 
+138         \hyperlink{std__incl_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar} *roiptr = &img[pitch * pos.\hyperlink{struct_r_o_i_position_aa790f0665220dffa8d196003f6c01b47}{y} + pos.\hyperlink{struct_r_o_i_position_a7ec9344e32faa05e10a72705ed24e9f5}{x} * bpp];
+139         \hyperlink{struct_localization_job}{LocalizationJob} job = *jobInfo;
+140         job.\hyperlink{struct_localization_job_afcf9f91b72597af0e2572f3ae74d9a99}{zlutIndex} = i + jobInfo->\hyperlink{struct_localization_job_afcf9f91b72597af0e2572f3ae74d9a99}{zlutIndex}; \textcolor{comment}{// used as offset}
+141         \hyperlink{class_queued_tracker_a233dffd15fe3cef8a53c698bba9befb4}{ScheduleLocalization}(roiptr, pitch, pdt, &job);
+142         count++;
+143     \}
+144     \textcolor{keywordflow}{return} count;
+145 \}
+\end{DoxyCode}
+\index{Queued\+Tracker@{Queued\+Tracker}!Schedule\+Image\+Data@{Schedule\+Image\+Data}}
+\index{Schedule\+Image\+Data@{Schedule\+Image\+Data}!Queued\+Tracker@{Queued\+Tracker}}
+\subsubsection[{\texorpdfstring{Schedule\+Image\+Data(\+Image\+Data $\ast$data, const Localization\+Job $\ast$job\+Info)}{ScheduleImageData(ImageData *data, const LocalizationJob *jobInfo)}}]{\setlength{\rightskip}{0pt plus 5cm}void Queued\+Tracker\+::\+Schedule\+Image\+Data (
+\begin{DoxyParamCaption}
+\item[{{\bf Image\+Data} $\ast$}]{data, }
+\item[{const {\bf Localization\+Job} $\ast$}]{job\+Info}
+\end{DoxyParamCaption}
+)}\hypertarget{class_queued_tracker_afa6cfa13cba4d05fac9f7baa96b12f89}{}\label{class_queued_tracker_afa6cfa13cba4d05fac9f7baa96b12f89}
+
+
+Quick function to schedule a single R\+OI from an \hyperlink{utils_8h_a2d6726594ce64e82b9222b183f2571d1}{Image\+Data} object. 
+
+
+\begin{DoxyCode}
+104 \{
+105     \hyperlink{class_queued_tracker_a233dffd15fe3cef8a53c698bba9befb4}{ScheduleLocalization}(data->\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data}, data->\hyperlink{struct_t_image_data_aef0a87643a69b40e19ba11590d51318d}{pitch}(), 
+      \hyperlink{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0bafeece00bcf1a42419e686ef0cf006a4e}{QTrkFloat}, job);
+106 \}
+\end{DoxyCode}
+\index{Queued\+Tracker@{Queued\+Tracker}!Schedule\+Localization@{Schedule\+Localization}}
+\index{Schedule\+Localization@{Schedule\+Localization}!Queued\+Tracker@{Queued\+Tracker}}
+\subsubsection[{\texorpdfstring{Schedule\+Localization(void $\ast$data, int pitch, Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type pdt, const Localization\+Job $\ast$job\+Info)=0}{ScheduleLocalization(void *data, int pitch, QTRK_PixelDataType pdt, const LocalizationJob *jobInfo)=0}}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Queued\+Tracker\+::\+Schedule\+Localization (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{data, }
+\item[{int}]{pitch, }
+\item[{{\bf Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type}}]{pdt, }
+\item[{const {\bf Localization\+Job} $\ast$}]{job\+Info}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}\hypertarget{class_queued_tracker_a233dffd15fe3cef8a53c698bba9befb4}{}\label{class_queued_tracker_a233dffd15fe3cef8a53c698bba9befb4}
+
+
+Add a job to the queue to be processed. A job entails running the required algorithms on a single region of interest. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em data} & Pointer to the data. Type specified by \mbox{[}pdt\mbox{]}. \\
+\hline
+\mbox{\tt in}  & {\em pitch} & Distance in bytes between two successive rows of pixels (e.\+g. address of (0,0) -\/ address of (0,1)). \\
+\hline
+\mbox{\tt in}  & {\em pdt} & Type of \mbox{[}data\mbox{]}, specified by \hyperlink{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0b}{Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type}. \\
+\hline
+\mbox{\tt in}  & {\em job\+Info} & Structure with metadata for the R\+OI to be handled. See \hyperlink{struct_localization_job}{Localization\+Job}. \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \hyperlink{class_queued_c_u_d_a_tracker_a8a038919d270228922e31f375c17cbbe}{Queued\+C\+U\+D\+A\+Tracker}, and \hyperlink{class_queued_c_p_u_tracker_aefc2afb79c4347dbbbd66d84cfd8787f}{Queued\+C\+P\+U\+Tracker}.
+
+\index{Queued\+Tracker@{Queued\+Tracker}!Schedule\+Localization@{Schedule\+Localization}}
+\index{Schedule\+Localization@{Schedule\+Localization}!Queued\+Tracker@{Queued\+Tracker}}
+\subsubsection[{\texorpdfstring{Schedule\+Localization(uchar $\ast$data, int pitch, Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type pdt, uint frame, uint timestamp, vector3f $\ast$initial, uint zlut\+Index)}{ScheduleLocalization(uchar *data, int pitch, QTRK_PixelDataType pdt, uint frame, uint timestamp, vector3f *initial, uint zlutIndex)}}]{\setlength{\rightskip}{0pt plus 5cm}void Queued\+Tracker\+::\+Schedule\+Localization (
+\begin{DoxyParamCaption}
+\item[{{\bf uchar} $\ast$}]{data, }
+\item[{int}]{pitch, }
+\item[{{\bf Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type}}]{pdt, }
+\item[{{\bf uint}}]{frame, }
+\item[{{\bf uint}}]{timestamp, }
+\item[{{\bf vector3f} $\ast$}]{initial, }
+\item[{{\bf uint}}]{zlut\+Index}
+\end{DoxyParamCaption}
+)}\hypertarget{class_queued_tracker_a43a79ee2536d7e32f2168a19fc978f14}{}\label{class_queued_tracker_a43a79ee2536d7e32f2168a19fc978f14}
+
+\begin{DoxyCode}
+109 \{
+110     \hyperlink{struct_localization_job}{LocalizationJob} j;
+111     j.\hyperlink{struct_localization_job_a54df1ba33ab48b20dca664142a8cf619}{frame}= frame;
+112     j.\hyperlink{struct_localization_job_a82f4cdb35dd3b6765df52dd045007286}{timestamp} = timestamp;
+113     \textcolor{keywordflow}{if} (initial) j.\hyperlink{struct_localization_job_a6374e6cba33c93846a757328b13aa509}{initialPos} = *initial;
+114     j.\hyperlink{struct_localization_job_afcf9f91b72597af0e2572f3ae74d9a99}{zlutIndex} = zlutIndex;
+115     \hyperlink{class_queued_tracker_a233dffd15fe3cef8a53c698bba9befb4}{ScheduleLocalization}(data,pitch,pdt,&j);
+116 \}
+\end{DoxyCode}
+\index{Queued\+Tracker@{Queued\+Tracker}!Set\+Config\+Value@{Set\+Config\+Value}}
+\index{Set\+Config\+Value@{Set\+Config\+Value}!Queued\+Tracker@{Queued\+Tracker}}
+\subsubsection[{\texorpdfstring{Set\+Config\+Value(std\+::string name, std\+::string value)=0}{SetConfigValue(std::string name, std::string value)=0}}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Queued\+Tracker\+::\+Set\+Config\+Value (
+\begin{DoxyParamCaption}
+\item[{std\+::string}]{name, }
+\item[{std\+::string}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}\hypertarget{class_queued_tracker_a0d96ad4feea320c3ba90d196b4690d3b}{}\label{class_queued_tracker_a0d96ad4feea320c3ba90d196b4690d3b}
+
+
+Implemented in \hyperlink{class_queued_c_u_d_a_tracker_abbdfa55593327bd9a26cf4ac313239ec}{Queued\+C\+U\+D\+A\+Tracker}, and \hyperlink{class_queued_c_p_u_tracker_a1d67ecf808b54866d49babb654d32894}{Queued\+C\+P\+U\+Tracker}.
+
+\index{Queued\+Tracker@{Queued\+Tracker}!Set\+Image\+Z\+L\+UT@{Set\+Image\+Z\+L\+UT}}
+\index{Set\+Image\+Z\+L\+UT@{Set\+Image\+Z\+L\+UT}!Queued\+Tracker@{Queued\+Tracker}}
+\subsubsection[{\texorpdfstring{Set\+Image\+Z\+L\+U\+T(float $\ast$src, float $\ast$radial\+\_\+zlut, int $\ast$dims)}{SetImageZLUT(float *src, float *radial_zlut, int *dims)}}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool Queued\+Tracker\+::\+Set\+Image\+Z\+L\+UT (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{src, }
+\item[{float $\ast$}]{radial\+\_\+zlut, }
+\item[{int $\ast$}]{dims}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{class_queued_tracker_abd440db1fddc0715bd41b90f1d169ee6}{}\label{class_queued_tracker_abd440db1fddc0715bd41b90f1d169ee6}
+
+
+Set the image lookup tables to be used for z tracking. 
+
+\begin{DoxyNote}{Note}
+Use of image L\+UT is currently not clear. Radial Z\+L\+UT is always used.
+\end{DoxyNote}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em src} & Pointer to the data for the image L\+UT. \\
+\hline
+\mbox{\tt in}  & {\em radial\+\_\+zlut} & Pointer to the data for the radial L\+UT. \\
+\hline
+\mbox{\tt in}  & {\em dims} & Array of dimension sizes for the image L\+UT. See \hyperlink{class_queued_tracker_a29cd6f896d8bcdd93ee4a54bb7823f97}{Get\+Image\+Z\+L\+U\+T\+Size}. \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented in \hyperlink{class_queued_c_p_u_tracker_a151a19c5ba686c62d1fc47fa0eb1ef95}{Queued\+C\+P\+U\+Tracker}.
+
+
+\begin{DoxyCode}
+190 \{ \textcolor{keywordflow}{return} \textcolor{keyword}{false}; \}
+\end{DoxyCode}
+\index{Queued\+Tracker@{Queued\+Tracker}!Set\+Localization\+Mode@{Set\+Localization\+Mode}}
+\index{Set\+Localization\+Mode@{Set\+Localization\+Mode}!Queued\+Tracker@{Queued\+Tracker}}
+\subsubsection[{\texorpdfstring{Set\+Localization\+Mode(\+Loc\+Mode\+\_\+t loc\+Type)=0}{SetLocalizationMode(LocMode_t locType)=0}}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Queued\+Tracker\+::\+Set\+Localization\+Mode (
+\begin{DoxyParamCaption}
+\item[{{\bf Loc\+Mode\+\_\+t}}]{loc\+Type}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}\hypertarget{class_queued_tracker_aed430b5578d7a3e75f4d4d6c6dbb7e45}{}\label{class_queued_tracker_aed430b5578d7a3e75f4d4d6c6dbb7e45}
+
+
+Select which algorithm is to be used. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em loc\+Type} & An integer used as a bitmask for settings based on \hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3b}{Localize\+Mode\+Enum}. \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \hyperlink{class_queued_c_u_d_a_tracker_aed4058f411c99625b9c06ce13d4aabc6}{Queued\+C\+U\+D\+A\+Tracker}, and \hyperlink{class_queued_c_p_u_tracker_a7fcc061bd8d6a0f16472d57c8939c565}{Queued\+C\+P\+U\+Tracker}.
+
+\index{Queued\+Tracker@{Queued\+Tracker}!Set\+Pixel\+Calibration\+Factors@{Set\+Pixel\+Calibration\+Factors}}
+\index{Set\+Pixel\+Calibration\+Factors@{Set\+Pixel\+Calibration\+Factors}!Queued\+Tracker@{Queued\+Tracker}}
+\subsubsection[{\texorpdfstring{Set\+Pixel\+Calibration\+Factors(float offset\+Factor, float gain\+Factor)=0}{SetPixelCalibrationFactors(float offsetFactor, float gainFactor)=0}}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Queued\+Tracker\+::\+Set\+Pixel\+Calibration\+Factors (
+\begin{DoxyParamCaption}
+\item[{float}]{offset\+Factor, }
+\item[{float}]{gain\+Factor}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}\hypertarget{class_queued_tracker_ab9dd540b5c8452718944b47520fda402}{}\label{class_queued_tracker_ab9dd540b5c8452718944b47520fda402}
+
+
+Implemented in \hyperlink{class_queued_c_u_d_a_tracker_a59468e8c37b6bdfb2374f9db78060c0d}{Queued\+C\+U\+D\+A\+Tracker}, and \hyperlink{class_queued_c_p_u_tracker_a94903982ee31eced25b4640b12a4bc56}{Queued\+C\+P\+U\+Tracker}.
+
+\index{Queued\+Tracker@{Queued\+Tracker}!Set\+Pixel\+Calibration\+Images@{Set\+Pixel\+Calibration\+Images}}
+\index{Set\+Pixel\+Calibration\+Images@{Set\+Pixel\+Calibration\+Images}!Queued\+Tracker@{Queued\+Tracker}}
+\subsubsection[{\texorpdfstring{Set\+Pixel\+Calibration\+Images(float $\ast$offset, float $\ast$gain)=0}{SetPixelCalibrationImages(float *offset, float *gain)=0}}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Queued\+Tracker\+::\+Set\+Pixel\+Calibration\+Images (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{offset, }
+\item[{float $\ast$}]{gain}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}\hypertarget{class_queued_tracker_ae1fa56f8629d8d4ad621889fbd9e4a46}{}\label{class_queued_tracker_ae1fa56f8629d8d4ad621889fbd9e4a46}
+
+
+Implemented in \hyperlink{class_queued_c_u_d_a_tracker_a95264d01570acfdfd75977b06eaa0fcc}{Queued\+C\+U\+D\+A\+Tracker}, and \hyperlink{class_queued_c_p_u_tracker_a7574f92390c674ddcbb35cefc6e87da5}{Queued\+C\+P\+U\+Tracker}.
+
+\index{Queued\+Tracker@{Queued\+Tracker}!Set\+Radial\+Weights@{Set\+Radial\+Weights}}
+\index{Set\+Radial\+Weights@{Set\+Radial\+Weights}!Queued\+Tracker@{Queued\+Tracker}}
+\subsubsection[{\texorpdfstring{Set\+Radial\+Weights(float $\ast$zcmp)=0}{SetRadialWeights(float *zcmp)=0}}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Queued\+Tracker\+::\+Set\+Radial\+Weights (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{zcmp}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}\hypertarget{class_queued_tracker_aaf4a1a0f17e2df7bc6dded2729d920f4}{}\label{class_queued_tracker_aaf4a1a0f17e2df7bc6dded2729d920f4}
+
+
+Set radial weights used for comparing L\+UT profiles. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em zcmp} & Array of radial weights to use. {\ttfamily zcmp} has to have {\ttfamily zlut\+\_\+radialsteps} elements. \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \hyperlink{class_queued_c_u_d_a_tracker_a41d97b792daafdc6e7a76af383429f48}{Queued\+C\+U\+D\+A\+Tracker}, and \hyperlink{class_queued_c_p_u_tracker_a070149d1ecf38176ae2cc84a71f3851f}{Queued\+C\+P\+U\+Tracker}.
+
+\index{Queued\+Tracker@{Queued\+Tracker}!Set\+Radial\+Z\+L\+UT@{Set\+Radial\+Z\+L\+UT}}
+\index{Set\+Radial\+Z\+L\+UT@{Set\+Radial\+Z\+L\+UT}!Queued\+Tracker@{Queued\+Tracker}}
+\subsubsection[{\texorpdfstring{Set\+Radial\+Z\+L\+U\+T(float $\ast$data, int count, int planes)=0}{SetRadialZLUT(float *data, int count, int planes)=0}}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Queued\+Tracker\+::\+Set\+Radial\+Z\+L\+UT (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{data, }
+\item[{int}]{count, }
+\item[{int}]{planes}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}\hypertarget{class_queued_tracker_a77c3d8414993d2aa3ddfca4c8b40e71d}{}\label{class_queued_tracker_a77c3d8414993d2aa3ddfca4c8b40e71d}
+
+
+Set the radial lookup tables to be used for z tracking. 
+
+{\ttfamily Data} can be zero to allocate Z\+L\+UT data. L\+U\+Ts should have been created before by \hyperlink{class_queued_tracker_aaeb04a5a2a4fe47ef48b8aefabc1bdb7}{Build\+L\+UT}, but not necessarily by the current instance as long as setting match.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em data} & Pointer to the start of the Z\+L\+UT data. \\
+\hline
+\mbox{\tt in}  & {\em count} & Number of Z\+L\+U\+Ts in the dataset. \\
+\hline
+\mbox{\tt in}  & {\em planes} & Number of planes per Z\+L\+UT. \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \hyperlink{class_queued_c_u_d_a_tracker_a2681f4f94ca93970322bafa58b1dd9bd}{Queued\+C\+U\+D\+A\+Tracker}, and \hyperlink{class_queued_c_p_u_tracker_af9ac36a1eb757e006698a4fb789bcbd0}{Queued\+C\+P\+U\+Tracker}.
+
+\index{Queued\+Tracker@{Queued\+Tracker}!Set\+Z\+L\+U\+T\+Bias\+Correction@{Set\+Z\+L\+U\+T\+Bias\+Correction}}
+\index{Set\+Z\+L\+U\+T\+Bias\+Correction@{Set\+Z\+L\+U\+T\+Bias\+Correction}!Queued\+Tracker@{Queued\+Tracker}}
+\subsubsection[{\texorpdfstring{Set\+Z\+L\+U\+T\+Bias\+Correction(const C\+Image\+Data \&data)}{SetZLUTBiasCorrection(const CImageData &data)}}]{\setlength{\rightskip}{0pt plus 5cm}void Queued\+Tracker\+::\+Set\+Z\+L\+U\+T\+Bias\+Correction (
+\begin{DoxyParamCaption}
+\item[{const {\bf C\+Image\+Data} \&}]{data}
+\end{DoxyParamCaption}
+)}\hypertarget{class_queued_tracker_a44b2acf1496f571f7139141c11e39ba0}{}\label{class_queued_tracker_a44b2acf1496f571f7139141c11e39ba0}
+
+\begin{DoxyCode}
+222 \{
+223     \textcolor{keywordflow}{if} (\hyperlink{class_queued_tracker_a6f5a5a506c622ee1c174cd497c5152b9}{zlut\_bias\_correction}) \textcolor{keyword}{delete} \hyperlink{class_queued_tracker_a6f5a5a506c622ee1c174cd497c5152b9}{zlut\_bias\_correction};
+224     \hyperlink{class_queued_tracker_a6f5a5a506c622ee1c174cd497c5152b9}{zlut\_bias\_correction} = \textcolor{keyword}{new} \hyperlink{class_c_image_data}{CImageData}(bc);
+225 \}
+\end{DoxyCode}
+\index{Queued\+Tracker@{Queued\+Tracker}!Z\+L\+U\+T\+Bias\+Correction@{Z\+L\+U\+T\+Bias\+Correction}}
+\index{Z\+L\+U\+T\+Bias\+Correction@{Z\+L\+U\+T\+Bias\+Correction}!Queued\+Tracker@{Queued\+Tracker}}
+\subsubsection[{\texorpdfstring{Z\+L\+U\+T\+Bias\+Correction(float z, int zlut\+\_\+planes, int bead)}{ZLUTBiasCorrection(float z, int zlut_planes, int bead)}}]{\setlength{\rightskip}{0pt plus 5cm}float Queued\+Tracker\+::\+Z\+L\+U\+T\+Bias\+Correction (
+\begin{DoxyParamCaption}
+\item[{float}]{z, }
+\item[{int}]{zlut\+\_\+planes, }
+\item[{int}]{bead}
+\end{DoxyParamCaption}
+)}\hypertarget{class_queued_tracker_a5db67617f39aba7d9874222d3fa1c02f}{}\label{class_queued_tracker_a5db67617f39aba7d9874222d3fa1c02f}
+
+\begin{DoxyCode}
+148 \{
+149     \textcolor{keywordflow}{if} (!\hyperlink{class_queued_tracker_a6f5a5a506c622ee1c174cd497c5152b9}{zlut\_bias\_correction})
+150         \textcolor{keywordflow}{return} z;
+151 
+152     \textcolor{comment}{/*}
+153 \textcolor{comment}{        bias = d(r,4);}
+154 \textcolor{comment}{        measured\_pos = d(r,1) + bias;}
+155 \textcolor{comment}{        pos = measured\_pos;}
+156 \textcolor{comment}{        for k=1:2}
+157 \textcolor{comment}{            guess\_bias = interp1(d(r,1), bias, pos);}
+158 \textcolor{comment}{            pos = measured\_pos - guess\_bias;}
+159 \textcolor{comment}{        end}
+160 \textcolor{comment}{        */}
+161 
+162     \textcolor{comment}{// we have to reverse the bias table: we know that true\_z + bias(true\_z) = measured\_z, but we can only
+       get bias(measured\_z)}
+163     \textcolor{comment}{// It seems that one can iterate towards the right position:}
+164     
+165     \textcolor{keywordtype}{float} pos = z;
+166     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} k=0;k<4;k++) \{
+167         \textcolor{keywordtype}{float} tblpos = pos / (float)zlut\_planes * \hyperlink{class_queued_tracker_a6f5a5a506c622ee1c174cd497c5152b9}{zlut\_bias\_correction}->
+      \hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w};
+168         \textcolor{keywordtype}{float} bias = \hyperlink{class_queued_tracker_a6f5a5a506c622ee1c174cd497c5152b9}{zlut\_bias\_correction}->\hyperlink{struct_t_image_data_adf096e9a5565d9949c10dd8f3aa31a14}{interpolate1D}(bead, tblpos);
+169         pos = z - bias;
+170     \}
+171     \textcolor{keywordflow}{return} pos;
+172 \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\index{Queued\+Tracker@{Queued\+Tracker}!cfg@{cfg}}
+\index{cfg@{cfg}!Queued\+Tracker@{Queued\+Tracker}}
+\subsubsection[{\texorpdfstring{cfg}{cfg}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\+Trk\+Computed\+Config} Queued\+Tracker\+::cfg}\hypertarget{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{}\label{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}
+\index{Queued\+Tracker@{Queued\+Tracker}!zlut\+\_\+bias\+\_\+correction@{zlut\+\_\+bias\+\_\+correction}}
+\index{zlut\+\_\+bias\+\_\+correction@{zlut\+\_\+bias\+\_\+correction}!Queued\+Tracker@{Queued\+Tracker}}
+\subsubsection[{\texorpdfstring{zlut\+\_\+bias\+\_\+correction}{zlut_bias_correction}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf C\+Image\+Data}$\ast$ Queued\+Tracker\+::zlut\+\_\+bias\+\_\+correction\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_queued_tracker_a6f5a5a506c622ee1c174cd497c5152b9}{}\label{class_queued_tracker_a6f5a5a506c622ee1c174cd497c5152b9}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+cputrack/\hyperlink{_queued_tracker_8h}{Queued\+Tracker.\+h}\item 
+cputrack/\hyperlink{_queued_tracker_8cpp}{Queued\+Tracker.\+cpp}\end{DoxyCompactItemize}

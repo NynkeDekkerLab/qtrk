@@ -1,0 +1,275 @@
+\hypertarget{struct_t_image_data}{}\section{T\+Image\+Data$<$ T $>$ Struct Template Reference}
+\label{struct_t_image_data}\index{T\+Image\+Data$<$ T $>$@{T\+Image\+Data$<$ T $>$}}
+
+
+{\ttfamily \#include $<$Queued\+Tracker.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{struct_t_image_data_ab452fff333ec33dfd813202aab9c83b5}{T\+Image\+Data} ()
+\item 
+\hyperlink{struct_t_image_data_ac988f01fb11de12f34721e76e25b5513}{T\+Image\+Data} (T $\ast$d, int \hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w}, int \hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h})
+\item 
+{\footnotesize template$<$typename Ta $>$ }\\void \hyperlink{struct_t_image_data_a92b0f42f80923c2e2539b509b44d150f}{set} (Ta $\ast$src)
+\item 
+{\footnotesize template$<$typename Ta $>$ }\\void \hyperlink{struct_t_image_data_afa44d16ecad563302e14bd79bede5ce1}{set} (const \hyperlink{struct_t_image_data}{T\+Image\+Data}$<$ Ta $>$ \&src)
+\item 
+void \hyperlink{struct_t_image_data_a59e49f2c23986fde59baccd287e1328c}{copy\+To} (float $\ast$dst)
+\item 
+T \& \hyperlink{struct_t_image_data_ad13c1527ffabe17b997c38090ec5e6b9}{at} (int x, int y)
+\item 
+T \hyperlink{struct_t_image_data_ac92ac7641d694ac8842bbf4b186ad49a}{interpolate} (float x, float y, bool $\ast$outside=0)
+\item 
+T \hyperlink{struct_t_image_data_adf096e9a5565d9949c10dd8f3aa31a14}{interpolate1D} (int y, float x)
+\item 
+int \hyperlink{struct_t_image_data_a778a4b0170c0a225b89692c7cedd2440}{num\+Pixels} () const 
+\item 
+int \hyperlink{struct_t_image_data_aef0a87643a69b40e19ba11590d51318d}{pitch} () const 
+\item 
+void \hyperlink{struct_t_image_data_ac987182fb87787d7d274a30cf4a198d4}{normalize} ()
+\item 
+T \hyperlink{struct_t_image_data_a3b6f4073306aa6f7f819b270196b9bae}{mean} ()
+\item 
+T \& \hyperlink{struct_t_image_data_a2f381200e0a64cbcbe04d83790dd96ba}{operator\mbox{[}$\,$\mbox{]}} (int i)
+\item 
+void \hyperlink{struct_t_image_data_a60a60e309657216a2e35809fdc582b11}{free} ()
+\item 
+void \hyperlink{struct_t_image_data_aa324cc320e1a5b2d8f42ae56a197dca9}{write\+As\+C\+SV} (const char $\ast$filename, const char $\ast$labels\mbox{[}$\,$\mbox{]}=0)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{struct_t_image_data}{T\+Image\+Data} \hyperlink{struct_t_image_data_a8ae528964e70c0d0a98b8481cc8b083e}{alloc} (int \hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w}, int \hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h})
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+T $\ast$ \hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data}
+\item 
+int \hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w}
+\item 
+int \hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{T\+Image\+Data@{T\+Image\+Data}!T\+Image\+Data@{T\+Image\+Data}}
+\index{T\+Image\+Data@{T\+Image\+Data}!T\+Image\+Data@{T\+Image\+Data}}
+\subsubsection[{\texorpdfstring{T\+Image\+Data()}{TImageData()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ {\bf T\+Image\+Data}$<$ T $>$\+::{\bf T\+Image\+Data} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{struct_t_image_data_ab452fff333ec33dfd813202aab9c83b5}{}\label{struct_t_image_data_ab452fff333ec33dfd813202aab9c83b5}
+
+\begin{DoxyCode}
+82 \{ \hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data}=0;\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w}=\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h}=0;\}
+\end{DoxyCode}
+\index{T\+Image\+Data@{T\+Image\+Data}!T\+Image\+Data@{T\+Image\+Data}}
+\index{T\+Image\+Data@{T\+Image\+Data}!T\+Image\+Data@{T\+Image\+Data}}
+\subsubsection[{\texorpdfstring{T\+Image\+Data(\+T $\ast$d, int w, int h)}{TImageData(T *d, int w, int h)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ {\bf T\+Image\+Data}$<$ T $>$\+::{\bf T\+Image\+Data} (
+\begin{DoxyParamCaption}
+\item[{T $\ast$}]{d, }
+\item[{int}]{w, }
+\item[{int}]{h}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{struct_t_image_data_ac988f01fb11de12f34721e76e25b5513}{}\label{struct_t_image_data_ac988f01fb11de12f34721e76e25b5513}
+
+\begin{DoxyCode}
+83 : \hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data}(d), \hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w}(\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w}),\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h}(\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h}) \{\}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\index{T\+Image\+Data@{T\+Image\+Data}!alloc@{alloc}}
+\index{alloc@{alloc}!T\+Image\+Data@{T\+Image\+Data}}
+\subsubsection[{\texorpdfstring{alloc(int w, int h)}{alloc(int w, int h)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ static {\bf T\+Image\+Data} {\bf T\+Image\+Data}$<$ T $>$\+::alloc (
+\begin{DoxyParamCaption}
+\item[{int}]{w, }
+\item[{int}]{h}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}\hypertarget{struct_t_image_data_a8ae528964e70c0d0a98b8481cc8b083e}{}\label{struct_t_image_data_a8ae528964e70c0d0a98b8481cc8b083e}
+
+\begin{DoxyCode}
+110 \{ \textcolor{keywordflow}{return} \hyperlink{struct_t_image_data}{TImageData<T>}(\textcolor{keyword}{new} T[\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w}*\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h}], \hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w},\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h}); \}
+\end{DoxyCode}
+\index{T\+Image\+Data@{T\+Image\+Data}!at@{at}}
+\index{at@{at}!T\+Image\+Data@{T\+Image\+Data}}
+\subsubsection[{\texorpdfstring{at(int x, int y)}{at(int x, int y)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ T\& {\bf T\+Image\+Data}$<$ T $>$\+::at (
+\begin{DoxyParamCaption}
+\item[{int}]{x, }
+\item[{int}]{y}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{struct_t_image_data_ad13c1527ffabe17b997c38090ec5e6b9}{}\label{struct_t_image_data_ad13c1527ffabe17b997c38090ec5e6b9}
+
+\begin{DoxyCode}
+96 \{ \textcolor{keywordflow}{return} \hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data}[\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w}*y+x]; \}
+\end{DoxyCode}
+\index{T\+Image\+Data@{T\+Image\+Data}!copy\+To@{copy\+To}}
+\index{copy\+To@{copy\+To}!T\+Image\+Data@{T\+Image\+Data}}
+\subsubsection[{\texorpdfstring{copy\+To(float $\ast$dst)}{copyTo(float *dst)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ void {\bf T\+Image\+Data}$<$ T $>$\+::copy\+To (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{dst}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{struct_t_image_data_a59e49f2c23986fde59baccd287e1328c}{}\label{struct_t_image_data_a59e49f2c23986fde59baccd287e1328c}
+
+\begin{DoxyCode}
+93                             \{
+94         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w}*\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h};i++) dst[i]=\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data}[i];
+95     \}
+\end{DoxyCode}
+\index{T\+Image\+Data@{T\+Image\+Data}!free@{free}}
+\index{free@{free}!T\+Image\+Data@{T\+Image\+Data}}
+\subsubsection[{\texorpdfstring{free()}{free()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ void {\bf T\+Image\+Data}$<$ T $>$\+::free (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{struct_t_image_data_a60a60e309657216a2e35809fdc582b11}{}\label{struct_t_image_data_a60a60e309657216a2e35809fdc582b11}
+
+\begin{DoxyCode}
+111 \{ \textcolor{keywordflow}{if}(\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data}) \textcolor{keyword}{delete}[] \hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data};\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data}=0; \}
+\end{DoxyCode}
+\index{T\+Image\+Data@{T\+Image\+Data}!interpolate@{interpolate}}
+\index{interpolate@{interpolate}!T\+Image\+Data@{T\+Image\+Data}}
+\subsubsection[{\texorpdfstring{interpolate(float x, float y, bool $\ast$outside=0)}{interpolate(float x, float y, bool *outside=0)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ T {\bf T\+Image\+Data}$<$ T $>$\+::interpolate (
+\begin{DoxyParamCaption}
+\item[{float}]{x, }
+\item[{float}]{y, }
+\item[{bool $\ast$}]{outside = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{struct_t_image_data_ac92ac7641d694ac8842bbf4b186ad49a}{}\label{struct_t_image_data_ac92ac7641d694ac8842bbf4b186ad49a}
+
+\begin{DoxyCode}
+97 \{ \textcolor{keywordflow}{return} \hyperlink{utils_8h_aa9cfad3280334f04e799bb33b442f653}{Interpolate}(\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data}, \hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w},\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h}, x,y,outside); \}
+\end{DoxyCode}
+\index{T\+Image\+Data@{T\+Image\+Data}!interpolate1D@{interpolate1D}}
+\index{interpolate1D@{interpolate1D}!T\+Image\+Data@{T\+Image\+Data}}
+\subsubsection[{\texorpdfstring{interpolate1\+D(int y, float x)}{interpolate1D(int y, float x)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ T {\bf T\+Image\+Data}$<$ T $>$\+::interpolate1D (
+\begin{DoxyParamCaption}
+\item[{int}]{y, }
+\item[{float}]{x}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{struct_t_image_data_adf096e9a5565d9949c10dd8f3aa31a14}{}\label{struct_t_image_data_adf096e9a5565d9949c10dd8f3aa31a14}
+
+\begin{DoxyCode}
+98 \{ \textcolor{keywordflow}{return} \hyperlink{utils_8h_aa68dad6ceda865eebe8f3e08f8fc86b0}{Interpolate1D}(&\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data}[\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w}*y], \hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w}, x); \}
+\end{DoxyCode}
+\index{T\+Image\+Data@{T\+Image\+Data}!mean@{mean}}
+\index{mean@{mean}!T\+Image\+Data@{T\+Image\+Data}}
+\subsubsection[{\texorpdfstring{mean()}{mean()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ T {\bf T\+Image\+Data}$<$ T $>$\+::mean (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{struct_t_image_data_a3b6f4073306aa6f7f819b270196b9bae}{}\label{struct_t_image_data_a3b6f4073306aa6f7f819b270196b9bae}
+
+\begin{DoxyCode}
+102              \{
+103         T s=0.0f;
+104         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} x=0;x<\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w}*\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h};x++)
+105             s+=\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data}[x];
+106         \textcolor{keywordflow}{return} s/(\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w}*\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h});
+107     \}
+\end{DoxyCode}
+\index{T\+Image\+Data@{T\+Image\+Data}!normalize@{normalize}}
+\index{normalize@{normalize}!T\+Image\+Data@{T\+Image\+Data}}
+\subsubsection[{\texorpdfstring{normalize()}{normalize()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ void {\bf T\+Image\+Data}$<$ T $>$\+::normalize (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{struct_t_image_data_ac987182fb87787d7d274a30cf4a198d4}{}\label{struct_t_image_data_ac987182fb87787d7d274a30cf4a198d4}
+
+\begin{DoxyCode}
+101 \{ \hyperlink{struct_t_image_data_ac987182fb87787d7d274a30cf4a198d4}{::normalize}(\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data},\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w},\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h}); \}
+\end{DoxyCode}
+\index{T\+Image\+Data@{T\+Image\+Data}!num\+Pixels@{num\+Pixels}}
+\index{num\+Pixels@{num\+Pixels}!T\+Image\+Data@{T\+Image\+Data}}
+\subsubsection[{\texorpdfstring{num\+Pixels() const }{numPixels() const }}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ int {\bf T\+Image\+Data}$<$ T $>$\+::num\+Pixels (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{struct_t_image_data_a778a4b0170c0a225b89692c7cedd2440}{}\label{struct_t_image_data_a778a4b0170c0a225b89692c7cedd2440}
+
+\begin{DoxyCode}
+99 \{ \textcolor{keywordflow}{return} \hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w}*\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h}; \}
+\end{DoxyCode}
+\index{T\+Image\+Data@{T\+Image\+Data}!operator\mbox{[}$\,$\mbox{]}@{operator[]}}
+\index{operator\mbox{[}$\,$\mbox{]}@{operator[]}!T\+Image\+Data@{T\+Image\+Data}}
+\subsubsection[{\texorpdfstring{operator[](int i)}{operator[](int i)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ T\& {\bf T\+Image\+Data}$<$ T $>$\+::operator\mbox{[}$\,$\mbox{]} (
+\begin{DoxyParamCaption}
+\item[{int}]{i}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{struct_t_image_data_a2f381200e0a64cbcbe04d83790dd96ba}{}\label{struct_t_image_data_a2f381200e0a64cbcbe04d83790dd96ba}
+
+\begin{DoxyCode}
+108 \{ \textcolor{keywordflow}{return} \hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data}[i]; \}
+\end{DoxyCode}
+\index{T\+Image\+Data@{T\+Image\+Data}!pitch@{pitch}}
+\index{pitch@{pitch}!T\+Image\+Data@{T\+Image\+Data}}
+\subsubsection[{\texorpdfstring{pitch() const }{pitch() const }}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ int {\bf T\+Image\+Data}$<$ T $>$\+::pitch (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{struct_t_image_data_aef0a87643a69b40e19ba11590d51318d}{}\label{struct_t_image_data_aef0a87643a69b40e19ba11590d51318d}
+
+\begin{DoxyCode}
+100 \{ \textcolor{keywordflow}{return} \textcolor{keyword}{sizeof}(T)*\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w}; \} \textcolor{comment}{// bytes per line}
+\end{DoxyCode}
+\index{T\+Image\+Data@{T\+Image\+Data}!set@{set}}
+\index{set@{set}!T\+Image\+Data@{T\+Image\+Data}}
+\subsubsection[{\texorpdfstring{set(\+Ta $\ast$src)}{set(Ta *src)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ template$<$typename Ta $>$ void {\bf T\+Image\+Data}$<$ T $>$\+::set (
+\begin{DoxyParamCaption}
+\item[{Ta $\ast$}]{src}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{struct_t_image_data_a92b0f42f80923c2e2539b509b44d150f}{}\label{struct_t_image_data_a92b0f42f80923c2e2539b509b44d150f}
+
+\begin{DoxyCode}
+84 \{ \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w}*\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h};i++) \hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data}[i] = src[i]; \}
+\end{DoxyCode}
+\index{T\+Image\+Data@{T\+Image\+Data}!set@{set}}
+\index{set@{set}!T\+Image\+Data@{T\+Image\+Data}}
+\subsubsection[{\texorpdfstring{set(const T\+Image\+Data$<$ Ta $>$ \&src)}{set(const TImageData< Ta > &src)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ template$<$typename Ta $>$ void {\bf T\+Image\+Data}$<$ T $>$\+::set (
+\begin{DoxyParamCaption}
+\item[{const {\bf T\+Image\+Data}$<$ Ta $>$ \&}]{src}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{struct_t_image_data_afa44d16ecad563302e14bd79bede5ce1}{}\label{struct_t_image_data_afa44d16ecad563302e14bd79bede5ce1}
+
+\begin{DoxyCode}
+85                                                               \{ 
+86         \textcolor{keywordflow}{if} (!\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data} || \hyperlink{struct_t_image_data_a778a4b0170c0a225b89692c7cedd2440}{numPixels}()!=src.\hyperlink{struct_t_image_data_a778a4b0170c0a225b89692c7cedd2440}{numPixels}()) \{ 
+87             \hyperlink{struct_t_image_data_a60a60e309657216a2e35809fdc582b11}{free}(); 
+88             \hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w}=src.\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w}; \hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h}=src.\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h}; 
+89             \textcolor{keywordflow}{if}(src.\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data}) \{ \hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data}=\textcolor{keyword}{new} T[src.\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w}*src.\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h}]; \}
+90         \}
+91         \textcolor{keyword}{set}(src.\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data}); 
+92     \}
+\end{DoxyCode}
+\index{T\+Image\+Data@{T\+Image\+Data}!write\+As\+C\+SV@{write\+As\+C\+SV}}
+\index{write\+As\+C\+SV@{write\+As\+C\+SV}!T\+Image\+Data@{T\+Image\+Data}}
+\subsubsection[{\texorpdfstring{write\+As\+C\+S\+V(const char $\ast$filename, const char $\ast$labels[]=0)}{writeAsCSV(const char *filename, const char *labels[]=0)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ void {\bf T\+Image\+Data}$<$ T $>$\+::write\+As\+C\+SV (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{filename, }
+\item[{const char $\ast$}]{labels\mbox{[}$\,$\mbox{]} = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{struct_t_image_data_aa324cc320e1a5b2d8f42ae56a197dca9}{}\label{struct_t_image_data_aa324cc320e1a5b2d8f42ae56a197dca9}
+
+\begin{DoxyCode}
+112 \{ \hyperlink{utils_8h_a9896b62cf125008faeb27b5bad5b3c61}{WriteImageAsCSV}(filename, \hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data}, \hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w},\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h},labels); \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\index{T\+Image\+Data@{T\+Image\+Data}!data@{data}}
+\index{data@{data}!T\+Image\+Data@{T\+Image\+Data}}
+\subsubsection[{\texorpdfstring{data}{data}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ T$\ast$ {\bf T\+Image\+Data}$<$ T $>$\+::data}\hypertarget{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{}\label{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}
+\index{T\+Image\+Data@{T\+Image\+Data}!h@{h}}
+\index{h@{h}!T\+Image\+Data@{T\+Image\+Data}}
+\subsubsection[{\texorpdfstring{h}{h}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ int {\bf T\+Image\+Data}$<$ T $>$\+::h}\hypertarget{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{}\label{struct_t_image_data_a252235d07e487e8d02908aed062147bd}
+\index{T\+Image\+Data@{T\+Image\+Data}!w@{w}}
+\index{w@{w}!T\+Image\+Data@{T\+Image\+Data}}
+\subsubsection[{\texorpdfstring{w}{w}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ int {\bf T\+Image\+Data}$<$ T $>$\+::w}\hypertarget{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{}\label{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+cputrack/\hyperlink{_queued_tracker_8h}{Queued\+Tracker.\+h}\item 
+cputrack/\hyperlink{utils_8h}{utils.\+h}\end{DoxyCompactItemize}

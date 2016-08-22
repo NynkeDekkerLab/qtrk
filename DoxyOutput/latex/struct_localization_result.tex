@@ -1,0 +1,94 @@
+\hypertarget{struct_localization_result}{}\section{Localization\+Result Struct Reference}
+\label{struct_localization_result}\index{Localization\+Result@{Localization\+Result}}
+
+
+Structure for job results.  
+
+
+
+
+{\ttfamily \#include $<$qtrk\+\_\+c\+\_\+api.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{std__incl_8h_aba974726076ec2d63a67114c536d123e}{vector2f} \hyperlink{struct_localization_result_a40b7da4cbde78ccc9a013b1bcc608e60}{pos2D} ()
+\begin{DoxyCompactList}\small\item\em Final 2D position found. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{struct_localization_job}{Localization\+Job} \hyperlink{struct_localization_result_a9a6b25c5cc92fe13bae3d0a5d37360f3}{job}
+\begin{DoxyCompactList}\small\item\em Job metadata. See \hyperlink{struct_localization_job}{Localization\+Job}. \end{DoxyCompactList}\item 
+\hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f} \hyperlink{struct_localization_result_a546f66485662c35bc75121513b6d1a60}{pos}
+\begin{DoxyCompactList}\small\item\em Final 3D position found. If no z localization was performed, the value of z will be 0. \end{DoxyCompactList}\item 
+\hyperlink{std__incl_8h_aba974726076ec2d63a67114c536d123e}{vector2f} \hyperlink{struct_localization_result_a44c7351e9eb9410375c10fcf4e0f0cf9}{first\+Guess}
+\begin{DoxyCompactList}\small\item\em (x,y) position found by the C\+OM localization. Used as initial position for the subsequent algorithms. \end{DoxyCompactList}\item 
+\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} \hyperlink{struct_localization_result_a90d35a4643bd537d8f763ee8c7749820}{error}
+\begin{DoxyCompactList}\small\item\em Flag (boolean) indicating whether the R\+OI boundary was hit during localization. A 1 indicates a hit. \end{DoxyCompactList}\item 
+float \hyperlink{struct_localization_result_aba2a42711bc890c8620419f7dc906db9}{image\+Mean}
+\begin{DoxyCompactList}\small\item\em Average pixel value of the R\+OI. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Structure for job results. 
+
+Compiled without padding to line up with Lab\+V\+I\+EW alignment. Size is 52 bytes. \begin{DoxyWarning}{Warning}
+Changing this requires changing of the linked Lab\+V\+I\+EW cluster Q\+Trk\+Localization\+Result.\+ctl. 
+\end{DoxyWarning}
+
+
+\subsection{Member Function Documentation}
+\index{Localization\+Result@{Localization\+Result}!pos2D@{pos2D}}
+\index{pos2D@{pos2D}!Localization\+Result@{Localization\+Result}}
+\subsubsection[{\texorpdfstring{pos2\+D()}{pos2D()}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf vector2f} Localization\+Result\+::pos2D (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{struct_localization_result_a40b7da4cbde78ccc9a013b1bcc608e60}{}\label{struct_localization_result_a40b7da4cbde78ccc9a013b1bcc608e60}
+
+
+Final 2D position found. 
+
+
+
+\subsection{Member Data Documentation}
+\index{Localization\+Result@{Localization\+Result}!error@{error}}
+\index{error@{error}!Localization\+Result@{Localization\+Result}}
+\subsubsection[{\texorpdfstring{error}{error}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint} Localization\+Result\+::error}\hypertarget{struct_localization_result_a90d35a4643bd537d8f763ee8c7749820}{}\label{struct_localization_result_a90d35a4643bd537d8f763ee8c7749820}
+
+
+Flag (boolean) indicating whether the R\+OI boundary was hit during localization. A 1 indicates a hit. 
+
+\index{Localization\+Result@{Localization\+Result}!first\+Guess@{first\+Guess}}
+\index{first\+Guess@{first\+Guess}!Localization\+Result@{Localization\+Result}}
+\subsubsection[{\texorpdfstring{first\+Guess}{firstGuess}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf vector2f} Localization\+Result\+::first\+Guess}\hypertarget{struct_localization_result_a44c7351e9eb9410375c10fcf4e0f0cf9}{}\label{struct_localization_result_a44c7351e9eb9410375c10fcf4e0f0cf9}
+
+
+(x,y) position found by the C\+OM localization. Used as initial position for the subsequent algorithms. 
+
+\index{Localization\+Result@{Localization\+Result}!image\+Mean@{image\+Mean}}
+\index{image\+Mean@{image\+Mean}!Localization\+Result@{Localization\+Result}}
+\subsubsection[{\texorpdfstring{image\+Mean}{imageMean}}]{\setlength{\rightskip}{0pt plus 5cm}float Localization\+Result\+::image\+Mean}\hypertarget{struct_localization_result_aba2a42711bc890c8620419f7dc906db9}{}\label{struct_localization_result_aba2a42711bc890c8620419f7dc906db9}
+
+
+Average pixel value of the R\+OI. 
+
+\index{Localization\+Result@{Localization\+Result}!job@{job}}
+\index{job@{job}!Localization\+Result@{Localization\+Result}}
+\subsubsection[{\texorpdfstring{job}{job}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Localization\+Job} Localization\+Result\+::job}\hypertarget{struct_localization_result_a9a6b25c5cc92fe13bae3d0a5d37360f3}{}\label{struct_localization_result_a9a6b25c5cc92fe13bae3d0a5d37360f3}
+
+
+Job metadata. See \hyperlink{struct_localization_job}{Localization\+Job}. 
+
+\index{Localization\+Result@{Localization\+Result}!pos@{pos}}
+\index{pos@{pos}!Localization\+Result@{Localization\+Result}}
+\subsubsection[{\texorpdfstring{pos}{pos}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf vector3f} Localization\+Result\+::pos}\hypertarget{struct_localization_result_a546f66485662c35bc75121513b6d1a60}{}\label{struct_localization_result_a546f66485662c35bc75121513b6d1a60}
+
+
+Final 3D position found. If no z localization was performed, the value of z will be 0. 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+cputrack/\hyperlink{qtrk__c__api_8h}{qtrk\+\_\+c\+\_\+api.\+h}\end{DoxyCompactItemize}

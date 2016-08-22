@@ -7,6 +7,14 @@
 #include "niimaq.h"
 #include <complex>
 
+/** \defgroup lab_functions LabVIEW datatypes and helper functions
+\brief Definitions of datatypes and helper functions required for communication with LabVIEW. 
+*/
+
+/** \addtogroup lab_functions
+	@{
+*/
+
 /* lv_prolog.h and lv_epilog.h set up the correct alignment for LabVIEW data. */
 #include "lv_prolog.h"
 
@@ -23,7 +31,6 @@ struct LVArray {
 	T elem[1];
 };
 typedef LVArray<float> **ppFloatArray;
-
 
 template<typename T>
 struct LVArray2D {
@@ -59,7 +66,6 @@ struct LVArrayND {
 	}
 };
 
-
 // Compile-time map of C++ types to Labview DataType codes
 template<typename T>
 struct LVDataType {};
@@ -77,14 +83,17 @@ template<> struct LVDataType<std::complex<float> > { enum { code=0xc }; };
 template<> struct LVDataType<std::complex<double> > { enum { code=0xd }; };
 
 template<typename T>
-void ResizeLVArray2D(LVArray2D<T>**& d, int rows, int cols) {
+void ResizeLVArray2D(LVArray2D<T>**& d, int rows, int cols) 
+{
 	if (NumericArrayResize(LVDataType<T>::code, 2, (UHandle*)&d, sizeof(T)*rows*cols) != mgNoErr)
 		throw std::runtime_error( SPrintf("NumericArrayResize(2D array, %d, %d) returned error.", rows,cols));
 	(*d)->dimSizes[0] = rows;
 	(*d)->dimSizes[1] = cols;
 }
+
 template<typename T>
-void ResizeLVArray3D(LVArray3D<T>**& d, int depth, int rows, int cols) {
+void ResizeLVArray3D(LVArray3D<T>**& d, int depth, int rows, int cols) 
+{
 	if (NumericArrayResize(LVDataType<T>::code, 3, (UHandle*)&d, sizeof(T)*rows*cols*depth) != mgNoErr)
 		throw std::runtime_error( SPrintf("NumericArrayResize(3D array, %d, %d, %d) returned error.", depth,rows,cols));
 
@@ -92,14 +101,18 @@ void ResizeLVArray3D(LVArray3D<T>**& d, int depth, int rows, int cols) {
 	(*d)->dimSizes[1] = rows;
 	(*d)->dimSizes[2] = cols;
 }
+
 template<typename T, int N>
-void ResizeLVArray(LVArrayND<T, N>**& d, int* dims) {
+void ResizeLVArray(LVArrayND<T, N>**& d, int* dims) 
+{
 	for (int i=0;i<N;i++)
 		(*d)->dimSizes[i]=dims[i];
 	NumericArrayResize(LVDataType<T>::code, N, (UHandle*)&d, sizeof(T)*(*d)->numElem());
 }
+
 template<typename T>
-void ResizeLVArray(LVArray<T>**& d, int elems) {
+void ResizeLVArray(LVArray<T>**& d, int elems) 
+{
 	if (NumericArrayResize(LVDataType<T>::code, 1, (UHandle*)&d, sizeof(T)*elems) != mgNoErr)
 		throw std::runtime_error( SPrintf("NumericArrayResize(1D array, %d) returned error.", elems));
 	(*d)->dimSize = elems;
@@ -117,3 +130,4 @@ std::vector<std::string> LVGetStringArray(int count, LStrHandle *str);
 class QueuedTracker;
 bool ValidateTracker(QueuedTracker* tracker, ErrorCluster* e, const char *funcname);
 
+/** @} */

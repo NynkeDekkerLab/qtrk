@@ -1,0 +1,58 @@
+\hypertarget{threads_8h}{}\section{cputrack/threads.h File Reference}
+\label{threads_8h}\index{cputrack/threads.\+h@{cputrack/threads.\+h}}
+{\ttfamily \#include $<$list$>$}\\*
+{\ttfamily \#include $<$Windows.\+h$>$}\\*
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_threads}{Threads}
+\item 
+struct \hyperlink{struct_threads_1_1_handle}{Threads\+::\+Handle}
+\item 
+struct \hyperlink{struct_threads_1_1_mutex}{Threads\+::\+Mutex}
+\item 
+class \hyperlink{class_atomic}{Atomic$<$ T $>$}
+\item 
+class \hyperlink{class_thread_pool}{Thread\+Pool$<$ T\+Work\+Item, T\+Functor $>$}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{struct_threads_1_1_handle}{Threads\+::\+Handle} \hyperlink{threads_8h_a255f536acd94d39cb54244b63321ca80}{Thread\+Handle}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename TF $>$ }\\void \hyperlink{threads_8h_a6693c34b211b5d81e0d7a362457d0449}{parallel\+\_\+for} (int count, TF f)
+\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\index{threads.\+h@{threads.\+h}!Thread\+Handle@{Thread\+Handle}}
+\index{Thread\+Handle@{Thread\+Handle}!threads.\+h@{threads.\+h}}
+\subsubsection[{\texorpdfstring{Thread\+Handle}{ThreadHandle}}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf Threads\+::\+Handle} {\bf Thread\+Handle}}\hypertarget{threads_8h_a255f536acd94d39cb54244b63321ca80}{}\label{threads_8h_a255f536acd94d39cb54244b63321ca80}
+
+
+\subsection{Function Documentation}
+\index{threads.\+h@{threads.\+h}!parallel\+\_\+for@{parallel\+\_\+for}}
+\index{parallel\+\_\+for@{parallel\+\_\+for}!threads.\+h@{threads.\+h}}
+\subsubsection[{\texorpdfstring{parallel\+\_\+for(int count, T\+F f)}{parallel_for(int count, TF f)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename TF $>$ void parallel\+\_\+for (
+\begin{DoxyParamCaption}
+\item[{int}]{count, }
+\item[{TF}]{f}
+\end{DoxyParamCaption}
+)}\hypertarget{threads_8h_a6693c34b211b5d81e0d7a362457d0449}{}\label{threads_8h_a6693c34b211b5d81e0d7a362457d0449}
+
+\begin{DoxyCode}
+251                                    \{
+252 
+253     \textcolor{keywordflow}{if} (count == 1)
+254         f(0);
+255     \textcolor{keywordflow}{else} \{
+256         \hyperlink{class_thread_pool}{ThreadPool<int, TF>} threadPool(f, std::min (count, 
+      \hyperlink{struct_threads_acb1d9a14cf18f2fcbc1bf07f51b4ba81}{Threads::GetCPUCount}()) );
+257         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<count;i++) threadPool.AddWork(i);
+258         threadPool.WaitUntilDone();
+259     \}
+260 \}
+\end{DoxyCode}

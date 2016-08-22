@@ -1,0 +1,1514 @@
+\hypertarget{class_queued_c_u_d_a_tracker}{}\section{Queued\+C\+U\+D\+A\+Tracker Class Reference}
+\label{class_queued_c_u_d_a_tracker}\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+
+
+C\+U\+DA implementation of the \hyperlink{class_queued_tracker}{Queued\+Tracker} interface.  
+
+
+
+
+{\ttfamily \#include $<$Queued\+C\+U\+D\+A\+Tracker.\+h$>$}
+
+Inheritance diagram for Queued\+C\+U\+D\+A\+Tracker\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_queued_c_u_d_a_tracker}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_queued_c_u_d_a_tracker_1_1_device}{Device}
+\item 
+struct \hyperlink{struct_queued_c_u_d_a_tracker_1_1_kernel_profile_time}{Kernel\+Profile\+Time}
+\item 
+struct \hyperlink{struct_queued_c_u_d_a_tracker_1_1_stream}{Stream}
+\end{DoxyCompactItemize}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{class_image4_d_memory}{Image4\+D\+Memory}$<$ float $>$ \hyperlink{class_queued_c_u_d_a_tracker_ab96308f9c1c47ab60b3a7e8da3e4c104}{Image\+L\+UT}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_queued_c_u_d_a_tracker_a1e6e7939fc282165efd3adb6ace86ef3}{Queued\+C\+U\+D\+A\+Tracker} (const \hyperlink{struct_q_trk_computed_config}{Q\+Trk\+Computed\+Config} \&cc, int \hyperlink{class_queued_c_u_d_a_tracker_a19a027c0cc319821c25de1cb23e14a17}{batch\+Size}=-\/1)
+\item 
+\hyperlink{class_queued_c_u_d_a_tracker_a0f7eaa0256e08ffae8b2af55685ce285}{$\sim$\+Queued\+C\+U\+D\+A\+Tracker} ()
+\item 
+void \hyperlink{class_queued_c_u_d_a_tracker_ab6bc66ca515095c58e92db3a426f3cc3}{Enable\+Texture\+Cache} (bool \hyperlink{class_queued_c_u_d_a_tracker_a1351abd5ca987de1b8663a919e511134}{use\+Texture\+Cache})
+\item 
+void \hyperlink{class_queued_c_u_d_a_tracker_aed4058f411c99625b9c06ce13d4aabc6}{Set\+Localization\+Mode} (\hyperlink{qtrk__c__api_8h_a6ba72ec1daa19642f85a47defe8f0812}{Loc\+Mode\+\_\+t} loc\+Type) override
+\begin{DoxyCompactList}\small\item\em Select which algorithm is to be used. \end{DoxyCompactList}\item 
+void \hyperlink{class_queued_c_u_d_a_tracker_a8a038919d270228922e31f375c17cbbe}{Schedule\+Localization} (void $\ast$data, int pitch, \hyperlink{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0b}{Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type} pdt, const \hyperlink{struct_localization_job}{Localization\+Job} $\ast$job\+Info) override
+\begin{DoxyCompactList}\small\item\em Add a job to the queue to be processed. A job entails running the required algorithms on a single region of interest. \end{DoxyCompactList}\item 
+void \hyperlink{class_queued_c_u_d_a_tracker_a41b207c9abf386f57ab9f99994e92b4c}{Clear\+Results} () override
+\begin{DoxyCompactList}\small\item\em Clear results. \end{DoxyCompactList}\item 
+void \hyperlink{class_queued_c_u_d_a_tracker_a2681f4f94ca93970322bafa58b1dd9bd}{Set\+Radial\+Z\+L\+UT} (float $\ast$data, int num\+L\+U\+Ts, int planes) override
+\begin{DoxyCompactList}\small\item\em Set the radial lookup tables to be used for z tracking. \end{DoxyCompactList}\item 
+void \hyperlink{class_queued_c_u_d_a_tracker_a41d97b792daafdc6e7a76af383429f48}{Set\+Radial\+Weights} (float $\ast$zcmp) override
+\begin{DoxyCompactList}\small\item\em Set radial weights used for comparing L\+UT profiles. \end{DoxyCompactList}\item 
+void \hyperlink{class_queued_c_u_d_a_tracker_a1298fa3749c2ffaf7e48370ca15e3beb}{Get\+Radial\+Z\+L\+UT} (float $\ast$data) override
+\begin{DoxyCompactList}\small\item\em Get the radial lookup tables used for z tracking. \end{DoxyCompactList}\item 
+void \hyperlink{class_queued_c_u_d_a_tracker_a4af9b4b3778d9cb13823fe486db23ab9}{Get\+Radial\+Z\+L\+U\+T\+Size} (int \&count, int \&planes, int \&radial\+Steps) override
+\begin{DoxyCompactList}\small\item\em Get the dimensions of the radial lookup table data. \end{DoxyCompactList}\item 
+int \hyperlink{class_queued_c_u_d_a_tracker_acc1a34b83a9f7cc84ede58ce7eaec45e}{Fetch\+Results} (\hyperlink{struct_localization_result}{Localization\+Result} $\ast$\hyperlink{class_queued_c_u_d_a_tracker_af29d9427d57a9041fbc581d6e8b0efbf}{results}, int max\+Results) override
+\item 
+void \hyperlink{class_queued_c_u_d_a_tracker_ac6a9934c5a2bd06ecb503abace83c222}{Begin\+L\+UT} (\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} flags) override
+\item 
+void \hyperlink{class_queued_c_u_d_a_tracker_a16da9256e496b6689079330a062c7529}{Build\+L\+UT} (void $\ast$data, int pitch, \hyperlink{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0b}{Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type} pdt, int plane, \hyperlink{std__incl_8h_aba974726076ec2d63a67114c536d123e}{vector2f} $\ast$known\+\_\+pos=0) override
+\item 
+void \hyperlink{class_queued_c_u_d_a_tracker_a628a79df6cce9a1df9a4da78da266578}{Finalize\+L\+UT} () override
+\item 
+void \hyperlink{class_queued_c_u_d_a_tracker_aa8b23ddd77fd1826fbcf5c2d58135f13}{Enable\+Radial\+Z\+L\+U\+T\+Compare\+Profile} (bool enabled)
+\begin{DoxyCompactList}\small\item\em Set a flag to enable saving of error curves. \end{DoxyCompactList}\item 
+void \hyperlink{class_queued_c_u_d_a_tracker_a1d75d74655c9da2a9cb305f95944b1e3}{Get\+Radial\+Z\+L\+U\+T\+Compare\+Profile} (float $\ast$dst)
+\begin{DoxyCompactList}\small\item\em Get saved error curve. \end{DoxyCompactList}\item 
+std\+::string \hyperlink{class_queued_c_u_d_a_tracker_a8969dbbc3824ca4ccb492e8eecbd6632}{Get\+Profile\+Report} () override
+\item 
+void \hyperlink{class_queued_c_u_d_a_tracker_a4407b12d3fc2e2969840ccc233ec96bc}{Flush} () override
+\begin{DoxyCompactList}\small\item\em Stop waiting for more jobs to do, and just process the current batch. \end{DoxyCompactList}\item 
+int \hyperlink{class_queued_c_u_d_a_tracker_acd209a7709c4776a585af6bd24768b13}{Get\+Queue\+Length} (int $\ast$max\+Queue\+Len) override
+\item 
+bool \hyperlink{class_queued_c_u_d_a_tracker_a147dbe75048a901f137e130ac61a6f7b}{Is\+Idle} () override
+\item 
+int \hyperlink{class_queued_c_u_d_a_tracker_aeb508df96e1cbcfaf8f0bf330e01d35c}{Get\+Result\+Count} () override
+\item 
+void \hyperlink{class_queued_c_u_d_a_tracker_a95264d01570acfdfd75977b06eaa0fcc}{Set\+Pixel\+Calibration\+Images} (float $\ast$offset, float $\ast$gain) override
+\item 
+void \hyperlink{class_queued_c_u_d_a_tracker_a59468e8c37b6bdfb2374f9db78060c0d}{Set\+Pixel\+Calibration\+Factors} (float offset\+Factor, float gain\+Factor) override
+\item 
+\hyperlink{class_queued_tracker_af6073682cd9e87e6f3e84f93cf9be373}{Config\+Value\+Map} \hyperlink{class_queued_c_u_d_a_tracker_a16a5fb006a594f950484df6a9d1cfd2f}{Get\+Config\+Values} () override
+\item 
+void \hyperlink{class_queued_c_u_d_a_tracker_abbdfa55593327bd9a26cf4ac313239ec}{Set\+Config\+Value} (std\+::string name, std\+::string value) override
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{struct_queued_c_u_d_a_tracker_1_1_kernel_profile_time}{Kernel\+Profile\+Time} \hyperlink{class_queued_c_u_d_a_tracker_a6557b929cd8bd14618787c6a90671cc0}{time}
+\item 
+\hyperlink{struct_queued_c_u_d_a_tracker_1_1_kernel_profile_time}{Kernel\+Profile\+Time} \hyperlink{class_queued_c_u_d_a_tracker_ae8b2eeef65a2a1acde697df6c206ae08}{cpu\+\_\+time}
+\item 
+int \hyperlink{class_queued_c_u_d_a_tracker_a6c9bf05a64537e9a978d9e7a71bb20fb}{batches\+Done}
+\item 
+std\+::string \hyperlink{class_queued_c_u_d_a_tracker_af28a9fc89bcd9634e81b3fc404809aaf}{device\+Report}
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+dim3 \hyperlink{class_queued_c_u_d_a_tracker_a4ad02fd62376586e7026f723447d5d61}{blocks} (int work\+Items)
+\item 
+dim3 \hyperlink{class_queued_c_u_d_a_tracker_a935e85ca846ef768ffeca1ff4a23ab21}{blocks} ()
+\item 
+dim3 \hyperlink{class_queued_c_u_d_a_tracker_ae88c5554dba8227967f4a600ff7fab84}{threads} ()
+\item 
+void \hyperlink{class_queued_c_u_d_a_tracker_ac52125061a2b042a6c149156977b8474}{Scheduling\+Thread\+Main} ()
+\item 
+{\footnotesize template$<$typename T\+Image\+Sampler $>$ }\\void \hyperlink{class_queued_c_u_d_a_tracker_a66c822d85cceb3b20793a9f5be76aae0}{Execute\+Batch} (\hyperlink{struct_queued_c_u_d_a_tracker_1_1_stream}{Stream} $\ast$s)
+\item 
+\hyperlink{struct_queued_c_u_d_a_tracker_1_1_stream}{Stream} $\ast$ \hyperlink{class_queued_c_u_d_a_tracker_a31ec528bdf605169edb8bb27c5e6bbfc}{Get\+Ready\+Stream} ()
+\item 
+void \hyperlink{class_queued_c_u_d_a_tracker_ae7806b9e8d79fb4add720019ed4e72ed}{Initialize\+Device\+List} ()
+\item 
+\hyperlink{struct_queued_c_u_d_a_tracker_1_1_stream}{Stream} $\ast$ \hyperlink{class_queued_c_u_d_a_tracker_a6d4cd925c04dbf04b1eaad291f6218d2}{Create\+Stream} (\hyperlink{struct_queued_c_u_d_a_tracker_1_1_device}{Device} $\ast$device, int stream\+Index)
+\item 
+void \hyperlink{class_queued_c_u_d_a_tracker_a03544a8c3c5bf7b55dd55393532c5b0d}{Copy\+Stream\+Results} (\hyperlink{struct_queued_c_u_d_a_tracker_1_1_stream}{Stream} $\ast$s)
+\item 
+void \hyperlink{class_queued_c_u_d_a_tracker_ab1feeeb058f9652ef11053958f01062f}{Stream\+Update\+Z\+L\+U\+T\+Size} (\hyperlink{struct_queued_c_u_d_a_tracker_1_1_stream}{Stream} $\ast$s)
+\item 
+void \hyperlink{class_queued_c_u_d_a_tracker_a7c53f54a55fde1ad9181d907f10de1d2}{C\+P\+U\+\_\+\+Apply\+Offset\+Gain} (\hyperlink{class_c_p_u_tracker}{C\+P\+U\+Tracker} $\ast$trk, int bead\+Index)
+\end{DoxyCompactItemize}
+\subsection*{Static Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \hyperlink{class_queued_c_u_d_a_tracker_a16da3da0346279b6a2dd4276eb15a25b}{Scheduling\+Thread\+Entry\+Point} (void $\ast$param)
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{class_queued_c_u_d_a_tracker_a1bbaf466f197bd745411786578b743bc}{num\+Threads}
+\item 
+int \hyperlink{class_queued_c_u_d_a_tracker_a19a027c0cc319821c25de1cb23e14a17}{batch\+Size}
+\begin{DoxyCompactList}\small\item\em Amount of images to be sent at once per stream. \end{DoxyCompactList}\item 
+std\+::vector$<$ \hyperlink{struct_queued_c_u_d_a_tracker_1_1_stream}{Stream} $\ast$ $>$ \hyperlink{class_queued_c_u_d_a_tracker_a06cc0da8192d0f8ff5d9edcad1158f58}{streams}
+\item 
+std\+::list$<$ \hyperlink{struct_localization_result}{Localization\+Result} $>$ \hyperlink{class_queued_c_u_d_a_tracker_af29d9427d57a9041fbc581d6e8b0efbf}{results}
+\item 
+int \hyperlink{class_queued_c_u_d_a_tracker_abdb0a310718f7f1c8a47cf9a3f22728d}{result\+Count}
+\item 
+\hyperlink{qtrk__c__api_8h_a6ba72ec1daa19642f85a47defe8f0812}{Loc\+Mode\+\_\+t} \hyperlink{class_queued_c_u_d_a_tracker_ae113cc3fb5f12dfadd172ebc5dd20f1a}{localize\+Mode}
+\item 
+\hyperlink{struct_threads_1_1_mutex}{Threads\+::\+Mutex} \hyperlink{class_queued_c_u_d_a_tracker_ab6bcec14cabbc64d9d96ce0641f5034f}{result\+Mutex}
+\item 
+\hyperlink{struct_threads_1_1_mutex}{Threads\+::\+Mutex} \hyperlink{class_queued_c_u_d_a_tracker_a57c66fb35caade90cadedd575d7b6c81}{job\+Queue\+Mutex}
+\item 
+std\+::vector$<$ \hyperlink{struct_queued_c_u_d_a_tracker_1_1_device}{Device} $\ast$ $>$ \hyperlink{class_queued_c_u_d_a_tracker_a333972a0b3e1c98a02e9aab716ef535b}{devices}
+\item 
+bool \hyperlink{class_queued_c_u_d_a_tracker_a1351abd5ca987de1b8663a919e511134}{use\+Texture\+Cache}
+\item 
+float \hyperlink{class_queued_c_u_d_a_tracker_a84b6dcf09baa64ba031f7a5a4304d592}{gc\+\_\+offset\+Factor}
+\item 
+float \hyperlink{class_queued_c_u_d_a_tracker_adba93271c22f7e6800f49ab93ec07c71}{gc\+\_\+gain\+Factor}
+\item 
+\hyperlink{struct_threads_1_1_mutex}{Threads\+::\+Mutex} \hyperlink{class_queued_c_u_d_a_tracker_aea7843385e4604dc38a6f1fc7b4f2811}{gc\+\_\+mutex}
+\item 
+std\+::vector$<$ float $>$ \hyperlink{class_queued_c_u_d_a_tracker_ae7be3e341a4086a64581d5429afd546d}{gc\+\_\+offset}
+\item 
+std\+::vector$<$ float $>$ \hyperlink{class_queued_c_u_d_a_tracker_a86866ae12a13f953194b0c5398c5c0d8}{gc\+\_\+gain}
+\item 
+\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} \hyperlink{class_queued_c_u_d_a_tracker_a7842914186ce30357a10595f79ef3244}{zlut\+\_\+build\+\_\+flags}
+\begin{DoxyCompactList}\small\item\em cpu size buffers are needed because Build\+L\+UT uses C\+PU tracking \end{DoxyCompactList}\item 
+\hyperlink{class_q_i}{QI} \hyperlink{class_queued_c_u_d_a_tracker_a885a0274a85bd6cddbb93d0c3a3cb422}{qi}
+\item 
+\hyperlink{class_q_i}{QI} \hyperlink{class_queued_c_u_d_a_tracker_a4ad3ddecc21aa3c9b7a706bd18364f7d}{qalign}
+\item 
+cuda\+Device\+Prop \hyperlink{class_queued_c_u_d_a_tracker_a60ba8b15a56739a7a26a538d23b7ec92}{device\+Prop}
+\item 
+\hyperlink{struct_threads_1_1_handle}{Threads\+::\+Handle} $\ast$ \hyperlink{class_queued_c_u_d_a_tracker_a419b8e04e631f1711fdfad84943df22c}{scheduling\+Thread}
+\item 
+\hyperlink{class_atomic}{Atomic}$<$ bool $>$ \hyperlink{class_queued_c_u_d_a_tracker_a277551e623212420a3c18dec6662c626}{quit\+Scheduler}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+C\+U\+DA implementation of the \hyperlink{class_queued_tracker}{Queued\+Tracker} interface. 
+
+\subsection{Member Typedef Documentation}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!Image\+L\+UT@{Image\+L\+UT}}
+\index{Image\+L\+UT@{Image\+L\+UT}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{Image\+L\+UT}{ImageLUT}}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf Image4\+D\+Memory}$<$float$>$ {\bf Queued\+C\+U\+D\+A\+Tracker\+::\+Image\+L\+UT}}\hypertarget{class_queued_c_u_d_a_tracker_ab96308f9c1c47ab60b3a7e8da3e4c104}{}\label{class_queued_c_u_d_a_tracker_ab96308f9c1c47ab60b3a7e8da3e4c104}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{Queued\+C\+U\+D\+A\+Tracker(const Q\+Trk\+Computed\+Config \&cc, int batch\+Size=-\/1)}{QueuedCUDATracker(const QTrkComputedConfig &cc, int batchSize=-1)}}]{\setlength{\rightskip}{0pt plus 5cm}Queued\+C\+U\+D\+A\+Tracker\+::\+Queued\+C\+U\+D\+A\+Tracker (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\+Trk\+Computed\+Config} \&}]{cc, }
+\item[{int}]{batch\+Size = {\ttfamily -\/1}}
+\end{DoxyParamCaption}
+)}\hypertarget{class_queued_c_u_d_a_tracker_a1e6e7939fc282165efd3adb6ace86ef3}{}\label{class_queued_c_u_d_a_tracker_a1e6e7939fc282165efd3adb6ace86ef3}
+
+\begin{DoxyCode}
+140     : \hyperlink{class_queued_c_u_d_a_tracker_ab6bcec14cabbc64d9d96ce0641f5034f}{resultMutex}(\textcolor{stringliteral}{"result"}), \hyperlink{class_queued_c_u_d_a_tracker_a57c66fb35caade90cadedd575d7b6c81}{jobQueueMutex}(\textcolor{stringliteral}{"jobqueue"})
+141 \{
+142     \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg} = cc;
+143 
+144     \hyperlink{class_queued_c_u_d_a_tracker_ae7806b9e8d79fb4add720019ed4e72ed}{InitializeDeviceList}();
+145 
+146     \textcolor{comment}{// We take numThreads to be the number of CUDA streams}
+147     \textcolor{keywordflow}{if} (\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_a8c6f1c671b527155afd5dad894c152da}{numThreads} < 1) \{
+148         \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_a8c6f1c671b527155afd5dad894c152da}{numThreads} = \hyperlink{class_queued_c_u_d_a_tracker_a333972a0b3e1c98a02e9aab716ef535b}{devices}.size()*4;
+149     \}
+150     \textcolor{keywordtype}{int} numStreams = \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_a8c6f1c671b527155afd5dad894c152da}{numThreads};
+151 
+152     cudaGetDeviceProperties(&\hyperlink{class_queued_c_u_d_a_tracker_a60ba8b15a56739a7a26a538d23b7ec92}{deviceProp}, \hyperlink{class_queued_c_u_d_a_tracker_a333972a0b3e1c98a02e9aab716ef535b}{devices}[0]->index);
+153 
+154     \textcolor{comment}{//if (deviceProp.kernelExecTimeoutEnabled) }
+155     \textcolor{comment}{//  throw std::runtime\_error(SPrintf("CUDA Tracker init error: CUDA Kernel execution timeout is enabled
+       for %s. Disable WDDM Time-out Detection and Recovery (TDR) in the nVidia NSight Monitor before running this
+       code", deviceProp.name));}
+156     \textcolor{keywordflow}{if} (\hyperlink{class_queued_c_u_d_a_tracker_a60ba8b15a56739a7a26a538d23b7ec92}{deviceProp}.major < 2)
+157         \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"CUDA Tracker init error: GPU not supported, capability < 2.0"});
+158 
+159     \hyperlink{class_queued_c_u_d_a_tracker_a1bbaf466f197bd745411786578b743bc}{numThreads} = \hyperlink{class_queued_c_u_d_a_tracker_a60ba8b15a56739a7a26a538d23b7ec92}{deviceProp}.warpSize;
+160     
+161     \textcolor{keywordflow}{if}(\hyperlink{class_queued_c_u_d_a_tracker_a19a027c0cc319821c25de1cb23e14a17}{batchSize}<0) \hyperlink{class_queued_c_u_d_a_tracker_a19a027c0cc319821c25de1cb23e14a17}{batchSize} = (int)(\hyperlink{class_queued_c_u_d_a_tracker_a60ba8b15a56739a7a26a538d23b7ec92}{deviceProp}.maxTexture2D[1]/
+      \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height} * 0.99f);
+162     \textcolor{comment}{//while (batchSize * cfg.height > deviceProp.maxTexture2D[1]) \{}
+163     \textcolor{comment}{//  batchSize/=2;}
+164     \textcolor{comment}{//\}}
+165     this->\hyperlink{class_queued_c_u_d_a_tracker_a19a027c0cc319821c25de1cb23e14a17}{batchSize} = \hyperlink{class_queued_c_u_d_a_tracker_a19a027c0cc319821c25de1cb23e14a17}{batchSize};
+166 
+167     \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"CUDA Hardware: %s. \(\backslash\)n# of CUDA processors: %d. Using %d streams\(\backslash\)n"}, 
+      \hyperlink{class_queued_c_u_d_a_tracker_a60ba8b15a56739a7a26a538d23b7ec92}{deviceProp}.name, \hyperlink{class_queued_c_u_d_a_tracker_a60ba8b15a56739a7a26a538d23b7ec92}{deviceProp}.multiProcessorCount, numStreams);
+168     \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"Warp size: %d. Max threads: %d, Batch size: %d\(\backslash\)n"}, 
+      \hyperlink{class_queued_c_u_d_a_tracker_a60ba8b15a56739a7a26a538d23b7ec92}{deviceProp}.warpSize, \hyperlink{class_queued_c_u_d_a_tracker_a60ba8b15a56739a7a26a538d23b7ec92}{deviceProp}.maxThreadsPerBlock, 
+      \hyperlink{class_queued_c_u_d_a_tracker_a19a027c0cc319821c25de1cb23e14a17}{batchSize});
+169     \textcolor{comment}{// dbgprintf("Mem: %u MB. Per block: %u B\(\backslash\)n", deviceProp.totalGlobalMem/1024/1024,
+       deviceProp.sharedMemPerBlock); // Total memory available in Mbytes}
+170     
+171     \hyperlink{class_queued_c_u_d_a_tracker_a885a0274a85bd6cddbb93d0c3a3cb422}{qi}.\hyperlink{class_q_i_a4d2c72e4f110d37299c01da8480671f4}{Init}(\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}, \hyperlink{class_queued_c_u_d_a_tracker_a19a027c0cc319821c25de1cb23e14a17}{batchSize});
+172 
+173     std::vector<float2> zlut\_radialgrid(\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_computed_config_a01653574d81ab70e4910c984fb7f7482}{zlut\_angularsteps});
+174     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_computed_config_a01653574d81ab70e4910c984fb7f7482}{zlut\_angularsteps};i++) \{
+175         \textcolor{keywordtype}{float} ang = 2*3.141593f*i/(float)\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_computed_config_a01653574d81ab70e4910c984fb7f7482}{zlut\_angularsteps};
+176         zlut\_radialgrid[i]=make\_float2(cos(ang),sin(ang));
+177     \}
+178 
+179     \textcolor{keywordflow}{for} (\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} i=0;i<\hyperlink{class_queued_c_u_d_a_tracker_a333972a0b3e1c98a02e9aab716ef535b}{devices}.size();i++) \{
+180         Device* d = \hyperlink{class_queued_c_u_d_a_tracker_a333972a0b3e1c98a02e9aab716ef535b}{devices}[i];
+181         cudaSetDevice(d->index);
+182         \hyperlink{class_queued_c_u_d_a_tracker_a885a0274a85bd6cddbb93d0c3a3cb422}{qi}.\hyperlink{class_q_i_a20a5d23a269c8c5cc1dcce1f5d931e20}{InitDevice}(&d->qi\_instance, \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg});
+183         d->zlut\_trigtable = zlut\_radialgrid;
+184     \}
+185     
+186     \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"\(\backslash\)n"});
+187     \hyperlink{gpu__utils_8h_a62bdd2284842cb0edc350adef80e0d85}{outputTotalGPUMemUse}(\textcolor{stringliteral}{"pre-streams"});
+188 
+189     \hyperlink{class_queued_c_u_d_a_tracker_a06cc0da8192d0f8ff5d9edcad1158f58}{streams}.reserve(numStreams);
+190     \textcolor{keywordflow}{try} \{
+191         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<numStreams;i++)
+192             \hyperlink{class_queued_c_u_d_a_tracker_a06cc0da8192d0f8ff5d9edcad1158f58}{streams}.push\_back( \hyperlink{class_queued_c_u_d_a_tracker_a6d4cd925c04dbf04b1eaad291f6218d2}{CreateStream}( \hyperlink{class_queued_c_u_d_a_tracker_a333972a0b3e1c98a02e9aab716ef535b}{devices}[i%
+      \hyperlink{class_queued_c_u_d_a_tracker_a333972a0b3e1c98a02e9aab716ef535b}{devices}.size()], i ) );
+193     \}
+194     \textcolor{keywordflow}{catch}(...) \{
+195         \hyperlink{utils_8h_a79b36225c16ffe10c47c2aae8bee2d99}{DeleteAllElems}(\hyperlink{class_queued_c_u_d_a_tracker_a06cc0da8192d0f8ff5d9edcad1158f58}{streams});
+196         \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"CUDA Tracker init error: Failed to create GPU streams."});
+197     \}
+198 
+199     \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"\(\backslash\)n"});
+200     \hyperlink{class_queued_c_u_d_a_tracker_a06cc0da8192d0f8ff5d9edcad1158f58}{streams}[0]->OutputMemoryUse();
+201     \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"\(\backslash\)n"});
+202     \hyperlink{gpu__utils_8h_a62bdd2284842cb0edc350adef80e0d85}{outputTotalGPUMemUse}(\textcolor{stringliteral}{"post-streams"});
+203     \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"\(\backslash\)n"});
+204 
+205     \hyperlink{class_queued_c_u_d_a_tracker_a6c9bf05a64537e9a978d9e7a71bb20fb}{batchesDone} = 0;
+206     \hyperlink{class_queued_c_u_d_a_tracker_a1351abd5ca987de1b8663a919e511134}{useTextureCache} = \textcolor{keyword}{true};
+207     \hyperlink{class_queued_c_u_d_a_tracker_abdb0a310718f7f1c8a47cf9a3f22728d}{resultCount} = 0;
+208     \hyperlink{class_queued_c_u_d_a_tracker_a7842914186ce30357a10595f79ef3244}{zlut\_build\_flags}=0;
+209 
+210     \hyperlink{class_queued_c_u_d_a_tracker_a277551e623212420a3c18dec6662c626}{quitScheduler} = \textcolor{keyword}{false};
+211     \hyperlink{class_queued_c_u_d_a_tracker_a419b8e04e631f1711fdfad84943df22c}{schedulingThread} = \hyperlink{struct_threads_ab6aa79b1b2c148b8d384916d58e2443e}{Threads::Create}(
+      \hyperlink{class_queued_c_u_d_a_tracker_a16da3da0346279b6a2dd4276eb15a25b}{SchedulingThreadEntryPoint}, \textcolor{keyword}{this});
+212 
+213     \hyperlink{class_queued_c_u_d_a_tracker_a84b6dcf09baa64ba031f7a5a4304d592}{gc\_offsetFactor} = \hyperlink{class_queued_c_u_d_a_tracker_adba93271c22f7e6800f49ab93ec07c71}{gc\_gainFactor} = 1.0f;
+214     \hyperlink{class_queued_c_u_d_a_tracker_ae113cc3fb5f12dfadd172ebc5dd20f1a}{localizeMode} = \hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3bab236233599e4b1d5ab369a574d63181d}{LT\_OnlyCOM};
+215 
+216     ForceCUDAKernelsToLoad <<< dim3(),dim3() >>> ();
+217 \}
+\end{DoxyCode}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!````~Queued\+C\+U\+D\+A\+Tracker@{$\sim$\+Queued\+C\+U\+D\+A\+Tracker}}
+\index{````~Queued\+C\+U\+D\+A\+Tracker@{$\sim$\+Queued\+C\+U\+D\+A\+Tracker}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{$\sim$\+Queued\+C\+U\+D\+A\+Tracker()}{~QueuedCUDATracker()}}]{\setlength{\rightskip}{0pt plus 5cm}Queued\+C\+U\+D\+A\+Tracker\+::$\sim$\+Queued\+C\+U\+D\+A\+Tracker (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_queued_c_u_d_a_tracker_a0f7eaa0256e08ffae8b2af55685ce285}{}\label{class_queued_c_u_d_a_tracker_a0f7eaa0256e08ffae8b2af55685ce285}
+
+\begin{DoxyCode}
+220 \{
+221     \hyperlink{class_queued_c_u_d_a_tracker_a277551e623212420a3c18dec6662c626}{quitScheduler} = \textcolor{keyword}{true};
+222     \hyperlink{struct_threads_a66c81807dee0d29c5ae6d254860e94d2}{Threads::WaitAndClose}(\hyperlink{class_queued_c_u_d_a_tracker_a419b8e04e631f1711fdfad84943df22c}{schedulingThread});
+223 
+224     \hyperlink{utils_8h_a79b36225c16ffe10c47c2aae8bee2d99}{DeleteAllElems}(\hyperlink{class_queued_c_u_d_a_tracker_a06cc0da8192d0f8ff5d9edcad1158f58}{streams});
+225     \hyperlink{utils_8h_a79b36225c16ffe10c47c2aae8bee2d99}{DeleteAllElems}(\hyperlink{class_queued_c_u_d_a_tracker_a333972a0b3e1c98a02e9aab716ef535b}{devices});
+226 \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!Begin\+L\+UT@{Begin\+L\+UT}}
+\index{Begin\+L\+UT@{Begin\+L\+UT}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{Begin\+L\+U\+T(uint flags) override}{BeginLUT(uint flags) override}}]{\setlength{\rightskip}{0pt plus 5cm}void Queued\+C\+U\+D\+A\+Tracker\+::\+Begin\+L\+UT (
+\begin{DoxyParamCaption}
+\item[{{\bf uint}}]{flags}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}\hypertarget{class_queued_c_u_d_a_tracker_ac6a9934c5a2bd06ecb503abace83c222}{}\label{class_queued_c_u_d_a_tracker_ac6a9934c5a2bd06ecb503abace83c222}
+
+
+Implements \hyperlink{class_queued_tracker_aee4863d19778314cd30499cb85bd5251}{Queued\+Tracker}.
+
+
+\begin{DoxyCode}
+469 \{
+470     \hyperlink{class_queued_c_u_d_a_tracker_a7842914186ce30357a10595f79ef3244}{zlut\_build\_flags} = flags;
+471 \}
+\end{DoxyCode}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!blocks@{blocks}}
+\index{blocks@{blocks}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{blocks(int work\+Items)}{blocks(int workItems)}}]{\setlength{\rightskip}{0pt plus 5cm}dim3 Queued\+C\+U\+D\+A\+Tracker\+::blocks (
+\begin{DoxyParamCaption}
+\item[{int}]{work\+Items}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}\hypertarget{class_queued_c_u_d_a_tracker_a4ad02fd62376586e7026f723447d5d61}{}\label{class_queued_c_u_d_a_tracker_a4ad02fd62376586e7026f723447d5d61}
+
+\begin{DoxyCode}
+188 \{ \textcolor{keywordflow}{return} dim3((workItems+\hyperlink{class_queued_c_u_d_a_tracker_a1bbaf466f197bd745411786578b743bc}{numThreads}-1)/\hyperlink{class_queued_c_u_d_a_tracker_a1bbaf466f197bd745411786578b743bc}{numThreads}); \}
+\end{DoxyCode}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!blocks@{blocks}}
+\index{blocks@{blocks}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{blocks()}{blocks()}}]{\setlength{\rightskip}{0pt plus 5cm}dim3 Queued\+C\+U\+D\+A\+Tracker\+::blocks (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}\hypertarget{class_queued_c_u_d_a_tracker_a935e85ca846ef768ffeca1ff4a23ab21}{}\label{class_queued_c_u_d_a_tracker_a935e85ca846ef768ffeca1ff4a23ab21}
+
+\begin{DoxyCode}
+189 \{   \textcolor{keywordflow}{return} dim3((\hyperlink{class_queued_c_u_d_a_tracker_a19a027c0cc319821c25de1cb23e14a17}{batchSize}+\hyperlink{class_queued_c_u_d_a_tracker_a1bbaf466f197bd745411786578b743bc}{numThreads}-1)/\hyperlink{class_queued_c_u_d_a_tracker_a1bbaf466f197bd745411786578b743bc}{numThreads}); \}
+\end{DoxyCode}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!Build\+L\+UT@{Build\+L\+UT}}
+\index{Build\+L\+UT@{Build\+L\+UT}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{Build\+L\+U\+T(void $\ast$data, int pitch, Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type pdt, int plane, vector2f $\ast$known\+\_\+pos=0) override}{BuildLUT(void *data, int pitch, QTRK_PixelDataType pdt, int plane, vector2f *known_pos=0) override}}]{\setlength{\rightskip}{0pt plus 5cm}void Queued\+C\+U\+D\+A\+Tracker\+::\+Build\+L\+UT (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{data, }
+\item[{int}]{pitch, }
+\item[{{\bf Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type}}]{pdt, }
+\item[{int}]{plane, }
+\item[{{\bf vector2f} $\ast$}]{known\+\_\+pos = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}\hypertarget{class_queued_c_u_d_a_tracker_a16da9256e496b6689079330a062c7529}{}\label{class_queued_c_u_d_a_tracker_a16da9256e496b6689079330a062c7529}
+
+
+Implements \hyperlink{class_queued_tracker_aaeb04a5a2a4fe47ef48b8aefabc1bdb7}{Queued\+Tracker}.
+
+
+\begin{DoxyCode}
+474 \{
+475     \textcolor{comment}{// Copy to image }
+476     Device* d = \hyperlink{class_queued_c_u_d_a_tracker_a06cc0da8192d0f8ff5d9edcad1158f58}{streams}[0]->device;
+477     cudaSetDevice(d->index);
+478 
+479     \textcolor{keywordtype}{int} nbeads = d->radial\_zlut.count; \textcolor{comment}{// jobcount}
+480     std::vector<vector2f> positions(nbeads);
+481 
+482     \textcolor{keywordtype}{float} *profiles = \textcolor{keyword}{new} \textcolor{keywordtype}{float} [nbeads * \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_computed_config_ad1a121fa7d3152df6788ff285e4d2dc6}{zlut\_radialsteps}];
+483     memset(profiles, 0, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float}) * nbeads * \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_computed_config_ad1a121fa7d3152df6788ff285e4d2dc6}{zlut\_radialsteps});
+484 
+485     \textcolor{comment}{// Should be fast enough for zlut building}
+486     \hyperlink{threads_8h_a6693c34b211b5d81e0d7a362457d0449}{parallel\_for}(nbeads, [&] (\textcolor{keywordtype}{int} i) \{
+487         \hyperlink{class_c_p_u_tracker}{CPUTracker} trk (\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width},\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height});
+488         \textcolor{keywordtype}{void} *img\_data = (\hyperlink{std__incl_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar}*)data + pitch * \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height} * i;
+489 
+490         if (pdt == \hyperlink{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0bafeece00bcf1a42419e686ef0cf006a4e}{QTrkFloat})
+491             trk.SetImage((\textcolor{keywordtype}{float}*)img\_data, pitch);
+492         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (pdt == \hyperlink{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0baed6124f6daf00bc0e0f4817986bad3a1}{QTrkU8})
+493             trk.SetImage8Bit((\hyperlink{std__incl_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar}*)img\_data, pitch);
+494         \textcolor{keywordflow}{else}
+495             trk.SetImage16Bit((\hyperlink{std__incl_8h_ab95f123a6c9bcfee6a343170ef8c5f69}{ushort}*)img\_data,pitch);
+496 
+497         \hyperlink{class_queued_c_u_d_a_tracker_a7c53f54a55fde1ad9181d907f10de1d2}{CPU\_ApplyOffsetGain}(&trk, i);
+498 
+499         \textcolor{keywordflow}{if}(known\_pos)
+500             positions[i] = known\_pos[i];
+501         \textcolor{keywordflow}{else} \{
+502             \hyperlink{structvector2}{vector2f} com = trk.ComputeMeanAndCOM();
+503             \textcolor{keywordtype}{bool} bhit;
+504             positions[i] = trk.ComputeQI(com, \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_a12105babb328a9a7ec90f0eab074fabb}{qi\_iterations}, 
+      \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_computed_config_ab1a11e7a567a3267c57f77626c6c9c93}{qi\_radialsteps}, \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_computed_config_a1ba87257b24e5b7e427aa92dd4114792}{qi\_angstepspq}, \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.
+      \hyperlink{struct_q_trk_settings_aceebf67ba9ecc215d49c6b2739afae3d}{qi\_angstep\_factor}, \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_a7b5f3e61b4dcab6330c56e7bcd96e82d}{qi\_minradius}, \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.
+      \hyperlink{struct_q_trk_computed_config_a9784dbeb638bde1f3204f9ca5af720c6}{qi\_maxradius}, bhit);
+505             trk.ComputeRadialProfile(&profiles[i * \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_computed_config_ad1a121fa7d3152df6788ff285e4d2dc6}{zlut\_radialsteps}], 
+      \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_computed_config_ad1a121fa7d3152df6788ff285e4d2dc6}{zlut\_radialsteps}, \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_computed_config_a01653574d81ab70e4910c984fb7f7482}{zlut\_angularsteps}, 
+      \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_a1a14537a9e784c65eed512e72ee86c02}{zlut\_minradius}, \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_computed_config_a13ceb0d4551d3bd5343ecce7a093d65b}{zlut\_maxradius}, positions[i], \textcolor{keyword}{false}, 0, \textcolor{keyword}{true});
+506         \}
+507     \});
+508     
+509     \textcolor{comment}{// add to device 0 LUT}
+510     \hyperlink{classdevice__vec}{device\_vec<float>} d\_profiles (nbeads * \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.
+      \hyperlink{struct_q_trk_computed_config_ad1a121fa7d3152df6788ff285e4d2dc6}{zlut\_radialsteps});
+511     d\_profiles.copyToDevice(profiles, nbeads * \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_computed_config_ad1a121fa7d3152df6788ff285e4d2dc6}{zlut\_radialsteps});
+512     \textcolor{keyword}{delete}[] profiles;
+513 
+514     dim3 \hyperlink{class_queued_c_u_d_a_tracker_a1bbaf466f197bd745411786578b743bc}{numThreads}(4, 64);
+515     dim3 numBlocks( (nbeads + \hyperlink{class_queued_c_u_d_a_tracker_a1bbaf466f197bd745411786578b743bc}{numThreads}.x - 1) / \hyperlink{class_queued_c_u_d_a_tracker_a1bbaf466f197bd745411786578b743bc}{numThreads}.x, (
+      \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_computed_config_ad1a121fa7d3152df6788ff285e4d2dc6}{zlut\_radialsteps} + \hyperlink{class_queued_c_u_d_a_tracker_a1bbaf466f197bd745411786578b743bc}{numThreads}.y - 1) / 
+      \hyperlink{class_queued_c_u_d_a_tracker_a1bbaf466f197bd745411786578b743bc}{numThreads}.y);
+516     \hyperlink{_queued_c_u_d_a_tracker_8cu_aec3fff30d0a584140aaa1d322cc4a047}{AddProfilesToZLUT}<<< numBlocks, \hyperlink{class_queued_c_u_d_a_tracker_a1bbaf466f197bd745411786578b743bc}{numThreads}, 0, 
+      \hyperlink{class_queued_c_u_d_a_tracker_a06cc0da8192d0f8ff5d9edcad1158f58}{streams}[0]->stream >>> (d\_profiles.data, nbeads, \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_computed_config_ad1a121fa7d3152df6788ff285e4d2dc6}{zlut\_radialsteps}, plane, d->
+      radial\_zlut);
+517     cudaStreamSynchronize(\hyperlink{class_queued_c_u_d_a_tracker_a06cc0da8192d0f8ff5d9edcad1158f58}{streams}[0]->stream);
+518 \}
+\end{DoxyCode}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!Clear\+Results@{Clear\+Results}}
+\index{Clear\+Results@{Clear\+Results}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{Clear\+Results() override}{ClearResults() override}}]{\setlength{\rightskip}{0pt plus 5cm}void Queued\+C\+U\+D\+A\+Tracker\+::\+Clear\+Results (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}\hypertarget{class_queued_c_u_d_a_tracker_a41b207c9abf386f57ab9f99994e92b4c}{}\label{class_queued_c_u_d_a_tracker_a41b207c9abf386f57ab9f99994e92b4c}
+
+
+Clear results. 
+
+
+
+Implements \hyperlink{class_queued_tracker_a5e46c8ce4bd3b965bedd8aac095304c2}{Queued\+Tracker}.
+
+
+\begin{DoxyCode}
+886 \{
+887     \hyperlink{class_queued_c_u_d_a_tracker_ab6bcec14cabbc64d9d96ce0641f5034f}{resultMutex}.\hyperlink{struct_threads_1_1_mutex_af3cb09072ecd935be502deb78f4519d5}{lock}();
+888     \hyperlink{class_queued_c_u_d_a_tracker_af29d9427d57a9041fbc581d6e8b0efbf}{results}.clear();
+889     \hyperlink{class_queued_c_u_d_a_tracker_abdb0a310718f7f1c8a47cf9a3f22728d}{resultCount}=0;
+890     \hyperlink{class_queued_c_u_d_a_tracker_ab6bcec14cabbc64d9d96ce0641f5034f}{resultMutex}.\hyperlink{struct_threads_1_1_mutex_ad78fadce2239c6d359986e443822f6f6}{unlock}();
+891 \}
+\end{DoxyCode}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!Copy\+Stream\+Results@{Copy\+Stream\+Results}}
+\index{Copy\+Stream\+Results@{Copy\+Stream\+Results}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{Copy\+Stream\+Results(\+Stream $\ast$s)}{CopyStreamResults(Stream *s)}}]{\setlength{\rightskip}{0pt plus 5cm}void Queued\+C\+U\+D\+A\+Tracker\+::\+Copy\+Stream\+Results (
+\begin{DoxyParamCaption}
+\item[{{\bf Stream} $\ast$}]{s}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_queued_c_u_d_a_tracker_a03544a8c3c5bf7b55dd55393532c5b0d}{}\label{class_queued_c_u_d_a_tracker_a03544a8c3c5bf7b55dd55393532c5b0d}
+
+\begin{DoxyCode}
+699 \{
+700     \hyperlink{class_queued_c_u_d_a_tracker_ab6bcec14cabbc64d9d96ce0641f5034f}{resultMutex}.\hyperlink{struct_threads_1_1_mutex_af3cb09072ecd935be502deb78f4519d5}{lock}();
+701     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} a=0;a<s->JobCount();a++) \{
+702         \hyperlink{struct_localization_job}{LocalizationJob}& j = s->jobs[a];
+703         \hyperlink{struct_localization_result}{LocalizationResult} r;
+704         r.\hyperlink{struct_localization_result_a9a6b25c5cc92fe13bae3d0a5d37360f3}{job} = j;
+705         r.\hyperlink{struct_localization_result_a44c7351e9eb9410375c10fcf4e0f0cf9}{firstGuess} =  \hyperlink{std__incl_8h_aba974726076ec2d63a67114c536d123e}{vector2f}( s->com[a].x, s->com[a].y );
+706         r.\hyperlink{struct_localization_result_a546f66485662c35bc75121513b6d1a60}{pos} = \hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f}( s->results[a].x , s->results[a].y, s->results[a].z);
+707         r.\hyperlink{struct_localization_result_aba2a42711bc890c8620419f7dc906db9}{imageMean} = s->imgMeans[a];
+708         r.\hyperlink{struct_localization_result_a546f66485662c35bc75121513b6d1a60}{pos}.\hyperlink{structvector3_a90c50e80a32423d5cc76f40e5f53ffbe}{z} = \hyperlink{class_queued_tracker_a5db67617f39aba7d9874222d3fa1c02f}{ZLUTBiasCorrection}(s->results[a].z, 
+      \hyperlink{class_queued_c_u_d_a_tracker_a333972a0b3e1c98a02e9aab716ef535b}{devices}[0]->radial\_zlut.h, j.\hyperlink{struct_localization_job_afcf9f91b72597af0e2572f3ae74d9a99}{zlutIndex});
+709         \hyperlink{class_queued_c_u_d_a_tracker_af29d9427d57a9041fbc581d6e8b0efbf}{results}.push\_back(r);
+710     \}
+711     \hyperlink{class_queued_c_u_d_a_tracker_abdb0a310718f7f1c8a47cf9a3f22728d}{resultCount}+=s->JobCount();
+712     \hyperlink{class_queued_c_u_d_a_tracker_ab6bcec14cabbc64d9d96ce0641f5034f}{resultMutex}.\hyperlink{struct_threads_1_1_mutex_ad78fadce2239c6d359986e443822f6f6}{unlock}();
+713 
+714     \textcolor{comment}{// Update times}
+715     \textcolor{keywordtype}{float} \hyperlink{class_queued_c_u_d_a_tracker_a885a0274a85bd6cddbb93d0c3a3cb422}{qi}, com, imagecopy, zcomp, getResults;
+716     cudaEventElapsedTime(&imagecopy, s->batchStart, s->imageCopyDone);
+717     cudaEventElapsedTime(&com, s->imageCopyDone, s->comDone);
+718     cudaEventElapsedTime(&qi, s->comDone, s->qiDone);
+719     cudaEventElapsedTime(&zcomp, s->qiDone, s->zcomputeDone);
+720     cudaEventElapsedTime(&getResults, s->zcomputeDone, s->localizationDone);
+721     \hyperlink{class_queued_c_u_d_a_tracker_a6557b929cd8bd14618787c6a90671cc0}{time}.\hyperlink{struct_queued_c_u_d_a_tracker_1_1_kernel_profile_time_a9f9415edf045228fd79007621df104c1}{com} += com;
+722     \hyperlink{class_queued_c_u_d_a_tracker_a6557b929cd8bd14618787c6a90671cc0}{time}.\hyperlink{struct_queued_c_u_d_a_tracker_1_1_kernel_profile_time_af6247f72c0dea94c0a3edbb373476741}{qi} += \hyperlink{class_queued_c_u_d_a_tracker_a885a0274a85bd6cddbb93d0c3a3cb422}{qi};
+723     \hyperlink{class_queued_c_u_d_a_tracker_a6557b929cd8bd14618787c6a90671cc0}{time}.\hyperlink{struct_queued_c_u_d_a_tracker_1_1_kernel_profile_time_a04abd82cbcc70357b2a2901f490a1662}{imageCopy} += imagecopy;
+724     \hyperlink{class_queued_c_u_d_a_tracker_a6557b929cd8bd14618787c6a90671cc0}{time}.\hyperlink{struct_queued_c_u_d_a_tracker_1_1_kernel_profile_time_a45f6db270eccf8e2c8653b6cd05c7339}{zcompute} += zcomp;
+725     \hyperlink{class_queued_c_u_d_a_tracker_a6557b929cd8bd14618787c6a90671cc0}{time}.\hyperlink{struct_queued_c_u_d_a_tracker_1_1_kernel_profile_time_a82d70a87770af92a63fd0b414d3ec2af}{getResults} += getResults;
+726     \hyperlink{class_queued_c_u_d_a_tracker_a6c9bf05a64537e9a978d9e7a71bb20fb}{batchesDone} ++;
+727 \}
+\end{DoxyCode}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!C\+P\+U\+\_\+\+Apply\+Offset\+Gain@{C\+P\+U\+\_\+\+Apply\+Offset\+Gain}}
+\index{C\+P\+U\+\_\+\+Apply\+Offset\+Gain@{C\+P\+U\+\_\+\+Apply\+Offset\+Gain}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{C\+P\+U\+\_\+\+Apply\+Offset\+Gain(\+C\+P\+U\+Tracker $\ast$trk, int bead\+Index)}{CPU_ApplyOffsetGain(CPUTracker *trk, int beadIndex)}}]{\setlength{\rightskip}{0pt plus 5cm}void Queued\+C\+U\+D\+A\+Tracker\+::\+C\+P\+U\+\_\+\+Apply\+Offset\+Gain (
+\begin{DoxyParamCaption}
+\item[{{\bf C\+P\+U\+Tracker} $\ast$}]{trk, }
+\item[{int}]{bead\+Index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_queued_c_u_d_a_tracker_a7c53f54a55fde1ad9181d907f10de1d2}{}\label{class_queued_c_u_d_a_tracker_a7c53f54a55fde1ad9181d907f10de1d2}
+
+\begin{DoxyCode}
+764 \{
+765     \textcolor{keywordflow}{if} (!\hyperlink{class_queued_c_u_d_a_tracker_ae7be3e341a4086a64581d5429afd546d}{gc\_offset}.empty() || !\hyperlink{class_queued_c_u_d_a_tracker_a86866ae12a13f953194b0c5398c5c0d8}{gc\_gain}.empty()) \{
+766         \textcolor{keywordtype}{int} index = \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width}*\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height}*beadIndex;
+767 
+768         \hyperlink{class_queued_c_u_d_a_tracker_aea7843385e4604dc38a6f1fc7b4f2811}{gc\_mutex}.\hyperlink{struct_threads_1_1_mutex_af3cb09072ecd935be502deb78f4519d5}{lock}();
+769         \textcolor{keywordtype}{float} gf = \hyperlink{class_queued_c_u_d_a_tracker_adba93271c22f7e6800f49ab93ec07c71}{gc\_gainFactor}, of = \hyperlink{class_queued_c_u_d_a_tracker_a84b6dcf09baa64ba031f7a5a4304d592}{gc\_offsetFactor};
+770         \hyperlink{class_queued_c_u_d_a_tracker_aea7843385e4604dc38a6f1fc7b4f2811}{gc\_mutex}.\hyperlink{struct_threads_1_1_mutex_ad78fadce2239c6d359986e443822f6f6}{unlock}();
+771 
+772         trk->\hyperlink{class_c_p_u_tracker_a97e9bde337abe501b108f5aac09c7db9}{ApplyOffsetGain}(\hyperlink{class_queued_c_u_d_a_tracker_ae7be3e341a4086a64581d5429afd546d}{gc\_offset}.empty() ? 0:  &
+      \hyperlink{class_queued_c_u_d_a_tracker_ae7be3e341a4086a64581d5429afd546d}{gc\_offset}[index] , \hyperlink{class_queued_c_u_d_a_tracker_a86866ae12a13f953194b0c5398c5c0d8}{gc\_gain}.empty() ? 0: &\hyperlink{class_queued_c_u_d_a_tracker_a86866ae12a13f953194b0c5398c5c0d8}{gc\_gain}[index], of, gf);
+773 \textcolor{comment}{//      if (j->job.frame%100==0)}
+774     \}
+775 \}
+\end{DoxyCode}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!Create\+Stream@{Create\+Stream}}
+\index{Create\+Stream@{Create\+Stream}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{Create\+Stream(\+Device $\ast$device, int stream\+Index)}{CreateStream(Device *device, int streamIndex)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Queued\+C\+U\+D\+A\+Tracker\+::\+Stream} $\ast$ Queued\+C\+U\+D\+A\+Tracker\+::\+Create\+Stream (
+\begin{DoxyParamCaption}
+\item[{{\bf Device} $\ast$}]{device, }
+\item[{int}]{stream\+Index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_queued_c_u_d_a_tracker_a6d4cd925c04dbf04b1eaad291f6218d2}{}\label{class_queued_c_u_d_a_tracker_a6d4cd925c04dbf04b1eaad291f6218d2}
+
+\begin{DoxyCode}
+334 \{
+335     Stream* s = \textcolor{keyword}{new} Stream(streamIndex);
+336 
+337     \textcolor{keywordflow}{try} \{
+338         s->device = device;
+339         cudaSetDevice(device->index);
+340         cudaStreamCreate(&s->stream);
+341 
+342         s->images = \hyperlink{structcuda_image_list_abfee870822f21abd6a8d5563ec26199d}{cudaImageListf::alloc}(\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width}, 
+      \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height}, \hyperlink{class_queued_c_u_d_a_tracker_a19a027c0cc319821c25de1cb23e14a17}{batchSize});
+343         s->images.allocateHostImageBuffer(s->hostImageBuf);
+344 
+345         s->jobs.reserve(\hyperlink{class_queued_c_u_d_a_tracker_a19a027c0cc319821c25de1cb23e14a17}{batchSize});
+346         s->results.init(\hyperlink{class_queued_c_u_d_a_tracker_a19a027c0cc319821c25de1cb23e14a17}{batchSize});
+347         s->com.init(\hyperlink{class_queued_c_u_d_a_tracker_a19a027c0cc319821c25de1cb23e14a17}{batchSize});
+348         s->d\_com.init(\hyperlink{class_queued_c_u_d_a_tracker_a19a027c0cc319821c25de1cb23e14a17}{batchSize});
+349         s->d\_resultpos.init(\hyperlink{class_queued_c_u_d_a_tracker_a19a027c0cc319821c25de1cb23e14a17}{batchSize});
+350         s->results.init(\hyperlink{class_queued_c_u_d_a_tracker_a19a027c0cc319821c25de1cb23e14a17}{batchSize});
+351         s->locParams.init(\hyperlink{class_queued_c_u_d_a_tracker_a19a027c0cc319821c25de1cb23e14a17}{batchSize});
+352         s->imgMeans.init(\hyperlink{class_queued_c_u_d_a_tracker_a19a027c0cc319821c25de1cb23e14a17}{batchSize});
+353         s->d\_imgmeans.init(\hyperlink{class_queued_c_u_d_a_tracker_a19a027c0cc319821c25de1cb23e14a17}{batchSize});
+354         s->d\_locParams.init(\hyperlink{class_queued_c_u_d_a_tracker_a19a027c0cc319821c25de1cb23e14a17}{batchSize});
+355         s->d\_radialprofiles.init(\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_computed_config_ad1a121fa7d3152df6788ff285e4d2dc6}{zlut\_radialsteps}*
+      \hyperlink{class_queued_c_u_d_a_tracker_a19a027c0cc319821c25de1cb23e14a17}{batchSize});
+356 
+357         \hyperlink{class_queued_c_u_d_a_tracker_a885a0274a85bd6cddbb93d0c3a3cb422}{qi}.\hyperlink{class_q_i_ae560c53ae31c70ca9a1d6a0a745c75ee}{InitStream}(&s->qi\_instance, \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}, s->stream, \hyperlink{class_queued_c_u_d_a_tracker_a19a027c0cc319821c25de1cb23e14a17}{batchSize});
+358         \hyperlink{class_queued_c_u_d_a_tracker_a4ad3ddecc21aa3c9b7a706bd18364f7d}{qalign}.\hyperlink{class_q_i_ae560c53ae31c70ca9a1d6a0a745c75ee}{InitStream}(&s->qalign\_instance, \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}, s->stream, 
+      \hyperlink{class_queued_c_u_d_a_tracker_a19a027c0cc319821c25de1cb23e14a17}{batchSize});
+359 
+360         cudaEventCreate(&s->localizationDone);
+361         cudaEventCreate(&s->comDone);
+362         cudaEventCreate(&s->imageCopyDone);
+363         cudaEventCreate(&s->zcomputeDone);
+364         cudaEventCreate(&s->qiDone);
+365         cudaEventCreate(&s->imapDone);
+366         cudaEventCreate(&s->batchStart);
+367     \} \textcolor{keywordflow}{catch} (...) \{
+368         \textcolor{keyword}{delete} s;
+369         \textcolor{keywordflow}{throw};
+370     \}
+371     \textcolor{keywordflow}{return} s;
+372 \}
+\end{DoxyCode}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!Enable\+Radial\+Z\+L\+U\+T\+Compare\+Profile@{Enable\+Radial\+Z\+L\+U\+T\+Compare\+Profile}}
+\index{Enable\+Radial\+Z\+L\+U\+T\+Compare\+Profile@{Enable\+Radial\+Z\+L\+U\+T\+Compare\+Profile}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{Enable\+Radial\+Z\+L\+U\+T\+Compare\+Profile(bool enabled)}{EnableRadialZLUTCompareProfile(bool enabled)}}]{\setlength{\rightskip}{0pt plus 5cm}void Queued\+C\+U\+D\+A\+Tracker\+::\+Enable\+Radial\+Z\+L\+U\+T\+Compare\+Profile (
+\begin{DoxyParamCaption}
+\item[{bool}]{enabled}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{class_queued_c_u_d_a_tracker_aa8b23ddd77fd1826fbcf5c2d58135f13}{}\label{class_queued_c_u_d_a_tracker_aa8b23ddd77fd1826fbcf5c2d58135f13}
+
+
+Set a flag to enable saving of error curves. 
+
+Errors obtained by comparing a radial profile to a Z\+L\+UT will be kept in memory rather than destroyed. Only saves for one localization. Error curve can be retreived by \hyperlink{class_queued_c_u_d_a_tracker_a1d75d74655c9da2a9cb305f95944b1e3}{Get\+Radial\+Z\+L\+U\+T\+Compare\+Profile}.
+
+\begin{DoxyNote}{Note}
+Not implemented for C\+U\+DA. 
+\end{DoxyNote}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em enabled} & Flag (boolean) to save error curves. Default is false. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{class_queued_tracker_a53791fa740351a32ff707be9688aa99d}{Queued\+Tracker}.
+
+
+\begin{DoxyCode}
+87 \{\}
+\end{DoxyCode}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!Enable\+Texture\+Cache@{Enable\+Texture\+Cache}}
+\index{Enable\+Texture\+Cache@{Enable\+Texture\+Cache}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{Enable\+Texture\+Cache(bool use\+Texture\+Cache)}{EnableTextureCache(bool useTextureCache)}}]{\setlength{\rightskip}{0pt plus 5cm}void Queued\+C\+U\+D\+A\+Tracker\+::\+Enable\+Texture\+Cache (
+\begin{DoxyParamCaption}
+\item[{bool}]{use\+Texture\+Cache}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_queued_c_u_d_a_tracker_ab6bc66ca515095c58e92db3a426f3cc3}{}\label{class_queued_c_u_d_a_tracker_ab6bc66ca515095c58e92db3a426f3cc3}
+
+\begin{DoxyCode}
+70 \{ this->\hyperlink{class_queued_c_u_d_a_tracker_a1351abd5ca987de1b8663a919e511134}{useTextureCache}=\hyperlink{class_queued_c_u_d_a_tracker_a1351abd5ca987de1b8663a919e511134}{useTextureCache}; \}
+\end{DoxyCode}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!Execute\+Batch@{Execute\+Batch}}
+\index{Execute\+Batch@{Execute\+Batch}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{Execute\+Batch(\+Stream $\ast$s)}{ExecuteBatch(Stream *s)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+Image\+Sampler $>$ void Queued\+C\+U\+D\+A\+Tracker\+::\+Execute\+Batch (
+\begin{DoxyParamCaption}
+\item[{{\bf Stream} $\ast$}]{s}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_queued_c_u_d_a_tracker_a66c822d85cceb3b20793a9f5be76aae0}{}\label{class_queued_c_u_d_a_tracker_a66c822d85cceb3b20793a9f5be76aae0}
+
+\begin{DoxyCode}
+587 \{
+588     \textcolor{keywordflow}{if} (s->JobCount()==0)
+589         \textcolor{keywordflow}{return};
+590     \textcolor{comment}{//dbgprintf("Sending %d images to GPU stream %p...\(\backslash\)n", s->jobCount, s->stream);}
+591 
+592     Device *d = s->device;
+593     cudaSetDevice(d->index);
+594 
+595     \hyperlink{struct_base_kernel_params}{BaseKernelParams} kp;
+596     kp.\hyperlink{struct_base_kernel_params_aa0c58be6d25ab55207ca83bb0047f4d9}{imgmeans} = s->d\_imgmeans.data;
+597     kp.\hyperlink{struct_base_kernel_params_abdd6b8722cb871a13069ba0e3cd3ab0b}{images} = s->images;
+598     kp.\hyperlink{struct_base_kernel_params_aec40d44810d0e0a6640c66038af1fbf2}{njobs} = s->JobCount();
+599     kp.\hyperlink{struct_base_kernel_params_a199494e0d0548c8b69ee23350e6ece95}{locParams} = s->d\_locParams.data;
+600 
+601     cudaEventRecord(s->batchStart, s->stream);
+602 \textcolor{comment}{//  dbgprintf("copying %d jobs to gpu\(\backslash\)n", s->JobCount());}
+603     s->d\_locParams.copyToDevice(s->locParams.data(), s->JobCount(), \textcolor{keyword}{true}, s->stream);
+604 
+605     \{\hyperlink{class_scoped_c_p_u_profiler}{ScopedCPUProfiler} p(&\hyperlink{class_queued_c_u_d_a_tracker_ae8b2eeef65a2a1acde697df6c206ae08}{cpu\_time}.\hyperlink{struct_queued_c_u_d_a_tracker_1_1_kernel_profile_time_a04abd82cbcc70357b2a2901f490a1662}{imageCopy});
+606         s->images.copyToDevice(s->hostImageBuf.data(), \textcolor{keyword}{true}, s->stream); 
+607     \}
+608 
+609     \textcolor{keywordflow}{if} (!d->calib\_gain.isEmpty() || !d->calib\_offset.isEmpty()) \{
+610         dim3 \hyperlink{class_queued_c_u_d_a_tracker_a1bbaf466f197bd745411786578b743bc}{numThreads}(16, 16, 2);
+611         dim3 numBlocks((\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width} + \hyperlink{class_queued_c_u_d_a_tracker_a1bbaf466f197bd745411786578b743bc}{numThreads}.x - 1 ) / 
+      \hyperlink{class_queued_c_u_d_a_tracker_a1bbaf466f197bd745411786578b743bc}{numThreads}.x,
+612                 (\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height} + \hyperlink{class_queued_c_u_d_a_tracker_a1bbaf466f197bd745411786578b743bc}{numThreads}.y - 1) / \hyperlink{class_queued_c_u_d_a_tracker_a1bbaf466f197bd745411786578b743bc}{numThreads}.y,
+613                 (s->JobCount() + \hyperlink{class_queued_c_u_d_a_tracker_a1bbaf466f197bd745411786578b743bc}{numThreads}.z - 1) / \hyperlink{class_queued_c_u_d_a_tracker_a1bbaf466f197bd745411786578b743bc}{numThreads}.z);
+614 
+615         \hyperlink{class_queued_c_u_d_a_tracker_aea7843385e4604dc38a6f1fc7b4f2811}{gc\_mutex}.\hyperlink{struct_threads_1_1_mutex_af3cb09072ecd935be502deb78f4519d5}{lock}();
+616         \textcolor{keywordtype}{float} of = \hyperlink{class_queued_c_u_d_a_tracker_a84b6dcf09baa64ba031f7a5a4304d592}{gc\_offsetFactor}, gf = \hyperlink{class_queued_c_u_d_a_tracker_adba93271c22f7e6800f49ab93ec07c71}{gc\_gainFactor};
+617         \hyperlink{class_queued_c_u_d_a_tracker_aea7843385e4604dc38a6f1fc7b4f2811}{gc\_mutex}.\hyperlink{struct_threads_1_1_mutex_ad78fadce2239c6d359986e443822f6f6}{unlock}();
+618 
+619         \hyperlink{group__kernels_ga45301d4799d0b58381ecd58202724298}{ApplyOffsetGain} <<< numBlocks, \hyperlink{class_queued_c_u_d_a_tracker_a1bbaf466f197bd745411786578b743bc}{numThreads}, 0, s->stream >>>    
+620             (kp, s->device->calib\_gain, s->device->calib\_offset, gf, of);
+621     \}
+622 
+623     cudaEventRecord(s->imageCopyDone, s->stream);
+624 
+625     TImageSampler::BindTexture(s->images);
+626     \{ \hyperlink{class_scoped_c_p_u_profiler}{ScopedCPUProfiler} p(&\hyperlink{class_queued_c_u_d_a_tracker_ae8b2eeef65a2a1acde697df6c206ae08}{cpu\_time}.\hyperlink{struct_queued_c_u_d_a_tracker_1_1_kernel_profile_time_a9f9415edf045228fd79007621df104c1}{com});
+627         BgCorrectedCOM<TImageSampler> <<< \hyperlink{class_queued_c_u_d_a_tracker_a935e85ca846ef768ffeca1ff4a23ab21}{blocks}(s->JobCount()), \hyperlink{class_queued_c_u_d_a_tracker_ae88c5554dba8227967f4a600ff7fab84}{threads}(), 0, s->stream >>> 
+628             (s->JobCount(), s->images, s->d\_com.data, \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_a18ce353ffb049d1c86254a773a6fe49d}{com\_bgcorrection}, s->
+      d\_imgmeans.data);
+629         \hyperlink{_queued_c_u_d_a_tracker_8cu_a92f77d4c98e5e45869270339e47aa069}{checksum}(s->d\_com.data, 1, s->JobCount(), \textcolor{stringliteral}{"com"});
+630     \}
+631     cudaEventRecord(s->comDone, s->stream);
+632 
+633     \textcolor{comment}{// DbgOutputVectorToFile("D:\(\backslash\)\(\backslash\)TestImages\(\backslash\)\(\backslash\)imgmeans.csv", s->d\_imgmeans, false);}
+634 
+635     \hyperlink{classdevice__vec}{device\_vec<float3>} *curpos = &s->d\_com;
+636     \textcolor{keywordflow}{if} (s->localizeFlags & \hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba9eb0441a0c1e1086ff81512ea509e564}{LT\_QI}) \{
+637         \hyperlink{class_scoped_c_p_u_profiler}{ScopedCPUProfiler} p(&\hyperlink{class_queued_c_u_d_a_tracker_ae8b2eeef65a2a1acde697df6c206ae08}{cpu\_time}.\hyperlink{struct_queued_c_u_d_a_tracker_1_1_kernel_profile_time_af6247f72c0dea94c0a3edbb373476741}{qi});
+638         \hyperlink{class_queued_c_u_d_a_tracker_a885a0274a85bd6cddbb93d0c3a3cb422}{qi}.\hyperlink{class_q_i_a084274d952e1430627110818f398a3d4}{Execute} <TImageSampler> (kp, \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}, &s->qi\_instance, &s->device->qi\_instance, &s->
+      d\_com, &s->d\_resultpos);
+639         curpos = &s->d\_resultpos;
+640     \}
+641 
+642     \textcolor{keywordflow}{if} (s->localizeFlags & \hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba49983d8a534bbda61f861e1a2702a88a}{LT\_Gaussian2D}) \{
+643         G2MLE\_Compute<TImageSampler> <<< \hyperlink{class_queued_c_u_d_a_tracker_a935e85ca846ef768ffeca1ff4a23ab21}{blocks}(s->JobCount()), \hyperlink{class_queued_c_u_d_a_tracker_ae88c5554dba8227967f4a600ff7fab84}{threads}(), 0, s->stream >>>
+644             (kp, \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_a950fc67c972c608570ef2dd27fcfaf4d}{gauss2D\_sigma}, \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_aa5ae2b9e5700fe2eab58f9084389c3ad}{gauss2D\_iterations}, s->d\_com.
+      data, s->d\_resultpos.data, 0, 0);
+645         curpos = &s->d\_resultpos;
+646     \}
+647 
+648     cudaEventRecord(s->qiDone, s->stream);
+649 
+650     \textcolor{keywordtype}{int} numZIterations = (s->localizeFlags & \hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba85b5a8778da421d97ac8bf55dd0cf076}{LT\_ZLUTAlign}) ? 3 : 1;
+651     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<numZIterations;i++) \{
+652         \{\hyperlink{class_scoped_c_p_u_profiler}{ScopedCPUProfiler} p(&\hyperlink{class_queued_c_u_d_a_tracker_ae8b2eeef65a2a1acde697df6c206ae08}{cpu\_time}.\hyperlink{struct_queued_c_u_d_a_tracker_1_1_kernel_profile_time_a45f6db270eccf8e2c8653b6cd05c7339}{zcompute});
+653         \hyperlink{struct_z_l_u_t_params}{ZLUTParams} zp;
+654         zp.\hyperlink{struct_z_l_u_t_params_ab00dffe1d70415e23bbf989d664495ab}{planes} = d->radial\_zlut.h;
+655         zp.\hyperlink{struct_z_l_u_t_params_a01c4d68849034d30553c2bbb353b9376}{angularSteps} = \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_computed_config_a01653574d81ab70e4910c984fb7f7482}{zlut\_angularsteps};
+656         zp.\hyperlink{struct_z_l_u_t_params_a828d7befc2a73cbe77d5fead8987b916}{maxRadius} = \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_computed_config_a13ceb0d4551d3bd5343ecce7a093d65b}{zlut\_maxradius};
+657         zp.\hyperlink{struct_z_l_u_t_params_a1e53b221a353b5543b95ab8472c0e27f}{minRadius} = \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_a1a14537a9e784c65eed512e72ee86c02}{zlut\_minradius};
+658         zp.\hyperlink{struct_z_l_u_t_params_a14a59385e3d76c6e50dd1d97ef5f3cac}{img} = d->radial\_zlut;
+659         zp.\hyperlink{struct_z_l_u_t_params_a18e5051a3a4b118b45854c69977e2dbe}{trigtable} = d->zlut\_trigtable.data;
+660         zp.\hyperlink{struct_z_l_u_t_params_a5e4fca6a1f41e9dee7ba0614ab4c202d}{zcmpwindow} = d->zcompareWindow.data;
+661 
+662         \textcolor{comment}{// Compute radial profiles}
+663         \textcolor{keywordflow}{if} (s->localizeFlags & \hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba5bee529eb0d2fa3bef01f31eeb613b92}{LT\_LocalizeZ}) \{
+664             dim3 \hyperlink{class_queued_c_u_d_a_tracker_a1bbaf466f197bd745411786578b743bc}{numThreads}(16, 16);
+665             dim3 numBlocks( (s->JobCount() + \hyperlink{class_queued_c_u_d_a_tracker_a1bbaf466f197bd745411786578b743bc}{numThreads}.x - 1) / 
+      \hyperlink{class_queued_c_u_d_a_tracker_a1bbaf466f197bd745411786578b743bc}{numThreads}.x, 
+666                     (\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_computed_config_ad1a121fa7d3152df6788ff285e4d2dc6}{zlut\_radialsteps} + \hyperlink{class_queued_c_u_d_a_tracker_a1bbaf466f197bd745411786578b743bc}{numThreads}.y - 1) / 
+      \hyperlink{class_queued_c_u_d_a_tracker_a1bbaf466f197bd745411786578b743bc}{numThreads}.y);
+667             ZLUT\_RadialProfileKernel<TImageSampler> <<< numBlocks , \hyperlink{class_queued_c_u_d_a_tracker_a1bbaf466f197bd745411786578b743bc}{numThreads}, 0, s->stream >>>
+668                 (s->JobCount(), s->images, zp, curpos->\hyperlink{classdevice__vec_a908e53910a02968513832c242790caa0}{data}, s->d\_radialprofiles.data, s->d\_imgmeans.
+      data);
+669             \hyperlink{group__kernels_ga4cdd8d9a41123399c9a91d90785d9274}{ZLUT\_NormalizeProfiles}<<< \hyperlink{class_queued_c_u_d_a_tracker_a935e85ca846ef768ffeca1ff4a23ab21}{blocks}(s->JobCount()), 
+      \hyperlink{class_queued_c_u_d_a_tracker_ae88c5554dba8227967f4a600ff7fab84}{threads}(), 0, s->stream >>> (s->JobCount(), zp, s->d\_radialprofiles.data);
+670         \}
+671         \textcolor{comment}{// Compute Z }
+672         \textcolor{keywordflow}{if} (s->localizeFlags & \hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba5bee529eb0d2fa3bef01f31eeb613b92}{LT\_LocalizeZ}) \{
+673             dim3 \hyperlink{class_queued_c_u_d_a_tracker_a1bbaf466f197bd745411786578b743bc}{numThreads}(8, 16);
+674             \hyperlink{group__kernels_gab39221cb109c517ef2c550742f25fae3}{ZLUT\_ComputeProfileMatchScores} <<< dim3( (s->JobCount() + 
+      numThreads.x - 1) / numThreads.x, (zp.\hyperlink{struct_z_l_u_t_params_ab00dffe1d70415e23bbf989d664495ab}{planes}  + numThreads.y - 1) / numThreads.y), numThreads, 0, s->stream 
+      >>> 
+675                 (s->JobCount(), zp, s->d\_radialprofiles.data, s->d\_zlutcmpscores.data, s->d\_locParams.data)
+      ;
+676             \hyperlink{group__kernels_gad0ba2ca03fcfe17bda05c872842afaae}{ZLUT\_ComputeZ} <<< \hyperlink{class_queued_c_u_d_a_tracker_a935e85ca846ef768ffeca1ff4a23ab21}{blocks}(s->JobCount()), \hyperlink{class_queued_c_u_d_a_tracker_ae88c5554dba8227967f4a600ff7fab84}{threads}(), 0, s->stream >>> 
+      (s->JobCount(), zp, curpos->\hyperlink{classdevice__vec_a908e53910a02968513832c242790caa0}{data}, s->d\_zlutcmpscores.data);
+677         \}\}
+678 
+679         \textcolor{keywordflow}{if} (i>0) \{
+680             \hyperlink{class_scoped_c_p_u_profiler}{ScopedCPUProfiler} p(&\hyperlink{class_queued_c_u_d_a_tracker_ae8b2eeef65a2a1acde697df6c206ae08}{cpu\_time}.\hyperlink{struct_queued_c_u_d_a_tracker_1_1_kernel_profile_time_a140d7024006f4957e23b2cb85cba0edc}{zlutAlign});
+681             \hyperlink{class_queued_c_u_d_a_tracker_a4ad3ddecc21aa3c9b7a706bd18364f7d}{qalign}.\hyperlink{class_q_i_a084274d952e1430627110818f398a3d4}{Execute}<TImageSampler> (kp, \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}, &s->qalign\_instance, &s->device->
+      qalign\_instance, &s->d\_resultpos, &s->d\_resultpos);
+682         \}
+683     \}
+684 
+685     TImageSampler::UnbindTexture(s->images);
+686     cudaEventRecord(s->zcomputeDone, s->stream);
+687 
+688     \{ \hyperlink{class_scoped_c_p_u_profiler}{ScopedCPUProfiler} p(&\hyperlink{class_queued_c_u_d_a_tracker_ae8b2eeef65a2a1acde697df6c206ae08}{cpu\_time}.\hyperlink{struct_queued_c_u_d_a_tracker_1_1_kernel_profile_time_a82d70a87770af92a63fd0b414d3ec2af}{getResults});
+689         s->d\_com.copyToHost(s->com.data(), \textcolor{keyword}{true}, s->stream);
+690         curpos->\hyperlink{classdevice__vec_a9e8112582faa85f58fff7aeeafb3c455}{copyToHost}(s->results.data(), \textcolor{keyword}{true}, s->stream);
+691         s->d\_imgmeans.copyToHost(s->imgMeans.data(), \textcolor{keyword}{true}, s->stream);
+692     \}
+693 
+694     \textcolor{comment}{// Make sure we can query the all done signal}
+695     cudaEventRecord(s->localizationDone, s->stream);
+696 \}
+\end{DoxyCode}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!Fetch\+Results@{Fetch\+Results}}
+\index{Fetch\+Results@{Fetch\+Results}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{Fetch\+Results(\+Localization\+Result $\ast$results, int max\+Results) override}{FetchResults(LocalizationResult *results, int maxResults) override}}]{\setlength{\rightskip}{0pt plus 5cm}int Queued\+C\+U\+D\+A\+Tracker\+::\+Fetch\+Results (
+\begin{DoxyParamCaption}
+\item[{{\bf Localization\+Result} $\ast$}]{results, }
+\item[{int}]{max\+Results}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}\hypertarget{class_queued_c_u_d_a_tracker_acc1a34b83a9f7cc84ede58ce7eaec45e}{}\label{class_queued_c_u_d_a_tracker_acc1a34b83a9f7cc84ede58ce7eaec45e}
+
+
+Implements \hyperlink{class_queued_tracker_a171688832558d40838790c90ba9f8fc0}{Queued\+Tracker}.
+
+
+\begin{DoxyCode}
+730 \{
+731     \hyperlink{class_queued_c_u_d_a_tracker_ab6bcec14cabbc64d9d96ce0641f5034f}{resultMutex}.\hyperlink{struct_threads_1_1_mutex_af3cb09072ecd935be502deb78f4519d5}{lock}();
+732     \textcolor{keywordtype}{int} numResults = 0;
+733     \textcolor{keywordflow}{while} (numResults < maxResults && !results.empty()) \{
+734         dstResults[numResults++] = results.front();
+735         results.pop\_front();
+736         \hyperlink{class_queued_c_u_d_a_tracker_abdb0a310718f7f1c8a47cf9a3f22728d}{resultCount}--;
+737     \}
+738     \hyperlink{class_queued_c_u_d_a_tracker_ab6bcec14cabbc64d9d96ce0641f5034f}{resultMutex}.\hyperlink{struct_threads_1_1_mutex_ad78fadce2239c6d359986e443822f6f6}{unlock}();
+739     \textcolor{keywordflow}{return} numResults;
+740 \}
+\end{DoxyCode}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!Finalize\+L\+UT@{Finalize\+L\+UT}}
+\index{Finalize\+L\+UT@{Finalize\+L\+UT}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{Finalize\+L\+U\+T() override}{FinalizeLUT() override}}]{\setlength{\rightskip}{0pt plus 5cm}void Queued\+C\+U\+D\+A\+Tracker\+::\+Finalize\+L\+UT (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}\hypertarget{class_queued_c_u_d_a_tracker_a628a79df6cce9a1df9a4da78da266578}{}\label{class_queued_c_u_d_a_tracker_a628a79df6cce9a1df9a4da78da266578}
+
+
+Implements \hyperlink{class_queued_tracker_aa856650c99d15216ad3246d3485b9d9e}{Queued\+Tracker}.
+
+
+\begin{DoxyCode}
+521 \{
+522     Device* srcd = \hyperlink{class_queued_c_u_d_a_tracker_a333972a0b3e1c98a02e9aab716ef535b}{devices}[0];
+523     cudaSetDevice(srcd->index);
+524 
+525     \hyperlink{structcuda_image_list}{cudaImageListf}& src = srcd->radial\_zlut;
+526     \textcolor{keywordtype}{float} *tmp = \textcolor{keyword}{new} \textcolor{keywordtype}{float} [src.\hyperlink{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{w}*src.\hyperlink{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}{h}*src.\hyperlink{structcuda_image_list_aecc60af52765a600acbebacf2f28c0db}{count}];
+527     srcd->radial\_zlut.\hyperlink{structcuda_image_list_a5bb9d8aaf4bf1c96bc3e50b6b4407756}{copyToHost}(tmp);
+528 
+529     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<src.\hyperlink{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}{h}*src.\hyperlink{structcuda_image_list_aecc60af52765a600acbebacf2f28c0db}{count};i++)\{
+530         \hyperlink{utils_8cpp_a404fa660440d30ed70566aebf9f9e94a}{NormalizeRadialProfile}(&tmp[src.\hyperlink{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{w}*i],src.\hyperlink{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{w});
+531     \}
+532 
+533     \hyperlink{class_queued_c_u_d_a_tracker_a2681f4f94ca93970322bafa58b1dd9bd}{SetRadialZLUT}(tmp, src.\hyperlink{structcuda_image_list_aecc60af52765a600acbebacf2f28c0db}{count}, src.\hyperlink{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}{h});
+534     
+535     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} bead = 0; bead < src.\hyperlink{structcuda_image_list_aecc60af52765a600acbebacf2f28c0db}{count}; bead++)\{
+536         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} step = 0; step < \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_computed_config_ad1a121fa7d3152df6788ff285e4d2dc6}{zlut\_radialsteps}; step++)\{
+537             \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"%f "},tmp[(bead * \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_computed_config_ad1a121fa7d3152df6788ff285e4d2dc6}{zlut\_radialsteps})+step]);
+538         \}
+539     \}
+540     \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"\(\backslash\)n"}); \textcolor{comment}{//*/}
+541 
+542     \textcolor{keyword}{delete}[] tmp;
+543 \}
+\end{DoxyCode}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!Flush@{Flush}}
+\index{Flush@{Flush}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{Flush() override}{Flush() override}}]{\setlength{\rightskip}{0pt plus 5cm}void Queued\+C\+U\+D\+A\+Tracker\+::\+Flush (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}\hypertarget{class_queued_c_u_d_a_tracker_a4407b12d3fc2e2969840ccc233ec96bc}{}\label{class_queued_c_u_d_a_tracker_a4407b12d3fc2e2969840ccc233ec96bc}
+
+
+Stop waiting for more jobs to do, and just process the current batch. 
+
+
+
+Implements \hyperlink{class_queued_tracker_a97cf826c17ab9b3e55d8ecd513d58098}{Queued\+Tracker}.
+
+
+\begin{DoxyCode}
+546 \{
+547     \hyperlink{class_queued_c_u_d_a_tracker_a57c66fb35caade90cadedd575d7b6c81}{jobQueueMutex}.\hyperlink{struct_threads_1_1_mutex_af3cb09072ecd935be502deb78f4519d5}{lock}();
+548     \textcolor{keywordflow}{for} (\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} i=0;i<\hyperlink{class_queued_c_u_d_a_tracker_a06cc0da8192d0f8ff5d9edcad1158f58}{streams}.size();i++) \{
+549         \textcolor{keywordflow}{if}(\hyperlink{class_queued_c_u_d_a_tracker_a06cc0da8192d0f8ff5d9edcad1158f58}{streams}[i]->JobCount()>0 && \hyperlink{class_queued_c_u_d_a_tracker_a06cc0da8192d0f8ff5d9edcad1158f58}{streams}[i]->state != 
+      \hyperlink{struct_queued_c_u_d_a_tracker_1_1_stream_a836e14e096ea57bd153e812ce1e0a1f2a62c88c473a98aed73b5fdf061753c63a}{Stream::StreamExecuting})
+550             \hyperlink{class_queued_c_u_d_a_tracker_a06cc0da8192d0f8ff5d9edcad1158f58}{streams}[i]->state = \hyperlink{struct_queued_c_u_d_a_tracker_1_1_stream_a836e14e096ea57bd153e812ce1e0a1f2a871a26b9ee42c5b70b5d3d90b8fc35c4}{Stream::StreamPendingExec};
+551     \}
+552     \hyperlink{class_queued_c_u_d_a_tracker_a57c66fb35caade90cadedd575d7b6c81}{jobQueueMutex}.\hyperlink{struct_threads_1_1_mutex_ad78fadce2239c6d359986e443822f6f6}{unlock}();
+553 \}
+\end{DoxyCode}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!Get\+Config\+Values@{Get\+Config\+Values}}
+\index{Get\+Config\+Values@{Get\+Config\+Values}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{Get\+Config\+Values() override}{GetConfigValues() override}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Queued\+C\+U\+D\+A\+Tracker\+::\+Config\+Value\+Map} Queued\+C\+U\+D\+A\+Tracker\+::\+Get\+Config\+Values (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}\hypertarget{class_queued_c_u_d_a_tracker_a16a5fb006a594f950484df6a9d1cfd2f}{}\label{class_queued_c_u_d_a_tracker_a16a5fb006a594f950484df6a9d1cfd2f}
+
+
+Implements \hyperlink{class_queued_tracker_afdb95cbf31f14716b3872e15a2319d62}{Queued\+Tracker}.
+
+
+\begin{DoxyCode}
+906 \{
+907     \hyperlink{class_queued_tracker_af6073682cd9e87e6f3e84f93cf9be373}{ConfigValueMap} cvm;
+908     cvm[\textcolor{stringliteral}{"use\_texturecache"}] = \hyperlink{class_queued_c_u_d_a_tracker_a1351abd5ca987de1b8663a919e511134}{useTextureCache} ? \textcolor{stringliteral}{"1"} : \textcolor{stringliteral}{"0"};
+909     \textcolor{keywordflow}{return} cvm;
+910 \}
+\end{DoxyCode}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!Get\+Profile\+Report@{Get\+Profile\+Report}}
+\index{Get\+Profile\+Report@{Get\+Profile\+Report}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{Get\+Profile\+Report() override}{GetProfileReport() override}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string Queued\+C\+U\+D\+A\+Tracker\+::\+Get\+Profile\+Report (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}\hypertarget{class_queued_c_u_d_a_tracker_a8969dbbc3824ca4ccb492e8eecbd6632}{}\label{class_queued_c_u_d_a_tracker_a8969dbbc3824ca4ccb492e8eecbd6632}
+
+
+Reimplemented from \hyperlink{class_queued_tracker_afb595aa118f6cd87b4502d2cdfe53215}{Queued\+Tracker}.
+
+
+\begin{DoxyCode}
+894 \{
+895     \textcolor{keywordtype}{float} f = 1.0f/\hyperlink{class_queued_c_u_d_a_tracker_a6c9bf05a64537e9a978d9e7a71bb20fb}{batchesDone};
+896 
+897     \textcolor{keywordflow}{return} \hyperlink{class_queued_c_u_d_a_tracker_af28a9fc89bcd9634e81b3fc404809aaf}{deviceReport} + \textcolor{stringliteral}{"Time profiling: [GPU], [CPU] \(\backslash\)n"} +
+898         \hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"%d batches done of size %d, on %d streams"}, \hyperlink{class_queued_c_u_d_a_tracker_a6c9bf05a64537e9a978d9e7a71bb20fb}{batchesDone}, 
+      \hyperlink{class_queued_c_u_d_a_tracker_a19a027c0cc319821c25de1cb23e14a17}{batchSize}, \hyperlink{class_queued_c_u_d_a_tracker_a06cc0da8192d0f8ff5d9edcad1158f58}{streams}.size()) + \textcolor{stringliteral}{"\(\backslash\)n"} +
+899         \hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"Image copying: %.2f,\(\backslash\)t%.2f ms\(\backslash\)n"}, \hyperlink{class_queued_c_u_d_a_tracker_a6557b929cd8bd14618787c6a90671cc0}{time}.\hyperlink{struct_queued_c_u_d_a_tracker_1_1_kernel_profile_time_a04abd82cbcc70357b2a2901f490a1662}{imageCopy}*f, 
+      \hyperlink{class_queued_c_u_d_a_tracker_ae8b2eeef65a2a1acde697df6c206ae08}{cpu\_time}.\hyperlink{struct_queued_c_u_d_a_tracker_1_1_kernel_profile_time_a04abd82cbcc70357b2a2901f490a1662}{imageCopy}*f) +
+900         \hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"QI:            %.2f,\(\backslash\)t%.2f ms\(\backslash\)n"}, \hyperlink{class_queued_c_u_d_a_tracker_a6557b929cd8bd14618787c6a90671cc0}{time}.\hyperlink{struct_queued_c_u_d_a_tracker_1_1_kernel_profile_time_af6247f72c0dea94c0a3edbb373476741}{qi}*f, 
+      \hyperlink{class_queued_c_u_d_a_tracker_ae8b2eeef65a2a1acde697df6c206ae08}{cpu\_time}.\hyperlink{struct_queued_c_u_d_a_tracker_1_1_kernel_profile_time_af6247f72c0dea94c0a3edbb373476741}{qi}*f) +
+901         \hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"COM:           %.2f,\(\backslash\)t%.2f ms\(\backslash\)n"}, \hyperlink{class_queued_c_u_d_a_tracker_a6557b929cd8bd14618787c6a90671cc0}{time}.\hyperlink{struct_queued_c_u_d_a_tracker_1_1_kernel_profile_time_a9f9415edf045228fd79007621df104c1}{com}*f, 
+      \hyperlink{class_queued_c_u_d_a_tracker_ae8b2eeef65a2a1acde697df6c206ae08}{cpu\_time}.\hyperlink{struct_queued_c_u_d_a_tracker_1_1_kernel_profile_time_a9f9415edf045228fd79007621df104c1}{com}*f) +
+902         \hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"Z Computing:   %.2f,\(\backslash\)t%.2f ms\(\backslash\)n"}, \hyperlink{class_queued_c_u_d_a_tracker_a6557b929cd8bd14618787c6a90671cc0}{time}.\hyperlink{struct_queued_c_u_d_a_tracker_1_1_kernel_profile_time_a45f6db270eccf8e2c8653b6cd05c7339}{zcompute}*f, 
+      \hyperlink{class_queued_c_u_d_a_tracker_ae8b2eeef65a2a1acde697df6c206ae08}{cpu\_time}.\hyperlink{struct_queued_c_u_d_a_tracker_1_1_kernel_profile_time_a45f6db270eccf8e2c8653b6cd05c7339}{zcompute}*f);
+903 \}
+\end{DoxyCode}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!Get\+Queue\+Length@{Get\+Queue\+Length}}
+\index{Get\+Queue\+Length@{Get\+Queue\+Length}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{Get\+Queue\+Length(int $\ast$max\+Queue\+Len) override}{GetQueueLength(int *maxQueueLen) override}}]{\setlength{\rightskip}{0pt plus 5cm}int Queued\+C\+U\+D\+A\+Tracker\+::\+Get\+Queue\+Length (
+\begin{DoxyParamCaption}
+\item[{int $\ast$}]{max\+Queue\+Len}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}\hypertarget{class_queued_c_u_d_a_tracker_acd209a7709c4776a585af6bd24768b13}{}\label{class_queued_c_u_d_a_tracker_acd209a7709c4776a585af6bd24768b13}
+
+
+Implements \hyperlink{class_queued_tracker_a7109701fb33a1eb1f4a5512205cb7bde}{Queued\+Tracker}.
+
+
+\begin{DoxyCode}
+406 \{
+407     \hyperlink{class_queued_c_u_d_a_tracker_a57c66fb35caade90cadedd575d7b6c81}{jobQueueMutex}.\hyperlink{struct_threads_1_1_mutex_af3cb09072ecd935be502deb78f4519d5}{lock}();
+408     \textcolor{keywordtype}{int} qlen = 0;
+409     \textcolor{keywordflow}{for} (\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} a=0;a<\hyperlink{class_queued_c_u_d_a_tracker_a06cc0da8192d0f8ff5d9edcad1158f58}{streams}.size();a++)\{
+410         qlen += \hyperlink{class_queued_c_u_d_a_tracker_a06cc0da8192d0f8ff5d9edcad1158f58}{streams}[a]->JobCount();
+411     \}
+412     \hyperlink{class_queued_c_u_d_a_tracker_a57c66fb35caade90cadedd575d7b6c81}{jobQueueMutex}.\hyperlink{struct_threads_1_1_mutex_ad78fadce2239c6d359986e443822f6f6}{unlock}();
+413 
+414     \textcolor{keywordflow}{if} (maxQueueLen) \{
+415         *maxQueueLen = \hyperlink{class_queued_c_u_d_a_tracker_a06cc0da8192d0f8ff5d9edcad1158f58}{streams}.size()*\hyperlink{class_queued_c_u_d_a_tracker_a19a027c0cc319821c25de1cb23e14a17}{batchSize};
+416     \}
+417 
+418     \textcolor{keywordflow}{return} qlen;
+419 \}
+\end{DoxyCode}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!Get\+Radial\+Z\+L\+UT@{Get\+Radial\+Z\+L\+UT}}
+\index{Get\+Radial\+Z\+L\+UT@{Get\+Radial\+Z\+L\+UT}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{Get\+Radial\+Z\+L\+U\+T(float $\ast$data) override}{GetRadialZLUT(float *data) override}}]{\setlength{\rightskip}{0pt plus 5cm}void Queued\+C\+U\+D\+A\+Tracker\+::\+Get\+Radial\+Z\+L\+UT (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{dst}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}\hypertarget{class_queued_c_u_d_a_tracker_a1298fa3749c2ffaf7e48370ca15e3beb}{}\label{class_queued_c_u_d_a_tracker_a1298fa3749c2ffaf7e48370ca15e3beb}
+
+
+Get the radial lookup tables used for z tracking. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em dst} & Pointer to the pre-\/allocated memory in which to save the data. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{class_queued_tracker_a7e92adfa46401d802eaff7687e43dad7}{Queued\+Tracker}.
+
+
+\begin{DoxyCode}
+859 \{
+860     \hyperlink{structcuda_image_list}{cudaImageListf}* zlut = &\hyperlink{class_queued_c_u_d_a_tracker_a333972a0b3e1c98a02e9aab716ef535b}{devices}[0]->radial\_zlut;
+861 
+862     \textcolor{keywordflow}{if} (zlut->\hyperlink{structcuda_image_list_a5e32f3d282240b52b543b693723ee8ed}{data}) \{
+863         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<zlut->\hyperlink{structcuda_image_list_aecc60af52765a600acbebacf2f28c0db}{count};i++) \{
+864             \textcolor{keywordtype}{float}* img = &data[i*\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_computed_config_ad1a121fa7d3152df6788ff285e4d2dc6}{zlut\_radialsteps}*zlut->\hyperlink{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}{h}];
+865             zlut->\hyperlink{structcuda_image_list_a656201f3b644a8435b1c7a37951ff672}{copyImageToHost}(i, img);
+866         \}
+867     \}
+868 \}
+\end{DoxyCode}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!Get\+Radial\+Z\+L\+U\+T\+Compare\+Profile@{Get\+Radial\+Z\+L\+U\+T\+Compare\+Profile}}
+\index{Get\+Radial\+Z\+L\+U\+T\+Compare\+Profile@{Get\+Radial\+Z\+L\+U\+T\+Compare\+Profile}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{Get\+Radial\+Z\+L\+U\+T\+Compare\+Profile(float $\ast$dst)}{GetRadialZLUTCompareProfile(float *dst)}}]{\setlength{\rightskip}{0pt plus 5cm}void Queued\+C\+U\+D\+A\+Tracker\+::\+Get\+Radial\+Z\+L\+U\+T\+Compare\+Profile (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{dst}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{class_queued_c_u_d_a_tracker_a1d75d74655c9da2a9cb305f95944b1e3}{}\label{class_queued_c_u_d_a_tracker_a1d75d74655c9da2a9cb305f95944b1e3}
+
+
+Get saved error curve. 
+
+See \hyperlink{class_queued_c_u_d_a_tracker_aa8b23ddd77fd1826fbcf5c2d58135f13}{Enable\+Radial\+Z\+L\+U\+T\+Compare\+Profile}. \begin{DoxyNote}{Note}
+Not implemented for C\+U\+DA. 
+\end{DoxyNote}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em dst} & Pointer to the pre-\/allocated memory in which to save the error curve. Size is {\ttfamily count} $\ast$ {\ttfamily planes}. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{class_queued_tracker_ae6cc12f988a4f99d03a9783b4f978e7e}{Queued\+Tracker}.
+
+
+\begin{DoxyCode}
+88 \{\} \textcolor{comment}{// dst = [count * planes]}
+\end{DoxyCode}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!Get\+Radial\+Z\+L\+U\+T\+Size@{Get\+Radial\+Z\+L\+U\+T\+Size}}
+\index{Get\+Radial\+Z\+L\+U\+T\+Size@{Get\+Radial\+Z\+L\+U\+T\+Size}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{Get\+Radial\+Z\+L\+U\+T\+Size(int \&count, int \&planes, int \&radial\+Steps) override}{GetRadialZLUTSize(int &count, int &planes, int &radialSteps) override}}]{\setlength{\rightskip}{0pt plus 5cm}void Queued\+C\+U\+D\+A\+Tracker\+::\+Get\+Radial\+Z\+L\+U\+T\+Size (
+\begin{DoxyParamCaption}
+\item[{int \&}]{count, }
+\item[{int \&}]{planes, }
+\item[{int \&}]{radialsteps}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}\hypertarget{class_queued_c_u_d_a_tracker_a4af9b4b3778d9cb13823fe486db23ab9}{}\label{class_queued_c_u_d_a_tracker_a4af9b4b3778d9cb13823fe486db23ab9}
+
+
+Get the dimensions of the radial lookup table data. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in,out}  & {\em count} & Reference to pre-\/allocated int. Returns number of lookup tables. \\
+\hline
+\mbox{\tt in,out}  & {\em planes} & Reference to pre-\/allocated int. Returns number of planes per lookup table. \\
+\hline
+\mbox{\tt in,out}  & {\em radialsteps} & Reference to pre-\/allocated int. Returns number of steps per plane. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{class_queued_tracker_a95e19cdbbaa59eb676a24aaf95058b27}{Queued\+Tracker}.
+
+
+\begin{DoxyCode}
+871 \{
+872     count = \hyperlink{class_queued_c_u_d_a_tracker_a333972a0b3e1c98a02e9aab716ef535b}{devices}[0]->radial\_zlut.count;
+873     planes = \hyperlink{class_queued_c_u_d_a_tracker_a333972a0b3e1c98a02e9aab716ef535b}{devices}[0]->radial\_zlut.h;
+874     rsteps = \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_computed_config_ad1a121fa7d3152df6788ff285e4d2dc6}{zlut\_radialsteps};
+875 \}
+\end{DoxyCode}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!Get\+Ready\+Stream@{Get\+Ready\+Stream}}
+\index{Get\+Ready\+Stream@{Get\+Ready\+Stream}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{Get\+Ready\+Stream()}{GetReadyStream()}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Queued\+C\+U\+D\+A\+Tracker\+::\+Stream} $\ast$ Queued\+C\+U\+D\+A\+Tracker\+::\+Get\+Ready\+Stream (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_queued_c_u_d_a_tracker_a31ec528bdf605169edb8bb27c5e6bbfc}{}\label{class_queued_c_u_d_a_tracker_a31ec528bdf605169edb8bb27c5e6bbfc}
+
+\begin{DoxyCode}
+376 \{
+377     \textcolor{keywordflow}{while} (\textcolor{keyword}{true}) \{
+378         \hyperlink{class_queued_c_u_d_a_tracker_a57c66fb35caade90cadedd575d7b6c81}{jobQueueMutex}.\hyperlink{struct_threads_1_1_mutex_af3cb09072ecd935be502deb78f4519d5}{lock}();
+379 
+380         Stream *best = 0;
+381         \textcolor{keywordflow}{for} (\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} i=0;i<\hyperlink{class_queued_c_u_d_a_tracker_a06cc0da8192d0f8ff5d9edcad1158f58}{streams}.size();i++) 
+382         \{
+383             Stream*s = \hyperlink{class_queued_c_u_d_a_tracker_a06cc0da8192d0f8ff5d9edcad1158f58}{streams}[i];           
+384             \textcolor{keywordflow}{if} (s->state == \hyperlink{struct_queued_c_u_d_a_tracker_1_1_stream_a836e14e096ea57bd153e812ce1e0a1f2a016601712772605b4535e857fddbab0f}{Stream::StreamIdle}) \{
+385                 \textcolor{keywordflow}{if} (!best || (s->JobCount() > best->JobCount()))
+386                     best = s;
+387             \}
+388         \}
+389 
+390         \hyperlink{class_queued_c_u_d_a_tracker_a57c66fb35caade90cadedd575d7b6c81}{jobQueueMutex}.\hyperlink{struct_threads_1_1_mutex_ad78fadce2239c6d359986e443822f6f6}{unlock}();
+391 
+392         \textcolor{keywordflow}{if} (best) 
+393             \textcolor{keywordflow}{return} best;
+394 
+395         \hyperlink{struct_threads_a803a0b6899fb5e09ee7f56bd1986a287}{Threads::Sleep}(1);
+396     \}
+397 \}
+\end{DoxyCode}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!Get\+Result\+Count@{Get\+Result\+Count}}
+\index{Get\+Result\+Count@{Get\+Result\+Count}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{Get\+Result\+Count() override}{GetResultCount() override}}]{\setlength{\rightskip}{0pt plus 5cm}int Queued\+C\+U\+D\+A\+Tracker\+::\+Get\+Result\+Count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}\hypertarget{class_queued_c_u_d_a_tracker_aeb508df96e1cbcfaf8f0bf330e01d35c}{}\label{class_queued_c_u_d_a_tracker_aeb508df96e1cbcfaf8f0bf330e01d35c}
+
+
+Implements \hyperlink{class_queued_tracker_a362a26027dc6bd40864e59de1ac32de2}{Queued\+Tracker}.
+
+
+\begin{DoxyCode}
+878 \{
+879     \hyperlink{class_queued_c_u_d_a_tracker_ab6bcec14cabbc64d9d96ce0641f5034f}{resultMutex}.\hyperlink{struct_threads_1_1_mutex_af3cb09072ecd935be502deb78f4519d5}{lock}();
+880     \textcolor{keywordtype}{int} r = \hyperlink{class_queued_c_u_d_a_tracker_abdb0a310718f7f1c8a47cf9a3f22728d}{resultCount};
+881     \hyperlink{class_queued_c_u_d_a_tracker_ab6bcec14cabbc64d9d96ce0641f5034f}{resultMutex}.\hyperlink{struct_threads_1_1_mutex_ad78fadce2239c6d359986e443822f6f6}{unlock}();
+882     \textcolor{keywordflow}{return} r;
+883 \}
+\end{DoxyCode}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!Initialize\+Device\+List@{Initialize\+Device\+List}}
+\index{Initialize\+Device\+List@{Initialize\+Device\+List}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{Initialize\+Device\+List()}{InitializeDeviceList()}}]{\setlength{\rightskip}{0pt plus 5cm}void Queued\+C\+U\+D\+A\+Tracker\+::\+Initialize\+Device\+List (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_queued_c_u_d_a_tracker_ae7806b9e8d79fb4add720019ed4e72ed}{}\label{class_queued_c_u_d_a_tracker_ae7806b9e8d79fb4add720019ed4e72ed}
+
+\begin{DoxyCode}
+113 \{
+114     \textcolor{keywordtype}{int} numDevices;
+115     cudaGetDeviceCount(&numDevices);
+116 
+117     \textcolor{comment}{// Select the most powerful one}
+118     \textcolor{keywordflow}{if} (\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_a795682a80b672b594ebd225aebf3fb16}{cuda\_device} == \hyperlink{qtrk__c__api_8h_adacab7cc5d7db0ead3d14f9862d7bbb7}{QTrkCUDA\_UseBest}) \{
+119         \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_a795682a80b672b594ebd225aebf3fb16}{cuda\_device} = \hyperlink{_queued_c_u_d_a_tracker_8cu_a19fc494f75b9dffe835d70fa70daae57}{GetBestCUDADevice}();
+120         \hyperlink{class_queued_c_u_d_a_tracker_a333972a0b3e1c98a02e9aab716ef535b}{devices}.push\_back(\textcolor{keyword}{new} Device(\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_a795682a80b672b594ebd225aebf3fb16}{cuda\_device}));
+121     \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_a795682a80b672b594ebd225aebf3fb16}{cuda\_device} == \hyperlink{qtrk__c__api_8h_a81a7a05010c5c6a3c0325892b3d569e9}{QTrkCUDA\_UseAll}) \{
+122         \textcolor{comment}{// Use all devices}
+123         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<numDevices;i++)
+124             \hyperlink{class_queued_c_u_d_a_tracker_a333972a0b3e1c98a02e9aab716ef535b}{devices}.push\_back(\textcolor{keyword}{new} Device(i));
+125     \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_a795682a80b672b594ebd225aebf3fb16}{cuda\_device} == \hyperlink{qtrk__c__api_8h_acc1340bb8a0e6db25194fc300e930b22}{QTrkCUDA\_UseList}) \{
+126         \textcolor{keywordflow}{for} (\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} i=0;i<\hyperlink{_queued_c_u_d_a_tracker_8cu_ab36f2f7f7b4b97a02a4597f7baef4f7a}{cudaDeviceList}.size();i++)
+127             \hyperlink{class_queued_c_u_d_a_tracker_a333972a0b3e1c98a02e9aab716ef535b}{devices}.push\_back(\textcolor{keyword}{new} Device(\hyperlink{_queued_c_u_d_a_tracker_8cu_ab36f2f7f7b4b97a02a4597f7baef4f7a}{cudaDeviceList}[i]));
+128     \} \textcolor{keywordflow}{else} \{
+129         \hyperlink{class_queued_c_u_d_a_tracker_a333972a0b3e1c98a02e9aab716ef535b}{devices}.push\_back (\textcolor{keyword}{new} Device(\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_a795682a80b672b594ebd225aebf3fb16}{cuda\_device}));
+130     \}
+131     \hyperlink{class_queued_c_u_d_a_tracker_af28a9fc89bcd9634e81b3fc404809aaf}{deviceReport} = \textcolor{stringliteral}{"Using devices: "};
+132     \textcolor{keywordflow}{for} (\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} i=0;i<\hyperlink{class_queued_c_u_d_a_tracker_a333972a0b3e1c98a02e9aab716ef535b}{devices}.size();i++) \{
+133         cudaDeviceProp p; 
+134         cudaGetDeviceProperties(&p, \hyperlink{class_queued_c_u_d_a_tracker_a333972a0b3e1c98a02e9aab716ef535b}{devices}[i]->index);
+135         \hyperlink{class_queued_c_u_d_a_tracker_af28a9fc89bcd9634e81b3fc404809aaf}{deviceReport} += \hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"%s%s"}, p.name, i<\hyperlink{class_queued_c_u_d_a_tracker_a333972a0b3e1c98a02e9aab716ef535b}{devices}.size()-1?\textcolor{stringliteral}{", "}:\textcolor{stringliteral}{"\(\backslash\)n"});
+136     \}
+137 \}
+\end{DoxyCode}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!Is\+Idle@{Is\+Idle}}
+\index{Is\+Idle@{Is\+Idle}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{Is\+Idle() override}{IsIdle() override}}]{\setlength{\rightskip}{0pt plus 5cm}bool Queued\+C\+U\+D\+A\+Tracker\+::\+Is\+Idle (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}\hypertarget{class_queued_c_u_d_a_tracker_a147dbe75048a901f137e130ac61a6f7b}{}\label{class_queued_c_u_d_a_tracker_a147dbe75048a901f137e130ac61a6f7b}
+
+
+Implements \hyperlink{class_queued_tracker_a8b879a9359f4e2081e69b0932f8e9908}{Queued\+Tracker}.
+
+
+\begin{DoxyCode}
+400 \{
+401     \textcolor{keywordtype}{int} ql = \hyperlink{class_queued_c_u_d_a_tracker_acd209a7709c4776a585af6bd24768b13}{GetQueueLength}(0);
+402     \textcolor{keywordflow}{return} ql == 0;
+403 \}
+\end{DoxyCode}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!Schedule\+Localization@{Schedule\+Localization}}
+\index{Schedule\+Localization@{Schedule\+Localization}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{Schedule\+Localization(void $\ast$data, int pitch, Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type pdt, const Localization\+Job $\ast$job\+Info) override}{ScheduleLocalization(void *data, int pitch, QTRK_PixelDataType pdt, const LocalizationJob *jobInfo) override}}]{\setlength{\rightskip}{0pt plus 5cm}void Queued\+C\+U\+D\+A\+Tracker\+::\+Schedule\+Localization (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{data, }
+\item[{int}]{pitch, }
+\item[{{\bf Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type}}]{pdt, }
+\item[{const {\bf Localization\+Job} $\ast$}]{job\+Info}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}\hypertarget{class_queued_c_u_d_a_tracker_a8a038919d270228922e31f375c17cbbe}{}\label{class_queued_c_u_d_a_tracker_a8a038919d270228922e31f375c17cbbe}
+
+
+Add a job to the queue to be processed. A job entails running the required algorithms on a single region of interest. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em data} & Pointer to the data. Type specified by \mbox{[}pdt\mbox{]}. \\
+\hline
+\mbox{\tt in}  & {\em pitch} & Distance in bytes between two successive rows of pixels (e.\+g. address of (0,0) -\/ address of (0,1)). \\
+\hline
+\mbox{\tt in}  & {\em pdt} & Type of \mbox{[}data\mbox{]}, specified by \hyperlink{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0b}{Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type}. \\
+\hline
+\mbox{\tt in}  & {\em job\+Info} & Structure with metadata for the R\+OI to be handled. See \hyperlink{struct_localization_job}{Localization\+Job}. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{class_queued_tracker_a233dffd15fe3cef8a53c698bba9befb4}{Queued\+Tracker}.
+
+
+\begin{DoxyCode}
+432 \{
+433     Stream* s = \hyperlink{class_queued_c_u_d_a_tracker_a31ec528bdf605169edb8bb27c5e6bbfc}{GetReadyStream}();
+434 
+435     \hyperlink{class_queued_c_u_d_a_tracker_a57c66fb35caade90cadedd575d7b6c81}{jobQueueMutex}.\hyperlink{struct_threads_1_1_mutex_af3cb09072ecd935be502deb78f4519d5}{lock}();
+436     \textcolor{keywordtype}{int} jobIndex = s->jobs.size();
+437     \hyperlink{struct_localization_job}{LocalizationJob} job = *jobInfo;
+438     s->jobs.push\_back(job);
+439     s->localizeFlags = \hyperlink{class_queued_c_u_d_a_tracker_ae113cc3fb5f12dfadd172ebc5dd20f1a}{localizeMode}; \textcolor{comment}{// which kernels to run}
+440     s->locParams[jobIndex].zlutIndex = jobInfo->\hyperlink{struct_localization_job_afcf9f91b72597af0e2572f3ae74d9a99}{zlutIndex};
+441 
+442     \textcolor{keywordflow}{if} (s->jobs.size() == \hyperlink{class_queued_c_u_d_a_tracker_a19a027c0cc319821c25de1cb23e14a17}{batchSize})
+443         s->state = \hyperlink{struct_queued_c_u_d_a_tracker_1_1_stream_a836e14e096ea57bd153e812ce1e0a1f2a871a26b9ee42c5b70b5d3d90b8fc35c4}{Stream::StreamPendingExec};
+444     \hyperlink{class_queued_c_u_d_a_tracker_a57c66fb35caade90cadedd575d7b6c81}{jobQueueMutex}.\hyperlink{struct_threads_1_1_mutex_ad78fadce2239c6d359986e443822f6f6}{unlock}();
+445 
+446     s->imageBufMutex.lock();
+447     \textcolor{comment}{// Copy the image to the batch image buffer (CPU side)}
+448     \textcolor{keywordtype}{float}* hostbuf = &s->hostImageBuf[\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height}*\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width}*jobIndex];
+449     \hyperlink{_queued_tracker_8h_aa12cb78bf8b173dab3392d1e16944b6d}{CopyImageToFloat}( (\hyperlink{std__incl_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar}*)data, \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width}, \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.
+      \hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height}, pitch, pdt, hostbuf);
+450     \textcolor{keywordflow}{if} (\hyperlink{class_queued_c_u_d_a_tracker_ae113cc3fb5f12dfadd172ebc5dd20f1a}{localizeMode} & \hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba5b928b5bd4caff7d5f30322fdecae82b}{LT\_ClearFirstFourPixels}) \{
+451         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=0;i<4;i++) hostbuf[i]=0;
+452     \}
+453     s->imageBufMutex.unlock();
+454 
+455     \textcolor{comment}{//dbgprintf("Job: %d\(\backslash\)n", jobIndex);}
+456 \}
+\end{DoxyCode}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!Scheduling\+Thread\+Entry\+Point@{Scheduling\+Thread\+Entry\+Point}}
+\index{Scheduling\+Thread\+Entry\+Point@{Scheduling\+Thread\+Entry\+Point}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{Scheduling\+Thread\+Entry\+Point(void $\ast$param)}{SchedulingThreadEntryPoint(void *param)}}]{\setlength{\rightskip}{0pt plus 5cm}void Queued\+C\+U\+D\+A\+Tracker\+::\+Scheduling\+Thread\+Entry\+Point (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{param}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}\hypertarget{class_queued_c_u_d_a_tracker_a16da3da0346279b6a2dd4276eb15a25b}{}\label{class_queued_c_u_d_a_tracker_a16da3da0346279b6a2dd4276eb15a25b}
+
+\begin{DoxyCode}
+237 \{
+238     ((\hyperlink{class_queued_c_u_d_a_tracker}{QueuedCUDATracker}*)param)->SchedulingThreadMain();
+239 \}
+\end{DoxyCode}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!Scheduling\+Thread\+Main@{Scheduling\+Thread\+Main}}
+\index{Scheduling\+Thread\+Main@{Scheduling\+Thread\+Main}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{Scheduling\+Thread\+Main()}{SchedulingThreadMain()}}]{\setlength{\rightskip}{0pt plus 5cm}void Queued\+C\+U\+D\+A\+Tracker\+::\+Scheduling\+Thread\+Main (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_queued_c_u_d_a_tracker_ac52125061a2b042a6c149156977b8474}{}\label{class_queued_c_u_d_a_tracker_ac52125061a2b042a6c149156977b8474}
+
+\begin{DoxyCode}
+242 \{
+243     std::vector<Stream*> activeStreams;
+244 
+245     \textcolor{keywordflow}{while} (!\hyperlink{class_queued_c_u_d_a_tracker_a277551e623212420a3c18dec6662c626}{quitScheduler}) \{
+246         \hyperlink{class_queued_c_u_d_a_tracker_a57c66fb35caade90cadedd575d7b6c81}{jobQueueMutex}.\hyperlink{struct_threads_1_1_mutex_af3cb09072ecd935be502deb78f4519d5}{lock}();
+247         Stream* s = 0;
+248         \textcolor{keywordflow}{for} (\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} i=0;i<\hyperlink{class_queued_c_u_d_a_tracker_a06cc0da8192d0f8ff5d9edcad1158f58}{streams}.size();i++) 
+249             \textcolor{keywordflow}{if} (\hyperlink{class_queued_c_u_d_a_tracker_a06cc0da8192d0f8ff5d9edcad1158f58}{streams}[i]->state == \hyperlink{struct_queued_c_u_d_a_tracker_1_1_stream_a836e14e096ea57bd153e812ce1e0a1f2a871a26b9ee42c5b70b5d3d90b8fc35c4}{Stream::StreamPendingExec}) \{
+250                 s=\hyperlink{class_queued_c_u_d_a_tracker_a06cc0da8192d0f8ff5d9edcad1158f58}{streams}[i];
+251                 s->state = \hyperlink{struct_queued_c_u_d_a_tracker_1_1_stream_a836e14e096ea57bd153e812ce1e0a1f2a62c88c473a98aed73b5fdf061753c63a}{Stream::StreamExecuting};
+252         \textcolor{comment}{//      dbgprintf("Executing stream %p [%d]. %d jobs\(\backslash\)n", s, i, s->JobCount());}
+253                 \textcolor{keywordflow}{break};
+254             \}
+255         \hyperlink{class_queued_c_u_d_a_tracker_a57c66fb35caade90cadedd575d7b6c81}{jobQueueMutex}.\hyperlink{struct_threads_1_1_mutex_ad78fadce2239c6d359986e443822f6f6}{unlock}();
+256 
+257         \textcolor{keywordflow}{if} (s) \{
+258             s->imageBufMutex.lock();
+259 
+260             \textcolor{comment}{// Launch filled batches, or if flushing launch every batch with nonzero jobs}
+261             \textcolor{keywordflow}{if} (\hyperlink{class_queued_c_u_d_a_tracker_a1351abd5ca987de1b8663a919e511134}{useTextureCache})
+262                 ExecuteBatch<ImageSampler\_Tex> (s);
+263             \textcolor{keywordflow}{else}
+264                 ExecuteBatch<ImageSampler\_MemCopy> (s);
+265             s->imageBufMutex.unlock();
+266             activeStreams.push\_back(s);
+267         \}
+268         
+269         \textcolor{comment}{// Fetch results}
+270         \textcolor{keywordflow}{for} (\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} a=0;a<activeStreams.size();a++) \{
+271             Stream* s = activeStreams[a];
+272             \textcolor{keywordflow}{if} (s->IsExecutionDone()) \{
+273         \textcolor{comment}{//      dbgprintf("Stream %p done.\(\backslash\)n", s);}
+274                 \hyperlink{class_queued_c_u_d_a_tracker_a03544a8c3c5bf7b55dd55393532c5b0d}{CopyStreamResults}(s);
+275                 s->localizeFlags = 0; \textcolor{comment}{// reset this for the next batch}
+276                 \hyperlink{class_queued_c_u_d_a_tracker_a57c66fb35caade90cadedd575d7b6c81}{jobQueueMutex}.\hyperlink{struct_threads_1_1_mutex_af3cb09072ecd935be502deb78f4519d5}{lock}();
+277                 s->jobs.clear();
+278                 s->state = \hyperlink{struct_queued_c_u_d_a_tracker_1_1_stream_a836e14e096ea57bd153e812ce1e0a1f2a016601712772605b4535e857fddbab0f}{Stream::StreamIdle};
+279                 \hyperlink{class_queued_c_u_d_a_tracker_a57c66fb35caade90cadedd575d7b6c81}{jobQueueMutex}.\hyperlink{struct_threads_1_1_mutex_ad78fadce2239c6d359986e443822f6f6}{unlock}();
+280                 activeStreams.erase(std::find(activeStreams.begin(),activeStreams.end(),s));
+281                 \textcolor{keywordflow}{break};
+282             \}
+283         \}
+284 
+285         \hyperlink{struct_threads_a803a0b6899fb5e09ee7f56bd1986a287}{Threads::Sleep}(1);
+286     \}
+287 \}
+\end{DoxyCode}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!Set\+Config\+Value@{Set\+Config\+Value}}
+\index{Set\+Config\+Value@{Set\+Config\+Value}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{Set\+Config\+Value(std\+::string name, std\+::string value) override}{SetConfigValue(std::string name, std::string value) override}}]{\setlength{\rightskip}{0pt plus 5cm}void Queued\+C\+U\+D\+A\+Tracker\+::\+Set\+Config\+Value (
+\begin{DoxyParamCaption}
+\item[{std\+::string}]{name, }
+\item[{std\+::string}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}\hypertarget{class_queued_c_u_d_a_tracker_abbdfa55593327bd9a26cf4ac313239ec}{}\label{class_queued_c_u_d_a_tracker_abbdfa55593327bd9a26cf4ac313239ec}
+
+
+Implements \hyperlink{class_queued_tracker_a0d96ad4feea320c3ba90d196b4690d3b}{Queued\+Tracker}.
+
+
+\begin{DoxyCode}
+913 \{
+914     \textcolor{keywordflow}{if} (name == \textcolor{stringliteral}{"use\_texturecache"})
+915         \hyperlink{class_queued_c_u_d_a_tracker_a1351abd5ca987de1b8663a919e511134}{useTextureCache} = atoi(value.c\_str()) != 0;
+916 \}\end{DoxyCode}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!Set\+Localization\+Mode@{Set\+Localization\+Mode}}
+\index{Set\+Localization\+Mode@{Set\+Localization\+Mode}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{Set\+Localization\+Mode(\+Loc\+Mode\+\_\+t loc\+Type) override}{SetLocalizationMode(LocMode_t locType) override}}]{\setlength{\rightskip}{0pt plus 5cm}void Queued\+C\+U\+D\+A\+Tracker\+::\+Set\+Localization\+Mode (
+\begin{DoxyParamCaption}
+\item[{{\bf Loc\+Mode\+\_\+t}}]{loc\+Type}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}\hypertarget{class_queued_c_u_d_a_tracker_aed4058f411c99625b9c06ce13d4aabc6}{}\label{class_queued_c_u_d_a_tracker_aed4058f411c99625b9c06ce13d4aabc6}
+
+
+Select which algorithm is to be used. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em loc\+Type} & An integer used as a bitmask for settings based on \hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3b}{Localize\+Mode\+Enum}. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{class_queued_tracker_aed430b5578d7a3e75f4d4d6c6dbb7e45}{Queued\+Tracker}.
+
+
+\begin{DoxyCode}
+422 \{
+423     \hyperlink{class_queued_c_u_d_a_tracker_a4407b12d3fc2e2969840ccc233ec96bc}{Flush}();
+424     \textcolor{keywordflow}{while} (!\hyperlink{class_queued_c_u_d_a_tracker_a147dbe75048a901f137e130ac61a6f7b}{IsIdle}());
+425 
+426     \hyperlink{class_queued_c_u_d_a_tracker_a57c66fb35caade90cadedd575d7b6c81}{jobQueueMutex}.\hyperlink{struct_threads_1_1_mutex_af3cb09072ecd935be502deb78f4519d5}{lock}();
+427     \hyperlink{class_queued_c_u_d_a_tracker_ae113cc3fb5f12dfadd172ebc5dd20f1a}{localizeMode} = mode;
+428     \hyperlink{class_queued_c_u_d_a_tracker_a57c66fb35caade90cadedd575d7b6c81}{jobQueueMutex}.\hyperlink{struct_threads_1_1_mutex_ad78fadce2239c6d359986e443822f6f6}{unlock}();
+429 \}
+\end{DoxyCode}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!Set\+Pixel\+Calibration\+Factors@{Set\+Pixel\+Calibration\+Factors}}
+\index{Set\+Pixel\+Calibration\+Factors@{Set\+Pixel\+Calibration\+Factors}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{Set\+Pixel\+Calibration\+Factors(float offset\+Factor, float gain\+Factor) override}{SetPixelCalibrationFactors(float offsetFactor, float gainFactor) override}}]{\setlength{\rightskip}{0pt plus 5cm}void Queued\+C\+U\+D\+A\+Tracker\+::\+Set\+Pixel\+Calibration\+Factors (
+\begin{DoxyParamCaption}
+\item[{float}]{offset\+Factor, }
+\item[{float}]{gain\+Factor}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}\hypertarget{class_queued_c_u_d_a_tracker_a59468e8c37b6bdfb2374f9db78060c0d}{}\label{class_queued_c_u_d_a_tracker_a59468e8c37b6bdfb2374f9db78060c0d}
+
+
+Implements \hyperlink{class_queued_tracker_ab9dd540b5c8452718944b47520fda402}{Queued\+Tracker}.
+
+
+\begin{DoxyCode}
+778 \{
+779     \hyperlink{class_queued_c_u_d_a_tracker_aea7843385e4604dc38a6f1fc7b4f2811}{gc\_mutex}.\hyperlink{struct_threads_1_1_mutex_af3cb09072ecd935be502deb78f4519d5}{lock}();
+780     \hyperlink{class_queued_c_u_d_a_tracker_adba93271c22f7e6800f49ab93ec07c71}{gc\_gainFactor} = gainFactor;
+781     \hyperlink{class_queued_c_u_d_a_tracker_a84b6dcf09baa64ba031f7a5a4304d592}{gc\_offsetFactor} = offsetFactor;
+782     \hyperlink{class_queued_c_u_d_a_tracker_aea7843385e4604dc38a6f1fc7b4f2811}{gc\_mutex}.\hyperlink{struct_threads_1_1_mutex_ad78fadce2239c6d359986e443822f6f6}{unlock}();
+783 \}
+\end{DoxyCode}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!Set\+Pixel\+Calibration\+Images@{Set\+Pixel\+Calibration\+Images}}
+\index{Set\+Pixel\+Calibration\+Images@{Set\+Pixel\+Calibration\+Images}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{Set\+Pixel\+Calibration\+Images(float $\ast$offset, float $\ast$gain) override}{SetPixelCalibrationImages(float *offset, float *gain) override}}]{\setlength{\rightskip}{0pt plus 5cm}void Queued\+C\+U\+D\+A\+Tracker\+::\+Set\+Pixel\+Calibration\+Images (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{offset, }
+\item[{float $\ast$}]{gain}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}\hypertarget{class_queued_c_u_d_a_tracker_a95264d01570acfdfd75977b06eaa0fcc}{}\label{class_queued_c_u_d_a_tracker_a95264d01570acfdfd75977b06eaa0fcc}
+
+
+Implements \hyperlink{class_queued_tracker_ae1fa56f8629d8d4ad621889fbd9e4a46}{Queued\+Tracker}.
+
+
+\begin{DoxyCode}
+743 \{
+744     \textcolor{keywordflow}{for} (\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} i=0;i<\hyperlink{class_queued_c_u_d_a_tracker_a333972a0b3e1c98a02e9aab716ef535b}{devices}.size();i++) \{
+745         \hyperlink{class_queued_c_u_d_a_tracker_a333972a0b3e1c98a02e9aab716ef535b}{devices}[i]->SetPixelCalibrationImages(offset, gain, \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width}, 
+      \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height});
+746     \}
+747 
+748     \textcolor{comment}{// Copy to CPU side buffers for BuildLUT}
+749     \textcolor{keywordtype}{int} nelem = \hyperlink{class_queued_c_u_d_a_tracker_a333972a0b3e1c98a02e9aab716ef535b}{devices}[0]->radial\_zlut.count * \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width} * \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.
+      \hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height};
+750     \textcolor{keywordflow}{if} (offset && \hyperlink{class_queued_c_u_d_a_tracker_ae7be3e341a4086a64581d5429afd546d}{gc\_offset}.size()!=nelem) \{ 
+751         \hyperlink{class_queued_c_u_d_a_tracker_ae7be3e341a4086a64581d5429afd546d}{gc\_offset}.resize(nelem);
+752         \hyperlink{class_queued_c_u_d_a_tracker_ae7be3e341a4086a64581d5429afd546d}{gc\_offset}.assign(offset,offset+nelem);
+753     \}
+754     \textcolor{keywordflow}{if} (!offset) \hyperlink{class_queued_c_u_d_a_tracker_ae7be3e341a4086a64581d5429afd546d}{gc\_offset}.clear();
+755 
+756     \textcolor{keywordflow}{if} (gain && \hyperlink{class_queued_c_u_d_a_tracker_a86866ae12a13f953194b0c5398c5c0d8}{gc\_gain}.size()!=nelem) \{
+757         \hyperlink{class_queued_c_u_d_a_tracker_a86866ae12a13f953194b0c5398c5c0d8}{gc\_gain}.reserve(nelem);
+758         \hyperlink{class_queued_c_u_d_a_tracker_a86866ae12a13f953194b0c5398c5c0d8}{gc\_gain}.assign(gain, gain+nelem);
+759     \}
+760     \textcolor{keywordflow}{if} (!gain) \hyperlink{class_queued_c_u_d_a_tracker_a86866ae12a13f953194b0c5398c5c0d8}{gc\_gain}.clear();
+761 \}
+\end{DoxyCode}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!Set\+Radial\+Weights@{Set\+Radial\+Weights}}
+\index{Set\+Radial\+Weights@{Set\+Radial\+Weights}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{Set\+Radial\+Weights(float $\ast$zcmp) override}{SetRadialWeights(float *zcmp) override}}]{\setlength{\rightskip}{0pt plus 5cm}void Queued\+C\+U\+D\+A\+Tracker\+::\+Set\+Radial\+Weights (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{zcmp}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}\hypertarget{class_queued_c_u_d_a_tracker_a41d97b792daafdc6e7a76af383429f48}{}\label{class_queued_c_u_d_a_tracker_a41d97b792daafdc6e7a76af383429f48}
+
+
+Set radial weights used for comparing L\+UT profiles. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em zcmp} & Array of radial weights to use. {\ttfamily zcmp} has to have {\ttfamily zlut\+\_\+radialsteps} elements. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{class_queued_tracker_aaf4a1a0f17e2df7bc6dded2729d920f4}{Queued\+Tracker}.
+
+
+\begin{DoxyCode}
+823 \{
+824     \textcolor{keywordflow}{for} (\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} i=0;i<\hyperlink{class_queued_c_u_d_a_tracker_a333972a0b3e1c98a02e9aab716ef535b}{devices}.size();i++) \{
+825         \hyperlink{class_queued_c_u_d_a_tracker_a333972a0b3e1c98a02e9aab716ef535b}{devices}[i]->SetRadialWeights(zcmp);
+826     \}
+827 \}
+\end{DoxyCode}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!Set\+Radial\+Z\+L\+UT@{Set\+Radial\+Z\+L\+UT}}
+\index{Set\+Radial\+Z\+L\+UT@{Set\+Radial\+Z\+L\+UT}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{Set\+Radial\+Z\+L\+U\+T(float $\ast$data, int num\+L\+U\+Ts, int planes) override}{SetRadialZLUT(float *data, int numLUTs, int planes) override}}]{\setlength{\rightskip}{0pt plus 5cm}void Queued\+C\+U\+D\+A\+Tracker\+::\+Set\+Radial\+Z\+L\+UT (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{data, }
+\item[{int}]{count, }
+\item[{int}]{planes}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}\hypertarget{class_queued_c_u_d_a_tracker_a2681f4f94ca93970322bafa58b1dd9bd}{}\label{class_queued_c_u_d_a_tracker_a2681f4f94ca93970322bafa58b1dd9bd}
+
+
+Set the radial lookup tables to be used for z tracking. 
+
+{\ttfamily Data} can be zero to allocate Z\+L\+UT data. L\+U\+Ts should have been created before by \hyperlink{class_queued_c_u_d_a_tracker_a16da9256e496b6689079330a062c7529}{Build\+L\+UT}, but not necessarily by the current instance as long as setting match.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em data} & Pointer to the start of the Z\+L\+UT data. \\
+\hline
+\mbox{\tt in}  & {\em count} & Number of Z\+L\+U\+Ts in the dataset. \\
+\hline
+\mbox{\tt in}  & {\em planes} & Number of planes per Z\+L\+UT. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{class_queued_tracker_a77c3d8414993d2aa3ddfca4c8b40e71d}{Queued\+Tracker}.
+
+
+\begin{DoxyCode}
+812 \{
+813     \textcolor{keywordflow}{for} (\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} i=0;i<\hyperlink{class_queued_c_u_d_a_tracker_a333972a0b3e1c98a02e9aab716ef535b}{devices}.size();i++) \{
+814         \hyperlink{class_queued_c_u_d_a_tracker_a333972a0b3e1c98a02e9aab716ef535b}{devices}[i]->SetRadialZLUT(data, \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_computed_config_ad1a121fa7d3152df6788ff285e4d2dc6}{zlut\_radialsteps}, planes, numLUTs);
+815     \}
+816 
+817     \textcolor{keywordflow}{for} (\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} i=0;i<\hyperlink{class_queued_c_u_d_a_tracker_a06cc0da8192d0f8ff5d9edcad1158f58}{streams}.size();i++) \{
+818         \hyperlink{class_queued_c_u_d_a_tracker_ab1feeeb058f9652ef11053958f01062f}{StreamUpdateZLUTSize}(\hyperlink{class_queued_c_u_d_a_tracker_a06cc0da8192d0f8ff5d9edcad1158f58}{streams}[i]);
+819     \}
+820 \}
+\end{DoxyCode}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!Stream\+Update\+Z\+L\+U\+T\+Size@{Stream\+Update\+Z\+L\+U\+T\+Size}}
+\index{Stream\+Update\+Z\+L\+U\+T\+Size@{Stream\+Update\+Z\+L\+U\+T\+Size}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{Stream\+Update\+Z\+L\+U\+T\+Size(\+Stream $\ast$s)}{StreamUpdateZLUTSize(Stream *s)}}]{\setlength{\rightskip}{0pt plus 5cm}void Queued\+C\+U\+D\+A\+Tracker\+::\+Stream\+Update\+Z\+L\+U\+T\+Size (
+\begin{DoxyParamCaption}
+\item[{{\bf Stream} $\ast$}]{s}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_queued_c_u_d_a_tracker_ab1feeeb058f9652ef11053958f01062f}{}\label{class_queued_c_u_d_a_tracker_ab1feeeb058f9652ef11053958f01062f}
+
+\begin{DoxyCode}
+830 \{       
+831     cudaSetDevice(s->device->index);
+832     s->d\_zlutcmpscores.init(s->device->radial\_zlut.h * \hyperlink{class_queued_c_u_d_a_tracker_a19a027c0cc319821c25de1cb23e14a17}{batchSize});
+833     \textcolor{comment}{// radialsteps never changes}
+834 \}
+\end{DoxyCode}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!threads@{threads}}
+\index{threads@{threads}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{threads()}{threads()}}]{\setlength{\rightskip}{0pt plus 5cm}dim3 Queued\+C\+U\+D\+A\+Tracker\+::threads (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}\hypertarget{class_queued_c_u_d_a_tracker_ae88c5554dba8227967f4a600ff7fab84}{}\label{class_queued_c_u_d_a_tracker_ae88c5554dba8227967f4a600ff7fab84}
+
+\begin{DoxyCode}
+190 \{ \textcolor{keywordflow}{return} dim3(\hyperlink{class_queued_c_u_d_a_tracker_a1bbaf466f197bd745411786578b743bc}{numThreads}); \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!batches\+Done@{batches\+Done}}
+\index{batches\+Done@{batches\+Done}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{batches\+Done}{batchesDone}}]{\setlength{\rightskip}{0pt plus 5cm}int Queued\+C\+U\+D\+A\+Tracker\+::batches\+Done}\hypertarget{class_queued_c_u_d_a_tracker_a6c9bf05a64537e9a978d9e7a71bb20fb}{}\label{class_queued_c_u_d_a_tracker_a6c9bf05a64537e9a978d9e7a71bb20fb}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!batch\+Size@{batch\+Size}}
+\index{batch\+Size@{batch\+Size}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{batch\+Size}{batchSize}}]{\setlength{\rightskip}{0pt plus 5cm}int Queued\+C\+U\+D\+A\+Tracker\+::batch\+Size\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_queued_c_u_d_a_tracker_a19a027c0cc319821c25de1cb23e14a17}{}\label{class_queued_c_u_d_a_tracker_a19a027c0cc319821c25de1cb23e14a17}
+
+
+Amount of images to be sent at once per stream. 
+
+Higher batchsize = higher speeds. Reason why it\textquotesingle{}s faster\+:
+\begin{DoxyEnumerate}
+\item More threads \& blocks are created, allowing more efficient memory latency hiding by warp switching, or in other words, higher occupancy is achieved.
+\item Bigger batches are copied at a time, achieving higher effective P\+C\+Ie bus bandwidth. 
+\end{DoxyEnumerate}\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!cpu\+\_\+time@{cpu\+\_\+time}}
+\index{cpu\+\_\+time@{cpu\+\_\+time}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{cpu\+\_\+time}{cpu_time}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Kernel\+Profile\+Time} Queued\+C\+U\+D\+A\+Tracker\+::cpu\+\_\+time}\hypertarget{class_queued_c_u_d_a_tracker_ae8b2eeef65a2a1acde697df6c206ae08}{}\label{class_queued_c_u_d_a_tracker_ae8b2eeef65a2a1acde697df6c206ae08}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!device\+Prop@{device\+Prop}}
+\index{device\+Prop@{device\+Prop}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{device\+Prop}{deviceProp}}]{\setlength{\rightskip}{0pt plus 5cm}cuda\+Device\+Prop Queued\+C\+U\+D\+A\+Tracker\+::device\+Prop\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_queued_c_u_d_a_tracker_a60ba8b15a56739a7a26a538d23b7ec92}{}\label{class_queued_c_u_d_a_tracker_a60ba8b15a56739a7a26a538d23b7ec92}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!device\+Report@{device\+Report}}
+\index{device\+Report@{device\+Report}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{device\+Report}{deviceReport}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string Queued\+C\+U\+D\+A\+Tracker\+::device\+Report}\hypertarget{class_queued_c_u_d_a_tracker_af28a9fc89bcd9634e81b3fc404809aaf}{}\label{class_queued_c_u_d_a_tracker_af28a9fc89bcd9634e81b3fc404809aaf}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!devices@{devices}}
+\index{devices@{devices}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{devices}{devices}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<${\bf Device}$\ast$$>$ Queued\+C\+U\+D\+A\+Tracker\+::devices\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_queued_c_u_d_a_tracker_a333972a0b3e1c98a02e9aab716ef535b}{}\label{class_queued_c_u_d_a_tracker_a333972a0b3e1c98a02e9aab716ef535b}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!gc\+\_\+gain@{gc\+\_\+gain}}
+\index{gc\+\_\+gain@{gc\+\_\+gain}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{gc\+\_\+gain}{gc_gain}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$float$>$ Queued\+C\+U\+D\+A\+Tracker\+::gc\+\_\+gain\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_queued_c_u_d_a_tracker_a86866ae12a13f953194b0c5398c5c0d8}{}\label{class_queued_c_u_d_a_tracker_a86866ae12a13f953194b0c5398c5c0d8}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!gc\+\_\+gain\+Factor@{gc\+\_\+gain\+Factor}}
+\index{gc\+\_\+gain\+Factor@{gc\+\_\+gain\+Factor}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{gc\+\_\+gain\+Factor}{gc_gainFactor}}]{\setlength{\rightskip}{0pt plus 5cm}float Queued\+C\+U\+D\+A\+Tracker\+::gc\+\_\+gain\+Factor\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_queued_c_u_d_a_tracker_adba93271c22f7e6800f49ab93ec07c71}{}\label{class_queued_c_u_d_a_tracker_adba93271c22f7e6800f49ab93ec07c71}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!gc\+\_\+mutex@{gc\+\_\+mutex}}
+\index{gc\+\_\+mutex@{gc\+\_\+mutex}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{gc\+\_\+mutex}{gc_mutex}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Threads\+::\+Mutex} Queued\+C\+U\+D\+A\+Tracker\+::gc\+\_\+mutex\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_queued_c_u_d_a_tracker_aea7843385e4604dc38a6f1fc7b4f2811}{}\label{class_queued_c_u_d_a_tracker_aea7843385e4604dc38a6f1fc7b4f2811}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!gc\+\_\+offset@{gc\+\_\+offset}}
+\index{gc\+\_\+offset@{gc\+\_\+offset}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{gc\+\_\+offset}{gc_offset}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$float$>$ Queued\+C\+U\+D\+A\+Tracker\+::gc\+\_\+offset\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_queued_c_u_d_a_tracker_ae7be3e341a4086a64581d5429afd546d}{}\label{class_queued_c_u_d_a_tracker_ae7be3e341a4086a64581d5429afd546d}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!gc\+\_\+offset\+Factor@{gc\+\_\+offset\+Factor}}
+\index{gc\+\_\+offset\+Factor@{gc\+\_\+offset\+Factor}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{gc\+\_\+offset\+Factor}{gc_offsetFactor}}]{\setlength{\rightskip}{0pt plus 5cm}float Queued\+C\+U\+D\+A\+Tracker\+::gc\+\_\+offset\+Factor\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_queued_c_u_d_a_tracker_a84b6dcf09baa64ba031f7a5a4304d592}{}\label{class_queued_c_u_d_a_tracker_a84b6dcf09baa64ba031f7a5a4304d592}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!job\+Queue\+Mutex@{job\+Queue\+Mutex}}
+\index{job\+Queue\+Mutex@{job\+Queue\+Mutex}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{job\+Queue\+Mutex}{jobQueueMutex}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Threads\+::\+Mutex} Queued\+C\+U\+D\+A\+Tracker\+::job\+Queue\+Mutex\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_queued_c_u_d_a_tracker_a57c66fb35caade90cadedd575d7b6c81}{}\label{class_queued_c_u_d_a_tracker_a57c66fb35caade90cadedd575d7b6c81}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!localize\+Mode@{localize\+Mode}}
+\index{localize\+Mode@{localize\+Mode}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{localize\+Mode}{localizeMode}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Loc\+Mode\+\_\+t} Queued\+C\+U\+D\+A\+Tracker\+::localize\+Mode\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_queued_c_u_d_a_tracker_ae113cc3fb5f12dfadd172ebc5dd20f1a}{}\label{class_queued_c_u_d_a_tracker_ae113cc3fb5f12dfadd172ebc5dd20f1a}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!num\+Threads@{num\+Threads}}
+\index{num\+Threads@{num\+Threads}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{num\+Threads}{numThreads}}]{\setlength{\rightskip}{0pt plus 5cm}int Queued\+C\+U\+D\+A\+Tracker\+::num\+Threads\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_queued_c_u_d_a_tracker_a1bbaf466f197bd745411786578b743bc}{}\label{class_queued_c_u_d_a_tracker_a1bbaf466f197bd745411786578b743bc}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!qalign@{qalign}}
+\index{qalign@{qalign}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{qalign}{qalign}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf QI} Queued\+C\+U\+D\+A\+Tracker\+::qalign\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_queued_c_u_d_a_tracker_a4ad3ddecc21aa3c9b7a706bd18364f7d}{}\label{class_queued_c_u_d_a_tracker_a4ad3ddecc21aa3c9b7a706bd18364f7d}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!qi@{qi}}
+\index{qi@{qi}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{qi}{qi}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf QI} Queued\+C\+U\+D\+A\+Tracker\+::qi\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_queued_c_u_d_a_tracker_a885a0274a85bd6cddbb93d0c3a3cb422}{}\label{class_queued_c_u_d_a_tracker_a885a0274a85bd6cddbb93d0c3a3cb422}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!quit\+Scheduler@{quit\+Scheduler}}
+\index{quit\+Scheduler@{quit\+Scheduler}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{quit\+Scheduler}{quitScheduler}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Atomic}$<$bool$>$ Queued\+C\+U\+D\+A\+Tracker\+::quit\+Scheduler\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_queued_c_u_d_a_tracker_a277551e623212420a3c18dec6662c626}{}\label{class_queued_c_u_d_a_tracker_a277551e623212420a3c18dec6662c626}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!result\+Count@{result\+Count}}
+\index{result\+Count@{result\+Count}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{result\+Count}{resultCount}}]{\setlength{\rightskip}{0pt plus 5cm}int Queued\+C\+U\+D\+A\+Tracker\+::result\+Count\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_queued_c_u_d_a_tracker_abdb0a310718f7f1c8a47cf9a3f22728d}{}\label{class_queued_c_u_d_a_tracker_abdb0a310718f7f1c8a47cf9a3f22728d}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!result\+Mutex@{result\+Mutex}}
+\index{result\+Mutex@{result\+Mutex}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{result\+Mutex}{resultMutex}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Threads\+::\+Mutex} Queued\+C\+U\+D\+A\+Tracker\+::result\+Mutex\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_queued_c_u_d_a_tracker_ab6bcec14cabbc64d9d96ce0641f5034f}{}\label{class_queued_c_u_d_a_tracker_ab6bcec14cabbc64d9d96ce0641f5034f}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!results@{results}}
+\index{results@{results}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{results}{results}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::list$<${\bf Localization\+Result}$>$ Queued\+C\+U\+D\+A\+Tracker\+::results\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_queued_c_u_d_a_tracker_af29d9427d57a9041fbc581d6e8b0efbf}{}\label{class_queued_c_u_d_a_tracker_af29d9427d57a9041fbc581d6e8b0efbf}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!scheduling\+Thread@{scheduling\+Thread}}
+\index{scheduling\+Thread@{scheduling\+Thread}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{scheduling\+Thread}{schedulingThread}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Threads\+::\+Handle}$\ast$ Queued\+C\+U\+D\+A\+Tracker\+::scheduling\+Thread\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_queued_c_u_d_a_tracker_a419b8e04e631f1711fdfad84943df22c}{}\label{class_queued_c_u_d_a_tracker_a419b8e04e631f1711fdfad84943df22c}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!streams@{streams}}
+\index{streams@{streams}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{streams}{streams}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<${\bf Stream}$\ast$$>$ Queued\+C\+U\+D\+A\+Tracker\+::streams\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_queued_c_u_d_a_tracker_a06cc0da8192d0f8ff5d9edcad1158f58}{}\label{class_queued_c_u_d_a_tracker_a06cc0da8192d0f8ff5d9edcad1158f58}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!time@{time}}
+\index{time@{time}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{time}{time}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Kernel\+Profile\+Time} Queued\+C\+U\+D\+A\+Tracker\+::time}\hypertarget{class_queued_c_u_d_a_tracker_a6557b929cd8bd14618787c6a90671cc0}{}\label{class_queued_c_u_d_a_tracker_a6557b929cd8bd14618787c6a90671cc0}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!use\+Texture\+Cache@{use\+Texture\+Cache}}
+\index{use\+Texture\+Cache@{use\+Texture\+Cache}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{use\+Texture\+Cache}{useTextureCache}}]{\setlength{\rightskip}{0pt plus 5cm}bool Queued\+C\+U\+D\+A\+Tracker\+::use\+Texture\+Cache\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_queued_c_u_d_a_tracker_a1351abd5ca987de1b8663a919e511134}{}\label{class_queued_c_u_d_a_tracker_a1351abd5ca987de1b8663a919e511134}
+\index{Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}!zlut\+\_\+build\+\_\+flags@{zlut\+\_\+build\+\_\+flags}}
+\index{zlut\+\_\+build\+\_\+flags@{zlut\+\_\+build\+\_\+flags}!Queued\+C\+U\+D\+A\+Tracker@{Queued\+C\+U\+D\+A\+Tracker}}
+\subsubsection[{\texorpdfstring{zlut\+\_\+build\+\_\+flags}{zlut_build_flags}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint} Queued\+C\+U\+D\+A\+Tracker\+::zlut\+\_\+build\+\_\+flags\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_queued_c_u_d_a_tracker_a7842914186ce30357a10595f79ef3244}{}\label{class_queued_c_u_d_a_tracker_a7842914186ce30357a10595f79ef3244}
+
+
+cpu size buffers are needed because Build\+L\+UT uses C\+PU tracking 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+cudatrack/\hyperlink{_queued_c_u_d_a_tracker_8h}{Queued\+C\+U\+D\+A\+Tracker.\+h}\item 
+cudatrack/\hyperlink{_queued_c_u_d_a_tracker_8cu}{Queued\+C\+U\+D\+A\+Tracker.\+cu}\end{DoxyCompactItemize}

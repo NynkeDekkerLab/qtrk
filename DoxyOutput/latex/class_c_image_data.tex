@@ -1,0 +1,131 @@
+\hypertarget{class_c_image_data}{}\section{C\+Image\+Data Class Reference}
+\label{class_c_image_data}\index{C\+Image\+Data@{C\+Image\+Data}}
+
+
+{\ttfamily \#include $<$utils.\+h$>$}
+
+Inheritance diagram for C\+Image\+Data\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_c_image_data}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_c_image_data_a7aeb8d37e489584c23a9fa3978d81daa}{C\+Image\+Data} (int \hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w}, int \hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h})
+\item 
+\hyperlink{class_c_image_data_afbaf8178890c617cbecaaf5eacaaf680}{C\+Image\+Data} (const \hyperlink{class_c_image_data}{C\+Image\+Data} \&other)
+\item 
+\hyperlink{class_c_image_data_acd1d3e5ea816f60e32c46bfcb7400f7e}{C\+Image\+Data} ()
+\item 
+\hyperlink{class_c_image_data_a2acb71bd47b7a401d313422095c3b6d4}{$\sim$\+C\+Image\+Data} ()
+\item 
+\hyperlink{class_c_image_data_a9ea043ce5278c6a0b671cf88bcd5cd40}{C\+Image\+Data} (const \hyperlink{struct_t_image_data}{T\+Image\+Data}$<$ float $>$ \&src)
+\item 
+\hyperlink{class_c_image_data}{C\+Image\+Data} \& \hyperlink{class_c_image_data_ae2f0ccb7b2f2ea0711e26518e3540f83}{operator=} (const \hyperlink{class_c_image_data}{C\+Image\+Data} \&src)
+\item 
+\hyperlink{class_c_image_data}{C\+Image\+Data} \& \hyperlink{class_c_image_data_aaa5ced0c590f609f69c88de7c664956e}{operator=} (const \hyperlink{struct_t_image_data}{T\+Image\+Data}$<$ float $>$ \&src)
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{C\+Image\+Data@{C\+Image\+Data}!C\+Image\+Data@{C\+Image\+Data}}
+\index{C\+Image\+Data@{C\+Image\+Data}!C\+Image\+Data@{C\+Image\+Data}}
+\subsubsection[{\texorpdfstring{C\+Image\+Data(int w, int h)}{CImageData(int w, int h)}}]{\setlength{\rightskip}{0pt plus 5cm}C\+Image\+Data\+::\+C\+Image\+Data (
+\begin{DoxyParamCaption}
+\item[{int}]{w, }
+\item[{int}]{h}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_c_image_data_a7aeb8d37e489584c23a9fa3978d81daa}{}\label{class_c_image_data_a7aeb8d37e489584c23a9fa3978d81daa}
+
+\begin{DoxyCode}
+117                             : \hyperlink{struct_t_image_data}{TImageData<float>}(\textcolor{keyword}{new} \textcolor{keywordtype}{float}[\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w}*\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h}],
+      \hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w},\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h}) \{ 
+118     \}
+\end{DoxyCode}
+\index{C\+Image\+Data@{C\+Image\+Data}!C\+Image\+Data@{C\+Image\+Data}}
+\index{C\+Image\+Data@{C\+Image\+Data}!C\+Image\+Data@{C\+Image\+Data}}
+\subsubsection[{\texorpdfstring{C\+Image\+Data(const C\+Image\+Data \&other)}{CImageData(const CImageData &other)}}]{\setlength{\rightskip}{0pt plus 5cm}C\+Image\+Data\+::\+C\+Image\+Data (
+\begin{DoxyParamCaption}
+\item[{const {\bf C\+Image\+Data} \&}]{other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_c_image_data_afbaf8178890c617cbecaaf5eacaaf680}{}\label{class_c_image_data_afbaf8178890c617cbecaaf5eacaaf680}
+
+\begin{DoxyCode}
+119                                         \{
+120         \hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data}=0; \textcolor{keyword}{set}(other);
+121     \}
+\end{DoxyCode}
+\index{C\+Image\+Data@{C\+Image\+Data}!C\+Image\+Data@{C\+Image\+Data}}
+\index{C\+Image\+Data@{C\+Image\+Data}!C\+Image\+Data@{C\+Image\+Data}}
+\subsubsection[{\texorpdfstring{C\+Image\+Data()}{CImageData()}}]{\setlength{\rightskip}{0pt plus 5cm}C\+Image\+Data\+::\+C\+Image\+Data (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_c_image_data_acd1d3e5ea816f60e32c46bfcb7400f7e}{}\label{class_c_image_data_acd1d3e5ea816f60e32c46bfcb7400f7e}
+
+\begin{DoxyCode}
+122 \{\}
+\end{DoxyCode}
+\index{C\+Image\+Data@{C\+Image\+Data}!````~C\+Image\+Data@{$\sim$\+C\+Image\+Data}}
+\index{````~C\+Image\+Data@{$\sim$\+C\+Image\+Data}!C\+Image\+Data@{C\+Image\+Data}}
+\subsubsection[{\texorpdfstring{$\sim$\+C\+Image\+Data()}{~CImageData()}}]{\setlength{\rightskip}{0pt plus 5cm}C\+Image\+Data\+::$\sim$\+C\+Image\+Data (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_c_image_data_a2acb71bd47b7a401d313422095c3b6d4}{}\label{class_c_image_data_a2acb71bd47b7a401d313422095c3b6d4}
+
+\begin{DoxyCode}
+123 \{ \hyperlink{struct_t_image_data_a60a60e309657216a2e35809fdc582b11}{free}(); \}
+\end{DoxyCode}
+\index{C\+Image\+Data@{C\+Image\+Data}!C\+Image\+Data@{C\+Image\+Data}}
+\index{C\+Image\+Data@{C\+Image\+Data}!C\+Image\+Data@{C\+Image\+Data}}
+\subsubsection[{\texorpdfstring{C\+Image\+Data(const T\+Image\+Data$<$ float $>$ \&src)}{CImageData(const TImageData< float > &src)}}]{\setlength{\rightskip}{0pt plus 5cm}C\+Image\+Data\+::\+C\+Image\+Data (
+\begin{DoxyParamCaption}
+\item[{const {\bf T\+Image\+Data}$<$ float $>$ \&}]{src}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_c_image_data_a9ea043ce5278c6a0b671cf88bcd5cd40}{}\label{class_c_image_data_a9ea043ce5278c6a0b671cf88bcd5cd40}
+
+\begin{DoxyCode}
+124                                              \{
+125         \hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data}=0; \textcolor{keyword}{set}(src);
+126     \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\index{C\+Image\+Data@{C\+Image\+Data}!operator=@{operator=}}
+\index{operator=@{operator=}!C\+Image\+Data@{C\+Image\+Data}}
+\subsubsection[{\texorpdfstring{operator=(const C\+Image\+Data \&src)}{operator=(const CImageData &src)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf C\+Image\+Data}\& C\+Image\+Data\+::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf C\+Image\+Data} \&}]{src}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_c_image_data_ae2f0ccb7b2f2ea0711e26518e3540f83}{}\label{class_c_image_data_ae2f0ccb7b2f2ea0711e26518e3540f83}
+
+\begin{DoxyCode}
+128                                                  \{
+129         \textcolor{keyword}{set}(src);
+130         \textcolor{keywordflow}{return} *\textcolor{keyword}{this};
+131     \}
+\end{DoxyCode}
+\index{C\+Image\+Data@{C\+Image\+Data}!operator=@{operator=}}
+\index{operator=@{operator=}!C\+Image\+Data@{C\+Image\+Data}}
+\subsubsection[{\texorpdfstring{operator=(const T\+Image\+Data$<$ float $>$ \&src)}{operator=(const TImageData< float > &src)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf C\+Image\+Data}\& C\+Image\+Data\+::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf T\+Image\+Data}$<$ float $>$ \&}]{src}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_c_image_data_aaa5ced0c590f609f69c88de7c664956e}{}\label{class_c_image_data_aaa5ced0c590f609f69c88de7c664956e}
+
+\begin{DoxyCode}
+132                                                         \{
+133         \textcolor{keyword}{set}(src);
+134         \textcolor{keywordflow}{return} *\textcolor{keyword}{this};
+135     \}
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+cputrack/\hyperlink{utils_8h}{utils.\+h}\end{DoxyCompactItemize}

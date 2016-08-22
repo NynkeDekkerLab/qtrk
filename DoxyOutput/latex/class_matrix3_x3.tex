@@ -1,0 +1,334 @@
+\hypertarget{class_matrix3_x3}{}\section{Matrix3\+X3 Class Reference}
+\label{class_matrix3_x3}\index{Matrix3\+X3@{Matrix3\+X3}}
+
+
+{\ttfamily \#include $<$utils.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_matrix3_x3_aefc0ab5df027c540ff7aa18ca7f2e2ec}{Matrix3\+X3} ()
+\item 
+\hyperlink{class_matrix3_x3_a804adaed742d23be9e1ba18c474b395b}{Matrix3\+X3} (\hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f} x, \hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f} y, \hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f} z)
+\item 
+\hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f} \hyperlink{class_matrix3_x3_a9ae9d007341bbf8b82f0043d3e791ba7}{diag} () const 
+\item 
+float \& \hyperlink{class_matrix3_x3_a86ce8bda4855d220934401f37064cdfc}{operator\mbox{[}$\,$\mbox{]}} (int i)
+\item 
+const float \& \hyperlink{class_matrix3_x3_acc1d51e5595ee722c8e3d110323a4ef1}{operator\mbox{[}$\,$\mbox{]}} (int i) const 
+\item 
+\hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f} \& \hyperlink{class_matrix3_x3_a7ea824cc29ab1b8a79745f88782b46bb}{row} (int i)
+\item 
+const \hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f} \& \hyperlink{class_matrix3_x3_a5e4c85454a8bbf3422c5d3d9152b7bc1}{row} (int i) const 
+\item 
+float \& \hyperlink{class_matrix3_x3_a6b7ee08dcc6939ed0e6870a45496de55}{operator()} (int i, int j)
+\item 
+const float \& \hyperlink{class_matrix3_x3_a9d15beebf98a21f596dd9d2aaddac465}{operator()} (int i, int j) const 
+\item 
+float \& \hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at} (int i, int j)
+\item 
+const float \& \hyperlink{class_matrix3_x3_a3df18d5523cb981b4cd92f44b47ecd10}{at} (int i, int j) const 
+\item 
+float \hyperlink{class_matrix3_x3_a84f01c6d99bde6d7a3b95a3439018c38}{Determinant} () const 
+\item 
+\hyperlink{class_matrix3_x3}{Matrix3\+X3} \hyperlink{class_matrix3_x3_a67bea30b9734e1ecae9c9c0581150dc5}{Inverse} () const 
+\item 
+\hyperlink{class_matrix3_x3}{Matrix3\+X3} \hyperlink{class_matrix3_x3_ac60f8237c026adf5014404394fcec708}{Inverse\+Transpose} () const 
+\item 
+\hyperlink{class_matrix3_x3}{Matrix3\+X3} \& \hyperlink{class_matrix3_x3_ab4b80f1dc192ccb1d249849a54eac311}{operator$\ast$=} (float a)
+\item 
+\hyperlink{class_matrix3_x3}{Matrix3\+X3} \& \hyperlink{class_matrix3_x3_ad9533ec2a79f7a5aaa26068d757c830e}{operator+=} (const \hyperlink{class_matrix3_x3}{Matrix3\+X3} \&b)
+\item 
+void \hyperlink{class_matrix3_x3_a2330dbda267e46a1abef86976d36d610}{dbgprint} ()
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \hyperlink{class_matrix3_x3_a4c8e4f1349d9119f66e5dd4bd9a1203e}{test} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+float \hyperlink{class_matrix3_x3_a7c54fb7a859ee84f13efb2eccd28e5f5}{m} \mbox{[}9\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Matrix3\+X3@{Matrix3\+X3}!Matrix3\+X3@{Matrix3\+X3}}
+\index{Matrix3\+X3@{Matrix3\+X3}!Matrix3\+X3@{Matrix3\+X3}}
+\subsubsection[{\texorpdfstring{Matrix3\+X3()}{Matrix3X3()}}]{\setlength{\rightskip}{0pt plus 5cm}Matrix3\+X3\+::\+Matrix3\+X3 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_matrix3_x3_aefc0ab5df027c540ff7aa18ca7f2e2ec}{}\label{class_matrix3_x3_aefc0ab5df027c540ff7aa18ca7f2e2ec}
+
+\begin{DoxyCode}
+270 \{ \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=0;i<9;i++) \hyperlink{class_matrix3_x3_a7c54fb7a859ee84f13efb2eccd28e5f5}{m}[i]=0.0f; \}
+\end{DoxyCode}
+\index{Matrix3\+X3@{Matrix3\+X3}!Matrix3\+X3@{Matrix3\+X3}}
+\index{Matrix3\+X3@{Matrix3\+X3}!Matrix3\+X3@{Matrix3\+X3}}
+\subsubsection[{\texorpdfstring{Matrix3\+X3(vector3f x, vector3f y, vector3f z)}{Matrix3X3(vector3f x, vector3f y, vector3f z)}}]{\setlength{\rightskip}{0pt plus 5cm}Matrix3\+X3\+::\+Matrix3\+X3 (
+\begin{DoxyParamCaption}
+\item[{{\bf vector3f}}]{x, }
+\item[{{\bf vector3f}}]{y, }
+\item[{{\bf vector3f}}]{z}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_matrix3_x3_a804adaed742d23be9e1ba18c474b395b}{}\label{class_matrix3_x3_a804adaed742d23be9e1ba18c474b395b}
+
+\begin{DoxyCode}
+271                                                 \{ 
+272         \hyperlink{class_matrix3_x3_a7ea824cc29ab1b8a79745f88782b46bb}{row}(0) = x;
+273         \hyperlink{class_matrix3_x3_a7ea824cc29ab1b8a79745f88782b46bb}{row}(1) = y;
+274         \hyperlink{class_matrix3_x3_a7ea824cc29ab1b8a79745f88782b46bb}{row}(2) = z;
+275     \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\index{Matrix3\+X3@{Matrix3\+X3}!at@{at}}
+\index{at@{at}!Matrix3\+X3@{Matrix3\+X3}}
+\subsubsection[{\texorpdfstring{at(int i, int j)}{at(int i, int j)}}]{\setlength{\rightskip}{0pt plus 5cm}float\& Matrix3\+X3\+::at (
+\begin{DoxyParamCaption}
+\item[{int}]{i, }
+\item[{int}]{j}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{}\label{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}
+
+\begin{DoxyCode}
+288 \{  \textcolor{keywordflow}{return} \hyperlink{class_matrix3_x3_a7c54fb7a859ee84f13efb2eccd28e5f5}{m}[3*i+j]; \}
+\end{DoxyCode}
+\index{Matrix3\+X3@{Matrix3\+X3}!at@{at}}
+\index{at@{at}!Matrix3\+X3@{Matrix3\+X3}}
+\subsubsection[{\texorpdfstring{at(int i, int j) const }{at(int i, int j) const }}]{\setlength{\rightskip}{0pt plus 5cm}const float\& Matrix3\+X3\+::at (
+\begin{DoxyParamCaption}
+\item[{int}]{i, }
+\item[{int}]{j}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_matrix3_x3_a3df18d5523cb981b4cd92f44b47ecd10}{}\label{class_matrix3_x3_a3df18d5523cb981b4cd92f44b47ecd10}
+
+\begin{DoxyCode}
+289 \{ \textcolor{keywordflow}{return} \hyperlink{class_matrix3_x3_a7c54fb7a859ee84f13efb2eccd28e5f5}{m}[3*i+j]; \}
+\end{DoxyCode}
+\index{Matrix3\+X3@{Matrix3\+X3}!dbgprint@{dbgprint}}
+\index{dbgprint@{dbgprint}!Matrix3\+X3@{Matrix3\+X3}}
+\subsubsection[{\texorpdfstring{dbgprint()}{dbgprint()}}]{\setlength{\rightskip}{0pt plus 5cm}void Matrix3\+X3\+::dbgprint (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_matrix3_x3_a2330dbda267e46a1abef86976d36d610}{}\label{class_matrix3_x3_a2330dbda267e46a1abef86976d36d610}
+
+\begin{DoxyCode}
+361     \{
+362         \hyperlink{utils_8h_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"%f\(\backslash\)t%f\(\backslash\)t%f\(\backslash\)n"}, \hyperlink{class_matrix3_x3_a7c54fb7a859ee84f13efb2eccd28e5f5}{m}[0],\hyperlink{class_matrix3_x3_a7c54fb7a859ee84f13efb2eccd28e5f5}{m}[1],\hyperlink{class_matrix3_x3_a7c54fb7a859ee84f13efb2eccd28e5f5}{m}[2]);
+363         \hyperlink{utils_8h_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"%f\(\backslash\)t%f\(\backslash\)t%f\(\backslash\)n"}, \hyperlink{class_matrix3_x3_a7c54fb7a859ee84f13efb2eccd28e5f5}{m}[3],\hyperlink{class_matrix3_x3_a7c54fb7a859ee84f13efb2eccd28e5f5}{m}[4],\hyperlink{class_matrix3_x3_a7c54fb7a859ee84f13efb2eccd28e5f5}{m}[5]);
+364         \hyperlink{utils_8h_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"%f\(\backslash\)t%f\(\backslash\)t%f\(\backslash\)n"}, \hyperlink{class_matrix3_x3_a7c54fb7a859ee84f13efb2eccd28e5f5}{m}[6],\hyperlink{class_matrix3_x3_a7c54fb7a859ee84f13efb2eccd28e5f5}{m}[7],\hyperlink{class_matrix3_x3_a7c54fb7a859ee84f13efb2eccd28e5f5}{m}[8]);
+365     \}
+\end{DoxyCode}
+\index{Matrix3\+X3@{Matrix3\+X3}!Determinant@{Determinant}}
+\index{Determinant@{Determinant}!Matrix3\+X3@{Matrix3\+X3}}
+\subsubsection[{\texorpdfstring{Determinant() const }{Determinant() const }}]{\setlength{\rightskip}{0pt plus 5cm}float Matrix3\+X3\+::\+Determinant (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_matrix3_x3_a84f01c6d99bde6d7a3b95a3439018c38}{}\label{class_matrix3_x3_a84f01c6d99bde6d7a3b95a3439018c38}
+
+\begin{DoxyCode}
+292     \{
+293         \textcolor{keywordflow}{return} \hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(0,0)*(\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(1,1)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(2,2)-\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(2,1)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(1,2))
+294                             -\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(0,1)*(\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(1,0)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(2,2)-\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(1,2)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(2,0))
+295                         +\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(0,2)*(\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(1,0)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(2,1)-\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(1,1)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(2,0));
+296     \}
+\end{DoxyCode}
+\index{Matrix3\+X3@{Matrix3\+X3}!diag@{diag}}
+\index{diag@{diag}!Matrix3\+X3@{Matrix3\+X3}}
+\subsubsection[{\texorpdfstring{diag() const }{diag() const }}]{\setlength{\rightskip}{0pt plus 5cm}{\bf vector3f} Matrix3\+X3\+::diag (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_matrix3_x3_a9ae9d007341bbf8b82f0043d3e791ba7}{}\label{class_matrix3_x3_a9ae9d007341bbf8b82f0043d3e791ba7}
+
+\begin{DoxyCode}
+277 \{ \textcolor{keywordflow}{return} \hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f}(\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(0,0),\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(1,1),\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(2,2)); \}
+\end{DoxyCode}
+\index{Matrix3\+X3@{Matrix3\+X3}!Inverse@{Inverse}}
+\index{Inverse@{Inverse}!Matrix3\+X3@{Matrix3\+X3}}
+\subsubsection[{\texorpdfstring{Inverse() const }{Inverse() const }}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Matrix3\+X3} Matrix3\+X3\+::\+Inverse (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_matrix3_x3_a67bea30b9734e1ecae9c9c0581150dc5}{}\label{class_matrix3_x3_a67bea30b9734e1ecae9c9c0581150dc5}
+
+\begin{DoxyCode}
+299     \{
+300         \textcolor{keywordtype}{float} det = \hyperlink{class_matrix3_x3_a84f01c6d99bde6d7a3b95a3439018c38}{Determinant}();
+301         \textcolor{keywordflow}{if} (det != 0.0f) \{
+302             \textcolor{keywordtype}{float} invdet = 1/det;
+303             \hyperlink{class_matrix3_x3}{Matrix3X3} result;
+304             result(0,0) =  (\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(1,1)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(2,2)-\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(2,1)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(1,2))*invdet;
+305             result(1,0) = -(\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(0,1)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(2,2)-\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(0,2)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(2,1))*invdet;
+306             result(2,0) =  (\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(0,1)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(1,2)-\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(0,2)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(1,1))*invdet;
+307             result(0,1) = -(\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(1,0)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(2,2)-\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(1,2)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(2,0))*invdet;
+308             result(1,1) =  (\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(0,0)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(2,2)-\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(0,2)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(2,0))*invdet;
+309             result(2,1) = -(\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(0,0)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(1,2)-\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(1,0)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(0,2))*invdet;
+310             result(0,2) =  (\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(1,0)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(2,1)-\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(2,0)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(1,1))*invdet;
+311             result(1,2) = -(\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(0,0)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(2,1)-\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(2,0)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(0,1))*invdet;
+312             result(2,2) =  (\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(0,0)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(1,1)-\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(1,0)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(0,1))*invdet;
+313             \textcolor{keywordflow}{return} result;
+314         \}
+315         \textcolor{keywordflow}{return} \hyperlink{class_matrix3_x3_aefc0ab5df027c540ff7aa18ca7f2e2ec}{Matrix3X3}();
+316     \}
+\end{DoxyCode}
+\index{Matrix3\+X3@{Matrix3\+X3}!Inverse\+Transpose@{Inverse\+Transpose}}
+\index{Inverse\+Transpose@{Inverse\+Transpose}!Matrix3\+X3@{Matrix3\+X3}}
+\subsubsection[{\texorpdfstring{Inverse\+Transpose() const }{InverseTranspose() const }}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Matrix3\+X3} Matrix3\+X3\+::\+Inverse\+Transpose (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_matrix3_x3_ac60f8237c026adf5014404394fcec708}{}\label{class_matrix3_x3_ac60f8237c026adf5014404394fcec708}
+
+\begin{DoxyCode}
+318     \{
+319         \textcolor{keywordtype}{float} det = \hyperlink{class_matrix3_x3_a84f01c6d99bde6d7a3b95a3439018c38}{Determinant}();
+320         \textcolor{keywordflow}{if} (det != 0.0f) \{
+321             \textcolor{keywordtype}{float} invdet = 1/det;
+322             \hyperlink{class_matrix3_x3}{Matrix3X3} result;
+323             result(0,0) =  (\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(1,1)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(2,2)-\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(2,1)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(1,2))*invdet;
+324             result(0,1) = -(\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(0,1)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(2,2)-\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(0,2)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(2,1))*invdet;
+325             result(0,2) =  (\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(0,1)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(1,2)-\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(0,2)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(1,1))*invdet;
+326             result(1,0) = -(\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(1,0)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(2,2)-\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(1,2)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(2,0))*invdet;
+327             result(1,1) =  (\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(0,0)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(2,2)-\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(0,2)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(2,0))*invdet;
+328             result(1,2) = -(\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(0,0)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(1,2)-\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(1,0)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(0,2))*invdet;
+329             result(2,0) =  (\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(1,0)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(2,1)-\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(2,0)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(1,1))*invdet;
+330             result(2,1) = -(\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(0,0)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(2,1)-\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(2,0)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(0,1))*invdet;
+331             result(2,2) =  (\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(0,0)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(1,1)-\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(1,0)*\hyperlink{class_matrix3_x3_af543ad33dde1e3d8e1e9923e0514115f}{at}(0,1))*invdet;
+332             \textcolor{keywordflow}{return} result;
+333         \}
+334         \textcolor{keywordflow}{return} \hyperlink{class_matrix3_x3_aefc0ab5df027c540ff7aa18ca7f2e2ec}{Matrix3X3}();
+335     \}
+\end{DoxyCode}
+\index{Matrix3\+X3@{Matrix3\+X3}!operator()@{operator()}}
+\index{operator()@{operator()}!Matrix3\+X3@{Matrix3\+X3}}
+\subsubsection[{\texorpdfstring{operator()(int i, int j)}{operator()(int i, int j)}}]{\setlength{\rightskip}{0pt plus 5cm}float\& Matrix3\+X3\+::operator() (
+\begin{DoxyParamCaption}
+\item[{int}]{i, }
+\item[{int}]{j}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_matrix3_x3_a6b7ee08dcc6939ed0e6870a45496de55}{}\label{class_matrix3_x3_a6b7ee08dcc6939ed0e6870a45496de55}
+
+\begin{DoxyCode}
+285 \{ \textcolor{keywordflow}{return} \hyperlink{class_matrix3_x3_a7c54fb7a859ee84f13efb2eccd28e5f5}{m}[3*i+j]; \}
+\end{DoxyCode}
+\index{Matrix3\+X3@{Matrix3\+X3}!operator()@{operator()}}
+\index{operator()@{operator()}!Matrix3\+X3@{Matrix3\+X3}}
+\subsubsection[{\texorpdfstring{operator()(int i, int j) const }{operator()(int i, int j) const }}]{\setlength{\rightskip}{0pt plus 5cm}const float\& Matrix3\+X3\+::operator() (
+\begin{DoxyParamCaption}
+\item[{int}]{i, }
+\item[{int}]{j}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_matrix3_x3_a9d15beebf98a21f596dd9d2aaddac465}{}\label{class_matrix3_x3_a9d15beebf98a21f596dd9d2aaddac465}
+
+\begin{DoxyCode}
+286 \{ \textcolor{keywordflow}{return} \hyperlink{class_matrix3_x3_a7c54fb7a859ee84f13efb2eccd28e5f5}{m}[3*i+j]; \}
+\end{DoxyCode}
+\index{Matrix3\+X3@{Matrix3\+X3}!operator$\ast$=@{operator$\ast$=}}
+\index{operator$\ast$=@{operator$\ast$=}!Matrix3\+X3@{Matrix3\+X3}}
+\subsubsection[{\texorpdfstring{operator$\ast$=(float a)}{operator*=(float a)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Matrix3\+X3}\& Matrix3\+X3\+::operator$\ast$= (
+\begin{DoxyParamCaption}
+\item[{float}]{a}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_matrix3_x3_ab4b80f1dc192ccb1d249849a54eac311}{}\label{class_matrix3_x3_ab4b80f1dc192ccb1d249849a54eac311}
+
+\begin{DoxyCode}
+337                                    \{
+338         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=0;i<9;i++) 
+339             \hyperlink{class_matrix3_x3_a7c54fb7a859ee84f13efb2eccd28e5f5}{m}[i]*=a;
+340         \textcolor{keywordflow}{return} *\textcolor{keyword}{this};
+341     \}
+\end{DoxyCode}
+\index{Matrix3\+X3@{Matrix3\+X3}!operator+=@{operator+=}}
+\index{operator+=@{operator+=}!Matrix3\+X3@{Matrix3\+X3}}
+\subsubsection[{\texorpdfstring{operator+=(const Matrix3\+X3 \&b)}{operator+=(const Matrix3X3 &b)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Matrix3\+X3}\& Matrix3\+X3\+::operator+= (
+\begin{DoxyParamCaption}
+\item[{const {\bf Matrix3\+X3} \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_matrix3_x3_ad9533ec2a79f7a5aaa26068d757c830e}{}\label{class_matrix3_x3_ad9533ec2a79f7a5aaa26068d757c830e}
+
+\begin{DoxyCode}
+343                                               \{
+344         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=0;i<9;i++)
+345             \hyperlink{class_matrix3_x3_a7c54fb7a859ee84f13efb2eccd28e5f5}{m}[i]+=b[i];
+346         \textcolor{keywordflow}{return} *\textcolor{keyword}{this};
+347     \}
+\end{DoxyCode}
+\index{Matrix3\+X3@{Matrix3\+X3}!operator\mbox{[}$\,$\mbox{]}@{operator[]}}
+\index{operator\mbox{[}$\,$\mbox{]}@{operator[]}!Matrix3\+X3@{Matrix3\+X3}}
+\subsubsection[{\texorpdfstring{operator[](int i)}{operator[](int i)}}]{\setlength{\rightskip}{0pt plus 5cm}float\& Matrix3\+X3\+::operator\mbox{[}$\,$\mbox{]} (
+\begin{DoxyParamCaption}
+\item[{int}]{i}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_matrix3_x3_a86ce8bda4855d220934401f37064cdfc}{}\label{class_matrix3_x3_a86ce8bda4855d220934401f37064cdfc}
+
+\begin{DoxyCode}
+279 \{ \textcolor{keywordflow}{return} \hyperlink{class_matrix3_x3_a7c54fb7a859ee84f13efb2eccd28e5f5}{m}[i]; \}
+\end{DoxyCode}
+\index{Matrix3\+X3@{Matrix3\+X3}!operator\mbox{[}$\,$\mbox{]}@{operator[]}}
+\index{operator\mbox{[}$\,$\mbox{]}@{operator[]}!Matrix3\+X3@{Matrix3\+X3}}
+\subsubsection[{\texorpdfstring{operator[](int i) const }{operator[](int i) const }}]{\setlength{\rightskip}{0pt plus 5cm}const float\& Matrix3\+X3\+::operator\mbox{[}$\,$\mbox{]} (
+\begin{DoxyParamCaption}
+\item[{int}]{i}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_matrix3_x3_acc1d51e5595ee722c8e3d110323a4ef1}{}\label{class_matrix3_x3_acc1d51e5595ee722c8e3d110323a4ef1}
+
+\begin{DoxyCode}
+280 \{ \textcolor{keywordflow}{return} \hyperlink{class_matrix3_x3_a7c54fb7a859ee84f13efb2eccd28e5f5}{m}[i]; \}
+\end{DoxyCode}
+\index{Matrix3\+X3@{Matrix3\+X3}!row@{row}}
+\index{row@{row}!Matrix3\+X3@{Matrix3\+X3}}
+\subsubsection[{\texorpdfstring{row(int i)}{row(int i)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf vector3f}\& Matrix3\+X3\+::row (
+\begin{DoxyParamCaption}
+\item[{int}]{i}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_matrix3_x3_a7ea824cc29ab1b8a79745f88782b46bb}{}\label{class_matrix3_x3_a7ea824cc29ab1b8a79745f88782b46bb}
+
+\begin{DoxyCode}
+282 \{ \textcolor{keywordflow}{return} *(\hyperlink{structvector3}{vector3f}*)&\hyperlink{class_matrix3_x3_a7c54fb7a859ee84f13efb2eccd28e5f5}{m}[i*3]; \}
+\end{DoxyCode}
+\index{Matrix3\+X3@{Matrix3\+X3}!row@{row}}
+\index{row@{row}!Matrix3\+X3@{Matrix3\+X3}}
+\subsubsection[{\texorpdfstring{row(int i) const }{row(int i) const }}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf vector3f}\& Matrix3\+X3\+::row (
+\begin{DoxyParamCaption}
+\item[{int}]{i}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_matrix3_x3_a5e4c85454a8bbf3422c5d3d9152b7bc1}{}\label{class_matrix3_x3_a5e4c85454a8bbf3422c5d3d9152b7bc1}
+
+\begin{DoxyCode}
+283 \{ \textcolor{keywordflow}{return} *(\hyperlink{structvector3}{vector3f}*)&\hyperlink{class_matrix3_x3_a7c54fb7a859ee84f13efb2eccd28e5f5}{m}[i*3]; \}
+\end{DoxyCode}
+\index{Matrix3\+X3@{Matrix3\+X3}!test@{test}}
+\index{test@{test}!Matrix3\+X3@{Matrix3\+X3}}
+\subsubsection[{\texorpdfstring{test()}{test()}}]{\setlength{\rightskip}{0pt plus 5cm}static void Matrix3\+X3\+::test (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}\hypertarget{class_matrix3_x3_a4c8e4f1349d9119f66e5dd4bd9a1203e}{}\label{class_matrix3_x3_a4c8e4f1349d9119f66e5dd4bd9a1203e}
+
+\begin{DoxyCode}
+352     \{
+353         \hyperlink{class_matrix3_x3}{Matrix3X3} t;
+354 
+355         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<9;i++)
+356             t[i]=i*i;
+357         t.\hyperlink{class_matrix3_x3_a67bea30b9734e1ecae9c9c0581150dc5}{Inverse}().\hyperlink{class_matrix3_x3_a2330dbda267e46a1abef86976d36d610}{dbgprint}();
+358     \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\index{Matrix3\+X3@{Matrix3\+X3}!m@{m}}
+\index{m@{m}!Matrix3\+X3@{Matrix3\+X3}}
+\subsubsection[{\texorpdfstring{m}{m}}]{\setlength{\rightskip}{0pt plus 5cm}float Matrix3\+X3\+::m\mbox{[}9\mbox{]}}\hypertarget{class_matrix3_x3_a7c54fb7a859ee84f13efb2eccd28e5f5}{}\label{class_matrix3_x3_a7c54fb7a859ee84f13efb2eccd28e5f5}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+cputrack/\hyperlink{utils_8h}{utils.\+h}\end{DoxyCompactItemize}

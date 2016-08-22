@@ -1,0 +1,116 @@
+\hypertarget{struct_result_manager_1_1_frame_counters}{}\section{Result\+Manager\+:\+:Frame\+Counters Struct Reference}
+\label{struct_result_manager_1_1_frame_counters}\index{Result\+Manager\+::\+Frame\+Counters@{Result\+Manager\+::\+Frame\+Counters}}
+
+
+Structure to keep track of frame counts.  
+
+
+
+
+{\ttfamily \#include $<$Result\+Manager.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{struct_result_manager_1_1_frame_counters_a1297cf822a66ec485d2cc70ec801098a}{Frame\+Counters} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{struct_result_manager_1_1_frame_counters_a91cdacd9e2418fc49cdebabc171a1aa6}{start\+Frame}
+\begin{DoxyCompactList}\small\item\em Index of the first frame for which results are available. \end{DoxyCompactList}\item 
+int \hyperlink{struct_result_manager_1_1_frame_counters_a9170beb3735c4d08f00050377eeebef5}{processed\+Frames}
+\begin{DoxyCompactList}\small\item\em Number of frames processed by the \hyperlink{class_result_manager}{Result\+Manager}. \end{DoxyCompactList}\item 
+int \hyperlink{struct_result_manager_1_1_frame_counters_a529d0916bd3925ce9b60de516875ae2e}{last\+Save\+Frame}
+\begin{DoxyCompactList}\small\item\em Index of the last frame saved to the output file. \end{DoxyCompactList}\item 
+int \hyperlink{struct_result_manager_1_1_frame_counters_ae9b12ed92f9c0a9e72a51beaf9cca61f}{captured\+Frames}
+\begin{DoxyCompactList}\small\item\em Number of frames captured. Counted through calls to \hyperlink{class_result_manager_a0bbedc935395c1af29f175f81ab063c9}{Store\+Frame\+Info}. \end{DoxyCompactList}\item 
+int \hyperlink{struct_result_manager_1_1_frame_counters_a9ab895a45863f01089a4fa47629e3998}{localizations\+Done}
+\begin{DoxyCompactList}\small\item\em Amount of localizations finished by the linked \hyperlink{class_queued_tracker}{Queued\+Tracker} instance. \end{DoxyCompactList}\item 
+int \hyperlink{struct_result_manager_1_1_frame_counters_a843774dd839c1edc8c0245b830b9f469}{lost\+Frames}
+\begin{DoxyCompactList}\small\item\em Number of frames deleted from memory before results were finished and/or saved. \end{DoxyCompactList}\item 
+int \hyperlink{struct_result_manager_1_1_frame_counters_a524c00c33ddf14ff4f3e467f4daaf7f8}{file\+Error}
+\begin{DoxyCompactList}\small\item\em Count of reported errors while handling output files. Currently only counts on error when opening binary files. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Structure to keep track of frame counts. 
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Result\+Manager\+::\+Frame\+Counters@{Result\+Manager\+::\+Frame\+Counters}!Frame\+Counters@{Frame\+Counters}}
+\index{Frame\+Counters@{Frame\+Counters}!Result\+Manager\+::\+Frame\+Counters@{Result\+Manager\+::\+Frame\+Counters}}
+\subsubsection[{\texorpdfstring{Frame\+Counters()}{FrameCounters()}}]{\setlength{\rightskip}{0pt plus 5cm}Result\+Manager\+::\+Frame\+Counters\+::\+Frame\+Counters (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{struct_result_manager_1_1_frame_counters_a1297cf822a66ec485d2cc70ec801098a}{}\label{struct_result_manager_1_1_frame_counters_a1297cf822a66ec485d2cc70ec801098a}
+
+\begin{DoxyCode}
+32 \{
+33     \hyperlink{struct_result_manager_1_1_frame_counters_a91cdacd9e2418fc49cdebabc171a1aa6}{startFrame} = 0;
+34     \hyperlink{struct_result_manager_1_1_frame_counters_a529d0916bd3925ce9b60de516875ae2e}{lastSaveFrame} = 0;
+35     \hyperlink{struct_result_manager_1_1_frame_counters_a9170beb3735c4d08f00050377eeebef5}{processedFrames} = 0;
+36     \hyperlink{struct_result_manager_1_1_frame_counters_ae9b12ed92f9c0a9e72a51beaf9cca61f}{capturedFrames} = 0;
+37     \hyperlink{struct_result_manager_1_1_frame_counters_a9ab895a45863f01089a4fa47629e3998}{localizationsDone} = 0;
+38     \hyperlink{struct_result_manager_1_1_frame_counters_a843774dd839c1edc8c0245b830b9f469}{lostFrames} = 0;
+39     \hyperlink{struct_result_manager_1_1_frame_counters_a524c00c33ddf14ff4f3e467f4daaf7f8}{fileError} = 0;
+40 \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\index{Result\+Manager\+::\+Frame\+Counters@{Result\+Manager\+::\+Frame\+Counters}!captured\+Frames@{captured\+Frames}}
+\index{captured\+Frames@{captured\+Frames}!Result\+Manager\+::\+Frame\+Counters@{Result\+Manager\+::\+Frame\+Counters}}
+\subsubsection[{\texorpdfstring{captured\+Frames}{capturedFrames}}]{\setlength{\rightskip}{0pt plus 5cm}int Result\+Manager\+::\+Frame\+Counters\+::captured\+Frames}\hypertarget{struct_result_manager_1_1_frame_counters_ae9b12ed92f9c0a9e72a51beaf9cca61f}{}\label{struct_result_manager_1_1_frame_counters_ae9b12ed92f9c0a9e72a51beaf9cca61f}
+
+
+Number of frames captured. Counted through calls to \hyperlink{class_result_manager_a0bbedc935395c1af29f175f81ab063c9}{Store\+Frame\+Info}. 
+
+\index{Result\+Manager\+::\+Frame\+Counters@{Result\+Manager\+::\+Frame\+Counters}!file\+Error@{file\+Error}}
+\index{file\+Error@{file\+Error}!Result\+Manager\+::\+Frame\+Counters@{Result\+Manager\+::\+Frame\+Counters}}
+\subsubsection[{\texorpdfstring{file\+Error}{fileError}}]{\setlength{\rightskip}{0pt plus 5cm}int Result\+Manager\+::\+Frame\+Counters\+::file\+Error}\hypertarget{struct_result_manager_1_1_frame_counters_a524c00c33ddf14ff4f3e467f4daaf7f8}{}\label{struct_result_manager_1_1_frame_counters_a524c00c33ddf14ff4f3e467f4daaf7f8}
+
+
+Count of reported errors while handling output files. Currently only counts on error when opening binary files. 
+
+\index{Result\+Manager\+::\+Frame\+Counters@{Result\+Manager\+::\+Frame\+Counters}!last\+Save\+Frame@{last\+Save\+Frame}}
+\index{last\+Save\+Frame@{last\+Save\+Frame}!Result\+Manager\+::\+Frame\+Counters@{Result\+Manager\+::\+Frame\+Counters}}
+\subsubsection[{\texorpdfstring{last\+Save\+Frame}{lastSaveFrame}}]{\setlength{\rightskip}{0pt plus 5cm}int Result\+Manager\+::\+Frame\+Counters\+::last\+Save\+Frame}\hypertarget{struct_result_manager_1_1_frame_counters_a529d0916bd3925ce9b60de516875ae2e}{}\label{struct_result_manager_1_1_frame_counters_a529d0916bd3925ce9b60de516875ae2e}
+
+
+Index of the last frame saved to the output file. 
+
+\index{Result\+Manager\+::\+Frame\+Counters@{Result\+Manager\+::\+Frame\+Counters}!localizations\+Done@{localizations\+Done}}
+\index{localizations\+Done@{localizations\+Done}!Result\+Manager\+::\+Frame\+Counters@{Result\+Manager\+::\+Frame\+Counters}}
+\subsubsection[{\texorpdfstring{localizations\+Done}{localizationsDone}}]{\setlength{\rightskip}{0pt plus 5cm}int Result\+Manager\+::\+Frame\+Counters\+::localizations\+Done}\hypertarget{struct_result_manager_1_1_frame_counters_a9ab895a45863f01089a4fa47629e3998}{}\label{struct_result_manager_1_1_frame_counters_a9ab895a45863f01089a4fa47629e3998}
+
+
+Amount of localizations finished by the linked \hyperlink{class_queued_tracker}{Queued\+Tracker} instance. 
+
+\index{Result\+Manager\+::\+Frame\+Counters@{Result\+Manager\+::\+Frame\+Counters}!lost\+Frames@{lost\+Frames}}
+\index{lost\+Frames@{lost\+Frames}!Result\+Manager\+::\+Frame\+Counters@{Result\+Manager\+::\+Frame\+Counters}}
+\subsubsection[{\texorpdfstring{lost\+Frames}{lostFrames}}]{\setlength{\rightskip}{0pt plus 5cm}int Result\+Manager\+::\+Frame\+Counters\+::lost\+Frames}\hypertarget{struct_result_manager_1_1_frame_counters_a843774dd839c1edc8c0245b830b9f469}{}\label{struct_result_manager_1_1_frame_counters_a843774dd839c1edc8c0245b830b9f469}
+
+
+Number of frames deleted from memory before results were finished and/or saved. 
+
+\index{Result\+Manager\+::\+Frame\+Counters@{Result\+Manager\+::\+Frame\+Counters}!processed\+Frames@{processed\+Frames}}
+\index{processed\+Frames@{processed\+Frames}!Result\+Manager\+::\+Frame\+Counters@{Result\+Manager\+::\+Frame\+Counters}}
+\subsubsection[{\texorpdfstring{processed\+Frames}{processedFrames}}]{\setlength{\rightskip}{0pt plus 5cm}int Result\+Manager\+::\+Frame\+Counters\+::processed\+Frames}\hypertarget{struct_result_manager_1_1_frame_counters_a9170beb3735c4d08f00050377eeebef5}{}\label{struct_result_manager_1_1_frame_counters_a9170beb3735c4d08f00050377eeebef5}
+
+
+Number of frames processed by the \hyperlink{class_result_manager}{Result\+Manager}. 
+
+\index{Result\+Manager\+::\+Frame\+Counters@{Result\+Manager\+::\+Frame\+Counters}!start\+Frame@{start\+Frame}}
+\index{start\+Frame@{start\+Frame}!Result\+Manager\+::\+Frame\+Counters@{Result\+Manager\+::\+Frame\+Counters}}
+\subsubsection[{\texorpdfstring{start\+Frame}{startFrame}}]{\setlength{\rightskip}{0pt plus 5cm}int Result\+Manager\+::\+Frame\+Counters\+::start\+Frame}\hypertarget{struct_result_manager_1_1_frame_counters_a91cdacd9e2418fc49cdebabc171a1aa6}{}\label{struct_result_manager_1_1_frame_counters_a91cdacd9e2418fc49cdebabc171a1aa6}
+
+
+Index of the first frame for which results are available. 
+
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+cputrack/\hyperlink{_result_manager_8h}{Result\+Manager.\+h}\item 
+cputrack/\hyperlink{_result_manager_8cpp}{Result\+Manager.\+cpp}\end{DoxyCompactItemize}

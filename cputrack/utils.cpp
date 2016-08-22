@@ -164,8 +164,8 @@ void GenerateTestImage(ImageData& img, float xp, float yp, float size, float SNr
 	float S = 1.0f/sqrt(size);
 	for (int y=0;y<img.h;y++) {
 		for (int x=0;x<img.w;x++) {
-			float X = x - xp + 0.5;
-			float Y = y - yp + 0.5;
+			float X = x - xp;// + 0.5;
+			float Y = y - yp;// + 0.5;
 			float r = sqrtf(X*X+Y*Y)+1;
 			float v = sinf(r/(5*S)) * expf(-r*r*S*0.001f);
 			img.at(x,y)=v;
@@ -523,6 +523,20 @@ void WriteTrace(std::string filename, vector3f* results, int nResults)
 	}
 
 	fclose(f);
+}
+
+void WriteVectorAsCSVRow(const char *file, std::vector<float> d, bool append)
+{
+	FILE *f = fopen(file, append?"a":"w");
+	if(f) {
+		for (int i=0;i<d.size();i++)
+			fprintf(f, "%1.7f\t", d[i]);
+
+		fprintf(f, "\n");
+		fclose(f);
+	}
+	else
+		dbgprintf("WriteArrayAsCSVRow: Unable to open file %s\n", file);
 }
 
 void WriteArrayAsCSVRow(const char *file, float* d, int len, bool append)

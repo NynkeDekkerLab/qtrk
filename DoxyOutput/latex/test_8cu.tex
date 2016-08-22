@@ -1,0 +1,1513 @@
+\hypertarget{test_8cu}{}\section{cudatrack-\/test/test.cu File Reference}
+\label{test_8cu}\index{cudatrack-\/test/test.\+cu@{cudatrack-\/test/test.\+cu}}
+{\ttfamily \#include \char`\"{}cuda\+\_\+runtime.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}device\+\_\+launch\+\_\+parameters.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}std\+\_\+incl.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}utils.\+h\char`\"{}}\\*
+{\ttfamily \#include $<$cassert$>$}\\*
+{\ttfamily \#include $<$cstdlib$>$}\\*
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+{\ttfamily \#include $<$windows.\+h$>$}\\*
+{\ttfamily \#include $<$cstdarg$>$}\\*
+{\ttfamily \#include $<$valarray$>$}\\*
+{\ttfamily \#include \char`\"{}random\+\_\+distr.\+h\char`\"{}}\\*
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}gpu\+\_\+utils.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Queued\+C\+U\+D\+A\+Tracker.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Queued\+C\+P\+U\+Tracker.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}../cputrack-\/test/\+Shared\+Tests.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Benchmark\+L\+U\+T.\+h\char`\"{}}\\*
+{\ttfamily \#include $<$thrust/host\+\_\+vector.\+h$>$}\\*
+{\ttfamily \#include $<$thrust/device\+\_\+vector.\+h$>$}\\*
+{\ttfamily \#include $<$thrust/generate.\+h$>$}\\*
+{\ttfamily \#include $<$thrust/reduce.\+h$>$}\\*
+{\ttfamily \#include $<$thrust/functional.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}Fisher\+Matrix.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}testutils.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Result\+Manager.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Extract\+Bead\+Images.\+h\char`\"{}}\\*
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_speed_info}{Speed\+Info}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{test_8cu_aa2e677b0099389a9137abf21b6a11b61}{Benchmark\+Params} ()
+\item 
+std\+::string \hyperlink{test_8cu_ac9bbcd500f70faf6c53a4d2a805bddd0}{get\+Path} (const char $\ast$file)
+\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ float2 \hyperlink{test_8cu_a417f15fefe4dac05048eac1780fd902c}{mul\+\_\+conjugate} (float2 a, float2 b)
+\item 
+void \hyperlink{test_8cu_a5ec21c062fbb718eb272432b5473813a}{Show\+C\+U\+D\+A\+Error} ()
+\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ float \hyperlink{test_8cu_ab0b9205f1595a5487a58172abfab6925}{compute} (int idx, float $\ast$buf, int s)
+\item 
+\+\_\+\+\_\+global\+\_\+\+\_\+ void \hyperlink{test_8cu_a166bc95ca5b0b00fe336b75aff678668}{test\+With\+Global} (int n, int s, float $\ast$result, float $\ast$buf)
+\item 
+\+\_\+\+\_\+global\+\_\+\+\_\+ void \hyperlink{test_8cu_a21ef64381376f5cd30c6672775586241}{test\+With\+Shared} (int n, int s, float $\ast$result)
+\item 
+void \hyperlink{test_8cu_a7d13a69e192df853a4d4d9ecd28dbd62}{Test\+Shared\+Mem} ()
+\item 
+void \hyperlink{test_8cu_a72c3d946d0b5db06ff1a296d1eab3ec1}{Q\+Trk\+Compare\+Test} ()
+\item 
+void \hyperlink{test_8cu_a99990087b79839ab70fcf166fa1ee811}{list\+Devices} ()
+\item 
+\+\_\+\+\_\+global\+\_\+\+\_\+ void \hyperlink{test_8cu_a225b948eb316b51ce89ef78d73bf1114}{Simple\+Kernel} (int N, float $\ast$a)
+\item 
+void \hyperlink{test_8cu_a34793abe42580080c6393ec2b757d045}{Test\+Async} ()
+\item 
+\+\_\+\+\_\+global\+\_\+\+\_\+ void \hyperlink{test_8cu_ad9b2c50ca94fbb436128f97475148d84}{empty\+Kernel} ()
+\item 
+float \hyperlink{test_8cu_a7522ae4758ce1a51e910c5c7bc0754fc}{Speed\+Test} (const \hyperlink{struct_q_trk_settings}{Q\+Trk\+Settings} \&cfg, \hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$qtrk, int count, bool have\+Z\+L\+UT, \hyperlink{qtrk__c__api_8h_a6ba72ec1daa19642f85a47defe8f0812}{Loc\+Mode\+\_\+t} loc\+Type, float $\ast$schedule\+Time, bool gaincorrection=false)
+\item 
+int \hyperlink{test_8cu_a734d595c55ad19e5588166314c407985}{Nearest\+Power\+Of\+Two} (int v)
+\item 
+int \hyperlink{test_8cu_a217db03f0523b4bb2d71cfacb0121b7c}{Smallest\+Power\+Of\+Two} (int minval)
+\item 
+\hyperlink{struct_speed_info}{Speed\+Info} \hyperlink{test_8cu_a386abc59c14c98a64bdb672b4e671a3f}{Speed\+Compare\+Test} (int w, \hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3b}{Localize\+Mode\+Enum} loc\+Mode, bool have\+Z\+L\+UT, int qi\+\_\+iterations=5)
+\item 
+void \hyperlink{test_8cu_a398bf23d2be3e7a123ba643f6f3a0b3c}{Profile\+Speed\+Vs\+R\+OI} (\hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3b}{Localize\+Mode\+Enum} loc\+Mode, const char $\ast$outputcsv, bool have\+Z\+L\+UT, int qi\+\_\+iterations)
+\item 
+void \hyperlink{test_8cu_a52f6a285cdac289bef2e449cb1278da1}{Compare\+Accuracy} (const char $\ast$lutfile)
+\item 
+void \hyperlink{test_8cu_a2b63751ab1973447f1bffc03497065d3}{Basic\+Q\+Trk\+Test} ()
+\item 
+void \hyperlink{test_8cu_a6c8a00f627901e0dcf63c20941b47703}{Basic\+Q\+Trk\+Test\+\_\+\+RM} ()
+\item 
+void \hyperlink{test_8cu_a65c40fb3fc43deca2fe22e72b77c5bfc}{Test\+Gauss2D} (bool calib)
+\item 
+void \hyperlink{test_8cu_afb0912d78b2802b324d5a8500fc84d87}{Test\+Radial\+L\+U\+T\+Gradient\+Method} ()
+\item 
+void \hyperlink{test_8cu_a4e36322bb381a1b9b9eae0e1e6b4a763}{Q\+I\+Compare} (const char $\ast$lutfile)
+\item 
+void \hyperlink{test_8cu_a8583e2509b7fd83174900ef3e1158c7d}{Test\+Benchmark\+L\+UT} ()
+\item 
+{\footnotesize template$<$typename T $>$ }\\void \hyperlink{test_8cu_adb9b960bf793e814eeeb65f6a67e0ab9}{check\+\_\+arg} (const std\+::vector$<$ std\+::string $>$ \&args, const char $\ast$name, T $\ast$param)
+\item 
+void \hyperlink{test_8cu_a24cd40cfdf669f745fb58fda2a99469c}{check\+\_\+strarg} (const std\+::vector$<$ std\+::string $>$ \&args, const char $\ast$name, std\+::string $\ast$param)
+\item 
+int \hyperlink{test_8cu_acd967d59fdcafc56712132e13ff15f55}{Cmd\+Line\+Run} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
+\item 
+void \hyperlink{test_8cu_a4f42565c78afe260ab6c48197a692712}{Build\+Z\+L\+UT} (std\+::string folder, \hyperlink{classoutputter}{outputter} $\ast$output)
+\item 
+int \hyperlink{test_8cu_a0ddf1224851353fc92bfbff6f499fa97}{main} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\+\_\+\+\_\+shared\+\_\+\+\_\+ float \hyperlink{test_8cu_a0b31a228ca14964b01076fffd9d3b201}{cuda\+Shared\+Mem} \mbox{[}$\,$\mbox{]}
+\item 
+std\+::vector$<$ float $>$ \hyperlink{test_8cu_a4504c3c7ffae71a4f843424dd228b123}{cmp\+\_\+cpu\+\_\+qi\+\_\+prof}
+\item 
+std\+::vector$<$ float $>$ \hyperlink{test_8cu_a0f78dfbff0fc38f749d5a83cf7293b89}{cmp\+\_\+gpu\+\_\+qi\+\_\+prof}
+\item 
+std\+::vector$<$ std\+::complex$<$ float $>$ $>$ \hyperlink{test_8cu_a9d2895908a386c1f380b8085f1e28340}{cmp\+\_\+cpu\+\_\+qi\+\_\+fft\+\_\+out}
+\item 
+std\+::vector$<$ std\+::complex$<$ float $>$ $>$ \hyperlink{test_8cu_a968a1f45bfd391f01eaee72d1ba61237}{cmp\+\_\+gpu\+\_\+qi\+\_\+fft\+\_\+out}
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\index{test.\+cu@{test.\+cu}!Basic\+Q\+Trk\+Test@{Basic\+Q\+Trk\+Test}}
+\index{Basic\+Q\+Trk\+Test@{Basic\+Q\+Trk\+Test}!test.\+cu@{test.\+cu}}
+\subsubsection[{\texorpdfstring{Basic\+Q\+Trk\+Test()}{BasicQTrkTest()}}]{\setlength{\rightskip}{0pt plus 5cm}void Basic\+Q\+Trk\+Test (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{test_8cu_a2b63751ab1973447f1bffc03497065d3}{}\label{test_8cu_a2b63751ab1973447f1bffc03497065d3}
+
+\begin{DoxyCode}
+536 \{
+537     \hyperlink{struct_q_trk_computed_config}{QTrkComputedConfig} cc;
+538     cc.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width} = cc.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height} = 100;
+539     cc.\hyperlink{struct_q_trk_computed_config_a26980879d30db548c6b2a2589616d7ee}{Update}();
+540     \hyperlink{class_queued_c_u_d_a_tracker}{QueuedCUDATracker} \hyperlink{namespaceqtrk}{qtrk}(cc);
+541 
+542     \textcolor{keywordtype}{float} zmin=1,zmax=5;
+543     \hyperlink{struct_t_image_data}{ImageData} img = \hyperlink{struct_t_image_data_a8ae528964e70c0d0a98b8481cc8b083e}{ImageData::alloc}(cc.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width},cc.
+      \hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height});
+544 
+545     \textcolor{keywordtype}{float} pos\_x = cc.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width}/2 - 5;
+546     \textcolor{keywordtype}{float} pos\_y = cc.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height}/2 + 3;
+547     \hyperlink{utils_8cpp_a2bb752417033483e1acda83da3bc800e}{GenerateTestImage}(img, pos\_x, pos\_y, (zmin+zmax)/2, 0);
+548     
+549     \textcolor{keywordtype}{int} N = 100000;
+550 \textcolor{preprocessor}{#ifdef \_DEBUG}
+551     N = 10000;
+552 \textcolor{preprocessor}{#endif}
+553     \textcolor{keywordtype}{double} t = \hyperlink{utils_8cpp_a11abc9edca3542dd4e74dadf99340fa1}{GetPreciseTime}();
+554     \hyperlink{namespaceqtrk}{qtrk}.SetLocalizationMode((\hyperlink{qtrk__c__api_8h_a6ba72ec1daa19642f85a47defe8f0812}{LocMode\_t})(\hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba9eb0441a0c1e1086ff81512ea509e564}{LT\_QI}|
+      \hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3bae1cac6e7cc97db83708edd0407e3e25f}{LT\_NormalizeProfile}));
+555     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<N;i++)
+556     \{
+557         \hyperlink{struct_localization_job}{LocalizationJob} job ( i, 0, 0, 0);
+558         \hyperlink{namespaceqtrk}{qtrk}.ScheduleLocalization((\hyperlink{std__incl_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar}*)img.\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data}, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float})*cc.
+      \hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width}, \hyperlink{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0bafeece00bcf1a42419e686ef0cf006a4e}{QTrkFloat}, &job);
+559         \textcolor{keywordflow}{if}(i%std::max(1,(\textcolor{keywordtype}{int})(N*0.1))==0) \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"Queued: %d / %d\(\backslash\)n"}, i, N);
+560     \}
+561     \hyperlink{_shared_tests_8h_ad10b5a63fc1239e5638eae0f0ea30f84}{WaitForFinish}(&\hyperlink{namespaceqtrk}{qtrk}, N);
+562     t = \hyperlink{utils_8cpp_a11abc9edca3542dd4e74dadf99340fa1}{GetPreciseTime}() - t;
+563     \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"Speed: %d imgs/s (Only QI, %d iterations)\(\backslash\)n"}, (\textcolor{keywordtype}{int})(N / t), cc.
+      \hyperlink{struct_q_trk_settings_a12105babb328a9a7ec90f0eab074fabb}{qi\_iterations});
+564     \textcolor{keywordtype}{int} count = 0;
+565 
+566     \textcolor{keywordflow}{while}(\hyperlink{namespaceqtrk}{qtrk}.GetResultCount() != 0)\{
+567         \hyperlink{struct_localization_result}{LocalizationResult} res;
+568         \hyperlink{namespaceqtrk}{qtrk}.FetchResults(&res,1);
+569         \textcolor{keywordflow}{if}( res.\hyperlink{struct_localization_result_a546f66485662c35bc75121513b6d1a60}{pos}.\hyperlink{structvector3_a5b466692e9550284d17a1bee6a6b8518}{x} > pos\_x + 0.01f || res.\hyperlink{struct_localization_result_a546f66485662c35bc75121513b6d1a60}{pos}.\hyperlink{structvector3_a5b466692e9550284d17a1bee6a6b8518}{x} < pos\_x - 0.01f || res.
+      \hyperlink{struct_localization_result_a546f66485662c35bc75121513b6d1a60}{pos}.\hyperlink{structvector3_a1faa20a703bae3d1a673856466758383}{y} > pos\_y + 0.01f || res.\hyperlink{struct_localization_result_a546f66485662c35bc75121513b6d1a60}{pos}.\hyperlink{structvector3_a1faa20a703bae3d1a673856466758383}{y} < pos\_y - 0.01f )\{
+570             \textcolor{keywordflow}{if}(count < 100)
+571                 \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"Location frame %d: (%02f,%02f)\(\backslash\)n"},res.\hyperlink{struct_localization_result_a9a6b25c5cc92fe13bae3d0a5d37360f3}{job}.
+      \hyperlink{struct_localization_job_a54df1ba33ab48b20dca664142a8cf619}{frame}, res.\hyperlink{struct_localization_result_a546f66485662c35bc75121513b6d1a60}{pos}.\hyperlink{structvector3_a5b466692e9550284d17a1bee6a6b8518}{x}, res.\hyperlink{struct_localization_result_a546f66485662c35bc75121513b6d1a60}{pos}.\hyperlink{structvector3_a1faa20a703bae3d1a673856466758383}{y});
+572             count++;
+573         \}
+574     \}
+575 
+576     \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"Errors: %d/%d (%f%%)\(\backslash\)n"}, count, N, (\textcolor{keywordtype}{float})100*count/N);
+577     img.\hyperlink{struct_t_image_data_a60a60e309657216a2e35809fdc582b11}{free}();
+578 \}
+\end{DoxyCode}
+\index{test.\+cu@{test.\+cu}!Basic\+Q\+Trk\+Test\+\_\+\+RM@{Basic\+Q\+Trk\+Test\+\_\+\+RM}}
+\index{Basic\+Q\+Trk\+Test\+\_\+\+RM@{Basic\+Q\+Trk\+Test\+\_\+\+RM}!test.\+cu@{test.\+cu}}
+\subsubsection[{\texorpdfstring{Basic\+Q\+Trk\+Test\+\_\+\+R\+M()}{BasicQTrkTest_RM()}}]{\setlength{\rightskip}{0pt plus 5cm}void Basic\+Q\+Trk\+Test\+\_\+\+RM (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{test_8cu_a6c8a00f627901e0dcf63c20941b47703}{}\label{test_8cu_a6c8a00f627901e0dcf63c20941b47703}
+
+\begin{DoxyCode}
+581 \{
+582     \hyperlink{struct_q_trk_computed_config}{QTrkComputedConfig} cc;
+583     \textcolor{comment}{//cc.qi\_iterations = 10;}
+584     cc.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width} = cc.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height} = 100;
+585     cc.\hyperlink{struct_q_trk_computed_config_a26980879d30db548c6b2a2589616d7ee}{Update}();
+586     \hyperlink{class_queued_c_u_d_a_tracker}{QueuedCUDATracker} \hyperlink{namespaceqtrk}{qtrk}(cc);
+587 
+588     \textcolor{keywordtype}{float} zmin=1,zmax=5;
+589     \hyperlink{struct_t_image_data}{ImageData} img = \hyperlink{struct_t_image_data_a8ae528964e70c0d0a98b8481cc8b083e}{ImageData::alloc}(cc.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width},cc.
+      \hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height});
+590 
+591     \textcolor{comment}{// Positions to set}
+592     \textcolor{keywordtype}{float} pos\_x = cc.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width}/2 - 5;
+593     \textcolor{keywordtype}{float} pos\_y = cc.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height}/2 + 3;
+594     \hyperlink{utils_8cpp_a2bb752417033483e1acda83da3bc800e}{GenerateTestImage}(img, pos\_x, pos\_y, (zmin+zmax)/2, 0);
+595     
+596     \textcolor{keywordtype}{int} N = 100000;
+597 \textcolor{preprocessor}{#ifdef \_DEBUG}
+598     N = 100000;
+599 \textcolor{preprocessor}{#endif}
+600     \hyperlink{namespaceqtrk}{qtrk}.SetLocalizationMode((\hyperlink{qtrk__c__api_8h_a6ba72ec1daa19642f85a47defe8f0812}{LocMode\_t})(\hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba9eb0441a0c1e1086ff81512ea509e564}{LT\_QI}|
+      \hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3bae1cac6e7cc97db83708edd0407e3e25f}{LT\_NormalizeProfile}));
+601 
+602     \hyperlink{struct_result_manager_config}{ResultManagerConfig} RMcfg;
+603     RMcfg.\hyperlink{struct_result_manager_config_a790ecadd32a0c0242cb002752af806af}{numBeads} = 1;
+604     RMcfg.\hyperlink{struct_result_manager_config_a97e9e26724a91e3a6757957f18b8f8b7}{numFrameInfoColumns} = 0;
+605     RMcfg.\hyperlink{struct_result_manager_config_abb553f047043e2bd16b27ba6221f358e}{scaling} = \hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f}(1.0f,1.0f,1.0f);
+606     RMcfg.\hyperlink{struct_result_manager_config_ac7b28e680c90bc2a882a6e064d919a40}{offset}  = \hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f}(0.0f,0.0f,0.0f);
+607     RMcfg.\hyperlink{struct_result_manager_config_a24c57e2403e5012fc5900924db770611}{writeInterval} = 4000;
+608     RMcfg.\hyperlink{struct_result_manager_config_a11b7dd434bb6477aad45198b76593f59}{maxFramesInMemory} = 0;
+609     RMcfg.\hyperlink{struct_result_manager_config_a292ca1e5db1a9599d5dc52e14e83c2eb}{binaryOutput} = \textcolor{keyword}{false};
+610 
+611     std::vector<std::string> colnames;
+612     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} ii = 0;ii<RMcfg.\hyperlink{struct_result_manager_config_a97e9e26724a91e3a6757957f18b8f8b7}{numFrameInfoColumns};ii++)\{
+613         colnames.push\_back(\hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"%d"},ii));
+614     \}
+615 
+616     \hyperlink{classoutputter}{outputter} output(\hyperlink{testutils_8h_aea9b255b3e6f4b82762a3c35b821b2b1a49ce9e101fea37ab1954e5b3b9975c09}{Files}+\hyperlink{testutils_8h_aea9b255b3e6f4b82762a3c35b821b2b1a1f15ca9cb9525af532f13906e1d05651}{Images});
+617 
+618     \hyperlink{class_result_manager}{ResultManager} RM(
+619         \hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"%s\(\backslash\)\(\backslash\)RMOutput.txt"},output.folder.c\_str()).c\_str(),
+620         \hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"%s\(\backslash\)\(\backslash\)RMFrameInfo.txt"},output.folder.c\_str()).c\_str(),
+621         &RMcfg, colnames);
+622     
+623     RM.\hyperlink{class_result_manager_a415bd4a67729b4347866be136dd413b5}{SetTracker}(&\hyperlink{namespaceqtrk}{qtrk});
+624     \textcolor{keywordtype}{double} t = \hyperlink{utils_8cpp_a11abc9edca3542dd4e74dadf99340fa1}{GetPreciseTime}();
+625     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<N;i++)
+626     \{
+627         \hyperlink{struct_localization_job}{LocalizationJob} job ( i, 0, 0, 0);
+628         \hyperlink{namespaceqtrk}{qtrk}.ScheduleLocalization((\hyperlink{std__incl_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar}*)img.\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data}, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float})*cc.
+      \hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width}, \hyperlink{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0bafeece00bcf1a42419e686ef0cf006a4e}{QTrkFloat}, &job);
+629         \textcolor{comment}{//if(i%std::max(1,N/1000)==0) dbgprintf("Queued: %d / %d\(\backslash\)n", i, N);}
+630     \}
+631     printf(\textcolor{stringliteral}{"\(\backslash\)nDone queueing!\(\backslash\)n"});
+632     \textcolor{comment}{// Tell the tracker to perform the localizations left in the queue regardless of batchSize}
+633     \hyperlink{namespaceqtrk}{qtrk}.Flush();
+634     
+635     \textcolor{comment}{// Halt the test (=timer) until all localizations are done.}
+636     \textcolor{keywordflow}{while}(RM.GetFrameCounters().localizationsDone < N);
+637     t = \hyperlink{utils_8cpp_a11abc9edca3542dd4e74dadf99340fa1}{GetPreciseTime}() - t;
+638     
+639     \textcolor{comment}{// Tell the resultmanager to print the final available results regardless of writeInterval}
+640     RM.Flush();
+641     \textcolor{keywordflow}{while}(RM.GetFrameCounters().lastSaveFrame != N);
+642 
+643     \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"Speed: %d imgs/s (Only QI, %d iterations)\(\backslash\)n"}, (\textcolor{keywordtype}{int})(N / t), cc.
+      \hyperlink{struct_q_trk_settings_a12105babb328a9a7ec90f0eab074fabb}{qi\_iterations});
+644 
+645     img.\hyperlink{struct_t_image_data_a60a60e309657216a2e35809fdc582b11}{free}();
+646 \}
+\end{DoxyCode}
+\index{test.\+cu@{test.\+cu}!Benchmark\+Params@{Benchmark\+Params}}
+\index{Benchmark\+Params@{Benchmark\+Params}!test.\+cu@{test.\+cu}}
+\subsubsection[{\texorpdfstring{Benchmark\+Params()}{BenchmarkParams()}}]{\setlength{\rightskip}{0pt plus 5cm}void Benchmark\+Params (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{test_8cu_aa2e677b0099389a9137abf21b6a11b61}{}\label{test_8cu_aa2e677b0099389a9137abf21b6a11b61}
+
+\begin{DoxyCode}
+121 \{
+122     \textcolor{comment}{/*}
+123 \textcolor{comment}{    - Accuracy vs ROIsize}
+124 \textcolor{comment}{    - Speed vs ROIsize}
+125 \textcolor{comment}{    */}
+126 \textcolor{preprocessor}{#ifdef \_DEBUG}
+127     \textcolor{keywordtype}{int} n = 50;
+128 \textcolor{preprocessor}{#else}
+129     \textcolor{keywordtype}{int} n = 300;
+130 \textcolor{preprocessor}{#endif}
+131 
+132     \textcolor{keywordtype}{int} mpv = 10000;
+133     \textcolor{keywordtype}{float} pixel\_size = 120, lutstep = 50;
+134 
+135     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} zlutbias=0;zlutbias<2;zlutbias++) \{
+136         \textcolor{keywordtype}{float} range\_in\_nm=0;
+137         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} bias=0;bias<2;bias++) \{
+138             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<5;i++)
+139                 \hyperlink{_benchmark_8cpp_a8467866a7724e472d30414e7ae206c2c}{BenchmarkROISizes}(\hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"roi\_qi%d\_bias%d\_zlutbias%d.txt"},i,bias, 
+      zlutbias).c\_str(), n, mpv, i, 0, range\_in\_nm, pixel\_size, lutstep, zlutbias ? 
+      \hyperlink{_queued_tracker_8h_a785877e02de7d5323dbf5d5dff703dbd}{BUILDLUT\_BIASCORRECT} : 0);
+140     \textcolor{comment}{//      for (int i=0;i<5;i++)}
+141         \textcolor{comment}{//      BenchmarkROISizes(SPrintf("roi\_qi%d\_bias%d\_wz.txt",i,bias).c\_str(), n, mpv, i,
+       LT\_LocalizeZWeighted, range\_in\_nm, pixel\_size, lutstep);}
+142             \hyperlink{_benchmark_8cpp_a8467866a7724e472d30414e7ae206c2c}{BenchmarkROISizes}( \hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"roi\_xcor\_bias%d\_zlutbias%d.txt"}, bias, 
+      zlutbias).c\_str(), n, mpv, 0, \hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba3c14d24d83bc2358bf41e071861620d2}{LT\_XCor1D}, range\_in\_nm, pixel\_size, lutstep, zlutbias ? 
+      BUILDLUT\_BIASCORRECT : 0);
+143     \textcolor{comment}{//      BenchmarkROISizes( SPrintf("roi\_xcor\_bias%d\_wz.txt",bias).c\_str(), n, mpv, 0, LT\_XCor1D |
+       LT\_LocalizeZWeighted, range\_in\_nm, pixel\_size, lutstep);}
+144             range\_in\_nm = 200;
+145         \}
+146     \}
+147 
+148     \hyperlink{struct_q_trk_settings}{QTrkSettings} basecfg;
+149     basecfg.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width} = 80;
+150     basecfg.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height} = 80;
+151     basecfg.\hyperlink{struct_q_trk_settings_a12105babb328a9a7ec90f0eab074fabb}{qi\_iterations} = 4;
+152     basecfg.\hyperlink{struct_q_trk_settings_ab9567d21cc1517713a746c2173de4264}{qi\_roi\_coverage} = 1;
+153     basecfg.\hyperlink{struct_q_trk_settings_a7b5f3e61b4dcab6330c56e7bcd96e82d}{qi\_minradius}=1;
+154     basecfg.\hyperlink{struct_q_trk_settings_a1a14537a9e784c65eed512e72ee86c02}{zlut\_minradius}=1;
+155     basecfg.\hyperlink{struct_q_trk_settings_abee59fa2f68d9e514500062f73b1d512}{qi\_radial\_coverage} = 2.5f;
+156     basecfg.\hyperlink{struct_q_trk_settings_a08800ed7809dc4bde16d0a6fee08ecdd}{qi\_angular\_coverage} = 0.7f;
+157     basecfg.\hyperlink{struct_q_trk_settings_a33db8dee144b4a042f5440fa1f210e6a}{zlut\_roi\_coverage} = 1;
+158     basecfg.\hyperlink{struct_q_trk_settings_ae57544152a8a129bae6cb934feead1c7}{zlut\_radial\_coverage} = 1.5f;
+159     basecfg.\hyperlink{struct_q_trk_settings_a18ce353ffb049d1c86254a773a6fe49d}{com\_bgcorrection} = 0;
+160     basecfg.\hyperlink{struct_q_trk_settings_aceebf67ba9ecc215d49c6b2739afae3d}{qi\_angstep\_factor} = 1.1f;
+161     basecfg.\hyperlink{struct_q_trk_settings_a8892aa193827371fc06ee94254e68b09}{zlut\_angular\_coverage} = 0.7f;
+162 
+163     \textcolor{comment}{//BenchmarkConfigParamRange (20000, &QTrkSettings::qi\_iterations, &basecfg, linspace(1, 6, 6),
+       "qi\_iterations\_noise", mpv);}
+164 \textcolor{comment}{/*}
+165 \textcolor{comment}{    BenchmarkConfigParamRange (n, &QTrkSettings::qi\_radial\_coverage, &basecfg, linspace(0.2f, 4.0f, 20),
+       "qi\_rad\_cov\_noise", mpv );}
+166 \textcolor{comment}{    BenchmarkConfigParamRange (n, &QTrkSettings::zlut\_radial\_coverage, &basecfg, linspace(0.2f, 4.0f, 20),
+       "zlut\_rad\_cov\_noise", mpv);}
+167 \textcolor{comment}{    BenchmarkConfigParamRange (n, &QTrkSettings::qi\_iterations, &basecfg, linspace(1, 6, 6),
+       "qi\_iterations\_noise", mpv);}
+168 \textcolor{comment}{    BenchmarkZAccuracy("zpos-noise.txt", n, mpv);}
+169 \textcolor{comment}{}
+170 \textcolor{comment}{    BenchmarkROISizes("roi-sizes.txt", n, 0);}
+171 \textcolor{comment}{    BenchmarkConfigParamRange (n, &QTrkSettings::qi\_radial\_coverage, &basecfg, linspace(0.2f, 4.0f, 20),
+       "qi\_rad\_cov", 0);}
+172 \textcolor{comment}{    BenchmarkConfigParamRange (n, &QTrkSettings::zlut\_radial\_coverage, &basecfg, linspace(0.2f, 4.0f, 20),
+       "zlut\_rad\_cov", 0);}
+173 \textcolor{comment}{    BenchmarkConfigParamRange (n, &QTrkSettings::qi\_iterations, &basecfg, linspace(1, 6, 6),
+       "qi\_iterations", 0);}
+174 \textcolor{comment}{    BenchmarkZAccuracy("zpos.txt", n, 0);*/}
+175 \}
+\end{DoxyCode}
+\index{test.\+cu@{test.\+cu}!Build\+Z\+L\+UT@{Build\+Z\+L\+UT}}
+\index{Build\+Z\+L\+UT@{Build\+Z\+L\+UT}!test.\+cu@{test.\+cu}}
+\subsubsection[{\texorpdfstring{Build\+Z\+L\+U\+T(std\+::string folder, outputter $\ast$output)}{BuildZLUT(std::string folder, outputter *output)}}]{\setlength{\rightskip}{0pt plus 5cm}void Build\+Z\+L\+UT (
+\begin{DoxyParamCaption}
+\item[{std\+::string}]{folder, }
+\item[{{\bf outputter} $\ast$}]{output}
+\end{DoxyParamCaption}
+)}\hypertarget{test_8cu_a4f42565c78afe260ab6c48197a692712}{}\label{test_8cu_a4f42565c78afe260ab6c48197a692712}
+
+\begin{DoxyCode}
+945 \{
+946     \textcolor{keywordtype}{int} ROISize = 100;
+947     std::vector<BeadPos> beads = read\_beadlist(\hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"%sbeadlist.txt"},folder.c\_str()));
+948 
+949 
+950     \textcolor{keywordtype}{int} numImgInStack = 1218;
+951     \textcolor{keywordtype}{int} numPositions = 1001; \textcolor{comment}{// 10nm/frame}
+952     \textcolor{keywordtype}{float} range = 10.0f; \textcolor{comment}{// total range 25.0 um -> 35.0 um}
+953     \textcolor{keywordtype}{float} umPerImg = range/numImgInStack;
+954     
+955     \hyperlink{struct_q_trk_computed_config}{QTrkComputedConfig} cfg;
+956     cfg.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width}=cfg.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height} = ROISize;
+957     cfg.\hyperlink{struct_q_trk_settings_aceebf67ba9ecc215d49c6b2739afae3d}{qi\_angstep\_factor} = 1;
+958     cfg.\hyperlink{struct_q_trk_settings_a12105babb328a9a7ec90f0eab074fabb}{qi\_iterations} = 6;
+959     cfg.\hyperlink{struct_q_trk_settings_a08800ed7809dc4bde16d0a6fee08ecdd}{qi\_angular\_coverage} = 0.7f;
+960     cfg.\hyperlink{struct_q_trk_settings_ab9567d21cc1517713a746c2173de4264}{qi\_roi\_coverage} = 1;
+961     cfg.\hyperlink{struct_q_trk_settings_abee59fa2f68d9e514500062f73b1d512}{qi\_radial\_coverage} = 1.5f;
+962     cfg.\hyperlink{struct_q_trk_settings_a7b5f3e61b4dcab6330c56e7bcd96e82d}{qi\_minradius}=0;
+963     cfg.\hyperlink{struct_q_trk_settings_a1a14537a9e784c65eed512e72ee86c02}{zlut\_minradius}=0;
+964     cfg.\hyperlink{struct_q_trk_settings_a8892aa193827371fc06ee94254e68b09}{zlut\_angular\_coverage} = 0.7f;
+965     cfg.\hyperlink{struct_q_trk_settings_a33db8dee144b4a042f5440fa1f210e6a}{zlut\_roi\_coverage} = 1;
+966     cfg.\hyperlink{struct_q_trk_settings_ae57544152a8a129bae6cb934feead1c7}{zlut\_radial\_coverage} = 1.5f;
+967     cfg.\hyperlink{struct_q_trk_settings_a1a14537a9e784c65eed512e72ee86c02}{zlut\_minradius} = 0;
+968     cfg.\hyperlink{struct_q_trk_settings_a7b5f3e61b4dcab6330c56e7bcd96e82d}{qi\_minradius} = 0;
+969     cfg.\hyperlink{struct_q_trk_settings_a18ce353ffb049d1c86254a773a6fe49d}{com\_bgcorrection} = 0;
+970     cfg.\hyperlink{struct_q_trk_settings_a8f38457c4ec183f78a0191b247ab6b51}{xc1\_profileLength} = ROISize*0.8f;
+971     cfg.\hyperlink{struct_q_trk_settings_a80de240523eb79408593d26e6ef07ef7}{xc1\_profileWidth} = ROISize*0.2f;
+972     cfg.\hyperlink{struct_q_trk_settings_a0bc4efdffbb8ad272d1c9facfdf0e171}{xc1\_iterations} = 1;
+973     cfg.\hyperlink{struct_q_trk_computed_config_a26980879d30db548c6b2a2589616d7ee}{Update}();
+974     cfg.\hyperlink{struct_q_trk_computed_config_a824634b46aeafc68c21d5951f92495c3}{WriteToFile}();
+975 
+976     \textcolor{keywordtype}{int} zplanes = 50;
+977 
+978     \hyperlink{class_queued_c_u_d_a_tracker}{QueuedCUDATracker}* \hyperlink{namespaceqtrk}{qtrk} = \textcolor{keyword}{new} \hyperlink{class_queued_c_u_d_a_tracker}{QueuedCUDATracker}(cfg);
+979     \textcolor{comment}{//qtrk->SetLocalizationMode(LT\_NormalizeProfile | LT\_QI);}
+980     qtrk->\hyperlink{class_queued_c_u_d_a_tracker_a2681f4f94ca93970322bafa58b1dd9bd}{SetRadialZLUT}(0, beads.size(), zplanes);
+981     qtrk->\hyperlink{class_queued_c_u_d_a_tracker_ac6a9934c5a2bd06ecb503abace83c222}{BeginLUT}(0);
+982 
+983     \textcolor{keywordtype}{int} pxPerBead = ROISize*ROISize;
+984     \textcolor{keywordtype}{int} memSizePerBead = pxPerBead*\textcolor{keyword}{sizeof}(float);
+985     \textcolor{keywordtype}{int} startFrame = 400;
+986     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} plane = 0; plane < zplanes; plane++)\{
+987         output->\hyperlink{classoutputter_ab83efb14176854f486bea2b514f39918}{outputString}(\hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"Frame %d/%d"},plane+1,zplanes),\textcolor{keyword}{true});
+988         \textcolor{keywordtype}{int} frameNum = startFrame+(int)(numImgInStack-startFrame)*((float)plane/zplanes);
+989         std::string file = \hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"%s\(\backslash\)img%05d.jpg"},folder.c\_str(),frameNum);
+990         
+991         \hyperlink{struct_t_image_data}{ImageData} frame = \hyperlink{fastjpg_8cpp_aca9c9daac87f0810622bb7e207e4587f}{ReadJPEGFile}(file.c\_str());
+992 
+993         \textcolor{keywordtype}{float}* data = \textcolor{keyword}{new} \textcolor{keywordtype}{float}[beads.size()*pxPerBead];
+994 
+995         \textcolor{keywordflow}{for}(\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} ii = 0; ii < beads.size(); ii++)\{  
+996             \hyperlink{structvector2}{vector2f} pos;
+997             pos.\hyperlink{structvector2_a22b63498d8e4abf9a2da054a247965b9}{x} = beads.at(ii).x - ROISize/2;
+998             pos.\hyperlink{structvector2_a00b3268bc895adddf0b72d6acd8274a7}{y} = beads.at(ii).y - ROISize/2;
+999             \hyperlink{struct_t_image_data}{ImageData} crop = \hyperlink{testutils_8cpp_a29b1737f82e8b172b32a0133894fb295}{CropImage}(frame,pos.\hyperlink{structvector2_a22b63498d8e4abf9a2da054a247965b9}{x},pos.\hyperlink{structvector2_a00b3268bc895adddf0b72d6acd8274a7}{y},ROISize,ROISize);
+1000             \textcolor{comment}{//output->outputImage(crop,SPrintf("%d-%05d",ii,plane));}
+1001             memcpy(data+ii*pxPerBead,crop.\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data},memSizePerBead);
+1002             crop.\hyperlink{struct_t_image_data_a60a60e309657216a2e35809fdc582b11}{free}();
+1003         \}
+1004         
+1005         \textcolor{comment}{/*}
+1006 \textcolor{comment}{        // To verify seperate frame bead stack generation}
+1007 \textcolor{comment}{        output->newFile(SPrintf("data-plane-%d",plane));}
+1008 \textcolor{comment}{        output->outputArray(data,beads.size()*pxPerBead);}
+1009 \textcolor{comment}{}
+1010 \textcolor{comment}{        ImageData allBeads = ImageData(data,ROISize,ROISize*beads.size());}
+1011 \textcolor{comment}{        output->outputImage(allBeads,SPrintf("allBeads-%05d",frameNum));//*/}
+1012         
+1013         qtrk->\hyperlink{class_queued_c_u_d_a_tracker_a16da9256e496b6689079330a062c7529}{BuildLUT}(data, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float})*ROISize, \hyperlink{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0bafeece00bcf1a42419e686ef0cf006a4e}{QTrkFloat}, plane);
+1014         
+1015         frame.free();
+1016         \textcolor{keyword}{delete}[] data;
+1017     \}
+1018 
+1019     qtrk->\hyperlink{class_queued_c_u_d_a_tracker_a628a79df6cce9a1df9a4da78da266578}{FinalizeLUT}();
+1020     \textcolor{keywordtype}{float}* luts = \textcolor{keyword}{new} \textcolor{keywordtype}{float}[beads.size()*(zplanes*cfg.\hyperlink{struct_q_trk_computed_config_ad1a121fa7d3152df6788ff285e4d2dc6}{zlut\_radialsteps})];
+1021     qtrk->\hyperlink{class_queued_c_u_d_a_tracker_a1298fa3749c2ffaf7e48370ca15e3beb}{GetRadialZLUT}(luts);
+1022     
+1023     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} ii = 0; ii < beads.size(); ii++)\{
+1024         \hyperlink{struct_t_image_data}{ImageData} lut = \hyperlink{struct_t_image_data_a8ae528964e70c0d0a98b8481cc8b083e}{ImageData::alloc}(cfg.
+      \hyperlink{struct_q_trk_computed_config_ad1a121fa7d3152df6788ff285e4d2dc6}{zlut\_radialsteps}, zplanes);
+1025         memcpy(lut.\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data}, &luts[ii*cfg.\hyperlink{struct_q_trk_computed_config_ad1a121fa7d3152df6788ff285e4d2dc6}{zlut\_radialsteps}*zplanes], cfg.
+      \hyperlink{struct_q_trk_computed_config_ad1a121fa7d3152df6788ff285e4d2dc6}{zlut\_radialsteps}*zplanes*\textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float}));
+1026         \textcolor{comment}{//memcpy(lut.data,qtrk->GetZLUTByIndex(ii),cfg.zlut\_radialsteps*zplanes*sizeof(float));}
+1027         \textcolor{comment}{//output->outputImage(lut,SPrintf("lut%03d,%d",beads.at(ii).x,beads.at(ii).y));}
+1028         output->\hyperlink{classoutputter_a8a9f6716fd8a503c8ded2412dfe36c7c}{outputImage}(lut, \hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"lut%03d"},ii));
+1029         lut.\hyperlink{struct_t_image_data_a60a60e309657216a2e35809fdc582b11}{free}();
+1030     \}
+1031 
+1032     qtrk->\hyperlink{class_queued_c_u_d_a_tracker_a4407b12d3fc2e2969840ccc233ec96bc}{Flush}();
+1033     \textcolor{keyword}{delete} qtrk;
+1034 \}
+\end{DoxyCode}
+\index{test.\+cu@{test.\+cu}!check\+\_\+arg@{check\+\_\+arg}}
+\index{check\+\_\+arg@{check\+\_\+arg}!test.\+cu@{test.\+cu}}
+\subsubsection[{\texorpdfstring{check\+\_\+arg(const std\+::vector$<$ std\+::string $>$ \&args, const char $\ast$name, T $\ast$param)}{check_arg(const std::vector< std::string > &args, const char *name, T *param)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ void check\+\_\+arg (
+\begin{DoxyParamCaption}
+\item[{const std\+::vector$<$ std\+::string $>$ \&}]{args, }
+\item[{const char $\ast$}]{name, }
+\item[{T $\ast$}]{param}
+\end{DoxyParamCaption}
+)}\hypertarget{test_8cu_adb9b960bf793e814eeeb65f6a67e0ab9}{}\label{test_8cu_adb9b960bf793e814eeeb65f6a67e0ab9}
+
+\begin{DoxyCode}
+744 \{
+745     \textcolor{keywordflow}{for} (\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} i=0;i<args.size();i++) \{
+746         \textcolor{keywordflow}{if} (args[i] == name) \{
+747             *param = (T)atof(args[i+1].c\_str());
+748             \textcolor{keywordflow}{return};
+749         \}
+750     \}
+751 \}
+\end{DoxyCode}
+\index{test.\+cu@{test.\+cu}!check\+\_\+strarg@{check\+\_\+strarg}}
+\index{check\+\_\+strarg@{check\+\_\+strarg}!test.\+cu@{test.\+cu}}
+\subsubsection[{\texorpdfstring{check\+\_\+strarg(const std\+::vector$<$ std\+::string $>$ \&args, const char $\ast$name, std\+::string $\ast$param)}{check_strarg(const std::vector< std::string > &args, const char *name, std::string *param)}}]{\setlength{\rightskip}{0pt plus 5cm}void check\+\_\+strarg (
+\begin{DoxyParamCaption}
+\item[{const std\+::vector$<$ std\+::string $>$ \&}]{args, }
+\item[{const char $\ast$}]{name, }
+\item[{std\+::string $\ast$}]{param}
+\end{DoxyParamCaption}
+)}\hypertarget{test_8cu_a24cd40cfdf669f745fb58fda2a99469c}{}\label{test_8cu_a24cd40cfdf669f745fb58fda2a99469c}
+
+\begin{DoxyCode}
+754 \{
+755     \textcolor{keywordflow}{for} (\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} i=0;i<args.size();i++) \{
+756         \textcolor{keywordflow}{if} (args[i] == name) \{
+757             *param = args[i+1];
+758             \textcolor{keywordflow}{return};
+759         \}
+760     \}
+761 \}
+\end{DoxyCode}
+\index{test.\+cu@{test.\+cu}!Cmd\+Line\+Run@{Cmd\+Line\+Run}}
+\index{Cmd\+Line\+Run@{Cmd\+Line\+Run}!test.\+cu@{test.\+cu}}
+\subsubsection[{\texorpdfstring{Cmd\+Line\+Run(int argc, char $\ast$argv[])}{CmdLineRun(int argc, char *argv[])}}]{\setlength{\rightskip}{0pt plus 5cm}int Cmd\+Line\+Run (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}\hypertarget{test_8cu_acd967d59fdcafc56712132e13ff15f55}{}\label{test_8cu_acd967d59fdcafc56712132e13ff15f55}
+
+\begin{DoxyCode}
+764 \{
+765     \hyperlink{struct_q_trk_settings}{QTrkSettings} cfg;
+766     std::vector<std::string> args(argc-1);
+767     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<argc-1;i++)
+768         args[i]=argv[i+1];
+769     
+770     \hyperlink{test_8cu_adb9b960bf793e814eeeb65f6a67e0ab9}{check\_arg}(args, \textcolor{stringliteral}{"roi"}, &cfg.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width});
+771     cfg.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height}=cfg.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width};
+772 
+773     \textcolor{keywordtype}{int} count=100;
+774     \hyperlink{test_8cu_adb9b960bf793e814eeeb65f6a67e0ab9}{check\_arg}(args, \textcolor{stringliteral}{"count"}, &count);
+775 
+776     std::string outputfile, fixlutfile, inputposfile, bmlutfile, rescaledlutfile;
+777     std::string radialWeightsFile;
+778     \hyperlink{test_8cu_a24cd40cfdf669f745fb58fda2a99469c}{check\_strarg}(args, \textcolor{stringliteral}{"output"}, &outputfile);
+779     \hyperlink{test_8cu_a24cd40cfdf669f745fb58fda2a99469c}{check\_strarg}(args, \textcolor{stringliteral}{"fixlut"}, &fixlutfile);
+780     \hyperlink{test_8cu_a24cd40cfdf669f745fb58fda2a99469c}{check\_strarg}(args, \textcolor{stringliteral}{"bmlut"}, &bmlutfile);
+781     \hyperlink{test_8cu_a24cd40cfdf669f745fb58fda2a99469c}{check\_strarg}(args, \textcolor{stringliteral}{"inputpos"}, &inputposfile);
+782     \hyperlink{test_8cu_a24cd40cfdf669f745fb58fda2a99469c}{check\_strarg}(args, \textcolor{stringliteral}{"regenlut"}, &rescaledlutfile);
+783     \hyperlink{test_8cu_a24cd40cfdf669f745fb58fda2a99469c}{check\_strarg}(args, \textcolor{stringliteral}{"radweights"}, &radialWeightsFile);
+784 
+785     std::string crlboutput;
+786     \hyperlink{test_8cu_a24cd40cfdf669f745fb58fda2a99469c}{check\_strarg}(args, \textcolor{stringliteral}{"crlb"}, &crlboutput);
+787 
+788     std::vector< vector3f > inputPos;
+789     \textcolor{keywordflow}{if} (!inputposfile.empty()) \{
+790         inputPos = \hyperlink{utils_8cpp_abc30341e16799156a1b3b6093ea7d3d5}{ReadVector3CSV}(inputposfile.c\_str());
+791         count = inputPos.size();
+792     \}
+793 
+794     \hyperlink{test_8cu_adb9b960bf793e814eeeb65f6a67e0ab9}{check\_arg}(args, \textcolor{stringliteral}{"zlut\_minradius"}, &cfg.\hyperlink{struct_q_trk_settings_a1a14537a9e784c65eed512e72ee86c02}{zlut\_minradius});
+795     \hyperlink{test_8cu_adb9b960bf793e814eeeb65f6a67e0ab9}{check\_arg}(args, \textcolor{stringliteral}{"zlut\_radial\_coverage"}, &cfg.\hyperlink{struct_q_trk_settings_ae57544152a8a129bae6cb934feead1c7}{zlut\_radial\_coverage});
+796     \hyperlink{test_8cu_adb9b960bf793e814eeeb65f6a67e0ab9}{check\_arg}(args, \textcolor{stringliteral}{"zlut\_angular\_coverage"}, &cfg.\hyperlink{struct_q_trk_settings_a8892aa193827371fc06ee94254e68b09}{zlut\_angular\_coverage});
+797     \hyperlink{test_8cu_adb9b960bf793e814eeeb65f6a67e0ab9}{check\_arg}(args, \textcolor{stringliteral}{"zlut\_roi\_coverage"}, &cfg.\hyperlink{struct_q_trk_settings_a33db8dee144b4a042f5440fa1f210e6a}{zlut\_roi\_coverage});
+798 
+799     \hyperlink{test_8cu_adb9b960bf793e814eeeb65f6a67e0ab9}{check\_arg}(args, \textcolor{stringliteral}{"qi\_iterations"}, &cfg.\hyperlink{struct_q_trk_settings_a12105babb328a9a7ec90f0eab074fabb}{qi\_iterations});
+800     \hyperlink{test_8cu_adb9b960bf793e814eeeb65f6a67e0ab9}{check\_arg}(args, \textcolor{stringliteral}{"qi\_minradius"}, &cfg.\hyperlink{struct_q_trk_settings_a7b5f3e61b4dcab6330c56e7bcd96e82d}{qi\_minradius});
+801     \hyperlink{test_8cu_adb9b960bf793e814eeeb65f6a67e0ab9}{check\_arg}(args, \textcolor{stringliteral}{"qi\_radial\_coverage"}, &cfg.\hyperlink{struct_q_trk_settings_abee59fa2f68d9e514500062f73b1d512}{qi\_radial\_coverage});
+802     \hyperlink{test_8cu_adb9b960bf793e814eeeb65f6a67e0ab9}{check\_arg}(args, \textcolor{stringliteral}{"qi\_angular\_coverage"}, &cfg.\hyperlink{struct_q_trk_settings_a08800ed7809dc4bde16d0a6fee08ecdd}{qi\_angular\_coverage});
+803     \hyperlink{test_8cu_adb9b960bf793e814eeeb65f6a67e0ab9}{check\_arg}(args, \textcolor{stringliteral}{"qi\_roi\_coverage"}, &cfg.\hyperlink{struct_q_trk_settings_ab9567d21cc1517713a746c2173de4264}{qi\_roi\_coverage});
+804     \hyperlink{test_8cu_adb9b960bf793e814eeeb65f6a67e0ab9}{check\_arg}(args, \textcolor{stringliteral}{"qi\_angstep\_factor"}, &cfg.\hyperlink{struct_q_trk_settings_aceebf67ba9ecc215d49c6b2739afae3d}{qi\_angstep\_factor});
+805     \hyperlink{test_8cu_adb9b960bf793e814eeeb65f6a67e0ab9}{check\_arg}(args, \textcolor{stringliteral}{"downsample"}, &cfg.\hyperlink{struct_q_trk_settings_ad10a141ae7d18c2e6ce487f147dd7c02}{downsample});
+806 
+807     \textcolor{keywordtype}{int} zlutAlign=0;
+808     \hyperlink{test_8cu_adb9b960bf793e814eeeb65f6a67e0ab9}{check\_arg}(args, \textcolor{stringliteral}{"zlutalign"}, &zlutAlign);
+809 
+810     \textcolor{keywordtype}{float} pixelmax = 28 * 255;
+811     \hyperlink{test_8cu_adb9b960bf793e814eeeb65f6a67e0ab9}{check\_arg}(args, \textcolor{stringliteral}{"pixelmax"}, &pixelmax);
+812 
+813     std::string lutsmpfile;
+814     \hyperlink{test_8cu_a24cd40cfdf669f745fb58fda2a99469c}{check\_strarg}(args, \textcolor{stringliteral}{"lutsmpfile"}, &lutsmpfile);
+815 
+816     \textcolor{keywordtype}{int} cuda=1;
+817     \hyperlink{test_8cu_adb9b960bf793e814eeeb65f6a67e0ab9}{check\_arg}(args, \textcolor{stringliteral}{"cuda"}, &cuda);
+818     \hyperlink{class_queued_tracker}{QueuedTracker}* \hyperlink{namespaceqtrk}{qtrk};
+819 
+820     \textcolor{keywordflow}{if} (cuda) qtrk = \textcolor{keyword}{new} \hyperlink{class_queued_c_u_d_a_tracker}{QueuedCUDATracker}(cfg);
+821     \textcolor{keywordflow}{else} qtrk = \textcolor{keyword}{new} \hyperlink{class_queued_c_p_u_tracker}{QueuedCPUTracker}(cfg);
+822 
+823     \hyperlink{struct_t_image_data}{ImageData} lut;
+824     \hyperlink{class_benchmark_l_u_t}{BenchmarkLUT} bmlut;
+825 
+826     \textcolor{keywordflow}{if} (!fixlutfile.empty()) 
+827     \{
+828         lut = \hyperlink{fastjpg_8cpp_aca9c9daac87f0810622bb7e207e4587f}{ReadJPEGFile}(fixlutfile.c\_str());
+829 
+830         \textcolor{keywordflow}{if}(!rescaledlutfile.empty()) \{
+831             \textcolor{comment}{// rescaling allowed}
+832             \hyperlink{struct_t_image_data}{ImageData} newlut;
+833             \hyperlink{_shared_tests_8h_a6a1246e8a5604b97c4f6dff6d3790272}{ResampleLUT}(qtrk, &lut, lut.\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h}, &newlut, rescaledlutfile.c\_str()); 
+834             lut.\hyperlink{struct_t_image_data_a60a60e309657216a2e35809fdc582b11}{free}();
+835             lut=newlut;
+836         \}
+837         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (lut.\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w} != qtrk->\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_computed_config_ad1a121fa7d3152df6788ff285e4d2dc6}{zlut\_radialsteps}) \{
+838             lut.\hyperlink{struct_t_image_data_a60a60e309657216a2e35809fdc582b11}{free}();
+839             \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"Invalid LUT size (%d). Expecting %d radialsteps\(\backslash\)n"}, lut.
+      \hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w}, qtrk->\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_computed_config_ad1a121fa7d3152df6788ff285e4d2dc6}{zlut\_radialsteps});
+840             \textcolor{keyword}{delete} qtrk;
+841             \textcolor{keywordflow}{return} -1;
+842         \}
+843 
+844         qtrk->\hyperlink{class_queued_tracker_a77c3d8414993d2aa3ddfca4c8b40e71d}{SetRadialZLUT}(lut.\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data},1,lut.\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h});
+845     \}
+846     \textcolor{keywordflow}{else}
+847     \{
+848         \textcolor{keywordflow}{if} (bmlutfile.empty()) \{
+849             \textcolor{keyword}{delete} qtrk;
+850             \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"No lut file\(\backslash\)n"});
+851             \textcolor{keywordflow}{return} -1;
+852         \}
+853 
+854         bmlut.\hyperlink{class_benchmark_l_u_t_a1ab15013a6b6883a134a5ed14ca89341}{Load}(bmlutfile.c\_str());
+855         lut = \hyperlink{struct_t_image_data_a8ae528964e70c0d0a98b8481cc8b083e}{ImageData::alloc}(qtrk->\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_computed_config_ad1a121fa7d3152df6788ff285e4d2dc6}{zlut\_radialsteps}, bmlut.
+      \hyperlink{class_benchmark_l_u_t_af73ab30379754bab8b5b114cb2fbfc80}{lut\_h});
+856         bmlut.\hyperlink{class_benchmark_l_u_t_a25aa2a5d399a7c69ce755ee41384558a}{GenerateLUT}(&lut);
+857 
+858         \textcolor{keywordflow}{if} (!rescaledlutfile.empty())
+859             \hyperlink{fastjpg_8cpp_a77db3a4044f8f77b5a550b6f05962172}{WriteJPEGFile}(rescaledlutfile.c\_str(), lut);
+860 
+861         qtrk->\hyperlink{class_queued_tracker_a77c3d8414993d2aa3ddfca4c8b40e71d}{SetRadialZLUT}(lut.\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data},1,lut.\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h});
+862     \}
+863 
+864     \textcolor{keywordflow}{if} (inputPos.empty()) \{
+865         inputPos.resize(count);
+866         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<count;i++)\{
+867             inputPos[i]=\hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f}(cfg.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width}/2,cfg.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height}/2,lut.
+      \hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h}/2);
+868         \}
+869     \}
+870 
+871     \textcolor{keywordflow}{if} (!radialWeightsFile.empty())
+872     \{
+873         \textcolor{keyword}{auto} rwd = \hyperlink{utils_8cpp_a97c4edb27d72c98256ae9ba9d9a92145}{ReadCSV}(radialWeightsFile.c\_str());
+874         std::vector<float> rw(rwd.size());
+875         \textcolor{keywordflow}{if} (rw.size() == qtrk->\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_computed_config_ad1a121fa7d3152df6788ff285e4d2dc6}{zlut\_radialsteps})
+876             qtrk->\hyperlink{class_queued_tracker_aaf4a1a0f17e2df7bc6dded2729d920f4}{SetRadialWeights}(&rw[0]);
+877         \textcolor{keywordflow}{else}  \{
+878             \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"Invalid # radial weights"});
+879             \textcolor{keyword}{delete} qtrk;
+880         \}
+881     \}
+882 
+883     std::vector<ImageData> imgs (inputPos.size());
+884 
+885     std::vector<vector3f> crlb(inputPos.size());
+886 
+887     \textcolor{keywordflow}{for} (\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} i=0;i<inputPos.size();i++) \{
+888         imgs[i]=\hyperlink{struct_t_image_data_a8ae528964e70c0d0a98b8481cc8b083e}{ImageData::alloc}(cfg.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width}, cfg.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height});
+889         \textcolor{comment}{//vector3f pos = centerpos + range*vector3f(rand\_uniform<float>()-0.5f, rand\_uniform<float>()-0.5f,
+       rand\_uniform<float>()-0.5f)*2;}
+890 
+891         \textcolor{keyword}{auto} p = inputPos[i];
+892         \textcolor{keywordflow}{if} (!bmlut.\hyperlink{class_benchmark_l_u_t_a3ea5fe14b9dbfb664d7adc6697bf55d6}{lut\_w}) \{
+893             \hyperlink{utils_8cpp_af574edb94793976b749c0240c79b1c48}{GenerateImageFromLUT}(&imgs[i], &lut, qtrk->\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.
+      \hyperlink{struct_q_trk_settings_a1a14537a9e784c65eed512e72ee86c02}{zlut\_minradius}, qtrk->\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_computed_config_a13ceb0d4551d3bd5343ecce7a093d65b}{zlut\_maxradius}, p, \textcolor{keyword}{false});
+894             \textcolor{keywordflow}{if} (!crlboutput.empty()) \{
+895                 \hyperlink{class_sample_fisher_matrix}{SampleFisherMatrix} sfm(pixelmax);
+896                 crlb[i]=sfm.Compute(p, \hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f}(1,1,1)*0.001f, lut, qtrk->
+      \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width},qtrk->\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height}, qtrk->\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_a1a14537a9e784c65eed512e72ee86c02}{zlut\_minradius}, qtrk->
+      \hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_computed_config_a13ceb0d4551d3bd5343ecce7a093d65b}{zlut\_maxradius}).Inverse().diag();
+897             \}
+898         \} \textcolor{keywordflow}{else}
+899             bmlut.\hyperlink{class_benchmark_l_u_t_ac2994fc6e33a4340057793a7d020a117}{GenerateSample}(&imgs[i], p, qtrk->\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.
+      \hyperlink{struct_q_trk_settings_a1a14537a9e784c65eed512e72ee86c02}{zlut\_minradius}, qtrk->\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_computed_config_a13ceb0d4551d3bd5343ecce7a093d65b}{zlut\_maxradius});
+900         imgs[i].normalize();
+901         \textcolor{keywordflow}{if} (pixelmax > 0) \hyperlink{utils_8cpp_ac2ddbf383f4539cdec45a8001a435a1a}{ApplyPoissonNoise}(imgs[i], pixelmax, 255);
+902         \textcolor{keywordflow}{if}(i==0 && !lutsmpfile.empty()) \hyperlink{fastjpg_8cpp_a77db3a4044f8f77b5a550b6f05962172}{WriteJPEGFile}(lutsmpfile.c\_str(), imgs[i]);
+903     \}
+904 
+905     \textcolor{keywordtype}{int} locMode = \hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba5bee529eb0d2fa3bef01f31eeb613b92}{LT\_LocalizeZ} | \hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3bae1cac6e7cc97db83708edd0407e3e25f}{LT\_NormalizeProfile} | 
+      \hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba4b74b9fec0fa98e60e03b783618111f4}{LT\_LocalizeZWeighted};
+906     \textcolor{keywordflow}{if} (qtrk->\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_a12105babb328a9a7ec90f0eab074fabb}{qi\_iterations} > 0) 
+907         locMode |= \hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba9eb0441a0c1e1086ff81512ea509e564}{LT\_QI};
+908     \textcolor{keywordflow}{if} (zlutAlign)
+909         locMode |= \hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba85b5a8778da421d97ac8bf55dd0cf076}{LT\_ZLUTAlign};
+910 
+911     qtrk->\hyperlink{class_queued_tracker_aed430b5578d7a3e75f4d4d6c6dbb7e45}{SetLocalizationMode}((\hyperlink{qtrk__c__api_8h_a6ba72ec1daa19642f85a47defe8f0812}{LocMode\_t})locMode);
+912     \textcolor{keywordtype}{double} tstart=\hyperlink{utils_8cpp_a11abc9edca3542dd4e74dadf99340fa1}{GetPreciseTime}();
+913 
+914     \textcolor{keywordflow}{for} (\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} i=0;i<inputPos.size();i++)
+915     \{
+916         \hyperlink{struct_localization_job}{LocalizationJob} job(i, 0, 0, 0);
+917         qtrk->\hyperlink{class_queued_tracker_afa6cfa13cba4d05fac9f7baa96b12f89}{ScheduleImageData}(&imgs[i], &job);
+918     \}
+919 
+920     \hyperlink{_shared_tests_8h_ad10b5a63fc1239e5638eae0f0ea30f84}{WaitForFinish}(qtrk, inputPos.size());
+921     \textcolor{keywordtype}{double} tend = \hyperlink{utils_8cpp_a11abc9edca3542dd4e74dadf99340fa1}{GetPreciseTime}();
+922 
+923     std::vector<vector3f> results(inputPos.size());
+924     \textcolor{keywordflow}{for} (\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} i=0;i<inputPos.size();i++) \{
+925         \hyperlink{struct_localization_result}{LocalizationResult} r;
+926         qtrk->\hyperlink{class_queued_tracker_a171688832558d40838790c90ba9f8fc0}{FetchResults}(&r,1);
+927         results[r.\hyperlink{struct_localization_result_a9a6b25c5cc92fe13bae3d0a5d37360f3}{job}.\hyperlink{struct_localization_job_a54df1ba33ab48b20dca664142a8cf619}{frame}]=r.\hyperlink{struct_localization_result_a546f66485662c35bc75121513b6d1a60}{pos};
+928     \}
+929     \hyperlink{structvector3}{vector3f} meanErr, stdevErr;
+930     \hyperlink{_shared_tests_8h_a771630e2d9a64612a46d3ae9722174de}{MeanStDevError}(inputPos, results, meanErr, stdevErr);
+931     \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"Mean err X=%f,Z=%f. St deviation: X=%f,Z=%f\(\backslash\)n"}, meanErr.
+      \hyperlink{structvector3_a5b466692e9550284d17a1bee6a6b8518}{x},meanErr.\hyperlink{structvector3_a1faa20a703bae3d1a673856466758383}{y},stdevErr.\hyperlink{structvector3_a5b466692e9550284d17a1bee6a6b8518}{x},stdevErr.\hyperlink{structvector3_a90c50e80a32423d5cc76f40e5f53ffbe}{z});
+932 
+933     \textcolor{keywordflow}{if} (!crlboutput.empty())
+934         \hyperlink{utils_8cpp_ac53dbc16bbb47e927b088892e806dcf7}{WriteTrace}(crlboutput, &crlb[0], crlb.size());
+935 
+936     \hyperlink{utils_8cpp_ac53dbc16bbb47e927b088892e806dcf7}{WriteTrace}(outputfile, &results[0], inputPos.size());
+937     
+938     \textcolor{keywordflow}{if} (lut.\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data}) lut.\hyperlink{struct_t_image_data_a60a60e309657216a2e35809fdc582b11}{free}();
+939     \textcolor{keyword}{delete} qtrk;
+940 
+941     \textcolor{keywordflow}{return} 0;
+942 \}
+\end{DoxyCode}
+\index{test.\+cu@{test.\+cu}!Compare\+Accuracy@{Compare\+Accuracy}}
+\index{Compare\+Accuracy@{Compare\+Accuracy}!test.\+cu@{test.\+cu}}
+\subsubsection[{\texorpdfstring{Compare\+Accuracy(const char $\ast$lutfile)}{CompareAccuracy(const char *lutfile)}}]{\setlength{\rightskip}{0pt plus 5cm}void Compare\+Accuracy (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{lutfile}
+\end{DoxyParamCaption}
+)}\hypertarget{test_8cu_a52f6a285cdac289bef2e449cb1278da1}{}\label{test_8cu_a52f6a285cdac289bef2e449cb1278da1}
+
+\begin{DoxyCode}
+460 \{
+461     \hyperlink{struct_q_trk_settings}{QTrkSettings} cfg;
+462     cfg.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width}=150;
+463     cfg.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height}=150;
+464     cfg.\hyperlink{struct_q_trk_settings_a8c6f1c671b527155afd5dad894c152da}{numThreads}=1;
+465 
+466     \textcolor{keyword}{auto} cpu = RunTracker<QueuedCPUTracker> (lutfile, &cfg, \textcolor{keyword}{false}, \textcolor{stringliteral}{"cpu"}, \hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba9eb0441a0c1e1086ff81512ea509e564}{LT\_QI});
+467     \textcolor{keyword}{auto} gpu = RunTracker<QueuedCUDATracker>(lutfile, &cfg, \textcolor{keyword}{false}, \textcolor{stringliteral}{"gpu"}, \hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba9eb0441a0c1e1086ff81512ea509e564}{LT\_QI});
+468 \textcolor{comment}{//  auto cpugc = RunTracker<QueuedCPUTracker>(lutfile, &cfg, true, "cpugc");}
+469 \textcolor{comment}{//  auto gpugc = RunTracker<QueuedCUDATracker>(lutfile, &cfg, true, "gpugc");}
+470 
+471     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<std::min((\textcolor{keywordtype}{int})cpu.output.size(),20);i++) \{
+472         \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"CPU-GPU: %f, %f\(\backslash\)n"}, cpu.output[i].x-gpu.output[i].x,cpu.output[i].y-gpu.output[
+      i].y);
+473     \}
+474 
+475 \textcolor{comment}{/*  dbgprintf("CPU\(\backslash\)tGPU\(\backslash\)tCPU(gc)\(\backslash\)tGPU(gc)\(\backslash\)n");}
+476 \textcolor{comment}{    dbgprintf("St Dev. : CPU: %.2f\(\backslash\)tGPU: %.2f\(\backslash\)tCPU(gc)%.2f\(\backslash\)tGPU(gc)%.2f\(\backslash\)n", StDev(cpu).x, StDev(gpu).x,
+       StDev(cpugc).x, StDev(gpugc).x); }
+477 \textcolor{comment}{    dbgprintf("Mean err: CPU: %.2f\(\backslash\)tGPU: %.2f\(\backslash\)tCPU(gc)%.2f\(\backslash\)tGPU(gc)%.2f\(\backslash\)n", Mean(cpu).x, Mean(gpu).x,
+       Mean(cpugc).x, Mean(gpugc).x); }
+478 \textcolor{comment}{*/}
+479 \}
+\end{DoxyCode}
+\index{test.\+cu@{test.\+cu}!compute@{compute}}
+\index{compute@{compute}!test.\+cu@{test.\+cu}}
+\subsubsection[{\texorpdfstring{compute(int idx, float $\ast$buf, int s)}{compute(int idx, float *buf, int s)}}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+device\+\_\+\+\_\+ float compute (
+\begin{DoxyParamCaption}
+\item[{int}]{idx, }
+\item[{float $\ast$}]{buf, }
+\item[{int}]{s}
+\end{DoxyParamCaption}
+)}\hypertarget{test_8cu_ab0b9205f1595a5487a58172abfab6925}{}\label{test_8cu_ab0b9205f1595a5487a58172abfab6925}
+
+\begin{DoxyCode}
+65 \{
+66     \textcolor{comment}{// some random calcs to make the kernel unempty}
+67     \textcolor{keywordtype}{float} k=0.0f;
+68     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x=0;x<s;x++ )\{
+69         k+=cosf(x*0.1f*idx);
+70         buf[x]=k;
+71     \}
+72     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x=0;x<s/2;x++)\{
+73         buf[x]=buf[x]*buf[x];
+74     \}
+75     \textcolor{keywordtype}{float} sum=0.0f;
+76     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x=s-1;x>=1;x--) \{
+77         sum += buf[x-1]/(fabsf(buf[x])+0.1f);
+78     \}
+79     \textcolor{keywordflow}{return} sum;
+80 \}
+\end{DoxyCode}
+\index{test.\+cu@{test.\+cu}!empty\+Kernel@{empty\+Kernel}}
+\index{empty\+Kernel@{empty\+Kernel}!test.\+cu@{test.\+cu}}
+\subsubsection[{\texorpdfstring{empty\+Kernel()}{emptyKernel()}}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+global\+\_\+\+\_\+ void empty\+Kernel (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{test_8cu_ad9b2c50ca94fbb436128f97475148d84}{}\label{test_8cu_ad9b2c50ca94fbb436128f97475148d84}
+
+\begin{DoxyCode}
+313 \{\}
+\end{DoxyCode}
+\index{test.\+cu@{test.\+cu}!get\+Path@{get\+Path}}
+\index{get\+Path@{get\+Path}!test.\+cu@{test.\+cu}}
+\subsubsection[{\texorpdfstring{get\+Path(const char $\ast$file)}{getPath(const char *file)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string get\+Path (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{file}
+\end{DoxyParamCaption}
+)}\hypertarget{test_8cu_ac9bbcd500f70faf6c53a4d2a805bddd0}{}\label{test_8cu_ac9bbcd500f70faf6c53a4d2a805bddd0}
+
+\begin{DoxyCode}
+40 \{
+41     std::string s = file;
+42     \textcolor{keywordtype}{int} pos = s.length()-1;
+43     \textcolor{keywordflow}{while} (pos>0 && s[pos]!=\textcolor{charliteral}{'\(\backslash\)\(\backslash\)'} && s[pos]!= \textcolor{charliteral}{'/'} )
+44         pos--;
+45     
+46     \textcolor{keywordflow}{return} s.substr(0, pos);
+47 \}
+\end{DoxyCode}
+\index{test.\+cu@{test.\+cu}!list\+Devices@{list\+Devices}}
+\index{list\+Devices@{list\+Devices}!test.\+cu@{test.\+cu}}
+\subsubsection[{\texorpdfstring{list\+Devices()}{listDevices()}}]{\setlength{\rightskip}{0pt plus 5cm}void list\+Devices (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{test_8cu_a99990087b79839ab70fcf166fa1ee811}{}\label{test_8cu_a99990087b79839ab70fcf166fa1ee811}
+
+\begin{DoxyCode}
+256 \{
+257     cudaDeviceProp prop;
+258     \textcolor{keywordtype}{int} dc;
+259     cudaGetDeviceCount(&dc);
+260     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} k=0;k<dc;k++) \{
+261         cudaGetDeviceProperties(&prop, k);
+262         \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"Device[%d] = %s\(\backslash\)n"}, k, prop.name);
+263         \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"\(\backslash\)tMax texture width: %d\(\backslash\)n"} ,prop.maxTexture2D[0]);
+264     \}
+265 
+266 \}
+\end{DoxyCode}
+\index{test.\+cu@{test.\+cu}!main@{main}}
+\index{main@{main}!test.\+cu@{test.\+cu}}
+\subsubsection[{\texorpdfstring{main(int argc, char $\ast$argv[])}{main(int argc, char *argv[])}}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}\hypertarget{test_8cu_a0ddf1224851353fc92bfbff6f499fa97}{}\label{test_8cu_a0ddf1224851353fc92bfbff6f499fa97}
+
+\begin{DoxyCode}
+1037 \{
+1038     \textcolor{comment}{//listDevices();}
+1039 
+1040     printf(\textcolor{stringliteral}{"%d, %d\(\backslash\)n"},\textcolor{keyword}{sizeof}(\textcolor{keywordtype}{long}),\textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int}));
+1041 
+1042     \textcolor{keywordflow}{if} (argc > 1)
+1043     \{
+1044         \textcolor{keywordflow}{return} \hyperlink{test_8cu_acd967d59fdcafc56712132e13ff15f55}{CmdLineRun}(argc, argv);
+1045     \}
+1046 
+1047     \textcolor{keywordflow}{try} \{
+1048     \textcolor{comment}{//  outputter output(Files+Images);}
+1049     \textcolor{comment}{//  BuildZLUT("C:\(\backslash\)\(\backslash\)TestImages\(\backslash\)\(\backslash\)TestMovie150507\_2\(\backslash\)\(\backslash\)images\(\backslash\)\(\backslash\)jpg\(\backslash\)\(\backslash\)Zstack\(\backslash\)\(\backslash\)", &output);}
+1050         \hyperlink{test_8cu_a2b63751ab1973447f1bffc03497065d3}{BasicQTrkTest}();
+1051     \textcolor{comment}{//  BasicQTrkTest\_RM();}
+1052 
+1053 
+1054     \textcolor{comment}{//  TestBenchmarkLUT();}
+1055     \textcolor{comment}{//  testLinearArray();}
+1056     \textcolor{comment}{//  TestTextureFetch();}
+1057     \textcolor{comment}{//  TestGauss2D(true);}
+1058     \textcolor{comment}{//  MultipleLUTTest();}
+1059 
+1060     \textcolor{comment}{//  TestSurfaceReadWrite();}
+1061     \textcolor{comment}{//  TestImage4D();}
+1062     \textcolor{comment}{//  TestImage4DMemory();}
+1063     \textcolor{comment}{//  TestImageLUT("../cputrack-test/lut000.jpg");}
+1064     \textcolor{comment}{//  TestRadialLUTGradientMethod();}
+1065         
+1066     \textcolor{comment}{//  BenchmarkParams();}
+1067     \textcolor{comment}{//  TestTextureFetch();}
+1068     \textcolor{comment}{//  QICompare("../cputrack-test/lut000.jpg");}
+1069     \textcolor{comment}{//  TestCMOSNoiseInfluence<QueuedCUDATracker>("../cputrack-test/lut000.jpg");}
+1070 
+1071     \textcolor{comment}{//  CompareAccuracy("../cputrack-test/lut000.jpg");}
+1072     \textcolor{comment}{//  QTrkCompareTest();}
+1073         \textcolor{comment}{/*}
+1074 \textcolor{comment}{        ProfileSpeedVsROI(LT\_OnlyCOM, "speeds-com.txt", false, 0);}
+1075 \textcolor{comment}{        ProfileSpeedVsROI(LT\_OnlyCOM, "speeds-com-z.txt", true, 0);}
+1076 \textcolor{comment}{        ProfileSpeedVsROI(LT\_XCor1D, "speeds-xcor.txt", true, 0);}
+1077 \textcolor{comment}{        for (int qi\_it=1;qi\_it<=4;qi\_it++) \{}
+1078 \textcolor{comment}{            ProfileSpeedVsROI(LT\_QI, SPrintf("speeds-qi-%d-iterations.txt",qi\_it).c\_str(), true, qi\_it);}
+1079 \textcolor{comment}{        \}*/}
+1080 
+1081     \textcolor{comment}{/*  auto info = SpeedCompareTest(80, false);}
+1082 \textcolor{comment}{        auto infogc = SpeedCompareTest(80, true);}
+1083 \textcolor{comment}{        dbgprintf("[gainc=false] CPU: %f, GPU: %f\(\backslash\)n", info.speed\_cpu, info.speed\_gpu); }
+1084 \textcolor{comment}{        dbgprintf("[gainc=true] CPU: %f, GPU: %f\(\backslash\)n", infogc.speed\_cpu, infogc.speed\_gpu); }
+1085 \textcolor{comment}{    */}
+1086     \} \textcolor{keywordflow}{catch} (\textcolor{keyword}{const} std::exception& e) \{
+1087         \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"Exception: %s\(\backslash\)n"}, e.what());
+1088     \}
+1089     system(\textcolor{stringliteral}{"pause"});
+1090     \textcolor{keywordflow}{return} 0;
+1091 \}\end{DoxyCode}
+\index{test.\+cu@{test.\+cu}!mul\+\_\+conjugate@{mul\+\_\+conjugate}}
+\index{mul\+\_\+conjugate@{mul\+\_\+conjugate}!test.\+cu@{test.\+cu}}
+\subsubsection[{\texorpdfstring{mul\+\_\+conjugate(float2 a, float2 b)}{mul_conjugate(float2 a, float2 b)}}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+device\+\_\+\+\_\+ float2 mul\+\_\+conjugate (
+\begin{DoxyParamCaption}
+\item[{float2}]{a, }
+\item[{float2}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{test_8cu_a417f15fefe4dac05048eac1780fd902c}{}\label{test_8cu_a417f15fefe4dac05048eac1780fd902c}
+
+\begin{DoxyCode}
+50 \{
+51     float2 r;
+52     r.x = a.x*b.x + a.y*b.y;
+53     r.y = a.y*b.x - a.x*b.y;
+54     \textcolor{keywordflow}{return} r;
+55 \}
+\end{DoxyCode}
+\index{test.\+cu@{test.\+cu}!Nearest\+Power\+Of\+Two@{Nearest\+Power\+Of\+Two}}
+\index{Nearest\+Power\+Of\+Two@{Nearest\+Power\+Of\+Two}!test.\+cu@{test.\+cu}}
+\subsubsection[{\texorpdfstring{Nearest\+Power\+Of\+Two(int v)}{NearestPowerOfTwo(int v)}}]{\setlength{\rightskip}{0pt plus 5cm}int Nearest\+Power\+Of\+Two (
+\begin{DoxyParamCaption}
+\item[{int}]{v}
+\end{DoxyParamCaption}
+)}\hypertarget{test_8cu_a734d595c55ad19e5588166314c407985}{}\label{test_8cu_a734d595c55ad19e5588166314c407985}
+
+\begin{DoxyCode}
+379 \{
+380     \textcolor{keywordtype}{int} r=1;
+381     \textcolor{keywordflow}{while} (r < v) 
+382         r *= 2;
+383     \textcolor{keywordflow}{if} ( fabsf(r-v) < fabsf(r/2-v) )
+384         \textcolor{keywordflow}{return} r;
+385     \textcolor{keywordflow}{return} r/2;
+386 \}
+\end{DoxyCode}
+\index{test.\+cu@{test.\+cu}!Profile\+Speed\+Vs\+R\+OI@{Profile\+Speed\+Vs\+R\+OI}}
+\index{Profile\+Speed\+Vs\+R\+OI@{Profile\+Speed\+Vs\+R\+OI}!test.\+cu@{test.\+cu}}
+\subsubsection[{\texorpdfstring{Profile\+Speed\+Vs\+R\+O\+I(\+Localize\+Mode\+Enum loc\+Mode, const char $\ast$outputcsv, bool have\+Z\+L\+U\+T, int qi\+\_\+iterations)}{ProfileSpeedVsROI(LocalizeModeEnum locMode, const char *outputcsv, bool haveZLUT, int qi_iterations)}}]{\setlength{\rightskip}{0pt plus 5cm}void Profile\+Speed\+Vs\+R\+OI (
+\begin{DoxyParamCaption}
+\item[{{\bf Localize\+Mode\+Enum}}]{loc\+Mode, }
+\item[{const char $\ast$}]{outputcsv, }
+\item[{bool}]{have\+Z\+L\+UT, }
+\item[{int}]{qi\+\_\+iterations}
+\end{DoxyParamCaption}
+)}\hypertarget{test_8cu_a398bf23d2be3e7a123ba643f6f3a0b3c}{}\label{test_8cu_a398bf23d2be3e7a123ba643f6f3a0b3c}
+
+\begin{DoxyCode}
+445 \{
+446     std::vector<float> values;
+447 
+448     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} roi=20;roi<=180;roi+=10) \{ \textcolor{comment}{// same as BenchmarkROIAccuracy()}
+449         \hyperlink{struct_speed_info}{SpeedInfo} info = \hyperlink{test_8cu_a386abc59c14c98a64bdb672b4e671a3f}{SpeedCompareTest}(roi, locMode, haveZLUT, qi\_iterations);
+450         values.push\_back( roi);
+451         values.push\_back(info.\hyperlink{struct_speed_info_a083482c754c5ab95f6f25238610f803c}{speed\_cpu});
+452         values.push\_back( info.\hyperlink{struct_speed_info_aaa8f95513c3132d321801bfff20f11a4}{speed\_gpu});
+453     \}
+454 
+455     \textcolor{keyword}{const} \textcolor{keywordtype}{char} *labels[] = \{ \textcolor{stringliteral}{"ROI"}, \textcolor{stringliteral}{"CPU"}, \textcolor{stringliteral}{"CUDA"} \};
+456     \hyperlink{utils_8cpp_ad594d63fab5898e75c6eeb533368aba8}{WriteImageAsCSV}(outputcsv, &values[0], 3, values.size()/3, labels);
+457 \}
+\end{DoxyCode}
+\index{test.\+cu@{test.\+cu}!Q\+I\+Compare@{Q\+I\+Compare}}
+\index{Q\+I\+Compare@{Q\+I\+Compare}!test.\+cu@{test.\+cu}}
+\subsubsection[{\texorpdfstring{Q\+I\+Compare(const char $\ast$lutfile)}{QICompare(const char *lutfile)}}]{\setlength{\rightskip}{0pt plus 5cm}void Q\+I\+Compare (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{lutfile}
+\end{DoxyParamCaption}
+)}\hypertarget{test_8cu_a4e36322bb381a1b9b9eae0e1e6b4a763}{}\label{test_8cu_a4e36322bb381a1b9b9eae0e1e6b4a763}
+
+\begin{DoxyCode}
+675 \{
+676     \hyperlink{struct_q_trk_settings}{QTrkSettings} cfg;
+677     cfg.\hyperlink{struct_q_trk_settings_a12105babb328a9a7ec90f0eab074fabb}{qi\_iterations}=1;
+678     cfg.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width} = 150;
+679     cfg.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height} = 150;
+680     cfg.\hyperlink{struct_q_trk_settings_a8c6f1c671b527155afd5dad894c152da}{numThreads}=1; 
+681     \hyperlink{class_queued_c_u_d_a_tracker}{QueuedCUDATracker} gpu(cfg, 1);
+682     \hyperlink{class_queued_c_p_u_tracker}{QueuedCPUTracker} cpu(cfg);
+683 
+684     \hyperlink{struct_t_image_data}{ImageData} lut=\hyperlink{fastjpg_8cpp_aca9c9daac87f0810622bb7e207e4587f}{ReadJPEGFile}(lutfile);
+685     \hyperlink{struct_t_image_data}{ImageData} img=\hyperlink{struct_t_image_data_a8ae528964e70c0d0a98b8481cc8b083e}{ImageData::alloc}(cfg.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width},cfg.
+      \hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height});
+686 
+687     srand(0);
+688     \textcolor{keyword}{const} \textcolor{keywordtype}{int} N=1;
+689     gpu.SetLocalizationMode(\hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba9eb0441a0c1e1086ff81512ea509e564}{LT\_QI});
+690     cpu.SetLocalizationMode(\hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba9eb0441a0c1e1086ff81512ea509e564}{LT\_QI});
+691     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<N;i++) \{
+692         \hyperlink{struct_localization_job}{LocalizationJob} job(i, 0, 0, 0);
+693         \hyperlink{structvector3}{vector3f} pos(cfg.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width}/2,cfg.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height}/2, lut.\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h}/2);
+694         pos.x += rand\_uniform<float>();
+695         pos.y += rand\_uniform<float>();
+696         \hyperlink{utils_8cpp_af574edb94793976b749c0240c79b1c48}{GenerateImageFromLUT}(&img, &lut, 1, cfg.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width}/2, pos);
+697         gpu.ScheduleLocalization( (\hyperlink{std__incl_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar}*)img.\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data}, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float})*img.\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w}, 
+      \hyperlink{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0bafeece00bcf1a42419e686ef0cf006a4e}{QTrkFloat}, &job);
+698         cpu.ScheduleLocalization( (\hyperlink{std__incl_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar}*)img.\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data}, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float})*img.\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w}, 
+      \hyperlink{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0bafeece00bcf1a42419e686ef0cf006a4e}{QTrkFloat}, &job);
+699     \}
+700     gpu.Flush();
+701     cpu.Flush();
+702     \textcolor{keywordflow}{while}(cpu.GetResultCount() != N || gpu.GetResultCount() != N );
+703     
+704     \hyperlink{struct_t_image_data}{ImageData} dbgImg = cpu.DebugImage(0);
+705     \hyperlink{fastjpg_8cpp_a197d79f00fb185491c4d109e966ca9ef}{FloatToJPEGFile}(\textcolor{stringliteral}{"qidbgimg.jpg"}, dbgImg.\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data}, dbgImg.\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w}, dbgImg.
+      \hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h});
+706 
+707     \textcolor{keyword}{auto} rcpu = \hyperlink{_shared_tests_8h_a309eb8d8c5b82f6f2e05b8a9e7594a74}{FetchResults}(&cpu), rgpu = \hyperlink{_shared_tests_8h_a309eb8d8c5b82f6f2e05b8a9e7594a74}{FetchResults}(&gpu);
+708     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<N;i++) \{
+709         \hyperlink{structvector3}{vector3f} d=rcpu[i]-rgpu[i];
+710         \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"[%d]: CPU: x=%f, y=%f. GPU: x=%f, y=%f.\(\backslash\)tGPU-CPU: x:%f, y:%f\(\backslash\)n"}, i, rcpu[i].x, 
+      rcpu[i].y, rgpu[i].x, rgpu[i].y, d.\hyperlink{structvector3_a5b466692e9550284d17a1bee6a6b8518}{x},d.\hyperlink{structvector3_a1faa20a703bae3d1a673856466758383}{y});
+711     \}
+712 
+713     \textcolor{comment}{// Profiles}
+714     \textcolor{keywordflow}{for}(\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} i=0;i<\hyperlink{test_8cu_a4504c3c7ffae71a4f843424dd228b123}{cmp\_cpu\_qi\_prof}.size();i++) \{
+715         \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"QIPROF[%d]. CPU=%f, GPU=%f, Diff: %f\(\backslash\)n"}, i, 
+      \hyperlink{test_8cu_a4504c3c7ffae71a4f843424dd228b123}{cmp\_cpu\_qi\_prof}[i], \hyperlink{test_8cu_a0f78dfbff0fc38f749d5a83cf7293b89}{cmp\_gpu\_qi\_prof}[i], 
+      \hyperlink{test_8cu_a0f78dfbff0fc38f749d5a83cf7293b89}{cmp\_gpu\_qi\_prof}[i]-\hyperlink{test_8cu_a4504c3c7ffae71a4f843424dd228b123}{cmp\_cpu\_qi\_prof}[i]);
+716     \}
+717     \textcolor{comment}{// FFT out}
+718     \textcolor{keywordflow}{for}(\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} i=0;i<\hyperlink{test_8cu_a9d2895908a386c1f380b8085f1e28340}{cmp\_cpu\_qi\_fft\_out}.size();i++) \{
+719         \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"fft-out[%d]. CPU=%f, GPU=%f, Diff: %f\(\backslash\)n"}, i, 
+      \hyperlink{test_8cu_a9d2895908a386c1f380b8085f1e28340}{cmp\_cpu\_qi\_fft\_out}[i].real(), \hyperlink{test_8cu_a968a1f45bfd391f01eaee72d1ba61237}{cmp\_gpu\_qi\_fft\_out}[i].real(), 
+      \hyperlink{test_8cu_a968a1f45bfd391f01eaee72d1ba61237}{cmp\_gpu\_qi\_fft\_out}[i].real()-\hyperlink{test_8cu_a9d2895908a386c1f380b8085f1e28340}{cmp\_cpu\_qi\_fft\_out}[i].real());
+720     \}
+721 
+722     img.\hyperlink{struct_t_image_data_a60a60e309657216a2e35809fdc582b11}{free}();
+723     lut.\hyperlink{struct_t_image_data_a60a60e309657216a2e35809fdc582b11}{free}();
+724 \}
+\end{DoxyCode}
+\index{test.\+cu@{test.\+cu}!Q\+Trk\+Compare\+Test@{Q\+Trk\+Compare\+Test}}
+\index{Q\+Trk\+Compare\+Test@{Q\+Trk\+Compare\+Test}!test.\+cu@{test.\+cu}}
+\subsubsection[{\texorpdfstring{Q\+Trk\+Compare\+Test()}{QTrkCompareTest()}}]{\setlength{\rightskip}{0pt plus 5cm}void Q\+Trk\+Compare\+Test (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{test_8cu_a72c3d946d0b5db06ff1a296d1eab3ec1}{}\label{test_8cu_a72c3d946d0b5db06ff1a296d1eab3ec1}
+
+\begin{DoxyCode}
+120 \{
+121     \hyperlink{struct_q_trk_settings}{QTrkSettings} cfg;
+122     cfg.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width} = cfg.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height} = 40;
+123     cfg.\hyperlink{struct_q_trk_settings_a12105babb328a9a7ec90f0eab074fabb}{qi\_iterations} = 1;
+124     cfg.\hyperlink{struct_q_trk_settings_a0bc4efdffbb8ad272d1c9facfdf0e171}{xc1\_iterations} = 2;
+125     cfg.\hyperlink{struct_q_trk_settings_a8f38457c4ec183f78a0191b247ab6b51}{xc1\_profileLength} = 64;
+126     cfg.\hyperlink{struct_q_trk_settings_a8c6f1c671b527155afd5dad894c152da}{numThreads} = -1;
+127     cfg.\hyperlink{struct_q_trk_settings_a18ce353ffb049d1c86254a773a6fe49d}{com\_bgcorrection} = 0.0f;
+128     \textcolor{keywordtype}{bool} haveZLUT = \textcolor{keyword}{false};
+129 \textcolor{preprocessor}{#ifdef \_DEBUG}
+130     cfg.\hyperlink{struct_q_trk_settings_a8c6f1c671b527155afd5dad894c152da}{numThreads} = 2;
+131     cfg.\hyperlink{struct_q_trk_settings_a12105babb328a9a7ec90f0eab074fabb}{qi\_iterations}=1;
+132     \textcolor{keywordtype}{int} total= 10;
+133     \textcolor{keywordtype}{int} batchSize = 2;
+134     haveZLUT=\textcolor{keyword}{false};
+135 \textcolor{preprocessor}{#else}
+136     cfg.\hyperlink{struct_q_trk_settings_a8c6f1c671b527155afd5dad894c152da}{numThreads} = 4;
+137     \textcolor{keywordtype}{int} total = 10000;
+138     \textcolor{keywordtype}{int} batchSize = 512;
+139 \textcolor{preprocessor}{#endif}
+140 
+141     \hyperlink{class_queued_c_u_d_a_tracker}{QueuedCUDATracker} \hyperlink{namespaceqtrk}{qtrk}(cfg, batchSize);
+142     \hyperlink{class_queued_c_p_u_tracker}{QueuedCPUTracker} qtrkcpu(cfg);
+143     \hyperlink{struct_t_image_data}{ImageData} img = \hyperlink{struct_t_image_data_a8ae528964e70c0d0a98b8481cc8b083e}{ImageData::alloc}(cfg.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width},cfg.
+      \hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height});
+144     \textcolor{keywordtype}{bool} cpucmp = \textcolor{keyword}{true};
+145 
+146     \hyperlink{namespaceqtrk}{qtrk}.EnableTextureCache(\textcolor{keyword}{true});
+147 
+148     srand(1);
+149 
+150     \textcolor{comment}{// Generate ZLUT}
+151     \textcolor{keywordtype}{int} zplanes=100;
+152     \textcolor{keywordtype}{float} zmin=0.5,zmax=3;
+153     \hyperlink{namespaceqtrk}{qtrk}.SetRadialZLUT(0, 1, zplanes);
+154     \textcolor{keywordflow}{if} (cpucmp) qtrkcpu.SetRadialZLUT(0, 1, zplanes);
+155     \textcolor{keywordflow}{if} (haveZLUT) \{
+156         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x=0;x<zplanes;x++)  \{
+157             \hyperlink{structvector2}{vector2f} center ( cfg.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width}/2, cfg.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height}/2 );
+158             \textcolor{keywordtype}{float} s = zmin + (zmax-zmin) * x/(\textcolor{keywordtype}{float})(zplanes-1);
+159             \hyperlink{utils_8cpp_a2bb752417033483e1acda83da3bc800e}{GenerateTestImage}(img, center.x, center.y, s, 0.0f);
+160             \hyperlink{fastjpg_8cpp_a77db3a4044f8f77b5a550b6f05962172}{WriteJPEGFile}(\textcolor{stringliteral}{"qtrkzlutimg.jpg"}, img);
+161 
+162             \hyperlink{namespaceqtrk}{qtrk}.BuildLUT(img.\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data},img.\hyperlink{struct_t_image_data_aef0a87643a69b40e19ba11590d51318d}{pitch}(),\hyperlink{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0bafeece00bcf1a42419e686ef0cf006a4e}{QTrkFloat}, 0, (
+      \hyperlink{structvector2}{vector2f}*)(0));
+163             \textcolor{keywordflow}{if} (cpucmp) 
+164                 qtrkcpu.BuildLUT(img.\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data},img.\hyperlink{struct_t_image_data_aef0a87643a69b40e19ba11590d51318d}{pitch}(),\hyperlink{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0bafeece00bcf1a42419e686ef0cf006a4e}{QTrkFloat}, 0);
+165         \}
+166         \hyperlink{namespaceqtrk}{qtrk}.FinalizeLUT();
+167         \textcolor{keywordflow}{if} (cpucmp) qtrkcpu.FinalizeLUT();
+168         \textcolor{comment}{// wait to finish ZLUT}
+169         \textcolor{keywordflow}{while}(\textcolor{keyword}{true}) \{
+170             \textcolor{keywordtype}{int} rc = \hyperlink{namespaceqtrk}{qtrk}.GetResultCount();
+171             \textcolor{keywordflow}{if} (rc == zplanes) \textcolor{keywordflow}{break};
+172             Sleep(100);
+173             \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"."});
+174         \}
+175         \textcolor{keywordflow}{if} (cpucmp) \{
+176             \textcolor{keywordflow}{while}(qtrkcpu.GetResultCount() != zplanes);
+177         \}
+178     \}
+179     \textcolor{keywordtype}{float}* zlut = \textcolor{keyword}{new} \textcolor{keywordtype}{float}[\hyperlink{namespaceqtrk}{qtrk}.cfg.zlut\_radialsteps*zplanes];
+180     \hyperlink{namespaceqtrk}{qtrk}.GetRadialZLUT(zlut);
+181     \textcolor{keywordflow}{if} (cpucmp) \{ 
+182         \textcolor{keywordtype}{float}* zlutcpu = \textcolor{keyword}{new} \textcolor{keywordtype}{float}[qtrkcpu.cfg.zlut\_radialsteps*zplanes];
+183         qtrkcpu.GetRadialZLUT(zlutcpu);
+184         
+185         \hyperlink{utils_8cpp_ad594d63fab5898e75c6eeb533368aba8}{WriteImageAsCSV}(\textcolor{stringliteral}{"zlut-cpu.txt"}, zlutcpu, qtrkcpu.cfg.zlut\_radialsteps, zplanes);
+186         \hyperlink{utils_8cpp_ad594d63fab5898e75c6eeb533368aba8}{WriteImageAsCSV}(\textcolor{stringliteral}{"zlut-gpu.txt"}, zlut, qtrkcpu.cfg.zlut\_radialsteps, zplanes);
+187         \textcolor{keyword}{delete}[] zlutcpu;
+188     \}
+189     \hyperlink{namespaceqtrk}{qtrk}.ClearResults();
+190     \textcolor{keywordflow}{if} (cpucmp) qtrkcpu.ClearResults();
+191     \hyperlink{fastjpg_8cpp_a197d79f00fb185491c4d109e966ca9ef}{FloatToJPEGFile} (\textcolor{stringliteral}{"qtrkzlutcuda.jpg"}, zlut, \hyperlink{namespaceqtrk}{qtrk}.cfg.zlut\_radialsteps, zplanes);
+192     \textcolor{keyword}{delete}[] zlut;
+193     
+194     \textcolor{comment}{// Schedule images to localize on}
+195     \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"Benchmarking...\(\backslash\)n"}, total);
+196     \hyperlink{utils_8cpp_a2bb752417033483e1acda83da3bc800e}{GenerateTestImage}(img, cfg.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width}/2, cfg.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height}/2, (zmin+zmax)/2, 0);
+197     \textcolor{keywordtype}{double} tstart = \hyperlink{utils_8cpp_a11abc9edca3542dd4e74dadf99340fa1}{GetPreciseTime}();
+198     \textcolor{keywordtype}{int} rc = 0, displayrc=0;
+199     \hyperlink{qtrk__c__api_8h_a6ba72ec1daa19642f85a47defe8f0812}{LocMode\_t} flags = (\hyperlink{qtrk__c__api_8h_a6ba72ec1daa19642f85a47defe8f0812}{LocMode\_t})(\hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3bae1cac6e7cc97db83708edd0407e3e25f}{LT\_NormalizeProfile} |
+      \hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba9eb0441a0c1e1086ff81512ea509e564}{LT\_QI}| (haveZLUT ? \hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba5bee529eb0d2fa3bef01f31eeb613b92}{LT\_LocalizeZ} : 0) );
+200     \hyperlink{namespaceqtrk}{qtrk}.SetLocalizationMode(flags);
+201     qtrkcpu.SetLocalizationMode(flags);
+202     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} n=0;n<total;n++) \{
+203         \hyperlink{struct_localization_job}{LocalizationJob} jobInfo;
+204         jobInfo.\hyperlink{struct_localization_job_a54df1ba33ab48b20dca664142a8cf619}{frame} = n;
+205         jobInfo.\hyperlink{struct_localization_job_afcf9f91b72597af0e2572f3ae74d9a99}{zlutIndex} = 0;
+206         \hyperlink{namespaceqtrk}{qtrk}.ScheduleLocalization((\hyperlink{std__incl_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar}*)img.\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data}, cfg.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width}*\textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float}), 
+      \hyperlink{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0bafeece00bcf1a42419e686ef0cf006a4e}{QTrkFloat},&jobInfo);
+207         \textcolor{keywordflow}{if} (cpucmp) qtrkcpu.ScheduleLocalization((\hyperlink{std__incl_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar}*)img.\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data}, cfg.
+      \hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width}*\textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float}), \hyperlink{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0bafeece00bcf1a42419e686ef0cf006a4e}{QTrkFloat}, &jobInfo);
+208         \textcolor{keywordflow}{if} (n % 10 == 0) \{
+209             rc = \hyperlink{namespaceqtrk}{qtrk}.GetResultCount();
+210             \textcolor{keywordflow}{while} (displayrc<rc) \{
+211                 \textcolor{keywordflow}{if}( displayrc%(total/10)==0) \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"Done: %d / %d\(\backslash\)n"}, displayrc, total);
+212                 displayrc++;
+213             \}
+214         \}
+215     \}
+216     \textcolor{keywordflow}{if} (cpucmp) qtrkcpu.Flush();
+217     \hyperlink{_shared_tests_8h_ad10b5a63fc1239e5638eae0f0ea30f84}{WaitForFinish}(&\hyperlink{namespaceqtrk}{qtrk}, total);
+218     
+219     \textcolor{comment}{// Measure speed}
+220     \textcolor{keywordtype}{double} tend = \hyperlink{utils_8cpp_a11abc9edca3542dd4e74dadf99340fa1}{GetPreciseTime}();
+221 
+222     \textcolor{keywordflow}{if} (cpucmp) \{
+223         \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"waiting for cpu results..\(\backslash\)n"});
+224         \textcolor{keywordflow}{while} (total != qtrkcpu.GetResultCount())
+225             Sleep(10);
+226     \}
+227     
+228 
+229     img.\hyperlink{struct_t_image_data_a60a60e309657216a2e35809fdc582b11}{free}();
+230 
+231     \textcolor{keyword}{const} \textcolor{keywordtype}{int} NumResults = 20;
+232     \hyperlink{struct_localization_result}{LocalizationResult} results[NumResults], resultscpu[NumResults];
+233     \textcolor{keywordtype}{int} rcount = std::min(NumResults,total);
+234     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<rcount;i++) \{
+235         \hyperlink{namespaceqtrk}{qtrk}.FetchResults(&results[i], 1);
+236         \textcolor{keywordflow}{if} (cpucmp) qtrkcpu.FetchResults(&resultscpu[i], 1);
+237     \}
+238 
+239     \textcolor{comment}{// if you wonder about this syntax, google C++ lambda functions}
+240     std::sort(results, results+rcount, [](\hyperlink{struct_localization_result}{LocalizationResult} a, 
+      \hyperlink{struct_localization_result}{LocalizationResult} b) -> \textcolor{keywordtype}{bool} \{ \textcolor{keywordflow}{return} a.\hyperlink{struct_localization_result_a9a6b25c5cc92fe13bae3d0a5d37360f3}{job}.\hyperlink{struct_localization_job_a54df1ba33ab48b20dca664142a8cf619}{frame} > b.
+      \hyperlink{struct_localization_result_a9a6b25c5cc92fe13bae3d0a5d37360f3}{job}.\hyperlink{struct_localization_job_a54df1ba33ab48b20dca664142a8cf619}{frame}; \});
+241     \textcolor{keywordflow}{if}(cpucmp) std::sort(resultscpu, resultscpu+rcount, [](\hyperlink{struct_localization_result}{LocalizationResult} a, 
+      \hyperlink{struct_localization_result}{LocalizationResult} b) -> \textcolor{keywordtype}{bool} \{ \textcolor{keywordflow}{return} a.\hyperlink{struct_localization_result_a9a6b25c5cc92fe13bae3d0a5d37360f3}{job}.\hyperlink{struct_localization_job_a54df1ba33ab48b20dca664142a8cf619}{frame} > b.
+      \hyperlink{struct_localization_result_a9a6b25c5cc92fe13bae3d0a5d37360f3}{job}.\hyperlink{struct_localization_job_a54df1ba33ab48b20dca664142a8cf619}{frame}; \});
+242     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<rcount;i++) \{
+243         \hyperlink{struct_localization_result}{LocalizationResult}& r = results[i];
+244         \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"gpu [%d] x: %f, y: %f. z: %+g, COM: %f, %f\(\backslash\)n"}, i,r.
+      \hyperlink{struct_localization_result_a546f66485662c35bc75121513b6d1a60}{pos}.\hyperlink{structvector3_a5b466692e9550284d17a1bee6a6b8518}{x}, r.\hyperlink{struct_localization_result_a546f66485662c35bc75121513b6d1a60}{pos}.\hyperlink{structvector3_a1faa20a703bae3d1a673856466758383}{y}, r.\hyperlink{struct_localization_result_a546f66485662c35bc75121513b6d1a60}{pos}.\hyperlink{structvector3_a90c50e80a32423d5cc76f40e5f53ffbe}{z}, r.\hyperlink{struct_localization_result_a44c7351e9eb9410375c10fcf4e0f0cf9}{firstGuess}.\hyperlink{structvector2_a22b63498d8e4abf9a2da054a247965b9}{x}, r.\hyperlink{struct_localization_result_a44c7351e9eb9410375c10fcf4e0f0cf9}{firstGuess}.
+      \hyperlink{structvector2_a00b3268bc895adddf0b72d6acd8274a7}{y});
+245 
+246         \textcolor{keywordflow}{if} (cpucmp) \{
+247             r = resultscpu[i];
+248             \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"cpu [%d] x: %f, y: %f. z: %+g, COM: %f, %f\(\backslash\)n"}, i,r.
+      \hyperlink{struct_localization_result_a546f66485662c35bc75121513b6d1a60}{pos}.\hyperlink{structvector3_a5b466692e9550284d17a1bee6a6b8518}{x}, r.\hyperlink{struct_localization_result_a546f66485662c35bc75121513b6d1a60}{pos}.\hyperlink{structvector3_a1faa20a703bae3d1a673856466758383}{y}, r.\hyperlink{struct_localization_result_a546f66485662c35bc75121513b6d1a60}{pos}.\hyperlink{structvector3_a90c50e80a32423d5cc76f40e5f53ffbe}{z}, r.\hyperlink{struct_localization_result_a44c7351e9eb9410375c10fcf4e0f0cf9}{firstGuess}.\hyperlink{structvector2_a22b63498d8e4abf9a2da054a247965b9}{x}, r.\hyperlink{struct_localization_result_a44c7351e9eb9410375c10fcf4e0f0cf9}{firstGuess}.
+      \hyperlink{structvector2_a00b3268bc895adddf0b72d6acd8274a7}{y});
+249         \}
+250     \}
+251 
+252     \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"Localization Speed: %d (img/s)\(\backslash\)n"}, (\textcolor{keywordtype}{int})( total/(tend-tstart) ));
+253 \}
+\end{DoxyCode}
+\index{test.\+cu@{test.\+cu}!Show\+C\+U\+D\+A\+Error@{Show\+C\+U\+D\+A\+Error}}
+\index{Show\+C\+U\+D\+A\+Error@{Show\+C\+U\+D\+A\+Error}!test.\+cu@{test.\+cu}}
+\subsubsection[{\texorpdfstring{Show\+C\+U\+D\+A\+Error()}{ShowCUDAError()}}]{\setlength{\rightskip}{0pt plus 5cm}void Show\+C\+U\+D\+A\+Error (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{test_8cu_a5ec21c062fbb718eb272432b5473813a}{}\label{test_8cu_a5ec21c062fbb718eb272432b5473813a}
+
+\begin{DoxyCode}
+57                      \{
+58     cudaError\_t err = cudaGetLastError();
+59     \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"Cuda error: %s\(\backslash\)n"}, cudaGetErrorString(err));
+60 \}
+\end{DoxyCode}
+\index{test.\+cu@{test.\+cu}!Simple\+Kernel@{Simple\+Kernel}}
+\index{Simple\+Kernel@{Simple\+Kernel}!test.\+cu@{test.\+cu}}
+\subsubsection[{\texorpdfstring{Simple\+Kernel(int N, float $\ast$a)}{SimpleKernel(int N, float *a)}}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+global\+\_\+\+\_\+ void Simple\+Kernel (
+\begin{DoxyParamCaption}
+\item[{int}]{N, }
+\item[{float $\ast$}]{a}
+\end{DoxyParamCaption}
+)}\hypertarget{test_8cu_a225b948eb316b51ce89ef78d73bf1114}{}\label{test_8cu_a225b948eb316b51ce89ef78d73bf1114}
+
+\begin{DoxyCode}
+268                                              \{
+269     \textcolor{keywordtype}{int} idx = blockIdx.x * blockDim.x + threadIdx.x;
+270     \textcolor{keywordflow}{if} (idx < N) \{
+271         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x=0;x<1000;x++)
+272             a[idx] = asin(a[idx]+x);
+273     \}
+274 \}
+\end{DoxyCode}
+\index{test.\+cu@{test.\+cu}!Smallest\+Power\+Of\+Two@{Smallest\+Power\+Of\+Two}}
+\index{Smallest\+Power\+Of\+Two@{Smallest\+Power\+Of\+Two}!test.\+cu@{test.\+cu}}
+\subsubsection[{\texorpdfstring{Smallest\+Power\+Of\+Two(int minval)}{SmallestPowerOfTwo(int minval)}}]{\setlength{\rightskip}{0pt plus 5cm}int Smallest\+Power\+Of\+Two (
+\begin{DoxyParamCaption}
+\item[{int}]{minval}
+\end{DoxyParamCaption}
+)}\hypertarget{test_8cu_a217db03f0523b4bb2d71cfacb0121b7c}{}\label{test_8cu_a217db03f0523b4bb2d71cfacb0121b7c}
+
+\begin{DoxyCode}
+389 \{
+390     \textcolor{keywordtype}{int} r=1;
+391     \textcolor{keywordflow}{while} (r < minval)
+392         r *= 2;
+393     \textcolor{keywordflow}{return} r;
+394 \}
+\end{DoxyCode}
+\index{test.\+cu@{test.\+cu}!Speed\+Compare\+Test@{Speed\+Compare\+Test}}
+\index{Speed\+Compare\+Test@{Speed\+Compare\+Test}!test.\+cu@{test.\+cu}}
+\subsubsection[{\texorpdfstring{Speed\+Compare\+Test(int w, Localize\+Mode\+Enum loc\+Mode, bool have\+Z\+L\+U\+T, int qi\+\_\+iterations=5)}{SpeedCompareTest(int w, LocalizeModeEnum locMode, bool haveZLUT, int qi_iterations=5)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Speed\+Info} Speed\+Compare\+Test (
+\begin{DoxyParamCaption}
+\item[{int}]{w, }
+\item[{{\bf Localize\+Mode\+Enum}}]{loc\+Mode, }
+\item[{bool}]{have\+Z\+L\+UT, }
+\item[{int}]{qi\+\_\+iterations = {\ttfamily 5}}
+\end{DoxyParamCaption}
+)}\hypertarget{test_8cu_a386abc59c14c98a64bdb672b4e671a3f}{}\label{test_8cu_a386abc59c14c98a64bdb672b4e671a3f}
+
+\begin{DoxyCode}
+402 \{
+403     \textcolor{keywordtype}{int} cudaBatchSize = 1024;
+404     \textcolor{keywordtype}{int} count = 60000;
+405 
+406 \textcolor{preprocessor}{#ifdef \_DEBUG}
+407     count = 100;
+408     cudaBatchSize = 32;
+409 \textcolor{preprocessor}{#endif}
+410     \hyperlink{qtrk__c__api_8h_a6ba72ec1daa19642f85a47defe8f0812}{LocMode\_t} locType = (\hyperlink{qtrk__c__api_8h_a6ba72ec1daa19642f85a47defe8f0812}{LocMode\_t})( locMode|
+      \hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3bae1cac6e7cc97db83708edd0407e3e25f}{LT\_NormalizeProfile} );
+411 
+412     \hyperlink{struct_q_trk_computed_config}{QTrkComputedConfig} cfg;
+413     cfg.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width} = cfg.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height} = w;
+414     cfg.\hyperlink{struct_q_trk_settings_a12105babb328a9a7ec90f0eab074fabb}{qi\_iterations} = qi\_iterations;
+415     cfg.\hyperlink{struct_q_trk_settings_abee59fa2f68d9e514500062f73b1d512}{qi\_radial\_coverage} = 1.5f;
+416     cfg.\hyperlink{struct_q_trk_settings_aceebf67ba9ecc215d49c6b2739afae3d}{qi\_angstep\_factor} = 1.5f;
+417     cfg.\hyperlink{struct_q_trk_settings_a08800ed7809dc4bde16d0a6fee08ecdd}{qi\_angular\_coverage} = 0.7f;
+418     cfg.\hyperlink{struct_q_trk_settings_ae57544152a8a129bae6cb934feead1c7}{zlut\_radial\_coverage} = 2.0f;
+419     \textcolor{comment}{//std::vector<int> devices(1); devices[0]=1;}
+420     \textcolor{comment}{//SetCUDADevices(devices);}
+421     cfg.\hyperlink{struct_q_trk_settings_a795682a80b672b594ebd225aebf3fb16}{cuda\_device} = \hyperlink{qtrk__c__api_8h_a81a7a05010c5c6a3c0325892b3d569e9}{QTrkCUDA\_UseAll};
+422     cfg.\hyperlink{struct_q_trk_settings_a8c6f1c671b527155afd5dad894c152da}{numThreads} = -1;
+423     cfg.\hyperlink{struct_q_trk_settings_a18ce353ffb049d1c86254a773a6fe49d}{com\_bgcorrection} = 0.0f;
+424     cfg.\hyperlink{struct_q_trk_computed_config_a26980879d30db548c6b2a2589616d7ee}{Update}();
+425     \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"Width: %d, QI radius: %f, radialsteps: %d\(\backslash\)n"}, w, cfg.
+      \hyperlink{struct_q_trk_computed_config_a9784dbeb638bde1f3204f9ca5af720c6}{qi\_maxradius}, cfg.\hyperlink{struct_q_trk_computed_config_ab1a11e7a567a3267c57f77626c6c9c93}{qi\_radialsteps});
+426 
+427     \hyperlink{struct_speed_info}{SpeedInfo} info;
+428     \hyperlink{class_queued_c_p_u_tracker}{QueuedCPUTracker} *cputrk = \textcolor{keyword}{new} \hyperlink{class_queued_c_p_u_tracker}{QueuedCPUTracker}(cfg);
+429     info.\hyperlink{struct_speed_info_a083482c754c5ab95f6f25238610f803c}{speed\_cpu} = \hyperlink{test_8cu_a7522ae4758ce1a51e910c5c7bc0754fc}{SpeedTest}(cfg, cputrk, count, haveZLUT, locType, &info.
+      \hyperlink{struct_speed_info_a847cb8b35291af8f0f3bfa1b1bd888d0}{sched\_cpu}, \textcolor{keyword}{false});
+430     \textcolor{keyword}{delete} cputrk;
+431 
+432     \hyperlink{class_queued_c_u_d_a_tracker}{QueuedCUDATracker} *cudatrk = \textcolor{keyword}{new} \hyperlink{class_queued_c_u_d_a_tracker}{QueuedCUDATracker}(cfg, cudaBatchSize
+      );
+433     info.\hyperlink{struct_speed_info_aaa8f95513c3132d321801bfff20f11a4}{speed\_gpu} = \hyperlink{test_8cu_a7522ae4758ce1a51e910c5c7bc0754fc}{SpeedTest}(cfg, cudatrk, count, haveZLUT, locType, &info.
+      \hyperlink{struct_speed_info_a9703e36873f697d0157eb318c1316fba}{sched\_gpu}, \textcolor{keyword}{false});
+434     \textcolor{comment}{//info.speed\_gpu = SpeedTest(cfg, cudatrk, count, haveZLUT, locType, &info.sched\_gpu);}
+435     std::string report = cudatrk->\hyperlink{class_queued_c_u_d_a_tracker_a8969dbbc3824ca4ccb492e8eecbd6632}{GetProfileReport}();
+436     \textcolor{keyword}{delete} cudatrk;
+437 
+438     \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"CPU tracking speed: %d img/s\(\backslash\)n"}, (\textcolor{keywordtype}{int})info.\hyperlink{struct_speed_info_a083482c754c5ab95f6f25238610f803c}{speed\_cpu});
+439     \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"GPU tracking speed: %d img/s\(\backslash\)n"}, (\textcolor{keywordtype}{int})info.\hyperlink{struct_speed_info_aaa8f95513c3132d321801bfff20f11a4}{speed\_gpu});
+440 
+441     \textcolor{keywordflow}{return} info;
+442 \}
+\end{DoxyCode}
+\index{test.\+cu@{test.\+cu}!Speed\+Test@{Speed\+Test}}
+\index{Speed\+Test@{Speed\+Test}!test.\+cu@{test.\+cu}}
+\subsubsection[{\texorpdfstring{Speed\+Test(const Q\+Trk\+Settings \&cfg, Queued\+Tracker $\ast$qtrk, int count, bool have\+Z\+L\+U\+T, Loc\+Mode\+\_\+t loc\+Type, float $\ast$schedule\+Time, bool gaincorrection=false)}{SpeedTest(const QTrkSettings &cfg, QueuedTracker *qtrk, int count, bool haveZLUT, LocMode_t locType, float *scheduleTime, bool gaincorrection=false)}}]{\setlength{\rightskip}{0pt plus 5cm}float Speed\+Test (
+\begin{DoxyParamCaption}
+\item[{const {\bf Q\+Trk\+Settings} \&}]{cfg, }
+\item[{{\bf Queued\+Tracker} $\ast$}]{qtrk, }
+\item[{int}]{count, }
+\item[{bool}]{have\+Z\+L\+UT, }
+\item[{{\bf Loc\+Mode\+\_\+t}}]{loc\+Type, }
+\item[{float $\ast$}]{schedule\+Time, }
+\item[{bool}]{gaincorrection = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}\hypertarget{test_8cu_a7522ae4758ce1a51e910c5c7bc0754fc}{}\label{test_8cu_a7522ae4758ce1a51e910c5c7bc0754fc}
+qtrk-\/$>$Schedule\+Localization((uchar$\ast$)image, cfg.\+width$\ast$sizeof(float), Q\+Trk\+Float, flags, n, 0, 0, 0, 0); 
+\begin{DoxyCode}
+316 \{
+317     \hyperlink{struct_t_image_data}{ImageData} img=\hyperlink{struct_t_image_data_a8ae528964e70c0d0a98b8481cc8b083e}{ImageData::alloc}(cfg.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width},cfg.
+      \hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height});
+318     srand(1);
+319 
+320     \textcolor{comment}{// Generate ZLUT}
+321     \textcolor{keywordtype}{int} zplanes=100;
+322     \textcolor{keywordtype}{float} zmin=0.5,zmax=3;
+323     qtrk->\hyperlink{class_queued_tracker_a77c3d8414993d2aa3ddfca4c8b40e71d}{SetRadialZLUT}(0, 1, zplanes);
+324     \textcolor{keywordflow}{if} (gaincorrection) \hyperlink{_shared_tests_8h_a9049c2824c7559420efb9dba4f84ac8c}{EnableGainCorrection}(qtrk);
+325     \textcolor{keywordflow}{if} (haveZLUT) \{
+326         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x=0;x<zplanes;x++)  \{
+327             \hyperlink{structvector2}{vector2f} center( cfg.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width}/2, cfg.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height}/2 );
+328             \textcolor{keywordtype}{float} s = zmin + (zmax-zmin) * x/(\textcolor{keywordtype}{float})(zplanes-1);
+329             \hyperlink{utils_8cpp_a2bb752417033483e1acda83da3bc800e}{GenerateTestImage}(img, center.x, center.y, s, 0.0f);
+330             qtrk->\hyperlink{class_queued_tracker_aaeb04a5a2a4fe47ef48b8aefabc1bdb7}{BuildLUT}(img.\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data},img.\hyperlink{struct_t_image_data_aef0a87643a69b40e19ba11590d51318d}{pitch}(),\hyperlink{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0bafeece00bcf1a42419e686ef0cf006a4e}{QTrkFloat}, 0);
+331         \}
+332         qtrk->\hyperlink{class_queued_tracker_aa856650c99d15216ad3246d3485b9d9e}{FinalizeLUT}();
+333     \}
+334     qtrk->\hyperlink{class_queued_tracker_a5e46c8ce4bd3b965bedd8aac095304c2}{ClearResults}();
+335     
+336     \textcolor{comment}{// Schedule images to localize on}
+337     \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"Benchmarking...\(\backslash\)n"}, count);
+338     \hyperlink{utils_8cpp_a2bb752417033483e1acda83da3bc800e}{GenerateTestImage}(img, cfg.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width}/2, cfg.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height}/2, (zmin+zmax)/2, 0);
+339     \textcolor{keywordtype}{double} tstart = \hyperlink{utils_8cpp_a11abc9edca3542dd4e74dadf99340fa1}{GetPreciseTime}();
+340     \textcolor{keywordtype}{int} rc = 0, displayrc=0;
+341     \textcolor{keywordtype}{double} maxScheduleTime = 0.0f;
+342     \textcolor{keywordtype}{double} sumScheduleTime2 = 0.0f;
+343     \textcolor{keywordtype}{double} sumScheduleTime = 0.0f;
+344     qtrk->\hyperlink{class_queued_tracker_aed430b5578d7a3e75f4d4d6c6dbb7e45}{SetLocalizationMode}(locType| (haveZLUT ? 
+      \hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba5bee529eb0d2fa3bef01f31eeb613b92}{LT\_LocalizeZ} : 0));
+345     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} n=0;n<count;n++) \{
+346         \textcolor{keywordtype}{double} t0 = \hyperlink{utils_8cpp_a11abc9edca3542dd4e74dadf99340fa1}{GetPreciseTime}();
+348         \hyperlink{struct_r_o_i_position}{ROIPosition} roipos[]=\{ \{0,0\} \};
+349         \hyperlink{struct_localization_job}{LocalizationJob} job(n, 0, 0,0);
+350         qtrk->\hyperlink{class_queued_tracker_ab80776ec6e8b2202d858f1c9cb989240}{ScheduleFrame}((\hyperlink{std__incl_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar}*)img.\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data}, cfg.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width}*\textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float}),cfg.
+      \hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width},cfg.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height}, roipos, 1, \hyperlink{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0bafeece00bcf1a42419e686ef0cf006a4e}{QTrkFloat}, &job);
+351         \textcolor{keywordtype}{double} dt = \hyperlink{utils_8cpp_a11abc9edca3542dd4e74dadf99340fa1}{GetPreciseTime}() - t0;
+352         maxScheduleTime = std::max(maxScheduleTime, dt);
+353         sumScheduleTime += dt;
+354         sumScheduleTime2 += dt*dt;
+355 
+356         \textcolor{keywordflow}{if} (n % 10 == 0) \{
+357             rc = qtrk->\hyperlink{class_queued_tracker_a362a26027dc6bd40864e59de1ac32de2}{GetResultCount}();
+358             \textcolor{keywordflow}{while} (displayrc<rc) \{
+359                 \textcolor{keywordflow}{if}( displayrc%(count/10)==0) \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"Done: %d / %d\(\backslash\)n"}, displayrc, count);
+360                 displayrc++;
+361             \}
+362         \}
+363     \}
+364     \hyperlink{_shared_tests_8h_ad10b5a63fc1239e5638eae0f0ea30f84}{WaitForFinish}(qtrk, count);
+365     
+366     \textcolor{comment}{// Measure speed}
+367     \textcolor{keywordtype}{double} tend = \hyperlink{utils_8cpp_a11abc9edca3542dd4e74dadf99340fa1}{GetPreciseTime}();
+368     img.\hyperlink{struct_t_image_data_a60a60e309657216a2e35809fdc582b11}{free}();
+369 
+370     \textcolor{keywordtype}{float} mean = sumScheduleTime / count;
+371     \textcolor{keywordtype}{float} stdev = \hyperlink{std__incl_8h_a8a38721046513951c4bfc32bf101e180}{sqrt}(sumScheduleTime2 / count - mean * mean);
+372     \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"Scheduletime: Avg=%f, Max=%f, Stdev=%f\(\backslash\)n"}, mean*1000, maxScheduleTime*1000, stdev*1
+      000);
+373     *scheduleTime = mean;
+374 
+375     \textcolor{keywordflow}{return} count/(tend-tstart);
+376 \}
+\end{DoxyCode}
+\index{test.\+cu@{test.\+cu}!Test\+Async@{Test\+Async}}
+\index{Test\+Async@{Test\+Async}!test.\+cu@{test.\+cu}}
+\subsubsection[{\texorpdfstring{Test\+Async()}{TestAsync()}}]{\setlength{\rightskip}{0pt plus 5cm}void Test\+Async (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{test_8cu_a34793abe42580080c6393ec2b757d045}{}\label{test_8cu_a34793abe42580080c6393ec2b757d045}
+
+\begin{DoxyCode}
+277 \{
+278     \textcolor{keywordtype}{int} N =100000;
+279     \textcolor{keywordtype}{int} nt = 32;
+280 
+281     \hyperlink{classpinned__array}{pinned\_array<float>} a(N); 
+282 \textcolor{comment}{//  cudaMallocHost(&a, sizeof(float)*N, 0);}
+283 
+284     \hyperlink{classdevice__vec}{device\_vec<float>} A(N);
+285 
+286     cudaStream\_t s0;
+287     cudaEvent\_t done;
+288 
+289     cudaStreamCreate(&s0);
+290     cudaEventCreate(&done,0);
+291 
+292     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x=0;x<N;x++)
+293         a[x] = cos(x*0.01f);
+294 
+295     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x=0;x<1;x++) \{
+296         \{ \hyperlink{struct_measure_time}{MeasureTime} mt(\textcolor{stringliteral}{"a->A"}); A.copyToDevice(a.data(), N, \textcolor{keyword}{true}); \}
+297         \{ \hyperlink{struct_measure_time}{MeasureTime} mt(\textcolor{stringliteral}{"func(A)"}); 
+298         \hyperlink{test_8cu_a225b948eb316b51ce89ef78d73bf1114}{SimpleKernel}<<<dim3( (N+nt-1)/nt ), dim3(nt)>>>(N, A.data);
+299         \}
+300         \{ \hyperlink{struct_measure_time}{MeasureTime} mt(\textcolor{stringliteral}{"A->a"}); A.copyToHost(a.data(), \textcolor{keyword}{true}); \}
+301     \}
+302     cudaEventRecord(done);
+303 
+304     \{
+305     \hyperlink{struct_measure_time}{MeasureTime}(\textcolor{stringliteral}{"sync..."}); \textcolor{keywordflow}{while} (cudaEventQuery(done) != cudaSuccess); 
+306     \}
+307     
+308     cudaStreamDestroy(s0);
+309     cudaEventDestroy(done);
+310 \}
+\end{DoxyCode}
+\index{test.\+cu@{test.\+cu}!Test\+Benchmark\+L\+UT@{Test\+Benchmark\+L\+UT}}
+\index{Test\+Benchmark\+L\+UT@{Test\+Benchmark\+L\+UT}!test.\+cu@{test.\+cu}}
+\subsubsection[{\texorpdfstring{Test\+Benchmark\+L\+U\+T()}{TestBenchmarkLUT()}}]{\setlength{\rightskip}{0pt plus 5cm}void Test\+Benchmark\+L\+UT (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{test_8cu_a8583e2509b7fd83174900ef3e1158c7d}{}\label{test_8cu_a8583e2509b7fd83174900ef3e1158c7d}
+
+\begin{DoxyCode}
+727 \{
+728     \hyperlink{class_benchmark_l_u_t}{BenchmarkLUT} bml(\textcolor{stringliteral}{"refbeadlut.jpg"});
+729 
+730     \hyperlink{struct_t_image_data}{ImageData} img=\hyperlink{struct_t_image_data_a8ae528964e70c0d0a98b8481cc8b083e}{ImageData::alloc}(120,120);
+731 
+732     \hyperlink{struct_t_image_data}{ImageData} lut = \hyperlink{struct_t_image_data_a8ae528964e70c0d0a98b8481cc8b083e}{ImageData::alloc}(bml.lut\_w, bml.lut\_h);
+733     bml.GenerateLUT(&lut);
+734     \hyperlink{fastjpg_8cpp_a77db3a4044f8f77b5a550b6f05962172}{WriteJPEGFile}(\textcolor{stringliteral}{"refbeadlut-lutsmp.jpg"}, lut);
+735     lut.\hyperlink{struct_t_image_data_a60a60e309657216a2e35809fdc582b11}{free}();
+736     
+737     bml.GenerateSample(&img, \hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f}(img.\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w}/2,img.\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h}/2,bml.lut\_h/2), 0, img.
+      \hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w}/2-5);
+738     \hyperlink{fastjpg_8cpp_a77db3a4044f8f77b5a550b6f05962172}{WriteJPEGFile}(\textcolor{stringliteral}{"refbeadlut-bmsmp.jpg"}, img);
+739     img.\hyperlink{struct_t_image_data_a60a60e309657216a2e35809fdc582b11}{free}();
+740 \}
+\end{DoxyCode}
+\index{test.\+cu@{test.\+cu}!Test\+Gauss2D@{Test\+Gauss2D}}
+\index{Test\+Gauss2D@{Test\+Gauss2D}!test.\+cu@{test.\+cu}}
+\subsubsection[{\texorpdfstring{Test\+Gauss2\+D(bool calib)}{TestGauss2D(bool calib)}}]{\setlength{\rightskip}{0pt plus 5cm}void Test\+Gauss2D (
+\begin{DoxyParamCaption}
+\item[{bool}]{calib}
+\end{DoxyParamCaption}
+)}\hypertarget{test_8cu_a65c40fb3fc43deca2fe22e72b77c5bfc}{}\label{test_8cu_a65c40fb3fc43deca2fe22e72b77c5bfc}
+
+\begin{DoxyCode}
+649 \{
+650     \textcolor{keywordtype}{int} N=20, R=1000;
+651 \textcolor{preprocessor}{#ifdef \_DEBUG}
+652     R=1;
+653 \textcolor{preprocessor}{#endif}
+654     std::vector<vector3f> rcpu = Gauss2DTest<QueuedCPUTracker>(N, R, calib);
+655     std::vector<vector3f> rgpu = Gauss2DTest<QueuedCUDATracker>(N, R, calib);
+656 
+657     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<std::min(20,N);i++) \{
+658         \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"[%d] CPU: X:%.5f, Y:%.5f\(\backslash\)t;\(\backslash\)tGPU: X:%.5f, Y:%.5f. \(\backslash\)tDiff: X:%.5f, Y:%.5f\(\backslash\)n"}, 
+659             i, rcpu[i].x, rcpu[i].y, rgpu[i].x, rgpu[i].y, rcpu[i].x-rgpu[i].x, rcpu[i].y-rgpu[i].y);
+660     \}
+661 \}
+\end{DoxyCode}
+\index{test.\+cu@{test.\+cu}!Test\+Radial\+L\+U\+T\+Gradient\+Method@{Test\+Radial\+L\+U\+T\+Gradient\+Method}}
+\index{Test\+Radial\+L\+U\+T\+Gradient\+Method@{Test\+Radial\+L\+U\+T\+Gradient\+Method}!test.\+cu@{test.\+cu}}
+\subsubsection[{\texorpdfstring{Test\+Radial\+L\+U\+T\+Gradient\+Method()}{TestRadialLUTGradientMethod()}}]{\setlength{\rightskip}{0pt plus 5cm}void Test\+Radial\+L\+U\+T\+Gradient\+Method (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{test_8cu_afb0912d78b2802b324d5a8500fc84d87}{}\label{test_8cu_afb0912d78b2802b324d5a8500fc84d87}
+
+\begin{DoxyCode}
+664 \{
+665 
+666 \}
+\end{DoxyCode}
+\index{test.\+cu@{test.\+cu}!Test\+Shared\+Mem@{Test\+Shared\+Mem}}
+\index{Test\+Shared\+Mem@{Test\+Shared\+Mem}!test.\+cu@{test.\+cu}}
+\subsubsection[{\texorpdfstring{Test\+Shared\+Mem()}{TestSharedMem()}}]{\setlength{\rightskip}{0pt plus 5cm}void Test\+Shared\+Mem (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{test_8cu_a7d13a69e192df853a4d4d9ecd28dbd62}{}\label{test_8cu_a7d13a69e192df853a4d4d9ecd28dbd62}
+
+\begin{DoxyCode}
+97 \{
+98     \textcolor{keywordtype}{int} n=100, s=200;
+99     dim3 nthreads(32), nblocks( (n+nthreads.x-1)/nthreads.x);
+100     \hyperlink{classdevice__vec}{device\_vec<float>} buf(n*s);
+101     \hyperlink{classdevice__vec}{device\_vec<float>} result\_s(n), result\_g(n);
+102 
+103     \textcolor{keywordtype}{double} t0 = \hyperlink{utils_8cpp_a11abc9edca3542dd4e74dadf99340fa1}{GetPreciseTime}();
+104     testWithGlobal<<<nblocks,nthreads>>>(n,s,result\_g.data,buf.data);
+105     cudaDeviceSynchronize();
+106     \textcolor{keywordtype}{double} t1 = \hyperlink{utils_8cpp_a11abc9edca3542dd4e74dadf99340fa1}{GetPreciseTime}();
+107     \hyperlink{test_8cu_a21ef64381376f5cd30c6672775586241}{testWithShared} <<<nblocks,nthreads,s*\textcolor{keyword}{sizeof}(float)*nthreads.x>>>(n,s,result\_s.data);
+108     cudaDeviceSynchronize();
+109     \textcolor{keywordtype}{double} t2 = \hyperlink{utils_8cpp_a11abc9edca3542dd4e74dadf99340fa1}{GetPreciseTime}();
+110 
+111     std::vector<float> rs = result\_s, rg = result\_g;
+112     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x=0;x<n;x++) \{
+113         \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"result\_s[%d]=%f.   result\_g[%d]=%f\(\backslash\)n"}, x,rs[x], x,rg[x]);
+114     \}
+115 
+116     \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"Speed of shared comp: %f, speed of global comp: %f\(\backslash\)n"}, n/(t2-t1), n/(t1-t0));
+117 \}
+\end{DoxyCode}
+\index{test.\+cu@{test.\+cu}!test\+With\+Global@{test\+With\+Global}}
+\index{test\+With\+Global@{test\+With\+Global}!test.\+cu@{test.\+cu}}
+\subsubsection[{\texorpdfstring{test\+With\+Global(int n, int s, float $\ast$result, float $\ast$buf)}{testWithGlobal(int n, int s, float *result, float *buf)}}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+global\+\_\+\+\_\+ void test\+With\+Global (
+\begin{DoxyParamCaption}
+\item[{int}]{n, }
+\item[{int}]{s, }
+\item[{float $\ast$}]{result, }
+\item[{float $\ast$}]{buf}
+\end{DoxyParamCaption}
+)}\hypertarget{test_8cu_a166bc95ca5b0b00fe336b75aff678668}{}\label{test_8cu_a166bc95ca5b0b00fe336b75aff678668}
+
+\begin{DoxyCode}
+82                                                                         \{
+83     \textcolor{keywordtype}{int} idx = threadIdx.x + blockIdx.x * blockDim.x;
+84     \textcolor{keywordflow}{if} (idx < n) \{
+85         result [idx] = \hyperlink{test_8cu_ab0b9205f1595a5487a58172abfab6925}{compute}(idx, &buf [idx * s],s);
+86     \}
+87 \}
+\end{DoxyCode}
+\index{test.\+cu@{test.\+cu}!test\+With\+Shared@{test\+With\+Shared}}
+\index{test\+With\+Shared@{test\+With\+Shared}!test.\+cu@{test.\+cu}}
+\subsubsection[{\texorpdfstring{test\+With\+Shared(int n, int s, float $\ast$result)}{testWithShared(int n, int s, float *result)}}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+global\+\_\+\+\_\+ void test\+With\+Shared (
+\begin{DoxyParamCaption}
+\item[{int}]{n, }
+\item[{int}]{s, }
+\item[{float $\ast$}]{result}
+\end{DoxyParamCaption}
+)}\hypertarget{test_8cu_a21ef64381376f5cd30c6672775586241}{}\label{test_8cu_a21ef64381376f5cd30c6672775586241}
+
+\begin{DoxyCode}
+89                                                             \{
+90     \textcolor{keywordtype}{int} idx = threadIdx.x + blockIdx.x * blockDim.x;
+91     \textcolor{keywordflow}{if} (idx < n) \{
+92         result [idx] = \hyperlink{test_8cu_ab0b9205f1595a5487a58172abfab6925}{compute}(idx, &\hyperlink{test_8cu_a0b31a228ca14964b01076fffd9d3b201}{cudaSharedMem}[threadIdx.x * s],s);
+93     \}
+94 \}
+\end{DoxyCode}
+
+
+\subsection{Variable Documentation}
+\index{test.\+cu@{test.\+cu}!cmp\+\_\+cpu\+\_\+qi\+\_\+fft\+\_\+out@{cmp\+\_\+cpu\+\_\+qi\+\_\+fft\+\_\+out}}
+\index{cmp\+\_\+cpu\+\_\+qi\+\_\+fft\+\_\+out@{cmp\+\_\+cpu\+\_\+qi\+\_\+fft\+\_\+out}!test.\+cu@{test.\+cu}}
+\subsubsection[{\texorpdfstring{cmp\+\_\+cpu\+\_\+qi\+\_\+fft\+\_\+out}{cmp_cpu_qi_fft_out}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$ std\+::complex$<$float$>$ $>$ cmp\+\_\+cpu\+\_\+qi\+\_\+fft\+\_\+out}\hypertarget{test_8cu_a9d2895908a386c1f380b8085f1e28340}{}\label{test_8cu_a9d2895908a386c1f380b8085f1e28340}
+\index{test.\+cu@{test.\+cu}!cmp\+\_\+cpu\+\_\+qi\+\_\+prof@{cmp\+\_\+cpu\+\_\+qi\+\_\+prof}}
+\index{cmp\+\_\+cpu\+\_\+qi\+\_\+prof@{cmp\+\_\+cpu\+\_\+qi\+\_\+prof}!test.\+cu@{test.\+cu}}
+\subsubsection[{\texorpdfstring{cmp\+\_\+cpu\+\_\+qi\+\_\+prof}{cmp_cpu_qi_prof}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$ float $>$ cmp\+\_\+cpu\+\_\+qi\+\_\+prof}\hypertarget{test_8cu_a4504c3c7ffae71a4f843424dd228b123}{}\label{test_8cu_a4504c3c7ffae71a4f843424dd228b123}
+\index{test.\+cu@{test.\+cu}!cmp\+\_\+gpu\+\_\+qi\+\_\+fft\+\_\+out@{cmp\+\_\+gpu\+\_\+qi\+\_\+fft\+\_\+out}}
+\index{cmp\+\_\+gpu\+\_\+qi\+\_\+fft\+\_\+out@{cmp\+\_\+gpu\+\_\+qi\+\_\+fft\+\_\+out}!test.\+cu@{test.\+cu}}
+\subsubsection[{\texorpdfstring{cmp\+\_\+gpu\+\_\+qi\+\_\+fft\+\_\+out}{cmp_gpu_qi_fft_out}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$ std\+::complex$<$float$>$ $>$ cmp\+\_\+gpu\+\_\+qi\+\_\+fft\+\_\+out}\hypertarget{test_8cu_a968a1f45bfd391f01eaee72d1ba61237}{}\label{test_8cu_a968a1f45bfd391f01eaee72d1ba61237}
+\index{test.\+cu@{test.\+cu}!cmp\+\_\+gpu\+\_\+qi\+\_\+prof@{cmp\+\_\+gpu\+\_\+qi\+\_\+prof}}
+\index{cmp\+\_\+gpu\+\_\+qi\+\_\+prof@{cmp\+\_\+gpu\+\_\+qi\+\_\+prof}!test.\+cu@{test.\+cu}}
+\subsubsection[{\texorpdfstring{cmp\+\_\+gpu\+\_\+qi\+\_\+prof}{cmp_gpu_qi_prof}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$ float $>$ cmp\+\_\+gpu\+\_\+qi\+\_\+prof}\hypertarget{test_8cu_a0f78dfbff0fc38f749d5a83cf7293b89}{}\label{test_8cu_a0f78dfbff0fc38f749d5a83cf7293b89}
+\index{test.\+cu@{test.\+cu}!cuda\+Shared\+Mem@{cuda\+Shared\+Mem}}
+\index{cuda\+Shared\+Mem@{cuda\+Shared\+Mem}!test.\+cu@{test.\+cu}}
+\subsubsection[{\texorpdfstring{cuda\+Shared\+Mem}{cudaSharedMem}}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+shared\+\_\+\+\_\+ float cuda\+Shared\+Mem\mbox{[}$\,$\mbox{]}}\hypertarget{test_8cu_a0b31a228ca14964b01076fffd9d3b201}{}\label{test_8cu_a0b31a228ca14964b01076fffd9d3b201}

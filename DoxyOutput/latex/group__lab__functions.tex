@@ -1,0 +1,266 @@
+\hypertarget{group__lab__functions}{}\section{Lab\+V\+I\+EW datatypes and helper functions}
+\label{group__lab__functions}\index{Lab\+V\+I\+E\+W datatypes and helper functions@{Lab\+V\+I\+E\+W datatypes and helper functions}}
+
+
+Definitions of datatypes and helper functions required for communication with Lab\+V\+I\+EW.  
+
+
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_error_cluster}{Error\+Cluster}
+\item 
+struct \hyperlink{struct_l_v_array}{L\+V\+Array$<$ T $>$}
+\item 
+struct \hyperlink{struct_l_v_array2_d}{L\+V\+Array2\+D$<$ T $>$}
+\item 
+struct \hyperlink{struct_l_v_array3_d}{L\+V\+Array3\+D$<$ T $>$}
+\item 
+struct \hyperlink{struct_l_v_array_n_d}{L\+V\+Array\+N\+D$<$ T, N $>$}
+\item 
+struct \hyperlink{struct_l_v_data_type}{L\+V\+Data\+Type$<$ T $>$}
+\item 
+struct \hyperlink{struct_l_v_data_type_3_01float_01_4}{L\+V\+Data\+Type$<$ float $>$}
+\item 
+struct \hyperlink{struct_l_v_data_type_3_01double_01_4}{L\+V\+Data\+Type$<$ double $>$}
+\item 
+struct \hyperlink{struct_l_v_data_type_3_01int8__t_01_4}{L\+V\+Data\+Type$<$ int8\+\_\+t $>$}
+\item 
+struct \hyperlink{struct_l_v_data_type_3_01int16__t_01_4}{L\+V\+Data\+Type$<$ int16\+\_\+t $>$}
+\item 
+struct \hyperlink{struct_l_v_data_type_3_01int32__t_01_4}{L\+V\+Data\+Type$<$ int32\+\_\+t $>$}
+\item 
+struct \hyperlink{struct_l_v_data_type_3_01int64__t_01_4}{L\+V\+Data\+Type$<$ int64\+\_\+t $>$}
+\item 
+struct \hyperlink{struct_l_v_data_type_3_01uint8__t_01_4}{L\+V\+Data\+Type$<$ uint8\+\_\+t $>$}
+\item 
+struct \hyperlink{struct_l_v_data_type_3_01uint16__t_01_4}{L\+V\+Data\+Type$<$ uint16\+\_\+t $>$}
+\item 
+struct \hyperlink{struct_l_v_data_type_3_01uint32__t_01_4}{L\+V\+Data\+Type$<$ uint32\+\_\+t $>$}
+\item 
+struct \hyperlink{struct_l_v_data_type_3_01uint64__t_01_4}{L\+V\+Data\+Type$<$ uint64\+\_\+t $>$}
+\item 
+struct \hyperlink{struct_l_v_data_type_3_01std_1_1complex_3_01float_01_4_01_4}{L\+V\+Data\+Type$<$ std\+::complex$<$ float $>$ $>$}
+\item 
+struct \hyperlink{struct_l_v_data_type_3_01std_1_1complex_3_01double_01_4_01_4}{L\+V\+Data\+Type$<$ std\+::complex$<$ double $>$ $>$}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{struct_l_v_array}{L\+V\+Array}$<$ float $>$ $\ast$$\ast$ \hyperlink{group__lab__functions_gaf69538484a43fed57d6ee809dfbaff15}{pp\+Float\+Array}
+\item 
+typedef \hyperlink{struct_l_v_array2_d}{L\+V\+Array2D}$<$ float $>$ $\ast$$\ast$ \hyperlink{group__lab__functions_ga9a0eab7581aef17aa559d7138d7574f8}{pp\+Float\+Array2}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T $>$ }\\void \hyperlink{group__lab__functions_gaeb000b717bd3ec4502c7dd215ab5031e}{Resize\+L\+V\+Array2D} (\hyperlink{struct_l_v_array2_d}{L\+V\+Array2D}$<$ T $>$ $\ast$$\ast$\&d, int rows, int cols)
+\item 
+{\footnotesize template$<$typename T $>$ }\\void \hyperlink{group__lab__functions_gabeb483ad1312a277d2b8c6740fbed35f}{Resize\+L\+V\+Array3D} (\hyperlink{struct_l_v_array3_d}{L\+V\+Array3D}$<$ T $>$ $\ast$$\ast$\&d, int depth, int rows, int cols)
+\item 
+{\footnotesize template$<$typename T , int N$>$ }\\void \hyperlink{group__lab__functions_ga5008b8a19809d8fad16db159c6aff923}{Resize\+L\+V\+Array} (\hyperlink{struct_l_v_array_n_d}{L\+V\+Array\+ND}$<$ T, N $>$ $\ast$$\ast$\&d, int $\ast$dims)
+\item 
+{\footnotesize template$<$typename T $>$ }\\void \hyperlink{group__lab__functions_ga586b44022495cbba4d9d8d07cbb40212}{Resize\+L\+V\+Array} (\hyperlink{struct_l_v_array}{L\+V\+Array}$<$ T $>$ $\ast$$\ast$\&d, int elems)
+\item 
+void \hyperlink{group__lab__functions_ga40d026eb54005767d41bee6c4a059e92}{Argument\+Error\+Msg} (\hyperlink{struct_error_cluster}{Error\+Cluster} $\ast$e, const std\+::string \&msg)
+\item 
+void \hyperlink{group__lab__functions_gafa2a79fe1916d42003e1977c5275e94b}{Set\+L\+V\+String} (L\+Str\+Handle str, const char $\ast$text)
+\item 
+Mg\+Err \hyperlink{group__lab__functions_ga1363f444ed040befa4d285e576743907}{Fill\+Error\+Cluster} (Mg\+Err err, const char $\ast$message, \hyperlink{struct_error_cluster}{Error\+Cluster} $\ast$error)
+\item 
+std\+::vector$<$ std\+::string $>$ \hyperlink{group__lab__functions_gaada2e36cea8ad6f5c5a9371c7f71839c}{L\+V\+Get\+String\+Array} (int count, L\+Str\+Handle $\ast$str)
+\item 
+bool \hyperlink{group__lab__functions_ga4d26499106cd9ee7e2197a1c785d2dc8}{Validate\+Tracker} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$tracker, \hyperlink{struct_error_cluster}{Error\+Cluster} $\ast$e, const char $\ast$funcname)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Definitions of datatypes and helper functions required for communication with Lab\+V\+I\+EW. 
+
+
+
+\subsection{Typedef Documentation}
+\index{Lab\+V\+I\+E\+W datatypes and helper functions@{Lab\+V\+I\+E\+W datatypes and helper functions}!pp\+Float\+Array@{pp\+Float\+Array}}
+\index{pp\+Float\+Array@{pp\+Float\+Array}!Lab\+V\+I\+E\+W datatypes and helper functions@{Lab\+V\+I\+E\+W datatypes and helper functions}}
+\subsubsection[{\texorpdfstring{pp\+Float\+Array}{ppFloatArray}}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf L\+V\+Array}$<$float$>$$\ast$$\ast$ {\bf pp\+Float\+Array}}\hypertarget{group__lab__functions_gaf69538484a43fed57d6ee809dfbaff15}{}\label{group__lab__functions_gaf69538484a43fed57d6ee809dfbaff15}
+\index{Lab\+V\+I\+E\+W datatypes and helper functions@{Lab\+V\+I\+E\+W datatypes and helper functions}!pp\+Float\+Array2@{pp\+Float\+Array2}}
+\index{pp\+Float\+Array2@{pp\+Float\+Array2}!Lab\+V\+I\+E\+W datatypes and helper functions@{Lab\+V\+I\+E\+W datatypes and helper functions}}
+\subsubsection[{\texorpdfstring{pp\+Float\+Array2}{ppFloatArray2}}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf L\+V\+Array2D}$<$float$>$$\ast$$\ast$ {\bf pp\+Float\+Array2}}\hypertarget{group__lab__functions_ga9a0eab7581aef17aa559d7138d7574f8}{}\label{group__lab__functions_ga9a0eab7581aef17aa559d7138d7574f8}
+
+
+\subsection{Function Documentation}
+\index{Lab\+V\+I\+E\+W datatypes and helper functions@{Lab\+V\+I\+E\+W datatypes and helper functions}!Argument\+Error\+Msg@{Argument\+Error\+Msg}}
+\index{Argument\+Error\+Msg@{Argument\+Error\+Msg}!Lab\+V\+I\+E\+W datatypes and helper functions@{Lab\+V\+I\+E\+W datatypes and helper functions}}
+\subsubsection[{\texorpdfstring{Argument\+Error\+Msg(\+Error\+Cluster $\ast$e, const std\+::string \&msg)}{ArgumentErrorMsg(ErrorCluster *e, const std::string &msg)}}]{\setlength{\rightskip}{0pt plus 5cm}void Argument\+Error\+Msg (
+\begin{DoxyParamCaption}
+\item[{{\bf Error\+Cluster} $\ast$}]{e, }
+\item[{const std\+::string \&}]{msg}
+\end{DoxyParamCaption}
+)}\hypertarget{group__lab__functions_ga40d026eb54005767d41bee6c4a059e92}{}\label{group__lab__functions_ga40d026eb54005767d41bee6c4a059e92}
+
+\begin{DoxyCode}
+61 \{
+62     \hyperlink{group__lab__functions_ga1363f444ed040befa4d285e576743907}{FillErrorCluster}(mgArgErr, msg.c\_str(), e);
+63 \}
+\end{DoxyCode}
+\index{Lab\+V\+I\+E\+W datatypes and helper functions@{Lab\+V\+I\+E\+W datatypes and helper functions}!Fill\+Error\+Cluster@{Fill\+Error\+Cluster}}
+\index{Fill\+Error\+Cluster@{Fill\+Error\+Cluster}!Lab\+V\+I\+E\+W datatypes and helper functions@{Lab\+V\+I\+E\+W datatypes and helper functions}}
+\subsubsection[{\texorpdfstring{Fill\+Error\+Cluster(\+Mg\+Err err, const char $\ast$message, Error\+Cluster $\ast$error)}{FillErrorCluster(MgErr err, const char *message, ErrorCluster *error)}}]{\setlength{\rightskip}{0pt plus 5cm}Mg\+Err Fill\+Error\+Cluster (
+\begin{DoxyParamCaption}
+\item[{Mg\+Err}]{err, }
+\item[{const char $\ast$}]{message, }
+\item[{{\bf Error\+Cluster} $\ast$}]{error}
+\end{DoxyParamCaption}
+)}\hypertarget{group__lab__functions_ga1363f444ed040befa4d285e576743907}{}\label{group__lab__functions_ga1363f444ed040befa4d285e576743907}
+
+\begin{DoxyCode}
+50 \{
+51     \textcolor{keywordflow}{if} (err)
+52     \{
+53         error->\hyperlink{struct_error_cluster_a332d9ef24869985771e4114428871035}{status} = LVBooleanTrue;
+54         error->\hyperlink{struct_error_cluster_afc63e0ed91bc2423b4d6034568c1e55f}{code} = err;
+55         \hyperlink{group__lab__functions_gafa2a79fe1916d42003e1977c5275e94b}{SetLVString} ( error->\hyperlink{struct_error_cluster_a1352bf4f7aea60ac5d0b873961831260}{message}, message );
+56     \}
+57     \textcolor{keywordflow}{return} err;
+58 \}
+\end{DoxyCode}
+\index{Lab\+V\+I\+E\+W datatypes and helper functions@{Lab\+V\+I\+E\+W datatypes and helper functions}!L\+V\+Get\+String\+Array@{L\+V\+Get\+String\+Array}}
+\index{L\+V\+Get\+String\+Array@{L\+V\+Get\+String\+Array}!Lab\+V\+I\+E\+W datatypes and helper functions@{Lab\+V\+I\+E\+W datatypes and helper functions}}
+\subsubsection[{\texorpdfstring{L\+V\+Get\+String\+Array(int count, L\+Str\+Handle $\ast$str)}{LVGetStringArray(int count, LStrHandle *str)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$std\+::string$>$ L\+V\+Get\+String\+Array (
+\begin{DoxyParamCaption}
+\item[{int}]{count, }
+\item[{L\+Str\+Handle $\ast$}]{str}
+\end{DoxyParamCaption}
+)}\hypertarget{group__lab__functions_gaada2e36cea8ad6f5c5a9371c7f71839c}{}\label{group__lab__functions_gaada2e36cea8ad6f5c5a9371c7f71839c}
+
+\begin{DoxyCode}
+38 \{
+39     std::vector<std::string> result(count);
+40 
+41     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x=0;x<count;x++) \{
+42         uChar *val = LHStrBuf(str[x]);
+43         \textcolor{keywordtype}{int} len = LHStrLen (str[x]);
+44         result[x]=std::string((\textcolor{keyword}{const} \textcolor{keywordtype}{char}*)val, (\textcolor{keywordtype}{size\_t})len );
+45     \}
+46     \textcolor{keywordflow}{return} result;
+47 \}
+\end{DoxyCode}
+\index{Lab\+V\+I\+E\+W datatypes and helper functions@{Lab\+V\+I\+E\+W datatypes and helper functions}!Resize\+L\+V\+Array@{Resize\+L\+V\+Array}}
+\index{Resize\+L\+V\+Array@{Resize\+L\+V\+Array}!Lab\+V\+I\+E\+W datatypes and helper functions@{Lab\+V\+I\+E\+W datatypes and helper functions}}
+\subsubsection[{\texorpdfstring{Resize\+L\+V\+Array(\+L\+V\+Array\+N\+D$<$ T, N $>$ $\ast$$\ast$\&d, int $\ast$dims)}{ResizeLVArray(LVArrayND< T, N > **&d, int *dims)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , int N$>$ void Resize\+L\+V\+Array (
+\begin{DoxyParamCaption}
+\item[{{\bf L\+V\+Array\+ND}$<$ T, N $>$ $\ast$$\ast$\&}]{d, }
+\item[{int $\ast$}]{dims}
+\end{DoxyParamCaption}
+)}\hypertarget{group__lab__functions_ga5008b8a19809d8fad16db159c6aff923}{}\label{group__lab__functions_ga5008b8a19809d8fad16db159c6aff923}
+
+\begin{DoxyCode}
+107 \{
+108     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<N;i++)
+109         (*d)->dimSizes[i]=dims[i];
+110     NumericArrayResize(\hyperlink{struct_l_v_data_type}{LVDataType<T>::code}, N, (UHandle*)&d, \textcolor{keyword}{sizeof}(T)*(*d)->
+      \hyperlink{struct_l_v_array_n_d_a60b85212c2d61e358e3aad4abfe7ecff}{numElem}());
+111 \}
+\end{DoxyCode}
+\index{Lab\+V\+I\+E\+W datatypes and helper functions@{Lab\+V\+I\+E\+W datatypes and helper functions}!Resize\+L\+V\+Array@{Resize\+L\+V\+Array}}
+\index{Resize\+L\+V\+Array@{Resize\+L\+V\+Array}!Lab\+V\+I\+E\+W datatypes and helper functions@{Lab\+V\+I\+E\+W datatypes and helper functions}}
+\subsubsection[{\texorpdfstring{Resize\+L\+V\+Array(\+L\+V\+Array$<$ T $>$ $\ast$$\ast$\&d, int elems)}{ResizeLVArray(LVArray< T > **&d, int elems)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ void Resize\+L\+V\+Array (
+\begin{DoxyParamCaption}
+\item[{{\bf L\+V\+Array}$<$ T $>$ $\ast$$\ast$\&}]{d, }
+\item[{int}]{elems}
+\end{DoxyParamCaption}
+)}\hypertarget{group__lab__functions_ga586b44022495cbba4d9d8d07cbb40212}{}\label{group__lab__functions_ga586b44022495cbba4d9d8d07cbb40212}
+
+\begin{DoxyCode}
+115 \{
+116     \textcolor{keywordflow}{if} (NumericArrayResize(\hyperlink{struct_l_v_data_type}{LVDataType<T>::code}, 1, (UHandle*)&d, \textcolor{keyword}{sizeof}(T)*elems) != 
+      mgNoErr)
+117         \textcolor{keywordflow}{throw} std::runtime\_error( \hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"NumericArrayResize(1D array, %d) returned error."}, elems)
+      );
+118     (*d)->dimSize = elems;
+119 \}
+\end{DoxyCode}
+\index{Lab\+V\+I\+E\+W datatypes and helper functions@{Lab\+V\+I\+E\+W datatypes and helper functions}!Resize\+L\+V\+Array2D@{Resize\+L\+V\+Array2D}}
+\index{Resize\+L\+V\+Array2D@{Resize\+L\+V\+Array2D}!Lab\+V\+I\+E\+W datatypes and helper functions@{Lab\+V\+I\+E\+W datatypes and helper functions}}
+\subsubsection[{\texorpdfstring{Resize\+L\+V\+Array2\+D(\+L\+V\+Array2\+D$<$ T $>$ $\ast$$\ast$\&d, int rows, int cols)}{ResizeLVArray2D(LVArray2D< T > **&d, int rows, int cols)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ void Resize\+L\+V\+Array2D (
+\begin{DoxyParamCaption}
+\item[{{\bf L\+V\+Array2D}$<$ T $>$ $\ast$$\ast$\&}]{d, }
+\item[{int}]{rows, }
+\item[{int}]{cols}
+\end{DoxyParamCaption}
+)}\hypertarget{group__lab__functions_gaeb000b717bd3ec4502c7dd215ab5031e}{}\label{group__lab__functions_gaeb000b717bd3ec4502c7dd215ab5031e}
+
+\begin{DoxyCode}
+87 \{
+88     \textcolor{keywordflow}{if} (NumericArrayResize(\hyperlink{struct_l_v_data_type}{LVDataType<T>::code}, 2, (UHandle*)&d, \textcolor{keyword}{sizeof}(T)*rows*cols) !=
+       mgNoErr)
+89         \textcolor{keywordflow}{throw} std::runtime\_error( \hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"NumericArrayResize(2D array, %d, %d) returned error."}, 
+      rows,cols));
+90     (*d)->dimSizes[0] = rows;
+91     (*d)->dimSizes[1] = cols;
+92 \}
+\end{DoxyCode}
+\index{Lab\+V\+I\+E\+W datatypes and helper functions@{Lab\+V\+I\+E\+W datatypes and helper functions}!Resize\+L\+V\+Array3D@{Resize\+L\+V\+Array3D}}
+\index{Resize\+L\+V\+Array3D@{Resize\+L\+V\+Array3D}!Lab\+V\+I\+E\+W datatypes and helper functions@{Lab\+V\+I\+E\+W datatypes and helper functions}}
+\subsubsection[{\texorpdfstring{Resize\+L\+V\+Array3\+D(\+L\+V\+Array3\+D$<$ T $>$ $\ast$$\ast$\&d, int depth, int rows, int cols)}{ResizeLVArray3D(LVArray3D< T > **&d, int depth, int rows, int cols)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ void Resize\+L\+V\+Array3D (
+\begin{DoxyParamCaption}
+\item[{{\bf L\+V\+Array3D}$<$ T $>$ $\ast$$\ast$\&}]{d, }
+\item[{int}]{depth, }
+\item[{int}]{rows, }
+\item[{int}]{cols}
+\end{DoxyParamCaption}
+)}\hypertarget{group__lab__functions_gabeb483ad1312a277d2b8c6740fbed35f}{}\label{group__lab__functions_gabeb483ad1312a277d2b8c6740fbed35f}
+
+\begin{DoxyCode}
+96 \{
+97     \textcolor{keywordflow}{if} (NumericArrayResize(\hyperlink{struct_l_v_data_type}{LVDataType<T>::code}, 3, (UHandle*)&d, \textcolor{keyword}{sizeof}(T)*rows*cols*
+      depth) != mgNoErr)
+98         \textcolor{keywordflow}{throw} std::runtime\_error( \hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"NumericArrayResize(3D array, %d, %d, %d) returned error."}
+      , depth,rows,cols));
+99 
+100     (*d)->dimSizes[0] = depth;
+101     (*d)->dimSizes[1] = rows;
+102     (*d)->dimSizes[2] = cols;
+103 \}
+\end{DoxyCode}
+\index{Lab\+V\+I\+E\+W datatypes and helper functions@{Lab\+V\+I\+E\+W datatypes and helper functions}!Set\+L\+V\+String@{Set\+L\+V\+String}}
+\index{Set\+L\+V\+String@{Set\+L\+V\+String}!Lab\+V\+I\+E\+W datatypes and helper functions@{Lab\+V\+I\+E\+W datatypes and helper functions}}
+\subsubsection[{\texorpdfstring{Set\+L\+V\+String(\+L\+Str\+Handle str, const char $\ast$text)}{SetLVString(LStrHandle str, const char *text)}}]{\setlength{\rightskip}{0pt plus 5cm}void Set\+L\+V\+String (
+\begin{DoxyParamCaption}
+\item[{L\+Str\+Handle}]{str, }
+\item[{const char $\ast$}]{text}
+\end{DoxyParamCaption}
+)}\hypertarget{group__lab__functions_gafa2a79fe1916d42003e1977c5275e94b}{}\label{group__lab__functions_gafa2a79fe1916d42003e1977c5275e94b}
+
+\begin{DoxyCode}
+27 \{
+28     \textcolor{keywordtype}{int} msglen = strlen(text);
+29     MgErr err = NumericArrayResize(uB, 1, (UHandle*)&str, msglen);
+30     \textcolor{keywordflow}{if} (!err)
+31     \{
+32         MoveBlock(text, LStrBuf(*str), msglen);
+33         LStrLen(*str) = msglen;
+34     \}
+35 \}
+\end{DoxyCode}
+\index{Lab\+V\+I\+E\+W datatypes and helper functions@{Lab\+V\+I\+E\+W datatypes and helper functions}!Validate\+Tracker@{Validate\+Tracker}}
+\index{Validate\+Tracker@{Validate\+Tracker}!Lab\+V\+I\+E\+W datatypes and helper functions@{Lab\+V\+I\+E\+W datatypes and helper functions}}
+\subsubsection[{\texorpdfstring{Validate\+Tracker(\+Queued\+Tracker $\ast$tracker, Error\+Cluster $\ast$e, const char $\ast$funcname)}{ValidateTracker(QueuedTracker *tracker, ErrorCluster *e, const char *funcname)}}]{\setlength{\rightskip}{0pt plus 5cm}bool Validate\+Tracker (
+\begin{DoxyParamCaption}
+\item[{{\bf Queued\+Tracker} $\ast$}]{tracker, }
+\item[{{\bf Error\+Cluster} $\ast$}]{e, }
+\item[{const char $\ast$}]{funcname}
+\end{DoxyParamCaption}
+)}\hypertarget{group__lab__functions_ga4d26499106cd9ee7e2197a1c785d2dc8}{}\label{group__lab__functions_ga4d26499106cd9ee7e2197a1c785d2dc8}
+
+\begin{DoxyCode}
+66 \{
+67     \textcolor{keywordflow}{if} (std::find(\hyperlink{lv__queuetrk__api_8cpp_a4073ea3f0b6e969139041dca8b25c4cf}{trackerList}.begin(), \hyperlink{lv__queuetrk__api_8cpp_a4073ea3f0b6e969139041dca8b25c4cf}{trackerList}.end(), tracker)==
+      \hyperlink{lv__queuetrk__api_8cpp_a4073ea3f0b6e969139041dca8b25c4cf}{trackerList}.end()) \{
+68         \hyperlink{group__lab__functions_ga40d026eb54005767d41bee6c4a059e92}{ArgumentErrorMsg}(e, \hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"QTrk C++ function %s called with invalid
+       tracker pointer: %p"}, funcname, tracker));
+69         \textcolor{keywordflow}{return} \textcolor{keyword}{false};
+70     \}
+71     \textcolor{keywordflow}{return} \textcolor{keyword}{true};
+72 \}
+\end{DoxyCode}

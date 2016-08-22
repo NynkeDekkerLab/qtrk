@@ -1,7 +1,14 @@
 #pragma once
 
+/** \defgroup kernels CUDA Kernels
+\brief All available CUDA Kernels to run on the GPU.
+*/
 
+/** \addtogroup kernels
+	@{
+*/
 
+// https://devblogs.nvidia.com/parallelforall/lerp-faster-cuda/ ?
 template<typename T>
 static __device__ T interpolate(T a, T b, float x) { return a + (b-a)*x; }
 
@@ -46,7 +53,8 @@ __device__ float2 BgCorrectedCOM(int idx, cudaImageListf images, float correctio
 }
 
 template<typename TImageSampler>
-__global__ void BgCorrectedCOM(int count, cudaImageListf images,float3* d_com, float bgCorrectionFactor, float* d_imgmeans) {
+__global__ void BgCorrectedCOM(int count, cudaImageListf images,float3* d_com, float bgCorrectionFactor, float* d_imgmeans) 
+{
 	int idx = threadIdx.x + blockDim.x * blockIdx.x;
 	if (idx < count) {
 		float mean;
@@ -94,7 +102,6 @@ __global__ void ZLUT_RadialProfileKernel(int njobs, cudaImageListf images, ZLUTP
 	}
 	dstprof [radialIdx] = count>MIN_RADPROFILE_SMP_COUNT ? sum/count : means[jobIdx];
 }
-
 
 __global__ void ZLUT_ComputeZ (int njobs, ZLUTParams params, float3* positions, float* compareScoreBuf)
 {
@@ -157,7 +164,6 @@ __global__ void ZLUT_NormalizeProfiles(int njobs, ZLUTParams params, float* prof
 	}
 }
 
-
 __global__ void ApplyOffsetGain (BaseKernelParams kp, cudaImageListf calib_gain, cudaImageListf calib_offset, float gainFactor, float offsetFactor)
 {
 	int x = threadIdx.x + blockIdx.x * blockDim.x;
@@ -173,7 +179,6 @@ __global__ void ApplyOffsetGain (BaseKernelParams kp, cudaImageListf calib_gain,
 		kp.images.pixel(x,y,jobIdx) = (value + offset*offsetFactor) * gain*gainFactor;
 	}
 }
-
 
 // Simple gaussian 2D MLE implementation. A better solution would be to distribute CUDA threads over each pixel, but this is a very straightforward implementation
 template<typename TImageSampler>
@@ -255,7 +260,6 @@ __global__ void G2MLE_Compute(BaseKernelParams kp, float sigma, int iterations, 
 
 surface<void, cudaSurfaceType2DLayered> image_lut_surface;
 
-
 template<typename TImageSampler, typename TImageLUT>
 __global__ void ImageLUT_Sample(BaseKernelParams kp, float2 ilut_scale, float3* positions, typename TImageLUT::KernelParams lut)
 {
@@ -286,3 +290,4 @@ __global__ void ForceCUDAKernelsToLoad()
 {
 }
 
+/** @} */

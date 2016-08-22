@@ -1,0 +1,249 @@
+\hypertarget{class_benchmark_l_u_t}{}\section{Benchmark\+L\+UT Class Reference}
+\label{class_benchmark_l_u_t}\index{Benchmark\+L\+UT@{Benchmark\+L\+UT}}
+
+
+{\ttfamily \#include $<$Benchmark\+L\+U\+T.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_benchmark_l_u_t_a4cc66179032674a228cc5245ced451f7}{Benchmark\+L\+UT} ()
+\item 
+\hyperlink{class_benchmark_l_u_t_a1ac0338c2339b5590ae51e15ad528dcb}{Benchmark\+L\+UT} (\hyperlink{_queued_tracker_8h_a2d6726594ce64e82b9222b183f2571d1}{Image\+Data} $\ast$lut)
+\item 
+\hyperlink{class_benchmark_l_u_t_a83492c3b8f6966a377a705ed74dc7721}{Benchmark\+L\+UT} (const char $\ast$file)
+\item 
+void \hyperlink{class_benchmark_l_u_t_a1ab15013a6b6883a134a5ed14ca89341}{Load} (\hyperlink{_queued_tracker_8h_a2d6726594ce64e82b9222b183f2571d1}{Image\+Data} $\ast$lut)
+\item 
+void \hyperlink{class_benchmark_l_u_t_a8e7f2872ae37a4e0522ce8de7361dbdf}{Load} (const char $\ast$file)
+\item 
+void \hyperlink{class_benchmark_l_u_t_a25aa2a5d399a7c69ce755ee41384558a}{Generate\+L\+UT} (\hyperlink{_queued_tracker_8h_a2d6726594ce64e82b9222b183f2571d1}{Image\+Data} $\ast$lut)
+\item 
+void \hyperlink{class_benchmark_l_u_t_ac2994fc6e33a4340057793a7d020a117}{Generate\+Sample} (\hyperlink{_queued_tracker_8h_a2d6726594ce64e82b9222b183f2571d1}{Image\+Data} $\ast$image, \hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f} pos, float min\+Radius, float max\+Radius)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \hyperlink{class_benchmark_l_u_t_a0603ca70a5218b22809d9956ef226905}{Cleanup\+L\+UT} (\hyperlink{_queued_tracker_8h_a2d6726594ce64e82b9222b183f2571d1}{Image\+Data} \&lut)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ float $>$ \hyperlink{class_benchmark_l_u_t_ad5ef40ecabab7c747d42180e9e82fe21}{normprof}
+\item 
+float \hyperlink{class_benchmark_l_u_t_a0db0d7dfca5146b0d10b2c2f11364203}{max\+\_\+a}
+\item 
+float \hyperlink{class_benchmark_l_u_t_a9c4c87c9ba7e98d01109e5db7a8538bd}{max\+\_\+b}
+\item 
+float \hyperlink{class_benchmark_l_u_t_a279c5583569ce6db1f1b921906de7ce5}{max\+\_\+c}
+\item 
+int \hyperlink{class_benchmark_l_u_t_a3ea5fe14b9dbfb664d7adc6697bf55d6}{lut\+\_\+w}
+\item 
+int \hyperlink{class_benchmark_l_u_t_af73ab30379754bab8b5b114cb2fbfc80}{lut\+\_\+h}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Benchmark\+L\+UT@{Benchmark\+L\+UT}!Benchmark\+L\+UT@{Benchmark\+L\+UT}}
+\index{Benchmark\+L\+UT@{Benchmark\+L\+UT}!Benchmark\+L\+UT@{Benchmark\+L\+UT}}
+\subsubsection[{\texorpdfstring{Benchmark\+L\+U\+T()}{BenchmarkLUT()}}]{\setlength{\rightskip}{0pt plus 5cm}Benchmark\+L\+U\+T\+::\+Benchmark\+L\+UT (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_benchmark_l_u_t_a4cc66179032674a228cc5245ced451f7}{}\label{class_benchmark_l_u_t_a4cc66179032674a228cc5245ced451f7}
+
+\begin{DoxyCode}
+15 \{ \hyperlink{class_benchmark_l_u_t_a3ea5fe14b9dbfb664d7adc6697bf55d6}{lut\_w}=\hyperlink{class_benchmark_l_u_t_af73ab30379754bab8b5b114cb2fbfc80}{lut\_h}=0; \}
+\end{DoxyCode}
+\index{Benchmark\+L\+UT@{Benchmark\+L\+UT}!Benchmark\+L\+UT@{Benchmark\+L\+UT}}
+\index{Benchmark\+L\+UT@{Benchmark\+L\+UT}!Benchmark\+L\+UT@{Benchmark\+L\+UT}}
+\subsubsection[{\texorpdfstring{Benchmark\+L\+U\+T(\+Image\+Data $\ast$lut)}{BenchmarkLUT(ImageData *lut)}}]{\setlength{\rightskip}{0pt plus 5cm}Benchmark\+L\+U\+T\+::\+Benchmark\+L\+UT (
+\begin{DoxyParamCaption}
+\item[{{\bf Image\+Data} $\ast$}]{lut}
+\end{DoxyParamCaption}
+)}\hypertarget{class_benchmark_l_u_t_a1ac0338c2339b5590ae51e15ad528dcb}{}\label{class_benchmark_l_u_t_a1ac0338c2339b5590ae51e15ad528dcb}
+
+\begin{DoxyCode}
+11 \{
+12     \hyperlink{class_benchmark_l_u_t_a1ab15013a6b6883a134a5ed14ca89341}{Load}(lut);
+13 \}
+\end{DoxyCode}
+\index{Benchmark\+L\+UT@{Benchmark\+L\+UT}!Benchmark\+L\+UT@{Benchmark\+L\+UT}}
+\index{Benchmark\+L\+UT@{Benchmark\+L\+UT}!Benchmark\+L\+UT@{Benchmark\+L\+UT}}
+\subsubsection[{\texorpdfstring{Benchmark\+L\+U\+T(const char $\ast$file)}{BenchmarkLUT(const char *file)}}]{\setlength{\rightskip}{0pt plus 5cm}Benchmark\+L\+U\+T\+::\+Benchmark\+L\+UT (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{file}
+\end{DoxyParamCaption}
+)}\hypertarget{class_benchmark_l_u_t_a83492c3b8f6966a377a705ed74dc7721}{}\label{class_benchmark_l_u_t_a83492c3b8f6966a377a705ed74dc7721}
+
+\begin{DoxyCode}
+6 \{
+7     \hyperlink{class_benchmark_l_u_t_a1ab15013a6b6883a134a5ed14ca89341}{Load}(file);
+8 \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\index{Benchmark\+L\+UT@{Benchmark\+L\+UT}!Cleanup\+L\+UT@{Cleanup\+L\+UT}}
+\index{Cleanup\+L\+UT@{Cleanup\+L\+UT}!Benchmark\+L\+UT@{Benchmark\+L\+UT}}
+\subsubsection[{\texorpdfstring{Cleanup\+L\+U\+T(\+Image\+Data \&lut)}{CleanupLUT(ImageData &lut)}}]{\setlength{\rightskip}{0pt plus 5cm}void Benchmark\+L\+U\+T\+::\+Cleanup\+L\+UT (
+\begin{DoxyParamCaption}
+\item[{{\bf Image\+Data} \&}]{lut}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{class_benchmark_l_u_t_a0603ca70a5218b22809d9956ef226905}{}\label{class_benchmark_l_u_t_a0603ca70a5218b22809d9956ef226905}
+
+\begin{DoxyCode}
+102 \{
+103     \hyperlink{class_benchmark_l_u_t}{BenchmarkLUT} bm(&lut);
+104     bm.GenerateLUT(&lut);
+105 \}
+\end{DoxyCode}
+\index{Benchmark\+L\+UT@{Benchmark\+L\+UT}!Generate\+L\+UT@{Generate\+L\+UT}}
+\index{Generate\+L\+UT@{Generate\+L\+UT}!Benchmark\+L\+UT@{Benchmark\+L\+UT}}
+\subsubsection[{\texorpdfstring{Generate\+L\+U\+T(\+Image\+Data $\ast$lut)}{GenerateLUT(ImageData *lut)}}]{\setlength{\rightskip}{0pt plus 5cm}void Benchmark\+L\+U\+T\+::\+Generate\+L\+UT (
+\begin{DoxyParamCaption}
+\item[{{\bf Image\+Data} $\ast$}]{lut}
+\end{DoxyParamCaption}
+)}\hypertarget{class_benchmark_l_u_t_a25aa2a5d399a7c69ce755ee41384558a}{}\label{class_benchmark_l_u_t_a25aa2a5d399a7c69ce755ee41384558a}
+
+\begin{DoxyCode}
+71 \{
+72     \textcolor{keywordtype}{float} M = lut->\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w} / (float)\hyperlink{class_benchmark_l_u_t_a3ea5fe14b9dbfb664d7adc6697bf55d6}{lut\_w};
+73 
+74     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} y=0;y<lut->\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h};y++) \{
+75         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x=0;x<lut->\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w};x++) \{
+76             \textcolor{keywordtype}{float} maxline=M*(\hyperlink{class_benchmark_l_u_t_a0db0d7dfca5146b0d10b2c2f11364203}{max\_a}*y*y+\hyperlink{class_benchmark_l_u_t_a9c4c87c9ba7e98d01109e5db7a8538bd}{max\_b}*y+\hyperlink{class_benchmark_l_u_t_a279c5583569ce6db1f1b921906de7ce5}{max\_c})/\hyperlink{class_benchmark_l_u_t_a279c5583569ce6db1f1b921906de7ce5}{max\_c};
+77             lut->\hyperlink{struct_t_image_data_ad13c1527ffabe17b997c38090ec5e6b9}{at}(x,y) = \hyperlink{utils_8h_aa68dad6ceda865eebe8f3e08f8fc86b0}{Interpolate1D}(\hyperlink{class_benchmark_l_u_t_ad5ef40ecabab7c747d42180e9e82fe21}{normprof}, x/maxline);
+78         \}
+79     \}
+80 \}
+\end{DoxyCode}
+\index{Benchmark\+L\+UT@{Benchmark\+L\+UT}!Generate\+Sample@{Generate\+Sample}}
+\index{Generate\+Sample@{Generate\+Sample}!Benchmark\+L\+UT@{Benchmark\+L\+UT}}
+\subsubsection[{\texorpdfstring{Generate\+Sample(\+Image\+Data $\ast$image, vector3f pos, float min\+Radius, float max\+Radius)}{GenerateSample(ImageData *image, vector3f pos, float minRadius, float maxRadius)}}]{\setlength{\rightskip}{0pt plus 5cm}void Benchmark\+L\+U\+T\+::\+Generate\+Sample (
+\begin{DoxyParamCaption}
+\item[{{\bf Image\+Data} $\ast$}]{image, }
+\item[{{\bf vector3f}}]{pos, }
+\item[{float}]{min\+Radius, }
+\item[{float}]{max\+Radius}
+\end{DoxyParamCaption}
+)}\hypertarget{class_benchmark_l_u_t_ac2994fc6e33a4340057793a7d020a117}{}\label{class_benchmark_l_u_t_ac2994fc6e33a4340057793a7d020a117}
+
+\begin{DoxyCode}
+83 \{
+84     \textcolor{keywordtype}{float} radialDensity=\hyperlink{class_benchmark_l_u_t_a3ea5fe14b9dbfb664d7adc6697bf55d6}{lut\_w} / (maxRadius-minRadius);
+85 
+86     \textcolor{keywordflow}{if}(pos.\hyperlink{structvector3_a90c50e80a32423d5cc76f40e5f53ffbe}{z}<0.0f) pos.\hyperlink{structvector3_a90c50e80a32423d5cc76f40e5f53ffbe}{z}=0.0f;
+87     \textcolor{keywordflow}{if}(pos.\hyperlink{structvector3_a90c50e80a32423d5cc76f40e5f53ffbe}{z}>\hyperlink{class_benchmark_l_u_t_af73ab30379754bab8b5b114cb2fbfc80}{lut\_h}-1) pos.\hyperlink{structvector3_a90c50e80a32423d5cc76f40e5f53ffbe}{z}=\hyperlink{class_benchmark_l_u_t_af73ab30379754bab8b5b114cb2fbfc80}{lut\_h}-1;
+88 
+89     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} y=0;y<image->\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h};y++)
+90         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x=0;x<image->\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w};x++)
+91         \{
+92             \textcolor{keywordtype}{float} dx=x-pos.\hyperlink{structvector3_a5b466692e9550284d17a1bee6a6b8518}{x};
+93             \textcolor{keywordtype}{float} dy=y-pos.\hyperlink{structvector3_a1faa20a703bae3d1a673856466758383}{y};
+94             \textcolor{keywordtype}{float} r = (\hyperlink{std__incl_8h_a8a38721046513951c4bfc32bf101e180}{sqrt}(dx*dx+dy*dy)-minRadius)*radialDensity; \textcolor{comment}{// r in original radial bin pixels}
+95             \textcolor{keywordtype}{float} maxline=(\hyperlink{class_benchmark_l_u_t_a0db0d7dfca5146b0d10b2c2f11364203}{max\_a}*pos.\hyperlink{structvector3_a90c50e80a32423d5cc76f40e5f53ffbe}{z}*pos.\hyperlink{structvector3_a90c50e80a32423d5cc76f40e5f53ffbe}{z}+\hyperlink{class_benchmark_l_u_t_a9c4c87c9ba7e98d01109e5db7a8538bd}{max\_b}*pos.\hyperlink{structvector3_a90c50e80a32423d5cc76f40e5f53ffbe}{z}+\hyperlink{class_benchmark_l_u_t_a279c5583569ce6db1f1b921906de7ce5}{max\_c})/
+      \hyperlink{class_benchmark_l_u_t_a279c5583569ce6db1f1b921906de7ce5}{max\_c};
+96             \textcolor{keywordtype}{float} profpos = r / maxline;
+97             image->\hyperlink{struct_t_image_data_ad13c1527ffabe17b997c38090ec5e6b9}{at}(x,y) = \hyperlink{utils_8h_aa68dad6ceda865eebe8f3e08f8fc86b0}{Interpolate1D}(\hyperlink{class_benchmark_l_u_t_ad5ef40ecabab7c747d42180e9e82fe21}{normprof}, profpos);
+98         \}
+99 \}
+\end{DoxyCode}
+\index{Benchmark\+L\+UT@{Benchmark\+L\+UT}!Load@{Load}}
+\index{Load@{Load}!Benchmark\+L\+UT@{Benchmark\+L\+UT}}
+\subsubsection[{\texorpdfstring{Load(\+Image\+Data $\ast$lut)}{Load(ImageData *lut)}}]{\setlength{\rightskip}{0pt plus 5cm}void Benchmark\+L\+U\+T\+::\+Load (
+\begin{DoxyParamCaption}
+\item[{{\bf Image\+Data} $\ast$}]{lut}
+\end{DoxyParamCaption}
+)}\hypertarget{class_benchmark_l_u_t_a1ab15013a6b6883a134a5ed14ca89341}{}\label{class_benchmark_l_u_t_a1ab15013a6b6883a134a5ed14ca89341}
+
+\begin{DoxyCode}
+23 \{
+24     std::vector<float> max\_x,max\_y;
+25 
+26     \hyperlink{class_benchmark_l_u_t_a3ea5fe14b9dbfb664d7adc6697bf55d6}{lut\_w} = lut->\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w};
+27     \hyperlink{class_benchmark_l_u_t_af73ab30379754bab8b5b114cb2fbfc80}{lut\_h} = lut->\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h};
+28 
+29     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=lut->\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h}/5;i<lut->h*3/4;i++) \{
+30         \textcolor{keywordtype}{int} maxpos = 0;
+31         \textcolor{keywordtype}{float} maxval = lut->\hyperlink{struct_t_image_data_ad13c1527ffabe17b997c38090ec5e6b9}{at}(0, i);
+32         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x=1;x<lut->\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w};x++)
+33             \textcolor{keywordflow}{if} (maxval < lut->at(x,i)) \{
+34                 maxval = lut->\hyperlink{struct_t_image_data_ad13c1527ffabe17b997c38090ec5e6b9}{at}(x,i);
+35                 maxpos=x;
+36             \}
+37         max\_x.push\_back(maxpos);
+38         max\_y.push\_back(i);
+39     \}
+40 
+41     \hyperlink{class_lsq_sq_quad_fit}{LsqSqQuadFit<float>} fit(max\_x.size(), &max\_y[0],&max\_x[0]);
+42 
+43     \hyperlink{class_benchmark_l_u_t_a0db0d7dfca5146b0d10b2c2f11364203}{max\_a} = fit.a;
+44     \hyperlink{class_benchmark_l_u_t_a9c4c87c9ba7e98d01109e5db7a8538bd}{max\_b} = fit.b;
+45     \hyperlink{class_benchmark_l_u_t_a279c5583569ce6db1f1b921906de7ce5}{max\_c} = fit.c; \textcolor{comment}{//normalized}
+46 
+47     std::vector<int> numsmp(lut->\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w});
+48     \hyperlink{class_benchmark_l_u_t_ad5ef40ecabab7c747d42180e9e82fe21}{normprof}.resize(lut->\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w});
+49     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} r=0;r<lut->\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w};r++) \{
+50         \textcolor{keywordtype}{float} sum=0.0f;
+51         \textcolor{keywordtype}{int} nsmp=0;
+52         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} y=0;y<lut->\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h};y++) \{
+53             \textcolor{keywordtype}{float} x=r*fit.compute(y)/fit.c;
+54             \textcolor{keywordtype}{bool} outside=\textcolor{keyword}{false};
+55             \textcolor{keywordtype}{float} v = lut->\hyperlink{struct_t_image_data_ac92ac7641d694ac8842bbf4b186ad49a}{interpolate}(x,y,&outside);
+56             \textcolor{keywordflow}{if} (!outside) \{
+57                 sum+=v;
+58                 nsmp++;
+59             \}
+60         \}
+61         numsmp[r]=nsmp;
+62         \hyperlink{class_benchmark_l_u_t_ad5ef40ecabab7c747d42180e9e82fe21}{normprof}[r]=sum;
+63     \}
+64     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<lut->\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w};i++) \{
+65         \textcolor{keywordflow}{if} (numsmp[i] == 0 && i>0) \hyperlink{class_benchmark_l_u_t_ad5ef40ecabab7c747d42180e9e82fe21}{normprof}[i]=\hyperlink{class_benchmark_l_u_t_ad5ef40ecabab7c747d42180e9e82fe21}{normprof}[i-1];
+66         \textcolor{keywordflow}{else} \hyperlink{class_benchmark_l_u_t_ad5ef40ecabab7c747d42180e9e82fe21}{normprof}[i]=\hyperlink{class_benchmark_l_u_t_ad5ef40ecabab7c747d42180e9e82fe21}{normprof}[i]/numsmp[i];
+67     \}
+68 \}
+\end{DoxyCode}
+\index{Benchmark\+L\+UT@{Benchmark\+L\+UT}!Load@{Load}}
+\index{Load@{Load}!Benchmark\+L\+UT@{Benchmark\+L\+UT}}
+\subsubsection[{\texorpdfstring{Load(const char $\ast$file)}{Load(const char *file)}}]{\setlength{\rightskip}{0pt plus 5cm}void Benchmark\+L\+U\+T\+::\+Load (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{file}
+\end{DoxyParamCaption}
+)}\hypertarget{class_benchmark_l_u_t_a8e7f2872ae37a4e0522ce8de7361dbdf}{}\label{class_benchmark_l_u_t_a8e7f2872ae37a4e0522ce8de7361dbdf}
+
+\begin{DoxyCode}
+16 \{
+17     \hyperlink{struct_t_image_data}{ImageData} d = \hyperlink{fastjpg_8cpp_aca9c9daac87f0810622bb7e207e4587f}{ReadJPEGFile}(file);
+18     \hyperlink{class_benchmark_l_u_t_a1ab15013a6b6883a134a5ed14ca89341}{Load}(&d);
+19     d.\hyperlink{struct_t_image_data_a60a60e309657216a2e35809fdc582b11}{free}();
+20 \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\index{Benchmark\+L\+UT@{Benchmark\+L\+UT}!lut\+\_\+h@{lut\+\_\+h}}
+\index{lut\+\_\+h@{lut\+\_\+h}!Benchmark\+L\+UT@{Benchmark\+L\+UT}}
+\subsubsection[{\texorpdfstring{lut\+\_\+h}{lut_h}}]{\setlength{\rightskip}{0pt plus 5cm}int Benchmark\+L\+U\+T\+::lut\+\_\+h}\hypertarget{class_benchmark_l_u_t_af73ab30379754bab8b5b114cb2fbfc80}{}\label{class_benchmark_l_u_t_af73ab30379754bab8b5b114cb2fbfc80}
+\index{Benchmark\+L\+UT@{Benchmark\+L\+UT}!lut\+\_\+w@{lut\+\_\+w}}
+\index{lut\+\_\+w@{lut\+\_\+w}!Benchmark\+L\+UT@{Benchmark\+L\+UT}}
+\subsubsection[{\texorpdfstring{lut\+\_\+w}{lut_w}}]{\setlength{\rightskip}{0pt plus 5cm}int Benchmark\+L\+U\+T\+::lut\+\_\+w}\hypertarget{class_benchmark_l_u_t_a3ea5fe14b9dbfb664d7adc6697bf55d6}{}\label{class_benchmark_l_u_t_a3ea5fe14b9dbfb664d7adc6697bf55d6}
+\index{Benchmark\+L\+UT@{Benchmark\+L\+UT}!max\+\_\+a@{max\+\_\+a}}
+\index{max\+\_\+a@{max\+\_\+a}!Benchmark\+L\+UT@{Benchmark\+L\+UT}}
+\subsubsection[{\texorpdfstring{max\+\_\+a}{max_a}}]{\setlength{\rightskip}{0pt plus 5cm}float Benchmark\+L\+U\+T\+::max\+\_\+a}\hypertarget{class_benchmark_l_u_t_a0db0d7dfca5146b0d10b2c2f11364203}{}\label{class_benchmark_l_u_t_a0db0d7dfca5146b0d10b2c2f11364203}
+\index{Benchmark\+L\+UT@{Benchmark\+L\+UT}!max\+\_\+b@{max\+\_\+b}}
+\index{max\+\_\+b@{max\+\_\+b}!Benchmark\+L\+UT@{Benchmark\+L\+UT}}
+\subsubsection[{\texorpdfstring{max\+\_\+b}{max_b}}]{\setlength{\rightskip}{0pt plus 5cm}float Benchmark\+L\+U\+T\+::max\+\_\+b}\hypertarget{class_benchmark_l_u_t_a9c4c87c9ba7e98d01109e5db7a8538bd}{}\label{class_benchmark_l_u_t_a9c4c87c9ba7e98d01109e5db7a8538bd}
+\index{Benchmark\+L\+UT@{Benchmark\+L\+UT}!max\+\_\+c@{max\+\_\+c}}
+\index{max\+\_\+c@{max\+\_\+c}!Benchmark\+L\+UT@{Benchmark\+L\+UT}}
+\subsubsection[{\texorpdfstring{max\+\_\+c}{max_c}}]{\setlength{\rightskip}{0pt plus 5cm}float Benchmark\+L\+U\+T\+::max\+\_\+c}\hypertarget{class_benchmark_l_u_t_a279c5583569ce6db1f1b921906de7ce5}{}\label{class_benchmark_l_u_t_a279c5583569ce6db1f1b921906de7ce5}
+\index{Benchmark\+L\+UT@{Benchmark\+L\+UT}!normprof@{normprof}}
+\index{normprof@{normprof}!Benchmark\+L\+UT@{Benchmark\+L\+UT}}
+\subsubsection[{\texorpdfstring{normprof}{normprof}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$float$>$ Benchmark\+L\+U\+T\+::normprof}\hypertarget{class_benchmark_l_u_t_ad5ef40ecabab7c747d42180e9e82fe21}{}\label{class_benchmark_l_u_t_ad5ef40ecabab7c747d42180e9e82fe21}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+cputrack/\hyperlink{_benchmark_l_u_t_8h}{Benchmark\+L\+U\+T.\+h}\item 
+cputrack/\hyperlink{_benchmark_l_u_t_8cpp}{Benchmark\+L\+U\+T.\+cpp}\end{DoxyCompactItemize}

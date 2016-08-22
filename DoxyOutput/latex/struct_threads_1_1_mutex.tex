@@ -1,0 +1,130 @@
+\hypertarget{struct_threads_1_1_mutex}{}\section{Threads\+:\+:Mutex Struct Reference}
+\label{struct_threads_1_1_mutex}\index{Threads\+::\+Mutex@{Threads\+::\+Mutex}}
+
+
+{\ttfamily \#include $<$threads.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{struct_threads_1_1_mutex_ad6a21c572100a6241fa34f1d265a2725}{Mutex} (const char $\ast$\hyperlink{struct_threads_1_1_mutex_aaf5798d7b45f171dbfa965e0508b884f}{name}=0)
+\item 
+\hyperlink{struct_threads_1_1_mutex_a34047e15c1aa45873ff56120d6c4d091}{$\sim$\+Mutex} ()
+\item 
+void \hyperlink{struct_threads_1_1_mutex_af3cb09072ecd935be502deb78f4519d5}{lock} ()
+\item 
+void \hyperlink{struct_threads_1_1_mutex_ad78fadce2239c6d359986e443822f6f6}{unlock} ()
+\item 
+void \hyperlink{struct_threads_1_1_mutex_a55226184bf80652bf23cf8790edd4b86}{msg} (const char $\ast$m)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+H\+A\+N\+D\+LE \hyperlink{struct_threads_1_1_mutex_a688cb7e044c7c8dc87e898bf88ff04d4}{h}
+\item 
+std\+::string \hyperlink{struct_threads_1_1_mutex_aaf5798d7b45f171dbfa965e0508b884f}{name}
+\item 
+bool \hyperlink{struct_threads_1_1_mutex_af7d136f3d4aadf1a23fc72e93b8a98a3}{trace}
+\item 
+int \hyperlink{struct_threads_1_1_mutex_a6bb290194be3b4d7668a743cb9398276}{lock\+Count}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Threads\+::\+Mutex@{Threads\+::\+Mutex}!Mutex@{Mutex}}
+\index{Mutex@{Mutex}!Threads\+::\+Mutex@{Threads\+::\+Mutex}}
+\subsubsection[{\texorpdfstring{Mutex(const char $\ast$name=0)}{Mutex(const char *name=0)}}]{\setlength{\rightskip}{0pt plus 5cm}Threads\+::\+Mutex\+::\+Mutex (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{name = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{struct_threads_1_1_mutex_ad6a21c572100a6241fa34f1d265a2725}{}\label{struct_threads_1_1_mutex_ad6a21c572100a6241fa34f1d265a2725}
+
+\begin{DoxyCode}
+67                                  : \hyperlink{struct_threads_1_1_mutex_aaf5798d7b45f171dbfa965e0508b884f}{name}(\hyperlink{struct_threads_1_1_mutex_aaf5798d7b45f171dbfa965e0508b884f}{name}?\hyperlink{struct_threads_1_1_mutex_aaf5798d7b45f171dbfa965e0508b884f}{name}:\textcolor{stringliteral}{""}) \{ 
+68             \hyperlink{struct_threads_1_1_mutex_a55226184bf80652bf23cf8790edd4b86}{msg}(\textcolor{stringliteral}{"create"}); 
+69             \hyperlink{struct_threads_1_1_mutex_a688cb7e044c7c8dc87e898bf88ff04d4}{h}=CreateMutex(0,FALSE,0); 
+70             \hyperlink{struct_threads_1_1_mutex_af7d136f3d4aadf1a23fc72e93b8a98a3}{trace}=\textcolor{keyword}{false};
+71             \hyperlink{struct_threads_1_1_mutex_a6bb290194be3b4d7668a743cb9398276}{lockCount}=0;
+72         \}
+\end{DoxyCode}
+\index{Threads\+::\+Mutex@{Threads\+::\+Mutex}!````~Mutex@{$\sim$\+Mutex}}
+\index{````~Mutex@{$\sim$\+Mutex}!Threads\+::\+Mutex@{Threads\+::\+Mutex}}
+\subsubsection[{\texorpdfstring{$\sim$\+Mutex()}{~Mutex()}}]{\setlength{\rightskip}{0pt plus 5cm}Threads\+::\+Mutex\+::$\sim$\+Mutex (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{struct_threads_1_1_mutex_a34047e15c1aa45873ff56120d6c4d091}{}\label{struct_threads_1_1_mutex_a34047e15c1aa45873ff56120d6c4d091}
+
+\begin{DoxyCode}
+73 \{ \hyperlink{struct_threads_1_1_mutex_a55226184bf80652bf23cf8790edd4b86}{msg}(\textcolor{stringliteral}{"end"});  CloseHandle(\hyperlink{struct_threads_1_1_mutex_a688cb7e044c7c8dc87e898bf88ff04d4}{h}); \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\index{Threads\+::\+Mutex@{Threads\+::\+Mutex}!lock@{lock}}
+\index{lock@{lock}!Threads\+::\+Mutex@{Threads\+::\+Mutex}}
+\subsubsection[{\texorpdfstring{lock()}{lock()}}]{\setlength{\rightskip}{0pt plus 5cm}void Threads\+::\+Mutex\+::lock (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{struct_threads_1_1_mutex_af3cb09072ecd935be502deb78f4519d5}{}\label{struct_threads_1_1_mutex_af3cb09072ecd935be502deb78f4519d5}
+
+\begin{DoxyCode}
+74                     \{ 
+75             \hyperlink{struct_threads_1_1_mutex_a55226184bf80652bf23cf8790edd4b86}{msg}(\textcolor{stringliteral}{"lock"}); 
+76             WaitForSingleObject(\hyperlink{struct_threads_1_1_mutex_a688cb7e044c7c8dc87e898bf88ff04d4}{h}, INFINITE);
+77             \hyperlink{struct_threads_1_1_mutex_a6bb290194be3b4d7668a743cb9398276}{lockCount}++;
+78         \}
+\end{DoxyCode}
+\index{Threads\+::\+Mutex@{Threads\+::\+Mutex}!msg@{msg}}
+\index{msg@{msg}!Threads\+::\+Mutex@{Threads\+::\+Mutex}}
+\subsubsection[{\texorpdfstring{msg(const char $\ast$m)}{msg(const char *m)}}]{\setlength{\rightskip}{0pt plus 5cm}void Threads\+::\+Mutex\+::msg (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{m}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{struct_threads_1_1_mutex_a55226184bf80652bf23cf8790edd4b86}{}\label{struct_threads_1_1_mutex_a55226184bf80652bf23cf8790edd4b86}
+
+\begin{DoxyCode}
+84                                 \{
+85             \textcolor{keywordflow}{if}(\hyperlink{struct_threads_1_1_mutex_aaf5798d7b45f171dbfa965e0508b884f}{name}.length()>0 && \hyperlink{struct_threads_1_1_mutex_af7d136f3d4aadf1a23fc72e93b8a98a3}{trace}) \{
+86                 \textcolor{keywordtype}{char} buf[32];
+87                 \hyperlink{std__incl_8h_a770571e12ff9370899184528f4b4626d}{SNPRINTF}(buf, \textcolor{keyword}{sizeof}(buf), \textcolor{stringliteral}{"mutex %s: %s\(\backslash\)n"}, \hyperlink{struct_threads_1_1_mutex_aaf5798d7b45f171dbfa965e0508b884f}{name}.c\_str(), m);
+88                 OutputDebugString(buf);
+89             \}
+90         \}
+\end{DoxyCode}
+\index{Threads\+::\+Mutex@{Threads\+::\+Mutex}!unlock@{unlock}}
+\index{unlock@{unlock}!Threads\+::\+Mutex@{Threads\+::\+Mutex}}
+\subsubsection[{\texorpdfstring{unlock()}{unlock()}}]{\setlength{\rightskip}{0pt plus 5cm}void Threads\+::\+Mutex\+::unlock (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{struct_threads_1_1_mutex_ad78fadce2239c6d359986e443822f6f6}{}\label{struct_threads_1_1_mutex_ad78fadce2239c6d359986e443822f6f6}
+
+\begin{DoxyCode}
+79                       \{ 
+80             \hyperlink{struct_threads_1_1_mutex_a55226184bf80652bf23cf8790edd4b86}{msg}(\textcolor{stringliteral}{"unlock"}); 
+81             \hyperlink{struct_threads_1_1_mutex_a6bb290194be3b4d7668a743cb9398276}{lockCount}--;
+82             ReleaseMutex(\hyperlink{struct_threads_1_1_mutex_a688cb7e044c7c8dc87e898bf88ff04d4}{h}); 
+83         \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\index{Threads\+::\+Mutex@{Threads\+::\+Mutex}!h@{h}}
+\index{h@{h}!Threads\+::\+Mutex@{Threads\+::\+Mutex}}
+\subsubsection[{\texorpdfstring{h}{h}}]{\setlength{\rightskip}{0pt plus 5cm}H\+A\+N\+D\+LE Threads\+::\+Mutex\+::h}\hypertarget{struct_threads_1_1_mutex_a688cb7e044c7c8dc87e898bf88ff04d4}{}\label{struct_threads_1_1_mutex_a688cb7e044c7c8dc87e898bf88ff04d4}
+\index{Threads\+::\+Mutex@{Threads\+::\+Mutex}!lock\+Count@{lock\+Count}}
+\index{lock\+Count@{lock\+Count}!Threads\+::\+Mutex@{Threads\+::\+Mutex}}
+\subsubsection[{\texorpdfstring{lock\+Count}{lockCount}}]{\setlength{\rightskip}{0pt plus 5cm}int Threads\+::\+Mutex\+::lock\+Count}\hypertarget{struct_threads_1_1_mutex_a6bb290194be3b4d7668a743cb9398276}{}\label{struct_threads_1_1_mutex_a6bb290194be3b4d7668a743cb9398276}
+\index{Threads\+::\+Mutex@{Threads\+::\+Mutex}!name@{name}}
+\index{name@{name}!Threads\+::\+Mutex@{Threads\+::\+Mutex}}
+\subsubsection[{\texorpdfstring{name}{name}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string Threads\+::\+Mutex\+::name}\hypertarget{struct_threads_1_1_mutex_aaf5798d7b45f171dbfa965e0508b884f}{}\label{struct_threads_1_1_mutex_aaf5798d7b45f171dbfa965e0508b884f}
+\index{Threads\+::\+Mutex@{Threads\+::\+Mutex}!trace@{trace}}
+\index{trace@{trace}!Threads\+::\+Mutex@{Threads\+::\+Mutex}}
+\subsubsection[{\texorpdfstring{trace}{trace}}]{\setlength{\rightskip}{0pt plus 5cm}bool Threads\+::\+Mutex\+::trace}\hypertarget{struct_threads_1_1_mutex_af7d136f3d4aadf1a23fc72e93b8a98a3}{}\label{struct_threads_1_1_mutex_af7d136f3d4aadf1a23fc72e93b8a98a3}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+cputrack/\hyperlink{threads_8h}{threads.\+h}\end{DoxyCompactItemize}

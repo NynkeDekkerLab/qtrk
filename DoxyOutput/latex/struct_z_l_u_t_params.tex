@@ -1,0 +1,85 @@
+\hypertarget{struct_z_l_u_t_params}{}\section{Z\+L\+U\+T\+Params Struct Reference}
+\label{struct_z_l_u_t_params}\index{Z\+L\+U\+T\+Params@{Z\+L\+U\+T\+Params}}
+
+
+{\ttfamily \#include $<$Queued\+C\+U\+D\+A\+Tracker.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{gpu__utils_8h_ac50b87a58396e77c6168aa6f3be3c189}{C\+U\+B\+O\+TH} float $\ast$ \hyperlink{struct_z_l_u_t_params_a2a35427b775e56a0079b9029d1afbb9e}{Get\+Radial\+Z\+L\+UT} (int bead, int plane)
+\item 
+\hyperlink{gpu__utils_8h_ac50b87a58396e77c6168aa6f3be3c189}{C\+U\+B\+O\+TH} int \hyperlink{struct_z_l_u_t_params_a9579a1f453fa4966bbd7ca5c04a389d9}{radial\+Steps} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+float \hyperlink{struct_z_l_u_t_params_a1e53b221a353b5543b95ab8472c0e27f}{min\+Radius}
+\item 
+float \hyperlink{struct_z_l_u_t_params_a828d7befc2a73cbe77d5fead8987b916}{max\+Radius}
+\item 
+float $\ast$ \hyperlink{struct_z_l_u_t_params_a5e4fca6a1f41e9dee7ba0614ab4c202d}{zcmpwindow}
+\item 
+int \hyperlink{struct_z_l_u_t_params_a01c4d68849034d30553c2bbb353b9376}{angular\+Steps}
+\item 
+int \hyperlink{struct_z_l_u_t_params_ab00dffe1d70415e23bbf989d664495ab}{planes}
+\item 
+\hyperlink{_queued_c_u_d_a_tracker_8h_a84de79f5d4b6e4c8d5622fe712c1bd69}{cuda\+Image\+Listf} \hyperlink{struct_z_l_u_t_params_a14a59385e3d76c6e50dd1d97ef5f3cac}{img}
+\item 
+float2 $\ast$ \hyperlink{struct_z_l_u_t_params_a18e5051a3a4b118b45854c69977e2dbe}{trigtable}
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\index{Z\+L\+U\+T\+Params@{Z\+L\+U\+T\+Params}!Get\+Radial\+Z\+L\+UT@{Get\+Radial\+Z\+L\+UT}}
+\index{Get\+Radial\+Z\+L\+UT@{Get\+Radial\+Z\+L\+UT}!Z\+L\+U\+T\+Params@{Z\+L\+U\+T\+Params}}
+\subsubsection[{\texorpdfstring{Get\+Radial\+Z\+L\+U\+T(int bead, int plane)}{GetRadialZLUT(int bead, int plane)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf C\+U\+B\+O\+TH} float$\ast$ Z\+L\+U\+T\+Params\+::\+Get\+Radial\+Z\+L\+UT (
+\begin{DoxyParamCaption}
+\item[{int}]{bead, }
+\item[{int}]{plane}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{struct_z_l_u_t_params_a2a35427b775e56a0079b9029d1afbb9e}{}\label{struct_z_l_u_t_params_a2a35427b775e56a0079b9029d1afbb9e}
+
+\begin{DoxyCode}
+41 \{ \textcolor{keywordflow}{return} \hyperlink{struct_z_l_u_t_params_a14a59385e3d76c6e50dd1d97ef5f3cac}{img}.\hyperlink{structcuda_image_list_aab7ac2329d20752d4364c87a21d76092}{pixelAddress}(0, plane, bead); \}
+\end{DoxyCode}
+\index{Z\+L\+U\+T\+Params@{Z\+L\+U\+T\+Params}!radial\+Steps@{radial\+Steps}}
+\index{radial\+Steps@{radial\+Steps}!Z\+L\+U\+T\+Params@{Z\+L\+U\+T\+Params}}
+\subsubsection[{\texorpdfstring{radial\+Steps()}{radialSteps()}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf C\+U\+B\+O\+TH} int Z\+L\+U\+T\+Params\+::radial\+Steps (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{struct_z_l_u_t_params_a9579a1f453fa4966bbd7ca5c04a389d9}{}\label{struct_z_l_u_t_params_a9579a1f453fa4966bbd7ca5c04a389d9}
+
+\begin{DoxyCode}
+47 \{ \textcolor{keywordflow}{return} \hyperlink{struct_z_l_u_t_params_a14a59385e3d76c6e50dd1d97ef5f3cac}{img}.\hyperlink{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{w}; \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\index{Z\+L\+U\+T\+Params@{Z\+L\+U\+T\+Params}!angular\+Steps@{angular\+Steps}}
+\index{angular\+Steps@{angular\+Steps}!Z\+L\+U\+T\+Params@{Z\+L\+U\+T\+Params}}
+\subsubsection[{\texorpdfstring{angular\+Steps}{angularSteps}}]{\setlength{\rightskip}{0pt plus 5cm}int Z\+L\+U\+T\+Params\+::angular\+Steps}\hypertarget{struct_z_l_u_t_params_a01c4d68849034d30553c2bbb353b9376}{}\label{struct_z_l_u_t_params_a01c4d68849034d30553c2bbb353b9376}
+\index{Z\+L\+U\+T\+Params@{Z\+L\+U\+T\+Params}!img@{img}}
+\index{img@{img}!Z\+L\+U\+T\+Params@{Z\+L\+U\+T\+Params}}
+\subsubsection[{\texorpdfstring{img}{img}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf cuda\+Image\+Listf} Z\+L\+U\+T\+Params\+::img}\hypertarget{struct_z_l_u_t_params_a14a59385e3d76c6e50dd1d97ef5f3cac}{}\label{struct_z_l_u_t_params_a14a59385e3d76c6e50dd1d97ef5f3cac}
+\index{Z\+L\+U\+T\+Params@{Z\+L\+U\+T\+Params}!max\+Radius@{max\+Radius}}
+\index{max\+Radius@{max\+Radius}!Z\+L\+U\+T\+Params@{Z\+L\+U\+T\+Params}}
+\subsubsection[{\texorpdfstring{max\+Radius}{maxRadius}}]{\setlength{\rightskip}{0pt plus 5cm}float Z\+L\+U\+T\+Params\+::max\+Radius}\hypertarget{struct_z_l_u_t_params_a828d7befc2a73cbe77d5fead8987b916}{}\label{struct_z_l_u_t_params_a828d7befc2a73cbe77d5fead8987b916}
+\index{Z\+L\+U\+T\+Params@{Z\+L\+U\+T\+Params}!min\+Radius@{min\+Radius}}
+\index{min\+Radius@{min\+Radius}!Z\+L\+U\+T\+Params@{Z\+L\+U\+T\+Params}}
+\subsubsection[{\texorpdfstring{min\+Radius}{minRadius}}]{\setlength{\rightskip}{0pt plus 5cm}float Z\+L\+U\+T\+Params\+::min\+Radius}\hypertarget{struct_z_l_u_t_params_a1e53b221a353b5543b95ab8472c0e27f}{}\label{struct_z_l_u_t_params_a1e53b221a353b5543b95ab8472c0e27f}
+\index{Z\+L\+U\+T\+Params@{Z\+L\+U\+T\+Params}!planes@{planes}}
+\index{planes@{planes}!Z\+L\+U\+T\+Params@{Z\+L\+U\+T\+Params}}
+\subsubsection[{\texorpdfstring{planes}{planes}}]{\setlength{\rightskip}{0pt plus 5cm}int Z\+L\+U\+T\+Params\+::planes}\hypertarget{struct_z_l_u_t_params_ab00dffe1d70415e23bbf989d664495ab}{}\label{struct_z_l_u_t_params_ab00dffe1d70415e23bbf989d664495ab}
+\index{Z\+L\+U\+T\+Params@{Z\+L\+U\+T\+Params}!trigtable@{trigtable}}
+\index{trigtable@{trigtable}!Z\+L\+U\+T\+Params@{Z\+L\+U\+T\+Params}}
+\subsubsection[{\texorpdfstring{trigtable}{trigtable}}]{\setlength{\rightskip}{0pt plus 5cm}float2$\ast$ Z\+L\+U\+T\+Params\+::trigtable}\hypertarget{struct_z_l_u_t_params_a18e5051a3a4b118b45854c69977e2dbe}{}\label{struct_z_l_u_t_params_a18e5051a3a4b118b45854c69977e2dbe}
+\index{Z\+L\+U\+T\+Params@{Z\+L\+U\+T\+Params}!zcmpwindow@{zcmpwindow}}
+\index{zcmpwindow@{zcmpwindow}!Z\+L\+U\+T\+Params@{Z\+L\+U\+T\+Params}}
+\subsubsection[{\texorpdfstring{zcmpwindow}{zcmpwindow}}]{\setlength{\rightskip}{0pt plus 5cm}float$\ast$ Z\+L\+U\+T\+Params\+::zcmpwindow}\hypertarget{struct_z_l_u_t_params_a5e4fca6a1f41e9dee7ba0614ab4c202d}{}\label{struct_z_l_u_t_params_a5e4fca6a1f41e9dee7ba0614ab4c202d}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+cudatrack/\hyperlink{_queued_c_u_d_a_tracker_8h}{Queued\+C\+U\+D\+A\+Tracker.\+h}\end{DoxyCompactItemize}

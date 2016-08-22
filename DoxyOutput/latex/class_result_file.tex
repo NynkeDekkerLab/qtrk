@@ -1,0 +1,92 @@
+\hypertarget{class_result_file}{}\section{Result\+File Class Reference}
+\label{class_result_file}\index{Result\+File@{Result\+File}}
+
+
+{\bfseries Placeholder}. Abstract template for an output file.  
+
+
+
+
+{\ttfamily \#include $<$Result\+Manager.\+h$>$}
+
+Inheritance diagram for Result\+File\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_result_file}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_result_file_acb7a37621dfa56260e20d6742a74e616}{Result\+File} ()
+\item 
+virtual \hyperlink{class_result_file_afc2e88e562796e605707e12f2cc1b9fd}{$\sim$\+Result\+File} ()
+\item 
+virtual void \hyperlink{class_result_file_aeeb1227765bbf018ffe648b14c8b606e}{Load\+Row} (std\+::vector$<$ \hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f} $>$ \&pos)=0
+\item 
+virtual void \hyperlink{class_result_file_ab9f7315f014b72d11c80f28e41f4671c}{Save\+Row} (std\+::vector$<$ \hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f} $>$ \&pos)=0
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+{\bfseries Placeholder}. Abstract template for an output file. 
+
+Used to generalize output to different types of datafiles. Implemented by \hyperlink{class_text_result_file}{Text\+Result\+File} and \hyperlink{class_binary_result_file}{Binary\+Result\+File}. \begin{DoxyRefDesc}{Todo}
+\item[\hyperlink{todo__todo000003}{Todo}]Actually make the implementation. 
+
+Rewrite resultmanager to use these classes. \end{DoxyRefDesc}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Result\+File@{Result\+File}!Result\+File@{Result\+File}}
+\index{Result\+File@{Result\+File}!Result\+File@{Result\+File}}
+\subsubsection[{\texorpdfstring{Result\+File()}{ResultFile()}}]{\setlength{\rightskip}{0pt plus 5cm}Result\+File\+::\+Result\+File (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_result_file_acb7a37621dfa56260e20d6742a74e616}{}\label{class_result_file_acb7a37621dfa56260e20d6742a74e616}
+
+\begin{DoxyCode}
+24 \{ \}
+\end{DoxyCode}
+\index{Result\+File@{Result\+File}!````~Result\+File@{$\sim$\+Result\+File}}
+\index{````~Result\+File@{$\sim$\+Result\+File}!Result\+File@{Result\+File}}
+\subsubsection[{\texorpdfstring{$\sim$\+Result\+File()}{~ResultFile()}}]{\setlength{\rightskip}{0pt plus 5cm}virtual Result\+File\+::$\sim$\+Result\+File (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{class_result_file_afc2e88e562796e605707e12f2cc1b9fd}{}\label{class_result_file_afc2e88e562796e605707e12f2cc1b9fd}
+
+\begin{DoxyCode}
+25 \{\}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\index{Result\+File@{Result\+File}!Load\+Row@{Load\+Row}}
+\index{Load\+Row@{Load\+Row}!Result\+File@{Result\+File}}
+\subsubsection[{\texorpdfstring{Load\+Row(std\+::vector$<$ vector3f $>$ \&pos)=0}{LoadRow(std::vector< vector3f > &pos)=0}}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Result\+File\+::\+Load\+Row (
+\begin{DoxyParamCaption}
+\item[{std\+::vector$<$ {\bf vector3f} $>$ \&}]{pos}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}\hypertarget{class_result_file_aeeb1227765bbf018ffe648b14c8b606e}{}\label{class_result_file_aeeb1227765bbf018ffe648b14c8b606e}
+
+
+Implemented in \hyperlink{class_binary_result_file_aed703ab14e081fe4adfea853031191bc}{Binary\+Result\+File}, and \hyperlink{class_text_result_file_af71ce9c554ce7541343c36f0be7fc905}{Text\+Result\+File}.
+
+\index{Result\+File@{Result\+File}!Save\+Row@{Save\+Row}}
+\index{Save\+Row@{Save\+Row}!Result\+File@{Result\+File}}
+\subsubsection[{\texorpdfstring{Save\+Row(std\+::vector$<$ vector3f $>$ \&pos)=0}{SaveRow(std::vector< vector3f > &pos)=0}}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Result\+File\+::\+Save\+Row (
+\begin{DoxyParamCaption}
+\item[{std\+::vector$<$ {\bf vector3f} $>$ \&}]{pos}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}\hypertarget{class_result_file_ab9f7315f014b72d11c80f28e41f4671c}{}\label{class_result_file_ab9f7315f014b72d11c80f28e41f4671c}
+
+
+Implemented in \hyperlink{class_binary_result_file_a485208fbf3ae20eb68f0341ec6632a1f}{Binary\+Result\+File}, and \hyperlink{class_text_result_file_a844e136d4324ce46f374f995c2074d7a}{Text\+Result\+File}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+cputrack/\hyperlink{_result_manager_8h}{Result\+Manager.\+h}\end{DoxyCompactItemize}

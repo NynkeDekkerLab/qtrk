@@ -1,0 +1,82 @@
+\hypertarget{class_image_sampler___interpolated_texture}{}\section{Image\+Sampler\+\_\+\+Interpolated\+Texture Class Reference}
+\label{class_image_sampler___interpolated_texture}\index{Image\+Sampler\+\_\+\+Interpolated\+Texture@{Image\+Sampler\+\_\+\+Interpolated\+Texture}}
+
+
+{\ttfamily \#include $<$Image\+Sampler.\+h$>$}
+
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \hyperlink{class_image_sampler___interpolated_texture_adc69b3f5ec38ed7fdfe3f8cd0a94fb64}{Bind\+Texture} (\hyperlink{_queued_c_u_d_a_tracker_8h_a84de79f5d4b6e4c8d5622fe712c1bd69}{cuda\+Image\+Listf} \&images)
+\item 
+static void \hyperlink{class_image_sampler___interpolated_texture_a42e9ea516f12fdebb8e00459e7223ece}{Unbind\+Texture} (\hyperlink{_queued_c_u_d_a_tracker_8h_a84de79f5d4b6e4c8d5622fe712c1bd69}{cuda\+Image\+Listf} \&images)
+\item 
+static \+\_\+\+\_\+device\+\_\+\+\_\+ float \hyperlink{class_image_sampler___interpolated_texture_af5855aa4719094f61aed595bfcfef99f}{Interpolated} (\hyperlink{_queued_c_u_d_a_tracker_8h_a84de79f5d4b6e4c8d5622fe712c1bd69}{cuda\+Image\+Listf} \&images, float x, float y, int img, bool \&outside)
+\item 
+static \+\_\+\+\_\+device\+\_\+\+\_\+ float \hyperlink{class_image_sampler___interpolated_texture_a015b3cb6e76967a2873739de232950d2}{Index} (\hyperlink{_queued_c_u_d_a_tracker_8h_a84de79f5d4b6e4c8d5622fe712c1bd69}{cuda\+Image\+Listf} \&images, int x, int y, int img)
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\index{Image\+Sampler\+\_\+\+Interpolated\+Texture@{Image\+Sampler\+\_\+\+Interpolated\+Texture}!Bind\+Texture@{Bind\+Texture}}
+\index{Bind\+Texture@{Bind\+Texture}!Image\+Sampler\+\_\+\+Interpolated\+Texture@{Image\+Sampler\+\_\+\+Interpolated\+Texture}}
+\subsubsection[{\texorpdfstring{Bind\+Texture(cuda\+Image\+Listf \&images)}{BindTexture(cudaImageListf &images)}}]{\setlength{\rightskip}{0pt plus 5cm}static void Image\+Sampler\+\_\+\+Interpolated\+Texture\+::\+Bind\+Texture (
+\begin{DoxyParamCaption}
+\item[{{\bf cuda\+Image\+Listf} \&}]{images}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}\hypertarget{class_image_sampler___interpolated_texture_adc69b3f5ec38ed7fdfe3f8cd0a94fb64}{}\label{class_image_sampler___interpolated_texture_adc69b3f5ec38ed7fdfe3f8cd0a94fb64}
+
+\begin{DoxyCode}
+59 \{ images.\hyperlink{structcuda_image_list_a36a72cb4f9e988aa7ce04866592aa55d}{bind}(\hyperlink{_image_sampler_8h_a7de6f4af580ecfe3df9ef9e65faac7e8}{image\_sampler\_texture\_nearest}); \}
+\end{DoxyCode}
+\index{Image\+Sampler\+\_\+\+Interpolated\+Texture@{Image\+Sampler\+\_\+\+Interpolated\+Texture}!Index@{Index}}
+\index{Index@{Index}!Image\+Sampler\+\_\+\+Interpolated\+Texture@{Image\+Sampler\+\_\+\+Interpolated\+Texture}}
+\subsubsection[{\texorpdfstring{Index(cuda\+Image\+Listf \&images, int x, int y, int img)}{Index(cudaImageListf &images, int x, int y, int img)}}]{\setlength{\rightskip}{0pt plus 5cm}static \+\_\+\+\_\+device\+\_\+\+\_\+ float Image\+Sampler\+\_\+\+Interpolated\+Texture\+::\+Index (
+\begin{DoxyParamCaption}
+\item[{{\bf cuda\+Image\+Listf} \&}]{images, }
+\item[{int}]{x, }
+\item[{int}]{y, }
+\item[{int}]{img}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}\hypertarget{class_image_sampler___interpolated_texture_a015b3cb6e76967a2873739de232950d2}{}\label{class_image_sampler___interpolated_texture_a015b3cb6e76967a2873739de232950d2}
+
+\begin{DoxyCode}
+70     \{
+71         \textcolor{keywordflow}{return} tex2D(\hyperlink{_image_sampler_8h_a7de6f4af580ecfe3df9ef9e65faac7e8}{image\_sampler\_texture\_nearest}, x+0.5f,y+0.5f + img*images
+      .\hyperlink{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}{h});
+72     \}
+\end{DoxyCode}
+\index{Image\+Sampler\+\_\+\+Interpolated\+Texture@{Image\+Sampler\+\_\+\+Interpolated\+Texture}!Interpolated@{Interpolated}}
+\index{Interpolated@{Interpolated}!Image\+Sampler\+\_\+\+Interpolated\+Texture@{Image\+Sampler\+\_\+\+Interpolated\+Texture}}
+\subsubsection[{\texorpdfstring{Interpolated(cuda\+Image\+Listf \&images, float x, float y, int img, bool \&outside)}{Interpolated(cudaImageListf &images, float x, float y, int img, bool &outside)}}]{\setlength{\rightskip}{0pt plus 5cm}static \+\_\+\+\_\+device\+\_\+\+\_\+ float Image\+Sampler\+\_\+\+Interpolated\+Texture\+::\+Interpolated (
+\begin{DoxyParamCaption}
+\item[{{\bf cuda\+Image\+Listf} \&}]{images, }
+\item[{float}]{x, }
+\item[{float}]{y, }
+\item[{int}]{img, }
+\item[{bool \&}]{outside}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}\hypertarget{class_image_sampler___interpolated_texture_af5855aa4719094f61aed595bfcfef99f}{}\label{class_image_sampler___interpolated_texture_af5855aa4719094f61aed595bfcfef99f}
+
+\begin{DoxyCode}
+64     \{
+65         \textcolor{keywordflow}{return} images.\hyperlink{structcuda_image_list_a0c1befe3e606950d6dd8d78da273ffd8}{interpolateFromTexture} (
+      \hyperlink{_image_sampler_8h_a7de6f4af580ecfe3df9ef9e65faac7e8}{image\_sampler\_texture\_nearest}, x, y, img, outside);
+66     \}
+\end{DoxyCode}
+\index{Image\+Sampler\+\_\+\+Interpolated\+Texture@{Image\+Sampler\+\_\+\+Interpolated\+Texture}!Unbind\+Texture@{Unbind\+Texture}}
+\index{Unbind\+Texture@{Unbind\+Texture}!Image\+Sampler\+\_\+\+Interpolated\+Texture@{Image\+Sampler\+\_\+\+Interpolated\+Texture}}
+\subsubsection[{\texorpdfstring{Unbind\+Texture(cuda\+Image\+Listf \&images)}{UnbindTexture(cudaImageListf &images)}}]{\setlength{\rightskip}{0pt plus 5cm}static void Image\+Sampler\+\_\+\+Interpolated\+Texture\+::\+Unbind\+Texture (
+\begin{DoxyParamCaption}
+\item[{{\bf cuda\+Image\+Listf} \&}]{images}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}\hypertarget{class_image_sampler___interpolated_texture_a42e9ea516f12fdebb8e00459e7223ece}{}\label{class_image_sampler___interpolated_texture_a42e9ea516f12fdebb8e00459e7223ece}
+
+\begin{DoxyCode}
+60 \{ images.\hyperlink{structcuda_image_list_a5fd1e6014eb7f4a91e04344e208c70fe}{unbind}(\hyperlink{_image_sampler_8h_a7de6f4af580ecfe3df9ef9e65faac7e8}{image\_sampler\_texture\_nearest});  \}
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+cudatrack/\hyperlink{_image_sampler_8h}{Image\+Sampler.\+h}\end{DoxyCompactItemize}

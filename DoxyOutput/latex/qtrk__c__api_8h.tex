@@ -1,0 +1,194 @@
+\hypertarget{qtrk__c__api_8h}{}\section{cputrack/qtrk\+\_\+c\+\_\+api.h File Reference}
+\label{qtrk__c__api_8h}\index{cputrack/qtrk\+\_\+c\+\_\+api.\+h@{cputrack/qtrk\+\_\+c\+\_\+api.\+h}}
+{\ttfamily \#include \char`\"{}dllmacros.\+h\char`\"{}}\\*
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_localization_job}{Localization\+Job}
+\begin{DoxyCompactList}\small\item\em Structure for region of interest metadata. \end{DoxyCompactList}\item 
+struct \hyperlink{struct_localization_result}{Localization\+Result}
+\begin{DoxyCompactList}\small\item\em Structure for job results. \end{DoxyCompactList}\item 
+struct \hyperlink{struct_q_trk_settings}{Q\+Trk\+Settings}
+\begin{DoxyCompactList}\small\item\em Structure for the settings used by the algorithms implemented in \hyperlink{class_queued_tracker}{Queued\+Tracker}. \end{DoxyCompactList}\item 
+struct \hyperlink{struct_r_o_i_position}{R\+O\+I\+Position}
+\begin{DoxyCompactList}\small\item\em Struct used to define the top-\/left corner position of an R\+OI within a frame. R\+OI is \mbox{[} x .. x+w ; y .. y+h \mbox{]}. \end{DoxyCompactList}\item 
+struct \hyperlink{struct_q_trk_computed_config}{Q\+Trk\+Computed\+Config}
+\begin{DoxyCompactList}\small\item\em Structure for derived settings computed from base settings in \hyperlink{struct_q_trk_settings}{Q\+Trk\+Settings}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{qtrk__c__api_8h_acc1340bb8a0e6db25194fc300e930b22}{Q\+Trk\+C\+U\+D\+A\+\_\+\+Use\+List}~-\/3
+\item 
+\#define \hyperlink{qtrk__c__api_8h_a81a7a05010c5c6a3c0325892b3d569e9}{Q\+Trk\+C\+U\+D\+A\+\_\+\+Use\+All}~-\/2
+\item 
+\#define \hyperlink{qtrk__c__api_8h_adacab7cc5d7db0ead3d14f9862d7bbb7}{Q\+Trk\+C\+U\+D\+A\+\_\+\+Use\+Best}~-\/1
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef int \hyperlink{qtrk__c__api_8h_a6ba72ec1daa19642f85a47defe8f0812}{Loc\+Mode\+\_\+t}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3b}{Localize\+Mode\+Enum} \{ \\*
+\hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3bab236233599e4b1d5ab369a574d63181d}{L\+T\+\_\+\+Only\+C\+OM} = 0, 
+\hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba3c14d24d83bc2358bf41e071861620d2}{L\+T\+\_\+\+X\+Cor1D} = 1, 
+\hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba9eb0441a0c1e1086ff81512ea509e564}{L\+T\+\_\+\+QI} = 2, 
+\hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba49983d8a534bbda61f861e1a2702a88a}{L\+T\+\_\+\+Gaussian2D} = 4, 
+\\*
+\hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba85b5a8778da421d97ac8bf55dd0cf076}{L\+T\+\_\+\+Z\+L\+U\+T\+Align} = 8, 
+\hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba5bee529eb0d2fa3bef01f31eeb613b92}{L\+T\+\_\+\+LocalizeZ} = 16, 
+\hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3bae1cac6e7cc97db83708edd0407e3e25f}{L\+T\+\_\+\+Normalize\+Profile} = 64, 
+\hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba5b928b5bd4caff7d5f30322fdecae82b}{L\+T\+\_\+\+Clear\+First\+Four\+Pixels} = 128, 
+\\*
+\hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3baa412dc6660a1d4896acff68e660a77d2}{L\+T\+\_\+\+Fourier\+L\+UT} = 256, 
+\hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba4b74b9fec0fa98e60e03b783618111f4}{L\+T\+\_\+\+Localize\+Z\+Weighted} = 512, 
+\hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3badf60687c86e85d2ec139f3d37defa28c}{L\+T\+\_\+\+Force32\+Bit} = 0xffffffff
+ \}\begin{DoxyCompactList}\small\item\em Flags for selecting localization type. \end{DoxyCompactList}
+\item 
+enum \hyperlink{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0b}{Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type} \{ \hyperlink{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0baed6124f6daf00bc0e0f4817986bad3a1}{Q\+Trk\+U8} = 0, 
+\hyperlink{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0ba6c91530bb59effda68594063a7a1d5a6}{Q\+Trk\+U16} = 1, 
+\hyperlink{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0bafeece00bcf1a42419e686ef0cf006a4e}{Q\+Trk\+Float} = 2
+ \}\begin{DoxyCompactList}\small\item\em Flags for data type of image data. \end{DoxyCompactList}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{dllmacros_8h_af97e4004759ff877db017c3d1a855482}{C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} \hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$\hyperlink{dllmacros_8h_a6596c37c55424b395798708344d63791}{D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} \hyperlink{group__c__api_ga6f577c7b65dcdcb107ccdd7bb1f8883f}{Q\+Trk\+Create\+Instance} (\hyperlink{struct_q_trk_settings}{Q\+Trk\+Settings} $\ast$cfg)
+\begin{DoxyCompactList}\small\item\em Create a Q\+Trk instance and return a pointer to it. \end{DoxyCompactList}\item 
+\hyperlink{dllmacros_8h_af97e4004759ff877db017c3d1a855482}{C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} void \hyperlink{dllmacros_8h_a6596c37c55424b395798708344d63791}{D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} \hyperlink{group__c__api_ga4262000013c06b69780a3e24c1d6e5b4}{Q\+Trk\+Free\+Instance} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$qtrk)
+\item 
+\hyperlink{dllmacros_8h_af97e4004759ff877db017c3d1a855482}{C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} void \hyperlink{dllmacros_8h_a6596c37c55424b395798708344d63791}{D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} \hyperlink{group__c__api_ga4f179d9a21e4d0878fb0b7b93d2ca758}{Q\+Trk\+Set\+Localization\+Mode} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$qtrk, \hyperlink{qtrk__c__api_8h_a6ba72ec1daa19642f85a47defe8f0812}{Loc\+Mode\+\_\+t} loc\+Type)
+\item 
+\hyperlink{dllmacros_8h_af97e4004759ff877db017c3d1a855482}{C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} void \hyperlink{dllmacros_8h_a6596c37c55424b395798708344d63791}{D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} \hyperlink{group__c__api_gacbe5d60ebb4af5dc16a061e94ed321ab}{Q\+Trk\+Schedule\+Localization} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$qtrk, void $\ast$data, int pitch, \hyperlink{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0b}{Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type} pdt, const \hyperlink{struct_localization_job}{Localization\+Job} $\ast$job\+Info)
+\item 
+\hyperlink{dllmacros_8h_af97e4004759ff877db017c3d1a855482}{C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} void \hyperlink{dllmacros_8h_a6596c37c55424b395798708344d63791}{D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} \hyperlink{group__c__api_gaf26eb7c51cc81961c873246322dea1a4}{Q\+Trk\+Clear\+Results} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$qtrk)
+\item 
+\hyperlink{dllmacros_8h_af97e4004759ff877db017c3d1a855482}{C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} void \hyperlink{dllmacros_8h_a6596c37c55424b395798708344d63791}{D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} \hyperlink{group__c__api_ga77a94e6a0f70958385240b81ca2d31c9}{Q\+Trk\+Flush} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$qtrk)
+\item 
+\hyperlink{dllmacros_8h_af97e4004759ff877db017c3d1a855482}{C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} int \hyperlink{dllmacros_8h_a6596c37c55424b395798708344d63791}{D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} \hyperlink{group__c__api_gae5ef39f758a31d9fc493da07d358cc04}{Q\+Trk\+Schedule\+Frame} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$qtrk, void $\ast$imgptr, int pitch, int width, int height, \hyperlink{struct_r_o_i_position}{R\+O\+I\+Position} $\ast$positions, int num\+R\+OI, \hyperlink{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0b}{Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type} pdt, const \hyperlink{struct_localization_job}{Localization\+Job} $\ast$job\+Info)
+\item 
+\hyperlink{dllmacros_8h_af97e4004759ff877db017c3d1a855482}{C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} void \hyperlink{dllmacros_8h_a6596c37c55424b395798708344d63791}{D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} \hyperlink{group__c__api_ga1a3edf23919c33a549b2fb0b778684a9}{Q\+Trk\+Set\+Radial\+Z\+L\+UT} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$qtrk, float $\ast$data, int count, int planes, float $\ast$zcmp=0)
+\item 
+\hyperlink{dllmacros_8h_af97e4004759ff877db017c3d1a855482}{C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} void \hyperlink{dllmacros_8h_a6596c37c55424b395798708344d63791}{D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} \hyperlink{group__c__api_gab5d2705f9d756f2c57568a50755e9212}{Q\+Trk\+Get\+Radial\+Z\+L\+UT} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$qtrk, float $\ast$dst)
+\item 
+\hyperlink{dllmacros_8h_af97e4004759ff877db017c3d1a855482}{C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} void \hyperlink{dllmacros_8h_a6596c37c55424b395798708344d63791}{D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} \hyperlink{group__c__api_ga870e97e334d0f265eeaa969286bbc32f}{Q\+Trk\+Get\+Radial\+Z\+L\+U\+T\+Size} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$qtrk, int $\ast$count, int $\ast$planes, int $\ast$radialsteps)
+\item 
+\hyperlink{dllmacros_8h_af97e4004759ff877db017c3d1a855482}{C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} void \hyperlink{dllmacros_8h_a6596c37c55424b395798708344d63791}{D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} \hyperlink{group__c__api_ga4c0fafa8ed3afa1f77145049c2fe399b}{Q\+Trk\+Build\+L\+UT} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$qtrk, void $\ast$data, int pitch, \hyperlink{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0b}{Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type} pdt, bool image\+L\+UT, int plane)
+\item 
+\hyperlink{dllmacros_8h_af97e4004759ff877db017c3d1a855482}{C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} void \hyperlink{dllmacros_8h_a6596c37c55424b395798708344d63791}{D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} \hyperlink{group__c__api_ga001b7cce7559916db5198075f4b7ff21}{Q\+Trk\+Finalize\+L\+UT} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$qtrk)
+\item 
+\hyperlink{dllmacros_8h_af97e4004759ff877db017c3d1a855482}{C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} int \hyperlink{dllmacros_8h_a6596c37c55424b395798708344d63791}{D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} \hyperlink{group__c__api_gacec9880407759cffad8c29ad2eeb1e19}{Q\+Trk\+Get\+Result\+Count} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$qtrk)
+\item 
+\hyperlink{dllmacros_8h_af97e4004759ff877db017c3d1a855482}{C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} int \hyperlink{dllmacros_8h_a6596c37c55424b395798708344d63791}{D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} \hyperlink{group__c__api_ga8fac708f09e509fca0004a7dad8c2872}{Q\+Trk\+Fetch\+Results} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$qtrk, \hyperlink{struct_localization_result}{Localization\+Result} $\ast$results, int max\+Results)
+\item 
+\hyperlink{dllmacros_8h_af97e4004759ff877db017c3d1a855482}{C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} int \hyperlink{dllmacros_8h_a6596c37c55424b395798708344d63791}{D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} \hyperlink{group__c__api_ga3f127b31b11968ff65ce6593ecab2378}{Q\+Trk\+Get\+Queue\+Length} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$qtrk, int $\ast$max\+Queue\+Len)
+\item 
+\hyperlink{dllmacros_8h_af97e4004759ff877db017c3d1a855482}{C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} bool \hyperlink{dllmacros_8h_a6596c37c55424b395798708344d63791}{D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} \hyperlink{group__c__api_ga050d8107baef0439f34e34d951da83fd}{Q\+Trk\+Is\+Idle} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$qtrk)
+\item 
+\hyperlink{dllmacros_8h_af97e4004759ff877db017c3d1a855482}{C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} void \hyperlink{dllmacros_8h_a6596c37c55424b395798708344d63791}{D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} \hyperlink{group__c__api_ga2e1032468e06d1f27e9484c8aa93a008}{Q\+Trk\+Get\+Profile\+Report} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$qtrk, char $\ast$dst, int max\+Str\+Len)
+\item 
+\hyperlink{dllmacros_8h_af97e4004759ff877db017c3d1a855482}{C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} void \hyperlink{dllmacros_8h_a6596c37c55424b395798708344d63791}{D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} \hyperlink{group__c__api_gaba90d158e873117ee01076aef9ed99ae}{Q\+Trk\+Get\+Warnings} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$qtrk, char $\ast$dst, int max\+Str\+Len)
+\item 
+\hyperlink{dllmacros_8h_af97e4004759ff877db017c3d1a855482}{C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT} void \hyperlink{dllmacros_8h_a6596c37c55424b395798708344d63791}{D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV} \hyperlink{group__c__api_ga2e4eb3e4449138cd29ff40e1c1b06535}{Q\+Trk\+Get\+Computed\+Config} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$qtrk, \hyperlink{struct_q_trk_computed_config}{Q\+Trk\+Computed\+Config} $\ast$cfg)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\index{qtrk\+\_\+c\+\_\+api.\+h@{qtrk\+\_\+c\+\_\+api.\+h}!Q\+Trk\+C\+U\+D\+A\+\_\+\+Use\+All@{Q\+Trk\+C\+U\+D\+A\+\_\+\+Use\+All}}
+\index{Q\+Trk\+C\+U\+D\+A\+\_\+\+Use\+All@{Q\+Trk\+C\+U\+D\+A\+\_\+\+Use\+All}!qtrk\+\_\+c\+\_\+api.\+h@{qtrk\+\_\+c\+\_\+api.\+h}}
+\subsubsection[{\texorpdfstring{Q\+Trk\+C\+U\+D\+A\+\_\+\+Use\+All}{QTrkCUDA_UseAll}}]{\setlength{\rightskip}{0pt plus 5cm}\#define Q\+Trk\+C\+U\+D\+A\+\_\+\+Use\+All~-\/2}\hypertarget{qtrk__c__api_8h_a81a7a05010c5c6a3c0325892b3d569e9}{}\label{qtrk__c__api_8h_a81a7a05010c5c6a3c0325892b3d569e9}
+\index{qtrk\+\_\+c\+\_\+api.\+h@{qtrk\+\_\+c\+\_\+api.\+h}!Q\+Trk\+C\+U\+D\+A\+\_\+\+Use\+Best@{Q\+Trk\+C\+U\+D\+A\+\_\+\+Use\+Best}}
+\index{Q\+Trk\+C\+U\+D\+A\+\_\+\+Use\+Best@{Q\+Trk\+C\+U\+D\+A\+\_\+\+Use\+Best}!qtrk\+\_\+c\+\_\+api.\+h@{qtrk\+\_\+c\+\_\+api.\+h}}
+\subsubsection[{\texorpdfstring{Q\+Trk\+C\+U\+D\+A\+\_\+\+Use\+Best}{QTrkCUDA_UseBest}}]{\setlength{\rightskip}{0pt plus 5cm}\#define Q\+Trk\+C\+U\+D\+A\+\_\+\+Use\+Best~-\/1}\hypertarget{qtrk__c__api_8h_adacab7cc5d7db0ead3d14f9862d7bbb7}{}\label{qtrk__c__api_8h_adacab7cc5d7db0ead3d14f9862d7bbb7}
+\index{qtrk\+\_\+c\+\_\+api.\+h@{qtrk\+\_\+c\+\_\+api.\+h}!Q\+Trk\+C\+U\+D\+A\+\_\+\+Use\+List@{Q\+Trk\+C\+U\+D\+A\+\_\+\+Use\+List}}
+\index{Q\+Trk\+C\+U\+D\+A\+\_\+\+Use\+List@{Q\+Trk\+C\+U\+D\+A\+\_\+\+Use\+List}!qtrk\+\_\+c\+\_\+api.\+h@{qtrk\+\_\+c\+\_\+api.\+h}}
+\subsubsection[{\texorpdfstring{Q\+Trk\+C\+U\+D\+A\+\_\+\+Use\+List}{QTrkCUDA_UseList}}]{\setlength{\rightskip}{0pt plus 5cm}\#define Q\+Trk\+C\+U\+D\+A\+\_\+\+Use\+List~-\/3}\hypertarget{qtrk__c__api_8h_acc1340bb8a0e6db25194fc300e930b22}{}\label{qtrk__c__api_8h_acc1340bb8a0e6db25194fc300e930b22}
+
+
+\subsection{Typedef Documentation}
+\index{qtrk\+\_\+c\+\_\+api.\+h@{qtrk\+\_\+c\+\_\+api.\+h}!Loc\+Mode\+\_\+t@{Loc\+Mode\+\_\+t}}
+\index{Loc\+Mode\+\_\+t@{Loc\+Mode\+\_\+t}!qtrk\+\_\+c\+\_\+api.\+h@{qtrk\+\_\+c\+\_\+api.\+h}}
+\subsubsection[{\texorpdfstring{Loc\+Mode\+\_\+t}{LocMode_t}}]{\setlength{\rightskip}{0pt plus 5cm}typedef int {\bf Loc\+Mode\+\_\+t}}\hypertarget{qtrk__c__api_8h_a6ba72ec1daa19642f85a47defe8f0812}{}\label{qtrk__c__api_8h_a6ba72ec1daa19642f85a47defe8f0812}
+
+
+\subsection{Enumeration Type Documentation}
+\index{qtrk\+\_\+c\+\_\+api.\+h@{qtrk\+\_\+c\+\_\+api.\+h}!Localize\+Mode\+Enum@{Localize\+Mode\+Enum}}
+\index{Localize\+Mode\+Enum@{Localize\+Mode\+Enum}!qtrk\+\_\+c\+\_\+api.\+h@{qtrk\+\_\+c\+\_\+api.\+h}}
+\subsubsection[{\texorpdfstring{Localize\+Mode\+Enum}{LocalizeModeEnum}}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Localize\+Mode\+Enum}}\hypertarget{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3b}{}\label{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3b}
+
+
+Flags for selecting localization type. 
+
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{L\+T\+\_\+\+Only\+C\+OM@{L\+T\+\_\+\+Only\+C\+OM}!qtrk\+\_\+c\+\_\+api.\+h@{qtrk\+\_\+c\+\_\+api.\+h}}\index{qtrk\+\_\+c\+\_\+api.\+h@{qtrk\+\_\+c\+\_\+api.\+h}!L\+T\+\_\+\+Only\+C\+OM@{L\+T\+\_\+\+Only\+C\+OM}}\item[{\em 
+L\+T\+\_\+\+Only\+C\+OM\hypertarget{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3bab236233599e4b1d5ab369a574d63181d}{}\label{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3bab236233599e4b1d5ab369a574d63181d}
+}]Use only C\+OM. \index{L\+T\+\_\+\+X\+Cor1D@{L\+T\+\_\+\+X\+Cor1D}!qtrk\+\_\+c\+\_\+api.\+h@{qtrk\+\_\+c\+\_\+api.\+h}}\index{qtrk\+\_\+c\+\_\+api.\+h@{qtrk\+\_\+c\+\_\+api.\+h}!L\+T\+\_\+\+X\+Cor1D@{L\+T\+\_\+\+X\+Cor1D}}\item[{\em 
+L\+T\+\_\+\+X\+Cor1D\hypertarget{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba3c14d24d83bc2358bf41e071861620d2}{}\label{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba3c14d24d83bc2358bf41e071861620d2}
+}]C\+O\+M+\+X\+Cor1D. \index{L\+T\+\_\+\+QI@{L\+T\+\_\+\+QI}!qtrk\+\_\+c\+\_\+api.\+h@{qtrk\+\_\+c\+\_\+api.\+h}}\index{qtrk\+\_\+c\+\_\+api.\+h@{qtrk\+\_\+c\+\_\+api.\+h}!L\+T\+\_\+\+QI@{L\+T\+\_\+\+QI}}\item[{\em 
+L\+T\+\_\+\+QI\hypertarget{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba9eb0441a0c1e1086ff81512ea509e564}{}\label{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba9eb0441a0c1e1086ff81512ea509e564}
+}]C\+O\+M+\+QI. \index{L\+T\+\_\+\+Gaussian2D@{L\+T\+\_\+\+Gaussian2D}!qtrk\+\_\+c\+\_\+api.\+h@{qtrk\+\_\+c\+\_\+api.\+h}}\index{qtrk\+\_\+c\+\_\+api.\+h@{qtrk\+\_\+c\+\_\+api.\+h}!L\+T\+\_\+\+Gaussian2D@{L\+T\+\_\+\+Gaussian2D}}\item[{\em 
+L\+T\+\_\+\+Gaussian2D\hypertarget{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba49983d8a534bbda61f861e1a2702a88a}{}\label{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba49983d8a534bbda61f861e1a2702a88a}
+}]2D Gaussian localization \index{L\+T\+\_\+\+Z\+L\+U\+T\+Align@{L\+T\+\_\+\+Z\+L\+U\+T\+Align}!qtrk\+\_\+c\+\_\+api.\+h@{qtrk\+\_\+c\+\_\+api.\+h}}\index{qtrk\+\_\+c\+\_\+api.\+h@{qtrk\+\_\+c\+\_\+api.\+h}!L\+T\+\_\+\+Z\+L\+U\+T\+Align@{L\+T\+\_\+\+Z\+L\+U\+T\+Align}}\item[{\em 
+L\+T\+\_\+\+Z\+L\+U\+T\+Align\hypertarget{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba85b5a8778da421d97ac8bf55dd0cf076}{}\label{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba85b5a8778da421d97ac8bf55dd0cf076}
+}]X\+YZ Alignment with Z\+L\+UT. \index{L\+T\+\_\+\+LocalizeZ@{L\+T\+\_\+\+LocalizeZ}!qtrk\+\_\+c\+\_\+api.\+h@{qtrk\+\_\+c\+\_\+api.\+h}}\index{qtrk\+\_\+c\+\_\+api.\+h@{qtrk\+\_\+c\+\_\+api.\+h}!L\+T\+\_\+\+LocalizeZ@{L\+T\+\_\+\+LocalizeZ}}\item[{\em 
+L\+T\+\_\+\+LocalizeZ\hypertarget{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba5bee529eb0d2fa3bef01f31eeb613b92}{}\label{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba5bee529eb0d2fa3bef01f31eeb613b92}
+}]\index{L\+T\+\_\+\+Normalize\+Profile@{L\+T\+\_\+\+Normalize\+Profile}!qtrk\+\_\+c\+\_\+api.\+h@{qtrk\+\_\+c\+\_\+api.\+h}}\index{qtrk\+\_\+c\+\_\+api.\+h@{qtrk\+\_\+c\+\_\+api.\+h}!L\+T\+\_\+\+Normalize\+Profile@{L\+T\+\_\+\+Normalize\+Profile}}\item[{\em 
+L\+T\+\_\+\+Normalize\+Profile\hypertarget{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3bae1cac6e7cc97db83708edd0407e3e25f}{}\label{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3bae1cac6e7cc97db83708edd0407e3e25f}
+}]\index{L\+T\+\_\+\+Clear\+First\+Four\+Pixels@{L\+T\+\_\+\+Clear\+First\+Four\+Pixels}!qtrk\+\_\+c\+\_\+api.\+h@{qtrk\+\_\+c\+\_\+api.\+h}}\index{qtrk\+\_\+c\+\_\+api.\+h@{qtrk\+\_\+c\+\_\+api.\+h}!L\+T\+\_\+\+Clear\+First\+Four\+Pixels@{L\+T\+\_\+\+Clear\+First\+Four\+Pixels}}\item[{\em 
+L\+T\+\_\+\+Clear\+First\+Four\+Pixels\hypertarget{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba5b928b5bd4caff7d5f30322fdecae82b}{}\label{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba5b928b5bd4caff7d5f30322fdecae82b}
+}]\index{L\+T\+\_\+\+Fourier\+L\+UT@{L\+T\+\_\+\+Fourier\+L\+UT}!qtrk\+\_\+c\+\_\+api.\+h@{qtrk\+\_\+c\+\_\+api.\+h}}\index{qtrk\+\_\+c\+\_\+api.\+h@{qtrk\+\_\+c\+\_\+api.\+h}!L\+T\+\_\+\+Fourier\+L\+UT@{L\+T\+\_\+\+Fourier\+L\+UT}}\item[{\em 
+L\+T\+\_\+\+Fourier\+L\+UT\hypertarget{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3baa412dc6660a1d4896acff68e660a77d2}{}\label{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3baa412dc6660a1d4896acff68e660a77d2}
+}]\index{L\+T\+\_\+\+Localize\+Z\+Weighted@{L\+T\+\_\+\+Localize\+Z\+Weighted}!qtrk\+\_\+c\+\_\+api.\+h@{qtrk\+\_\+c\+\_\+api.\+h}}\index{qtrk\+\_\+c\+\_\+api.\+h@{qtrk\+\_\+c\+\_\+api.\+h}!L\+T\+\_\+\+Localize\+Z\+Weighted@{L\+T\+\_\+\+Localize\+Z\+Weighted}}\item[{\em 
+L\+T\+\_\+\+Localize\+Z\+Weighted\hypertarget{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba4b74b9fec0fa98e60e03b783618111f4}{}\label{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba4b74b9fec0fa98e60e03b783618111f4}
+}]\index{L\+T\+\_\+\+Force32\+Bit@{L\+T\+\_\+\+Force32\+Bit}!qtrk\+\_\+c\+\_\+api.\+h@{qtrk\+\_\+c\+\_\+api.\+h}}\index{qtrk\+\_\+c\+\_\+api.\+h@{qtrk\+\_\+c\+\_\+api.\+h}!L\+T\+\_\+\+Force32\+Bit@{L\+T\+\_\+\+Force32\+Bit}}\item[{\em 
+L\+T\+\_\+\+Force32\+Bit\hypertarget{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3badf60687c86e85d2ec139f3d37defa28c}{}\label{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3badf60687c86e85d2ec139f3d37defa28c}
+}]\end{description}
+\end{Desc}
+
+\begin{DoxyCode}
+6                       \{
+7     \hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3bab236233599e4b1d5ab369a574d63181d}{LT\_OnlyCOM} = 0,       
+8     \hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba3c14d24d83bc2358bf41e071861620d2}{LT\_XCor1D} = 1,     
+9     \hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba9eb0441a0c1e1086ff81512ea509e564}{LT\_QI} = 2,         
+10     \hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba49983d8a534bbda61f861e1a2702a88a}{LT\_Gaussian2D} = 4, 
+11     \hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba85b5a8778da421d97ac8bf55dd0cf076}{LT\_ZLUTAlign} = 8,   
+12 
+13     \hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba5bee529eb0d2fa3bef01f31eeb613b92}{LT\_LocalizeZ} = 16,
+14     \hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3bae1cac6e7cc97db83708edd0407e3e25f}{LT\_NormalizeProfile} = 64,
+15     \hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba5b928b5bd4caff7d5f30322fdecae82b}{LT\_ClearFirstFourPixels} = 128,
+16     \hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3baa412dc6660a1d4896acff68e660a77d2}{LT\_FourierLUT} = 256,
+17     \hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba4b74b9fec0fa98e60e03b783618111f4}{LT\_LocalizeZWeighted} = 512,
+18 
+19     \hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3badf60687c86e85d2ec139f3d37defa28c}{LT\_Force32Bit} = 0xffffffff
+20 \};
+\end{DoxyCode}
+\index{qtrk\+\_\+c\+\_\+api.\+h@{qtrk\+\_\+c\+\_\+api.\+h}!Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type@{Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type}}
+\index{Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type@{Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type}!qtrk\+\_\+c\+\_\+api.\+h@{qtrk\+\_\+c\+\_\+api.\+h}}
+\subsubsection[{\texorpdfstring{Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type}{QTRK_PixelDataType}}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type}}\hypertarget{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0b}{}\label{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0b}
+
+
+Flags for data type of image data. 
+
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Q\+Trk\+U8@{Q\+Trk\+U8}!qtrk\+\_\+c\+\_\+api.\+h@{qtrk\+\_\+c\+\_\+api.\+h}}\index{qtrk\+\_\+c\+\_\+api.\+h@{qtrk\+\_\+c\+\_\+api.\+h}!Q\+Trk\+U8@{Q\+Trk\+U8}}\item[{\em 
+Q\+Trk\+U8\hypertarget{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0baed6124f6daf00bc0e0f4817986bad3a1}{}\label{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0baed6124f6daf00bc0e0f4817986bad3a1}
+}]\index{Q\+Trk\+U16@{Q\+Trk\+U16}!qtrk\+\_\+c\+\_\+api.\+h@{qtrk\+\_\+c\+\_\+api.\+h}}\index{qtrk\+\_\+c\+\_\+api.\+h@{qtrk\+\_\+c\+\_\+api.\+h}!Q\+Trk\+U16@{Q\+Trk\+U16}}\item[{\em 
+Q\+Trk\+U16\hypertarget{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0ba6c91530bb59effda68594063a7a1d5a6}{}\label{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0ba6c91530bb59effda68594063a7a1d5a6}
+}]\index{Q\+Trk\+Float@{Q\+Trk\+Float}!qtrk\+\_\+c\+\_\+api.\+h@{qtrk\+\_\+c\+\_\+api.\+h}}\index{qtrk\+\_\+c\+\_\+api.\+h@{qtrk\+\_\+c\+\_\+api.\+h}!Q\+Trk\+Float@{Q\+Trk\+Float}}\item[{\em 
+Q\+Trk\+Float\hypertarget{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0bafeece00bcf1a42419e686ef0cf006a4e}{}\label{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0bafeece00bcf1a42419e686ef0cf006a4e}
+}]\end{description}
+\end{Desc}
+
+\begin{DoxyCode}
+26 \{
+27     \hyperlink{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0baed6124f6daf00bc0e0f4817986bad3a1}{QTrkU8} = 0,
+28     \hyperlink{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0ba6c91530bb59effda68594063a7a1d5a6}{QTrkU16} = 1,
+29     \hyperlink{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0bafeece00bcf1a42419e686ef0cf006a4e}{QTrkFloat} = 2
+30 \};
+\end{DoxyCode}

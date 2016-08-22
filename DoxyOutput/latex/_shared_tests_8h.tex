@@ -1,0 +1,680 @@
+\hypertarget{_shared_tests_8h}{}\section{cputrack-\/test/\+Shared\+Tests.h File Reference}
+\label{_shared_tests_8h}\index{cputrack-\/test/\+Shared\+Tests.\+h@{cputrack-\/test/\+Shared\+Tests.\+h}}
+{\ttfamily \#include \char`\"{}random\+\_\+distr.\+h\char`\"{}}\\*
+{\ttfamily \#include $<$direct.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}Fisher\+Matrix.\+h\char`\"{}}\\*
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_run_tracker_results}{Run\+Tracker\+Results}
+\item 
+struct \hyperlink{struct_speed_acc_result}{Speed\+Acc\+Result}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T $>$ }\\void \hyperlink{_shared_tests_8h_a6a1246e8a5604b97c4f6dff6d3790272}{Resample\+L\+UT} (T $\ast$qtrk, \hyperlink{_queued_tracker_8h_a2d6726594ce64e82b9222b183f2571d1}{Image\+Data} $\ast$lut, int zplanes, \hyperlink{_queued_tracker_8h_a2d6726594ce64e82b9222b183f2571d1}{Image\+Data} $\ast$newlut, const char $\ast$jpgfile=0, \hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} build\+L\+U\+T\+Flags=0)
+\item 
+static std\+::vector$<$ \hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f} $>$ \hyperlink{_shared_tests_8h_a309eb8d8c5b82f6f2e05b8a9e7594a74}{Fetch\+Results} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$trk)
+\item 
+static void \hyperlink{_shared_tests_8h_a25253507e729e3d5e129f391bef54503}{Random\+Fill} (float $\ast$d, int size, float mean, float std\+\_\+deviation)
+\item 
+{\footnotesize template$<$typename Tracker\+Type $>$ }\\void \hyperlink{_shared_tests_8h_a1521f978126f3f0adef9b9d5e662995b}{Test\+C\+M\+O\+S\+Noise\+Influence} (const char $\ast$lutfile)
+\item 
+static void \hyperlink{_shared_tests_8h_a9049c2824c7559420efb9dba4f84ac8c}{Enable\+Gain\+Correction} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$qtrk)
+\item 
+{\footnotesize template$<$typename Tracker\+Type $>$ }\\std\+::vector$<$ \hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f} $>$ \hyperlink{_shared_tests_8h_ae7f082a0d0c93f799afe341833a4cffd}{Gauss2\+D\+Test} (int Num\+Images=10, int Jobs\+Per\+Img=1000, bool use\+GC=false)
+\item 
+static double \hyperlink{_shared_tests_8h_ad10b5a63fc1239e5638eae0f0ea30f84}{Wait\+For\+Finish} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$qtrk, int N)
+\item 
+static void \hyperlink{_shared_tests_8h_a771630e2d9a64612a46d3ae9722174de}{Mean\+St\+Dev\+Error} (const std\+::vector$<$ \hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f} $>$ \&truepos, const std\+::vector$<$ \hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f} $>$ \&v, \hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f} \&mean\+Err, \hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f} \&stdev)
+\item 
+{\footnotesize template$<$typename Trk\+Type $>$ }\\\hyperlink{struct_run_tracker_results}{Run\+Tracker\+Results} \hyperlink{_shared_tests_8h_a4aa5a3501eb8dd9b8e27b64de19f8410}{Run\+Tracker} (const char $\ast$lutfile, \hyperlink{struct_q_trk_settings}{Q\+Trk\+Settings} $\ast$cfg, bool use\+GC, const char $\ast$name, \hyperlink{qtrk__c__api_8h_a6ba72ec1daa19642f85a47defe8f0812}{Loc\+Mode\+\_\+t} loc\+Mode, int N=2000, float noise\+Factor=28, float zpos=10, \hyperlink{_queued_tracker_8h_a2d6726594ce64e82b9222b183f2571d1}{Image\+Data} $\ast$p\+Rescaled\+L\+UT=0, \hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f} sample\+Pos\+Range=\hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f}(1, 1, 1))
+\item 
+static void \hyperlink{_shared_tests_8h_ad63d597ef801d55e6a64a53109695f4e}{Resize\+L\+UT} (\hyperlink{_queued_tracker_8h_a2d6726594ce64e82b9222b183f2571d1}{Image\+Data} \&lut, \hyperlink{_queued_tracker_8h_a2d6726594ce64e82b9222b183f2571d1}{Image\+Data} \&resized, \hyperlink{struct_q_trk_settings}{Q\+Trk\+Settings} $\ast$cfg)
+\item 
+{\footnotesize template$<$typename T $>$ }\\std\+::vector$<$ T $>$ \hyperlink{_shared_tests_8h_a28483c8b4bbb78625f74b9a8974e96e6}{logspace} (T a, T b, int N)
+\item 
+{\footnotesize template$<$typename T $>$ }\\std\+::vector$<$ T $>$ \hyperlink{_shared_tests_8h_adf5d79804192aad8817712eee6474e34}{linspace} (T a, T b, int N)
+\item 
+static \hyperlink{struct_speed_acc_result}{Speed\+Acc\+Result} \hyperlink{_shared_tests_8h_aa3078cf886076ac05fe292ddef20e22e}{Speed\+Acc\+Test} (\hyperlink{_queued_tracker_8h_a2d6726594ce64e82b9222b183f2571d1}{Image\+Data} \&lut, \hyperlink{struct_q_trk_settings}{Q\+Trk\+Settings} $\ast$cfg, int N, \hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f} centerpos, \hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f} range, const char $\ast$name, int Max\+Pixel\+Value, int extra\+Flags=0, int build\+L\+U\+T\+Flags=0)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\index{Shared\+Tests.\+h@{Shared\+Tests.\+h}!Enable\+Gain\+Correction@{Enable\+Gain\+Correction}}
+\index{Enable\+Gain\+Correction@{Enable\+Gain\+Correction}!Shared\+Tests.\+h@{Shared\+Tests.\+h}}
+\subsubsection[{\texorpdfstring{Enable\+Gain\+Correction(\+Queued\+Tracker $\ast$qtrk)}{EnableGainCorrection(QueuedTracker *qtrk)}}]{\setlength{\rightskip}{0pt plus 5cm}static void Enable\+Gain\+Correction (
+\begin{DoxyParamCaption}
+\item[{{\bf Queued\+Tracker} $\ast$}]{qtrk}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{_shared_tests_8h_a9049c2824c7559420efb9dba4f84ac8c}{}\label{_shared_tests_8h_a9049c2824c7559420efb9dba4f84ac8c}
+
+\begin{DoxyCode}
+190 \{
+191     \textcolor{keywordtype}{int} nb, \_pl, \_r;
+192     qtrk->\hyperlink{class_queued_tracker_a95e19cdbbaa59eb676a24aaf95058b27}{GetRadialZLUTSize}(nb, \_pl, \_r);
+193 
+194     \textcolor{keywordtype}{int} w=qtrk->\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width}, h=qtrk->\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height};
+195     \textcolor{keywordtype}{float} *offset = \textcolor{keyword}{new} \textcolor{keywordtype}{float} [w*h*nb];
+196     \textcolor{keywordtype}{float} *gain = \textcolor{keyword}{new} \textcolor{keywordtype}{float} [w*h*nb];
+197     \hyperlink{_shared_tests_8h_a25253507e729e3d5e129f391bef54503}{RandomFill}(offset, w*h*nb, 0, 0.1f);
+198     \hyperlink{_shared_tests_8h_a25253507e729e3d5e129f391bef54503}{RandomFill}(gain, w*h*nb, 1, 0.2f);
+199     qtrk->\hyperlink{class_queued_tracker_ae1fa56f8629d8d4ad621889fbd9e4a46}{SetPixelCalibrationImages}(offset, gain);
+200     \textcolor{keyword}{delete}[] offset; \textcolor{keyword}{delete}[] gain;
+201 \}
+\end{DoxyCode}
+\index{Shared\+Tests.\+h@{Shared\+Tests.\+h}!Fetch\+Results@{Fetch\+Results}}
+\index{Fetch\+Results@{Fetch\+Results}!Shared\+Tests.\+h@{Shared\+Tests.\+h}}
+\subsubsection[{\texorpdfstring{Fetch\+Results(\+Queued\+Tracker $\ast$trk)}{FetchResults(QueuedTracker *trk)}}]{\setlength{\rightskip}{0pt plus 5cm}static std\+::vector$<${\bf vector3f}$>$ Fetch\+Results (
+\begin{DoxyParamCaption}
+\item[{{\bf Queued\+Tracker} $\ast$}]{trk}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{_shared_tests_8h_a309eb8d8c5b82f6f2e05b8a9e7594a74}{}\label{_shared_tests_8h_a309eb8d8c5b82f6f2e05b8a9e7594a74}
+
+\begin{DoxyCode}
+69 \{
+70     \textcolor{keywordtype}{int} N = trk->\hyperlink{class_queued_tracker_a362a26027dc6bd40864e59de1ac32de2}{GetResultCount}();
+71     std::vector<vector3f> results (N);
+72     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<N;i++) \{
+73         \hyperlink{struct_localization_result}{LocalizationResult} j;
+74         trk->\hyperlink{class_queued_tracker_a171688832558d40838790c90ba9f8fc0}{FetchResults}(&j,1);
+75         results[j.\hyperlink{struct_localization_result_a9a6b25c5cc92fe13bae3d0a5d37360f3}{job}.\hyperlink{struct_localization_job_a54df1ba33ab48b20dca664142a8cf619}{frame}] = j.\hyperlink{struct_localization_result_a546f66485662c35bc75121513b6d1a60}{pos};
+76     \}
+77     \textcolor{keywordflow}{return} results;
+78 \}
+\end{DoxyCode}
+\index{Shared\+Tests.\+h@{Shared\+Tests.\+h}!Gauss2\+D\+Test@{Gauss2\+D\+Test}}
+\index{Gauss2\+D\+Test@{Gauss2\+D\+Test}!Shared\+Tests.\+h@{Shared\+Tests.\+h}}
+\subsubsection[{\texorpdfstring{Gauss2\+D\+Test(int Num\+Images=10, int Jobs\+Per\+Img=1000, bool use\+G\+C=false)}{Gauss2DTest(int NumImages=10, int JobsPerImg=1000, bool useGC=false)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Tracker\+Type $>$ std\+::vector$<${\bf vector3f}$>$ Gauss2\+D\+Test (
+\begin{DoxyParamCaption}
+\item[{int}]{Num\+Images = {\ttfamily 10}, }
+\item[{int}]{Jobs\+Per\+Img = {\ttfamily 1000}, }
+\item[{bool}]{use\+GC = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}\hypertarget{_shared_tests_8h_ae7f082a0d0c93f799afe341833a4cffd}{}\label{_shared_tests_8h_ae7f082a0d0c93f799afe341833a4cffd}
+
+\begin{DoxyCode}
+211 \{
+212     \hyperlink{struct_q_trk_settings}{QTrkSettings} cfg;
+213     cfg.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width} = cfg.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height} = 20;
+214     cfg.\hyperlink{struct_q_trk_settings_aa5ae2b9e5700fe2eab58f9084389c3ad}{gauss2D\_iterations} = 8;
+215     \hyperlink{qtrk__c__api_8h_a6ba72ec1daa19642f85a47defe8f0812}{LocMode\_t} lt = \hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba49983d8a534bbda61f861e1a2702a88a}{LT\_Gaussian2D};
+216     TrackerType \hyperlink{namespaceqtrk}{qtrk}(cfg);
+217     std::vector<float*> images;
+218 
+219     srand(0);
+220 
+221     \hyperlink{namespaceqtrk}{qtrk}.SetRadialZLUT(0, 1, 1); \textcolor{comment}{// need to indicate 1 bead, as the pixel calibration images are
+       per-bead}
+222     \textcolor{keywordflow}{if} (useGC) \hyperlink{_shared_tests_8h_a9049c2824c7559420efb9dba4f84ac8c}{EnableGainCorrection}(&\hyperlink{namespaceqtrk}{qtrk});
+223     
+224     \textcolor{comment}{// Schedule images to localize on}
+225 
+226     \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"Gauss2D: Generating %d images...\(\backslash\)n"}, NumImages);
+227     std::vector<float> truepos(NumImages*2);
+228 \textcolor{comment}{//  srand(time(0));}
+229 
+230     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} n=0;n<NumImages;n++) \{
+231         \textcolor{keywordtype}{double} t1 = \hyperlink{utils_8cpp_a11abc9edca3542dd4e74dadf99340fa1}{GetPreciseTime}();
+232         \textcolor{keywordtype}{float} xp = cfg.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width}/2+(rand\_uniform<float>() - 0.5) * 5;
+233         \textcolor{keywordtype}{float} yp = cfg.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height}/2+(rand\_uniform<float>() - 0.5) * 5;
+234         truepos[n*2+0] = xp;
+235         truepos[n*2+1] = yp;
+236 
+237         \textcolor{keywordtype}{float} *image = \textcolor{keyword}{new} \textcolor{keywordtype}{float}[cfg.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width}*cfg.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height}];
+238         images.push\_back(image);
+239 
+240         \hyperlink{struct_t_image_data}{ImageData} img(image,cfg.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width},cfg.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height});
+241         \hyperlink{utils_8cpp_a6203254588fe20c359c382ba4ddd9627}{GenerateGaussianSpotImage}(&img, \hyperlink{std__incl_8h_aba974726076ec2d63a67114c536d123e}{vector2f}(xp,yp), cfg.
+      \hyperlink{struct_q_trk_settings_a950fc67c972c608570ef2dd27fcfaf4d}{gauss2D\_sigma}, 1000, 4);
+242         \hyperlink{utils_8cpp_ac2ddbf383f4539cdec45a8001a435a1a}{ApplyPoissonNoise}(img, 1.0f);
+243 
+244         \hyperlink{fastjpg_8cpp_a197d79f00fb185491c4d109e966ca9ef}{FloatToJPEGFile}(\hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"gauss2d-%d.jpg"}, n).c\_str(), image,cfg.
+      \hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width},cfg.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height});
+245     \}
+246 
+247     \textcolor{comment}{// Measure speed}
+248     \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"Localizing on %d images...\(\backslash\)n"}, NumImages*JobsPerImg);
+249     \textcolor{keywordtype}{double} tstart = \hyperlink{utils_8cpp_a11abc9edca3542dd4e74dadf99340fa1}{GetPreciseTime}();
+250 
+251     \hyperlink{namespaceqtrk}{qtrk}.SetLocalizationMode(lt);
+252     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} n=0;n<NumImages;n++) \{
+253         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} k=0;k<JobsPerImg;k++) \{
+254             \hyperlink{struct_localization_job}{LocalizationJob} job(n,0,0,0);
+255             \hyperlink{namespaceqtrk}{qtrk}.ScheduleLocalization((\hyperlink{std__incl_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar}*)images[n], cfg.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width}*\textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float}), 
+      \hyperlink{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0bafeece00bcf1a42419e686ef0cf006a4e}{QTrkFloat}, &job);
+256         \}
+257     \}
+258 
+259     \hyperlink{namespaceqtrk}{qtrk}.Flush();
+260 
+261     \textcolor{keywordtype}{int} total = NumImages*JobsPerImg;
+262     \textcolor{keywordtype}{int} rc = \hyperlink{namespaceqtrk}{qtrk}.GetResultCount(), displayrc=0;
+263     \textcolor{keywordflow}{do} \{
+264         rc = \hyperlink{namespaceqtrk}{qtrk}.GetResultCount();
+265         \textcolor{keywordflow}{while} (displayrc<rc) \{
+266             \textcolor{keywordflow}{if}( displayrc%JobsPerImg==0) \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"Done: %d / %d\(\backslash\)n"}, displayrc, total);
+267             displayrc++;
+268         \}
+269         Sleep(10);
+270     \} \textcolor{keywordflow}{while} (rc != total);
+271 
+272     \textcolor{keywordtype}{double} tend = \hyperlink{utils_8cpp_a11abc9edca3542dd4e74dadf99340fa1}{GetPreciseTime}();
+273 
+274     \textcolor{comment}{// Wait for last jobs}
+275     rc = NumImages*JobsPerImg;
+276     \textcolor{keywordtype}{double} errX=0.0, errY=0.0;
+277 
+278     std::vector<vector3f> results (NumImages);
+279     \textcolor{keywordflow}{while}(rc>0) \{
+280         \hyperlink{struct_localization_result}{LocalizationResult} result;
+281 
+282         \textcolor{keywordflow}{if} (\hyperlink{namespaceqtrk}{qtrk}.FetchResults(&result, 1)) \{
+283             \textcolor{keywordtype}{int} iid = result.\hyperlink{struct_localization_result_a9a6b25c5cc92fe13bae3d0a5d37360f3}{job}.\hyperlink{struct_localization_job_a54df1ba33ab48b20dca664142a8cf619}{frame};
+284             \textcolor{keywordtype}{float} x = fabs(truepos[iid*2+0]-result.\hyperlink{struct_localization_result_a546f66485662c35bc75121513b6d1a60}{pos}.\hyperlink{structvector3_a5b466692e9550284d17a1bee6a6b8518}{x});
+285             \textcolor{keywordtype}{float} y = fabs(truepos[iid*2+1]-result.\hyperlink{struct_localization_result_a546f66485662c35bc75121513b6d1a60}{pos}.\hyperlink{structvector3_a1faa20a703bae3d1a673856466758383}{y});
+286 
+287             results [result.\hyperlink{struct_localization_result_a9a6b25c5cc92fe13bae3d0a5d37360f3}{job}.\hyperlink{struct_localization_job_a54df1ba33ab48b20dca664142a8cf619}{frame}] = result.\hyperlink{struct_localization_result_a546f66485662c35bc75121513b6d1a60}{pos};
+288 
+289             errX += x; errY += y;
+290             rc--;
+291         \}
+292     \}
+293     \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"Localization Speed: %d (img/s), using %d threads\(\backslash\)n"}, (\textcolor{keywordtype}{int})( total/(tend-tstart) ), 
+      \hyperlink{namespaceqtrk}{qtrk}.cfg.numThreads);
+294     \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"ErrX: %f, ErrY: %f\(\backslash\)n"}, errX/total, errY/total);
+295     \hyperlink{utils_8h_a79b36225c16ffe10c47c2aae8bee2d99}{DeleteAllElems}(images);
+296     \textcolor{keywordflow}{return} results;
+297 \}
+\end{DoxyCode}
+\index{Shared\+Tests.\+h@{Shared\+Tests.\+h}!linspace@{linspace}}
+\index{linspace@{linspace}!Shared\+Tests.\+h@{Shared\+Tests.\+h}}
+\subsubsection[{\texorpdfstring{linspace(\+T a, T b, int N)}{linspace(T a, T b, int N)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ std\+::vector$<$T$>$ linspace (
+\begin{DoxyParamCaption}
+\item[{T}]{a, }
+\item[{T}]{b, }
+\item[{int}]{N}
+\end{DoxyParamCaption}
+)}\hypertarget{_shared_tests_8h_adf5d79804192aad8817712eee6474e34}{}\label{_shared_tests_8h_adf5d79804192aad8817712eee6474e34}
+
+\begin{DoxyCode}
+462 \{
+463     std::vector<T> r (N);
+464     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<N;i++)
+465         r[i] = (b - a) * (i/(float)(N-1)) + a;
+466     \textcolor{keywordflow}{return} r;
+467 \}
+\end{DoxyCode}
+\index{Shared\+Tests.\+h@{Shared\+Tests.\+h}!logspace@{logspace}}
+\index{logspace@{logspace}!Shared\+Tests.\+h@{Shared\+Tests.\+h}}
+\subsubsection[{\texorpdfstring{logspace(\+T a, T b, int N)}{logspace(T a, T b, int N)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ std\+::vector$<$T$>$ logspace (
+\begin{DoxyParamCaption}
+\item[{T}]{a, }
+\item[{T}]{b, }
+\item[{int}]{N}
+\end{DoxyParamCaption}
+)}\hypertarget{_shared_tests_8h_a28483c8b4bbb78625f74b9a8974e96e6}{}\label{_shared_tests_8h_a28483c8b4bbb78625f74b9a8974e96e6}
+
+\begin{DoxyCode}
+449 \{
+450     std::vector<T> r (N);
+451 
+452     T a\_ = log(a);
+453     T b\_ = log(b);
+454 
+455     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<N;i++)
+456         r[i] = exp( (b\_ - a\_) * (i/(\textcolor{keywordtype}{float})(N-1)) + a\_);
+457     \textcolor{keywordflow}{return} r;
+458 \}
+\end{DoxyCode}
+\index{Shared\+Tests.\+h@{Shared\+Tests.\+h}!Mean\+St\+Dev\+Error@{Mean\+St\+Dev\+Error}}
+\index{Mean\+St\+Dev\+Error@{Mean\+St\+Dev\+Error}!Shared\+Tests.\+h@{Shared\+Tests.\+h}}
+\subsubsection[{\texorpdfstring{Mean\+St\+Dev\+Error(const std\+::vector$<$ vector3f $>$ \&truepos, const std\+::vector$<$ vector3f $>$ \&v, vector3f \&mean\+Err, vector3f \&stdev)}{MeanStDevError(const std::vector< vector3f > &truepos, const std::vector< vector3f > &v, vector3f &meanErr, vector3f &stdev)}}]{\setlength{\rightskip}{0pt plus 5cm}static void Mean\+St\+Dev\+Error (
+\begin{DoxyParamCaption}
+\item[{const std\+::vector$<$ {\bf vector3f} $>$ \&}]{truepos, }
+\item[{const std\+::vector$<$ {\bf vector3f} $>$ \&}]{v, }
+\item[{{\bf vector3f} \&}]{mean\+Err, }
+\item[{{\bf vector3f} \&}]{stdev}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{_shared_tests_8h_a771630e2d9a64612a46d3ae9722174de}{}\label{_shared_tests_8h_a771630e2d9a64612a46d3ae9722174de}
+
+\begin{DoxyCode}
+319 \{
+320     meanErr=\hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f}();
+321     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i=0;i<v.size();i++) meanErr+=v[i]-truepos[i]; 
+322     meanErr*=1.0f/v.size();
+323 
+324     \hyperlink{structvector3}{vector3f} r;
+325     \textcolor{keywordflow}{for} (\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} i=0;i<v.size();i++) \{
+326         \hyperlink{structvector3}{vector3f} d = (v[i]-truepos[i])-meanErr;
+327         r+= d*d;
+328     \}
+329     stdev = \hyperlink{std__incl_8h_a8a38721046513951c4bfc32bf101e180}{sqrt}(r/v.size());
+330 \}
+\end{DoxyCode}
+\index{Shared\+Tests.\+h@{Shared\+Tests.\+h}!Random\+Fill@{Random\+Fill}}
+\index{Random\+Fill@{Random\+Fill}!Shared\+Tests.\+h@{Shared\+Tests.\+h}}
+\subsubsection[{\texorpdfstring{Random\+Fill(float $\ast$d, int size, float mean, float std\+\_\+deviation)}{RandomFill(float *d, int size, float mean, float std_deviation)}}]{\setlength{\rightskip}{0pt plus 5cm}static void Random\+Fill (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{d, }
+\item[{int}]{size, }
+\item[{float}]{mean, }
+\item[{float}]{std\+\_\+deviation}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{_shared_tests_8h_a25253507e729e3d5e129f391bef54503}{}\label{_shared_tests_8h_a25253507e729e3d5e129f391bef54503}
+
+\begin{DoxyCode}
+82 \{
+83     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<size;i++)
+84         d [i] = std::max(0.0f,  mean + rand\_normal<float>() * std\_deviation);
+85 \}
+\end{DoxyCode}
+\index{Shared\+Tests.\+h@{Shared\+Tests.\+h}!Resample\+L\+UT@{Resample\+L\+UT}}
+\index{Resample\+L\+UT@{Resample\+L\+UT}!Shared\+Tests.\+h@{Shared\+Tests.\+h}}
+\subsubsection[{\texorpdfstring{Resample\+L\+U\+T(\+T $\ast$qtrk, Image\+Data $\ast$lut, int zplanes, Image\+Data $\ast$newlut, const char $\ast$jpgfile=0, uint build\+L\+U\+T\+Flags=0)}{ResampleLUT(T *qtrk, ImageData *lut, int zplanes, ImageData *newlut, const char *jpgfile=0, uint buildLUTFlags=0)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ void Resample\+L\+UT (
+\begin{DoxyParamCaption}
+\item[{T $\ast$}]{qtrk, }
+\item[{{\bf Image\+Data} $\ast$}]{lut, }
+\item[{int}]{zplanes, }
+\item[{{\bf Image\+Data} $\ast$}]{newlut, }
+\item[{const char $\ast$}]{jpgfile = {\ttfamily 0}, }
+\item[{{\bf uint}}]{build\+L\+U\+T\+Flags = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}\hypertarget{_shared_tests_8h_a6a1246e8a5604b97c4f6dff6d3790272}{}\label{_shared_tests_8h_a6a1246e8a5604b97c4f6dff6d3790272}
+
+\begin{DoxyCode}
+36 \{
+37     \hyperlink{struct_q_trk_computed_config}{QTrkComputedConfig}& cfg = \hyperlink{namespaceqtrk}{qtrk}->cfg;
+38     \hyperlink{struct_t_image_data}{ImageData} img = \hyperlink{struct_t_image_data_a8ae528964e70c0d0a98b8481cc8b083e}{ImageData::alloc}(cfg.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width},cfg.
+      \hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height});
+39     
+40     \hyperlink{namespaceqtrk}{qtrk}->SetRadialZLUT(0, 1, zplanes);
+41     \hyperlink{namespaceqtrk}{qtrk}->BeginLUT(buildLUTFlags);
+42     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<zplanes;i++)
+43     \{
+44         \hyperlink{structvector2}{vector2f} pos(cfg.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width}/2,cfg.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height}/2);
+45         \hyperlink{utils_8cpp_af574edb94793976b749c0240c79b1c48}{GenerateImageFromLUT}(&img, lut, \hyperlink{namespaceqtrk}{qtrk}->cfg.zlut\_minradius, 
+      \hyperlink{namespaceqtrk}{qtrk}->cfg.zlut\_maxradius, \hyperlink{structvector3}{vector3f}(pos.x,pos.y, i/(\textcolor{keywordtype}{float})zplanes * lut->
+      \hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h}), \textcolor{keyword}{true});
+46         img.\hyperlink{struct_t_image_data_ac987182fb87787d7d274a30cf4a198d4}{normalize}();
+47         \textcolor{keywordflow}{if} (i == zplanes/2 && jpgfile)
+48             \hyperlink{fastjpg_8cpp_a77db3a4044f8f77b5a550b6f05962172}{WriteJPEGFile}(\hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"smp-%s"},jpgfile).c\_str(), img);
+49         \hyperlink{namespaceqtrk}{qtrk}->BuildLUT(img.\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data}, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float})*img.\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w}, \hyperlink{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0bafeece00bcf1a42419e686ef0cf006a4e}{QTrkFloat}, i, &pos);
+50     \}
+51     \hyperlink{namespaceqtrk}{qtrk}->FinalizeLUT();
+52 
+53     *newlut = \hyperlink{struct_t_image_data_a8ae528964e70c0d0a98b8481cc8b083e}{ImageData::alloc}(cfg.\hyperlink{struct_q_trk_computed_config_ad1a121fa7d3152df6788ff285e4d2dc6}{zlut\_radialsteps}, zplanes);
+54     \hyperlink{namespaceqtrk}{qtrk}->GetRadialZLUT(newlut->\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data});
+55     newlut->\hyperlink{struct_t_image_data_ac987182fb87787d7d274a30cf4a198d4}{normalize}();
+56 
+57     img.\hyperlink{struct_t_image_data_a60a60e309657216a2e35809fdc582b11}{free}();
+58 
+59     \textcolor{keywordflow}{if} (jpgfile) \{
+60         \textcolor{keywordtype}{float}* zlut\_result=\textcolor{keyword}{new} \textcolor{keywordtype}{float}[zplanes*cfg.\hyperlink{struct_q_trk_computed_config_ad1a121fa7d3152df6788ff285e4d2dc6}{zlut\_radialsteps}*1];
+61         \hyperlink{namespaceqtrk}{qtrk}->GetRadialZLUT(zlut\_result);
+62         \hyperlink{fastjpg_8cpp_a197d79f00fb185491c4d109e966ca9ef}{FloatToJPEGFile}(jpgfile, zlut\_result, cfg.
+      \hyperlink{struct_q_trk_computed_config_ad1a121fa7d3152df6788ff285e4d2dc6}{zlut\_radialsteps}, zplanes);
+63         \textcolor{keyword}{delete}[] zlut\_result;
+64     \}
+65 \}
+\end{DoxyCode}
+\index{Shared\+Tests.\+h@{Shared\+Tests.\+h}!Resize\+L\+UT@{Resize\+L\+UT}}
+\index{Resize\+L\+UT@{Resize\+L\+UT}!Shared\+Tests.\+h@{Shared\+Tests.\+h}}
+\subsubsection[{\texorpdfstring{Resize\+L\+U\+T(\+Image\+Data \&lut, Image\+Data \&resized, Q\+Trk\+Settings $\ast$cfg)}{ResizeLUT(ImageData &lut, ImageData &resized, QTrkSettings *cfg)}}]{\setlength{\rightskip}{0pt plus 5cm}static void Resize\+L\+UT (
+\begin{DoxyParamCaption}
+\item[{{\bf Image\+Data} \&}]{lut, }
+\item[{{\bf Image\+Data} \&}]{resized, }
+\item[{{\bf Q\+Trk\+Settings} $\ast$}]{cfg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{_shared_tests_8h_ad63d597ef801d55e6a64a53109695f4e}{}\label{_shared_tests_8h_ad63d597ef801d55e6a64a53109695f4e}
+
+\begin{DoxyCode}
+421 \{
+422     \hyperlink{struct_q_trk_computed_config}{QTrkComputedConfig} cc(*cfg);
+423 
+424     \textcolor{keywordtype}{int} nsmp = (int) ceil( (\textcolor{keywordtype}{float})lut.\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w}/cc.zlut\_radialsteps );
+425     resized = \hyperlink{struct_t_image_data_a8ae528964e70c0d0a98b8481cc8b083e}{ImageData::alloc}(cc.zlut\_radialsteps, lut.\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h});
+426     \textcolor{keywordtype}{float} *c = \hyperlink{std__incl_8h_a37dbccb865134ee3a70c5044b365ded7}{ALLOCA\_ARRAY}(\textcolor{keywordtype}{float}, cc.zlut\_radialsteps);
+427     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} y=0;y<lut.\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h};y++) \{
+428         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<cc.zlut\_radialsteps;i++)c[i]=0;
+429         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} x=0;x<lut.\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w};x++) \{
+430             \textcolor{keywordtype}{float} pos = x/(float)lut.\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w} * cc.zlut\_radialsteps;
+431             \textcolor{keywordtype}{float} frac= (\textcolor{keywordtype}{int})pos - pos;
+432             \textcolor{keywordtype}{int} p=(int)pos;
+433             \textcolor{keywordtype}{float} v=lut.\hyperlink{struct_t_image_data_ad13c1527ffabe17b997c38090ec5e6b9}{at}(x,y);
+434             c[p] += frac;
+435             resized.\hyperlink{struct_t_image_data_ad13c1527ffabe17b997c38090ec5e6b9}{at}(p,y) += frac*v;
+436             \textcolor{keywordflow}{if} (p<cc.zlut\_radialsteps-1) \{
+437                 c[p+1] += 1-frac;
+438                 resized.\hyperlink{struct_t_image_data_ad13c1527ffabe17b997c38090ec5e6b9}{at}(p+1,y) += (1-frac)*v;
+439             \}
+440         \}
+441         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x=0;x<cc.zlut\_radialsteps;x++)
+442             resized.\hyperlink{struct_t_image_data_ad13c1527ffabe17b997c38090ec5e6b9}{at}(x,y) /= c[x];
+443     \}
+444 \}
+\end{DoxyCode}
+\index{Shared\+Tests.\+h@{Shared\+Tests.\+h}!Run\+Tracker@{Run\+Tracker}}
+\index{Run\+Tracker@{Run\+Tracker}!Shared\+Tests.\+h@{Shared\+Tests.\+h}}
+\subsubsection[{\texorpdfstring{Run\+Tracker(const char $\ast$lutfile, Q\+Trk\+Settings $\ast$cfg, bool use\+G\+C, const char $\ast$name, Loc\+Mode\+\_\+t loc\+Mode, int N=2000, float noise\+Factor=28, float zpos=10, Image\+Data $\ast$p\+Rescaled\+L\+U\+T=0, vector3f sample\+Pos\+Range=vector3f(1, 1, 1))}{RunTracker(const char *lutfile, QTrkSettings *cfg, bool useGC, const char *name, LocMode_t locMode, int N=2000, float noiseFactor=28, float zpos=10, ImageData *pRescaledLUT=0, vector3f samplePosRange=vector3f(1, 1, 1))}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Trk\+Type $>$ {\bf Run\+Tracker\+Results} Run\+Tracker (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{lutfile, }
+\item[{{\bf Q\+Trk\+Settings} $\ast$}]{cfg, }
+\item[{bool}]{use\+GC, }
+\item[{const char $\ast$}]{name, }
+\item[{{\bf Loc\+Mode\+\_\+t}}]{loc\+Mode, }
+\item[{int}]{N = {\ttfamily 2000}, }
+\item[{float}]{noise\+Factor = {\ttfamily 28}, }
+\item[{float}]{zpos = {\ttfamily 10}, }
+\item[{{\bf Image\+Data} $\ast$}]{p\+Rescaled\+L\+UT = {\ttfamily 0}, }
+\item[{{\bf vector3f}}]{sample\+Pos\+Range = {\ttfamily {\bf vector3f}(1,1,1)}}
+\end{DoxyParamCaption}
+)}\hypertarget{_shared_tests_8h_a4aa5a3501eb8dd9b8e27b64de19f8410}{}\label{_shared_tests_8h_a4aa5a3501eb8dd9b8e27b64de19f8410}
+
+\begin{DoxyCode}
+351 \{
+352     std::vector<vector3f> results, truepos;
+353 
+354     \hyperlink{struct_t_image_data}{ImageData} lut = \hyperlink{fastjpg_8cpp_aca9c9daac87f0810622bb7e207e4587f}{ReadJPEGFile}(lutfile);
+355     \hyperlink{struct_t_image_data}{ImageData} img = \hyperlink{struct_t_image_data_a8ae528964e70c0d0a98b8481cc8b083e}{ImageData::alloc}(cfg->\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width},cfg->
+      \hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height});
+356 
+357     \hyperlink{struct_t_image_data}{ImageData}* rescaledLUT;
+358     \hyperlink{struct_t_image_data}{ImageData} rescaledBuffer;
+359 
+360     TrkType trk(*cfg);
+361     \textcolor{keywordflow}{if} (pRescaledLUT)  \{
+362         rescaledLUT = pRescaledLUT;
+363         \textcolor{keywordflow}{if} (rescaledLUT->\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data} == 0) \{
+364             *rescaledLUT = \hyperlink{struct_t_image_data_a8ae528964e70c0d0a98b8481cc8b083e}{ImageData::alloc}(cfg->\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width}, cfg->
+      \hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height});
+365             \hyperlink{_shared_tests_8h_a6a1246e8a5604b97c4f6dff6d3790272}{ResampleLUT}(&trk, &lut, lut.\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h}, rescaledLUT, \hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"%s-zlut.jpg"},name).
+      c\_str(), ((locMode&\hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3baa412dc6660a1d4896acff68e660a77d2}{LT\_FourierLUT}) ? \hyperlink{_queued_tracker_8h_a7ac0cdfdebce92a9636d9ba1fcff35d7}{BUILDLUT\_FOURIER} : 0));
+366         \}
+367     \} \textcolor{keywordflow}{else} \{
+368         rescaledBuffer = \hyperlink{struct_t_image_data_a8ae528964e70c0d0a98b8481cc8b083e}{ImageData::alloc}(cfg->\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width}, cfg->
+      \hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height});
+369         rescaledLUT = &rescaledBuffer;
+370         \hyperlink{_shared_tests_8h_a6a1246e8a5604b97c4f6dff6d3790272}{ResampleLUT}(&trk, &lut, lut.\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h}, rescaledLUT, \hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"%s-zlut.jpg"},name).c\_str(),
+       ((locMode&\hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3baa412dc6660a1d4896acff68e660a77d2}{LT\_FourierLUT}) ? \hyperlink{_queued_tracker_8h_a7ac0cdfdebce92a9636d9ba1fcff35d7}{BUILDLUT\_FOURIER} : 0));
+371     \}
+372 
+373     \textcolor{keywordflow}{if} (useGC) \hyperlink{_shared_tests_8h_a9049c2824c7559420efb9dba4f84ac8c}{EnableGainCorrection}(&trk);
+374 
+375     \textcolor{comment}{//trk.SetConfigValue("use\_texturecache" , "0");}
+376 
+377     srand(0);
+378     trk.SetLocalizationMode(locMode);
+379     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<N;i++)
+380     \{
+381         \hyperlink{structvector3}{vector3f} pos(
+382             cfg->\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width}/2 + samplePosRange.\hyperlink{structvector3_a5b466692e9550284d17a1bee6a6b8518}{x}*(rand\_uniform<float>()-0.5f),
+383             cfg->\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height}/2 + samplePosRange.\hyperlink{structvector3_a1faa20a703bae3d1a673856466758383}{y}*(rand\_uniform<float>()-0.5f), 
+384             zpos + samplePosRange.\hyperlink{structvector3_a90c50e80a32423d5cc76f40e5f53ffbe}{z}*(rand\_uniform<float>()-0.5f)
+385         );
+386         \hyperlink{utils_8cpp_af574edb94793976b749c0240c79b1c48}{GenerateImageFromLUT}(&img, rescaledLUT, trk.cfg.zlut\_minradius, trk.cfg.
+      zlut\_maxradius, \hyperlink{structvector3}{vector3f}( pos.x,pos.y, pos.z));
+387         \textcolor{keywordflow}{if} (noiseFactor>0)  \hyperlink{utils_8cpp_ac2ddbf383f4539cdec45a8001a435a1a}{ApplyPoissonNoise}(img, noiseFactor * 255, 255);
+388         truepos.push\_back(pos);
+389 
+390         \hyperlink{struct_localization_job}{LocalizationJob} job(i, 0, 0, 0);
+391         trk.ScheduleImageData(&img, &job);
+392     \}
+393 
+394     \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"Scheduled %d images\(\backslash\)n"} ,  N);
+395 
+396     \hyperlink{_shared_tests_8h_ad10b5a63fc1239e5638eae0f0ea30f84}{WaitForFinish}(&trk, N);
+397 
+398     results.resize(trk.GetResultCount());
+399     \textcolor{keywordflow}{for} (\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} i=0;i<results.size();i++) \{
+400         \hyperlink{struct_localization_result}{LocalizationResult} r;
+401         trk.FetchResults(&r,1);
+402         results[r.\hyperlink{struct_localization_result_a9a6b25c5cc92fe13bae3d0a5d37360f3}{job}.\hyperlink{struct_localization_job_a54df1ba33ab48b20dca664142a8cf619}{frame}]=r.\hyperlink{struct_localization_result_a546f66485662c35bc75121513b6d1a60}{pos};
+403     \}
+404 
+405     \textcolor{keywordtype}{double} tend = \hyperlink{utils_8cpp_a11abc9edca3542dd4e74dadf99340fa1}{GetPreciseTime}();
+406     img.\hyperlink{struct_t_image_data_a60a60e309657216a2e35809fdc582b11}{free}();
+407     lut.\hyperlink{struct_t_image_data_a60a60e309657216a2e35809fdc582b11}{free}();
+408 
+409     \hyperlink{struct_run_tracker_results}{RunTrackerResults} r;
+410     r.\hyperlink{struct_run_tracker_results_a60eded57e24f569a9f09647eb85242bb}{output}=results;
+411     r.\hyperlink{struct_run_tracker_results_a3dea14e81b2d19737fbb8037e5416dfd}{truepos}=truepos;
+412 
+413     \textcolor{keywordflow}{if} (!pRescaledLUT)
+414         rescaledBuffer.\hyperlink{struct_t_image_data_a60a60e309657216a2e35809fdc582b11}{free}();
+415 
+416     \textcolor{keywordflow}{return} r;
+417 \}
+\end{DoxyCode}
+\index{Shared\+Tests.\+h@{Shared\+Tests.\+h}!Speed\+Acc\+Test@{Speed\+Acc\+Test}}
+\index{Speed\+Acc\+Test@{Speed\+Acc\+Test}!Shared\+Tests.\+h@{Shared\+Tests.\+h}}
+\subsubsection[{\texorpdfstring{Speed\+Acc\+Test(\+Image\+Data \&lut, Q\+Trk\+Settings $\ast$cfg, int N, vector3f centerpos, vector3f range, const char $\ast$name, int Max\+Pixel\+Value, int extra\+Flags=0, int build\+L\+U\+T\+Flags=0)}{SpeedAccTest(ImageData &lut, QTrkSettings *cfg, int N, vector3f centerpos, vector3f range, const char *name, int MaxPixelValue, int extraFlags=0, int buildLUTFlags=0)}}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf Speed\+Acc\+Result} Speed\+Acc\+Test (
+\begin{DoxyParamCaption}
+\item[{{\bf Image\+Data} \&}]{lut, }
+\item[{{\bf Q\+Trk\+Settings} $\ast$}]{cfg, }
+\item[{int}]{N, }
+\item[{{\bf vector3f}}]{centerpos, }
+\item[{{\bf vector3f}}]{range, }
+\item[{const char $\ast$}]{name, }
+\item[{int}]{Max\+Pixel\+Value, }
+\item[{int}]{extra\+Flags = {\ttfamily 0}, }
+\item[{int}]{build\+L\+U\+T\+Flags = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{_shared_tests_8h_aa3078cf886076ac05fe292ddef20e22e}{}\label{_shared_tests_8h_aa3078cf886076ac05fe292ddef20e22e}
+
+\begin{DoxyCode}
+497 \{
+498     \textcolor{keyword}{typedef} \hyperlink{class_queued_tracker}{QueuedTracker} TrkType;
+499     \textcolor{keywordtype}{int} NImg=N;\textcolor{comment}{//std::max(1,N/20);}
+500     std::vector<vector3f> results, truepos (NImg);
+501 
+502     std::vector<ImageData> imgs(NImg);
+503 \textcolor{comment}{//  const float R=5;}
+504     
+505     \hyperlink{class_queued_tracker}{QueuedTracker}* trk = \textcolor{keyword}{new} \hyperlink{class_queued_c_p_u_tracker}{QueuedCPUTracker}(*cfg);\textcolor{comment}{//
+       CreateQueuedTracker(*cfg);}
+506 
+507     \hyperlink{struct_t_image_data}{ImageData} resizedLUT;
+508     \hyperlink{_shared_tests_8h_a6a1246e8a5604b97c4f6dff6d3790272}{ResampleLUT}(trk, &lut, lut.\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h}, &resizedLUT, 0, buildLUTFlags);
+509 
+510     \textcolor{keywordflow}{if} (buildLUTFlags&\hyperlink{_queued_tracker_8h_a785877e02de7d5323dbf5d5dff703dbd}{BUILDLUT\_BIASCORRECT})
+511         trk->\hyperlink{class_queued_tracker_a8dbbbccee47ca764db7cd0b9c5fa140e}{ComputeZBiasCorrection}(lut.\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h}*10, 0, 4, \textcolor{keyword}{true});
+512 
+513     std::vector<Matrix3X3> fishers(NImg);
+514 
+515 \textcolor{comment}{//  for (int i=0;i<NImg;i++) \{}
+516     \hyperlink{threads_8h_a6693c34b211b5d81e0d7a362457d0449}{parallel\_for}(NImg, [&](\textcolor{keywordtype}{int} i) \{
+517         imgs[i]=\hyperlink{struct_t_image_data_a8ae528964e70c0d0a98b8481cc8b083e}{ImageData::alloc}(cfg->\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width},cfg->\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height});
+518         \hyperlink{structvector3}{vector3f} pos = centerpos + range*\hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f}(rand\_uniform<float>()-0.5f, 
+      rand\_uniform<float>()-0.5f, rand\_uniform<float>()-0.5f)*1;
+519         \hyperlink{utils_8cpp_af574edb94793976b749c0240c79b1c48}{GenerateImageFromLUT}(&imgs[i], &resizedLUT, trk->\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.
+      \hyperlink{struct_q_trk_settings_a1a14537a9e784c65eed512e72ee86c02}{zlut\_minradius}, trk->\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_computed_config_a13ceb0d4551d3bd5343ecce7a093d65b}{zlut\_maxradius}, \hyperlink{structvector3}{vector3f}( pos.
+      \hyperlink{structvector3_a5b466692e9550284d17a1bee6a6b8518}{x},pos.\hyperlink{structvector3_a1faa20a703bae3d1a673856466758383}{y}, pos.\hyperlink{structvector3_a90c50e80a32423d5cc76f40e5f53ffbe}{z}));
+520 
+521         \hyperlink{class_sample_fisher_matrix}{SampleFisherMatrix} fm(MaxPixelValue);
+522         fishers[i] = fm.Compute(pos, \hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f}(1,1,1)*0.001f, resizedLUT, cfg->
+      \hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width},cfg->\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height}, trk->\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.\hyperlink{struct_q_trk_settings_a1a14537a9e784c65eed512e72ee86c02}{zlut\_minradius},trk->\hyperlink{class_queued_tracker_afb847e7f49e0af6027d58af51d5914dc}{cfg}.
+      \hyperlink{struct_q_trk_computed_config_a13ceb0d4551d3bd5343ecce7a093d65b}{zlut\_maxradius});
+523 
+524         imgs[i].normalize();
+525         \textcolor{keywordflow}{if} (MaxPixelValue> 0) \hyperlink{utils_8cpp_ac2ddbf383f4539cdec45a8001a435a1a}{ApplyPoissonNoise}(imgs[i], MaxPixelValue);
+526         \textcolor{keywordflow}{if}(i==0) \hyperlink{fastjpg_8cpp_a77db3a4044f8f77b5a550b6f05962172}{WriteJPEGFile}(name, imgs[i]);
+527 
+528         truepos[i]=pos;
+529     \});
+530 
+531     \hyperlink{class_matrix3_x3}{Matrix3X3} fisher;
+532     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<NImg;i++) fisher+=fishers[i];
+533 
+534     \textcolor{keywordtype}{int} flags= \hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba5bee529eb0d2fa3bef01f31eeb613b92}{LT\_LocalizeZ}|\hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3bae1cac6e7cc97db83708edd0407e3e25f}{LT\_NormalizeProfile}|extraFlags;
+535     \textcolor{keywordflow}{if} (cfg->\hyperlink{struct_q_trk_settings_a12105babb328a9a7ec90f0eab074fabb}{qi\_iterations}>0) flags|=\hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba9eb0441a0c1e1086ff81512ea509e564}{LT\_QI};
+536 
+537     trk->\hyperlink{class_queued_tracker_aed430b5578d7a3e75f4d4d6c6dbb7e45}{SetLocalizationMode}((\hyperlink{qtrk__c__api_8h_a6ba72ec1daa19642f85a47defe8f0812}{LocMode\_t})flags);
+538     \textcolor{keywordtype}{double} tstart=\hyperlink{utils_8cpp_a11abc9edca3542dd4e74dadf99340fa1}{GetPreciseTime}();
+539 
+540     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<N;i++)
+541     \{
+542         \hyperlink{struct_localization_job}{LocalizationJob} job(i, 0, 0, 0);
+543         trk->\hyperlink{class_queued_tracker_a233dffd15fe3cef8a53c698bba9befb4}{ScheduleLocalization}((\hyperlink{std__incl_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar}*)imgs[i%NImg].data, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float})*cfg->
+      \hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width}, \hyperlink{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0bafeece00bcf1a42419e686ef0cf006a4e}{QTrkFloat}, &job);
+544     \}
+545 
+546     \hyperlink{_shared_tests_8h_ad10b5a63fc1239e5638eae0f0ea30f84}{WaitForFinish}(trk, N);
+547     \textcolor{keywordtype}{double} tend = \hyperlink{utils_8cpp_a11abc9edca3542dd4e74dadf99340fa1}{GetPreciseTime}();
+548 
+549     results.resize(trk->\hyperlink{class_queued_tracker_a362a26027dc6bd40864e59de1ac32de2}{GetResultCount}());
+550     \textcolor{keywordflow}{for} (\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} i=0;i<results.size();i++) \{
+551         \hyperlink{struct_localization_result}{LocalizationResult} r;
+552         trk->\hyperlink{class_queued_tracker_a171688832558d40838790c90ba9f8fc0}{FetchResults}(&r,1);
+553         results[r.\hyperlink{struct_localization_result_a9a6b25c5cc92fe13bae3d0a5d37360f3}{job}.\hyperlink{struct_localization_job_a54df1ba33ab48b20dca664142a8cf619}{frame}]=r.\hyperlink{struct_localization_result_a546f66485662c35bc75121513b6d1a60}{pos};
+554     \}
+555 
+556     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<NImg;i++)
+557         imgs[i].free();
+558 
+559     \hyperlink{struct_speed_acc_result}{SpeedAccResult} r;
+560     r.\hyperlink{struct_speed_acc_result_a1dcba172a9a9d2974ee41278aeb6e7d6}{Compute}(results, [&](\textcolor{keywordtype}{int} index) \{ \textcolor{keywordflow}{return} truepos[index]; \});
+561 
+562     r.\hyperlink{struct_speed_acc_result_acff2d93f39aef032dfb530636ca78463}{speed} = N/(tend-tstart);
+563     fisher *= 1.0f/NImg;
+564     r.\hyperlink{struct_speed_acc_result_aec7bafb1d6f5fa5022115857bbca5094}{crlb} = \hyperlink{std__incl_8h_a8a38721046513951c4bfc32bf101e180}{sqrt}(fisher.Inverse().diag());
+565     resizedLUT.\hyperlink{struct_t_image_data_a60a60e309657216a2e35809fdc582b11}{free}();
+566     \textcolor{keyword}{delete} trk;
+567     \textcolor{keywordflow}{return} r;
+568 \}
+\end{DoxyCode}
+\index{Shared\+Tests.\+h@{Shared\+Tests.\+h}!Test\+C\+M\+O\+S\+Noise\+Influence@{Test\+C\+M\+O\+S\+Noise\+Influence}}
+\index{Test\+C\+M\+O\+S\+Noise\+Influence@{Test\+C\+M\+O\+S\+Noise\+Influence}!Shared\+Tests.\+h@{Shared\+Tests.\+h}}
+\subsubsection[{\texorpdfstring{Test\+C\+M\+O\+S\+Noise\+Influence(const char $\ast$lutfile)}{TestCMOSNoiseInfluence(const char *lutfile)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Tracker\+Type $>$ void Test\+C\+M\+O\+S\+Noise\+Influence (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{lutfile}
+\end{DoxyParamCaption}
+)}\hypertarget{_shared_tests_8h_a1521f978126f3f0adef9b9d5e662995b}{}\label{_shared_tests_8h_a1521f978126f3f0adef9b9d5e662995b}
+
+\begin{DoxyCode}
+96 \{
+97     \textcolor{keywordtype}{int} nNoiseLevels = 5;
+98     \textcolor{keywordtype}{float} gainStDevScale = 0.3f;
+99 \textcolor{preprocessor}{#ifdef \_DEBUG}
+100     \textcolor{keywordtype}{int} nDriftSteps = 100;
+101 \textcolor{preprocessor}{#else}
+102     \textcolor{keywordtype}{int} nDriftSteps = 2000;
+103 \textcolor{preprocessor}{#endif}
+104     \textcolor{keywordtype}{float} driftDistance = 4; \textcolor{comment}{// pixels}
+105 
+106     \hyperlink{struct_t_image_data}{ImageData} lut = \hyperlink{fastjpg_8cpp_aca9c9daac87f0810622bb7e207e4587f}{ReadJPEGFile}(lutfile);
+107     \hyperlink{struct_t_image_data}{ImageData} img = \hyperlink{struct_t_image_data_a8ae528964e70c0d0a98b8481cc8b083e}{ImageData::alloc}(120,120);
+108 
+109     \hyperlink{struct_q_trk_settings}{QTrkSettings} cfg;
+110     cfg.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width} = img.\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w}; cfg.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height} = img.\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h};
+111     TrackerType trk(cfg);
+112 
+113     \textcolor{keywordtype}{int} nBeads=1;
+114     \textcolor{keywordtype}{float} zlutMinR=4,zlutMaxR = cfg.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width}/2-5;
+115     \hyperlink{_shared_tests_8h_a6a1246e8a5604b97c4f6dff6d3790272}{ResampleLUT}(&trk, &lut,zlutMinR, zlutMaxR,100, \textcolor{stringliteral}{"resample-zlut.jpg"});
+116     
+117     \textcolor{keywordtype}{float} *offset = \textcolor{keyword}{new} \textcolor{keywordtype}{float} [nBeads * cfg.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width} * cfg.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height}];
+118     \textcolor{keywordtype}{float} *gain = \textcolor{keyword}{new} \textcolor{keywordtype}{float} [nBeads * cfg.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width} * cfg.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height}];
+119 
+120     \textcolor{keywordtype}{bool} useCalib = \textcolor{keyword}{false};
+121     \textcolor{keywordtype}{bool} saveImgs = \textcolor{keyword}{true};
+122 
+123     \textcolor{keywordtype}{float} *info = \textcolor{keyword}{new} \textcolor{keywordtype}{float} [nNoiseLevels*2];
+124 
+125     trk.SetLocalizationMode((\hyperlink{qtrk__c__api_8h_a6ba72ec1daa19642f85a47defe8f0812}{LocMode\_t})(\hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba9eb0441a0c1e1086ff81512ea509e564}{LT\_QI}|\hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3ba5bee529eb0d2fa3bef01f31eeb613b92}{LT\_LocalizeZ}|
+      \hyperlink{qtrk__c__api_8h_a9d32512eae44894026802d1a688c7e3bae1cac6e7cc97db83708edd0407e3e25f}{LT\_NormalizeProfile}));
+126 
+127     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} nl=0;nl<nNoiseLevels;nl++) \{
+128 
+129         \textcolor{keywordtype}{float} offset\_stdev = info[nl*2+0] = nl*0.01f;
+130         \textcolor{keywordtype}{float} gain\_stdev = info[nl*2+1] = nl*gainStDevScale;
+131 
+132         srand(0);
+133         \hyperlink{_shared_tests_8h_a25253507e729e3d5e129f391bef54503}{RandomFill}(offset, nBeads * cfg.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width} * cfg.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height}, 0, offset\_stdev);
+134         \hyperlink{_shared_tests_8h_a25253507e729e3d5e129f391bef54503}{RandomFill}(gain, nBeads * cfg.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width} * cfg.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height}, 1, gain\_stdev);
+135 
+136         \textcolor{keywordflow}{if} (useCalib) trk.SetPixelCalibrationImages(offset, gain);
+137 
+138         std::string dirname= \hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"noiselev%d"}, nl);
+139         \textcolor{keywordflow}{if} (saveImgs) \_mkdir(dirname.c\_str());
+140 
+141         \textcolor{comment}{// drift}
+142         \textcolor{keywordtype}{float} dx = driftDistance / (nDriftSteps-1);
+143         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} d=0;d<nDriftSteps;d++) \{
+144             \hyperlink{utils_8cpp_af574edb94793976b749c0240c79b1c48}{GenerateImageFromLUT}(&img, &lut, zlutMinR, zlutMaxR, 
+      \hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f}(img.\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w}/2+dx*d,img.\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h}/2, 20));
+145             img.\hyperlink{struct_t_image_data_ac987182fb87787d7d274a30cf4a198d4}{normalize}();
+146 
+147             \textcolor{keywordflow}{if} (!useCalib) \{
+148                 \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<cfg.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width}*cfg.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height};i++)
+149                     img[i]*=gain[i];
+150                 \hyperlink{utils_8cpp_ac2ddbf383f4539cdec45a8001a435a1a}{ApplyPoissonNoise}(img, 255);
+151                 \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<cfg.\hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width}*cfg.\hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height};i++)
+152                     img[i]+=offset[i];
+153             \} \textcolor{keywordflow}{else} 
+154                 \hyperlink{utils_8cpp_ac2ddbf383f4539cdec45a8001a435a1a}{ApplyPoissonNoise}(img, 255);
+155 
+156             \textcolor{keywordflow}{if} (saveImgs && d<40) \{
+157                 \hyperlink{fastjpg_8cpp_a197d79f00fb185491c4d109e966ca9ef}{FloatToJPEGFile}(\hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"%s\(\backslash\)\(\backslash\)nl%d-smp%d.jpg"},dirname.c\_str(),nl,d).
+      c\_str(),img.\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data}, img.\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w},img.\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h});
+158             \}
+159 
+160             \textcolor{keywordflow}{if} (d==0) \{
+161                 \hyperlink{fastjpg_8cpp_a197d79f00fb185491c4d109e966ca9ef}{FloatToJPEGFile}(\hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"nl%d.jpg"},nl).c\_str(),img.
+      \hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data}, img.\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w},img.\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h});
+162             \}
+163 
+164             \textcolor{keywordflow}{if} ( d%(std::max(1,nDriftSteps/10)) == 0 )
+165                 \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"Generating images for test %d...\(\backslash\)n"}, d);
+166 
+167             \hyperlink{struct_localization_job}{LocalizationJob} job(d, d,0,0);
+168             trk.ScheduleLocalization((\hyperlink{std__incl_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar}*)img.\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data}, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float})*img.
+      \hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w}, \hyperlink{qtrk__c__api_8h_aad82367b3ea592a142bb50a2fb538b0bafeece00bcf1a42419e686ef0cf006a4e}{QTrkFloat}, &job);
+169         \}
+170         trk.Flush();
+171 
+172         \textcolor{keywordflow}{while} (!trk.IsIdle());
+173         \textcolor{keywordtype}{int} nResults = trk.GetResultCount(); 
+174         \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"noiselevel: %d done. Writing %d results\(\backslash\)n"}, nl, nResults);
+175         \textcolor{keyword}{auto} results = \hyperlink{_shared_tests_8h_a309eb8d8c5b82f6f2e05b8a9e7594a74}{FetchResults}(&trk);
+176         \hyperlink{utils_8cpp_ac53dbc16bbb47e927b088892e806dcf7}{WriteTrace}(\hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"%s\(\backslash\)\(\backslash\)trace.txt"}, dirname.c\_str()), &results[0], results.size())
+      ;
+177 
+178     \}
+179     \hyperlink{utils_8cpp_ad594d63fab5898e75c6eeb533368aba8}{WriteImageAsCSV}(\textcolor{stringliteral}{"offset\_gain\_stdev.txt"}, info, 2, nNoiseLevels);
+180 
+181     img.\hyperlink{struct_t_image_data_a60a60e309657216a2e35809fdc582b11}{free}();
+182     lut.\hyperlink{struct_t_image_data_a60a60e309657216a2e35809fdc582b11}{free}();
+183 
+184     \textcolor{keyword}{delete}[] gain;
+185     \textcolor{keyword}{delete}[] offset;
+186     \textcolor{keyword}{delete}[] info;
+187 \}
+\end{DoxyCode}
+\index{Shared\+Tests.\+h@{Shared\+Tests.\+h}!Wait\+For\+Finish@{Wait\+For\+Finish}}
+\index{Wait\+For\+Finish@{Wait\+For\+Finish}!Shared\+Tests.\+h@{Shared\+Tests.\+h}}
+\subsubsection[{\texorpdfstring{Wait\+For\+Finish(\+Queued\+Tracker $\ast$qtrk, int N)}{WaitForFinish(QueuedTracker *qtrk, int N)}}]{\setlength{\rightskip}{0pt plus 5cm}static double Wait\+For\+Finish (
+\begin{DoxyParamCaption}
+\item[{{\bf Queued\+Tracker} $\ast$}]{qtrk, }
+\item[{int}]{N}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{_shared_tests_8h_ad10b5a63fc1239e5638eae0f0ea30f84}{}\label{_shared_tests_8h_ad10b5a63fc1239e5638eae0f0ea30f84}
+
+\begin{DoxyCode}
+301 \{
+302     \textcolor{keywordtype}{double} t0 = \hyperlink{utils_8cpp_a11abc9edca3542dd4e74dadf99340fa1}{GetPreciseTime}();
+303     qtrk->\hyperlink{class_queued_tracker_a97cf826c17ab9b3e55d8ecd513d58098}{Flush}();
+304     \textcolor{keywordtype}{int} displayrc=0,rc=0;
+305     \textcolor{keywordflow}{while} ( (rc = qtrk->\hyperlink{class_queued_tracker_a362a26027dc6bd40864e59de1ac32de2}{GetResultCount} ()) != N || displayrc<rc) \{
+306         \textcolor{keywordflow}{while} (displayrc<rc) \{
+307             \textcolor{keywordflow}{if}(displayrc%std::max(1,N/10)==0) \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"Done: %d / %d\(\backslash\)n"}, displayrc, N);
+308             displayrc++;
+309         \}
+310         \hyperlink{struct_threads_a803a0b6899fb5e09ee7f56bd1986a287}{Threads::Sleep}(10);
+311     \}
+312     \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"Done: %d / %d\(\backslash\)n"}, displayrc, N);
+313     \textcolor{keywordtype}{double} t1 = \hyperlink{utils_8cpp_a11abc9edca3542dd4e74dadf99340fa1}{GetPreciseTime}();
+314     \textcolor{keywordflow}{return} t1-t0;
+315 \}
+\end{DoxyCode}

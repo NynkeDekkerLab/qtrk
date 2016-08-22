@@ -1,0 +1,826 @@
+\hypertarget{group__kernels}{}\section{C\+U\+DA Kernels}
+\label{group__kernels}\index{C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}}
+
+
+All available C\+U\+DA Kernels to run on the G\+PU.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T $>$ }\\static \+\_\+\+\_\+device\+\_\+\+\_\+ T \hyperlink{group__kernels_ga20d3b4d870a90595bb01e1429c5541f0}{interpolate} (T a, T b, float x)
+\item 
+{\footnotesize template$<$typename T\+Image\+Sampler $>$ }\\\+\_\+\+\_\+device\+\_\+\+\_\+ float2 \hyperlink{group__kernels_gab68fb94c047f06d1244bdb99b82434b3}{Bg\+Corrected\+C\+OM} (int idx, \hyperlink{_queued_c_u_d_a_tracker_8h_a84de79f5d4b6e4c8d5622fe712c1bd69}{cuda\+Image\+Listf} images, float correction\+Factor, float $\ast$p\+Mean)
+\item 
+{\footnotesize template$<$typename T\+Image\+Sampler $>$ }\\\+\_\+\+\_\+global\+\_\+\+\_\+ void \hyperlink{group__kernels_gaadfa5148ca9461daab04dbf9e0394791}{Bg\+Corrected\+C\+OM} (int count, \hyperlink{_queued_c_u_d_a_tracker_8h_a84de79f5d4b6e4c8d5622fe712c1bd69}{cuda\+Image\+Listf} images, float3 $\ast$d\+\_\+com, float bg\+Correction\+Factor, float $\ast$d\+\_\+imgmeans)
+\item 
+\+\_\+\+\_\+global\+\_\+\+\_\+ void \hyperlink{group__kernels_ga9b32b8197dc8895328e9850cafa295c3}{Z\+L\+U\+T\+\_\+\+Profiles\+To\+Z\+L\+UT} (int njobs, \hyperlink{_queued_c_u_d_a_tracker_8h_a84de79f5d4b6e4c8d5622fe712c1bd69}{cuda\+Image\+Listf} images, \hyperlink{struct_z_l_u_t_params}{Z\+L\+U\+T\+Params} params, float3 $\ast$positions, \hyperlink{struct_localization_params}{Localization\+Params} $\ast$loc\+Params, float $\ast$profiles)
+\item 
+{\footnotesize template$<$typename T\+Image\+Sampler $>$ }\\\+\_\+\+\_\+global\+\_\+\+\_\+ void \hyperlink{group__kernels_gadf9148f47982d2685fa156a957fc21c2}{Z\+L\+U\+T\+\_\+\+Radial\+Profile\+Kernel} (int njobs, \hyperlink{_queued_c_u_d_a_tracker_8h_a84de79f5d4b6e4c8d5622fe712c1bd69}{cuda\+Image\+Listf} images, \hyperlink{struct_z_l_u_t_params}{Z\+L\+U\+T\+Params} params, float3 $\ast$positions, float $\ast$profiles, float $\ast$means)
+\item 
+\+\_\+\+\_\+global\+\_\+\+\_\+ void \hyperlink{group__kernels_gad0ba2ca03fcfe17bda05c872842afaae}{Z\+L\+U\+T\+\_\+\+ComputeZ} (int njobs, \hyperlink{struct_z_l_u_t_params}{Z\+L\+U\+T\+Params} params, float3 $\ast$positions, float $\ast$compare\+Score\+Buf)
+\item 
+\+\_\+\+\_\+global\+\_\+\+\_\+ void \hyperlink{group__kernels_gab39221cb109c517ef2c550742f25fae3}{Z\+L\+U\+T\+\_\+\+Compute\+Profile\+Match\+Scores} (int njobs, \hyperlink{struct_z_l_u_t_params}{Z\+L\+U\+T\+Params} params, float $\ast$profiles, float $\ast$compare\+Score\+Buf, \hyperlink{struct_localization_params}{Localization\+Params} $\ast$loc\+Params)
+\item 
+\+\_\+\+\_\+global\+\_\+\+\_\+ void \hyperlink{group__kernels_ga4cdd8d9a41123399c9a91d90785d9274}{Z\+L\+U\+T\+\_\+\+Normalize\+Profiles} (int njobs, \hyperlink{struct_z_l_u_t_params}{Z\+L\+U\+T\+Params} params, float $\ast$profiles)
+\item 
+\+\_\+\+\_\+global\+\_\+\+\_\+ void \hyperlink{group__kernels_ga45301d4799d0b58381ecd58202724298}{Apply\+Offset\+Gain} (\hyperlink{struct_base_kernel_params}{Base\+Kernel\+Params} kp, \hyperlink{_queued_c_u_d_a_tracker_8h_a84de79f5d4b6e4c8d5622fe712c1bd69}{cuda\+Image\+Listf} calib\+\_\+gain, \hyperlink{_queued_c_u_d_a_tracker_8h_a84de79f5d4b6e4c8d5622fe712c1bd69}{cuda\+Image\+Listf} calib\+\_\+offset, float gain\+Factor, float offset\+Factor)
+\item 
+{\footnotesize template$<$typename T\+Image\+Sampler $>$ }\\\+\_\+\+\_\+global\+\_\+\+\_\+ void \hyperlink{group__kernels_gaf3546eed501c5227c765beb290ed2549}{G2\+M\+L\+E\+\_\+\+Compute} (\hyperlink{struct_base_kernel_params}{Base\+Kernel\+Params} kp, float sigma, int iterations, float3 $\ast$initial, float3 $\ast$positions, float $\ast$I\+\_\+bg, float $\ast$I\+\_\+0)
+\item 
+{\footnotesize template$<$typename T\+Image\+Sampler , typename T\+Image\+L\+UT $>$ }\\\+\_\+\+\_\+global\+\_\+\+\_\+ void \hyperlink{group__kernels_ga570d6e0ffb7ef89d65d8805d3ea82978}{Image\+L\+U\+T\+\_\+\+Sample} (\hyperlink{struct_base_kernel_params}{Base\+Kernel\+Params} kp, float2 ilut\+\_\+scale, float3 $\ast$positions, typename T\+Image\+L\+U\+T\+::\+Kernel\+Params lut)
+\item 
+\+\_\+\+\_\+global\+\_\+\+\_\+ void \hyperlink{group__kernels_gac07cc2bda6c64ce2e0a496b3de40ab60}{Force\+C\+U\+D\+A\+Kernels\+To\+Load} ()
+\item 
+{\footnotesize template$<$typename T\+Image\+Sampler $>$ }\\\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{group__kernels_gad03b2eea07c1b047c3d694f187532393}{Compute\+Quadrant\+Profile} (\hyperlink{_queued_c_u_d_a_tracker_8h_a84de79f5d4b6e4c8d5622fe712c1bd69}{cuda\+Image\+Listf} \&images, int idx, float $\ast$dst, const \hyperlink{struct_q_i_params}{Q\+I\+Params} \&params, int quadrant, float2 center, float mean, int angular\+Steps)
+\item 
+{\footnotesize template$<$typename T\+Image\+Sampler $>$ }\\\+\_\+\+\_\+global\+\_\+\+\_\+ void \hyperlink{group__kernels_ga491f07d70a63e0fb356201b5b76ae3d5}{Q\+I\+\_\+\+Compute\+Profile} (\hyperlink{struct_base_kernel_params}{Base\+Kernel\+Params} kp, float3 $\ast$positions, float $\ast$quadrants, float2 $\ast$profiles, float2 $\ast$reverse\+Profiles, const \hyperlink{struct_q_i_params}{Q\+I\+Params} qi\+Params, float $\ast$d\+\_\+radialweights, int angular\+Steps)
+\item 
+\+\_\+\+\_\+global\+\_\+\+\_\+ void \hyperlink{group__kernels_gaf620f6888bd27603c02cbbcc6cb77cce}{Q\+I\+\_\+\+Multiply\+With\+Conjugate} (int n, cufft\+Complex $\ast$a, cufft\+Complex $\ast$b)
+\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ float \hyperlink{group__kernels_ga3cb19a139f4a1e91c1803511ae585161}{Q\+I\+\_\+\+Compute\+Axis\+Offset} (cufft\+Complex $\ast$autoconv, int fftlen, float $\ast$shiftbuf)
+\item 
+\+\_\+\+\_\+global\+\_\+\+\_\+ void \hyperlink{group__kernels_ga095edb116bff714a009b7cf60b52cb3b}{Q\+I\+\_\+\+Offset\+Positions} (int njobs, float3 $\ast$current, float3 $\ast$dst, cufft\+Complex $\ast$autoconv, int fft\+Length, float2 $\ast$offsets, float pixels\+Per\+Prof\+Len, float $\ast$shiftbuf)
+\item 
+{\footnotesize template$<$typename T\+Image\+Sampler $>$ }\\\+\_\+\+\_\+global\+\_\+\+\_\+ void \hyperlink{group__kernels_gaa7f87ffff59ddad03f962165afc5ee08}{Q\+I\+\_\+\+Compute\+Quadrants} (\hyperlink{struct_base_kernel_params}{Base\+Kernel\+Params} kp, float3 $\ast$positions, float $\ast$dst\+\_\+quadrants, const \hyperlink{struct_q_i_params}{Q\+I\+Params} $\ast$params, int angular\+Steps)
+\item 
+\+\_\+\+\_\+global\+\_\+\+\_\+ void \hyperlink{group__kernels_ga0a68cdd1dd0c10476711ae6d4316fb40}{Q\+I\+\_\+\+Quadrants\+To\+Profiles} (\hyperlink{struct_base_kernel_params}{Base\+Kernel\+Params} kp, float $\ast$quadrants, float2 $\ast$profiles, float2 $\ast$reverse\+Profiles, float $\ast$d\+\_\+radialweights, const \hyperlink{struct_q_i_params}{Q\+I\+Params} $\ast$params)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+surface$<$ void, cuda\+Surface\+Type2\+D\+Layered $>$ \hyperlink{group__kernels_gaec033d7e15aebbae164cfe9c89b879eb}{image\+\_\+lut\+\_\+surface}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+All available C\+U\+DA Kernels to run on the G\+PU. 
+
+
+
+\subsection{Function Documentation}
+\index{C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}!Apply\+Offset\+Gain@{Apply\+Offset\+Gain}}
+\index{Apply\+Offset\+Gain@{Apply\+Offset\+Gain}!C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}}
+\subsubsection[{\texorpdfstring{Apply\+Offset\+Gain(\+Base\+Kernel\+Params kp, cuda\+Image\+Listf calib\+\_\+gain, cuda\+Image\+Listf calib\+\_\+offset, float gain\+Factor, float offset\+Factor)}{ApplyOffsetGain(BaseKernelParams kp, cudaImageListf calib_gain, cudaImageListf calib_offset, float gainFactor, float offsetFactor)}}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+global\+\_\+\+\_\+ void Apply\+Offset\+Gain (
+\begin{DoxyParamCaption}
+\item[{{\bf Base\+Kernel\+Params}}]{kp, }
+\item[{{\bf cuda\+Image\+Listf}}]{calib\+\_\+gain, }
+\item[{{\bf cuda\+Image\+Listf}}]{calib\+\_\+offset, }
+\item[{float}]{gain\+Factor, }
+\item[{float}]{offset\+Factor}
+\end{DoxyParamCaption}
+)}\hypertarget{group__kernels_ga45301d4799d0b58381ecd58202724298}{}\label{group__kernels_ga45301d4799d0b58381ecd58202724298}
+
+\begin{DoxyCode}
+168 \{
+169     \textcolor{keywordtype}{int} x = threadIdx.x + blockIdx.x * blockDim.x;
+170     \textcolor{keywordtype}{int} y = threadIdx.y + blockIdx.y * blockDim.y;
+171     \textcolor{keywordtype}{int} jobIdx = threadIdx.z + blockIdx.z * blockDim.z;
+172 
+173     \textcolor{keywordflow}{if} (x < kp.\hyperlink{struct_base_kernel_params_abdd6b8722cb871a13069ba0e3cd3ab0b}{images}.\hyperlink{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{w} && y < kp.\hyperlink{struct_base_kernel_params_abdd6b8722cb871a13069ba0e3cd3ab0b}{images}.\hyperlink{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}{h} && jobIdx < kp.\hyperlink{struct_base_kernel_params_aec40d44810d0e0a6640c66038af1fbf2}{njobs}) \{
+174         \textcolor{keywordtype}{int} bead = kp.\hyperlink{struct_base_kernel_params_a199494e0d0548c8b69ee23350e6ece95}{locParams}[jobIdx].\hyperlink{struct_localization_params_ad7aa3c082a4f5295be937820fb8c58d2}{zlutIndex};
+175 
+176         \textcolor{keywordtype}{float} value = kp.\hyperlink{struct_base_kernel_params_abdd6b8722cb871a13069ba0e3cd3ab0b}{images}.\hyperlink{structcuda_image_list_a3688416d9034449c1493e593c8456eb2}{pixel}(x,y,jobIdx);
+177         \textcolor{keywordtype}{float} offset = calib\_offset.\hyperlink{structcuda_image_list_a27f76df59ecf2802d89ce123f21a2780}{isEmpty}() ? 0 : calib\_offset.\hyperlink{structcuda_image_list_a3688416d9034449c1493e593c8456eb2}{pixel}(x,y,bead);
+178         \textcolor{keywordtype}{float} gain = calib\_gain.\hyperlink{structcuda_image_list_a27f76df59ecf2802d89ce123f21a2780}{isEmpty}() ? 1 : calib\_gain.\hyperlink{structcuda_image_list_a3688416d9034449c1493e593c8456eb2}{pixel}(x,y,bead);
+179         kp.\hyperlink{struct_base_kernel_params_abdd6b8722cb871a13069ba0e3cd3ab0b}{images}.\hyperlink{structcuda_image_list_a3688416d9034449c1493e593c8456eb2}{pixel}(x,y,jobIdx) = (value + offset*offsetFactor) * gain*gainFactor;
+180     \}
+181 \}
+\end{DoxyCode}
+\index{C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}!Bg\+Corrected\+C\+OM@{Bg\+Corrected\+C\+OM}}
+\index{Bg\+Corrected\+C\+OM@{Bg\+Corrected\+C\+OM}!C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}}
+\subsubsection[{\texorpdfstring{Bg\+Corrected\+C\+O\+M(int idx, cuda\+Image\+Listf images, float correction\+Factor, float $\ast$p\+Mean)}{BgCorrectedCOM(int idx, cudaImageListf images, float correctionFactor, float *pMean)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+Image\+Sampler $>$ \+\_\+\+\_\+device\+\_\+\+\_\+ float2 Bg\+Corrected\+C\+OM (
+\begin{DoxyParamCaption}
+\item[{int}]{idx, }
+\item[{{\bf cuda\+Image\+Listf}}]{images, }
+\item[{float}]{correction\+Factor, }
+\item[{float $\ast$}]{p\+Mean}
+\end{DoxyParamCaption}
+)}\hypertarget{group__kernels_gab68fb94c047f06d1244bdb99b82434b3}{}\label{group__kernels_gab68fb94c047f06d1244bdb99b82434b3}
+
+\begin{DoxyCode}
+17 \{
+18     \textcolor{keywordtype}{int} imgsize = images.\hyperlink{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{w}*images.\hyperlink{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}{h};
+19     \textcolor{keywordtype}{float} sum=0, sum2=0;
+20     \textcolor{keywordtype}{float} momentX=0;
+21     \textcolor{keywordtype}{float} momentY=0;
+22 
+23     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} y=0;y<images.\hyperlink{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}{h};y++)
+24         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x=0;x<images.\hyperlink{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{w};x++) \{
+25             \textcolor{keywordtype}{float} v = TImageSampler::Index(images, x, y, idx);
+26             sum += v;
+27             sum2 += v*v;
+28         \}
+29 
+30     \textcolor{keywordtype}{float} invN = 1.0f/imgsize;
+31     \textcolor{keywordtype}{float} mean = sum * invN;
+32     \textcolor{keywordtype}{float} stdev = sqrtf(sum2 * invN - mean * mean);
+33     sum = 0.0f;
+34 
+35     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} y=0;y<images.\hyperlink{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}{h};y++)
+36         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} x=0;x<images.\hyperlink{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{w};x++)
+37         \{
+38             \textcolor{keywordtype}{float} v = TImageSampler::Index(images, x,y,idx);
+39             v = fabsf(v-mean)-correctionFactor*stdev;
+40             \textcolor{keywordflow}{if}(v<0.0f) v=0.0f;
+41             sum += v;
+42             momentX += x*v;
+43             momentY += y*v;
+44         \}
+45 
+46     \textcolor{keywordflow}{if} (pMean)
+47         *pMean = mean;
+48 
+49     float2 com;
+50     com.x = momentX / (float)sum;
+51     com.y = momentY / (float)sum;
+52     \textcolor{keywordflow}{return} com;
+53 \}
+\end{DoxyCode}
+\index{C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}!Bg\+Corrected\+C\+OM@{Bg\+Corrected\+C\+OM}}
+\index{Bg\+Corrected\+C\+OM@{Bg\+Corrected\+C\+OM}!C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}}
+\subsubsection[{\texorpdfstring{Bg\+Corrected\+C\+O\+M(int count, cuda\+Image\+Listf images, float3 $\ast$d\+\_\+com, float bg\+Correction\+Factor, float $\ast$d\+\_\+imgmeans)}{BgCorrectedCOM(int count, cudaImageListf images, float3 *d_com, float bgCorrectionFactor, float *d_imgmeans)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+Image\+Sampler $>$ \+\_\+\+\_\+global\+\_\+\+\_\+ void Bg\+Corrected\+C\+OM (
+\begin{DoxyParamCaption}
+\item[{int}]{count, }
+\item[{{\bf cuda\+Image\+Listf}}]{images, }
+\item[{float3 $\ast$}]{d\+\_\+com, }
+\item[{float}]{bg\+Correction\+Factor, }
+\item[{float $\ast$}]{d\+\_\+imgmeans}
+\end{DoxyParamCaption}
+)}\hypertarget{group__kernels_gaadfa5148ca9461daab04dbf9e0394791}{}\label{group__kernels_gaadfa5148ca9461daab04dbf9e0394791}
+
+\begin{DoxyCode}
+57 \{
+58     \textcolor{keywordtype}{int} idx = threadIdx.x + blockDim.x * blockIdx.x;
+59     \textcolor{keywordflow}{if} (idx < count) \{
+60         \textcolor{keywordtype}{float} mean;
+61         float2 com = BgCorrectedCOM<TImageSampler> (idx, images, bgCorrectionFactor, &mean);
+62         d\_com[idx] = make\_float3(com.x,com.y,0.0f);
+63         d\_imgmeans[idx] = mean;
+64     \}
+65 \}
+\end{DoxyCode}
+\index{C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}!Compute\+Quadrant\+Profile@{Compute\+Quadrant\+Profile}}
+\index{Compute\+Quadrant\+Profile@{Compute\+Quadrant\+Profile}!C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}}
+\subsubsection[{\texorpdfstring{Compute\+Quadrant\+Profile(cuda\+Image\+Listf \&images, int idx, float $\ast$dst, const Q\+I\+Params \&params, int quadrant, float2 center, float mean, int angular\+Steps)}{ComputeQuadrantProfile(cudaImageListf &images, int idx, float *dst, const QIParams &params, int quadrant, float2 center, float mean, int angularSteps)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+Image\+Sampler $>$ \+\_\+\+\_\+device\+\_\+\+\_\+ void Compute\+Quadrant\+Profile (
+\begin{DoxyParamCaption}
+\item[{{\bf cuda\+Image\+Listf} \&}]{images, }
+\item[{int}]{idx, }
+\item[{float $\ast$}]{dst, }
+\item[{const {\bf Q\+I\+Params} \&}]{params, }
+\item[{int}]{quadrant, }
+\item[{float2}]{center, }
+\item[{float}]{mean, }
+\item[{int}]{angular\+Steps}
+\end{DoxyParamCaption}
+)}\hypertarget{group__kernels_gad03b2eea07c1b047c3d694f187532393}{}\label{group__kernels_gad03b2eea07c1b047c3d694f187532393}
+
+\begin{DoxyCode}
+13 \{
+14     \textcolor{keyword}{const} \textcolor{keywordtype}{int} qmat[] = \{
+15         1, 1,
+16         -1, 1,
+17         -1, -1,
+18         1, -1 \};
+19     \textcolor{keywordtype}{int} mx = qmat[2*quadrant+0];
+20     \textcolor{keywordtype}{int} my = qmat[2*quadrant+1];
+21 
+22     \textcolor{comment}{//for (int i=0;i<params.radialSteps;i++)}
+23     \textcolor{comment}{//  dst[i]=0.0f;}
+24     
+25     \textcolor{keywordtype}{float} asf = (float)params.\hyperlink{struct_q_i_params_a2078879365690b162cac67e45837a29d}{trigtablesize} / angularSteps;
+26     \textcolor{keywordtype}{float} rstep = (params.\hyperlink{struct_q_i_params_a59a4abd887cfec3392bb5ecd6891d7d6}{maxRadius} - params.\hyperlink{struct_q_i_params_a4c3b954348ae3ee381eab69122983515}{minRadius}) / params.
+      \hyperlink{struct_q_i_params_a19b7d550113364de4e4f11e2c9cfea0e}{radialSteps};
+27     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<params.\hyperlink{struct_q_i_params_a19b7d550113364de4e4f11e2c9cfea0e}{radialSteps}; i++) \{
+28         \textcolor{keywordtype}{float} sum = 0.0f;
+29         \textcolor{keywordtype}{float} r = params.\hyperlink{struct_q_i_params_a4c3b954348ae3ee381eab69122983515}{minRadius} + rstep * i;
+30         \textcolor{keywordtype}{int} count=0;
+31 
+32         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} a=0;a<angularSteps;a++) \{
+33             \textcolor{keywordtype}{int} j = (int)(asf * a);
+34             \textcolor{keywordtype}{float} x = center.x + mx*params.\hyperlink{struct_q_i_params_a8da3ccdd4b94c119a0d63ff63f28b8e7}{cos\_sin\_table}[j].x * r;
+35             \textcolor{keywordtype}{float} y = center.y + my*params.\hyperlink{struct_q_i_params_a8da3ccdd4b94c119a0d63ff63f28b8e7}{cos\_sin\_table}[j].y * r;
+36             \textcolor{keywordtype}{bool} outside=\textcolor{keyword}{false};
+37             \textcolor{keywordtype}{float} v = TImageSampler::Interpolated(images, x,y, idx, outside);
+38             \textcolor{keywordflow}{if} (!outside) \{
+39                 sum += v;
+40                 count ++;
+41             \}
+42         \}
+43 
+44         dst[i] = count >= \hyperlink{_queued_tracker_8h_a1625167c310599739f4d73170413e64a}{MIN\_RADPROFILE\_SMP\_COUNT} ? sum/count : mean;
+45     \}
+46 \}
+\end{DoxyCode}
+\index{C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}!Force\+C\+U\+D\+A\+Kernels\+To\+Load@{Force\+C\+U\+D\+A\+Kernels\+To\+Load}}
+\index{Force\+C\+U\+D\+A\+Kernels\+To\+Load@{Force\+C\+U\+D\+A\+Kernels\+To\+Load}!C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}}
+\subsubsection[{\texorpdfstring{Force\+C\+U\+D\+A\+Kernels\+To\+Load()}{ForceCUDAKernelsToLoad()}}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+global\+\_\+\+\_\+ void Force\+C\+U\+D\+A\+Kernels\+To\+Load (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{group__kernels_gac07cc2bda6c64ce2e0a496b3de40ab60}{}\label{group__kernels_gac07cc2bda6c64ce2e0a496b3de40ab60}
+
+\begin{DoxyCode}
+290 \{
+291 \}
+\end{DoxyCode}
+\index{C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}!G2\+M\+L\+E\+\_\+\+Compute@{G2\+M\+L\+E\+\_\+\+Compute}}
+\index{G2\+M\+L\+E\+\_\+\+Compute@{G2\+M\+L\+E\+\_\+\+Compute}!C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}}
+\subsubsection[{\texorpdfstring{G2\+M\+L\+E\+\_\+\+Compute(\+Base\+Kernel\+Params kp, float sigma, int iterations, float3 $\ast$initial, float3 $\ast$positions, float $\ast$\+I\+\_\+bg, float $\ast$\+I\+\_\+0)}{G2MLE_Compute(BaseKernelParams kp, float sigma, int iterations, float3 *initial, float3 *positions, float *I_bg, float *I_0)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+Image\+Sampler $>$ \+\_\+\+\_\+global\+\_\+\+\_\+ void G2\+M\+L\+E\+\_\+\+Compute (
+\begin{DoxyParamCaption}
+\item[{{\bf Base\+Kernel\+Params}}]{kp, }
+\item[{float}]{sigma, }
+\item[{int}]{iterations, }
+\item[{float3 $\ast$}]{initial, }
+\item[{float3 $\ast$}]{positions, }
+\item[{float $\ast$}]{I\+\_\+bg, }
+\item[{float $\ast$}]{I\+\_\+0}
+\end{DoxyParamCaption}
+)}\hypertarget{group__kernels_gaf3546eed501c5227c765beb290ed2549}{}\label{group__kernels_gaf3546eed501c5227c765beb290ed2549}
+
+\begin{DoxyCode}
+186 \{
+187     \textcolor{keywordtype}{int} jobIdx = threadIdx.x + blockIdx.x * blockDim.x;
+188 
+189     \textcolor{keywordflow}{if} (jobIdx >= kp.\hyperlink{struct_base_kernel_params_aec40d44810d0e0a6640c66038af1fbf2}{njobs})
+190         \textcolor{keywordflow}{return};
+191 
+192     float2 pos = make\_float2(initial[jobIdx].x, initial[jobIdx].y);
+193     \textcolor{keywordtype}{float} mean = kp.\hyperlink{struct_base_kernel_params_aa0c58be6d25ab55207ca83bb0047f4d9}{imgmeans}[jobIdx];
+194     \textcolor{keywordtype}{float} I0 = mean*0.5f*kp.\hyperlink{struct_base_kernel_params_abdd6b8722cb871a13069ba0e3cd3ab0b}{images}.\hyperlink{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{w}*kp.\hyperlink{struct_base_kernel_params_abdd6b8722cb871a13069ba0e3cd3ab0b}{images}.\hyperlink{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}{h};
+195     \textcolor{keywordtype}{float} bg = mean*0.5f;
+196 
+197     \textcolor{keyword}{const} \textcolor{keywordtype}{float} \_1oSq2Sigma = 1.0f / (sqrtf(2) * sigma);
+198     \textcolor{keyword}{const} \textcolor{keywordtype}{float} \_1oSq2PiSigma = (1.0f / (sqrtf(2*3.14159265359f))) / sigma;
+199     \textcolor{keyword}{const} \textcolor{keywordtype}{float} \_1oSq2PiSigma3 = (1.0f / (sqrtf(2*3.14159265359f))) / (sigma*sigma*sigma);
+200 
+201     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<iterations;i++)
+202     \{
+203         \textcolor{keywordtype}{float} dL\_dx = 0.0; 
+204         \textcolor{keywordtype}{float} dL\_dy = 0.0; 
+205         \textcolor{keywordtype}{float} dL\_dI0 = 0.0;
+206         \textcolor{keywordtype}{float} dL\_dIbg = 0.0;
+207         \textcolor{keywordtype}{float} dL2\_dx = 0.0;
+208         \textcolor{keywordtype}{float} dL2\_dy = 0.0;
+209         \textcolor{keywordtype}{float} dL2\_dI0 = 0.0;
+210         \textcolor{keywordtype}{float} dL2\_dIbg = 0.0;
+211                 
+212         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} y=0;y<kp.\hyperlink{struct_base_kernel_params_abdd6b8722cb871a13069ba0e3cd3ab0b}{images}.\hyperlink{structcuda_image_list_a90c8a96b431b4faa4759987f44d06123}{h};y++)
+213         \{
+214             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x=0;x<kp.\hyperlink{struct_base_kernel_params_abdd6b8722cb871a13069ba0e3cd3ab0b}{images}.\hyperlink{structcuda_image_list_a1fe4adbbd48678e07c6b58f50dbe8528}{w};x++)
+215             \{
+216                 \textcolor{keywordtype}{float} Xexp0 = (x-pos.x + .5f) * \_1oSq2Sigma;
+217                 \textcolor{keywordtype}{float} Yexp0 = (y-pos.y + .5f) * \_1oSq2Sigma;
+218         
+219                 \textcolor{keywordtype}{float} Xexp1 = (x-pos.x - .5f) * \_1oSq2Sigma;
+220                 \textcolor{keywordtype}{float} Yexp1 = (y-pos.y - .5f) * \_1oSq2Sigma;
+221                 
+222                 \textcolor{keywordtype}{float} DeltaX = 0.5f * erff(Xexp0) - 0.5f * erff(Xexp1);
+223                 \textcolor{keywordtype}{float} DeltaY = 0.5f * erff(Yexp0) - 0.5f * erff(Yexp1);
+224                 \textcolor{keywordtype}{float} mu = bg + I0 * DeltaX * DeltaY;
+225                 
+226                 \textcolor{keywordtype}{float} dmu\_dx = I0*\_1oSq2PiSigma * ( expf(-Xexp1*Xexp1) - expf(-Xexp0*Xexp0)) * DeltaY;
+227 
+228                 \textcolor{keywordtype}{float} dmu\_dy = I0*\_1oSq2PiSigma * ( expf(-Yexp1*Yexp1) - expf(-Yexp0*Yexp0)) * DeltaX;
+229                 \textcolor{keywordtype}{float} dmu\_dI0 = DeltaX*DeltaY;
+230                 \textcolor{keywordtype}{float} dmu\_dIbg = 1;
+231         
+232                 \textcolor{keywordtype}{float} smp = TImageSampler::Index(kp.\hyperlink{struct_base_kernel_params_abdd6b8722cb871a13069ba0e3cd3ab0b}{images}, x,y, jobIdx);
+233                 \textcolor{keywordtype}{float} f = smp / mu - 1;
+234                 dL\_dx += dmu\_dx * f;
+235                 dL\_dy += dmu\_dy * f;
+236                 dL\_dI0 += dmu\_dI0 * f;
+237                 dL\_dIbg += dmu\_dIbg * f;
+238 
+239                 \textcolor{keywordtype}{float} d2mu\_dx = I0*\_1oSq2PiSigma3 * ( (x - pos.x - .5f) * expf (-Xexp1*Xexp1) - (x - pos.x 
+      + .5) * expf(-Xexp0*Xexp0) ) * DeltaY;
+240                 \textcolor{keywordtype}{float} d2mu\_dy = I0*\_1oSq2PiSigma3 * ( (y - pos.y - .5f) * expf (-Yexp1*Yexp1) - (y - pos.y 
+      + .5) * expf(-Yexp0*Yexp0) ) * DeltaX;
+241                 dL2\_dx += d2mu\_dx * f - dmu\_dx*dmu\_dx * smp / (mu*mu);
+242                 dL2\_dy += d2mu\_dy * f - dmu\_dy*dmu\_dy * smp / (mu*mu);
+243                 dL2\_dI0 += -dmu\_dI0*dmu\_dI0 * smp / (mu*mu);
+244                 dL2\_dIbg += -smp / (mu*mu);
+245             \}
+246         \}
+247 
+248         pos.x -= dL\_dx / dL2\_dx;
+249         pos.y -= dL\_dy / dL2\_dy;
+250         I0 -= dL\_dI0 / dL2\_dI0;
+251         bg -= dL\_dIbg / dL2\_dIbg;
+252     \}
+253     
+254 
+255     positions[jobIdx].x = pos.x;
+256     positions[jobIdx].y = pos.y;
+257     \textcolor{keywordflow}{if} (I\_bg) I\_bg[jobIdx] = bg;
+258     \textcolor{keywordflow}{if} (I\_0) I\_0[jobIdx] = I0;
+259 \}
+\end{DoxyCode}
+\index{C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}!Image\+L\+U\+T\+\_\+\+Sample@{Image\+L\+U\+T\+\_\+\+Sample}}
+\index{Image\+L\+U\+T\+\_\+\+Sample@{Image\+L\+U\+T\+\_\+\+Sample}!C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}}
+\subsubsection[{\texorpdfstring{Image\+L\+U\+T\+\_\+\+Sample(\+Base\+Kernel\+Params kp, float2 ilut\+\_\+scale, float3 $\ast$positions, typename T\+Image\+L\+U\+T\+::\+Kernel\+Params lut)}{ImageLUT_Sample(BaseKernelParams kp, float2 ilut_scale, float3 *positions, typename TImageLUT::KernelParams lut)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+Image\+Sampler , typename T\+Image\+L\+UT $>$ \+\_\+\+\_\+global\+\_\+\+\_\+ void Image\+L\+U\+T\+\_\+\+Sample (
+\begin{DoxyParamCaption}
+\item[{{\bf Base\+Kernel\+Params}}]{kp, }
+\item[{float2}]{ilut\+\_\+scale, }
+\item[{float3 $\ast$}]{positions, }
+\item[{typename T\+Image\+L\+U\+T\+::\+Kernel\+Params}]{lut}
+\end{DoxyParamCaption}
+)}\hypertarget{group__kernels_ga570d6e0ffb7ef89d65d8805d3ea82978}{}\label{group__kernels_ga570d6e0ffb7ef89d65d8805d3ea82978}
+
+\begin{DoxyCode}
+265 \{
+266     \textcolor{comment}{// add sampled image data to}
+267     \textcolor{keywordtype}{int} x = threadIdx.x + blockIdx.x * blockDim.x;
+268     \textcolor{keywordtype}{int} y = threadIdx.y + blockIdx.y * blockDim.y;
+269     \textcolor{keywordtype}{int} \textcolor{keywordtype}{id} = threadIdx.z + blockIdx.z * blockDim.z;
+270     \textcolor{keywordflow}{if} (x < lut.imgw && y < lut.imgh && \textcolor{keywordtype}{id} < kp.\hyperlink{struct_base_kernel_params_aec40d44810d0e0a6640c66038af1fbf2}{njobs}) \{
+271 
+272         \textcolor{keywordtype}{float} invMean = 1.0f / kp.\hyperlink{struct_base_kernel_params_aa0c58be6d25ab55207ca83bb0047f4d9}{imgmeans}[id];
+273 
+274         \textcolor{keywordtype}{float} startx = positions[id].x - lut.imgw/2*ilut\_scale.x;
+275         \textcolor{keywordtype}{float} starty = positions[id].y - lut.imgh/2*ilut\_scale.y;
+276         int2 imgpos = lut.GetImagePos(kp.\hyperlink{struct_base_kernel_params_a199494e0d0548c8b69ee23350e6ece95}{locParams}[\textcolor{keywordtype}{id}].\hyperlink{struct_localization_params_aff5333ada3b2d21903ccef6f47cd9490}{zlutPlane}, kp.
+      \hyperlink{struct_base_kernel_params_a199494e0d0548c8b69ee23350e6ece95}{locParams}[\textcolor{keywordtype}{id}].\hyperlink{struct_localization_params_ad7aa3c082a4f5295be937820fb8c58d2}{zlutIndex});
+277 
+278         \textcolor{keywordtype}{float} px = startx + x*ilut\_scale.x;
+279         \textcolor{keywordtype}{float} py = starty + y*ilut\_scale.y;
+280 
+281         \textcolor{keywordtype}{bool} outside=\textcolor{keyword}{false};
+282         \textcolor{keywordtype}{float} v = TImageSampler::Interpolated(kp.\hyperlink{struct_base_kernel_params_abdd6b8722cb871a13069ba0e3cd3ab0b}{images}, px, py, \textcolor{keywordtype}{id}, outside);
+283 
+284         \textcolor{keywordtype}{float} org = TImageLUT::read(lut, x, y, imgpos);
+285         TImageLUT::write(org+v*invMean, lut, x, y, imgpos);
+286     \}
+287 \}
+\end{DoxyCode}
+\index{C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}!interpolate@{interpolate}}
+\index{interpolate@{interpolate}!C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}}
+\subsubsection[{\texorpdfstring{interpolate(\+T a, T b, float x)}{interpolate(T a, T b, float x)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ static \+\_\+\+\_\+device\+\_\+\+\_\+ T interpolate (
+\begin{DoxyParamCaption}
+\item[{T}]{a, }
+\item[{T}]{b, }
+\item[{float}]{x}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{group__kernels_ga20d3b4d870a90595bb01e1429c5541f0}{}\label{group__kernels_ga20d3b4d870a90595bb01e1429c5541f0}
+
+\begin{DoxyCode}
+13 \{ \textcolor{keywordflow}{return} a + (b-a)*x; \}
+\end{DoxyCode}
+\index{C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}!Q\+I\+\_\+\+Compute\+Axis\+Offset@{Q\+I\+\_\+\+Compute\+Axis\+Offset}}
+\index{Q\+I\+\_\+\+Compute\+Axis\+Offset@{Q\+I\+\_\+\+Compute\+Axis\+Offset}!C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}}
+\subsubsection[{\texorpdfstring{Q\+I\+\_\+\+Compute\+Axis\+Offset(cufft\+Complex $\ast$autoconv, int fftlen, float $\ast$shiftbuf)}{QI_ComputeAxisOffset(cufftComplex *autoconv, int fftlen, float *shiftbuf)}}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+device\+\_\+\+\_\+ float Q\+I\+\_\+\+Compute\+Axis\+Offset (
+\begin{DoxyParamCaption}
+\item[{cufft\+Complex $\ast$}]{autoconv, }
+\item[{int}]{fftlen, }
+\item[{float $\ast$}]{shiftbuf}
+\end{DoxyParamCaption}
+)}\hypertarget{group__kernels_ga3cb19a139f4a1e91c1803511ae585161}{}\label{group__kernels_ga3cb19a139f4a1e91c1803511ae585161}
+
+\begin{DoxyCode}
+116 \{
+117     \textcolor{keyword}{typedef} \textcolor{keywordtype}{float} compute\_t;
+118     \textcolor{keywordtype}{int} nr = fftlen/2;
+119     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} x=0;x<fftlen;x++)  \{
+120         shiftbuf[x] = autoconv[(x+nr)%(nr*2)].x;
+121     \}
+122 
+123     \textcolor{keyword}{const} \textcolor{keywordtype}{float} \hyperlink{cpu__tracker_8cpp_a4d62cbde784e969529c728aed83f85e3}{QIWeights}[\hyperlink{_queued_tracker_8h_a60c92e3588eae0bb2d14c2ecb4caee32}{QI\_LSQFIT\_NWEIGHTS}] = 
+      \hyperlink{_queued_tracker_8h_a0fc1d2588a7b6a58916e8a1c8f0b806c}{QI\_LSQFIT\_WEIGHTS};
+124 
+125     compute\_t maxPos = \hyperlink{class_compute_max_interp_aa1ec2481d8a866f624f05ba53fb2d3bc}{ComputeMaxInterp<compute\_t>::Compute}(shiftbuf, 
+      fftlen, QIWeights);
+126     compute\_t offset = (maxPos - nr) * (3.14159265359f / 4);
+127     \textcolor{keywordflow}{return} offset;
+128 \}
+\end{DoxyCode}
+\index{C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}!Q\+I\+\_\+\+Compute\+Profile@{Q\+I\+\_\+\+Compute\+Profile}}
+\index{Q\+I\+\_\+\+Compute\+Profile@{Q\+I\+\_\+\+Compute\+Profile}!C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}}
+\subsubsection[{\texorpdfstring{Q\+I\+\_\+\+Compute\+Profile(\+Base\+Kernel\+Params kp, float3 $\ast$positions, float $\ast$quadrants, float2 $\ast$profiles, float2 $\ast$reverse\+Profiles, const Q\+I\+Params qi\+Params, float $\ast$d\+\_\+radialweights, int angular\+Steps)}{QI_ComputeProfile(BaseKernelParams kp, float3 *positions, float *quadrants, float2 *profiles, float2 *reverseProfiles, const QIParams qiParams, float *d_radialweights, int angularSteps)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+Image\+Sampler $>$ \+\_\+\+\_\+global\+\_\+\+\_\+ void Q\+I\+\_\+\+Compute\+Profile (
+\begin{DoxyParamCaption}
+\item[{{\bf Base\+Kernel\+Params}}]{kp, }
+\item[{float3 $\ast$}]{positions, }
+\item[{float $\ast$}]{quadrants, }
+\item[{float2 $\ast$}]{profiles, }
+\item[{float2 $\ast$}]{reverse\+Profiles, }
+\item[{const {\bf Q\+I\+Params}}]{qi\+Params, }
+\item[{float $\ast$}]{d\+\_\+radialweights, }
+\item[{int}]{angular\+Steps}
+\end{DoxyParamCaption}
+)}\hypertarget{group__kernels_ga491f07d70a63e0fb356201b5b76ae3d5}{}\label{group__kernels_ga491f07d70a63e0fb356201b5b76ae3d5}
+
+\begin{DoxyCode}
+50 \{
+51     \textcolor{keywordtype}{int} idx = threadIdx.x + blockDim.x * blockIdx.x;
+52     \textcolor{keywordflow}{if} (idx < kp.\hyperlink{struct_base_kernel_params_aec40d44810d0e0a6640c66038af1fbf2}{njobs}) \{
+53         \textcolor{keyword}{const} \hyperlink{struct_q_i_params}{QIParams}& qp = qiParams;
+54         \textcolor{keywordtype}{int} fftlen = qp.\hyperlink{struct_q_i_params_a19b7d550113364de4e4f11e2c9cfea0e}{radialSteps}*2;
+55         \textcolor{keywordtype}{float}* img\_qdr = &quadrants[ idx * qp.\hyperlink{struct_q_i_params_a19b7d550113364de4e4f11e2c9cfea0e}{radialSteps} * 4 ];
+56         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} q=0;q<4;q++) \{
+57             ComputeQuadrantProfile<TImageSampler> (kp.\hyperlink{struct_base_kernel_params_abdd6b8722cb871a13069ba0e3cd3ab0b}{images}, idx, &img\_qdr[q*qp.
+      \hyperlink{struct_q_i_params_a19b7d550113364de4e4f11e2c9cfea0e}{radialSteps}], qp, q, 
+58                 make\_float2(positions[idx].x, positions[idx].y), kp.\hyperlink{struct_base_kernel_params_aa0c58be6d25ab55207ca83bb0047f4d9}{imgmeans}[idx], angularSteps);
+59         \}
+60 
+61         \textcolor{keywordtype}{int} nr = qp.\hyperlink{struct_q_i_params_a19b7d550113364de4e4f11e2c9cfea0e}{radialSteps};
+62         \hyperlink{_q_i_8h_ad57806420787f160bbbe768dbd72d115}{qicomplex\_t}* imgprof = (\hyperlink{_q_i_8h_ad57806420787f160bbbe768dbd72d115}{qicomplex\_t}*) &profiles[idx * fftlen*2];
+63         \hyperlink{_q_i_8h_ad57806420787f160bbbe768dbd72d115}{qicomplex\_t}* x0 = imgprof;
+64         \hyperlink{_q_i_8h_ad57806420787f160bbbe768dbd72d115}{qicomplex\_t}* x1 = imgprof + nr*1;
+65         \hyperlink{_q_i_8h_ad57806420787f160bbbe768dbd72d115}{qicomplex\_t}* y0 = imgprof + nr*2;
+66         \hyperlink{_q_i_8h_ad57806420787f160bbbe768dbd72d115}{qicomplex\_t}* y1 = imgprof + nr*3;
+67 
+68         \hyperlink{_q_i_8h_ad57806420787f160bbbe768dbd72d115}{qicomplex\_t}* revprof = (\hyperlink{_q_i_8h_ad57806420787f160bbbe768dbd72d115}{qicomplex\_t}*)&reverseProfiles[idx*fftlen*2];
+69         \hyperlink{_q_i_8h_ad57806420787f160bbbe768dbd72d115}{qicomplex\_t}* xrev = revprof;
+70         \hyperlink{_q_i_8h_ad57806420787f160bbbe768dbd72d115}{qicomplex\_t}* yrev = revprof + nr*2;
+71 
+72         \textcolor{keywordtype}{float}* q0 = &img\_qdr[0];
+73         \textcolor{keywordtype}{float}* q1 = &img\_qdr[nr];
+74         \textcolor{keywordtype}{float}* q2 = &img\_qdr[nr*2];
+75         \textcolor{keywordtype}{float}* q3 = &img\_qdr[nr*3];
+76 
+77         \textcolor{comment}{// Build Ix = qL(-r) || qR(r)}
+78         \textcolor{comment}{// qL = q1 + q2   (concat0)}
+79         \textcolor{comment}{// qR = q0 + q3   (concat1)}
+80         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} r=0;r<nr;r++) \{
+81             \textcolor{keywordtype}{float} rw = d\_radialweights[r];
+82             x0[nr-r-1] = make\_float2(rw*(q1[r]+q2[r]), 0);
+83             x1[r] = make\_float2( rw*(q0[r]+q3[r]),0);
+84         \}
+85 
+86         \textcolor{comment}{// Build Iy = [ qB(-r)  qT(r) ]}
+87         \textcolor{comment}{// qT = q0 + q1}
+88         \textcolor{comment}{// qB = q2 + q3}
+89         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} r=0;r<nr;r++) \{
+90             \textcolor{keywordtype}{float} rw = d\_radialweights[r];
+91             y1[r] = make\_float2( rw * ( q0[r]+q1[r] ),0);
+92             y0[nr-r-1] = make\_float2( rw * (q2[r]+q3[r]),0);
+93         \}
+94 
+95         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} r=0;r<nr*2;r++) 
+96             xrev[r] = x0[nr*2-r-1];
+97         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} r=0;r<nr*2;r++)
+98             yrev[r] = y0[nr*2-r-1];
+99     \}
+100 \}
+\end{DoxyCode}
+\index{C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}!Q\+I\+\_\+\+Compute\+Quadrants@{Q\+I\+\_\+\+Compute\+Quadrants}}
+\index{Q\+I\+\_\+\+Compute\+Quadrants@{Q\+I\+\_\+\+Compute\+Quadrants}!C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}}
+\subsubsection[{\texorpdfstring{Q\+I\+\_\+\+Compute\+Quadrants(\+Base\+Kernel\+Params kp, float3 $\ast$positions, float $\ast$dst\+\_\+quadrants, const Q\+I\+Params $\ast$params, int angular\+Steps)}{QI_ComputeQuadrants(BaseKernelParams kp, float3 *positions, float *dst_quadrants, const QIParams *params, int angularSteps)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+Image\+Sampler $>$ \+\_\+\+\_\+global\+\_\+\+\_\+ void Q\+I\+\_\+\+Compute\+Quadrants (
+\begin{DoxyParamCaption}
+\item[{{\bf Base\+Kernel\+Params}}]{kp, }
+\item[{float3 $\ast$}]{positions, }
+\item[{float $\ast$}]{dst\+\_\+quadrants, }
+\item[{const {\bf Q\+I\+Params} $\ast$}]{params, }
+\item[{int}]{angular\+Steps}
+\end{DoxyParamCaption}
+)}\hypertarget{group__kernels_gaa7f87ffff59ddad03f962165afc5ee08}{}\label{group__kernels_gaa7f87ffff59ddad03f962165afc5ee08}
+
+\begin{DoxyCode}
+163 \{
+164     \textcolor{keywordtype}{int} jobIdx = threadIdx.x + blockIdx.x * blockDim.x;
+165     \textcolor{keywordtype}{int} rIdx = threadIdx.y + blockIdx.y * blockDim.y;
+166     \textcolor{keywordtype}{int} quadrant = threadIdx.z;
+167     
+168     \textcolor{comment}{// Ori: dst[i], i = radial index}
+169     \textcolor{comment}{// float* img\_qdr = &dst\_quadrants[ jobIdx * params->radialSteps * 4 ];}
+170     \textcolor{comment}{// float* dst = &img\_qdr[quadrant*params->radialSteps];}
+171     \textcolor{comment}{// dst[rIdx] = rIdx;//count >= MIN\_RADPROFILE\_SMP\_COUNT ? sum/count : kp.imgmeans[jobIdx];}
+172 
+173     \textcolor{keywordflow}{if} (jobIdx < kp.\hyperlink{struct_base_kernel_params_aec40d44810d0e0a6640c66038af1fbf2}{njobs} && rIdx < params->radialSteps && quadrant < 4) \{
+174         \textcolor{comment}{// The variables below could go in shared memory}
+175         \textcolor{keywordtype}{float} asf = (float)params->\hyperlink{struct_q_i_params_a2078879365690b162cac67e45837a29d}{trigtablesize} / angularSteps;
+176         \textcolor{keywordtype}{float} rstep = (params->\hyperlink{struct_q_i_params_a59a4abd887cfec3392bb5ecd6891d7d6}{maxRadius} - params->\hyperlink{struct_q_i_params_a4c3b954348ae3ee381eab69122983515}{minRadius}) / params->
+      \hyperlink{struct_q_i_params_a19b7d550113364de4e4f11e2c9cfea0e}{radialSteps};
+177         \textcolor{keyword}{const} \textcolor{keywordtype}{int} qmat[] = \{
+178             1, 1,
+179             -1, 1,
+180             -1, -1,
+181             1, -1 \};
+182 
+183         \textcolor{comment}{// --Stop--}
+184 
+185         \textcolor{keywordtype}{int} mx = qmat[2*quadrant+0];
+186         \textcolor{keywordtype}{int} my = qmat[2*quadrant+1];
+187 
+188         \textcolor{comment}{// Ori: dst[i], i = radial index}
+189         \textcolor{comment}{// float* img\_qdr = &quadrants[ idx * qp.radialSteps * 4 ];}
+190         \textcolor{comment}{// dst = &img\_qdr[q*qp.radialSteps]}
+191         \textcolor{keywordtype}{float}* qdr = &dst\_quadrants[ (jobIdx * 4 + quadrant) * params->
+      \hyperlink{struct_q_i_params_a19b7d550113364de4e4f11e2c9cfea0e}{radialSteps} ];
+192         
+193         \textcolor{keywordtype}{float} sum = 0.0f;
+194         \textcolor{keywordtype}{float} r = params->\hyperlink{struct_q_i_params_a4c3b954348ae3ee381eab69122983515}{minRadius} + rstep * rIdx;
+195         float3 pos = positions[jobIdx];
+196 \textcolor{comment}{//      float mean = imgmeans[jobIdx];}
+197 
+198         \textcolor{keywordtype}{int} count=0;
+199         for (\textcolor{keywordtype}{int} a=0;a<angularSteps;a++) \{
+200             \textcolor{keywordtype}{int} j = (int)(asf * a);
+201             \textcolor{keywordtype}{float} x = pos.x + mx*params->\hyperlink{struct_q_i_params_a8da3ccdd4b94c119a0d63ff63f28b8e7}{cos\_sin\_table}[j].x * r;
+202             \textcolor{keywordtype}{float} y = pos.y + my*params->\hyperlink{struct_q_i_params_a8da3ccdd4b94c119a0d63ff63f28b8e7}{cos\_sin\_table}[j].y * r;
+203             \textcolor{keywordtype}{bool} outside=\textcolor{keyword}{false};
+204             \textcolor{keywordtype}{float} v = TImageSampler::Interpolated(kp.\hyperlink{struct_base_kernel_params_abdd6b8722cb871a13069ba0e3cd3ab0b}{images}, x,y,jobIdx, outside);
+205             \textcolor{keywordflow}{if} (!outside) \{
+206                 sum += v;
+207                 count++;
+208             \}
+209         \}
+210         qdr[rIdx] = count >= \hyperlink{_queued_tracker_8h_a1625167c310599739f4d73170413e64a}{MIN\_RADPROFILE\_SMP\_COUNT} ? sum/count : kp.
+      \hyperlink{struct_base_kernel_params_aa0c58be6d25ab55207ca83bb0047f4d9}{imgmeans}[jobIdx];
+211     \}
+212 \}
+\end{DoxyCode}
+\index{C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}!Q\+I\+\_\+\+Multiply\+With\+Conjugate@{Q\+I\+\_\+\+Multiply\+With\+Conjugate}}
+\index{Q\+I\+\_\+\+Multiply\+With\+Conjugate@{Q\+I\+\_\+\+Multiply\+With\+Conjugate}!C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}}
+\subsubsection[{\texorpdfstring{Q\+I\+\_\+\+Multiply\+With\+Conjugate(int n, cufft\+Complex $\ast$a, cufft\+Complex $\ast$b)}{QI_MultiplyWithConjugate(int n, cufftComplex *a, cufftComplex *b)}}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+global\+\_\+\+\_\+ void Q\+I\+\_\+\+Multiply\+With\+Conjugate (
+\begin{DoxyParamCaption}
+\item[{int}]{n, }
+\item[{cufft\+Complex $\ast$}]{a, }
+\item[{cufft\+Complex $\ast$}]{b}
+\end{DoxyParamCaption}
+)}\hypertarget{group__kernels_gaf620f6888bd27603c02cbbcc6cb77cce}{}\label{group__kernels_gaf620f6888bd27603c02cbbcc6cb77cce}
+
+\begin{DoxyCode}
+103 \{
+104     \textcolor{comment}{//int idx = (threadIdx.y + threadIdx.x << 4) + (blockIdx.x + blockIdx.y *( (int)sqrt( (double)(n /
+       (blockDim.x * blockDim.y)) ) + 1)) << 8;}
+105     \textcolor{comment}{//int idx = (threadIdx.x + threadIdx.y * blockDim.x) + (blockIdx.x + blockIdx.y *( (int)sqrt(
+       (double)(n / (blockDim.x * blockDim.y)) ) + 1)) * blockDim.x * blockDim.y;}
+106     \textcolor{keywordtype}{int} idx = threadIdx.x + blockIdx.x * blockDim.x;
+107     \textcolor{keywordflow}{if} (idx < n) \{
+108         cufftComplex A = a[idx];
+109         cufftComplex B = b[idx];
+110         
+111         a[idx] = make\_float2(A.x*B.x + A.y*B.y, A.y*B.x - A.x*B.y); \textcolor{comment}{// multiplying with conjugate}
+112     \}
+113 \}
+\end{DoxyCode}
+\index{C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}!Q\+I\+\_\+\+Offset\+Positions@{Q\+I\+\_\+\+Offset\+Positions}}
+\index{Q\+I\+\_\+\+Offset\+Positions@{Q\+I\+\_\+\+Offset\+Positions}!C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}}
+\subsubsection[{\texorpdfstring{Q\+I\+\_\+\+Offset\+Positions(int njobs, float3 $\ast$current, float3 $\ast$dst, cufft\+Complex $\ast$autoconv, int fft\+Length, float2 $\ast$offsets, float pixels\+Per\+Prof\+Len, float $\ast$shiftbuf)}{QI_OffsetPositions(int njobs, float3 *current, float3 *dst, cufftComplex *autoconv, int fftLength, float2 *offsets, float pixelsPerProfLen, float *shiftbuf)}}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+global\+\_\+\+\_\+ void Q\+I\+\_\+\+Offset\+Positions (
+\begin{DoxyParamCaption}
+\item[{int}]{njobs, }
+\item[{float3 $\ast$}]{current, }
+\item[{float3 $\ast$}]{dst, }
+\item[{cufft\+Complex $\ast$}]{autoconv, }
+\item[{int}]{fft\+Length, }
+\item[{float2 $\ast$}]{offsets, }
+\item[{float}]{pixels\+Per\+Prof\+Len, }
+\item[{float $\ast$}]{shiftbuf}
+\end{DoxyParamCaption}
+)}\hypertarget{group__kernels_ga095edb116bff714a009b7cf60b52cb3b}{}\label{group__kernels_ga095edb116bff714a009b7cf60b52cb3b}
+
+\begin{DoxyCode}
+131 \{
+132     \textcolor{keywordtype}{int} idx = threadIdx.x + blockIdx.x * blockDim.x;
+133 
+134     \textcolor{keywordflow}{if} (idx < njobs) \{
+135         \textcolor{keywordtype}{float}* shifted = &shiftbuf[ idx * fftLength ];      
+136 
+137         \textcolor{comment}{// X}
+138         cufftComplex* autoconvX = &autoconv[idx * fftLength * 2];
+139         \textcolor{keywordtype}{float} xoffset = \hyperlink{group__kernels_ga3cb19a139f4a1e91c1803511ae585161}{QI\_ComputeAxisOffset}(autoconvX, fftLength, shifted);
+140 
+141         cufftComplex* autoconvY = autoconvX + fftLength;
+142         \textcolor{keywordtype}{float} yoffset = \hyperlink{group__kernels_ga3cb19a139f4a1e91c1803511ae585161}{QI\_ComputeAxisOffset}(autoconvY, fftLength, shifted);
+143 
+144         dst[idx].x = current[idx].x + xoffset * pixelsPerProfLen;
+145         dst[idx].y = current[idx].y + yoffset * pixelsPerProfLen;
+146         dst[idx].z = current[idx].z;
+147 
+148         \textcolor{keywordflow}{if} (offsets) 
+149             offsets[idx] = make\_float2( xoffset, yoffset);
+150     \}
+151 \}
+\end{DoxyCode}
+\index{C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}!Q\+I\+\_\+\+Quadrants\+To\+Profiles@{Q\+I\+\_\+\+Quadrants\+To\+Profiles}}
+\index{Q\+I\+\_\+\+Quadrants\+To\+Profiles@{Q\+I\+\_\+\+Quadrants\+To\+Profiles}!C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}}
+\subsubsection[{\texorpdfstring{Q\+I\+\_\+\+Quadrants\+To\+Profiles(\+Base\+Kernel\+Params kp, float $\ast$quadrants, float2 $\ast$profiles, float2 $\ast$reverse\+Profiles, float $\ast$d\+\_\+radialweights, const Q\+I\+Params $\ast$params)}{QI_QuadrantsToProfiles(BaseKernelParams kp, float *quadrants, float2 *profiles, float2 *reverseProfiles, float *d_radialweights, const QIParams *params)}}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+global\+\_\+\+\_\+ void Q\+I\+\_\+\+Quadrants\+To\+Profiles (
+\begin{DoxyParamCaption}
+\item[{{\bf Base\+Kernel\+Params}}]{kp, }
+\item[{float $\ast$}]{quadrants, }
+\item[{float2 $\ast$}]{profiles, }
+\item[{float2 $\ast$}]{reverse\+Profiles, }
+\item[{float $\ast$}]{d\+\_\+radialweights, }
+\item[{const {\bf Q\+I\+Params} $\ast$}]{params}
+\end{DoxyParamCaption}
+)}\hypertarget{group__kernels_ga0a68cdd1dd0c10476711ae6d4316fb40}{}\label{group__kernels_ga0a68cdd1dd0c10476711ae6d4316fb40}
+
+\begin{DoxyCode}
+215 \{
+216 \textcolor{comment}{//ComputeQuadrantProfile(cudaImageListf& images, int idx, float* dst, const QIParams& params, int quadrant,
+       float2 center)}
+217     \textcolor{keywordtype}{int} idx = threadIdx.x + blockDim.x * blockIdx.x;
+218     \textcolor{keywordflow}{if} (idx < kp.\hyperlink{struct_base_kernel_params_aec40d44810d0e0a6640c66038af1fbf2}{njobs}) \{
+219         \textcolor{keywordtype}{int} fftlen = params->\hyperlink{struct_q_i_params_a19b7d550113364de4e4f11e2c9cfea0e}{radialSteps}*2;
+220         \textcolor{keywordtype}{float}* img\_qdr = &quadrants[ idx * params->\hyperlink{struct_q_i_params_a19b7d550113364de4e4f11e2c9cfea0e}{radialSteps} * 4 ];
+221     \textcolor{comment}{//  for (int q=0;q<4;q++)}
+222             \textcolor{comment}{//ComputeQuadrantProfile<TImageSampler> (images, idx, &img\_qdr[q*params->radialSteps], params,
+       q, img\_means[idx], make\_float2(positions[idx].x, positions[idx].y));}
+223 
+224         \textcolor{keywordtype}{int} nr = params->\hyperlink{struct_q_i_params_a19b7d550113364de4e4f11e2c9cfea0e}{radialSteps};
+225         \hyperlink{_q_i_8h_ad57806420787f160bbbe768dbd72d115}{qicomplex\_t}* imgprof = (\hyperlink{_q_i_8h_ad57806420787f160bbbe768dbd72d115}{qicomplex\_t}*) &profiles[idx * fftlen*2];
+226         \hyperlink{_q_i_8h_ad57806420787f160bbbe768dbd72d115}{qicomplex\_t}* x0 = imgprof;
+227         \hyperlink{_q_i_8h_ad57806420787f160bbbe768dbd72d115}{qicomplex\_t}* x1 = imgprof + nr*1;
+228         \hyperlink{_q_i_8h_ad57806420787f160bbbe768dbd72d115}{qicomplex\_t}* y0 = imgprof + nr*2;
+229         \hyperlink{_q_i_8h_ad57806420787f160bbbe768dbd72d115}{qicomplex\_t}* y1 = imgprof + nr*3;
+230 
+231         \hyperlink{_q_i_8h_ad57806420787f160bbbe768dbd72d115}{qicomplex\_t}* revprof = (\hyperlink{_q_i_8h_ad57806420787f160bbbe768dbd72d115}{qicomplex\_t}*)&reverseProfiles[idx*fftlen*2];
+232         \hyperlink{_q_i_8h_ad57806420787f160bbbe768dbd72d115}{qicomplex\_t}* xrev = revprof;
+233         \hyperlink{_q_i_8h_ad57806420787f160bbbe768dbd72d115}{qicomplex\_t}* yrev = revprof + nr*2;
+234 
+235         \textcolor{keywordtype}{float}* q0 = &img\_qdr[0];
+236         \textcolor{keywordtype}{float}* q1 = &img\_qdr[nr];
+237         \textcolor{keywordtype}{float}* q2 = &img\_qdr[nr*2];
+238         \textcolor{keywordtype}{float}* q3 = &img\_qdr[nr*3];
+239 
+240         \textcolor{comment}{// Build Ix = qL(-r) || qR(r)}
+241         \textcolor{comment}{// qL = q1 + q2   (concat0)}
+242         \textcolor{comment}{// qR = q0 + q3   (concat1)}
+243         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} r=0;r<nr;r++) \{
+244             \textcolor{keywordtype}{float} rw = d\_radialweights[r];
+245             x0[nr-r-1] = make\_float2( rw * (q1[r]+q2[r]), 0);
+246             x1[r] = make\_float2( rw * (q0[r]+q3[r]),0);
+247         \}
+248         \textcolor{comment}{// Build Iy = [ qB(-r)  qT(r) ]}
+249         \textcolor{comment}{// qT = q0 + q1}
+250         \textcolor{comment}{// qB = q2 + q3}
+251         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} r=0;r<nr;r++) \{
+252             \textcolor{keywordtype}{float} rw = d\_radialweights[r];
+253             y1[r] = make\_float2( rw * (q0[r]+q1[r]),0);
+254             y0[nr-r-1] = make\_float2( rw * (q2[r]+q3[r]),0);
+255         \}
+256 
+257         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} r=0;r<nr*2;r++)
+258             xrev[r] = x0[nr*2-r-1];
+259         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} r=0;r<nr*2;r++)
+260             yrev[r] = y0[nr*2-r-1];
+261     \}
+262 \}
+\end{DoxyCode}
+\index{C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}!Z\+L\+U\+T\+\_\+\+Compute\+Profile\+Match\+Scores@{Z\+L\+U\+T\+\_\+\+Compute\+Profile\+Match\+Scores}}
+\index{Z\+L\+U\+T\+\_\+\+Compute\+Profile\+Match\+Scores@{Z\+L\+U\+T\+\_\+\+Compute\+Profile\+Match\+Scores}!C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}}
+\subsubsection[{\texorpdfstring{Z\+L\+U\+T\+\_\+\+Compute\+Profile\+Match\+Scores(int njobs, Z\+L\+U\+T\+Params params, float $\ast$profiles, float $\ast$compare\+Score\+Buf, Localization\+Params $\ast$loc\+Params)}{ZLUT_ComputeProfileMatchScores(int njobs, ZLUTParams params, float *profiles, float *compareScoreBuf, LocalizationParams *locParams)}}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+global\+\_\+\+\_\+ void Z\+L\+U\+T\+\_\+\+Compute\+Profile\+Match\+Scores (
+\begin{DoxyParamCaption}
+\item[{int}]{njobs, }
+\item[{{\bf Z\+L\+U\+T\+Params}}]{params, }
+\item[{float $\ast$}]{profiles, }
+\item[{float $\ast$}]{compare\+Score\+Buf, }
+\item[{{\bf Localization\+Params} $\ast$}]{loc\+Params}
+\end{DoxyParamCaption}
+)}\hypertarget{group__kernels_gab39221cb109c517ef2c550742f25fae3}{}\label{group__kernels_gab39221cb109c517ef2c550742f25fae3}
+
+\begin{DoxyCode}
+120 \{
+121     \textcolor{keywordtype}{int} jobIdx = threadIdx.x + blockIdx.x * blockDim.x;
+122     \textcolor{keywordtype}{int} zPlaneIdx = threadIdx.y + blockIdx.y * blockDim.y;
+123 
+124     \textcolor{keywordflow}{if} (jobIdx >= njobs || zPlaneIdx >= params.\hyperlink{struct_z_l_u_t_params_ab00dffe1d70415e23bbf989d664495ab}{planes})
+125         \textcolor{keywordflow}{return};
+126 
+127     \textcolor{keywordtype}{float}* prof = &profiles [jobIdx * params.\hyperlink{struct_z_l_u_t_params_a9579a1f453fa4966bbd7ca5c04a389d9}{radialSteps}()];
+128     \textcolor{keyword}{auto} mapping = locParams[jobIdx];
+129     \textcolor{keywordtype}{float} diffsum = 0.0f;
+130     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} r=0;r<params.\hyperlink{struct_z_l_u_t_params_a9579a1f453fa4966bbd7ca5c04a389d9}{radialSteps}();r++) \{
+131         \textcolor{keywordtype}{float} d = prof[r] - params.\hyperlink{struct_z_l_u_t_params_a14a59385e3d76c6e50dd1d97ef5f3cac}{img}.\hyperlink{structcuda_image_list_a3688416d9034449c1493e593c8456eb2}{pixel}(r, zPlaneIdx, mapping.zlutIndex);
+132         \textcolor{keywordflow}{if} (params.\hyperlink{struct_z_l_u_t_params_a5e4fca6a1f41e9dee7ba0614ab4c202d}{zcmpwindow})
+133             d *= params.\hyperlink{struct_z_l_u_t_params_a5e4fca6a1f41e9dee7ba0614ab4c202d}{zcmpwindow}[r];
+134         diffsum += d*d;
+135     \}
+136 
+137     compareScoreBuf[ params.\hyperlink{struct_z_l_u_t_params_ab00dffe1d70415e23bbf989d664495ab}{planes} * jobIdx + zPlaneIdx ] = -diffsum;
+138 \}
+\end{DoxyCode}
+\index{C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}!Z\+L\+U\+T\+\_\+\+ComputeZ@{Z\+L\+U\+T\+\_\+\+ComputeZ}}
+\index{Z\+L\+U\+T\+\_\+\+ComputeZ@{Z\+L\+U\+T\+\_\+\+ComputeZ}!C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}}
+\subsubsection[{\texorpdfstring{Z\+L\+U\+T\+\_\+\+Compute\+Z(int njobs, Z\+L\+U\+T\+Params params, float3 $\ast$positions, float $\ast$compare\+Score\+Buf)}{ZLUT_ComputeZ(int njobs, ZLUTParams params, float3 *positions, float *compareScoreBuf)}}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+global\+\_\+\+\_\+ void Z\+L\+U\+T\+\_\+\+ComputeZ (
+\begin{DoxyParamCaption}
+\item[{int}]{njobs, }
+\item[{{\bf Z\+L\+U\+T\+Params}}]{params, }
+\item[{float3 $\ast$}]{positions, }
+\item[{float $\ast$}]{compare\+Score\+Buf}
+\end{DoxyParamCaption}
+)}\hypertarget{group__kernels_gad0ba2ca03fcfe17bda05c872842afaae}{}\label{group__kernels_gad0ba2ca03fcfe17bda05c872842afaae}
+
+\begin{DoxyCode}
+107 \{
+108     \textcolor{keywordtype}{int} jobIdx = threadIdx.x + blockIdx.x * blockDim.x;
+109 
+110     \textcolor{keywordflow}{if} (jobIdx < njobs) \{
+111         \textcolor{keywordtype}{float}* cmp = &compareScoreBuf [params.\hyperlink{struct_z_l_u_t_params_ab00dffe1d70415e23bbf989d664495ab}{planes} * jobIdx];
+112 
+113         \textcolor{keyword}{const} \textcolor{keywordtype}{float} ZLUTFittingWeights[\hyperlink{_queued_tracker_8h_a208ba9e2f1c0edb3a8d7f6c35d34765a}{ZLUT\_LSQFIT\_NWEIGHTS}] = 
+      \hyperlink{_queued_tracker_8h_a6357a5808d3da82bbd4a7bb94e5e7333}{ZLUT\_LSQFIT\_WEIGHTS};
+114         \textcolor{keywordtype}{float} maxPos = \hyperlink{class_compute_max_interp_aa1ec2481d8a866f624f05ba53fb2d3bc}{ComputeMaxInterp<float, ZLUT\_LSQFIT\_NWEIGHTS>::Compute}
+      (cmp, params.\hyperlink{struct_z_l_u_t_params_ab00dffe1d70415e23bbf989d664495ab}{planes}, ZLUTFittingWeights);
+115         positions[jobIdx].z = maxPos;
+116     \}
+117 \}
+\end{DoxyCode}
+\index{C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}!Z\+L\+U\+T\+\_\+\+Normalize\+Profiles@{Z\+L\+U\+T\+\_\+\+Normalize\+Profiles}}
+\index{Z\+L\+U\+T\+\_\+\+Normalize\+Profiles@{Z\+L\+U\+T\+\_\+\+Normalize\+Profiles}!C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}}
+\subsubsection[{\texorpdfstring{Z\+L\+U\+T\+\_\+\+Normalize\+Profiles(int njobs, Z\+L\+U\+T\+Params params, float $\ast$profiles)}{ZLUT_NormalizeProfiles(int njobs, ZLUTParams params, float *profiles)}}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+global\+\_\+\+\_\+ void Z\+L\+U\+T\+\_\+\+Normalize\+Profiles (
+\begin{DoxyParamCaption}
+\item[{int}]{njobs, }
+\item[{{\bf Z\+L\+U\+T\+Params}}]{params, }
+\item[{float $\ast$}]{profiles}
+\end{DoxyParamCaption}
+)}\hypertarget{group__kernels_ga4cdd8d9a41123399c9a91d90785d9274}{}\label{group__kernels_ga4cdd8d9a41123399c9a91d90785d9274}
+
+\begin{DoxyCode}
+141 \{
+142     \textcolor{keywordtype}{int} jobIdx = threadIdx.x + blockIdx.x * blockDim.x;
+143 
+144     \textcolor{keywordflow}{if} (jobIdx < njobs) \{
+145         \textcolor{keywordtype}{float}* prof = &profiles[params.\hyperlink{struct_z_l_u_t_params_a9579a1f453fa4966bbd7ca5c04a389d9}{radialSteps}()*jobIdx];
+146 
+147         \textcolor{comment}{// First, subtract mean}
+148         \textcolor{keywordtype}{float} mean = 0.0f;
+149         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<params.\hyperlink{struct_z_l_u_t_params_a9579a1f453fa4966bbd7ca5c04a389d9}{radialSteps}();i++) \{
+150             mean += prof[i];
+151         \}
+152         mean /= params.\hyperlink{struct_z_l_u_t_params_a9579a1f453fa4966bbd7ca5c04a389d9}{radialSteps}();
+153 
+154         \textcolor{keywordtype}{float} rmsSum2 = 0.0f;
+155         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<params.\hyperlink{struct_z_l_u_t_params_a9579a1f453fa4966bbd7ca5c04a389d9}{radialSteps}();i++)\{
+156             prof[i] -= mean;
+157             rmsSum2 += prof[i]*prof[i];
+158         \}
+159 
+160         \textcolor{comment}{// And make RMS power equal 1}
+161         \textcolor{keywordtype}{float} invTotalRms = 1.0f / \hyperlink{std__incl_8h_a8a38721046513951c4bfc32bf101e180}{sqrt}(rmsSum2/params.\hyperlink{struct_z_l_u_t_params_a9579a1f453fa4966bbd7ca5c04a389d9}{radialSteps}());
+162         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<params.\hyperlink{struct_z_l_u_t_params_a9579a1f453fa4966bbd7ca5c04a389d9}{radialSteps}();i++)
+163             prof[i] *= invTotalRms;
+164     \}
+165 \}
+\end{DoxyCode}
+\index{C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}!Z\+L\+U\+T\+\_\+\+Profiles\+To\+Z\+L\+UT@{Z\+L\+U\+T\+\_\+\+Profiles\+To\+Z\+L\+UT}}
+\index{Z\+L\+U\+T\+\_\+\+Profiles\+To\+Z\+L\+UT@{Z\+L\+U\+T\+\_\+\+Profiles\+To\+Z\+L\+UT}!C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}}
+\subsubsection[{\texorpdfstring{Z\+L\+U\+T\+\_\+\+Profiles\+To\+Z\+L\+U\+T(int njobs, cuda\+Image\+Listf images, Z\+L\+U\+T\+Params params, float3 $\ast$positions, Localization\+Params $\ast$loc\+Params, float $\ast$profiles)}{ZLUT_ProfilesToZLUT(int njobs, cudaImageListf images, ZLUTParams params, float3 *positions, LocalizationParams *locParams, float *profiles)}}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+global\+\_\+\+\_\+ void Z\+L\+U\+T\+\_\+\+Profiles\+To\+Z\+L\+UT (
+\begin{DoxyParamCaption}
+\item[{int}]{njobs, }
+\item[{{\bf cuda\+Image\+Listf}}]{images, }
+\item[{{\bf Z\+L\+U\+T\+Params}}]{params, }
+\item[{float3 $\ast$}]{positions, }
+\item[{{\bf Localization\+Params} $\ast$}]{loc\+Params, }
+\item[{float $\ast$}]{profiles}
+\end{DoxyParamCaption}
+)}\hypertarget{group__kernels_ga9b32b8197dc8895328e9850cafa295c3}{}\label{group__kernels_ga9b32b8197dc8895328e9850cafa295c3}
+
+\begin{DoxyCode}
+68 \{
+69     \textcolor{keywordtype}{int} idx = threadIdx.x + blockDim.x * blockIdx.x;
+70 
+71     \textcolor{keywordflow}{if} (idx < njobs) \{
+72         \textcolor{keyword}{auto} m = locParams[idx];
+73         \textcolor{keywordtype}{float}* dst = params.\hyperlink{struct_z_l_u_t_params_a2a35427b775e56a0079b9029d1afbb9e}{GetRadialZLUT}(m.zlutIndex, m.zlutPlane );
+74 
+75         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<params.\hyperlink{struct_z_l_u_t_params_a9579a1f453fa4966bbd7ca5c04a389d9}{radialSteps}();i++)
+76             dst [i] += profiles [ params.\hyperlink{struct_z_l_u_t_params_a9579a1f453fa4966bbd7ca5c04a389d9}{radialSteps}()*idx + i ];
+77     \}
+78 \}
+\end{DoxyCode}
+\index{C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}!Z\+L\+U\+T\+\_\+\+Radial\+Profile\+Kernel@{Z\+L\+U\+T\+\_\+\+Radial\+Profile\+Kernel}}
+\index{Z\+L\+U\+T\+\_\+\+Radial\+Profile\+Kernel@{Z\+L\+U\+T\+\_\+\+Radial\+Profile\+Kernel}!C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}}
+\subsubsection[{\texorpdfstring{Z\+L\+U\+T\+\_\+\+Radial\+Profile\+Kernel(int njobs, cuda\+Image\+Listf images, Z\+L\+U\+T\+Params params, float3 $\ast$positions, float $\ast$profiles, float $\ast$means)}{ZLUT_RadialProfileKernel(int njobs, cudaImageListf images, ZLUTParams params, float3 *positions, float *profiles, float *means)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+Image\+Sampler $>$ \+\_\+\+\_\+global\+\_\+\+\_\+ void Z\+L\+U\+T\+\_\+\+Radial\+Profile\+Kernel (
+\begin{DoxyParamCaption}
+\item[{int}]{njobs, }
+\item[{{\bf cuda\+Image\+Listf}}]{images, }
+\item[{{\bf Z\+L\+U\+T\+Params}}]{params, }
+\item[{float3 $\ast$}]{positions, }
+\item[{float $\ast$}]{profiles, }
+\item[{float $\ast$}]{means}
+\end{DoxyParamCaption}
+)}\hypertarget{group__kernels_gadf9148f47982d2685fa156a957fc21c2}{}\label{group__kernels_gadf9148f47982d2685fa156a957fc21c2}
+
+\begin{DoxyCode}
+83 \{
+84     \textcolor{keywordtype}{int} jobIdx = threadIdx.x + blockIdx.x * blockDim.x;
+85     \textcolor{keywordtype}{int} radialIdx = threadIdx.y + blockIdx.y * blockDim.y;
+86 
+87     \textcolor{keywordflow}{if} (jobIdx >= njobs || radialIdx >= params.\hyperlink{struct_z_l_u_t_params_a9579a1f453fa4966bbd7ca5c04a389d9}{radialSteps}()) 
+88         \textcolor{keywordflow}{return};
+89 
+90     \textcolor{keywordtype}{float}* dstprof = &profiles[params.\hyperlink{struct_z_l_u_t_params_a9579a1f453fa4966bbd7ca5c04a389d9}{radialSteps}() * jobIdx];
+91     \textcolor{keywordtype}{float} r = params.\hyperlink{struct_z_l_u_t_params_a1e53b221a353b5543b95ab8472c0e27f}{minRadius} + (params.\hyperlink{struct_z_l_u_t_params_a828d7befc2a73cbe77d5fead8987b916}{maxRadius}-params.
+      \hyperlink{struct_z_l_u_t_params_a1e53b221a353b5543b95ab8472c0e27f}{minRadius})*radialIdx/params.\hyperlink{struct_z_l_u_t_params_a9579a1f453fa4966bbd7ca5c04a389d9}{radialSteps}();
+92     \textcolor{keywordtype}{float} sum = 0.0f;
+93     \textcolor{keywordtype}{int} count = 0;
+94     
+95     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<params.\hyperlink{struct_z_l_u_t_params_a01c4d68849034d30553c2bbb353b9376}{angularSteps};i++) \{
+96         \textcolor{keywordtype}{float} x = positions[jobIdx].x + params.\hyperlink{struct_z_l_u_t_params_a18e5051a3a4b118b45854c69977e2dbe}{trigtable}[i].x * r;
+97         \textcolor{keywordtype}{float} y = positions[jobIdx].y + params.\hyperlink{struct_z_l_u_t_params_a18e5051a3a4b118b45854c69977e2dbe}{trigtable}[i].y * r;
+98 
+99         \textcolor{keywordtype}{bool} outside=\textcolor{keyword}{false};
+100         sum += TImageSampler::Interpolated(images, x,y, jobIdx, outside);
+101         \textcolor{keywordflow}{if} (!outside) count++;
+102     \}
+103     dstprof [radialIdx] = count>\hyperlink{_queued_tracker_8h_a1625167c310599739f4d73170413e64a}{MIN\_RADPROFILE\_SMP\_COUNT} ? sum/count : means[jobIdx
+      ];
+104 \}
+\end{DoxyCode}
+
+
+\subsection{Variable Documentation}
+\index{C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}!image\+\_\+lut\+\_\+surface@{image\+\_\+lut\+\_\+surface}}
+\index{image\+\_\+lut\+\_\+surface@{image\+\_\+lut\+\_\+surface}!C\+U\+D\+A Kernels@{C\+U\+D\+A Kernels}}
+\subsubsection[{\texorpdfstring{image\+\_\+lut\+\_\+surface}{image_lut_surface}}]{\setlength{\rightskip}{0pt plus 5cm}surface$<$void, cuda\+Surface\+Type2\+D\+Layered$>$ image\+\_\+lut\+\_\+surface}\hypertarget{group__kernels_gaec033d7e15aebbae164cfe9c89b879eb}{}\label{group__kernels_gaec033d7e15aebbae164cfe9c89b879eb}

@@ -1,0 +1,93 @@
+\hypertarget{struct_image4_d_cuda_array_1_1_kernel_inst}{}\section{Image4\+D\+Cuda\+Array$<$ T $>$\+:\+:Kernel\+Inst Struct Reference}
+\label{struct_image4_d_cuda_array_1_1_kernel_inst}\index{Image4\+D\+Cuda\+Array$<$ T $>$\+::\+Kernel\+Inst@{Image4\+D\+Cuda\+Array$<$ T $>$\+::\+Kernel\+Inst}}
+
+
+{\ttfamily \#include $<$cuda\+Image\+List.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{gpu__utils_8h_ac50b87a58396e77c6168aa6f3be3c189}{C\+U\+B\+O\+TH} int2 \hyperlink{struct_image4_d_cuda_array_1_1_kernel_inst_a77e0c75976faf9ddbd733b9ff393a7b6}{get\+Image\+Pos} (int image)
+\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ T \hyperlink{struct_image4_d_cuda_array_1_1_kernel_inst_a67dd42510494400ec1a5a438ac6fbd6f}{read\+Surface\+Pixel} (surface$<$ void, cuda\+Surface\+Type2\+D\+Layered $>$ surf, int x, int y, int z)
+\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{struct_image4_d_cuda_array_1_1_kernel_inst_aa1d4d971eaf1d3685fcda6deb9ad7e71}{write\+Surface\+Pixel} (surface$<$ void, cuda\+Surface\+Type2\+D\+Layered $>$ surf, int x, int y, int z, T value)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{struct_image4_d_cuda_array_1_1_kernel_inst_aada9791bd402e67c6d9a2dd2e5fa28b5}{imgw}
+\item 
+int \hyperlink{struct_image4_d_cuda_array_1_1_kernel_inst_a45e62046843a94ac7834849847cafbdc}{imgh}
+\item 
+int \hyperlink{struct_image4_d_cuda_array_1_1_kernel_inst_aa1264147741eabee6f8fae0b22cbcf28}{layerw}
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\index{Image4\+D\+Cuda\+Array\+::\+Kernel\+Inst@{Image4\+D\+Cuda\+Array\+::\+Kernel\+Inst}!get\+Image\+Pos@{get\+Image\+Pos}}
+\index{get\+Image\+Pos@{get\+Image\+Pos}!Image4\+D\+Cuda\+Array\+::\+Kernel\+Inst@{Image4\+D\+Cuda\+Array\+::\+Kernel\+Inst}}
+\subsubsection[{\texorpdfstring{get\+Image\+Pos(int image)}{getImagePos(int image)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ {\bf C\+U\+B\+O\+TH} int2 {\bf Image4\+D\+Cuda\+Array}$<$ T $>$\+::Kernel\+Inst\+::get\+Image\+Pos (
+\begin{DoxyParamCaption}
+\item[{int}]{image}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{struct_image4_d_cuda_array_1_1_kernel_inst_a77e0c75976faf9ddbd733b9ff393a7b6}{}\label{struct_image4_d_cuda_array_1_1_kernel_inst_a77e0c75976faf9ddbd733b9ff393a7b6}
+
+\begin{DoxyCode}
+232         \{ 
+233             \textcolor{keywordflow}{return} make\_int2(\hyperlink{struct_image4_d_cuda_array_1_1_kernel_inst_aada9791bd402e67c6d9a2dd2e5fa28b5}{imgw} * (image % \hyperlink{struct_image4_d_cuda_array_1_1_kernel_inst_aa1264147741eabee6f8fae0b22cbcf28}{layerw}), \hyperlink{struct_image4_d_cuda_array_1_1_kernel_inst_a45e62046843a94ac7834849847cafbdc}{imgh} * (image / layerw));
+234         \}
+\end{DoxyCode}
+\index{Image4\+D\+Cuda\+Array\+::\+Kernel\+Inst@{Image4\+D\+Cuda\+Array\+::\+Kernel\+Inst}!read\+Surface\+Pixel@{read\+Surface\+Pixel}}
+\index{read\+Surface\+Pixel@{read\+Surface\+Pixel}!Image4\+D\+Cuda\+Array\+::\+Kernel\+Inst@{Image4\+D\+Cuda\+Array\+::\+Kernel\+Inst}}
+\subsubsection[{\texorpdfstring{read\+Surface\+Pixel(surface$<$ void, cuda\+Surface\+Type2\+D\+Layered $>$ surf, int x, int y, int z)}{readSurfacePixel(surface< void, cudaSurfaceType2DLayered > surf, int x, int y, int z)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ \+\_\+\+\_\+device\+\_\+\+\_\+ T {\bf Image4\+D\+Cuda\+Array}$<$ T $>$\+::Kernel\+Inst\+::read\+Surface\+Pixel (
+\begin{DoxyParamCaption}
+\item[{surface$<$ void, cuda\+Surface\+Type2\+D\+Layered $>$}]{surf, }
+\item[{int}]{x, }
+\item[{int}]{y, }
+\item[{int}]{z}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{struct_image4_d_cuda_array_1_1_kernel_inst_a67dd42510494400ec1a5a438ac6fbd6f}{}\label{struct_image4_d_cuda_array_1_1_kernel_inst_a67dd42510494400ec1a5a438ac6fbd6f}
+
+\begin{DoxyCode}
+237         \{
+238             T r;
+239             surf2DLayeredread (&r, \hyperlink{group__kernels_gaec033d7e15aebbae164cfe9c89b879eb}{image\_lut\_surface}, \textcolor{keyword}{sizeof}(T)*x, y, z, 
+      cudaBoundaryModeTrap);
+240             \textcolor{keywordflow}{return} r;
+241         \}
+\end{DoxyCode}
+\index{Image4\+D\+Cuda\+Array\+::\+Kernel\+Inst@{Image4\+D\+Cuda\+Array\+::\+Kernel\+Inst}!write\+Surface\+Pixel@{write\+Surface\+Pixel}}
+\index{write\+Surface\+Pixel@{write\+Surface\+Pixel}!Image4\+D\+Cuda\+Array\+::\+Kernel\+Inst@{Image4\+D\+Cuda\+Array\+::\+Kernel\+Inst}}
+\subsubsection[{\texorpdfstring{write\+Surface\+Pixel(surface$<$ void, cuda\+Surface\+Type2\+D\+Layered $>$ surf, int x, int y, int z, T value)}{writeSurfacePixel(surface< void, cudaSurfaceType2DLayered > surf, int x, int y, int z, T value)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ \+\_\+\+\_\+device\+\_\+\+\_\+ void {\bf Image4\+D\+Cuda\+Array}$<$ T $>$\+::Kernel\+Inst\+::write\+Surface\+Pixel (
+\begin{DoxyParamCaption}
+\item[{surface$<$ void, cuda\+Surface\+Type2\+D\+Layered $>$}]{surf, }
+\item[{int}]{x, }
+\item[{int}]{y, }
+\item[{int}]{z, }
+\item[{T}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{struct_image4_d_cuda_array_1_1_kernel_inst_aa1d4d971eaf1d3685fcda6deb9ad7e71}{}\label{struct_image4_d_cuda_array_1_1_kernel_inst_aa1d4d971eaf1d3685fcda6deb9ad7e71}
+
+\begin{DoxyCode}
+244         \{
+245             surf2DLayeredwrite(value, surf, \textcolor{keyword}{sizeof}(T)*x, y, z, cudaBoundaryModeTrap);
+246         \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\index{Image4\+D\+Cuda\+Array\+::\+Kernel\+Inst@{Image4\+D\+Cuda\+Array\+::\+Kernel\+Inst}!imgh@{imgh}}
+\index{imgh@{imgh}!Image4\+D\+Cuda\+Array\+::\+Kernel\+Inst@{Image4\+D\+Cuda\+Array\+::\+Kernel\+Inst}}
+\subsubsection[{\texorpdfstring{imgh}{imgh}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ int {\bf Image4\+D\+Cuda\+Array}$<$ T $>$\+::Kernel\+Inst\+::imgh}\hypertarget{struct_image4_d_cuda_array_1_1_kernel_inst_a45e62046843a94ac7834849847cafbdc}{}\label{struct_image4_d_cuda_array_1_1_kernel_inst_a45e62046843a94ac7834849847cafbdc}
+\index{Image4\+D\+Cuda\+Array\+::\+Kernel\+Inst@{Image4\+D\+Cuda\+Array\+::\+Kernel\+Inst}!imgw@{imgw}}
+\index{imgw@{imgw}!Image4\+D\+Cuda\+Array\+::\+Kernel\+Inst@{Image4\+D\+Cuda\+Array\+::\+Kernel\+Inst}}
+\subsubsection[{\texorpdfstring{imgw}{imgw}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ int {\bf Image4\+D\+Cuda\+Array}$<$ T $>$\+::Kernel\+Inst\+::imgw}\hypertarget{struct_image4_d_cuda_array_1_1_kernel_inst_aada9791bd402e67c6d9a2dd2e5fa28b5}{}\label{struct_image4_d_cuda_array_1_1_kernel_inst_aada9791bd402e67c6d9a2dd2e5fa28b5}
+\index{Image4\+D\+Cuda\+Array\+::\+Kernel\+Inst@{Image4\+D\+Cuda\+Array\+::\+Kernel\+Inst}!layerw@{layerw}}
+\index{layerw@{layerw}!Image4\+D\+Cuda\+Array\+::\+Kernel\+Inst@{Image4\+D\+Cuda\+Array\+::\+Kernel\+Inst}}
+\subsubsection[{\texorpdfstring{layerw}{layerw}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ int {\bf Image4\+D\+Cuda\+Array}$<$ T $>$\+::Kernel\+Inst\+::layerw}\hypertarget{struct_image4_d_cuda_array_1_1_kernel_inst_aa1264147741eabee6f8fae0b22cbcf28}{}\label{struct_image4_d_cuda_array_1_1_kernel_inst_aa1264147741eabee6f8fae0b22cbcf28}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+cudatrack/\hyperlink{cuda_image_list_8h}{cuda\+Image\+List.\+h}\end{DoxyCompactItemize}

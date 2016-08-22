@@ -23,7 +23,6 @@ CDLL_EXPORT void DLL_CALLCONV qtrk_free_all()
 	trackerListMutex.unlock();
 }
 
-
 void SetLVString (LStrHandle str, const char *text)
 {
 	int msglen = strlen(text);
@@ -58,7 +57,8 @@ MgErr FillErrorCluster(MgErr err, const char *message, ErrorCluster *error)
 	return err;
 }
 
-void ArgumentErrorMsg(ErrorCluster* e, const std::string& msg) {
+void ArgumentErrorMsg(ErrorCluster* e, const std::string& msg) 
+{
 	FillErrorCluster(mgArgErr, msg.c_str(), e);
 }
 
@@ -86,12 +86,10 @@ CDLL_EXPORT int qtrk_get_debug_image(QueuedTracker* qtrk, int id, LVArray2D<floa
 	return 0;
 }
 
-
 CDLL_EXPORT void DLL_CALLCONV qtrk_set_logfile_path(const char* path)
 {
 	dbgsetlogfile(path);
 }
-
 
 CDLL_EXPORT void DLL_CALLCONV qtrk_get_computed_config(QueuedTracker* qtrk, QTrkComputedConfig* cc, ErrorCluster *err)
 {
@@ -136,7 +134,6 @@ CDLL_EXPORT void DLL_CALLCONV qtrk_set_ZLUT(QueuedTracker* tracker, LVArray3D<fl
 		}
 	}
 }
-
 
 CDLL_EXPORT void DLL_CALLCONV qtrk_get_ZLUT(QueuedTracker* tracker, LVArray3D<float>** pzlut, ErrorCluster* e)
 {
@@ -220,7 +217,6 @@ CDLL_EXPORT void DLL_CALLCONV qtrk_set_pixel_calib(QueuedTracker* qtrk, LVArray3
 	}
 }
 
-
 CDLL_EXPORT QueuedTracker* qtrk_create(QTrkSettings* settings, LStrHandle warnings, ErrorCluster* e)
 {
 	QueuedTracker* tracker = 0;
@@ -241,7 +237,6 @@ CDLL_EXPORT QueuedTracker* qtrk_create(QTrkSettings* settings, LStrHandle warnin
 	}
 	return tracker;
 }
-
 
 CDLL_EXPORT void qtrk_destroy(QueuedTracker* qtrk, ErrorCluster* error)
 {
@@ -356,7 +351,7 @@ CDLL_EXPORT void qtrk_clear_results(QueuedTracker* qtrk, ErrorCluster* e)
 }
 
 // Accepts data as 3D image [numbeads]*[width]*[height]
-CDLL_EXPORT void qtrk_build_lut_plane(QueuedTracker* qtrk, LVArray3D<float> **data, uint flags, int plane,ErrorCluster* err)
+CDLL_EXPORT void qtrk_build_lut_plane(QueuedTracker* qtrk, LVArray3D<float> **data, uint flags, int plane, ErrorCluster* err)
 {
 	if (ValidateTracker(qtrk, err, "build_lut_plane")) {
 		if ((*data)->dimSizes[2] != qtrk->cfg.width || (*data)->dimSizes[1] != qtrk->cfg.height) {
@@ -375,8 +370,6 @@ CDLL_EXPORT void qtrk_build_lut_plane(QueuedTracker* qtrk, LVArray3D<float> **da
 		qtrk->BuildLUT( (*data)->elem, sizeof(float*) * qtrk->cfg.width, QTrkFloat, plane);
 	}
 }
-
-
 
 CDLL_EXPORT void qtrk_finalize_lut(QueuedTracker* qtrk, ErrorCluster *e)
 {
@@ -658,7 +651,8 @@ static bool CheckCUDAErrorLV(cudaError err, ErrorCluster* e)
 	return true;
 }
 
-CDLL_EXPORT int qtrkcuda_device_count(ErrorCluster* e) {
+CDLL_EXPORT int qtrkcuda_device_count(ErrorCluster* e) 
+{
 	int c;
 	if (CheckCUDAErrorLV(cudaGetDeviceCount(&c), e)) {
 		return c;
@@ -686,7 +680,6 @@ CDLL_EXPORT void qtrkcuda_enable_texture_cache(QueuedTracker* qtrk, int enable, 
 }
 
 #else
-
 
 CDLL_EXPORT int qtrkcuda_device_count(ErrorCluster* e) { return 0; }
 CDLL_EXPORT void qtrkcuda_get_device(int device, void *info, ErrorCluster* e) {}

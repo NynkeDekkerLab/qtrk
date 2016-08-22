@@ -1172,8 +1172,6 @@ void RunZTrace(std::string imagePath, std::string zlutPath, outputter* output)
 		positions[ii].y = beads.at(ii).y - ROISize/2;
 	}
 
-
-
 	QueuedCPUTracker* qtrk = new QueuedCPUTracker(cfg);
 	qtrk->SetRadialZLUT(zluts,beads.size(),zplanes);
 	qtrk->FinalizeLUT();
@@ -1487,7 +1485,7 @@ void SelectTests(const char* image, int OutputMode)
 				RunZTrace(imagesPath,LUTPath,output);*/
 				//RunZTrace("L:\\BN\\ND\\Shared\\Jordi\\20150804_TestMovie\\images\\jordi_test\\jpg\\","L:\\BN\\ND\\Shared\\Jordi\\20150804_TestMovie\\images\\lut\\",output);
 				//RunZTrace("D:\\TestImages\\20150804_TestMovie\\images\\jordi_test\\jpg\\","D:\\TestImages\\20150804_TestMovie\\images\\lut\\",output);
-				RunZTrace("D:\\TestImages\\TestMovie150507_2\\images\\jpg\\Zstack\\","D:\\TestImages\\TestMovie150507_2\\ZLUTS_50planes\\",output);
+				RunZTrace("C:\\TestImages\\TestMovie150507_2\\images\\jpg\\Zstack\\","C:\\TestImages\\TestMovie150507_2\\ZLUTS_50planes\\",output);
 				break;
 			case 'm':
 				ManTest();

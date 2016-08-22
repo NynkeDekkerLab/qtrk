@@ -1,0 +1,246 @@
+\hypertarget{_bead_finder_8cpp}{}\section{cputrack/\+Bead\+Finder.cpp File Reference}
+\label{_bead_finder_8cpp}\index{cputrack/\+Bead\+Finder.\+cpp@{cputrack/\+Bead\+Finder.\+cpp}}
+{\ttfamily \#include \char`\"{}std\+\_\+incl.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}utils.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}kissfft.\+h\char`\"{}}\\*
+{\ttfamily \#include $<$list$>$}\\*
+{\ttfamily \#include \char`\"{}threads.\+h\char`\"{}}\\*
+{\ttfamily \#include $<$functional$>$}\\*
+{\ttfamily \#include \char`\"{}Bead\+Finder.\+h\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{_bead_finder_8cpp_aad803495a7d339a6441f165b24443421}{Next\+Power\+Of2} (int x)
+\item 
+float \hyperlink{_bead_finder_8cpp_aade100f3798a339fdf25b22a55f85bbc}{abs} (std\+::complex$<$ float $>$ x)
+\item 
+void \hyperlink{_bead_finder_8cpp_a2dd31bc0744db1fbc8c6e24d2ca7f3fc}{Complex\+To\+J\+P\+E\+G\+File} (const char $\ast$name, std\+::complex$<$ float $>$ $\ast$d, int w, int h, bool log\+Mode=false)
+\item 
+void \hyperlink{_bead_finder_8cpp_aecf220354d51380bea7873a57bc29862}{F\+F\+T2D} (std\+::complex$<$ float $>$ $\ast$d, int w, int h, bool inverse)
+\item 
+\hyperlink{struct_bead_finder_1_1_position}{Position} \hyperlink{_bead_finder_8cpp_a1d0fc598b31063d9ebc4199a1d6c8649}{Search\+Area} (std\+::complex$<$ float $>$ $\ast$cimg, int w, int h, int px, int py, int dist)
+\item 
+void \hyperlink{_bead_finder_8cpp_adfad9807250c401f6ec50af3caafeabd}{Recenter\+And\+Filter} (\hyperlink{_queued_tracker_8h_a2d6726594ce64e82b9222b183f2571d1}{Image\+Data} $\ast$img, std\+::vector$<$ \hyperlink{struct_bead_finder_1_1_position}{Position} $>$ \&pts, \hyperlink{struct_bead_finder_1_1_config}{Config} $\ast$cfg)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\index{Bead\+Finder.\+cpp@{Bead\+Finder.\+cpp}!abs@{abs}}
+\index{abs@{abs}!Bead\+Finder.\+cpp@{Bead\+Finder.\+cpp}}
+\subsubsection[{\texorpdfstring{abs(std\+::complex$<$ float $>$ x)}{abs(std::complex< float > x)}}]{\setlength{\rightskip}{0pt plus 5cm}float abs (
+\begin{DoxyParamCaption}
+\item[{std\+::complex$<$ float $>$}]{x}
+\end{DoxyParamCaption}
+)}\hypertarget{_bead_finder_8cpp_aade100f3798a339fdf25b22a55f85bbc}{}\label{_bead_finder_8cpp_aade100f3798a339fdf25b22a55f85bbc}
+
+\begin{DoxyCode}
+19 \{ \textcolor{keywordflow}{return} sqrtf(x.imag()*x.imag()+x.real()*x.real()); \}
+\end{DoxyCode}
+\index{Bead\+Finder.\+cpp@{Bead\+Finder.\+cpp}!Complex\+To\+J\+P\+E\+G\+File@{Complex\+To\+J\+P\+E\+G\+File}}
+\index{Complex\+To\+J\+P\+E\+G\+File@{Complex\+To\+J\+P\+E\+G\+File}!Bead\+Finder.\+cpp@{Bead\+Finder.\+cpp}}
+\subsubsection[{\texorpdfstring{Complex\+To\+J\+P\+E\+G\+File(const char $\ast$name, std\+::complex$<$ float $>$ $\ast$d, int w, int h, bool log\+Mode=false)}{ComplexToJPEGFile(const char *name, std::complex< float > *d, int w, int h, bool logMode=false)}}]{\setlength{\rightskip}{0pt plus 5cm}void Complex\+To\+J\+P\+E\+G\+File (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{name, }
+\item[{std\+::complex$<$ float $>$ $\ast$}]{d, }
+\item[{int}]{w, }
+\item[{int}]{h, }
+\item[{bool}]{log\+Mode = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}\hypertarget{_bead_finder_8cpp_a2dd31bc0744db1fbc8c6e24d2ca7f3fc}{}\label{_bead_finder_8cpp_a2dd31bc0744db1fbc8c6e24d2ca7f3fc}
+
+\begin{DoxyCode}
+22 \{
+23     \textcolor{keywordtype}{float} minV=\hyperlink{_bead_finder_8cpp_aade100f3798a339fdf25b22a55f85bbc}{abs}(d[0]),maxV=minV;
+24     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=0;i<w*h;i++) \{
+25         \textcolor{keywordtype}{float} v = \hyperlink{_bead_finder_8cpp_aade100f3798a339fdf25b22a55f85bbc}{abs}(d[i]);
+26         minV=std::min(minV, v);
+27         maxV=std::max(maxV, v);
+28     \}
+29     \textcolor{keywordflow}{if} (maxV==minV) \{
+30         \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"ComplexToJPEGFile (%s): Min=max\(\backslash\)n"},name);
+31         maxV=minV+1;
+32     \}
+33 
+34     uint8\_t *img = \textcolor{keyword}{new} uint8\_t[w*h];
+35     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<w*h;i++) \{
+36         \textcolor{keywordtype}{float} v = \hyperlink{_bead_finder_8cpp_aade100f3798a339fdf25b22a55f85bbc}{abs}(d[i]);
+37         img[i] = (uint8\_t) (0.5f + (logMode?10:1) * 255 * (v-minV)/(maxV-minV) );
+38     \}
+39     \hyperlink{fastjpg_8cpp_a77db3a4044f8f77b5a550b6f05962172}{WriteJPEGFile}(img, w,h,name,99);
+40     \textcolor{keyword}{delete}[] img;
+41 \}
+\end{DoxyCode}
+\index{Bead\+Finder.\+cpp@{Bead\+Finder.\+cpp}!F\+F\+T2D@{F\+F\+T2D}}
+\index{F\+F\+T2D@{F\+F\+T2D}!Bead\+Finder.\+cpp@{Bead\+Finder.\+cpp}}
+\subsubsection[{\texorpdfstring{F\+F\+T2\+D(std\+::complex$<$ float $>$ $\ast$d, int w, int h, bool inverse)}{FFT2D(std::complex< float > *d, int w, int h, bool inverse)}}]{\setlength{\rightskip}{0pt plus 5cm}void F\+F\+T2D (
+\begin{DoxyParamCaption}
+\item[{std\+::complex$<$ float $>$ $\ast$}]{d, }
+\item[{int}]{w, }
+\item[{int}]{h, }
+\item[{bool}]{inverse}
+\end{DoxyParamCaption}
+)}\hypertarget{_bead_finder_8cpp_aecf220354d51380bea7873a57bc29862}{}\label{_bead_finder_8cpp_aecf220354d51380bea7873a57bc29862}
+
+\begin{DoxyCode}
+45 \{
+46     \hyperlink{classkissfft}{kissfft<float>} xfft(w, inverse);
+47     \hyperlink{classkissfft}{kissfft<float>} yfft(h, inverse);
+48 
+49     \textcolor{keyword}{auto} fx = [&] (\textcolor{keywordtype}{int} y) \{
+50         std::complex<float>* tmp = \hyperlink{std__incl_8h_a37dbccb865134ee3a70c5044b365ded7}{ALLOCA\_ARRAY}(std::complex<float>, std::max(w,h));
+51         xfft.transform(&d[w*y], tmp);
+52         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} x=0;x<w;x++)
+53             d[w*y+x]=tmp[x];
+54     \};
+55     \hyperlink{class_thread_pool}{ThreadPool<int, std::function< void (int index) >} > 
+      xfftPool(fx);
+56     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} y=0;y<h;y++)
+57         xfftPool.AddWork(y);
+58     xfftPool.WaitUntilDone();
+59 
+60     \textcolor{keyword}{auto} fy = [&] (\textcolor{keywordtype}{int} x) \{
+61         std::complex<float>* src = \hyperlink{std__incl_8h_a37dbccb865134ee3a70c5044b365ded7}{ALLOCA\_ARRAY}(std::complex<float>, h);
+62         std::complex<float>* tmp = \hyperlink{std__incl_8h_a37dbccb865134ee3a70c5044b365ded7}{ALLOCA\_ARRAY}(std::complex<float>, std::max(w,h));
+63         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} y=0;y<h;y++)
+64             src[y] = d[y*w+x];
+65         yfft.transform(src, tmp);
+66         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} y=0;y<h;y++)
+67             d[w*y+x]=tmp[y];
+68     \};
+69     \hyperlink{class_thread_pool}{ThreadPool<int, std::function<void (int x) >} > yfftPool(fy)
+      ;
+70     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x=0;x<w;x++)
+71         yfftPool.AddWork(x);
+72     yfftPool.WaitUntilDone();
+73 \}
+\end{DoxyCode}
+\index{Bead\+Finder.\+cpp@{Bead\+Finder.\+cpp}!Next\+Power\+Of2@{Next\+Power\+Of2}}
+\index{Next\+Power\+Of2@{Next\+Power\+Of2}!Bead\+Finder.\+cpp@{Bead\+Finder.\+cpp}}
+\subsubsection[{\texorpdfstring{Next\+Power\+Of2(int x)}{NextPowerOf2(int x)}}]{\setlength{\rightskip}{0pt plus 5cm}int Next\+Power\+Of2 (
+\begin{DoxyParamCaption}
+\item[{int}]{x}
+\end{DoxyParamCaption}
+)}\hypertarget{_bead_finder_8cpp_aad803495a7d339a6441f165b24443421}{}\label{_bead_finder_8cpp_aad803495a7d339a6441f165b24443421}
+
+\begin{DoxyCode}
+12 \{
+13     \textcolor{keywordtype}{int} y=1;
+14     \textcolor{keywordflow}{while} (y<x)
+15         y*=2;
+16     \textcolor{keywordflow}{return} y;
+17 \}
+\end{DoxyCode}
+\index{Bead\+Finder.\+cpp@{Bead\+Finder.\+cpp}!Recenter\+And\+Filter@{Recenter\+And\+Filter}}
+\index{Recenter\+And\+Filter@{Recenter\+And\+Filter}!Bead\+Finder.\+cpp@{Bead\+Finder.\+cpp}}
+\subsubsection[{\texorpdfstring{Recenter\+And\+Filter(\+Image\+Data $\ast$img, std\+::vector$<$ Position $>$ \&pts, Config $\ast$cfg)}{RecenterAndFilter(ImageData *img, std::vector< Position > &pts, Config *cfg)}}]{\setlength{\rightskip}{0pt plus 5cm}void Recenter\+And\+Filter (
+\begin{DoxyParamCaption}
+\item[{{\bf Image\+Data} $\ast$}]{img, }
+\item[{std\+::vector$<$ {\bf Position} $>$ \&}]{pts, }
+\item[{{\bf Config} $\ast$}]{cfg}
+\end{DoxyParamCaption}
+)}\hypertarget{_bead_finder_8cpp_adfad9807250c401f6ec50af3caafeabd}{}\label{_bead_finder_8cpp_adfad9807250c401f6ec50af3caafeabd}
+
+\begin{DoxyCode}
+105 \{
+106     \textcolor{keywordtype}{int} roi = cfg->\hyperlink{struct_bead_finder_1_1_config_afd0fcc1cea252dc5c64d98d3df23887e}{roi};
+107     std::list<Position> newlist;
+108 
+109     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<pts.size();i++) \{
+110 
+111         \textcolor{comment}{// Compute COM}
+112 \textcolor{comment}{//      for (int }
+113         \textcolor{keyword}{auto} bp = pts[i];
+114 
+115         \textcolor{keywordflow}{if} (bp.x < 0 || bp.y < 0 || bp.x > img->\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w}-1-roi || bp.y > img->\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h}-1-roi)
+116             \textcolor{keywordflow}{continue};
+117 
+118         \textcolor{keywordtype}{float} sum = 0.0f;
+119         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} y=0;y<roi;y++) 
+120             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x=0;x<roi;x++) \{
+121                 \textcolor{keywordtype}{float} v = img->\hyperlink{struct_t_image_data_ad13c1527ffabe17b997c38090ec5e6b9}{at}(x+bp.x,y+bp.y);
+122                 sum += v;
+123             \}
+124 
+125         \textcolor{keywordtype}{float} sumX=0,sumY=0;
+126         \textcolor{keywordtype}{float} mean = sum/(roi*roi);
+127         sum=0;
+128         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} y=0;y<roi;y++) \{
+129             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x=0;x<roi;x++) \{
+130                 \textcolor{keywordtype}{float} v = img->\hyperlink{struct_t_image_data_ad13c1527ffabe17b997c38090ec5e6b9}{at}(x+bp.x,y+bp.y)-mean;
+131                 v=v*v;
+132                 sum += v;
+133                 sumX += v*x;
+134                 sumY += v*y;
+135             \}
+136         \}
+137 
+138         \textcolor{keywordflow}{if} (sum==0.0f)
+139             \textcolor{keywordflow}{continue};
+140 
+141         bp.x += sumX/sum-roi/2;
+142         bp.y += sumY/sum-roi/2;
+143 
+144         \textcolor{comment}{// discard them if they are now getting outside of the image boundary}
+145         \textcolor{keywordflow}{if} (bp.x < 0 || bp.y < 0 || bp.x > img->\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w}-1-roi || bp.y > img->\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h}-1-roi)
+146             \textcolor{keywordflow}{continue};
+147 
+148         \textcolor{keywordtype}{float} m = cfg->\hyperlink{struct_bead_finder_1_1_config_acb90a601bdb1ca9547d7e1948c0ea9f6}{MinPixelDistance}();
+149         \textcolor{keywordtype}{bool} accepted=\textcolor{keyword}{true};
+150         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} c=newlist.begin();c!=newlist.end();++c) \{
+151             \textcolor{keywordtype}{int} dx=c->x-bp.x, dy=c->y-bp.y;
+152             \textcolor{keywordflow}{if} (dx*dx+dy*dy<m*m) \{
+153                 \textcolor{comment}{// bp is very close to *c, so they're probably both shitty beads}
+154                 newlist.erase(c);
+155                 accepted=\textcolor{keyword}{false};
+156                 \textcolor{keywordflow}{break};
+157             \}
+158         \}
+159     
+160         \textcolor{keywordflow}{if} (accepted)
+161             newlist.push\_back(bp);
+162     \}
+163 
+164     pts.clear();
+165     pts.insert(pts.begin(), newlist.begin(),newlist.end());
+166 \}
+\end{DoxyCode}
+\index{Bead\+Finder.\+cpp@{Bead\+Finder.\+cpp}!Search\+Area@{Search\+Area}}
+\index{Search\+Area@{Search\+Area}!Bead\+Finder.\+cpp@{Bead\+Finder.\+cpp}}
+\subsubsection[{\texorpdfstring{Search\+Area(std\+::complex$<$ float $>$ $\ast$cimg, int w, int h, int px, int py, int dist)}{SearchArea(std::complex< float > *cimg, int w, int h, int px, int py, int dist)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Position} Search\+Area (
+\begin{DoxyParamCaption}
+\item[{std\+::complex$<$ float $>$ $\ast$}]{cimg, }
+\item[{int}]{w, }
+\item[{int}]{h, }
+\item[{int}]{px, }
+\item[{int}]{py, }
+\item[{int}]{dist}
+\end{DoxyParamCaption}
+)}\hypertarget{_bead_finder_8cpp_a1d0fc598b31063d9ebc4199a1d6c8649}{}\label{_bead_finder_8cpp_a1d0fc598b31063d9ebc4199a1d6c8649}
+
+\begin{DoxyCode}
+77 \{
+78     \hyperlink{struct_bead_finder_1_1_position}{Position} best(px,py);
+79     \textcolor{keywordtype}{float} bestValue = cimg[py*w+px].real();
+80 
+81     \textcolor{keywordtype}{int} minY = std::max(0,py-dist);
+82     \textcolor{keywordtype}{int} minX = std::max(0,px-dist);
+83     \textcolor{keywordtype}{int} maxX = std::min(w-1,px+dist);
+84     \textcolor{keywordtype}{int} maxY = std::min(h-1,py+dist);
+85 
+86     \textcolor{keywordtype}{int} dist2 =dist*dist;
+87     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} y=minY;y<=maxY;y++)
+88         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x=minX;x<=maxX;x++) \{
+89             \textcolor{keywordtype}{int} dx=x-px,dy=y-py;
+90             \textcolor{keywordflow}{if} (dx*dx+dy*dy<=dist2)
+91             \{
+92                 \textcolor{keywordtype}{float} v = cimg[y*w+x].real();
+93                 \textcolor{keywordflow}{if}(v > bestValue) \{
+94                     best = \hyperlink{struct_bead_finder_1_1_position}{Position}(x,y);
+95                     bestValue = v;
+96                 \}
+97                 cimg[y*w+x] = std::complex<float>();
+98             \}
+99         \}
+100     \textcolor{keywordflow}{return} best;
+101 \}
+\end{DoxyCode}

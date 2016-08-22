@@ -75,8 +75,6 @@ inline T Interpolate1D(const std::vector<T>& d, float x)
 	return Interpolate1D(&d[0],d.size(),x);
 }
 
-void WriteImageAsCSV(const char* file, float* d, int w,int h, const char *labels[]=0);
-
 template<typename T>
 struct TImageData {
 	T* data;
@@ -162,8 +160,11 @@ void NormalizeZLUT(float *zlut, int numLUTs, int planes, int radialsteps);
 void GenerateImageFromLUT(ImageData* image, ImageData* zlut, float minradius, float maxradius, vector3f pos, bool useSplineInterp=true, int ovs=4);
 void ApplyPoissonNoise(ImageData& img, float poissonMax, float maxValue=255);
 void ApplyGaussianNoise(ImageData& img, float sigma);
+
 void WriteComplexImageAsCSV(const char* file, std::complex<float>* d, int w,int h, const char *labels[]=0);
 void WriteArrayAsCSVRow(const char *file, float* d, int len, bool append);
+void WriteVectorAsCSVRow(const char *file, std::vector<float> d, bool append);
+void WriteImageAsCSV(const char* file, float* d, int w,int h, const char *labels[]=0);
 std::vector< std::vector<float> > ReadCSV(const char *filename, char sep='\t');
 std::vector<vector3f> ReadVector3CSV( const char *file, char sep='\t');
 

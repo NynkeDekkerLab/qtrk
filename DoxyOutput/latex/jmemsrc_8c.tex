@@ -1,0 +1,63 @@
+\hypertarget{jmemsrc_8c}{}\section{cputrack/\+Te\+Lib\+Jpeg/jmemsrc.c File Reference}
+\label{jmemsrc_8c}\index{cputrack/\+Te\+Lib\+Jpeg/jmemsrc.\+c@{cputrack/\+Te\+Lib\+Jpeg/jmemsrc.\+c}}
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}jmemdstsrc.\+h\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{jmemsrc_8c_ada3118e56d083499ce141e98ec116648}{init\+\_\+source} (j\+\_\+decompress\+\_\+ptr cinfo)
+\item 
+\hyperlink{jmemsrc_8c_aa3542f61993ed4a526694556fac65941}{fill\+\_\+input\+\_\+buffer} (j\+\_\+decompress\+\_\+ptr cinfo)
+\item 
+\hyperlink{jmemsrc_8c_ae539a6d1c36b54a0ef6168fecdc8379e}{skip\+\_\+input\+\_\+data} (j\+\_\+decompress\+\_\+ptr cinfo, long num\+\_\+bytes)
+\item 
+\hyperlink{jmemsrc_8c_a0337cf4ba81c0f78c48b5de379cca33e}{term\+\_\+source} (j\+\_\+decompress\+\_\+ptr cinfo)
+\item 
+\hyperlink{jmemsrc_8c_ab271eb032704bc54b4bd96ff7c0f0734}{j\+\_\+mem\+\_\+src} (j\+\_\+decompress\+\_\+ptr cinfo, unsigned char $\ast$buffer, unsigned int bufsize)
+\begin{DoxyCompactList}\small\item\em Function to allows the reading of J\+P\+EG data from a memory buffer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\index{jmemsrc.\+c@{jmemsrc.\+c}!fill\+\_\+input\+\_\+buffer@{fill\+\_\+input\+\_\+buffer}}
+\index{fill\+\_\+input\+\_\+buffer@{fill\+\_\+input\+\_\+buffer}!jmemsrc.\+c@{jmemsrc.\+c}}
+\subsubsection[{\texorpdfstring{fill\+\_\+input\+\_\+buffer(j\+\_\+decompress\+\_\+ptr cinfo)}{fill_input_buffer(j_decompress_ptr cinfo)}}]{\setlength{\rightskip}{0pt plus 5cm}fill\+\_\+input\+\_\+buffer (
+\begin{DoxyParamCaption}
+\item[{j\+\_\+decompress\+\_\+ptr}]{cinfo}
+\end{DoxyParamCaption}
+)}\hypertarget{jmemsrc_8c_aa3542f61993ed4a526694556fac65941}{}\label{jmemsrc_8c_aa3542f61993ed4a526694556fac65941}
+\index{jmemsrc.\+c@{jmemsrc.\+c}!init\+\_\+source@{init\+\_\+source}}
+\index{init\+\_\+source@{init\+\_\+source}!jmemsrc.\+c@{jmemsrc.\+c}}
+\subsubsection[{\texorpdfstring{init\+\_\+source(j\+\_\+decompress\+\_\+ptr cinfo)}{init_source(j_decompress_ptr cinfo)}}]{\setlength{\rightskip}{0pt plus 5cm}init\+\_\+source (
+\begin{DoxyParamCaption}
+\item[{j\+\_\+decompress\+\_\+ptr}]{cinfo}
+\end{DoxyParamCaption}
+)}\hypertarget{jmemsrc_8c_ada3118e56d083499ce141e98ec116648}{}\label{jmemsrc_8c_ada3118e56d083499ce141e98ec116648}
+\index{jmemsrc.\+c@{jmemsrc.\+c}!j\+\_\+mem\+\_\+src@{j\+\_\+mem\+\_\+src}}
+\index{j\+\_\+mem\+\_\+src@{j\+\_\+mem\+\_\+src}!jmemsrc.\+c@{jmemsrc.\+c}}
+\subsubsection[{\texorpdfstring{j\+\_\+mem\+\_\+src(j\+\_\+decompress\+\_\+ptr cinfo, unsigned char $\ast$buffer, unsigned int bufsize)}{j_mem_src(j_decompress_ptr cinfo, unsigned char *buffer, unsigned int bufsize)}}]{\setlength{\rightskip}{0pt plus 5cm}j\+\_\+mem\+\_\+src (
+\begin{DoxyParamCaption}
+\item[{j\+\_\+decompress\+\_\+ptr}]{cinfo, }
+\item[{unsigned char $\ast$}]{buffer, }
+\item[{unsigned int}]{bufsize}
+\end{DoxyParamCaption}
+)}\hypertarget{jmemsrc_8c_ab271eb032704bc54b4bd96ff7c0f0734}{}\label{jmemsrc_8c_ab271eb032704bc54b4bd96ff7c0f0734}
+
+
+Function to allows the reading of J\+P\+EG data from a memory buffer. 
+
+\index{jmemsrc.\+c@{jmemsrc.\+c}!skip\+\_\+input\+\_\+data@{skip\+\_\+input\+\_\+data}}
+\index{skip\+\_\+input\+\_\+data@{skip\+\_\+input\+\_\+data}!jmemsrc.\+c@{jmemsrc.\+c}}
+\subsubsection[{\texorpdfstring{skip\+\_\+input\+\_\+data(j\+\_\+decompress\+\_\+ptr cinfo, long num\+\_\+bytes)}{skip_input_data(j_decompress_ptr cinfo, long num_bytes)}}]{\setlength{\rightskip}{0pt plus 5cm}skip\+\_\+input\+\_\+data (
+\begin{DoxyParamCaption}
+\item[{j\+\_\+decompress\+\_\+ptr}]{cinfo, }
+\item[{long}]{num\+\_\+bytes}
+\end{DoxyParamCaption}
+)}\hypertarget{jmemsrc_8c_ae539a6d1c36b54a0ef6168fecdc8379e}{}\label{jmemsrc_8c_ae539a6d1c36b54a0ef6168fecdc8379e}
+\index{jmemsrc.\+c@{jmemsrc.\+c}!term\+\_\+source@{term\+\_\+source}}
+\index{term\+\_\+source@{term\+\_\+source}!jmemsrc.\+c@{jmemsrc.\+c}}
+\subsubsection[{\texorpdfstring{term\+\_\+source(j\+\_\+decompress\+\_\+ptr cinfo)}{term_source(j_decompress_ptr cinfo)}}]{\setlength{\rightskip}{0pt plus 5cm}term\+\_\+source (
+\begin{DoxyParamCaption}
+\item[{j\+\_\+decompress\+\_\+ptr}]{cinfo}
+\end{DoxyParamCaption}
+)}\hypertarget{jmemsrc_8c_a0337cf4ba81c0f78c48b5de379cca33e}{}\label{jmemsrc_8c_a0337cf4ba81c0f78c48b5de379cca33e}

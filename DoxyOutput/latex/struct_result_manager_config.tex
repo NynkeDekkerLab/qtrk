@@ -1,0 +1,93 @@
+\hypertarget{struct_result_manager_config}{}\section{Result\+Manager\+Config Struct Reference}
+\label{struct_result_manager_config}\index{Result\+Manager\+Config@{Result\+Manager\+Config}}
+
+
+Structure for settings used by \hyperlink{class_result_manager}{Result\+Manager}.  
+
+
+
+
+{\ttfamily \#include $<$Result\+Manager.\+h$>$}
+
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{struct_result_manager_config_a790ecadd32a0c0242cb002752af806af}{num\+Beads}
+\begin{DoxyCompactList}\small\item\em Number of beads for which to grab results. Should {\itshape always} equal the amount of beads in a single frame. \end{DoxyCompactList}\item 
+int \hyperlink{struct_result_manager_config_a97e9e26724a91e3a6757957f18b8f8b7}{num\+Frame\+Info\+Columns}
+\begin{DoxyCompactList}\small\item\em Number of columns in the frame info metadata file. Additional columns can be added to save more data on a per-\/frame basis. \end{DoxyCompactList}\item 
+\hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f} \hyperlink{struct_result_manager_config_abb553f047043e2bd16b27ba6221f358e}{scaling}
+\begin{DoxyCompactList}\small\item\em Scaling factor for each of the three dimensions. \end{DoxyCompactList}\item 
+\hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f} \hyperlink{struct_result_manager_config_ac7b28e680c90bc2a882a6e064d919a40}{offset}
+\begin{DoxyCompactList}\small\item\em Offset value for each of the three dimensions. \end{DoxyCompactList}\item 
+int \hyperlink{struct_result_manager_config_a24c57e2403e5012fc5900924db770611}{write\+Interval}
+\begin{DoxyCompactList}\small\item\em Interval of number of gathered frames at which to write the data. \end{DoxyCompactList}\item 
+\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} \hyperlink{struct_result_manager_config_a11b7dd434bb6477aad45198b76593f59}{max\+Frames\+In\+Memory}
+\begin{DoxyCompactList}\small\item\em Number of frames for which to keep the data in memory. 0 for infinite. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct_result_manager_config_a292ca1e5db1a9599d5dc52e14e83c2eb}{binary\+Output}
+\begin{DoxyCompactList}\small\item\em Flag (boolean) to output a binary file instead of a text file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Structure for settings used by \hyperlink{class_result_manager}{Result\+Manager}. 
+
+Compiled without padding to line up with Lab\+V\+I\+EW alignment. \begin{DoxyWarning}{Warning}
+Changing this requires changing of the linked Lab\+V\+I\+EW cluster Q\+Trk\+Settings.\+ctl. 
+\end{DoxyWarning}
+
+
+\subsection{Member Data Documentation}
+\index{Result\+Manager\+Config@{Result\+Manager\+Config}!binary\+Output@{binary\+Output}}
+\index{binary\+Output@{binary\+Output}!Result\+Manager\+Config@{Result\+Manager\+Config}}
+\subsubsection[{\texorpdfstring{binary\+Output}{binaryOutput}}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t Result\+Manager\+Config\+::binary\+Output}\hypertarget{struct_result_manager_config_a292ca1e5db1a9599d5dc52e14e83c2eb}{}\label{struct_result_manager_config_a292ca1e5db1a9599d5dc52e14e83c2eb}
+
+
+Flag (boolean) to output a binary file instead of a text file. 
+
+\index{Result\+Manager\+Config@{Result\+Manager\+Config}!max\+Frames\+In\+Memory@{max\+Frames\+In\+Memory}}
+\index{max\+Frames\+In\+Memory@{max\+Frames\+In\+Memory}!Result\+Manager\+Config@{Result\+Manager\+Config}}
+\subsubsection[{\texorpdfstring{max\+Frames\+In\+Memory}{maxFramesInMemory}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint} Result\+Manager\+Config\+::max\+Frames\+In\+Memory}\hypertarget{struct_result_manager_config_a11b7dd434bb6477aad45198b76593f59}{}\label{struct_result_manager_config_a11b7dd434bb6477aad45198b76593f59}
+
+
+Number of frames for which to keep the data in memory. 0 for infinite. 
+
+\index{Result\+Manager\+Config@{Result\+Manager\+Config}!num\+Beads@{num\+Beads}}
+\index{num\+Beads@{num\+Beads}!Result\+Manager\+Config@{Result\+Manager\+Config}}
+\subsubsection[{\texorpdfstring{num\+Beads}{numBeads}}]{\setlength{\rightskip}{0pt plus 5cm}int Result\+Manager\+Config\+::num\+Beads}\hypertarget{struct_result_manager_config_a790ecadd32a0c0242cb002752af806af}{}\label{struct_result_manager_config_a790ecadd32a0c0242cb002752af806af}
+
+
+Number of beads for which to grab results. Should {\itshape always} equal the amount of beads in a single frame. 
+
+\index{Result\+Manager\+Config@{Result\+Manager\+Config}!num\+Frame\+Info\+Columns@{num\+Frame\+Info\+Columns}}
+\index{num\+Frame\+Info\+Columns@{num\+Frame\+Info\+Columns}!Result\+Manager\+Config@{Result\+Manager\+Config}}
+\subsubsection[{\texorpdfstring{num\+Frame\+Info\+Columns}{numFrameInfoColumns}}]{\setlength{\rightskip}{0pt plus 5cm}int Result\+Manager\+Config\+::num\+Frame\+Info\+Columns}\hypertarget{struct_result_manager_config_a97e9e26724a91e3a6757957f18b8f8b7}{}\label{struct_result_manager_config_a97e9e26724a91e3a6757957f18b8f8b7}
+
+
+Number of columns in the frame info metadata file. Additional columns can be added to save more data on a per-\/frame basis. 
+
+\index{Result\+Manager\+Config@{Result\+Manager\+Config}!offset@{offset}}
+\index{offset@{offset}!Result\+Manager\+Config@{Result\+Manager\+Config}}
+\subsubsection[{\texorpdfstring{offset}{offset}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf vector3f} Result\+Manager\+Config\+::offset}\hypertarget{struct_result_manager_config_ac7b28e680c90bc2a882a6e064d919a40}{}\label{struct_result_manager_config_ac7b28e680c90bc2a882a6e064d919a40}
+
+
+Offset value for each of the three dimensions. 
+
+Used to calculate from pixel/plane output from \hyperlink{class_queued_tracker}{Queued\+Tracker} to physical values. Output will be (position + \hyperlink{struct_result_manager_config_ac7b28e680c90bc2a882a6e064d919a40}{offset}) $\ast$ \hyperlink{struct_result_manager_config_abb553f047043e2bd16b27ba6221f358e}{scaling}. \index{Result\+Manager\+Config@{Result\+Manager\+Config}!scaling@{scaling}}
+\index{scaling@{scaling}!Result\+Manager\+Config@{Result\+Manager\+Config}}
+\subsubsection[{\texorpdfstring{scaling}{scaling}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf vector3f} Result\+Manager\+Config\+::scaling}\hypertarget{struct_result_manager_config_abb553f047043e2bd16b27ba6221f358e}{}\label{struct_result_manager_config_abb553f047043e2bd16b27ba6221f358e}
+
+
+Scaling factor for each of the three dimensions. 
+
+Used to calculate from pixel/plane output from \hyperlink{class_queued_tracker}{Queued\+Tracker} to physical values. Output will be (position + \hyperlink{struct_result_manager_config_ac7b28e680c90bc2a882a6e064d919a40}{offset}) $\ast$ \hyperlink{struct_result_manager_config_abb553f047043e2bd16b27ba6221f358e}{scaling}. \index{Result\+Manager\+Config@{Result\+Manager\+Config}!write\+Interval@{write\+Interval}}
+\index{write\+Interval@{write\+Interval}!Result\+Manager\+Config@{Result\+Manager\+Config}}
+\subsubsection[{\texorpdfstring{write\+Interval}{writeInterval}}]{\setlength{\rightskip}{0pt plus 5cm}int Result\+Manager\+Config\+::write\+Interval}\hypertarget{struct_result_manager_config_a24c57e2403e5012fc5900924db770611}{}\label{struct_result_manager_config_a24c57e2403e5012fc5900924db770611}
+
+
+Interval of number of gathered frames at which to write the data. 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+cputrack/\hyperlink{_result_manager_8h}{Result\+Manager.\+h}\end{DoxyCompactItemize}

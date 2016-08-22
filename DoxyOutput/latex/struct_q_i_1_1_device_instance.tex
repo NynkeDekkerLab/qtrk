@@ -1,0 +1,64 @@
+\hypertarget{struct_q_i_1_1_device_instance}{}\section{QI\+:\+:Device\+Instance Struct Reference}
+\label{struct_q_i_1_1_device_instance}\index{Q\+I\+::\+Device\+Instance@{Q\+I\+::\+Device\+Instance}}
+
+
+{\ttfamily \#include $<$Q\+I.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{struct_q_i_1_1_device_instance_ab321e6992b8172848d1ad48a909a8c0a}{$\sim$\+Device\+Instance} ()
+\item 
+\hyperlink{struct_q_i_1_1_device_instance_a629e845ff5f15a64d69932c49466bec5}{Device\+Instance} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classdevice__vec}{device\+\_\+vec}$<$ float2 $>$ \hyperlink{struct_q_i_1_1_device_instance_ab730111e2f8c985f989292bd08a37cb2}{qi\+\_\+trigtable}
+\item 
+\hyperlink{struct_q_i_params}{Q\+I\+Params} $\ast$ \hyperlink{struct_q_i_1_1_device_instance_abe6dcf39cea54486eab662f1fbb178dc}{d\+\_\+qiparams}
+\item 
+\hyperlink{classdevice__vec}{device\+\_\+vec}$<$ float $>$ \hyperlink{struct_q_i_1_1_device_instance_a9b2174efc43fc2f8ff6fa79878fe027a}{d\+\_\+radialweights}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Q\+I\+::\+Device\+Instance@{Q\+I\+::\+Device\+Instance}!````~Device\+Instance@{$\sim$\+Device\+Instance}}
+\index{````~Device\+Instance@{$\sim$\+Device\+Instance}!Q\+I\+::\+Device\+Instance@{Q\+I\+::\+Device\+Instance}}
+\subsubsection[{\texorpdfstring{$\sim$\+Device\+Instance()}{~DeviceInstance()}}]{\setlength{\rightskip}{0pt plus 5cm}Q\+I\+::\+Device\+Instance\+::$\sim$\+Device\+Instance (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{struct_q_i_1_1_device_instance_ab321e6992b8172848d1ad48a909a8c0a}{}\label{struct_q_i_1_1_device_instance_ab321e6992b8172848d1ad48a909a8c0a}
+
+\begin{DoxyCode}
+54 \{ cudaFree(\hyperlink{struct_q_i_1_1_device_instance_abe6dcf39cea54486eab662f1fbb178dc}{d\_qiparams}); \}
+\end{DoxyCode}
+\index{Q\+I\+::\+Device\+Instance@{Q\+I\+::\+Device\+Instance}!Device\+Instance@{Device\+Instance}}
+\index{Device\+Instance@{Device\+Instance}!Q\+I\+::\+Device\+Instance@{Q\+I\+::\+Device\+Instance}}
+\subsubsection[{\texorpdfstring{Device\+Instance()}{DeviceInstance()}}]{\setlength{\rightskip}{0pt plus 5cm}Q\+I\+::\+Device\+Instance\+::\+Device\+Instance (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{struct_q_i_1_1_device_instance_a629e845ff5f15a64d69932c49466bec5}{}\label{struct_q_i_1_1_device_instance_a629e845ff5f15a64d69932c49466bec5}
+
+\begin{DoxyCode}
+55 \{ \hyperlink{struct_q_i_1_1_device_instance_abe6dcf39cea54486eab662f1fbb178dc}{d\_qiparams}=0; \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\index{Q\+I\+::\+Device\+Instance@{Q\+I\+::\+Device\+Instance}!d\+\_\+qiparams@{d\+\_\+qiparams}}
+\index{d\+\_\+qiparams@{d\+\_\+qiparams}!Q\+I\+::\+Device\+Instance@{Q\+I\+::\+Device\+Instance}}
+\subsubsection[{\texorpdfstring{d\+\_\+qiparams}{d_qiparams}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Q\+I\+Params}$\ast$ Q\+I\+::\+Device\+Instance\+::d\+\_\+qiparams}\hypertarget{struct_q_i_1_1_device_instance_abe6dcf39cea54486eab662f1fbb178dc}{}\label{struct_q_i_1_1_device_instance_abe6dcf39cea54486eab662f1fbb178dc}
+\index{Q\+I\+::\+Device\+Instance@{Q\+I\+::\+Device\+Instance}!d\+\_\+radialweights@{d\+\_\+radialweights}}
+\index{d\+\_\+radialweights@{d\+\_\+radialweights}!Q\+I\+::\+Device\+Instance@{Q\+I\+::\+Device\+Instance}}
+\subsubsection[{\texorpdfstring{d\+\_\+radialweights}{d_radialweights}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf device\+\_\+vec}$<$float$>$ Q\+I\+::\+Device\+Instance\+::d\+\_\+radialweights}\hypertarget{struct_q_i_1_1_device_instance_a9b2174efc43fc2f8ff6fa79878fe027a}{}\label{struct_q_i_1_1_device_instance_a9b2174efc43fc2f8ff6fa79878fe027a}
+\index{Q\+I\+::\+Device\+Instance@{Q\+I\+::\+Device\+Instance}!qi\+\_\+trigtable@{qi\+\_\+trigtable}}
+\index{qi\+\_\+trigtable@{qi\+\_\+trigtable}!Q\+I\+::\+Device\+Instance@{Q\+I\+::\+Device\+Instance}}
+\subsubsection[{\texorpdfstring{qi\+\_\+trigtable}{qi_trigtable}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf device\+\_\+vec}$<$float2$>$ Q\+I\+::\+Device\+Instance\+::qi\+\_\+trigtable}\hypertarget{struct_q_i_1_1_device_instance_ab730111e2f8c985f989292bd08a37cb2}{}\label{struct_q_i_1_1_device_instance_ab730111e2f8c985f989292bd08a37cb2}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+cudatrack/\hyperlink{_q_i_8h}{Q\+I.\+h}\end{DoxyCompactItemize}

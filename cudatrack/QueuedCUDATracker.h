@@ -62,6 +62,7 @@ struct ImageLUTConfig
 	float xscale, yscale;
 };
 
+/*! \brief CUDA implementation of the QueuedTracker interface. */
 class QueuedCUDATracker : public QueuedTracker {
 public:
 	QueuedCUDATracker(const QTrkComputedConfig& cc, int batchSize=-1);
@@ -80,13 +81,12 @@ public:
 	int FetchResults(LocalizationResult* results, int maxResults) override;
 
 	void BeginLUT(uint flags) override;
-	void BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, int plane, vector2f* known_pos) override;
+	void BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, int plane, vector2f* known_pos = 0) override;
 	void FinalizeLUT() override;
 
 	void EnableRadialZLUTCompareProfile(bool enabled) {}
 	void GetRadialZLUTCompareProfile(float* dst) {} // dst = [count * planes]
-
-
+	
 	std::string GetProfileReport() override;
 
 	// Force the current waiting batch to be processed. 
@@ -174,6 +174,15 @@ protected:
 	};
 
 	int numThreads;
+
+	/*!
+	\brief Amount of images to be sent at once per stream.
+
+	Higher batchsize = higher speeds. 
+	Reason why it's faster:
+	1. More threads & blocks are created, allowing more efficient memory latency hiding by warp switching, or in other words, higher occupancy is achieved.
+	2. Bigger batches are copied at a time, achieving higher effective PCIe bus bandwidth.
+	*/
 	int batchSize;
 
 	dim3 blocks(int workItems) { return dim3((workItems+numThreads-1)/numThreads); }
@@ -217,7 +226,8 @@ public:
 		double com, qi, imageCopy, zcompute, zlutAlign, getResults;
 	};
 	KernelProfileTime time, cpu_time;
-	int batchesDone;
+	int batchesDone;	
+
 	std::string deviceReport;
 };
 

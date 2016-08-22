@@ -1,0 +1,331 @@
+\hypertarget{classdevice__vec}{}\section{device\+\_\+vec$<$ T $>$ Class Template Reference}
+\label{classdevice__vec}\index{device\+\_\+vec$<$ T $>$@{device\+\_\+vec$<$ T $>$}}
+
+
+{\ttfamily \#include $<$gpu\+\_\+utils.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classdevice__vec_a5a35735d73712612a808a14be715b0d8}{device\+\_\+vec} ()
+\item 
+\hyperlink{classdevice__vec_ae849d2c03629659600de03d5f1e380df}{device\+\_\+vec} (size\+\_\+t N)
+\item 
+\hyperlink{classdevice__vec_a610a2ac053f01179ad1087f63ca48155}{device\+\_\+vec} (const \hyperlink{classdevice__vec}{device\+\_\+vec}$<$ T $>$ \&src)
+\item 
+\hyperlink{classdevice__vec_abb16a39b663bec4c218ae65a54e34b11}{device\+\_\+vec} (const std\+::vector$<$ T $>$ \&src)
+\item 
+\hyperlink{classdevice__vec_a2e2e639f54add3bf887fd2e8ba58d6ea}{$\sim$device\+\_\+vec} ()
+\item 
+void \hyperlink{classdevice__vec_af37488e2aa53aedb69505c2ce3602f96}{init} (size\+\_\+t s)
+\item 
+void \hyperlink{classdevice__vec_a4774d74dc6725dfd943e847a8fd0b14f}{free} ()
+\item 
+\hyperlink{classdevice__vec_a154eb7a6ed0f8210579dc470698653a3}{operator std\+::vector$<$ T $>$} () const 
+\item 
+\hyperlink{classdevice__vec}{device\+\_\+vec}$<$ T $>$ \& \hyperlink{classdevice__vec_a3f2ed4d208a916b85280bbe50aebb1e0}{operator=} (const std\+::vector$<$ T $>$ \&src)
+\item 
+\hyperlink{classdevice__vec}{device\+\_\+vec}$<$ T $>$ \& \hyperlink{classdevice__vec_a5c89e02994d71d7b02f92c97e495a260}{operator=} (const \hyperlink{classdevice__vec}{device\+\_\+vec}$<$ T $>$ \&src)
+\item 
+void \hyperlink{classdevice__vec_a9e8112582faa85f58fff7aeeafb3c455}{copy\+To\+Host} (T $\ast$dst, bool async, cuda\+Stream\+\_\+t s=0)
+\item 
+void \hyperlink{classdevice__vec_a786087e50d360d6cf816d6146239c2ee}{copy\+To\+Host} (std\+::vector$<$ T $>$ \&dst, bool async, cuda\+Stream\+\_\+t s=0)
+\item 
+void \hyperlink{classdevice__vec_ae995f17b258e9b619ca6fa7e4a701948}{copy\+To\+Device} (const std\+::vector$<$ T $>$ \&src, bool async=false, cuda\+Stream\+\_\+t s=0)
+\item 
+void \hyperlink{classdevice__vec_ad0dbcf813b914dcd127e04ea192781a6}{copy\+To\+Device} (const T $\ast$first, size\+\_\+t \hyperlink{classdevice__vec_a1452496fe02af53427d0284e2bb6ca6e}{size}, bool async=false, cuda\+Stream\+\_\+t s=0)
+\item 
+std\+::vector$<$ T $>$ \hyperlink{classdevice__vec_aabbd149a94ae2af2bdef222083094364}{to\+Vector} ()
+\item 
+size\+\_\+t \hyperlink{classdevice__vec_ab21a5b6ed647145a71a3db19d3c26156}{memsize} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+size\+\_\+t \hyperlink{classdevice__vec_a1452496fe02af53427d0284e2bb6ca6e}{size}
+\item 
+T $\ast$ \hyperlink{classdevice__vec_a908e53910a02968513832c242790caa0}{data}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{device\+\_\+vec@{device\+\_\+vec}!device\+\_\+vec@{device\+\_\+vec}}
+\index{device\+\_\+vec@{device\+\_\+vec}!device\+\_\+vec@{device\+\_\+vec}}
+\subsubsection[{\texorpdfstring{device\+\_\+vec()}{device_vec()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ {\bf device\+\_\+vec}$<$ T $>$\+::{\bf device\+\_\+vec} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classdevice__vec_a5a35735d73712612a808a14be715b0d8}{}\label{classdevice__vec_a5a35735d73712612a808a14be715b0d8}
+
+\begin{DoxyCode}
+68                  \{
+69         \hyperlink{classdevice__vec_a908e53910a02968513832c242790caa0}{data} = 0;
+70         \hyperlink{classdevice__vec_a1452496fe02af53427d0284e2bb6ca6e}{size} = 0;
+71     \}
+\end{DoxyCode}
+\index{device\+\_\+vec@{device\+\_\+vec}!device\+\_\+vec@{device\+\_\+vec}}
+\index{device\+\_\+vec@{device\+\_\+vec}!device\+\_\+vec@{device\+\_\+vec}}
+\subsubsection[{\texorpdfstring{device\+\_\+vec(size\+\_\+t N)}{device_vec(size_t N)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ {\bf device\+\_\+vec}$<$ T $>$\+::{\bf device\+\_\+vec} (
+\begin{DoxyParamCaption}
+\item[{size\+\_\+t}]{N}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classdevice__vec_ae849d2c03629659600de03d5f1e380df}{}\label{classdevice__vec_ae849d2c03629659600de03d5f1e380df}
+
+\begin{DoxyCode}
+73                          \{ 
+74         \hyperlink{classdevice__vec_a908e53910a02968513832c242790caa0}{data} = 0;
+75         \hyperlink{classdevice__vec_a1452496fe02af53427d0284e2bb6ca6e}{size} = 0;
+76         \hyperlink{classdevice__vec_af37488e2aa53aedb69505c2ce3602f96}{init}(N);
+77     \}
+\end{DoxyCode}
+\index{device\+\_\+vec@{device\+\_\+vec}!device\+\_\+vec@{device\+\_\+vec}}
+\index{device\+\_\+vec@{device\+\_\+vec}!device\+\_\+vec@{device\+\_\+vec}}
+\subsubsection[{\texorpdfstring{device\+\_\+vec(const device\+\_\+vec$<$ T $>$ \&src)}{device_vec(const device_vec< T > &src)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ {\bf device\+\_\+vec}$<$ T $>$\+::{\bf device\+\_\+vec} (
+\begin{DoxyParamCaption}
+\item[{const {\bf device\+\_\+vec}$<$ T $>$ \&}]{src}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classdevice__vec_a610a2ac053f01179ad1087f63ca48155}{}\label{classdevice__vec_a610a2ac053f01179ad1087f63ca48155}
+
+\begin{DoxyCode}
+78                                          \{
+79         \hyperlink{classdevice__vec_a908e53910a02968513832c242790caa0}{data} = 0; \hyperlink{classdevice__vec_a1452496fe02af53427d0284e2bb6ca6e}{size} = 0;
+80         \hyperlink{classdevice__vec_af37488e2aa53aedb69505c2ce3602f96}{init}(src.\hyperlink{classdevice__vec_a1452496fe02af53427d0284e2bb6ca6e}{size});
+81         \hyperlink{gpu__utils_8h_a0e8c0c69887658f653eefbb80334bc3f}{dbgCUDAErrorCheck}(cudaMemcpy(\hyperlink{classdevice__vec_a908e53910a02968513832c242790caa0}{data}, src.\hyperlink{classdevice__vec_a908e53910a02968513832c242790caa0}{data}, \textcolor{keyword}{sizeof}(T)*
+      \hyperlink{classdevice__vec_a1452496fe02af53427d0284e2bb6ca6e}{size}, cudaMemcpyDeviceToDevice));
+82     \}
+\end{DoxyCode}
+\index{device\+\_\+vec@{device\+\_\+vec}!device\+\_\+vec@{device\+\_\+vec}}
+\index{device\+\_\+vec@{device\+\_\+vec}!device\+\_\+vec@{device\+\_\+vec}}
+\subsubsection[{\texorpdfstring{device\+\_\+vec(const std\+::vector$<$ T $>$ \&src)}{device_vec(const std::vector< T > &src)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ {\bf device\+\_\+vec}$<$ T $>$\+::{\bf device\+\_\+vec} (
+\begin{DoxyParamCaption}
+\item[{const std\+::vector$<$ T $>$ \&}]{src}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classdevice__vec_abb16a39b663bec4c218ae65a54e34b11}{}\label{classdevice__vec_abb16a39b663bec4c218ae65a54e34b11}
+
+\begin{DoxyCode}
+83                                         \{
+84         \hyperlink{classdevice__vec_a908e53910a02968513832c242790caa0}{data}=0; \hyperlink{classdevice__vec_a1452496fe02af53427d0284e2bb6ca6e}{size}=0; 
+85         \hyperlink{classdevice__vec_af37488e2aa53aedb69505c2ce3602f96}{init}(src.size());
+86         \hyperlink{gpu__utils_8h_a0e8c0c69887658f653eefbb80334bc3f}{dbgCUDAErrorCheck}(cudaMemcpy(\hyperlink{classdevice__vec_a908e53910a02968513832c242790caa0}{data}, &src[0], \textcolor{keyword}{sizeof}(T)*
+      \hyperlink{classdevice__vec_a1452496fe02af53427d0284e2bb6ca6e}{size}, cudaMemcpyHostToDevice));
+87     \}
+\end{DoxyCode}
+\index{device\+\_\+vec@{device\+\_\+vec}!````~device\+\_\+vec@{$\sim$device\+\_\+vec}}
+\index{````~device\+\_\+vec@{$\sim$device\+\_\+vec}!device\+\_\+vec@{device\+\_\+vec}}
+\subsubsection[{\texorpdfstring{$\sim$device\+\_\+vec()}{~device_vec()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ {\bf device\+\_\+vec}$<$ T $>$\+::$\sim${\bf device\+\_\+vec} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classdevice__vec_a2e2e639f54add3bf887fd2e8ba58d6ea}{}\label{classdevice__vec_a2e2e639f54add3bf887fd2e8ba58d6ea}
+
+\begin{DoxyCode}
+88                  \{
+89         \hyperlink{classdevice__vec_a4774d74dc6725dfd943e847a8fd0b14f}{free}();
+90     \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\index{device\+\_\+vec@{device\+\_\+vec}!copy\+To\+Device@{copy\+To\+Device}}
+\index{copy\+To\+Device@{copy\+To\+Device}!device\+\_\+vec@{device\+\_\+vec}}
+\subsubsection[{\texorpdfstring{copy\+To\+Device(const std\+::vector$<$ T $>$ \&src, bool async=false, cuda\+Stream\+\_\+t s=0)}{copyToDevice(const std::vector< T > &src, bool async=false, cudaStream_t s=0)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ void {\bf device\+\_\+vec}$<$ T $>$\+::copy\+To\+Device (
+\begin{DoxyParamCaption}
+\item[{const std\+::vector$<$ T $>$ \&}]{src, }
+\item[{bool}]{async = {\ttfamily false}, }
+\item[{cuda\+Stream\+\_\+t}]{s = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classdevice__vec_ae995f17b258e9b619ca6fa7e4a701948}{}\label{classdevice__vec_ae995f17b258e9b619ca6fa7e4a701948}
+
+\begin{DoxyCode}
+135                                                                                    \{
+136         \hyperlink{classdevice__vec_ae995f17b258e9b619ca6fa7e4a701948}{copyToDevice}(&src[0], src.size(), async, s);
+137     \}
+\end{DoxyCode}
+\index{device\+\_\+vec@{device\+\_\+vec}!copy\+To\+Device@{copy\+To\+Device}}
+\index{copy\+To\+Device@{copy\+To\+Device}!device\+\_\+vec@{device\+\_\+vec}}
+\subsubsection[{\texorpdfstring{copy\+To\+Device(const T $\ast$first, size\+\_\+t size, bool async=false, cuda\+Stream\+\_\+t s=0)}{copyToDevice(const T *first, size_t size, bool async=false, cudaStream_t s=0)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ void {\bf device\+\_\+vec}$<$ T $>$\+::copy\+To\+Device (
+\begin{DoxyParamCaption}
+\item[{const T $\ast$}]{first, }
+\item[{size\+\_\+t}]{size, }
+\item[{bool}]{async = {\ttfamily false}, }
+\item[{cuda\+Stream\+\_\+t}]{s = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classdevice__vec_ad0dbcf813b914dcd127e04ea192781a6}{}\label{classdevice__vec_ad0dbcf813b914dcd127e04ea192781a6}
+
+\begin{DoxyCode}
+138                                                                                        \{
+139         \textcolor{keywordflow}{if} (this->\hyperlink{classdevice__vec_a1452496fe02af53427d0284e2bb6ca6e}{size} < \hyperlink{classdevice__vec_a1452496fe02af53427d0284e2bb6ca6e}{size})
+140             \hyperlink{classdevice__vec_af37488e2aa53aedb69505c2ce3602f96}{init}(\hyperlink{classdevice__vec_a1452496fe02af53427d0284e2bb6ca6e}{size});
+141         \textcolor{keywordflow}{if} (async)
+142             \hyperlink{gpu__utils_8h_a0e8c0c69887658f653eefbb80334bc3f}{dbgCUDAErrorCheck}(cudaMemcpyAsync(\hyperlink{classdevice__vec_a908e53910a02968513832c242790caa0}{data}, first, \textcolor{keyword}{sizeof}(T) * 
+      \hyperlink{classdevice__vec_a1452496fe02af53427d0284e2bb6ca6e}{size}, cudaMemcpyHostToDevice, s));
+143         \textcolor{keywordflow}{else}
+144             \hyperlink{gpu__utils_8h_a0e8c0c69887658f653eefbb80334bc3f}{dbgCUDAErrorCheck}(cudaMemcpy(\hyperlink{classdevice__vec_a908e53910a02968513832c242790caa0}{data}, first, \textcolor{keyword}{sizeof}(T) * 
+      \hyperlink{classdevice__vec_a1452496fe02af53427d0284e2bb6ca6e}{size}, cudaMemcpyHostToDevice));
+145     \}
+\end{DoxyCode}
+\index{device\+\_\+vec@{device\+\_\+vec}!copy\+To\+Host@{copy\+To\+Host}}
+\index{copy\+To\+Host@{copy\+To\+Host}!device\+\_\+vec@{device\+\_\+vec}}
+\subsubsection[{\texorpdfstring{copy\+To\+Host(\+T $\ast$dst, bool async, cuda\+Stream\+\_\+t s=0)}{copyToHost(T *dst, bool async, cudaStream_t s=0)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ void {\bf device\+\_\+vec}$<$ T $>$\+::copy\+To\+Host (
+\begin{DoxyParamCaption}
+\item[{T $\ast$}]{dst, }
+\item[{bool}]{async, }
+\item[{cuda\+Stream\+\_\+t}]{s = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classdevice__vec_a9e8112582faa85f58fff7aeeafb3c455}{}\label{classdevice__vec_a9e8112582faa85f58fff7aeeafb3c455}
+
+\begin{DoxyCode}
+124                                                           \{
+125         \textcolor{keywordflow}{if} (async)
+126             \hyperlink{gpu__utils_8h_a0e8c0c69887658f653eefbb80334bc3f}{dbgCUDAErrorCheck}(cudaMemcpyAsync(dst, \hyperlink{classdevice__vec_a908e53910a02968513832c242790caa0}{data}, \textcolor{keyword}{sizeof}(T) * 
+      \hyperlink{classdevice__vec_a1452496fe02af53427d0284e2bb6ca6e}{size}, cudaMemcpyDeviceToHost, s));
+127         \textcolor{keywordflow}{else}
+128             \hyperlink{gpu__utils_8h_a0e8c0c69887658f653eefbb80334bc3f}{dbgCUDAErrorCheck}(cudaMemcpy(dst, \hyperlink{classdevice__vec_a908e53910a02968513832c242790caa0}{data}, \textcolor{keyword}{sizeof}(T) * 
+      \hyperlink{classdevice__vec_a1452496fe02af53427d0284e2bb6ca6e}{size}, cudaMemcpyDeviceToHost));
+129     \}
+\end{DoxyCode}
+\index{device\+\_\+vec@{device\+\_\+vec}!copy\+To\+Host@{copy\+To\+Host}}
+\index{copy\+To\+Host@{copy\+To\+Host}!device\+\_\+vec@{device\+\_\+vec}}
+\subsubsection[{\texorpdfstring{copy\+To\+Host(std\+::vector$<$ T $>$ \&dst, bool async, cuda\+Stream\+\_\+t s=0)}{copyToHost(std::vector< T > &dst, bool async, cudaStream_t s=0)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ void {\bf device\+\_\+vec}$<$ T $>$\+::copy\+To\+Host (
+\begin{DoxyParamCaption}
+\item[{std\+::vector$<$ T $>$ \&}]{dst, }
+\item[{bool}]{async, }
+\item[{cuda\+Stream\+\_\+t}]{s = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classdevice__vec_a786087e50d360d6cf816d6146239c2ee}{}\label{classdevice__vec_a786087e50d360d6cf816d6146239c2ee}
+
+\begin{DoxyCode}
+130                                                                      \{
+131         \textcolor{keywordflow}{if} (dst.size() != \hyperlink{classdevice__vec_a1452496fe02af53427d0284e2bb6ca6e}{size})
+132             dst.resize(\hyperlink{classdevice__vec_a1452496fe02af53427d0284e2bb6ca6e}{size});
+133         \hyperlink{classdevice__vec_a9e8112582faa85f58fff7aeeafb3c455}{copyToHost}(&dst[0], async, s);
+134     \}
+\end{DoxyCode}
+\index{device\+\_\+vec@{device\+\_\+vec}!free@{free}}
+\index{free@{free}!device\+\_\+vec@{device\+\_\+vec}}
+\subsubsection[{\texorpdfstring{free()}{free()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ void {\bf device\+\_\+vec}$<$ T $>$\+::free (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classdevice__vec_a4774d74dc6725dfd943e847a8fd0b14f}{}\label{classdevice__vec_a4774d74dc6725dfd943e847a8fd0b14f}
+
+\begin{DoxyCode}
+102                 \{
+103         \textcolor{keywordflow}{if} (\hyperlink{classdevice__vec_a908e53910a02968513832c242790caa0}{data}) \{
+104             \hyperlink{gpu__utils_8h_a0e8c0c69887658f653eefbb80334bc3f}{dbgCUDAErrorCheck}(cudaFree(\hyperlink{classdevice__vec_a908e53910a02968513832c242790caa0}{data}));
+105             \hyperlink{classdevice__vec_a908e53910a02968513832c242790caa0}{data}=0;
+106         \}
+107     \}
+\end{DoxyCode}
+\index{device\+\_\+vec@{device\+\_\+vec}!init@{init}}
+\index{init@{init}!device\+\_\+vec@{device\+\_\+vec}}
+\subsubsection[{\texorpdfstring{init(size\+\_\+t s)}{init(size_t s)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ void {\bf device\+\_\+vec}$<$ T $>$\+::init (
+\begin{DoxyParamCaption}
+\item[{size\+\_\+t}]{s}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classdevice__vec_af37488e2aa53aedb69505c2ce3602f96}{}\label{classdevice__vec_af37488e2aa53aedb69505c2ce3602f96}
+
+\begin{DoxyCode}
+91                         \{
+92         \textcolor{keywordflow}{if}(\hyperlink{classdevice__vec_a1452496fe02af53427d0284e2bb6ca6e}{size} != s) \{
+93             \hyperlink{classdevice__vec_a4774d74dc6725dfd943e847a8fd0b14f}{free}();
+94         \}
+95         \textcolor{keywordflow}{if} (s!=0) \{
+96             \textcolor{keywordflow}{if} (cudaMalloc(&\hyperlink{classdevice__vec_a908e53910a02968513832c242790caa0}{data}, \textcolor{keyword}{sizeof}(T)*s) != cudaSuccess) \{
+97                 \textcolor{keywordflow}{throw} std::bad\_alloc(\hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"device\_vec<%s> init %d elements failed"}, \textcolor{keyword}{typeid}(T).
+      name(), s).c\_str());
+98             \}
+99             \hyperlink{classdevice__vec_a1452496fe02af53427d0284e2bb6ca6e}{size} = s;
+100         \}
+101     \}
+\end{DoxyCode}
+\index{device\+\_\+vec@{device\+\_\+vec}!memsize@{memsize}}
+\index{memsize@{memsize}!device\+\_\+vec@{device\+\_\+vec}}
+\subsubsection[{\texorpdfstring{memsize()}{memsize()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ size\+\_\+t {\bf device\+\_\+vec}$<$ T $>$\+::memsize (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classdevice__vec_ab21a5b6ed647145a71a3db19d3c26156}{}\label{classdevice__vec_ab21a5b6ed647145a71a3db19d3c26156}
+
+\begin{DoxyCode}
+152 \{ \textcolor{keywordflow}{return} \hyperlink{classdevice__vec_a1452496fe02af53427d0284e2bb6ca6e}{size}*\textcolor{keyword}{sizeof}(T); \}
+\end{DoxyCode}
+\index{device\+\_\+vec@{device\+\_\+vec}!operator std\+::vector$<$ T $>$@{operator std\+::vector$<$ T $>$}}
+\index{operator std\+::vector$<$ T $>$@{operator std\+::vector$<$ T $>$}!device\+\_\+vec@{device\+\_\+vec}}
+\subsubsection[{\texorpdfstring{operator std\+::vector$<$ T $>$() const }{operator std::vector< T >() const }}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ {\bf device\+\_\+vec}$<$ T $>$\+::operator std\+::vector$<$ T $>$ (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classdevice__vec_a154eb7a6ed0f8210579dc470698653a3}{}\label{classdevice__vec_a154eb7a6ed0f8210579dc470698653a3}
+
+\begin{DoxyCode}
+108                                   \{
+109         std::vector<T> dst(\hyperlink{classdevice__vec_a1452496fe02af53427d0284e2bb6ca6e}{size});
+110         \hyperlink{gpu__utils_8h_a0e8c0c69887658f653eefbb80334bc3f}{dbgCUDAErrorCheck}(cudaMemcpy(&dst[0], \hyperlink{classdevice__vec_a908e53910a02968513832c242790caa0}{data}, \textcolor{keyword}{sizeof}(T)*
+      \hyperlink{classdevice__vec_a1452496fe02af53427d0284e2bb6ca6e}{size}, cudaMemcpyDeviceToHost));
+111         \textcolor{keywordflow}{return} dst;
+112     \}
+\end{DoxyCode}
+\index{device\+\_\+vec@{device\+\_\+vec}!operator=@{operator=}}
+\index{operator=@{operator=}!device\+\_\+vec@{device\+\_\+vec}}
+\subsubsection[{\texorpdfstring{operator=(const std\+::vector$<$ T $>$ \&src)}{operator=(const std::vector< T > &src)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ {\bf device\+\_\+vec}$<$T$>$\& {\bf device\+\_\+vec}$<$ T $>$\+::operator= (
+\begin{DoxyParamCaption}
+\item[{const std\+::vector$<$ T $>$ \&}]{src}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classdevice__vec_a3f2ed4d208a916b85280bbe50aebb1e0}{}\label{classdevice__vec_a3f2ed4d208a916b85280bbe50aebb1e0}
+
+\begin{DoxyCode}
+113                                                       \{
+114         \hyperlink{classdevice__vec_af37488e2aa53aedb69505c2ce3602f96}{init}(src.size());
+115         \hyperlink{gpu__utils_8h_a0e8c0c69887658f653eefbb80334bc3f}{dbgCUDAErrorCheck}(cudaMemcpy(\hyperlink{classdevice__vec_a908e53910a02968513832c242790caa0}{data}, &src[0], \textcolor{keyword}{sizeof}(T)*
+      \hyperlink{classdevice__vec_a1452496fe02af53427d0284e2bb6ca6e}{size}, cudaMemcpyHostToDevice));
+116         \textcolor{keywordflow}{return} *\textcolor{keyword}{this};
+117     \}
+\end{DoxyCode}
+\index{device\+\_\+vec@{device\+\_\+vec}!operator=@{operator=}}
+\index{operator=@{operator=}!device\+\_\+vec@{device\+\_\+vec}}
+\subsubsection[{\texorpdfstring{operator=(const device\+\_\+vec$<$ T $>$ \&src)}{operator=(const device_vec< T > &src)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ {\bf device\+\_\+vec}$<$T$>$\& {\bf device\+\_\+vec}$<$ T $>$\+::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf device\+\_\+vec}$<$ T $>$ \&}]{src}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classdevice__vec_a5c89e02994d71d7b02f92c97e495a260}{}\label{classdevice__vec_a5c89e02994d71d7b02f92c97e495a260}
+
+\begin{DoxyCode}
+118                                                        \{
+119         clear();
+120         \hyperlink{classdevice__vec_af37488e2aa53aedb69505c2ce3602f96}{init}(src.\hyperlink{classdevice__vec_a1452496fe02af53427d0284e2bb6ca6e}{size});
+121         \hyperlink{gpu__utils_8h_a0e8c0c69887658f653eefbb80334bc3f}{dbgCUDAErrorCheck}(cudaMemcpy(\hyperlink{classdevice__vec_a908e53910a02968513832c242790caa0}{data}, src.\hyperlink{classdevice__vec_a908e53910a02968513832c242790caa0}{data}, \textcolor{keyword}{sizeof}(T)*
+      \hyperlink{classdevice__vec_a1452496fe02af53427d0284e2bb6ca6e}{size}, cudaMemcpyDeviceToDevice));
+122         \textcolor{keywordflow}{return} *\textcolor{keyword}{this};
+123     \}
+\end{DoxyCode}
+\index{device\+\_\+vec@{device\+\_\+vec}!to\+Vector@{to\+Vector}}
+\index{to\+Vector@{to\+Vector}!device\+\_\+vec@{device\+\_\+vec}}
+\subsubsection[{\texorpdfstring{to\+Vector()}{toVector()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ std\+::vector$<$T$>$ {\bf device\+\_\+vec}$<$ T $>$\+::to\+Vector (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classdevice__vec_aabbd149a94ae2af2bdef222083094364}{}\label{classdevice__vec_aabbd149a94ae2af2bdef222083094364}
+
+\begin{DoxyCode}
+147                             \{
+148         std::vector<T> v (\hyperlink{classdevice__vec_a1452496fe02af53427d0284e2bb6ca6e}{size});
+149         \hyperlink{gpu__utils_8h_a0e8c0c69887658f653eefbb80334bc3f}{dbgCUDAErrorCheck}(cudaMemcpy(&v[0], \hyperlink{classdevice__vec_a908e53910a02968513832c242790caa0}{data}, \textcolor{keyword}{sizeof}(T)*
+      \hyperlink{classdevice__vec_a1452496fe02af53427d0284e2bb6ca6e}{size}, cudaMemcpyDeviceToHost));
+150         \textcolor{keywordflow}{return} v;
+151     \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\index{device\+\_\+vec@{device\+\_\+vec}!data@{data}}
+\index{data@{data}!device\+\_\+vec@{device\+\_\+vec}}
+\subsubsection[{\texorpdfstring{data}{data}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ T$\ast$ {\bf device\+\_\+vec}$<$ T $>$\+::data}\hypertarget{classdevice__vec_a908e53910a02968513832c242790caa0}{}\label{classdevice__vec_a908e53910a02968513832c242790caa0}
+\index{device\+\_\+vec@{device\+\_\+vec}!size@{size}}
+\index{size@{size}!device\+\_\+vec@{device\+\_\+vec}}
+\subsubsection[{\texorpdfstring{size}{size}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ size\+\_\+t {\bf device\+\_\+vec}$<$ T $>$\+::size}\hypertarget{classdevice__vec_a1452496fe02af53427d0284e2bb6ca6e}{}\label{classdevice__vec_a1452496fe02af53427d0284e2bb6ca6e}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+cudatrack/\hyperlink{gpu__utils_8h}{gpu\+\_\+utils.\+h}\end{DoxyCompactItemize}

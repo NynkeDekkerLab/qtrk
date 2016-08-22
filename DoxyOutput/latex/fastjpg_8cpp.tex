@@ -1,0 +1,242 @@
+\hypertarget{fastjpg_8cpp}{}\section{cputrack/fastjpg.cpp File Reference}
+\label{fastjpg_8cpp}\index{cputrack/fastjpg.\+cpp@{cputrack/fastjpg.\+cpp}}
+{\ttfamily \#include \char`\"{}std\+\_\+incl.\+h\char`\"{}}\\*
+{\ttfamily \#include $<$cstdio$>$}\\*
+{\ttfamily \#include \char`\"{}jpeglib.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}utils.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Te\+Lib\+Jpeg\textbackslash{}jmemdstsrc.\+h\char`\"{}}\\*
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structmy__error__mgr}{my\+\_\+error\+\_\+mgr}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{fastjpg_8cpp_aca9c9daac87f0810622bb7e207e4587f}{Read\+J\+P\+E\+G\+File} (\hyperlink{std__incl_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar} $\ast$srcbuf, int srclen, \hyperlink{std__incl_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar} $\ast$$\ast$data, int $\ast$width, int $\ast$height)
+\item 
+void \hyperlink{fastjpg_8cpp_a77db3a4044f8f77b5a550b6f05962172}{Write\+J\+P\+E\+G\+File} (\hyperlink{std__incl_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar} $\ast$data, int w, int h, const char $\ast$filename, int quality)
+\item 
+void \hyperlink{fastjpg_8cpp_a197d79f00fb185491c4d109e966ca9ef}{Float\+To\+J\+P\+E\+G\+File} (const char $\ast$name, const float $\ast$d, int w, int h)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\index{fastjpg.\+cpp@{fastjpg.\+cpp}!Float\+To\+J\+P\+E\+G\+File@{Float\+To\+J\+P\+E\+G\+File}}
+\index{Float\+To\+J\+P\+E\+G\+File@{Float\+To\+J\+P\+E\+G\+File}!fastjpg.\+cpp@{fastjpg.\+cpp}}
+\subsubsection[{\texorpdfstring{Float\+To\+J\+P\+E\+G\+File(const char $\ast$name, const float $\ast$d, int w, int h)}{FloatToJPEGFile(const char *name, const float *d, int w, int h)}}]{\setlength{\rightskip}{0pt plus 5cm}void Float\+To\+J\+P\+E\+G\+File (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{name, }
+\item[{const float $\ast$}]{d, }
+\item[{int}]{w, }
+\item[{int}]{h}
+\end{DoxyParamCaption}
+)}\hypertarget{fastjpg_8cpp_a197d79f00fb185491c4d109e966ca9ef}{}\label{fastjpg_8cpp_a197d79f00fb185491c4d109e966ca9ef}
+
+\begin{DoxyCode}
+190 \{
+191     \hyperlink{std__incl_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar}* zlut\_bytes = \hyperlink{utils_8h_a5fe3abd0cc452e818b27d31aa9e09e46}{floatToNormalizedInt}(d, w,h, (
+      \hyperlink{std__incl_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar})255);
+192     \hyperlink{fastjpg_8cpp_a77db3a4044f8f77b5a550b6f05962172}{WriteJPEGFile}(zlut\_bytes, w, h, name, 99);
+193     \textcolor{keyword}{delete}[] zlut\_bytes;
+194 \}
+\end{DoxyCode}
+\index{fastjpg.\+cpp@{fastjpg.\+cpp}!Read\+J\+P\+E\+G\+File@{Read\+J\+P\+E\+G\+File}}
+\index{Read\+J\+P\+E\+G\+File@{Read\+J\+P\+E\+G\+File}!fastjpg.\+cpp@{fastjpg.\+cpp}}
+\subsubsection[{\texorpdfstring{Read\+J\+P\+E\+G\+File(uchar $\ast$srcbuf, int srclen, uchar $\ast$$\ast$data, int $\ast$width, int $\ast$height)}{ReadJPEGFile(uchar *srcbuf, int srclen, uchar **data, int *width, int *height)}}]{\setlength{\rightskip}{0pt plus 5cm}int Read\+J\+P\+E\+G\+File (
+\begin{DoxyParamCaption}
+\item[{{\bf uchar} $\ast$}]{srcbuf, }
+\item[{int}]{srclen, }
+\item[{{\bf uchar} $\ast$$\ast$}]{data, }
+\item[{int $\ast$}]{width, }
+\item[{int $\ast$}]{height}
+\end{DoxyParamCaption}
+)}\hypertarget{fastjpg_8cpp_aca9c9daac87f0810622bb7e207e4587f}{}\label{fastjpg_8cpp_aca9c9daac87f0810622bb7e207e4587f}
+
+\begin{DoxyCode}
+13 \{
+14   \textcolor{keyword}{struct }jpeg\_decompress\_struct cinfo;
+15 
+16   JSAMPARRAY buffer;        \textcolor{comment}{/* Output row buffer */}
+17   \textcolor{keywordtype}{int} row\_stride;       \textcolor{comment}{/* physical row width in output buffer */}
+18   \hyperlink{structmy__error__mgr}{my\_error\_mgr} jerr;
+19   cinfo.err = jpeg\_std\_error(&jerr.\hyperlink{structmy__error__mgr_aac1fb61cc51b4d8edbb44ba85fcccdb4}{pub});
+20   jpeg\_create\_decompress(&cinfo);
+21 
+22   j\_mem\_src(&cinfo, srcbuf, srclen);
+23 
+24   \textcolor{comment}{/* Step 3: read file parameters with jpeg\_read\_header() */}
+25   jpeg\_read\_header(&cinfo, TRUE);
+26 
+27   jpeg\_start\_decompress(&cinfo);
+28   row\_stride = cinfo.output\_width * cinfo.output\_components;
+29   \textcolor{comment}{/* Make a one-row-high sample array that will go away when done with image */}
+30   buffer = (*cinfo.mem->alloc\_sarray) ((j\_common\_ptr) &cinfo, JPOOL\_IMAGE, row\_stride, 1);
+31 
+32   *width = cinfo.output\_width;
+33   *height = cinfo.output\_height;
+34   *data = \textcolor{keyword}{new} \hyperlink{std__incl_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar}[cinfo.output\_width*cinfo.output\_height];
+35 
+36 \textcolor{comment}{//  ResizeLVArray2D(output, cinfo.output\_height, cinfo.output\_width);}
+37 
+38   \textcolor{comment}{/* Step 6: while (scan lines remain to be read) */}
+39   \textcolor{comment}{/*           jpeg\_read\_scanlines(...); */}
+40 
+41   \textcolor{comment}{/* Here we use the library's state variable cinfo.output\_scanline as the}
+42 \textcolor{comment}{   * loop counter, so that we don't have to keep track ourselves.}
+43 \textcolor{comment}{   */}
+44   \hyperlink{std__incl_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar}* dst = *data;
+45   \textcolor{keywordflow}{while} (cinfo.output\_scanline < cinfo.output\_height) \{
+46     \textcolor{comment}{/* jpeg\_read\_scanlines expects an array of pointers to scanlines.}
+47 \textcolor{comment}{     * Here the array is only one element long, but you could ask for}
+48 \textcolor{comment}{     * more than one scanline at a time if that's more convenient.}
+49 \textcolor{comment}{     */}
+50     jpeg\_read\_scanlines(&cinfo, buffer, 1);
+51     \textcolor{comment}{/* Assume put\_scanline\_someplace wants a pointer and sample count. */}
+52 
+53     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}* src = buffer[0];
+54     \textcolor{keywordflow}{if} (cinfo.output\_components == 1) \{
+55         memcpy(dst, src, cinfo.output\_width);
+56     \} \textcolor{keywordflow}{else} \{
+57         \textcolor{keywordflow}{for} (\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} x=0;x<cinfo.output\_width;x++)
+58             dst[x] = src[x * cinfo.output\_components];
+59     \}
+60     dst += cinfo.output\_width;
+61   \}
+62 
+63   \textcolor{comment}{/* Step 7: Finish decompression */}
+64   jpeg\_finish\_decompress(&cinfo);
+65   \textcolor{comment}{/* We can ignore the return value since suspension is not possible}
+66 \textcolor{comment}{   * with the stdio data source.}
+67 \textcolor{comment}{   */}
+68 
+69   \textcolor{comment}{/* Step 8: Release JPEG decompression object */}
+70 
+71   \textcolor{comment}{/* This is an important step since it will release a good deal of memory. */}
+72   jpeg\_destroy\_decompress(&cinfo);
+73 
+74   \textcolor{comment}{/* After finish\_decompress, we can close the input file.}
+75 \textcolor{comment}{   * Here we postpone it until after no more JPEG errors are possible,}
+76 \textcolor{comment}{   * so as to simplify the setjmp error logic above.  (Actually, I don't}
+77 \textcolor{comment}{   * think that jpeg\_destroy can do an error exit, but why assume anything...)}
+78 \textcolor{comment}{   */}
+79 \textcolor{comment}{//  fclose(infile);}
+80 
+81   \textcolor{comment}{/* At this point you may want to check to see whether any corrupt-data}
+82 \textcolor{comment}{   * warnings occurred (test whether jerr.pub.num\_warnings is nonzero).}
+83 \textcolor{comment}{   */}
+84 
+85   \textcolor{keywordflow}{return} 1;
+86 \}
+\end{DoxyCode}
+\index{fastjpg.\+cpp@{fastjpg.\+cpp}!Write\+J\+P\+E\+G\+File@{Write\+J\+P\+E\+G\+File}}
+\index{Write\+J\+P\+E\+G\+File@{Write\+J\+P\+E\+G\+File}!fastjpg.\+cpp@{fastjpg.\+cpp}}
+\subsubsection[{\texorpdfstring{Write\+J\+P\+E\+G\+File(uchar $\ast$data, int w, int h, const char $\ast$filename, int quality)}{WriteJPEGFile(uchar *data, int w, int h, const char *filename, int quality)}}]{\setlength{\rightskip}{0pt plus 5cm}void Write\+J\+P\+E\+G\+File (
+\begin{DoxyParamCaption}
+\item[{{\bf uchar} $\ast$}]{data, }
+\item[{int}]{w, }
+\item[{int}]{h, }
+\item[{const char $\ast$}]{filename, }
+\item[{int}]{quality}
+\end{DoxyParamCaption}
+)}\hypertarget{fastjpg_8cpp_a77db3a4044f8f77b5a550b6f05962172}{}\label{fastjpg_8cpp_a77db3a4044f8f77b5a550b6f05962172}
+
+\begin{DoxyCode}
+90 \{
+91   \textcolor{comment}{/* This struct contains the JPEG compression parameters and pointers to}
+92 \textcolor{comment}{   * working space (which is allocated as needed by the JPEG library).}
+93 \textcolor{comment}{   * It is possible to have several such structures, representing multiple}
+94 \textcolor{comment}{   * compression/decompression processes, in existence at once.  We refer}
+95 \textcolor{comment}{   * to any one struct (and its associated working data) as a "JPEG object".}
+96 \textcolor{comment}{   */}
+97   \textcolor{keyword}{struct }jpeg\_compress\_struct cinfo;
+98   \textcolor{comment}{/* This struct represents a JPEG error handler.  It is declared separately}
+99 \textcolor{comment}{   * because applications often want to supply a specialized error handler}
+100 \textcolor{comment}{   * (see the second half of this file for an example).  But here we just}
+101 \textcolor{comment}{   * take the easy way out and use the standard error handler, which will}
+102 \textcolor{comment}{   * print a message on stderr and call exit() if compression fails.}
+103 \textcolor{comment}{   * Note that this struct must live as long as the main JPEG parameter}
+104 \textcolor{comment}{   * struct, to avoid dangling-pointer problems.}
+105 \textcolor{comment}{   */}
+106   \textcolor{keyword}{struct }jpeg\_error\_mgr jerr;
+107   \textcolor{comment}{/* More stuff */}
+108   JSAMPROW row\_pointer[1];  \textcolor{comment}{/* pointer to JSAMPLE row[s] */}
+109   \textcolor{keywordtype}{int} row\_stride;       \textcolor{comment}{/* physical row width in image buffer */}
+110 
+111   \textcolor{comment}{/* Step 1: allocate and initialize JPEG compression object */}
+112 
+113   \textcolor{comment}{/* We have to set up the error handler first, in case the initialization}
+114 \textcolor{comment}{   * step fails.  (Unlikely, but it could happen if you are out of memory.)}
+115 \textcolor{comment}{   * This routine fills in the contents of struct jerr, and returns jerr's}
+116 \textcolor{comment}{   * address which we place into the link field in cinfo.}
+117 \textcolor{comment}{   */}
+118   cinfo.err = jpeg\_std\_error(&jerr);
+119   \textcolor{comment}{/* Now we can initialize the JPEG compression object. */}
+120   jpeg\_create\_compress(&cinfo);
+121 
+122   \textcolor{comment}{/* Step 2: specify data destination (eg, a file) */}
+123   \textcolor{comment}{/* Note: steps 2 and 3 can be done in either order. */}
+124   
+125   \hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} len = w*h * 2;
+126   \hyperlink{std__incl_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar}* memBuf = \textcolor{keyword}{new} \hyperlink{std__incl_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar}[len];
+127   j\_mem\_dest(&cinfo, (\textcolor{keywordtype}{void}**)&memBuf, &len);
+128   \textcolor{comment}{//jpeg\_stdio\_dest(&cinfo, outfile);}
+129 
+130   \textcolor{comment}{/* Step 3: set parameters for compression */}
+131 
+132   \textcolor{comment}{/* First we supply a description of the input image.}
+133 \textcolor{comment}{   * Four fields of the cinfo struct must be filled in:}
+134 \textcolor{comment}{   */}
+135   cinfo.image\_width = w;    \textcolor{comment}{/* image width and height, in pixels */}
+136   cinfo.image\_height = h;
+137   cinfo.input\_components = 1;       \textcolor{comment}{/* # of color components per pixel */}
+138   cinfo.in\_color\_space = JCS\_GRAYSCALE;     \textcolor{comment}{/* colorspace of input image */}
+139   \textcolor{comment}{/* Now use the library's routine to set default compression parameters.}
+140 \textcolor{comment}{   * (You must set at least cinfo.in\_color\_space before calling this,}
+141 \textcolor{comment}{   * since the defaults depend on the source color space.)}
+142 \textcolor{comment}{   */}
+143   jpeg\_set\_defaults(&cinfo);
+144   \textcolor{comment}{/* Now you can set any non-default parameters you wish to.}
+145 \textcolor{comment}{   * Here we just illustrate the use of quality (quantization table) scaling:}
+146 \textcolor{comment}{   */}
+147   jpeg\_set\_quality(&cinfo, quality, TRUE \textcolor{comment}{/* limit to baseline-JPEG values */});
+148 
+149   \textcolor{comment}{/* Step 4: Start compressor */}
+150 
+151   \textcolor{comment}{/* TRUE ensures that we will write a complete interchange-JPEG file.}
+152 \textcolor{comment}{   * Pass TRUE unless you are very sure of what you're doing.}
+153 \textcolor{comment}{   */}
+154   jpeg\_start\_compress(&cinfo, TRUE);
+155 
+156   \textcolor{comment}{/* Step 5: while (scan lines remain to be written) */}
+157   \textcolor{comment}{/*           jpeg\_write\_scanlines(...); */}
+158 
+159   \textcolor{comment}{/* Here we use the library's state variable cinfo.next\_scanline as the}
+160 \textcolor{comment}{   * loop counter, so that we don't have to keep track ourselves.}
+161 \textcolor{comment}{   * To keep things simple, we pass one scanline per call; you can pass}
+162 \textcolor{comment}{   * more if you wish, though.}
+163 \textcolor{comment}{   */}
+164   row\_stride = w;   \textcolor{comment}{/* JSAMPLEs per row in image\_buffer */}
+165 
+166   \textcolor{keywordflow}{while} (cinfo.next\_scanline < cinfo.image\_height) \{
+167     \textcolor{comment}{/* jpeg\_write\_scanlines expects an array of pointers to scanlines.}
+168 \textcolor{comment}{     * Here the array is only one element long, but you could pass}
+169 \textcolor{comment}{     * more than one scanline at a time if that's more convenient.}
+170 \textcolor{comment}{     */}
+171     row\_pointer[0] = &data[cinfo.next\_scanline * row\_stride];
+172     (void) jpeg\_write\_scanlines(&cinfo, row\_pointer, 1);
+173   \}
+174   jpeg\_finish\_compress(&cinfo);
+175   jpeg\_destroy\_compress(&cinfo);
+176 
+177 
+178   FILE *f = fopen(filename, \textcolor{stringliteral}{"wb"});
+179   \textcolor{keywordflow}{if} (f) \{
+180       fwrite(memBuf, 1, len, f);
+181       fclose(f);
+182   \} \textcolor{keywordflow}{else} 
+183       \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"Failed to open file %s for writing\(\backslash\)n"}, filename);
+184 
+185   \textcolor{keyword}{delete}[] memBuf;
+186 \}
+\end{DoxyCode}

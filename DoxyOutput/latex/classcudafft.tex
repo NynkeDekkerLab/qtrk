@@ -1,0 +1,566 @@
+\hypertarget{classcudafft}{}\section{cudafft$<$ T, T\+\_\+traits $>$ Class Template Reference}
+\label{classcudafft}\index{cudafft$<$ T, T\+\_\+traits $>$@{cudafft$<$ T, T\+\_\+traits $>$}}
+
+
+{\ttfamily \#include $<$cudafft.\+h$>$}
+
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structcudafft_1_1_kernel_params}{Kernel\+Params}
+\end{DoxyCompactItemize}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef T\+\_\+traits \hyperlink{classcudafft_a6f6713e7fe0f79baa2fca080c37e7f4e}{traits\+\_\+type}
+\item 
+typedef \hyperlink{structkissfft__utils_1_1cpx}{kissfft\+\_\+utils\+::cpx}$<$ T $>$ \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\+\_\+type}
+\item 
+typedef traits\+\_\+type\+::scalar\+\_\+type \hyperlink{classcudafft_ac9c43c335102bda3102243f24de11ce6}{scalar\+\_\+type}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classcudafft_a3130fb5bc9d013039b7a8bdbeee42db1}{cudafft} (int nfft, bool inverse, const \hyperlink{classcudafft_a6f6713e7fe0f79baa2fca080c37e7f4e}{traits\+\_\+type} \&\hyperlink{classcudafft_a8a9bd28623cdece7c8c5fa89917ad7a4}{traits}=\hyperlink{classcudafft_a6f6713e7fe0f79baa2fca080c37e7f4e}{traits\+\_\+type}())
+\item 
+\hyperlink{classcudafft_ac2b76855600de508af5bca5a8ba21af7}{$\sim$cudafft} ()
+\item 
+void \hyperlink{classcudafft_addacb7587678b7137e3d573984522dc0}{host\+\_\+transform} (const \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\+\_\+type} $\ast$src, \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\+\_\+type} $\ast$dst)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{cudafft_8h_ac4c6e1a008a73d82e1c532fd74830837}{C\+F\+F\+T\+\_\+\+B\+O\+TH} void \hyperlink{classcudafft_ab5c2f4f3e7ea3133a96f8eabc8d9c94f}{transform} (const \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\+\_\+type} $\ast$src, \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\+\_\+type} $\ast$dst, \hyperlink{structcudafft_1_1_kernel_params}{Kernel\+Params} kparm)
+\item 
+static \hyperlink{cudafft_8h_ac4c6e1a008a73d82e1c532fd74830837}{C\+F\+F\+T\+\_\+\+B\+O\+TH} void \hyperlink{classcudafft_af9502e8f518c37489d730fc1830998d2}{kf\+\_\+work} (int stage, \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\+\_\+type} $\ast$Fout, const \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\+\_\+type} $\ast$f, size\+\_\+t fstride, size\+\_\+t in\+\_\+stride, \hyperlink{structcudafft_1_1_kernel_params}{Kernel\+Params} $\ast$kparm)
+\item 
+static \hyperlink{cudafft_8h_ac4c6e1a008a73d82e1c532fd74830837}{C\+F\+F\+T\+\_\+\+B\+O\+TH} void \hyperlink{classcudafft_a014fac9955f6dc417ae80544132f98e4}{C\+\_\+\+A\+DD} (\hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\+\_\+type} \&c, const \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\+\_\+type} \&a, const \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\+\_\+type} \&b)
+\item 
+static \hyperlink{cudafft_8h_ac4c6e1a008a73d82e1c532fd74830837}{C\+F\+F\+T\+\_\+\+B\+O\+TH} void \hyperlink{classcudafft_ac7462d0245377968239aabcc6e942a76}{C\+\_\+\+M\+UL} (\hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\+\_\+type} \&c, const \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\+\_\+type} \&a, const \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\+\_\+type} \&b)
+\item 
+static \hyperlink{cudafft_8h_ac4c6e1a008a73d82e1c532fd74830837}{C\+F\+F\+T\+\_\+\+B\+O\+TH} void \hyperlink{classcudafft_a62e0deba21ac6217451ce410b0029812}{C\+\_\+\+S\+UB} (\hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\+\_\+type} \&c, const \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\+\_\+type} \&a, const \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\+\_\+type} \&b)
+\item 
+static \hyperlink{cudafft_8h_ac4c6e1a008a73d82e1c532fd74830837}{C\+F\+F\+T\+\_\+\+B\+O\+TH} void \hyperlink{classcudafft_ad4a6c8f97cdf80be567abfceeada59ad}{C\+\_\+\+A\+D\+D\+TO} (\hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\+\_\+type} \&c, const \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\+\_\+type} \&a)
+\item 
+static \hyperlink{cudafft_8h_ac4c6e1a008a73d82e1c532fd74830837}{C\+F\+F\+T\+\_\+\+B\+O\+TH} \hyperlink{classcudafft_ac9c43c335102bda3102243f24de11ce6}{scalar\+\_\+type} \hyperlink{classcudafft_a3b3a4acd07911e5e3c27ae34347b7b4e}{S\+\_\+\+M\+UL} (const \hyperlink{classcudafft_ac9c43c335102bda3102243f24de11ce6}{scalar\+\_\+type} \&a, const \hyperlink{classcudafft_ac9c43c335102bda3102243f24de11ce6}{scalar\+\_\+type} \&b)
+\item 
+static \hyperlink{cudafft_8h_ac4c6e1a008a73d82e1c532fd74830837}{C\+F\+F\+T\+\_\+\+B\+O\+TH} \hyperlink{classcudafft_ac9c43c335102bda3102243f24de11ce6}{scalar\+\_\+type} \hyperlink{classcudafft_ad4779f2e310b7ff2f2633c147e06e17c}{H\+A\+L\+F\+\_\+\+OF} (const \hyperlink{classcudafft_ac9c43c335102bda3102243f24de11ce6}{scalar\+\_\+type} \&a)
+\item 
+static \hyperlink{cudafft_8h_ac4c6e1a008a73d82e1c532fd74830837}{C\+F\+F\+T\+\_\+\+B\+O\+TH} void \hyperlink{classcudafft_a12bcd921a68025d8b5094bf06221d2c2}{C\+\_\+\+M\+U\+L\+B\+Y\+S\+C\+A\+L\+AR} (\hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\+\_\+type} \&c, const \hyperlink{classcudafft_ac9c43c335102bda3102243f24de11ce6}{scalar\+\_\+type} \&a)
+\item 
+static \hyperlink{cudafft_8h_ac4c6e1a008a73d82e1c532fd74830837}{C\+F\+F\+T\+\_\+\+B\+O\+TH} void \hyperlink{classcudafft_a1ea7f9333903a6af29c4c7dfdce5a188}{kf\+\_\+bfly2} (\hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\+\_\+type} $\ast$Fout, const size\+\_\+t fstride, int m, \hyperlink{structcudafft_1_1_kernel_params}{Kernel\+Params} $\ast$kparm)
+\item 
+static \hyperlink{cudafft_8h_ac4c6e1a008a73d82e1c532fd74830837}{C\+F\+F\+T\+\_\+\+B\+O\+TH} void \hyperlink{classcudafft_a5c532f69602cc530be63b3d9567850e5}{kf\+\_\+bfly4} (\hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\+\_\+type} $\ast$Fout, const size\+\_\+t fstride, const size\+\_\+t m, \hyperlink{structcudafft_1_1_kernel_params}{Kernel\+Params} $\ast$kparm)
+\item 
+static \hyperlink{cudafft_8h_ac4c6e1a008a73d82e1c532fd74830837}{C\+F\+F\+T\+\_\+\+B\+O\+TH} void \hyperlink{classcudafft_aaf70d4484be564eecf99bfb47a90e29e}{kf\+\_\+bfly3} (\hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\+\_\+type} $\ast$Fout, const size\+\_\+t fstride, const size\+\_\+t m, \hyperlink{structcudafft_1_1_kernel_params}{Kernel\+Params} $\ast$kparm)
+\item 
+static \hyperlink{cudafft_8h_ac4c6e1a008a73d82e1c532fd74830837}{C\+F\+F\+T\+\_\+\+B\+O\+TH} void \hyperlink{classcudafft_a40bbcde352f3a3ac8e931fa509880c98}{kf\+\_\+bfly5} (\hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\+\_\+type} $\ast$Fout, const size\+\_\+t fstride, const size\+\_\+t m, \hyperlink{structcudafft_1_1_kernel_params}{Kernel\+Params} $\ast$kparm)
+\item 
+static \hyperlink{cudafft_8h_ac4c6e1a008a73d82e1c532fd74830837}{C\+F\+F\+T\+\_\+\+B\+O\+TH} void \hyperlink{classcudafft_a10bd12be6d50bc12dd45e8d7278f98b9}{kf\+\_\+bfly\+\_\+generic} (\hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\+\_\+type} $\ast$Fout, const size\+\_\+t fstride, int m, int p, \hyperlink{structcudafft_1_1_kernel_params}{Kernel\+Params} $\ast$kparm)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classcudafft_ab2818f49ade4d1628377b6d0539c47ab}{kparams\+\_\+size}
+\item 
+\hyperlink{structcudafft_1_1_kernel_params}{Kernel\+Params} \hyperlink{classcudafft_ac6c989cedd13030a91f4a92db894492d}{kparams}
+\item 
+char $\ast$ \hyperlink{classcudafft_a1c3a0f46edfc7749218206948373136b}{hostbuf}
+\item 
+\hyperlink{classcudafft_a6f6713e7fe0f79baa2fca080c37e7f4e}{traits\+\_\+type} \hyperlink{classcudafft_a8a9bd28623cdece7c8c5fa89917ad7a4}{traits}
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Typedef Documentation}
+\index{cudafft@{cudafft}!cpx\+\_\+type@{cpx\+\_\+type}}
+\index{cpx\+\_\+type@{cpx\+\_\+type}!cudafft@{cudafft}}
+\subsubsection[{\texorpdfstring{cpx\+\_\+type}{cpx_type}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename T\+\_\+traits  = kissfft\+\_\+utils\+::traits$<$\+T$>$$>$ typedef {\bf kissfft\+\_\+utils\+::cpx}$<$T$>$ {\bf cudafft}$<$ T, T\+\_\+traits $>$\+::{\bf cpx\+\_\+type}}\hypertarget{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{}\label{classcudafft_a6b6e4901630f197baf4cf7f165543ece}
+\index{cudafft@{cudafft}!scalar\+\_\+type@{scalar\+\_\+type}}
+\index{scalar\+\_\+type@{scalar\+\_\+type}!cudafft@{cudafft}}
+\subsubsection[{\texorpdfstring{scalar\+\_\+type}{scalar_type}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename T\+\_\+traits  = kissfft\+\_\+utils\+::traits$<$\+T$>$$>$ typedef traits\+\_\+type\+::scalar\+\_\+type {\bf cudafft}$<$ T, T\+\_\+traits $>$\+::{\bf scalar\+\_\+type}}\hypertarget{classcudafft_ac9c43c335102bda3102243f24de11ce6}{}\label{classcudafft_ac9c43c335102bda3102243f24de11ce6}
+\index{cudafft@{cudafft}!traits\+\_\+type@{traits\+\_\+type}}
+\index{traits\+\_\+type@{traits\+\_\+type}!cudafft@{cudafft}}
+\subsubsection[{\texorpdfstring{traits\+\_\+type}{traits_type}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename T\+\_\+traits  = kissfft\+\_\+utils\+::traits$<$\+T$>$$>$ typedef T\+\_\+traits {\bf cudafft}$<$ T, T\+\_\+traits $>$\+::{\bf traits\+\_\+type}}\hypertarget{classcudafft_a6f6713e7fe0f79baa2fca080c37e7f4e}{}\label{classcudafft_a6f6713e7fe0f79baa2fca080c37e7f4e}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{cudafft@{cudafft}!cudafft@{cudafft}}
+\index{cudafft@{cudafft}!cudafft@{cudafft}}
+\subsubsection[{\texorpdfstring{cudafft(int nfft, bool inverse, const traits\+\_\+type \&traits=traits\+\_\+type())}{cudafft(int nfft, bool inverse, const traits_type &traits=traits_type())}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename T\+\_\+traits  = kissfft\+\_\+utils\+::traits$<$\+T$>$$>$ {\bf cudafft}$<$ T, T\+\_\+traits $>$\+::{\bf cudafft} (
+\begin{DoxyParamCaption}
+\item[{int}]{nfft, }
+\item[{bool}]{inverse, }
+\item[{const {\bf traits\+\_\+type} \&}]{traits = {\ttfamily {\bf traits\+\_\+type}()}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcudafft_a3130fb5bc9d013039b7a8bdbeee42db1}{}\label{classcudafft_a3130fb5bc9d013039b7a8bdbeee42db1}
+
+\begin{DoxyCode}
+113         :\hyperlink{classcudafft_a8a9bd28623cdece7c8c5fa89917ad7a4}{traits}(\hyperlink{classcudafft_a8a9bd28623cdece7c8c5fa89917ad7a4}{traits})
+114     \{
+115         std::vector<cpx\_type> twiddles;
+116         std::vector<int> stageRadix;
+117         std::vector<int> stageRemainder;
+118         \hyperlink{classcudafft_ac6c989cedd13030a91f4a92db894492d}{kparams}.\hyperlink{structcudafft_1_1_kernel_params_a3f28c1de3298efe072243b0ea196b03f}{inverse} = inverse;
+119 
+120         \hyperlink{classcudafft_a8a9bd28623cdece7c8c5fa89917ad7a4}{traits}.prepare(twiddles, nfft, inverse, stageRadix, stageRemainder);
+121         \textcolor{keywordtype}{int} maxRadix = *std::max\_element(stageRadix.begin(), stageRadix.end());
+122         \textcolor{keywordtype}{int} scratchbufsize = maxRadix * \textcolor{keyword}{sizeof}(\hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\_type});
+123 
+124         \textcolor{comment}{// parameter memory layout: [radix remainders scratchbuf twiddles]}
+125         \hyperlink{classcudafft_ac6c989cedd13030a91f4a92db894492d}{kparams}.\hyperlink{structcudafft_1_1_kernel_params_a677b1b8ee251eba05899356f73bc83da}{remainder\_offset} = \textcolor{keyword}{sizeof}(int)*stageRadix.size();
+126         \hyperlink{classcudafft_ac6c989cedd13030a91f4a92db894492d}{kparams}.\hyperlink{structcudafft_1_1_kernel_params_a4eafcb24027353ff226701187e4d5b92}{scratchbuf\_offset} = \hyperlink{classcudafft_ac6c989cedd13030a91f4a92db894492d}{kparams}.
+      \hyperlink{structcudafft_1_1_kernel_params_a677b1b8ee251eba05899356f73bc83da}{remainder\_offset} + \textcolor{keyword}{sizeof}(int)*stageRemainder.size();
+127         \hyperlink{classcudafft_ac6c989cedd13030a91f4a92db894492d}{kparams}.\hyperlink{structcudafft_1_1_kernel_params_a2ee91ebed15013326314b5d803801630}{twiddles\_offset} = \hyperlink{classcudafft_ac6c989cedd13030a91f4a92db894492d}{kparams}.
+      \hyperlink{structcudafft_1_1_kernel_params_a4eafcb24027353ff226701187e4d5b92}{scratchbuf\_offset} + scratchbufsize;
+128 
+129         \hyperlink{classcudafft_ab2818f49ade4d1628377b6d0539c47ab}{kparams\_size} = \hyperlink{classcudafft_ac6c989cedd13030a91f4a92db894492d}{kparams}.\hyperlink{structcudafft_1_1_kernel_params_a2ee91ebed15013326314b5d803801630}{twiddles\_offset} + \textcolor{keyword}{sizeof}(
+      \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\_type})*twiddles.size();
+130         
+131         \hyperlink{classcudafft_a1c3a0f46edfc7749218206948373136b}{hostbuf} = \textcolor{keyword}{new} \textcolor{keywordtype}{char}[\hyperlink{classcudafft_ab2818f49ade4d1628377b6d0539c47ab}{kparams\_size}];
+132         memcpy(\hyperlink{classcudafft_a1c3a0f46edfc7749218206948373136b}{hostbuf}, &stageRadix[0], \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int}) * stageRadix.size());
+133         memcpy(\hyperlink{classcudafft_a1c3a0f46edfc7749218206948373136b}{hostbuf}+ \hyperlink{classcudafft_ac6c989cedd13030a91f4a92db894492d}{kparams}.\hyperlink{structcudafft_1_1_kernel_params_a677b1b8ee251eba05899356f73bc83da}{remainder\_offset}, &stageRemainder[0], \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{
+      int}) * stageRemainder.size());
+134         memcpy(\hyperlink{classcudafft_a1c3a0f46edfc7749218206948373136b}{hostbuf}+ \hyperlink{classcudafft_ac6c989cedd13030a91f4a92db894492d}{kparams}.\hyperlink{structcudafft_1_1_kernel_params_a2ee91ebed15013326314b5d803801630}{twiddles\_offset}, &twiddles[0], \textcolor{keyword}{sizeof}(
+      \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\_type}) * twiddles.size()); 
+135 
+136         \textcolor{comment}{// Copy to device memory}
+137         cudaMalloc(&\hyperlink{classcudafft_ac6c989cedd13030a91f4a92db894492d}{kparams}.\hyperlink{structcudafft_1_1_kernel_params_ad0cc484b02fe3e05acc1124a9ae38425}{data}, \hyperlink{classcudafft_ab2818f49ade4d1628377b6d0539c47ab}{kparams\_size});
+138         cudaMemcpy(\hyperlink{classcudafft_ac6c989cedd13030a91f4a92db894492d}{kparams}.\hyperlink{structcudafft_1_1_kernel_params_ad0cc484b02fe3e05acc1124a9ae38425}{data}, \hyperlink{classcudafft_a1c3a0f46edfc7749218206948373136b}{hostbuf}, \hyperlink{classcudafft_ab2818f49ade4d1628377b6d0539c47ab}{kparams\_size}, 
+      cudaMemcpyHostToDevice);
+139         \hyperlink{classcudafft_ac6c989cedd13030a91f4a92db894492d}{kparams}.\hyperlink{structcudafft_1_1_kernel_params_aeca8012eac182feb4cec53a338a0018e}{memsize} = \hyperlink{classcudafft_ab2818f49ade4d1628377b6d0539c47ab}{kparams\_size};
+140         \hyperlink{classcudafft_ac6c989cedd13030a91f4a92db894492d}{kparams}.\hyperlink{structcudafft_1_1_kernel_params_a4e6ea9cd74f781c767a3a7ce6eee3ff2}{nfft} = nfft;
+141     \}
+\end{DoxyCode}
+\index{cudafft@{cudafft}!````~cudafft@{$\sim$cudafft}}
+\index{````~cudafft@{$\sim$cudafft}!cudafft@{cudafft}}
+\subsubsection[{\texorpdfstring{$\sim$cudafft()}{~cudafft()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename T\+\_\+traits  = kissfft\+\_\+utils\+::traits$<$\+T$>$$>$ {\bf cudafft}$<$ T, T\+\_\+traits $>$\+::$\sim${\bf cudafft} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcudafft_ac2b76855600de508af5bca5a8ba21af7}{}\label{classcudafft_ac2b76855600de508af5bca5a8ba21af7}
+
+\begin{DoxyCode}
+143                \{
+144         \textcolor{keyword}{delete}[] \hyperlink{classcudafft_a1c3a0f46edfc7749218206948373136b}{hostbuf};
+145         cudaFree(\hyperlink{classcudafft_ac6c989cedd13030a91f4a92db894492d}{kparams}.\hyperlink{structcudafft_1_1_kernel_params_ad0cc484b02fe3e05acc1124a9ae38425}{data});
+146     \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\index{cudafft@{cudafft}!C\+\_\+\+A\+DD@{C\+\_\+\+A\+DD}}
+\index{C\+\_\+\+A\+DD@{C\+\_\+\+A\+DD}!cudafft@{cudafft}}
+\subsubsection[{\texorpdfstring{C\+\_\+\+A\+D\+D(cpx\+\_\+type \&c, const cpx\+\_\+type \&a, const cpx\+\_\+type \&b)}{C_ADD(cpx_type &c, const cpx_type &a, const cpx_type &b)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename T\+\_\+traits  = kissfft\+\_\+utils\+::traits$<$\+T$>$$>$ static {\bf C\+F\+F\+T\+\_\+\+B\+O\+TH} void {\bf cudafft}$<$ T, T\+\_\+traits $>$\+::C\+\_\+\+A\+DD (
+\begin{DoxyParamCaption}
+\item[{{\bf cpx\+\_\+type} \&}]{c, }
+\item[{const {\bf cpx\+\_\+type} \&}]{a, }
+\item[{const {\bf cpx\+\_\+type} \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}\hypertarget{classcudafft_a014fac9955f6dc417ae80544132f98e4}{}\label{classcudafft_a014fac9955f6dc417ae80544132f98e4}
+
+\begin{DoxyCode}
+198                                                                                      \{ 
+199         c.x=a.x+b.x;
+200         c.y=a.y+b.y;
+201     \}
+\end{DoxyCode}
+\index{cudafft@{cudafft}!C\+\_\+\+A\+D\+D\+TO@{C\+\_\+\+A\+D\+D\+TO}}
+\index{C\+\_\+\+A\+D\+D\+TO@{C\+\_\+\+A\+D\+D\+TO}!cudafft@{cudafft}}
+\subsubsection[{\texorpdfstring{C\+\_\+\+A\+D\+D\+T\+O(cpx\+\_\+type \&c, const cpx\+\_\+type \&a)}{C_ADDTO(cpx_type &c, const cpx_type &a)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename T\+\_\+traits  = kissfft\+\_\+utils\+::traits$<$\+T$>$$>$ static {\bf C\+F\+F\+T\+\_\+\+B\+O\+TH} void {\bf cudafft}$<$ T, T\+\_\+traits $>$\+::C\+\_\+\+A\+D\+D\+TO (
+\begin{DoxyParamCaption}
+\item[{{\bf cpx\+\_\+type} \&}]{c, }
+\item[{const {\bf cpx\+\_\+type} \&}]{a}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}\hypertarget{classcudafft_ad4a6c8f97cdf80be567abfceeada59ad}{}\label{classcudafft_ad4a6c8f97cdf80be567abfceeada59ad}
+
+\begin{DoxyCode}
+209                                                                     \{ 
+210         c.x+=a.x;
+211         c.y+=a.y;
+212     \}
+\end{DoxyCode}
+\index{cudafft@{cudafft}!C\+\_\+\+M\+UL@{C\+\_\+\+M\+UL}}
+\index{C\+\_\+\+M\+UL@{C\+\_\+\+M\+UL}!cudafft@{cudafft}}
+\subsubsection[{\texorpdfstring{C\+\_\+\+M\+U\+L(cpx\+\_\+type \&c, const cpx\+\_\+type \&a, const cpx\+\_\+type \&b)}{C_MUL(cpx_type &c, const cpx_type &a, const cpx_type &b)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename T\+\_\+traits  = kissfft\+\_\+utils\+::traits$<$\+T$>$$>$ static {\bf C\+F\+F\+T\+\_\+\+B\+O\+TH} void {\bf cudafft}$<$ T, T\+\_\+traits $>$\+::C\+\_\+\+M\+UL (
+\begin{DoxyParamCaption}
+\item[{{\bf cpx\+\_\+type} \&}]{c, }
+\item[{const {\bf cpx\+\_\+type} \&}]{a, }
+\item[{const {\bf cpx\+\_\+type} \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}\hypertarget{classcudafft_ac7462d0245377968239aabcc6e942a76}{}\label{classcudafft_ac7462d0245377968239aabcc6e942a76}
+
+\begin{DoxyCode}
+202                                                                                      \{ 
+203         c=a*b;
+204     \}
+\end{DoxyCode}
+\index{cudafft@{cudafft}!C\+\_\+\+M\+U\+L\+B\+Y\+S\+C\+A\+L\+AR@{C\+\_\+\+M\+U\+L\+B\+Y\+S\+C\+A\+L\+AR}}
+\index{C\+\_\+\+M\+U\+L\+B\+Y\+S\+C\+A\+L\+AR@{C\+\_\+\+M\+U\+L\+B\+Y\+S\+C\+A\+L\+AR}!cudafft@{cudafft}}
+\subsubsection[{\texorpdfstring{C\+\_\+\+M\+U\+L\+B\+Y\+S\+C\+A\+L\+A\+R(cpx\+\_\+type \&c, const scalar\+\_\+type \&a)}{C_MULBYSCALAR(cpx_type &c, const scalar_type &a)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename T\+\_\+traits  = kissfft\+\_\+utils\+::traits$<$\+T$>$$>$ static {\bf C\+F\+F\+T\+\_\+\+B\+O\+TH} void {\bf cudafft}$<$ T, T\+\_\+traits $>$\+::C\+\_\+\+M\+U\+L\+B\+Y\+S\+C\+A\+L\+AR (
+\begin{DoxyParamCaption}
+\item[{{\bf cpx\+\_\+type} \&}]{c, }
+\item[{const {\bf scalar\+\_\+type} \&}]{a}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}\hypertarget{classcudafft_a12bcd921a68025d8b5094bf06221d2c2}{}\label{classcudafft_a12bcd921a68025d8b5094bf06221d2c2}
+
+\begin{DoxyCode}
+215 \{c*=a;\}
+\end{DoxyCode}
+\index{cudafft@{cudafft}!C\+\_\+\+S\+UB@{C\+\_\+\+S\+UB}}
+\index{C\+\_\+\+S\+UB@{C\+\_\+\+S\+UB}!cudafft@{cudafft}}
+\subsubsection[{\texorpdfstring{C\+\_\+\+S\+U\+B(cpx\+\_\+type \&c, const cpx\+\_\+type \&a, const cpx\+\_\+type \&b)}{C_SUB(cpx_type &c, const cpx_type &a, const cpx_type &b)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename T\+\_\+traits  = kissfft\+\_\+utils\+::traits$<$\+T$>$$>$ static {\bf C\+F\+F\+T\+\_\+\+B\+O\+TH} void {\bf cudafft}$<$ T, T\+\_\+traits $>$\+::C\+\_\+\+S\+UB (
+\begin{DoxyParamCaption}
+\item[{{\bf cpx\+\_\+type} \&}]{c, }
+\item[{const {\bf cpx\+\_\+type} \&}]{a, }
+\item[{const {\bf cpx\+\_\+type} \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}\hypertarget{classcudafft_a62e0deba21ac6217451ce410b0029812}{}\label{classcudafft_a62e0deba21ac6217451ce410b0029812}
+
+\begin{DoxyCode}
+205                                                                                      \{ 
+206         c.x=a.x-b.x;
+207         c.y=a.y-b.y;
+208     \}
+\end{DoxyCode}
+\index{cudafft@{cudafft}!H\+A\+L\+F\+\_\+\+OF@{H\+A\+L\+F\+\_\+\+OF}}
+\index{H\+A\+L\+F\+\_\+\+OF@{H\+A\+L\+F\+\_\+\+OF}!cudafft@{cudafft}}
+\subsubsection[{\texorpdfstring{H\+A\+L\+F\+\_\+\+O\+F(const scalar\+\_\+type \&a)}{HALF_OF(const scalar_type &a)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename T\+\_\+traits  = kissfft\+\_\+utils\+::traits$<$\+T$>$$>$ static {\bf C\+F\+F\+T\+\_\+\+B\+O\+TH} {\bf scalar\+\_\+type} {\bf cudafft}$<$ T, T\+\_\+traits $>$\+::H\+A\+L\+F\+\_\+\+OF (
+\begin{DoxyParamCaption}
+\item[{const {\bf scalar\+\_\+type} \&}]{a}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}\hypertarget{classcudafft_ad4779f2e310b7ff2f2633c147e06e17c}{}\label{classcudafft_ad4779f2e310b7ff2f2633c147e06e17c}
+
+\begin{DoxyCode}
+214 \{ \textcolor{keywordflow}{return} a*.5;\}
+\end{DoxyCode}
+\index{cudafft@{cudafft}!host\+\_\+transform@{host\+\_\+transform}}
+\index{host\+\_\+transform@{host\+\_\+transform}!cudafft@{cudafft}}
+\subsubsection[{\texorpdfstring{host\+\_\+transform(const cpx\+\_\+type $\ast$src, cpx\+\_\+type $\ast$dst)}{host_transform(const cpx_type *src, cpx_type *dst)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename T\+\_\+traits  = kissfft\+\_\+utils\+::traits$<$\+T$>$$>$ void {\bf cudafft}$<$ T, T\+\_\+traits $>$\+::host\+\_\+transform (
+\begin{DoxyParamCaption}
+\item[{const {\bf cpx\+\_\+type} $\ast$}]{src, }
+\item[{{\bf cpx\+\_\+type} $\ast$}]{dst}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcudafft_addacb7587678b7137e3d573984522dc0}{}\label{classcudafft_addacb7587678b7137e3d573984522dc0}
+
+\begin{DoxyCode}
+154     \{
+155         KernelParams kp = \hyperlink{classcudafft_ac6c989cedd13030a91f4a92db894492d}{kparams};
+156         kp.\hyperlink{structcudafft_1_1_kernel_params_ad0cc484b02fe3e05acc1124a9ae38425}{data} = \hyperlink{classcudafft_a1c3a0f46edfc7749218206948373136b}{hostbuf};
+157         \hyperlink{classcudafft_af9502e8f518c37489d730fc1830998d2}{kf\_work}(0, dst, src, 1,1, &kp);
+158     \}
+\end{DoxyCode}
+\index{cudafft@{cudafft}!kf\+\_\+bfly2@{kf\+\_\+bfly2}}
+\index{kf\+\_\+bfly2@{kf\+\_\+bfly2}!cudafft@{cudafft}}
+\subsubsection[{\texorpdfstring{kf\+\_\+bfly2(cpx\+\_\+type $\ast$\+Fout, const size\+\_\+t fstride, int m, Kernel\+Params $\ast$kparm)}{kf_bfly2(cpx_type *Fout, const size_t fstride, int m, KernelParams *kparm)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename T\+\_\+traits  = kissfft\+\_\+utils\+::traits$<$\+T$>$$>$ static {\bf C\+F\+F\+T\+\_\+\+B\+O\+TH} void {\bf cudafft}$<$ T, T\+\_\+traits $>$\+::kf\+\_\+bfly2 (
+\begin{DoxyParamCaption}
+\item[{{\bf cpx\+\_\+type} $\ast$}]{Fout, }
+\item[{const size\+\_\+t}]{fstride, }
+\item[{int}]{m, }
+\item[{{\bf Kernel\+Params} $\ast$}]{kparm}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}\hypertarget{classcudafft_a1ea7f9333903a6af29c4c7dfdce5a188}{}\label{classcudafft_a1ea7f9333903a6af29c4c7dfdce5a188}
+
+\begin{DoxyCode}
+218     \{
+219         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} k=0;k<m;++k) \{
+220             \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\_type} t = Fout[m+k] * kparm->twiddles(k*fstride);
+221             Fout[m+k] = Fout[k] - t;
+222             Fout[k] += t;
+223         \}
+224     \}
+\end{DoxyCode}
+\index{cudafft@{cudafft}!kf\+\_\+bfly3@{kf\+\_\+bfly3}}
+\index{kf\+\_\+bfly3@{kf\+\_\+bfly3}!cudafft@{cudafft}}
+\subsubsection[{\texorpdfstring{kf\+\_\+bfly3(cpx\+\_\+type $\ast$\+Fout, const size\+\_\+t fstride, const size\+\_\+t m, Kernel\+Params $\ast$kparm)}{kf_bfly3(cpx_type *Fout, const size_t fstride, const size_t m, KernelParams *kparm)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename T\+\_\+traits  = kissfft\+\_\+utils\+::traits$<$\+T$>$$>$ static {\bf C\+F\+F\+T\+\_\+\+B\+O\+TH} void {\bf cudafft}$<$ T, T\+\_\+traits $>$\+::kf\+\_\+bfly3 (
+\begin{DoxyParamCaption}
+\item[{{\bf cpx\+\_\+type} $\ast$}]{Fout, }
+\item[{const size\+\_\+t}]{fstride, }
+\item[{const size\+\_\+t}]{m, }
+\item[{{\bf Kernel\+Params} $\ast$}]{kparm}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}\hypertarget{classcudafft_aaf70d4484be564eecf99bfb47a90e29e}{}\label{classcudafft_aaf70d4484be564eecf99bfb47a90e29e}
+
+\begin{DoxyCode}
+249     \{
+250         \textcolor{keywordtype}{size\_t} k=m;
+251         \textcolor{keyword}{const} \textcolor{keywordtype}{size\_t} m2 = 2*m;
+252         \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\_type} *tw1,*tw2;
+253         \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\_type} scratch[5];
+254         \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\_type} epi3;
+255         epi3 = kparm->twiddles(fstride*m);
+256 
+257         tw1=tw2=&kparm->twiddles(0);
+258 
+259         \textcolor{keywordflow}{do}\{
+260             scratch[1] = Fout[m]* *tw1;
+261             scratch[2] = Fout[m2]* *tw2;
+262 
+263             \hyperlink{classcudafft_a014fac9955f6dc417ae80544132f98e4}{C\_ADD}(scratch[3],scratch[1],scratch[2]);
+264             \hyperlink{classcudafft_a62e0deba21ac6217451ce410b0029812}{C\_SUB}(scratch[0],scratch[1],scratch[2]);
+265             tw1 += fstride;
+266             tw2 += fstride*2;
+267 
+268             Fout[m] = \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\_type}( Fout->real() - \hyperlink{classcudafft_ad4779f2e310b7ff2f2633c147e06e17c}{HALF\_OF}(scratch[3].real() ) , Fout->imag() - 
+      \hyperlink{classcudafft_ad4779f2e310b7ff2f2633c147e06e17c}{HALF\_OF}(scratch[3].imag() ) );
+269 
+270             \hyperlink{classcudafft_a12bcd921a68025d8b5094bf06221d2c2}{C\_MULBYSCALAR}( scratch[0] , epi3.imag() );
+271 
+272             \hyperlink{classcudafft_ad4a6c8f97cdf80be567abfceeada59ad}{C\_ADDTO}(*Fout,scratch[3]);
+273 
+274             Fout[m2] = \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\_type}(  Fout[m].real() + scratch[0].imag() , Fout[m].imag() - scratch[0].
+      real() );
+275 
+276             \hyperlink{classcudafft_ad4a6c8f97cdf80be567abfceeada59ad}{C\_ADDTO}( Fout[m] , \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\_type}( -scratch[0].imag(),scratch[0].real() ) );
+277             ++Fout;
+278         \}\textcolor{keywordflow}{while}(--k);
+279     \}
+\end{DoxyCode}
+\index{cudafft@{cudafft}!kf\+\_\+bfly4@{kf\+\_\+bfly4}}
+\index{kf\+\_\+bfly4@{kf\+\_\+bfly4}!cudafft@{cudafft}}
+\subsubsection[{\texorpdfstring{kf\+\_\+bfly4(cpx\+\_\+type $\ast$\+Fout, const size\+\_\+t fstride, const size\+\_\+t m, Kernel\+Params $\ast$kparm)}{kf_bfly4(cpx_type *Fout, const size_t fstride, const size_t m, KernelParams *kparm)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename T\+\_\+traits  = kissfft\+\_\+utils\+::traits$<$\+T$>$$>$ static {\bf C\+F\+F\+T\+\_\+\+B\+O\+TH} void {\bf cudafft}$<$ T, T\+\_\+traits $>$\+::kf\+\_\+bfly4 (
+\begin{DoxyParamCaption}
+\item[{{\bf cpx\+\_\+type} $\ast$}]{Fout, }
+\item[{const size\+\_\+t}]{fstride, }
+\item[{const size\+\_\+t}]{m, }
+\item[{{\bf Kernel\+Params} $\ast$}]{kparm}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}\hypertarget{classcudafft_a5c532f69602cc530be63b3d9567850e5}{}\label{classcudafft_a5c532f69602cc530be63b3d9567850e5}
+
+\begin{DoxyCode}
+227     \{
+228         \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\_type} scratch[7];
+229         \textcolor{keywordtype}{int} negative\_if\_inverse = kparm->inverse ? -1 : 1;
+230         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} k=0;k<m;++k) \{
+231             scratch[0] = Fout[k+m] * kparm->twiddles(k*fstride);
+232             scratch[1] = Fout[k+2*m] * kparm->twiddles(k*fstride*2);
+233             scratch[2] = Fout[k+3*m] * kparm->twiddles(k*fstride*3);
+234             scratch[5] = Fout[k] - scratch[1];
+235 
+236             Fout[k] += scratch[1];
+237             scratch[3] = scratch[0] + scratch[2];
+238             scratch[4] = scratch[0] - scratch[2];
+239             scratch[4] = \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\_type}( scratch[4].imag()*negative\_if\_inverse , -scratch[4].real()* 
+      negative\_if\_inverse );
+240 
+241             Fout[k+2*m]  = Fout[k] - scratch[3];
+242             Fout[k] += scratch[3];
+243             Fout[k+m] = scratch[5] + scratch[4];
+244             Fout[k+3*m] = scratch[5] - scratch[4];
+245         \}
+246     \}
+\end{DoxyCode}
+\index{cudafft@{cudafft}!kf\+\_\+bfly5@{kf\+\_\+bfly5}}
+\index{kf\+\_\+bfly5@{kf\+\_\+bfly5}!cudafft@{cudafft}}
+\subsubsection[{\texorpdfstring{kf\+\_\+bfly5(cpx\+\_\+type $\ast$\+Fout, const size\+\_\+t fstride, const size\+\_\+t m, Kernel\+Params $\ast$kparm)}{kf_bfly5(cpx_type *Fout, const size_t fstride, const size_t m, KernelParams *kparm)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename T\+\_\+traits  = kissfft\+\_\+utils\+::traits$<$\+T$>$$>$ static {\bf C\+F\+F\+T\+\_\+\+B\+O\+TH} void {\bf cudafft}$<$ T, T\+\_\+traits $>$\+::kf\+\_\+bfly5 (
+\begin{DoxyParamCaption}
+\item[{{\bf cpx\+\_\+type} $\ast$}]{Fout, }
+\item[{const size\+\_\+t}]{fstride, }
+\item[{const size\+\_\+t}]{m, }
+\item[{{\bf Kernel\+Params} $\ast$}]{kparm}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}\hypertarget{classcudafft_a40bbcde352f3a3ac8e931fa509880c98}{}\label{classcudafft_a40bbcde352f3a3ac8e931fa509880c98}
+
+\begin{DoxyCode}
+282     \{
+283         \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\_type} *Fout0,*Fout1,*Fout2,*Fout3,*Fout4;
+284         \textcolor{keywordtype}{size\_t} u;
+285         \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\_type} scratch[13];
+286         \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\_type} * twiddles = &kparm->twiddles(0);
+287         \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\_type} *tw;
+288         \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\_type} ya,yb;
+289         ya = twiddles[fstride*m];
+290         yb = twiddles[fstride*2*m];
+291 
+292         Fout0=Fout;
+293         Fout1=Fout0+m;
+294         Fout2=Fout0+2*m;
+295         Fout3=Fout0+3*m;
+296         Fout4=Fout0+4*m;
+297 
+298         tw=twiddles;
+299         \textcolor{keywordflow}{for} ( u=0; u<m; ++u ) \{
+300             scratch[0] = *Fout0;
+301 
+302             \hyperlink{classcudafft_ac7462d0245377968239aabcc6e942a76}{C\_MUL}(scratch[1] ,*Fout1, tw[u*fstride]);
+303             \hyperlink{classcudafft_ac7462d0245377968239aabcc6e942a76}{C\_MUL}(scratch[2] ,*Fout2, tw[2*u*fstride]);
+304             \hyperlink{classcudafft_ac7462d0245377968239aabcc6e942a76}{C\_MUL}(scratch[3] ,*Fout3, tw[3*u*fstride]);
+305             \hyperlink{classcudafft_ac7462d0245377968239aabcc6e942a76}{C\_MUL}(scratch[4] ,*Fout4, tw[4*u*fstride]);
+306 
+307             \hyperlink{classcudafft_a014fac9955f6dc417ae80544132f98e4}{C\_ADD}( scratch[7],scratch[1],scratch[4]);
+308             \hyperlink{classcudafft_a62e0deba21ac6217451ce410b0029812}{C\_SUB}( scratch[10],scratch[1],scratch[4]);
+309             \hyperlink{classcudafft_a014fac9955f6dc417ae80544132f98e4}{C\_ADD}( scratch[8],scratch[2],scratch[3]);
+310             \hyperlink{classcudafft_a62e0deba21ac6217451ce410b0029812}{C\_SUB}( scratch[9],scratch[2],scratch[3]);
+311 
+312             \hyperlink{classcudafft_ad4a6c8f97cdf80be567abfceeada59ad}{C\_ADDTO}( *Fout0, scratch[7]);
+313             \hyperlink{classcudafft_ad4a6c8f97cdf80be567abfceeada59ad}{C\_ADDTO}( *Fout0, scratch[8]);
+314 
+315             scratch[5] = scratch[0] + \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\_type}(
+316                     \hyperlink{classcudafft_a3b3a4acd07911e5e3c27ae34347b7b4e}{S\_MUL}(scratch[7].real(),ya.real() ) + \hyperlink{classcudafft_a3b3a4acd07911e5e3c27ae34347b7b4e}{S\_MUL}(scratch[8].real() ,yb.real() ),
+317                     \hyperlink{classcudafft_a3b3a4acd07911e5e3c27ae34347b7b4e}{S\_MUL}(scratch[7].imag(),ya.real()) + \hyperlink{classcudafft_a3b3a4acd07911e5e3c27ae34347b7b4e}{S\_MUL}(scratch[8].imag(),yb.real())
+318                     );
+319 
+320             scratch[6] =  \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\_type}( 
+321                     \hyperlink{classcudafft_a3b3a4acd07911e5e3c27ae34347b7b4e}{S\_MUL}(scratch[10].imag(),ya.imag()) + \hyperlink{classcudafft_a3b3a4acd07911e5e3c27ae34347b7b4e}{S\_MUL}(scratch[9].imag(),yb.imag()),
+322                     -\hyperlink{classcudafft_a3b3a4acd07911e5e3c27ae34347b7b4e}{S\_MUL}(scratch[10].real(),ya.imag()) - \hyperlink{classcudafft_a3b3a4acd07911e5e3c27ae34347b7b4e}{S\_MUL}(scratch[9].real(),yb.imag()) 
+323                     );
+324 
+325             \hyperlink{classcudafft_a62e0deba21ac6217451ce410b0029812}{C\_SUB}(*Fout1,scratch[5],scratch[6]);
+326             \hyperlink{classcudafft_a014fac9955f6dc417ae80544132f98e4}{C\_ADD}(*Fout4,scratch[5],scratch[6]);
+327 
+328             scratch[11] = scratch[0] + 
+329                 \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\_type}(
+330                         \hyperlink{classcudafft_a3b3a4acd07911e5e3c27ae34347b7b4e}{S\_MUL}(scratch[7].real(),yb.real()) + \hyperlink{classcudafft_a3b3a4acd07911e5e3c27ae34347b7b4e}{S\_MUL}(scratch[8].real(),ya.real()),
+331                         \hyperlink{classcudafft_a3b3a4acd07911e5e3c27ae34347b7b4e}{S\_MUL}(scratch[7].imag(),yb.real()) + \hyperlink{classcudafft_a3b3a4acd07911e5e3c27ae34347b7b4e}{S\_MUL}(scratch[8].imag(),ya.real())
+332                         );
+333 
+334             scratch[12] = \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\_type}(
+335                     -\hyperlink{classcudafft_a3b3a4acd07911e5e3c27ae34347b7b4e}{S\_MUL}(scratch[10].imag(),yb.imag()) + \hyperlink{classcudafft_a3b3a4acd07911e5e3c27ae34347b7b4e}{S\_MUL}(scratch[9].imag(),ya.imag()),
+336                     \hyperlink{classcudafft_a3b3a4acd07911e5e3c27ae34347b7b4e}{S\_MUL}(scratch[10].real(),yb.imag()) - \hyperlink{classcudafft_a3b3a4acd07911e5e3c27ae34347b7b4e}{S\_MUL}(scratch[9].real(),ya.imag())
+337                     );
+338 
+339             \hyperlink{classcudafft_a014fac9955f6dc417ae80544132f98e4}{C\_ADD}(*Fout2,scratch[11],scratch[12]);
+340             \hyperlink{classcudafft_a62e0deba21ac6217451ce410b0029812}{C\_SUB}(*Fout3,scratch[11],scratch[12]);
+341 
+342             ++Fout0;++Fout1;++Fout2;++Fout3;++Fout4;
+343         \}
+344     \}
+\end{DoxyCode}
+\index{cudafft@{cudafft}!kf\+\_\+bfly\+\_\+generic@{kf\+\_\+bfly\+\_\+generic}}
+\index{kf\+\_\+bfly\+\_\+generic@{kf\+\_\+bfly\+\_\+generic}!cudafft@{cudafft}}
+\subsubsection[{\texorpdfstring{kf\+\_\+bfly\+\_\+generic(cpx\+\_\+type $\ast$\+Fout, const size\+\_\+t fstride, int m, int p, Kernel\+Params $\ast$kparm)}{kf_bfly_generic(cpx_type *Fout, const size_t fstride, int m, int p, KernelParams *kparm)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename T\+\_\+traits  = kissfft\+\_\+utils\+::traits$<$\+T$>$$>$ static {\bf C\+F\+F\+T\+\_\+\+B\+O\+TH} void {\bf cudafft}$<$ T, T\+\_\+traits $>$\+::kf\+\_\+bfly\+\_\+generic (
+\begin{DoxyParamCaption}
+\item[{{\bf cpx\+\_\+type} $\ast$}]{Fout, }
+\item[{const size\+\_\+t}]{fstride, }
+\item[{int}]{m, }
+\item[{int}]{p, }
+\item[{{\bf Kernel\+Params} $\ast$}]{kparm}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}\hypertarget{classcudafft_a10bd12be6d50bc12dd45e8d7278f98b9}{}\label{classcudafft_a10bd12be6d50bc12dd45e8d7278f98b9}
+
+\begin{DoxyCode}
+348     \{
+349         \textcolor{keywordtype}{int} u,k,q1,q;
+350         \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\_type} * twiddles = &kparm->twiddles(0);
+351         \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\_type} t;
+352         \textcolor{keywordtype}{int} Norig = kparm->nfft;
+353         \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\_type} *scratchbuf = kparm->scratchbuf();
+354 
+355         \textcolor{keywordflow}{for} ( u=0; u<m; ++u ) \{
+356             k=u;
+357             \textcolor{keywordflow}{for} ( q1=0 ; q1<p ; ++q1 ) \{
+358                 scratchbuf[q1] = Fout[ k  ];
+359                 k += m;
+360             \}
+361 
+362             k=u;
+363             \textcolor{keywordflow}{for} ( q1=0 ; q1<p ; ++q1 ) \{
+364                 \textcolor{keywordtype}{int} twidx=0;
+365                 Fout[ k ] = scratchbuf[0];
+366                 \textcolor{keywordflow}{for} (q=1;q<p;++q ) \{
+367                     twidx += fstride * k;
+368                     \textcolor{keywordflow}{if} (twidx>=Norig) twidx-=Norig;
+369                     \hyperlink{classcudafft_ac7462d0245377968239aabcc6e942a76}{C\_MUL}(t,scratchbuf[q] , twiddles[twidx] );
+370                     \hyperlink{classcudafft_ad4a6c8f97cdf80be567abfceeada59ad}{C\_ADDTO}( Fout[ k ] ,t);
+371                 \}
+372                 k += m;
+373             \}
+374         \}
+375     \}
+\end{DoxyCode}
+\index{cudafft@{cudafft}!kf\+\_\+work@{kf\+\_\+work}}
+\index{kf\+\_\+work@{kf\+\_\+work}!cudafft@{cudafft}}
+\subsubsection[{\texorpdfstring{kf\+\_\+work(int stage, cpx\+\_\+type $\ast$\+Fout, const cpx\+\_\+type $\ast$f, size\+\_\+t fstride, size\+\_\+t in\+\_\+stride, Kernel\+Params $\ast$kparm)}{kf_work(int stage, cpx_type *Fout, const cpx_type *f, size_t fstride, size_t in_stride, KernelParams *kparm)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename T\+\_\+traits  = kissfft\+\_\+utils\+::traits$<$\+T$>$$>$ static {\bf C\+F\+F\+T\+\_\+\+B\+O\+TH} void {\bf cudafft}$<$ T, T\+\_\+traits $>$\+::kf\+\_\+work (
+\begin{DoxyParamCaption}
+\item[{int}]{stage, }
+\item[{{\bf cpx\+\_\+type} $\ast$}]{Fout, }
+\item[{const {\bf cpx\+\_\+type} $\ast$}]{f, }
+\item[{size\+\_\+t}]{fstride, }
+\item[{size\+\_\+t}]{in\+\_\+stride, }
+\item[{{\bf Kernel\+Params} $\ast$}]{kparm}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}\hypertarget{classcudafft_af9502e8f518c37489d730fc1830998d2}{}\label{classcudafft_af9502e8f518c37489d730fc1830998d2}
+
+\begin{DoxyCode}
+161     \{
+162         \textcolor{keywordtype}{int} p = kparm->radix(stage);
+163         \textcolor{keywordtype}{int} m = kparm->remainder(stage);
+164         \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\_type} * Fout\_beg = Fout;
+165         \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\_type} * Fout\_end = Fout + p*m;
+166 
+167         \textcolor{keywordflow}{if} (m==1) \{
+168             \textcolor{keywordflow}{do}\{
+169                 *Fout = *f;
+170                 f += fstride*in\_stride;
+171             \}\textcolor{keywordflow}{while}(++Fout != Fout\_end );
+172         \}\textcolor{keywordflow}{else}\{
+173             \textcolor{keywordflow}{do}\{
+174                 \textcolor{comment}{// recursive call:}
+175                 \textcolor{comment}{// DFT of size m*p performed by doing}
+176                 \textcolor{comment}{// p instances of smaller DFTs of size m, }
+177                 \textcolor{comment}{// each one takes a decimated version of the input}
+178                 \hyperlink{classcudafft_af9502e8f518c37489d730fc1830998d2}{kf\_work}(stage+1, Fout , f, fstride*p,in\_stride,kparm);
+179                 f += fstride*in\_stride;
+180             \}\textcolor{keywordflow}{while}( (Fout += m) != Fout\_end );
+181         \}
+182 
+183         Fout=Fout\_beg;
+184 
+185         \textcolor{comment}{// recombine the p smaller DFTs }
+186         \textcolor{keywordflow}{switch} (p) \{
+187             \textcolor{keywordflow}{case} 2:  
+188                 \hyperlink{classcudafft_a1ea7f9333903a6af29c4c7dfdce5a188}{kf\_bfly2}(Fout,fstride,m, kparm); 
+189                 \textcolor{keywordflow}{break};
+190            \textcolor{keywordflow}{case} 3: \hyperlink{classcudafft_aaf70d4484be564eecf99bfb47a90e29e}{kf\_bfly3}(Fout,fstride,m, kparm); \textcolor{keywordflow}{break};
+191            \textcolor{keywordflow}{case} 4: \hyperlink{classcudafft_a5c532f69602cc530be63b3d9567850e5}{kf\_bfly4}(Fout,fstride,m, kparm); \textcolor{keywordflow}{break};
+192            \textcolor{keywordflow}{case} 5: \hyperlink{classcudafft_a40bbcde352f3a3ac8e931fa509880c98}{kf\_bfly5}(Fout,fstride,m, kparm); \textcolor{keywordflow}{break};
+193            \textcolor{keywordflow}{default}: \hyperlink{classcudafft_a10bd12be6d50bc12dd45e8d7278f98b9}{kf\_bfly\_generic}(Fout,fstride,m,p,kparm); \textcolor{keywordflow}{break};
+194         \}
+195     \}
+\end{DoxyCode}
+\index{cudafft@{cudafft}!S\+\_\+\+M\+UL@{S\+\_\+\+M\+UL}}
+\index{S\+\_\+\+M\+UL@{S\+\_\+\+M\+UL}!cudafft@{cudafft}}
+\subsubsection[{\texorpdfstring{S\+\_\+\+M\+U\+L(const scalar\+\_\+type \&a, const scalar\+\_\+type \&b)}{S_MUL(const scalar_type &a, const scalar_type &b)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename T\+\_\+traits  = kissfft\+\_\+utils\+::traits$<$\+T$>$$>$ static {\bf C\+F\+F\+T\+\_\+\+B\+O\+TH} {\bf scalar\+\_\+type} {\bf cudafft}$<$ T, T\+\_\+traits $>$\+::S\+\_\+\+M\+UL (
+\begin{DoxyParamCaption}
+\item[{const {\bf scalar\+\_\+type} \&}]{a, }
+\item[{const {\bf scalar\+\_\+type} \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}\hypertarget{classcudafft_a3b3a4acd07911e5e3c27ae34347b7b4e}{}\label{classcudafft_a3b3a4acd07911e5e3c27ae34347b7b4e}
+
+\begin{DoxyCode}
+213 \{ \textcolor{keywordflow}{return} a*b;\}
+\end{DoxyCode}
+\index{cudafft@{cudafft}!transform@{transform}}
+\index{transform@{transform}!cudafft@{cudafft}}
+\subsubsection[{\texorpdfstring{transform(const cpx\+\_\+type $\ast$src, cpx\+\_\+type $\ast$dst, Kernel\+Params kparm)}{transform(const cpx_type *src, cpx_type *dst, KernelParams kparm)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename T\+\_\+traits  = kissfft\+\_\+utils\+::traits$<$\+T$>$$>$ static {\bf C\+F\+F\+T\+\_\+\+B\+O\+TH} void {\bf cudafft}$<$ T, T\+\_\+traits $>$\+::transform (
+\begin{DoxyParamCaption}
+\item[{const {\bf cpx\+\_\+type} $\ast$}]{src, }
+\item[{{\bf cpx\+\_\+type} $\ast$}]{dst, }
+\item[{{\bf Kernel\+Params}}]{kparm}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}\hypertarget{classcudafft_ab5c2f4f3e7ea3133a96f8eabc8d9c94f}{}\label{classcudafft_ab5c2f4f3e7ea3133a96f8eabc8d9c94f}
+
+\begin{DoxyCode}
+149     \{
+150         \hyperlink{classcudafft_af9502e8f518c37489d730fc1830998d2}{kf\_work}(0, dst, src, 1,1, &kparm);
+151     \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\index{cudafft@{cudafft}!hostbuf@{hostbuf}}
+\index{hostbuf@{hostbuf}!cudafft@{cudafft}}
+\subsubsection[{\texorpdfstring{hostbuf}{hostbuf}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename T\+\_\+traits  = kissfft\+\_\+utils\+::traits$<$\+T$>$$>$ char$\ast$ {\bf cudafft}$<$ T, T\+\_\+traits $>$\+::hostbuf}\hypertarget{classcudafft_a1c3a0f46edfc7749218206948373136b}{}\label{classcudafft_a1c3a0f46edfc7749218206948373136b}
+\index{cudafft@{cudafft}!kparams@{kparams}}
+\index{kparams@{kparams}!cudafft@{cudafft}}
+\subsubsection[{\texorpdfstring{kparams}{kparams}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename T\+\_\+traits  = kissfft\+\_\+utils\+::traits$<$\+T$>$$>$ {\bf Kernel\+Params} {\bf cudafft}$<$ T, T\+\_\+traits $>$\+::kparams}\hypertarget{classcudafft_ac6c989cedd13030a91f4a92db894492d}{}\label{classcudafft_ac6c989cedd13030a91f4a92db894492d}
+\index{cudafft@{cudafft}!kparams\+\_\+size@{kparams\+\_\+size}}
+\index{kparams\+\_\+size@{kparams\+\_\+size}!cudafft@{cudafft}}
+\subsubsection[{\texorpdfstring{kparams\+\_\+size}{kparams_size}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename T\+\_\+traits  = kissfft\+\_\+utils\+::traits$<$\+T$>$$>$ int {\bf cudafft}$<$ T, T\+\_\+traits $>$\+::kparams\+\_\+size}\hypertarget{classcudafft_ab2818f49ade4d1628377b6d0539c47ab}{}\label{classcudafft_ab2818f49ade4d1628377b6d0539c47ab}
+\index{cudafft@{cudafft}!traits@{traits}}
+\index{traits@{traits}!cudafft@{cudafft}}
+\subsubsection[{\texorpdfstring{traits}{traits}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename T\+\_\+traits  = kissfft\+\_\+utils\+::traits$<$\+T$>$$>$ {\bf traits\+\_\+type} {\bf cudafft}$<$ T, T\+\_\+traits $>$\+::traits}\hypertarget{classcudafft_a8a9bd28623cdece7c8c5fa89917ad7a4}{}\label{classcudafft_a8a9bd28623cdece7c8c5fa89917ad7a4}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+cudatrack/cudafft/\hyperlink{cudafft_8h}{cudafft.\+h}\end{DoxyCompactItemize}

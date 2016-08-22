@@ -1,0 +1,109 @@
+\hypertarget{struct_localization_job}{}\section{Localization\+Job Struct Reference}
+\label{struct_localization_job}\index{Localization\+Job@{Localization\+Job}}
+
+
+Structure for region of interest metadata.  
+
+
+
+
+{\ttfamily \#include $<$qtrk\+\_\+c\+\_\+api.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{struct_localization_job_a6d5cf048c3b2c413e58606d7d4ad0d29}{Localization\+Job} ()
+\item 
+\hyperlink{struct_localization_job_adf9c896abcf6033625d92943f0ce260f}{Localization\+Job} (\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} \hyperlink{struct_localization_job_a54df1ba33ab48b20dca664142a8cf619}{frame}, \hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} \hyperlink{struct_localization_job_a82f4cdb35dd3b6765df52dd045007286}{timestamp}, \hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} zlut\+Plane, \hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} \hyperlink{struct_localization_job_afcf9f91b72597af0e2572f3ae74d9a99}{zlut\+Index})
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} \hyperlink{struct_localization_job_a54df1ba33ab48b20dca664142a8cf619}{frame}
+\begin{DoxyCompactList}\small\item\em Frame number this R\+OI belongs to. \end{DoxyCompactList}\item 
+\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} \hyperlink{struct_localization_job_a82f4cdb35dd3b6765df52dd045007286}{timestamp}
+\begin{DoxyCompactList}\small\item\em Time stamp of the frame. \end{DoxyCompactList}\item 
+int \hyperlink{struct_localization_job_afcf9f91b72597af0e2572f3ae74d9a99}{zlut\+Index}
+\begin{DoxyCompactList}\small\item\em Bead number of this R\+OI. Used to get the right Z\+L\+UT from memory. \end{DoxyCompactList}\item 
+\hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f} \hyperlink{struct_localization_job_a6374e6cba33c93846a757328b13aa509}{initial\+Pos}
+\begin{DoxyCompactList}\small\item\em Optional (Not used) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Structure for region of interest metadata. 
+
+Compiled without padding to line up with Lab\+V\+I\+EW alignment. Size is 24 bytes. \begin{DoxyWarning}{Warning}
+Changing this requires changing of the linked Lab\+V\+I\+EW cluster Q\+Trk\+Localization\+Job.\+ctl. 
+\end{DoxyWarning}
+\begin{DoxyNote}{Note}
+Frame and timestamp are ignored by tracking code itself, but usable for the calling code. 
+\end{DoxyNote}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Localization\+Job@{Localization\+Job}!Localization\+Job@{Localization\+Job}}
+\index{Localization\+Job@{Localization\+Job}!Localization\+Job@{Localization\+Job}}
+\subsubsection[{\texorpdfstring{Localization\+Job()}{LocalizationJob()}}]{\setlength{\rightskip}{0pt plus 5cm}Localization\+Job\+::\+Localization\+Job (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{struct_localization_job_a6d5cf048c3b2c413e58606d7d4ad0d29}{}\label{struct_localization_job_a6d5cf048c3b2c413e58606d7d4ad0d29}
+
+\begin{DoxyCode}
+42                       \{
+43         \hyperlink{struct_localization_job_a54df1ba33ab48b20dca664142a8cf619}{frame}=\hyperlink{struct_localization_job_a82f4cdb35dd3b6765df52dd045007286}{timestamp}=\hyperlink{struct_localization_job_afcf9f91b72597af0e2572f3ae74d9a99}{zlutIndex}=0; 
+44     \}
+\end{DoxyCode}
+\index{Localization\+Job@{Localization\+Job}!Localization\+Job@{Localization\+Job}}
+\index{Localization\+Job@{Localization\+Job}!Localization\+Job@{Localization\+Job}}
+\subsubsection[{\texorpdfstring{Localization\+Job(uint frame, uint timestamp, uint zlut\+Plane, uint zlut\+Index)}{LocalizationJob(uint frame, uint timestamp, uint zlutPlane, uint zlutIndex)}}]{\setlength{\rightskip}{0pt plus 5cm}Localization\+Job\+::\+Localization\+Job (
+\begin{DoxyParamCaption}
+\item[{{\bf uint}}]{frame, }
+\item[{{\bf uint}}]{timestamp, }
+\item[{{\bf uint}}]{zlut\+Plane, }
+\item[{{\bf uint}}]{zlut\+Index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{struct_localization_job_adf9c896abcf6033625d92943f0ce260f}{}\label{struct_localization_job_adf9c896abcf6033625d92943f0ce260f}
+
+\begin{DoxyCode}
+45                                                                                 :
+46         \hyperlink{struct_localization_job_a54df1ba33ab48b20dca664142a8cf619}{frame} (\hyperlink{struct_localization_job_a54df1ba33ab48b20dca664142a8cf619}{frame}), \hyperlink{struct_localization_job_a82f4cdb35dd3b6765df52dd045007286}{timestamp}(\hyperlink{struct_localization_job_a82f4cdb35dd3b6765df52dd045007286}{timestamp}), 
+      \hyperlink{struct_localization_job_afcf9f91b72597af0e2572f3ae74d9a99}{zlutIndex}(\hyperlink{struct_localization_job_afcf9f91b72597af0e2572f3ae74d9a99}{zlutIndex}) 
+47     \{\}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\index{Localization\+Job@{Localization\+Job}!frame@{frame}}
+\index{frame@{frame}!Localization\+Job@{Localization\+Job}}
+\subsubsection[{\texorpdfstring{frame}{frame}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint} Localization\+Job\+::frame}\hypertarget{struct_localization_job_a54df1ba33ab48b20dca664142a8cf619}{}\label{struct_localization_job_a54df1ba33ab48b20dca664142a8cf619}
+
+
+Frame number this R\+OI belongs to. 
+
+\index{Localization\+Job@{Localization\+Job}!initial\+Pos@{initial\+Pos}}
+\index{initial\+Pos@{initial\+Pos}!Localization\+Job@{Localization\+Job}}
+\subsubsection[{\texorpdfstring{initial\+Pos}{initialPos}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf vector3f} Localization\+Job\+::initial\+Pos}\hypertarget{struct_localization_job_a6374e6cba33c93846a757328b13aa509}{}\label{struct_localization_job_a6374e6cba33c93846a757328b13aa509}
+
+
+Optional (Not used) 
+
+\index{Localization\+Job@{Localization\+Job}!timestamp@{timestamp}}
+\index{timestamp@{timestamp}!Localization\+Job@{Localization\+Job}}
+\subsubsection[{\texorpdfstring{timestamp}{timestamp}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint} Localization\+Job\+::timestamp}\hypertarget{struct_localization_job_a82f4cdb35dd3b6765df52dd045007286}{}\label{struct_localization_job_a82f4cdb35dd3b6765df52dd045007286}
+
+
+Time stamp of the frame. 
+
+\index{Localization\+Job@{Localization\+Job}!zlut\+Index@{zlut\+Index}}
+\index{zlut\+Index@{zlut\+Index}!Localization\+Job@{Localization\+Job}}
+\subsubsection[{\texorpdfstring{zlut\+Index}{zlutIndex}}]{\setlength{\rightskip}{0pt plus 5cm}int Localization\+Job\+::zlut\+Index}\hypertarget{struct_localization_job_afcf9f91b72597af0e2572f3ae74d9a99}{}\label{struct_localization_job_afcf9f91b72597af0e2572f3ae74d9a99}
+
+
+Bead number of this R\+OI. Used to get the right Z\+L\+UT from memory. 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+cputrack/\hyperlink{qtrk__c__api_8h}{qtrk\+\_\+c\+\_\+api.\+h}\end{DoxyCompactItemize}

@@ -1,0 +1,73 @@
+\hypertarget{struct_measure_time}{}\section{Measure\+Time Struct Reference}
+\label{struct_measure_time}\index{Measure\+Time@{Measure\+Time}}
+
+
+{\ttfamily \#include $<$gpu\+\_\+utils.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{struct_measure_time_a8c29cb2653887746c723a2c2f8dd3038}{Measure\+Time} (const char $\ast$\hyperlink{struct_measure_time_abeec392149eb49701448e4ebaf790eb3}{name})
+\item 
+\hyperlink{struct_measure_time_a4f2e26585af9efa7229d417d31848e22}{$\sim$\+Measure\+Time} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+uint64\+\_\+t \hyperlink{struct_measure_time_ae409ffeb052828a615c5bc523b331903}{freq}
+\item 
+uint64\+\_\+t \hyperlink{struct_measure_time_a43445cf3256b5569bf80085bb078c7be}{time}
+\item 
+const char $\ast$ \hyperlink{struct_measure_time_abeec392149eb49701448e4ebaf790eb3}{name}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Measure\+Time@{Measure\+Time}!Measure\+Time@{Measure\+Time}}
+\index{Measure\+Time@{Measure\+Time}!Measure\+Time@{Measure\+Time}}
+\subsubsection[{\texorpdfstring{Measure\+Time(const char $\ast$name)}{MeasureTime(const char *name)}}]{\setlength{\rightskip}{0pt plus 5cm}Measure\+Time\+::\+Measure\+Time (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{struct_measure_time_a8c29cb2653887746c723a2c2f8dd3038}{}\label{struct_measure_time_a8c29cb2653887746c723a2c2f8dd3038}
+
+\begin{DoxyCode}
+163                                   \{
+164         QueryPerformanceCounter((LARGE\_INTEGER*)&\hyperlink{struct_measure_time_a43445cf3256b5569bf80085bb078c7be}{time});
+165         QueryPerformanceFrequency((LARGE\_INTEGER*)&\hyperlink{struct_measure_time_ae409ffeb052828a615c5bc523b331903}{freq});
+166         this->\hyperlink{struct_measure_time_abeec392149eb49701448e4ebaf790eb3}{name}=\hyperlink{struct_measure_time_abeec392149eb49701448e4ebaf790eb3}{name};
+167     \}
+\end{DoxyCode}
+\index{Measure\+Time@{Measure\+Time}!````~Measure\+Time@{$\sim$\+Measure\+Time}}
+\index{````~Measure\+Time@{$\sim$\+Measure\+Time}!Measure\+Time@{Measure\+Time}}
+\subsubsection[{\texorpdfstring{$\sim$\+Measure\+Time()}{~MeasureTime()}}]{\setlength{\rightskip}{0pt plus 5cm}Measure\+Time\+::$\sim$\+Measure\+Time (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{struct_measure_time_a4f2e26585af9efa7229d417d31848e22}{}\label{struct_measure_time_a4f2e26585af9efa7229d417d31848e22}
+
+\begin{DoxyCode}
+168                    \{
+169         uint64\_t time1;
+170         QueryPerformanceCounter((LARGE\_INTEGER*)&time1);
+171         \textcolor{keywordtype}{double} dt = (double)(time1-\hyperlink{struct_measure_time_a43445cf3256b5569bf80085bb078c7be}{time}) / (double)\hyperlink{struct_measure_time_ae409ffeb052828a615c5bc523b331903}{freq};
+172         \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"%s: Time taken: %f ms\(\backslash\)n"}, \hyperlink{struct_measure_time_abeec392149eb49701448e4ebaf790eb3}{name}, dt*1000);
+173     \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\index{Measure\+Time@{Measure\+Time}!freq@{freq}}
+\index{freq@{freq}!Measure\+Time@{Measure\+Time}}
+\subsubsection[{\texorpdfstring{freq}{freq}}]{\setlength{\rightskip}{0pt plus 5cm}uint64\+\_\+t Measure\+Time\+::freq}\hypertarget{struct_measure_time_ae409ffeb052828a615c5bc523b331903}{}\label{struct_measure_time_ae409ffeb052828a615c5bc523b331903}
+\index{Measure\+Time@{Measure\+Time}!name@{name}}
+\index{name@{name}!Measure\+Time@{Measure\+Time}}
+\subsubsection[{\texorpdfstring{name}{name}}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ Measure\+Time\+::name}\hypertarget{struct_measure_time_abeec392149eb49701448e4ebaf790eb3}{}\label{struct_measure_time_abeec392149eb49701448e4ebaf790eb3}
+\index{Measure\+Time@{Measure\+Time}!time@{time}}
+\index{time@{time}!Measure\+Time@{Measure\+Time}}
+\subsubsection[{\texorpdfstring{time}{time}}]{\setlength{\rightskip}{0pt plus 5cm}uint64\+\_\+t Measure\+Time\+::time}\hypertarget{struct_measure_time_a43445cf3256b5569bf80085bb078c7be}{}\label{struct_measure_time_a43445cf3256b5569bf80085bb078c7be}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+cudatrack/\hyperlink{gpu__utils_8h}{gpu\+\_\+utils.\+h}\end{DoxyCompactItemize}

@@ -1,0 +1,1650 @@
+\hypertarget{utils_8h}{}\section{cputrack/utils.h File Reference}
+\label{utils_8h}\index{cputrack/utils.\+h@{cputrack/utils.\+h}}
+{\ttfamily \#include \char`\"{}std\+\_\+incl.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}scalar\+\_\+types.\+h\char`\"{}}\\*
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_t_image_data}{T\+Image\+Data$<$ T $>$}
+\item 
+class \hyperlink{class_c_image_data}{C\+Image\+Data}
+\item 
+struct \hyperlink{struct_path_seperator}{Path\+Seperator}
+\item 
+class \hyperlink{class_matrix3_x3}{Matrix3\+X3}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{struct_t_image_data}{T\+Image\+Data}$<$ float $>$ \hyperlink{utils_8h_a2d6726594ce64e82b9222b183f2571d1}{Image\+Data}
+\item 
+typedef \hyperlink{struct_t_image_data}{T\+Image\+Data}$<$ double $>$ \hyperlink{utils_8h_ae917689aa489b1309e56dbdc9bf6bbc0}{Image\+Datad}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T $>$ }\\bool \hyperlink{utils_8h_aac23f61b5f16aea68d0f3501fd2541e8}{is\+N\+AN} (const T \&v)
+\item 
+void \hyperlink{utils_8h_a54368b144ba7937abad8461e3b467659}{Get\+Formatted\+Time\+String} (char $\ast$output)
+\item 
+std\+::string \hyperlink{utils_8h_aff271eeece388bbcd74533ec2f2a3863}{Get\+Current\+Output\+Path} (bool ext=true)
+\item 
+void \hyperlink{utils_8h_a5b94ae341d9ebca67ebec2e52e6cc800}{dbgout} (const std\+::string \&s)
+\item 
+std\+::string \hyperlink{utils_8h_aba26a6b64035ef7962a63b760dd9013e}{S\+Printf} (const char $\ast$fmt,...)
+\item 
+void \hyperlink{utils_8h_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf} (const char $\ast$fmt,...)
+\item 
+void \hyperlink{utils_8h_ab8de7c8e4f80ba5a6b1fcf8da603cd67}{dbgsetlogfile} (const char $\ast$path)
+\item 
+{\footnotesize template$<$typename T $>$ }\\void \hyperlink{utils_8h_a79b36225c16ffe10c47c2aae8bee2d99}{Delete\+All\+Elems} (T \&c)
+\item 
+{\footnotesize template$<$typename T\+Pixel $>$ }\\void \hyperlink{utils_8h_a32b5810b69072511c66006593bcf7a89}{normalize} (T\+Pixel $\ast$d, \hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} w, \hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} h)
+\item 
+{\footnotesize template$<$typename T $>$ }\\T \hyperlink{utils_8h_a19361b487ecc29968d6a8924f5601bfa}{Lerp} (T a, T b, float x)
+\item 
+{\footnotesize template$<$typename T $>$ }\\T \hyperlink{utils_8h_aa9cfad3280334f04e799bb33b442f653}{Interpolate} (T $\ast$image, int width, int height, float x, float y, bool $\ast$outside=0)
+\item 
+{\footnotesize template$<$typename T $>$ }\\T \hyperlink{utils_8h_aa68dad6ceda865eebe8f3e08f8fc86b0}{Interpolate1D} (T $\ast$d, int len, float x)
+\item 
+{\footnotesize template$<$typename T $>$ }\\T \hyperlink{utils_8h_aa89e8d99c3fc0547c71a7581e94e5613}{Interpolate1D} (const std\+::vector$<$ T $>$ \&d, float x)
+\item 
+{\footnotesize template$<$typename T $>$ }\\T \hyperlink{utils_8h_a94a47cedcb61227f25c64c5157508e85}{Std\+Deviation} (T $\ast$start, T $\ast$end)
+\item 
+std\+::vector$<$ float $>$ \hyperlink{utils_8h_a8657c1536ca3621943042411f4644e21}{Compute\+Radial\+Bin\+Window} (int rsteps)
+\item 
+float \hyperlink{utils_8h_aacbb63aefbb719d06ec7ec2839585744}{Compute\+Bg\+Corrected\+C\+O\+M1D} (float $\ast$data, int len, float cf=2.\+0f)
+\item 
+void \hyperlink{utils_8h_a6bf23a91105b7578ec29a4f3d587ec89}{Compute\+C\+RP} (float $\ast$dst, int radial\+Steps, int angular\+Steps, float minradius, float maxradius, \hyperlink{std__incl_8h_aba974726076ec2d63a67114c536d123e}{vector2f} center, \hyperlink{_queued_tracker_8h_a2d6726594ce64e82b9222b183f2571d1}{Image\+Data} $\ast$src, float mean, float $\ast$crpmap=0)
+\item 
+void \hyperlink{utils_8h_a7148d0b8e59fa406d35f0e193628773d}{Compute\+Radial\+Profile} (float $\ast$dst, int radial\+Steps, int angular\+Steps, float minradius, float maxradius, \hyperlink{std__incl_8h_aba974726076ec2d63a67114c536d123e}{vector2f} center, \hyperlink{_queued_tracker_8h_a2d6726594ce64e82b9222b183f2571d1}{Image\+Data} $\ast$src, float mean, bool \hyperlink{utils_8h_a32b5810b69072511c66006593bcf7a89}{normalize})
+\item 
+void \hyperlink{utils_8h_a61c3769ab239eae69caa17b97454aee3}{Normalize\+Radial\+Profile} (float $\ast$prof, int rsteps)
+\item 
+void \hyperlink{utils_8h_a676d4c7bb55f26c3629e9f060b2cfef5}{Normalize\+Z\+L\+UT} (float $\ast$zlut, int num\+L\+U\+Ts, int planes, int radialsteps)
+\item 
+void \hyperlink{utils_8h_aa47207cff3792968b81532f38f3e9b69}{Generate\+Image\+From\+L\+UT} (\hyperlink{_queued_tracker_8h_a2d6726594ce64e82b9222b183f2571d1}{Image\+Data} $\ast$image, \hyperlink{_queued_tracker_8h_a2d6726594ce64e82b9222b183f2571d1}{Image\+Data} $\ast$zlut, float minradius, float maxradius, \hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f} pos, bool use\+Spline\+Interp=true, int ovs=4)
+\item 
+void \hyperlink{utils_8h_a6c2fdf71d0616262a6706187851a69c1}{Apply\+Poisson\+Noise} (\hyperlink{_queued_tracker_8h_a2d6726594ce64e82b9222b183f2571d1}{Image\+Data} \&img, float poisson\+Max, float max\+Value=255)
+\item 
+void \hyperlink{utils_8h_a164d40d76379d0bb95a5ff0dd935aa1f}{Apply\+Gaussian\+Noise} (\hyperlink{_queued_tracker_8h_a2d6726594ce64e82b9222b183f2571d1}{Image\+Data} \&img, float sigma)
+\item 
+void \hyperlink{utils_8h_a5fc7ffd129b030e18b0cd2438a6205b1}{Write\+Complex\+Image\+As\+C\+SV} (const char $\ast$file, std\+::complex$<$ float $>$ $\ast$d, int w, int h, const char $\ast$labels\mbox{[}$\,$\mbox{]}=0)
+\item 
+void \hyperlink{utils_8h_aa0fb8da4922e3042928ed9f6388bc09a}{Write\+Array\+As\+C\+S\+V\+Row} (const char $\ast$file, float $\ast$d, int len, bool append)
+\item 
+void \hyperlink{utils_8h_aeb2d139686549bd29fe86f72247eecf1}{Write\+Vector\+As\+C\+S\+V\+Row} (const char $\ast$file, std\+::vector$<$ float $>$ d, bool append)
+\item 
+void \hyperlink{utils_8h_a9896b62cf125008faeb27b5bad5b3c61}{Write\+Image\+As\+C\+SV} (const char $\ast$file, float $\ast$d, int w, int h, const char $\ast$labels\mbox{[}$\,$\mbox{]}=0)
+\item 
+std\+::vector$<$ std\+::vector$<$ float $>$ $>$ \hyperlink{utils_8h_af9643a3b319a2bd030772b21d187850c}{Read\+C\+SV} (const char $\ast$filename, char sep=\textquotesingle{}\textbackslash{}t\textquotesingle{})
+\item 
+std\+::vector$<$ \hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f} $>$ \hyperlink{utils_8h_ade675d97d337ee739562ee7ca4a50808}{Read\+Vector3\+C\+SV} (const char $\ast$file, char sep=\textquotesingle{}\textbackslash{}t\textquotesingle{})
+\item 
+void \hyperlink{utils_8h_a892e890722fec10f712158e4f7bdd0f0}{Write\+Trace} (std\+::string file, \hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f} $\ast$results, int n\+Results)
+\item 
+void \hyperlink{utils_8h_a4295710d6f01ca4fd27a41dd51a6d3b9}{Generate\+Test\+Image} (\hyperlink{_queued_tracker_8h_a2d6726594ce64e82b9222b183f2571d1}{Image\+Data} \&img, float xp, float yp, float size, float Max\+Photons)
+\item 
+std\+::string \hyperlink{utils_8h_aeb7eb5c2a751102d58ea3d7b15bd5bcf}{Get\+Local\+Module\+Filename} ()
+\item 
+std\+::string \hyperlink{utils_8h_a94c5c46fa5ac0e27fa3f171b171fe8ae}{Get\+Local\+Module\+Path} ()
+\item 
+std\+::string \hyperlink{utils_8h_abb79ff4e841148f46f68fed19d087169}{Get\+Directory\+From\+Path} (std\+::string fullpath)
+\item 
+std\+::string \hyperlink{utils_8h_abb4af55bf064f76f19025b5d9a70f723}{file\+\_\+ext} (const char $\ast$f)
+\item 
+\hyperlink{_queued_tracker_8h_a2d6726594ce64e82b9222b183f2571d1}{Image\+Data} \hyperlink{utils_8h_a9d2506602d1c5b6419101f13380ddb59}{Read\+J\+P\+E\+G\+File} (const char $\ast$fn)
+\item 
+\hyperlink{_queued_tracker_8h_a2d6726594ce64e82b9222b183f2571d1}{Image\+Data} \hyperlink{utils_8h_afa12308b716c890001e2b072f45d4a74}{Read\+L\+U\+T\+File} (const char $\ast$lutfile)
+\item 
+int \hyperlink{utils_8h_aca9c9daac87f0810622bb7e207e4587f}{Read\+J\+P\+E\+G\+File} (\hyperlink{std__incl_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar} $\ast$srcbuf, int srclen, \hyperlink{std__incl_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar} $\ast$$\ast$data, int $\ast$width, int $\ast$height)
+\item 
+void \hyperlink{utils_8h_a77db3a4044f8f77b5a550b6f05962172}{Write\+J\+P\+E\+G\+File} (\hyperlink{std__incl_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar} $\ast$data, int w, int h, const char $\ast$filename, int quality)
+\item 
+void \hyperlink{utils_8h_a197d79f00fb185491c4d109e966ca9ef}{Float\+To\+J\+P\+E\+G\+File} (const char $\ast$name, const float $\ast$d, int w, int h)
+\item 
+void \hyperlink{utils_8h_a1185e2d2592ebcef7e20900fde3198d9}{Write\+J\+P\+E\+G\+File} (const char $\ast$name, const \hyperlink{_queued_tracker_8h_a2d6726594ce64e82b9222b183f2571d1}{Image\+Data} \&img)
+\item 
+int \hyperlink{utils_8h_a93409977ae90735769d0d2f37b19604e}{Nearest\+Power\+Of2} (int v)
+\item 
+int \hyperlink{utils_8h_a5f7925a9c145be917c154215435e26fc}{Nearest\+Power\+Of3} (int v)
+\item 
+void \hyperlink{utils_8h_a6203254588fe20c359c382ba4ddd9627}{Generate\+Gaussian\+Spot\+Image} (\hyperlink{_queued_tracker_8h_a2d6726594ce64e82b9222b183f2571d1}{Image\+Data} $\ast$img, \hyperlink{std__incl_8h_aba974726076ec2d63a67114c536d123e}{vector2f} pos, float sigma, float I0, float Ibg)
+\item 
+std\+::vector$<$ \hyperlink{std__incl_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar} $>$ \hyperlink{utils_8h_afc3a35e21ebcc6c29a05f25c58c74157}{Read\+To\+Byte\+Buffer} (const char $\ast$filename)
+\item 
+double \hyperlink{utils_8h_a11abc9edca3542dd4e74dadf99340fa1}{Get\+Precise\+Time} ()
+\item 
+{\footnotesize template$<$typename T $>$ }\\void \hyperlink{utils_8h_a5fe3abd0cc452e818b27d31aa9e09e46}{float\+To\+Normalized\+Int} (T $\ast$dst, const float $\ast$src, \hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} w, \hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} h, T max\+Value)
+\item 
+{\footnotesize template$<$typename T $>$ }\\T $\ast$ \hyperlink{utils_8h_a80836b4b4849147020be438d63743a6a}{float\+To\+Normalized\+Int} (const float $\ast$src, \hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} w, \hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} h, T max\+Value)
+\item 
+{\footnotesize template$<$typename T $>$ }\\T \hyperlink{utils_8h_a862170e4b42dfe51e108e159dde39e54}{Compute\+Std\+Dev} (T $\ast$data, int len)
+\item 
+{\footnotesize template$<$typename T $>$ }\\T \hyperlink{utils_8h_a4b0a27d7d56f378a09fa03dd12191278}{qselect} (T $\ast$data, int start, int end, int k)
+\item 
+{\footnotesize template$<$typename T $>$ }\\T \hyperlink{utils_8h_ab395c4718c08b423258c297fe9b1cae8}{erf} (T x)
+\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\index{utils.\+h@{utils.\+h}!Image\+Data@{Image\+Data}}
+\index{Image\+Data@{Image\+Data}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Image\+Data}{ImageData}}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf T\+Image\+Data}$<$float$>$ {\bf Image\+Data}}\hypertarget{utils_8h_a2d6726594ce64e82b9222b183f2571d1}{}\label{utils_8h_a2d6726594ce64e82b9222b183f2571d1}
+\index{utils.\+h@{utils.\+h}!Image\+Datad@{Image\+Datad}}
+\index{Image\+Datad@{Image\+Datad}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Image\+Datad}{ImageDatad}}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf T\+Image\+Data}$<$double$>$ {\bf Image\+Datad}}\hypertarget{utils_8h_ae917689aa489b1309e56dbdc9bf6bbc0}{}\label{utils_8h_ae917689aa489b1309e56dbdc9bf6bbc0}
+
+
+\subsection{Function Documentation}
+\index{utils.\+h@{utils.\+h}!Apply\+Gaussian\+Noise@{Apply\+Gaussian\+Noise}}
+\index{Apply\+Gaussian\+Noise@{Apply\+Gaussian\+Noise}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Apply\+Gaussian\+Noise(\+Image\+Data \&img, float sigma)}{ApplyGaussianNoise(ImageData &img, float sigma)}}]{\setlength{\rightskip}{0pt plus 5cm}void Apply\+Gaussian\+Noise (
+\begin{DoxyParamCaption}
+\item[{{\bf Image\+Data} \&}]{img, }
+\item[{float}]{sigma}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_a164d40d76379d0bb95a5ff0dd935aa1f}{}\label{utils_8h_a164d40d76379d0bb95a5ff0dd935aa1f}
+
+\begin{DoxyCode}
+459 \{
+460     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} k=0;k<img.\hyperlink{struct_t_image_data_a778a4b0170c0a225b89692c7cedd2440}{numPixels}();k++) \{
+461         \textcolor{keywordtype}{float} v = img.\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data}[k] + sigma * rand\_normal<float>();
+462         \textcolor{keywordflow}{if} (v<0.0f) v= 0.0f;
+463         img.\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data}[k]=v;
+464     \}
+465 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!Apply\+Poisson\+Noise@{Apply\+Poisson\+Noise}}
+\index{Apply\+Poisson\+Noise@{Apply\+Poisson\+Noise}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Apply\+Poisson\+Noise(\+Image\+Data \&img, float poisson\+Max, float max\+Value=255)}{ApplyPoissonNoise(ImageData &img, float poissonMax, float maxValue=255)}}]{\setlength{\rightskip}{0pt plus 5cm}void Apply\+Poisson\+Noise (
+\begin{DoxyParamCaption}
+\item[{{\bf Image\+Data} \&}]{img, }
+\item[{float}]{poisson\+Max, }
+\item[{float}]{max\+Value = {\ttfamily 255}}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_a6c2fdf71d0616262a6706187851a69c1}{}\label{utils_8h_a6c2fdf71d0616262a6706187851a69c1}
+
+\begin{DoxyCode}
+437 \{
+438     \textcolor{comment}{/*auto f = [&] (int y) \{}
+439 \textcolor{comment}{        for (int x=0;x<img.w;x++) \{}
+440 \textcolor{comment}{            img.at(x,y) = rand\_poisson<float>(factor*img.at(x,y));}
+441 \textcolor{comment}{        \}}
+442 \textcolor{comment}{    \};}
+443 \textcolor{comment}{}
+444 \textcolor{comment}{    ThreadPool<int, std::function<void (int index)> > pool(f);}
+445 \textcolor{comment}{}
+446 \textcolor{comment}{    for (int y=0;y<img.h;y++) \{}
+447 \textcolor{comment}{        pool.AddWork(y);}
+448 \textcolor{comment}{    \}}
+449 \textcolor{comment}{    pool.WaitUntilDone();*/}
+450 
+451     \textcolor{keywordtype}{float} ratio = maxval / poissonMax;
+452 
+453     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x=0;x<img.\hyperlink{struct_t_image_data_a778a4b0170c0a225b89692c7cedd2440}{numPixels}();x++) \{
+454         img[x] = (int)(rand\_poisson<float>(poissonMax*img[x]) * ratio );
+455     \}
+456 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!Compute\+Bg\+Corrected\+C\+O\+M1D@{Compute\+Bg\+Corrected\+C\+O\+M1D}}
+\index{Compute\+Bg\+Corrected\+C\+O\+M1D@{Compute\+Bg\+Corrected\+C\+O\+M1D}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Compute\+Bg\+Corrected\+C\+O\+M1\+D(float $\ast$data, int len, float cf=2.\+0f)}{ComputeBgCorrectedCOM1D(float *data, int len, float cf=2.0f)}}]{\setlength{\rightskip}{0pt plus 5cm}float Compute\+Bg\+Corrected\+C\+O\+M1D (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{data, }
+\item[{int}]{len, }
+\item[{float}]{cf = {\ttfamily 2.0f}}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_aacbb63aefbb719d06ec7ec2839585744}{}\label{utils_8h_aacbb63aefbb719d06ec7ec2839585744}
+
+\begin{DoxyCode}
+234 \{
+235     \textcolor{keywordtype}{float} sum=0, sum2=0;
+236     \textcolor{keywordtype}{float} moment=0;
+237 
+238     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x=0;x<len;x++) \{
+239         \textcolor{keywordtype}{float} v = data[x];
+240         sum += v;
+241         sum2 += v*v;
+242     \}
+243 
+244     \textcolor{keywordtype}{float} invN = 1.0f/len;
+245     \textcolor{keywordtype}{float} mean = sum * invN;
+246     \textcolor{keywordtype}{float} stdev = sqrtf(sum2 * invN - mean * mean);
+247     sum = 0.0f;
+248 
+249     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} x=0;x<len;x++)
+250     \{
+251         \textcolor{keywordtype}{float} v = data[x];
+252         v = std::max(0.0f, fabs(v-mean)-cf*stdev);
+253         sum += v;
+254         moment += x*v;
+255     \}
+256     \textcolor{keywordflow}{return} moment / (float)sum;
+257 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!Compute\+C\+RP@{Compute\+C\+RP}}
+\index{Compute\+C\+RP@{Compute\+C\+RP}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Compute\+C\+R\+P(float $\ast$dst, int radial\+Steps, int angular\+Steps, float minradius, float maxradius, vector2f center, Image\+Data $\ast$src, float mean, float $\ast$crpmap=0)}{ComputeCRP(float *dst, int radialSteps, int angularSteps, float minradius, float maxradius, vector2f center, ImageData *src, float mean, float *crpmap=0)}}]{\setlength{\rightskip}{0pt plus 5cm}void Compute\+C\+RP (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{dst, }
+\item[{int}]{radial\+Steps, }
+\item[{int}]{angular\+Steps, }
+\item[{float}]{minradius, }
+\item[{float}]{maxradius, }
+\item[{{\bf vector2f}}]{center, }
+\item[{{\bf Image\+Data} $\ast$}]{src, }
+\item[{float}]{mean, }
+\item[{float $\ast$}]{crpmap = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_a6bf23a91105b7578ec29a4f3d587ec89}{}\label{utils_8h_a6bf23a91105b7578ec29a4f3d587ec89}
+
+\begin{DoxyCode}
+185 \{
+186     \hyperlink{structvector2}{vector2f}* radialDirs = (\hyperlink{structvector2}{vector2f}*)\hyperlink{std__incl_8h_a72fc0ed307a114ba9a46ebd095267d2f}{ALLOCA}(\textcolor{keyword}{sizeof}(
+      \hyperlink{structvector2}{vector2f})*angularSteps);
+187     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} j=0;j<angularSteps;j++) \{
+188         \textcolor{keywordtype}{float} ang = 2*3.141593f*j/(float)angularSteps;
+189         radialDirs[j] = \hyperlink{std__incl_8h_aba974726076ec2d63a67114c536d123e}{vector2f}(cosf(ang), sinf(ang) );
+190     \}
+191 
+192     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<radialSteps;i++)
+193         dst[i]=0.0f;
+194 
+195     \textcolor{keywordtype}{float}* map = crpmap ? crpmap : (\textcolor{keywordtype}{float}*)\hyperlink{std__incl_8h_a72fc0ed307a114ba9a46ebd095267d2f}{ALLOCA}(\textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float})*radialSteps*angularSteps);
+196     \textcolor{keywordtype}{float}* com = (\textcolor{keywordtype}{float}*)\hyperlink{std__incl_8h_a72fc0ed307a114ba9a46ebd095267d2f}{ALLOCA}(\textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float})*angularSteps);
+197 
+198     \textcolor{keywordtype}{float} rstep = (maxradius-minradius) / radialSteps;
+199     \textcolor{keywordtype}{float} comsum = 0.0f;
+200     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} a=0;a<angularSteps;a++) \{
+201         \textcolor{keywordtype}{float} r = minradius;
+202         \textcolor{keywordtype}{float} sum = 0.0f, moment=0.0f;
+203         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<radialSteps; i++) \{
+204             \textcolor{keywordtype}{float} x = center.\hyperlink{structvector2_a22b63498d8e4abf9a2da054a247965b9}{x} + radialDirs[a].\hyperlink{structvector2_a22b63498d8e4abf9a2da054a247965b9}{x} * r;
+205             \textcolor{keywordtype}{float} y = center.\hyperlink{structvector2_a00b3268bc895adddf0b72d6acd8274a7}{y} + radialDirs[a].\hyperlink{structvector2_a00b3268bc895adddf0b72d6acd8274a7}{y} * r;
+206             \textcolor{keywordtype}{float} v = img->interpolate(x,y);
+207             r += rstep;
+208             map[a*radialSteps+i] = v;
+209             sum += v;
+210             moment += i*v;
+211         \}
+212         com[a] = moment/sum;
+213         comsum += com[a];
+214     \}
+215     \textcolor{keywordtype}{float} avgcom = comsum/angularSteps;
+216     \textcolor{keywordtype}{float} totalrmssum2 = 0.0f;
+217     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<radialSteps; i++) \{
+218         \textcolor{keywordtype}{double} sum = 0.0f;
+219         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} a=0;a<angularSteps;a++) \{
+220             \textcolor{keywordtype}{float} shift = com[a]-avgcom;
+221             sum += map[a*radialSteps+i];
+222         \}
+223         dst[i] = sum/angularSteps-paddingValue;
+224         totalrmssum2 += dst[i]*dst[i];
+225     \}
+226     \textcolor{keywordtype}{double} invTotalrms = 1.0f/\hyperlink{std__incl_8h_a8a38721046513951c4bfc32bf101e180}{sqrt}(totalrmssum2/radialSteps);
+227     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<radialSteps;i++) \{
+228         dst[i] *= invTotalrms;
+229     \}
+230 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!Compute\+Radial\+Bin\+Window@{Compute\+Radial\+Bin\+Window}}
+\index{Compute\+Radial\+Bin\+Window@{Compute\+Radial\+Bin\+Window}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Compute\+Radial\+Bin\+Window(int rsteps)}{ComputeRadialBinWindow(int rsteps)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$float$>$ Compute\+Radial\+Bin\+Window (
+\begin{DoxyParamCaption}
+\item[{int}]{rsteps}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_a8657c1536ca3621943042411f4644e21}{}\label{utils_8h_a8657c1536ca3621943042411f4644e21}
+
+\begin{DoxyCode}
+714 \{
+715     std::vector<float> wnd(rsteps);
+716     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<rsteps;i++) \{
+717         \textcolor{keywordtype}{float} x = i/(float)rsteps;
+718         \textcolor{keywordtype}{float} t2 = 0.05f; 
+719         \textcolor{keywordtype}{float} t1 = 0.01f;
+720         \textcolor{keywordtype}{float} fall = 1.0f-expf(-\hyperlink{utils_8cpp_a5d9a285a9ed595c633d5fc06e622df8f}{sq}(1-x)/t2);
+721         \textcolor{keywordtype}{float} rise = 1.0f-expf(-\hyperlink{utils_8cpp_a5d9a285a9ed595c633d5fc06e622df8f}{sq}(x)/t1);
+722         wnd[i] = sqrtf(fall*rise*x*2);
+723     \}
+724     \textcolor{keywordflow}{return} wnd;
+725 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!Compute\+Radial\+Profile@{Compute\+Radial\+Profile}}
+\index{Compute\+Radial\+Profile@{Compute\+Radial\+Profile}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Compute\+Radial\+Profile(float $\ast$dst, int radial\+Steps, int angular\+Steps, float minradius, float maxradius, vector2f center, Image\+Data $\ast$src, float mean, bool normalize)}{ComputeRadialProfile(float *dst, int radialSteps, int angularSteps, float minradius, float maxradius, vector2f center, ImageData *src, float mean, bool normalize)}}]{\setlength{\rightskip}{0pt plus 5cm}void Compute\+Radial\+Profile (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{dst, }
+\item[{int}]{radial\+Steps, }
+\item[{int}]{angular\+Steps, }
+\item[{float}]{minradius, }
+\item[{float}]{maxradius, }
+\item[{{\bf vector2f}}]{center, }
+\item[{{\bf Image\+Data} $\ast$}]{src, }
+\item[{float}]{mean, }
+\item[{bool}]{normalize}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_a7148d0b8e59fa406d35f0e193628773d}{}\label{utils_8h_a7148d0b8e59fa406d35f0e193628773d}
+
+\begin{DoxyCode}
+302 \{
+303     \hyperlink{structvector2}{vector2f}* radialDirs = (\hyperlink{structvector2}{vector2f}*)\hyperlink{std__incl_8h_a72fc0ed307a114ba9a46ebd095267d2f}{ALLOCA}(\textcolor{keyword}{sizeof}(
+      \hyperlink{structvector2}{vector2f})*angularSteps);
+304     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} j=0;j<angularSteps;j++) \{
+305         \textcolor{keywordtype}{float} ang = 2*3.141593f*j/(float)angularSteps;
+306         radialDirs[j] = \hyperlink{std__incl_8h_aba974726076ec2d63a67114c536d123e}{vector2f}(cosf(ang), sinf(ang));
+307     \}
+308 
+309     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<radialSteps;i++)
+310         dst[i]=0.0f;
+311 
+312 \textcolor{comment}{//  center.x += 0.5f;}
+313 \textcolor{comment}{//  center.y += 0.5f;}
+314 
+315     \textcolor{keywordtype}{bool} trace=\textcolor{keyword}{false};
+316     \textcolor{keywordtype}{float} rstep = (maxradius-minradius) / radialSteps;
+317     \textcolor{keywordtype}{int} totalsmp = 0;
+318 
+319     \textcolor{comment}{//FILE* f = fopen("D:\(\backslash\)\(\backslash\)TestImages\(\backslash\)\(\backslash\)test.csv","w");}
+320 
+321     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<radialSteps; i++) \{
+322         \textcolor{keywordtype}{double} sum = 0.0f;
+323 
+324         \textcolor{keywordtype}{int} nsamples = 0;
+325         \textcolor{keywordtype}{float} r = minradius+rstep*i;
+326         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} a=0;a<angularSteps;a++) \{
+327             \textcolor{keywordtype}{float} x = center.\hyperlink{structvector2_a22b63498d8e4abf9a2da054a247965b9}{x} + radialDirs[a].\hyperlink{structvector2_a22b63498d8e4abf9a2da054a247965b9}{x} * r;
+328             \textcolor{keywordtype}{float} y = center.\hyperlink{structvector2_a00b3268bc895adddf0b72d6acd8274a7}{y} + radialDirs[a].\hyperlink{structvector2_a00b3268bc895adddf0b72d6acd8274a7}{y} * r;
+329             \textcolor{keywordtype}{bool} outside;
+330             \textcolor{keywordtype}{float} v = img->interpolate(x,y, &outside);
+331             \textcolor{keywordflow}{if} (!outside) \{
+332                 sum += v;
+333                 nsamples++;
+334             \}
+335 
+336             \textcolor{comment}{//fprintf(f,"%d\(\backslash\)t%d\(\backslash\)t%f\(\backslash\)n",i,a,v);}
+337         \}
+338 
+339         \textcolor{keywordflow}{if} (trace) \{
+340             \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"%f,[%d]; "}, sum, nsamples);
+341         \}
+342 
+343         dst[i] = nsamples > \hyperlink{_queued_tracker_8h_a1625167c310599739f4d73170413e64a}{MIN\_RADPROFILE\_SMP\_COUNT} ? sum/nsamples : mean;
+344     \}
+345     \textcolor{keywordflow}{if}(trace)
+346         \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"\(\backslash\)n"});
+347 
+348     \textcolor{comment}{//fclose(f);}
+349 
+350     \textcolor{keywordflow}{if} (\hyperlink{utils_8h_a32b5810b69072511c66006593bcf7a89}{normalize}) 
+351         \hyperlink{utils_8cpp_a404fa660440d30ed70566aebf9f9e94a}{NormalizeRadialProfile}(dst, radialSteps);
+352 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!Compute\+Std\+Dev@{Compute\+Std\+Dev}}
+\index{Compute\+Std\+Dev@{Compute\+Std\+Dev}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Compute\+Std\+Dev(\+T $\ast$data, int len)}{ComputeStdDev(T *data, int len)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ T Compute\+Std\+Dev (
+\begin{DoxyParamCaption}
+\item[{T $\ast$}]{data, }
+\item[{int}]{len}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_a862170e4b42dfe51e108e159dde39e54}{}\label{utils_8h_a862170e4b42dfe51e108e159dde39e54}
+
+\begin{DoxyCode}
+222 \{
+223     T sum = 0.0, sum2=0.0;
+224     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} a=0;a<len;a++) \{
+225         sum+=data[a];
+226         sum2+=data[a]*data[a];
+227     \}
+228     T mean = sum / len;
+229     \textcolor{keywordflow}{return} \hyperlink{std__incl_8h_a8a38721046513951c4bfc32bf101e180}{sqrt}(sum2 / len- mean * mean);
+230 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!dbgout@{dbgout}}
+\index{dbgout@{dbgout}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{dbgout(const std\+::string \&s)}{dbgout(const std::string &s)}}]{\setlength{\rightskip}{0pt plus 5cm}void dbgout (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{s}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_a5b94ae341d9ebca67ebec2e52e6cc800}{}\label{utils_8h_a5b94ae341d9ebca67ebec2e52e6cc800}
+
+\begin{DoxyCode}
+143                                 \{
+144     OutputDebugString(s.c\_str());
+145     printf(s.c\_str());
+146     \hyperlink{utils_8cpp_a573f566a9717a199b5311d89e75aa010}{WriteToLog}(s.c\_str());
+147 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!dbgprintf@{dbgprintf}}
+\index{dbgprintf@{dbgprintf}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{dbgprintf(const char $\ast$fmt,...)}{dbgprintf(const char *fmt,...)}}]{\setlength{\rightskip}{0pt plus 5cm}void dbgprintf (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{fmt, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_a4a7132c90e490d24edecb391a754a9c0}{}\label{utils_8h_a4a7132c90e490d24edecb391a754a9c0}
+
+\begin{DoxyCode}
+149                                     \{
+150     va\_list ap;
+151     va\_start(ap, fmt);
+152 
+153     \textcolor{keywordtype}{char} buf[512];
+154     \hyperlink{std__incl_8h_ac2e4f48c3da557e8b268aee96009e135}{VSNPRINTF}(buf, \textcolor{keyword}{sizeof}(buf), fmt, ap);
+155     OutputDebugString(buf);
+156     fputs(buf,stdout);
+157     \hyperlink{utils_8cpp_a573f566a9717a199b5311d89e75aa010}{WriteToLog}(buf);
+158 
+159     va\_end(ap);
+160 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!dbgsetlogfile@{dbgsetlogfile}}
+\index{dbgsetlogfile@{dbgsetlogfile}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{dbgsetlogfile(const char $\ast$path)}{dbgsetlogfile(const char *path)}}]{\setlength{\rightskip}{0pt plus 5cm}void dbgsetlogfile (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{path}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_ab8de7c8e4f80ba5a6b1fcf8da603cd67}{}\label{utils_8h_ab8de7c8e4f80ba5a6b1fcf8da603cd67}
+
+\begin{DoxyCode}
+50 \{
+51     \hyperlink{utils_8cpp_ae003eabff7038472981e17852dc6aa82}{logFilename} = path;
+52 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!Delete\+All\+Elems@{Delete\+All\+Elems}}
+\index{Delete\+All\+Elems@{Delete\+All\+Elems}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Delete\+All\+Elems(\+T \&c)}{DeleteAllElems(T &c)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ void Delete\+All\+Elems (
+\begin{DoxyParamCaption}
+\item[{T \&}]{c}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_a79b36225c16ffe10c47c2aae8bee2d99}{}\label{utils_8h_a79b36225c16ffe10c47c2aae8bee2d99}
+
+\begin{DoxyCode}
+19                           \{
+20     \textcolor{keywordflow}{for}(\textcolor{keyword}{typename} T::iterator i=c.begin();i!=c.end();++i)
+21         \textcolor{keyword}{delete} *i;
+22     c.clear();
+23 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!erf@{erf}}
+\index{erf@{erf}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{erf(\+T x)}{erf(T x)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ T erf (
+\begin{DoxyParamCaption}
+\item[{T}]{x}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_ab395c4718c08b423258c297fe9b1cae8}{}\label{utils_8h_ab395c4718c08b423258c297fe9b1cae8}
+
+\begin{DoxyCode}
+374 \{
+375     \textcolor{comment}{// constants}
+376     T a1 =  0.254829592f;
+377     T a2 = -0.284496736f;
+378     T a3 =  1.421413741f;
+379     T a4 = -1.453152027f;
+380     T a5 =  1.061405429f;
+381     T p  =  0.3275911f;
+382 
+383     \textcolor{comment}{// Save the sign of x}
+384     \textcolor{keywordtype}{int} sign = 1;
+385     \textcolor{keywordflow}{if} (x < 0)
+386         sign = -1;
+387     x = fabs(x);
+388 
+389     \textcolor{comment}{// A&S formula 7.1.26}
+390     T t = 1.0f/(1.0f + p*x);
+391     T y = 1.0f - (((((a5*t + a4)*t) + a3)*t + a2)*t + a1)*t*exp(-x*x);
+392 
+393     \textcolor{keywordflow}{return} sign*y;
+394 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!file\+\_\+ext@{file\+\_\+ext}}
+\index{file\+\_\+ext@{file\+\_\+ext}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{file\+\_\+ext(const char $\ast$f)}{file_ext(const char *f)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string file\+\_\+ext (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{f}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_abb4af55bf064f76f19025b5d9a70f723}{}\label{utils_8h_abb4af55bf064f76f19025b5d9a70f723}
+
+\begin{DoxyCode}
+121                                  \{
+122     \textcolor{keywordtype}{int} l=strlen(f)-1;
+123     \textcolor{keywordflow}{while} (l > 0) \{
+124         \textcolor{keywordflow}{if} (f[l] == \textcolor{charliteral}{'.'})
+125             \textcolor{keywordflow}{return} &f[l+1];
+126         l--;
+127     \}
+128     \textcolor{keywordflow}{return} \textcolor{stringliteral}{""};
+129 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!Float\+To\+J\+P\+E\+G\+File@{Float\+To\+J\+P\+E\+G\+File}}
+\index{Float\+To\+J\+P\+E\+G\+File@{Float\+To\+J\+P\+E\+G\+File}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Float\+To\+J\+P\+E\+G\+File(const char $\ast$name, const float $\ast$d, int w, int h)}{FloatToJPEGFile(const char *name, const float *d, int w, int h)}}]{\setlength{\rightskip}{0pt plus 5cm}void Float\+To\+J\+P\+E\+G\+File (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{name, }
+\item[{const float $\ast$}]{d, }
+\item[{int}]{w, }
+\item[{int}]{h}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_a197d79f00fb185491c4d109e966ca9ef}{}\label{utils_8h_a197d79f00fb185491c4d109e966ca9ef}
+
+\begin{DoxyCode}
+190 \{
+191     \hyperlink{std__incl_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar}* zlut\_bytes = \hyperlink{utils_8h_a5fe3abd0cc452e818b27d31aa9e09e46}{floatToNormalizedInt}(d, w,h, (
+      \hyperlink{std__incl_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar})255);
+192     \hyperlink{fastjpg_8cpp_a77db3a4044f8f77b5a550b6f05962172}{WriteJPEGFile}(zlut\_bytes, w, h, name, 99);
+193     \textcolor{keyword}{delete}[] zlut\_bytes;
+194 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!float\+To\+Normalized\+Int@{float\+To\+Normalized\+Int}}
+\index{float\+To\+Normalized\+Int@{float\+To\+Normalized\+Int}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{float\+To\+Normalized\+Int(\+T $\ast$dst, const float $\ast$src, uint w, uint h, T max\+Value)}{floatToNormalizedInt(T *dst, const float *src, uint w, uint h, T maxValue)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ void float\+To\+Normalized\+Int (
+\begin{DoxyParamCaption}
+\item[{T $\ast$}]{dst, }
+\item[{const float $\ast$}]{src, }
+\item[{{\bf uint}}]{w, }
+\item[{{\bf uint}}]{h, }
+\item[{T}]{max\+Value}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_a5fe3abd0cc452e818b27d31aa9e09e46}{}\label{utils_8h_a5fe3abd0cc452e818b27d31aa9e09e46}
+
+\begin{DoxyCode}
+200 \{
+201     \textcolor{keywordtype}{float} maxv = src[0];
+202     \textcolor{keywordtype}{float} minv = src[0];
+203     \textcolor{keywordflow}{for} (\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} k=0;k<w*h;k++) \{
+204         maxv = std::max(maxv, src[k]);
+205         minv = std::min(minv, src[k]);
+206     \}
+207     \textcolor{keywordflow}{for} (\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} k=0;k<w*h;k++)
+208         dst[k] = maxValue * (src[k]-minv) / (maxv-minv);
+209 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!float\+To\+Normalized\+Int@{float\+To\+Normalized\+Int}}
+\index{float\+To\+Normalized\+Int@{float\+To\+Normalized\+Int}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{float\+To\+Normalized\+Int(const float $\ast$src, uint w, uint h, T max\+Value)}{floatToNormalizedInt(const float *src, uint w, uint h, T maxValue)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ T$\ast$ float\+To\+Normalized\+Int (
+\begin{DoxyParamCaption}
+\item[{const float $\ast$}]{src, }
+\item[{{\bf uint}}]{w, }
+\item[{{\bf uint}}]{h, }
+\item[{T}]{max\+Value}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_a80836b4b4849147020be438d63743a6a}{}\label{utils_8h_a80836b4b4849147020be438d63743a6a}
+
+\begin{DoxyCode}
+214 \{ 
+215     T* r = \textcolor{keyword}{new} T[w*h]; 
+216     \hyperlink{utils_8h_a5fe3abd0cc452e818b27d31aa9e09e46}{floatToNormalizedInt}(r,src,w,h, maxValue);
+217     \textcolor{keywordflow}{return} r; 
+218 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!Generate\+Gaussian\+Spot\+Image@{Generate\+Gaussian\+Spot\+Image}}
+\index{Generate\+Gaussian\+Spot\+Image@{Generate\+Gaussian\+Spot\+Image}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Generate\+Gaussian\+Spot\+Image(\+Image\+Data $\ast$img, vector2f pos, float sigma, float I0, float Ibg)}{GenerateGaussianSpotImage(ImageData *img, vector2f pos, float sigma, float I0, float Ibg)}}]{\setlength{\rightskip}{0pt plus 5cm}void Generate\+Gaussian\+Spot\+Image (
+\begin{DoxyParamCaption}
+\item[{{\bf Image\+Data} $\ast$}]{img, }
+\item[{{\bf vector2f}}]{pos, }
+\item[{float}]{sigma, }
+\item[{float}]{I0, }
+\item[{float}]{Ibg}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_a6203254588fe20c359c382ba4ddd9627}{}\label{utils_8h_a6203254588fe20c359c382ba4ddd9627}
+
+\begin{DoxyCode}
+426 \{
+427     \textcolor{keywordtype}{float} edenom = 1/\hyperlink{std__incl_8h_a8a38721046513951c4bfc32bf101e180}{sqrt}(2*sigma*sigma);
+428     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} y=0;y<img->\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h};y++)
+429         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} x=0;x<img->\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w};x++) \{
+430             \textcolor{keywordtype}{float} DeltaX = 0.5f * \hyperlink{utils_8h_ab395c4718c08b423258c297fe9b1cae8}{erf}( (x-pos.\hyperlink{structvector2_a22b63498d8e4abf9a2da054a247965b9}{x} + .5f) * edenom ) - 0.5f * 
+      \hyperlink{utils_8h_ab395c4718c08b423258c297fe9b1cae8}{erf}((x-pos.\hyperlink{structvector2_a22b63498d8e4abf9a2da054a247965b9}{x} - .5f) * edenom);
+431             \textcolor{keywordtype}{float} DeltaY = 0.5f * \hyperlink{utils_8h_ab395c4718c08b423258c297fe9b1cae8}{erf}( (y-pos.\hyperlink{structvector2_a00b3268bc895adddf0b72d6acd8274a7}{y} + .5f) * edenom ) - 0.5f * 
+      \hyperlink{utils_8h_ab395c4718c08b423258c297fe9b1cae8}{erf}((y-pos.\hyperlink{structvector2_a00b3268bc895adddf0b72d6acd8274a7}{y} - .5f) * edenom);
+432             img->\hyperlink{struct_t_image_data_ad13c1527ffabe17b997c38090ec5e6b9}{at}(x,y) = Ibg + I0 * DeltaX * DeltaY;
+433         \}
+434 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!Generate\+Image\+From\+L\+UT@{Generate\+Image\+From\+L\+UT}}
+\index{Generate\+Image\+From\+L\+UT@{Generate\+Image\+From\+L\+UT}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Generate\+Image\+From\+L\+U\+T(\+Image\+Data $\ast$image, Image\+Data $\ast$zlut, float minradius, float maxradius, vector3f pos, bool use\+Spline\+Interp=true, int ovs=4)}{GenerateImageFromLUT(ImageData *image, ImageData *zlut, float minradius, float maxradius, vector3f pos, bool useSplineInterp=true, int ovs=4)}}]{\setlength{\rightskip}{0pt plus 5cm}void Generate\+Image\+From\+L\+UT (
+\begin{DoxyParamCaption}
+\item[{{\bf Image\+Data} $\ast$}]{image, }
+\item[{{\bf Image\+Data} $\ast$}]{zlut, }
+\item[{float}]{minradius, }
+\item[{float}]{maxradius, }
+\item[{{\bf vector3f}}]{pos, }
+\item[{bool}]{use\+Spline\+Interp = {\ttfamily true}, }
+\item[{int}]{ovs = {\ttfamily 4}}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_aa47207cff3792968b81532f38f3e9b69}{}\label{utils_8h_aa47207cff3792968b81532f38f3e9b69}
+
+\begin{DoxyCode}
+358 \{
+359 \textcolor{comment}{//  lut.w = radialcov * ( (image->w/2 * roicov ) - minradius );}
+360 \textcolor{comment}{//  lut.w = radialcov * ( maxradius - minradius );}
+361 
+362     \textcolor{keywordtype}{float} radialcov = zlut->\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w} / (maxradius-minradius);
+363     \textcolor{keywordtype}{float}* zinterp = (\textcolor{keywordtype}{float}*)\hyperlink{std__incl_8h_a72fc0ed307a114ba9a46ebd095267d2f}{ALLOCA}(zlut->\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w} * \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float}));
+364 
+365     \textcolor{keywordflow}{if} (splineInterp) \{
+366         \textcolor{keywordtype}{int} iz = std::max(1, std::min(zlut->\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h}-3, (\textcolor{keywordtype}{int})pos.\hyperlink{structvector3_a90c50e80a32423d5cc76f40e5f53ffbe}{z}));
+367         \textcolor{keywordtype}{float} weights[4];
+368         \textcolor{keywordtype}{float} fz = pos.\hyperlink{structvector3_a90c50e80a32423d5cc76f40e5f53ffbe}{z}-iz;
+369         \hyperlink{_cubic_b_spline_8h_a9eba800c8695b13f0a31ab6ef429d171}{ComputeBSplineWeights}(weights, fz);
+370         \textcolor{comment}{// Interpolate ZLUT using B-spline weights}
+371         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} r=0;r<zlut->\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w};r++) \{
+372             \textcolor{keywordtype}{float} zlutv = 0;
+373             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<4;i++)
+374                 zlutv += weights[i] * zlut->\hyperlink{struct_t_image_data_ad13c1527ffabe17b997c38090ec5e6b9}{at}(r, i-1+iz);
+375             zinterp[r] = zlutv;
+376         \}
+377     \}
+378     \textcolor{keywordflow}{else} \{
+379         \textcolor{comment}{// The two Z planes to interpolate between}
+380         \textcolor{keywordtype}{int} iz = (int)pos.\hyperlink{structvector3_a90c50e80a32423d5cc76f40e5f53ffbe}{z};
+381         if (iz < 0) 
+382             zinterp = zlut->\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data};
+383         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (iz>=zlut->\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h}-1)
+384             zinterp = &zlut->\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data}[ (zlut->\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h}-1)*zlut->\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w} ];
+385         \textcolor{keywordflow}{else} \{
+386             \textcolor{keywordtype}{float}* zlut0 = &zlut->\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data} [ (\textcolor{keywordtype}{int})pos.\hyperlink{structvector3_a90c50e80a32423d5cc76f40e5f53ffbe}{z} * zlut->\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w} ]; 
+387             \textcolor{keywordtype}{float}* zlut1 = &zlut->\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data} [ ((int)pos.\hyperlink{structvector3_a90c50e80a32423d5cc76f40e5f53ffbe}{z} + 1) * zlut->\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w} ];
+388             zinterp = (\textcolor{keywordtype}{float}*)\hyperlink{std__incl_8h_a72fc0ed307a114ba9a46ebd095267d2f}{ALLOCA}(\textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float})*zlut->\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w});
+389             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} r=0;r<zlut->\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w};r++) 
+390                 zinterp[r] = \hyperlink{utils_8h_a19361b487ecc29968d6a8924f5601bfa}{Lerp}(zlut0[r], zlut1[r], pos.\hyperlink{structvector3_a90c50e80a32423d5cc76f40e5f53ffbe}{z}-iz);
+391         \}
+392     \}
+393 
+394     \textcolor{keywordtype}{int} oversampleWidth=oversampleSubdiv,oversampleHeight=oversampleSubdiv;
+395     \textcolor{keywordtype}{float} oxstep = 1.0f / oversampleWidth;
+396     \textcolor{keywordtype}{float} oystep = 1.0f / oversampleHeight;
+397 
+398     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} y=0;y<image->\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h};y++)
+399         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x=0;x<image->\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w};x++) 
+400         \{
+401             \textcolor{keywordtype}{float} s = 0.0f;
+402 
+403             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} ox=0;ox<oversampleWidth;ox++)
+404                 \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} oy=0;oy<oversampleHeight;oy++) \{
+405 
+406                     \textcolor{keywordtype}{float} X = x+(ox+0.5f)*oxstep - pos.\hyperlink{structvector3_a5b466692e9550284d17a1bee6a6b8518}{x} - 0.5f;
+407                     \textcolor{keywordtype}{float} Y = y+(oy+0.5f)*oystep - pos.\hyperlink{structvector3_a1faa20a703bae3d1a673856466758383}{y} - 0.5f;
+408 
+409                     \textcolor{keywordtype}{float} pixr = sqrtf(X*X+Y*Y);
+410                     \textcolor{keywordtype}{float} r = (pixr - minradius) * radialcov;
+411 
+412                     \textcolor{keywordflow}{if} (r > zlut->\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w}-2)
+413                         r = zlut->\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w}-2;
+414                     \textcolor{keywordflow}{if} (r < 0) r = 0;
+415 
+416                     \textcolor{keywordtype}{int} i=(int)r;
+417                     s += \hyperlink{utils_8h_a19361b487ecc29968d6a8924f5601bfa}{Lerp}(zinterp[i], zinterp[i+1], r-i);
+418                 \}
+419         
+420             image->\hyperlink{struct_t_image_data_ad13c1527ffabe17b997c38090ec5e6b9}{at}(x,y) = s/(oversampleWidth*oversampleHeight); 
+421         \}
+422 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!Generate\+Test\+Image@{Generate\+Test\+Image}}
+\index{Generate\+Test\+Image@{Generate\+Test\+Image}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Generate\+Test\+Image(\+Image\+Data \&img, float xp, float yp, float size, float Max\+Photons)}{GenerateTestImage(ImageData &img, float xp, float yp, float size, float MaxPhotons)}}]{\setlength{\rightskip}{0pt plus 5cm}void Generate\+Test\+Image (
+\begin{DoxyParamCaption}
+\item[{{\bf Image\+Data} \&}]{img, }
+\item[{float}]{xp, }
+\item[{float}]{yp, }
+\item[{float}]{size, }
+\item[{float}]{Max\+Photons}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_a4295710d6f01ca4fd27a41dd51a6d3b9}{}\label{utils_8h_a4295710d6f01ca4fd27a41dd51a6d3b9}
+
+\begin{DoxyCode}
+163 \{
+164     \textcolor{keywordtype}{float} S = 1.0f/\hyperlink{std__incl_8h_a8a38721046513951c4bfc32bf101e180}{sqrt}(size);
+165     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} y=0;y<img.\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h};y++) \{
+166         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x=0;x<img.\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w};x++) \{
+167             \textcolor{keywordtype}{float} X = x - xp;\textcolor{comment}{// + 0.5;}
+168             \textcolor{keywordtype}{float} Y = y - yp;\textcolor{comment}{// + 0.5;}
+169             \textcolor{keywordtype}{float} r = sqrtf(X*X+Y*Y)+1;
+170             \textcolor{keywordtype}{float} v = sinf(r/(5*S)) * expf(-r*r*S*0.001f);
+171             img.\hyperlink{struct_t_image_data_ad13c1527ffabe17b997c38090ec5e6b9}{at}(x,y)=v;
+172         \}
+173     \}
+174 
+175     \textcolor{keywordflow}{if} (SNratio>0) \{
+176         \hyperlink{utils_8cpp_a164d40d76379d0bb95a5ff0dd935aa1f}{ApplyGaussianNoise}(img, 1.0f/SNratio);
+177     \}
+178     img.\hyperlink{struct_t_image_data_ac987182fb87787d7d274a30cf4a198d4}{normalize}();
+179 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!Get\+Current\+Output\+Path@{Get\+Current\+Output\+Path}}
+\index{Get\+Current\+Output\+Path@{Get\+Current\+Output\+Path}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Get\+Current\+Output\+Path(bool ext=true)}{GetCurrentOutputPath(bool ext=true)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string Get\+Current\+Output\+Path (
+\begin{DoxyParamCaption}
+\item[{bool}]{ext = {\ttfamily true}}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_aff271eeece388bbcd74533ec2f2a3863}{}\label{utils_8h_aff271eeece388bbcd74533ec2f2a3863}
+
+\begin{DoxyCode}
+20 \{
+21     std::string base = \textcolor{stringliteral}{"D:\(\backslash\)\(\backslash\)TestImages\(\backslash\)\(\backslash\)TestOutput\(\backslash\)\(\backslash\)"};
+22     std::string search = base + \textcolor{stringliteral}{"*"};
+23     LPCSTR w\_folder = \_T(search.c\_str());
+24     
+25     WIN32\_FIND\_DATA FindFileData;
+26     HANDLE hFind;
+27     
+28     hFind = FindFirstFile(w\_folder,&FindFileData);
+29     std::string dirName;
+30     \textcolor{keywordflow}{while}(FindNextFile(hFind,&FindFileData))
+31         dirName = FindFileData.cFileName;
+32     \textcolor{keywordflow}{if}(ext)
+33         \textcolor{keywordflow}{return} \hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"%s%s\(\backslash\)\(\backslash\)%s"},base.c\_str(),dirName.c\_str(),\textcolor{stringliteral}{"ZLUTDiag\(\backslash\)\(\backslash\)"});
+34     \textcolor{keywordflow}{else}
+35         \textcolor{keywordflow}{return} \hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"%s%s"},base.c\_str(),dirName.c\_str());
+36 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!Get\+Directory\+From\+Path@{Get\+Directory\+From\+Path}}
+\index{Get\+Directory\+From\+Path@{Get\+Directory\+From\+Path}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Get\+Directory\+From\+Path(std\+::string fullpath)}{GetDirectoryFromPath(std::string fullpath)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string Get\+Directory\+From\+Path (
+\begin{DoxyParamCaption}
+\item[{std\+::string}]{fullpath}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_abb79ff4e841148f46f68fed19d087169}{}\label{utils_8h_abb79ff4e841148f46f68fed19d087169}
+
+\begin{DoxyCode}
+105 \{
+106     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=fullpath.size()-1;i>=0;i--) \{
+107         \textcolor{keywordflow}{if} (fullpath[i] == \textcolor{charliteral}{'/'} || fullpath[i] == \textcolor{charliteral}{'\(\backslash\)\(\backslash\)'}) \{
+108             \textcolor{keywordflow}{return} fullpath.substr(0, i);
+109         \}
+110     \}
+111     \textcolor{keywordflow}{return} \textcolor{stringliteral}{""};
+112 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!Get\+Formatted\+Time\+String@{Get\+Formatted\+Time\+String}}
+\index{Get\+Formatted\+Time\+String@{Get\+Formatted\+Time\+String}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Get\+Formatted\+Time\+String(char $\ast$output)}{GetFormattedTimeString(char *output)}}]{\setlength{\rightskip}{0pt plus 5cm}void Get\+Formatted\+Time\+String (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{output}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_a54368b144ba7937abad8461e3b467659}{}\label{utils_8h_a54368b144ba7937abad8461e3b467659}
+
+\begin{DoxyCode}
+39 \{
+40     time\_t rawtime;
+41     \textcolor{keyword}{struct }tm * timeinfo;
+42     time(&rawtime);
+43     timeinfo = localtime(&rawtime);
+44     sprintf(output, \textcolor{stringliteral}{"%02d%02d%02d-%02d%02d%02d"},timeinfo->tm\_year-100,timeinfo->tm\_mon+1,timeinfo->tm\_mday,
+      timeinfo->tm\_hour,timeinfo->tm\_min,timeinfo->tm\_sec);
+45 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!Get\+Local\+Module\+Filename@{Get\+Local\+Module\+Filename}}
+\index{Get\+Local\+Module\+Filename@{Get\+Local\+Module\+Filename}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Get\+Local\+Module\+Filename()}{GetLocalModuleFilename()}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string Get\+Local\+Module\+Filename (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_aeb7eb5c2a751102d58ea3d7b15bd5bcf}{}\label{utils_8h_aeb7eb5c2a751102d58ea3d7b15bd5bcf}
+
+\begin{DoxyCode}
+55 \{
+56 \textcolor{preprocessor}{#ifdef WIN32}
+57     \textcolor{keywordtype}{char} path[256];
+58     HMODULE hm = NULL;
+59 
+60     GetModuleHandleExA(GET\_MODULE\_HANDLE\_EX\_FLAG\_FROM\_ADDRESS | 
+      GET\_MODULE\_HANDLE\_EX\_FLAG\_UNCHANGED\_REFCOUNT,
+61                             (LPCSTR) &\hyperlink{utils_8cpp_aeb7eb5c2a751102d58ea3d7b15bd5bcf}{GetLocalModuleFilename}, &hm);
+62 
+63     GetModuleFileNameA(hm, path, \textcolor{keyword}{sizeof}(path));
+64     \textcolor{keywordflow}{return} path;
+65 \textcolor{preprocessor}{#else}
+66 \textcolor{preprocessor}{    #error GetLocalModuleName() not implemented for this platform}
+67 \textcolor{preprocessor}{#endif}
+68 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!Get\+Local\+Module\+Path@{Get\+Local\+Module\+Path}}
+\index{Get\+Local\+Module\+Path@{Get\+Local\+Module\+Path}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Get\+Local\+Module\+Path()}{GetLocalModulePath()}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string Get\+Local\+Module\+Path (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_a94c5c46fa5ac0e27fa3f171b171fe8ae}{}\label{utils_8h_a94c5c46fa5ac0e27fa3f171b171fe8ae}
+
+\begin{DoxyCode}
+115 \{
+116     std::string dllpath = \hyperlink{utils_8cpp_aeb7eb5c2a751102d58ea3d7b15bd5bcf}{GetLocalModuleFilename}();
+117     \textcolor{keywordflow}{return} \hyperlink{utils_8cpp_abb79ff4e841148f46f68fed19d087169}{GetDirectoryFromPath}(dllpath);
+118 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!Get\+Precise\+Time@{Get\+Precise\+Time}}
+\index{Get\+Precise\+Time@{Get\+Precise\+Time}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Get\+Precise\+Time()}{GetPreciseTime()}}]{\setlength{\rightskip}{0pt plus 5cm}double Get\+Precise\+Time (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_a11abc9edca3542dd4e74dadf99340fa1}{}\label{utils_8h_a11abc9edca3542dd4e74dadf99340fa1}
+
+\begin{DoxyCode}
+680 \{
+681     uint64\_t freq, time;
+682 
+683     QueryPerformanceCounter((LARGE\_INTEGER*)&time);
+684     QueryPerformanceFrequency((LARGE\_INTEGER*)&freq);
+685 
+686     \textcolor{keywordflow}{return} (\textcolor{keywordtype}{double})time / (double)freq;
+687 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!Interpolate@{Interpolate}}
+\index{Interpolate@{Interpolate}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Interpolate(\+T $\ast$image, int width, int height, float x, float y, bool $\ast$outside=0)}{Interpolate(T *image, int width, int height, float x, float y, bool *outside=0)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ T Interpolate (
+\begin{DoxyParamCaption}
+\item[{T $\ast$}]{image, }
+\item[{int}]{width, }
+\item[{int}]{height, }
+\item[{float}]{x, }
+\item[{float}]{y, }
+\item[{bool $\ast$}]{outside = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{utils_8h_aa9cfad3280334f04e799bb33b442f653}{}\label{utils_8h_aa9cfad3280334f04e799bb33b442f653}
+
+\begin{DoxyCode}
+44 \{
+45     \textcolor{keywordtype}{int} rx=x, ry=y;
+46     \textcolor{keywordflow}{if} (rx<0 || ry <0 || rx+1 >= width || ry+1>=height) \{
+47         \textcolor{keywordflow}{if} (outside) *outside=\textcolor{keyword}{true};
+48         \textcolor{keywordflow}{return} 0.0f;
+49     \}
+50     \textcolor{keywordflow}{if} (outside) *outside=\textcolor{keyword}{false};
+51 
+52     T v00 = image[width*ry+rx];
+53     T v10 = image[width*ry+rx+1];
+54     T v01 = image[width*(ry+1)+rx];
+55     T v11 = image[width*(ry+1)+rx+1];
+56 
+57     T v0 = \hyperlink{utils_8h_a19361b487ecc29968d6a8924f5601bfa}{Lerp}(v00, v10, x-rx);
+58     T v1 = \hyperlink{utils_8h_a19361b487ecc29968d6a8924f5601bfa}{Lerp}(v01, v11, x-rx);
+59 
+60     \textcolor{keywordflow}{return} \hyperlink{utils_8h_a19361b487ecc29968d6a8924f5601bfa}{Lerp}(v0, v1, y-ry);
+61 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!Interpolate1D@{Interpolate1D}}
+\index{Interpolate1D@{Interpolate1D}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Interpolate1\+D(\+T $\ast$d, int len, float x)}{Interpolate1D(T *d, int len, float x)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ T Interpolate1D (
+\begin{DoxyParamCaption}
+\item[{T $\ast$}]{d, }
+\item[{int}]{len, }
+\item[{float}]{x}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{utils_8h_aa68dad6ceda865eebe8f3e08f8fc86b0}{}\label{utils_8h_aa68dad6ceda865eebe8f3e08f8fc86b0}
+
+\begin{DoxyCode}
+65 \{
+66     \textcolor{keywordtype}{int} fx = (int)x;
+67     \textcolor{keywordflow}{if} (fx < 0) \textcolor{keywordflow}{return} d[0];
+68     \textcolor{keywordflow}{if} (fx >= len-1) \textcolor{keywordflow}{return} d[len-1];
+69     \textcolor{keywordflow}{return} (d[fx+1]-d[fx]) * (x-fx) + d[fx];
+70 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!Interpolate1D@{Interpolate1D}}
+\index{Interpolate1D@{Interpolate1D}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Interpolate1\+D(const std\+::vector$<$ T $>$ \&d, float x)}{Interpolate1D(const std::vector< T > &d, float x)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ T Interpolate1D (
+\begin{DoxyParamCaption}
+\item[{const std\+::vector$<$ T $>$ \&}]{d, }
+\item[{float}]{x}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{utils_8h_aa89e8d99c3fc0547c71a7581e94e5613}{}\label{utils_8h_aa89e8d99c3fc0547c71a7581e94e5613}
+
+\begin{DoxyCode}
+74 \{
+75     \textcolor{keywordflow}{return} \hyperlink{utils_8h_aa68dad6ceda865eebe8f3e08f8fc86b0}{Interpolate1D}(&d[0],d.size(),x);
+76 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!is\+N\+AN@{is\+N\+AN}}
+\index{is\+N\+AN@{is\+N\+AN}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{is\+N\+A\+N(const T \&v)}{isNAN(const T &v)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ bool is\+N\+AN (
+\begin{DoxyParamCaption}
+\item[{const T \&}]{v}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_aac23f61b5f16aea68d0f3501fd2541e8}{}\label{utils_8h_aac23f61b5f16aea68d0f3501fd2541e8}
+
+\begin{DoxyCode}
+6                                             \{ 
+7     \textcolor{keywordflow}{return} !(v == v); 
+8 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!Lerp@{Lerp}}
+\index{Lerp@{Lerp}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Lerp(\+T a, T b, float x)}{Lerp(T a, T b, float x)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ T Lerp (
+\begin{DoxyParamCaption}
+\item[{T}]{a, }
+\item[{T}]{b, }
+\item[{float}]{x}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{utils_8h_a19361b487ecc29968d6a8924f5601bfa}{}\label{utils_8h_a19361b487ecc29968d6a8924f5601bfa}
+
+\begin{DoxyCode}
+40 \{ \textcolor{keywordflow}{return} a + (b-a)*x; \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!Nearest\+Power\+Of2@{Nearest\+Power\+Of2}}
+\index{Nearest\+Power\+Of2@{Nearest\+Power\+Of2}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Nearest\+Power\+Of2(int v)}{NearestPowerOf2(int v)}}]{\setlength{\rightskip}{0pt plus 5cm}int Nearest\+Power\+Of2 (
+\begin{DoxyParamCaption}
+\item[{int}]{v}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_a93409977ae90735769d0d2f37b19604e}{}\label{utils_8h_a93409977ae90735769d0d2f37b19604e}
+
+\begin{DoxyCode}
+693 \{
+694     \textcolor{keywordtype}{int} r=1;
+695     \textcolor{keywordflow}{while} (r < v) 
+696         r *= 2;
+697     \textcolor{keywordflow}{if} ( fabsf(r-v) < fabsf(r/2-v) )
+698         \textcolor{keywordflow}{return} r;
+699     \textcolor{keywordflow}{return} r/2;
+700 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!Nearest\+Power\+Of3@{Nearest\+Power\+Of3}}
+\index{Nearest\+Power\+Of3@{Nearest\+Power\+Of3}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Nearest\+Power\+Of3(int v)}{NearestPowerOf3(int v)}}]{\setlength{\rightskip}{0pt plus 5cm}int Nearest\+Power\+Of3 (
+\begin{DoxyParamCaption}
+\item[{int}]{v}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_a5f7925a9c145be917c154215435e26fc}{}\label{utils_8h_a5f7925a9c145be917c154215435e26fc}
+
+\begin{DoxyCode}
+703 \{
+704     \textcolor{keywordtype}{int} r=1;
+705     \textcolor{keywordflow}{while} (r < v) 
+706         r *= 3;
+707     \textcolor{keywordflow}{if} ( fabsf(r-v) < fabsf(r/3-v) )
+708         \textcolor{keywordflow}{return} r;
+709     \textcolor{keywordflow}{return} r/3;
+710 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!normalize@{normalize}}
+\index{normalize@{normalize}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{normalize(\+T\+Pixel $\ast$d, uint w, uint h)}{normalize(TPixel *d, uint w, uint h)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+Pixel $>$ void normalize (
+\begin{DoxyParamCaption}
+\item[{T\+Pixel $\ast$}]{d, }
+\item[{{\bf uint}}]{w, }
+\item[{{\bf uint}}]{h}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_a32b5810b69072511c66006593bcf7a89}{}\label{utils_8h_a32b5810b69072511c66006593bcf7a89}
+
+\begin{DoxyCode}
+28 \{
+29     TPixel maxv = d[0];
+30     TPixel minv = d[0];
+31     \textcolor{keywordflow}{for} (\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} k=0;k<w*h;k++) \{
+32         maxv = std::max(maxv, d[k]);
+33         minv = std::min(minv, d[k]);
+34     \}
+35     \textcolor{keywordflow}{for} (\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} k=0;k<w*h;k++)
+36         d[k]=(d[k]-minv)/(maxv-minv);
+37 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!Normalize\+Radial\+Profile@{Normalize\+Radial\+Profile}}
+\index{Normalize\+Radial\+Profile@{Normalize\+Radial\+Profile}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Normalize\+Radial\+Profile(float $\ast$prof, int rsteps)}{NormalizeRadialProfile(float *prof, int rsteps)}}]{\setlength{\rightskip}{0pt plus 5cm}void Normalize\+Radial\+Profile (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{prof, }
+\item[{int}]{rsteps}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_a61c3769ab239eae69caa17b97454aee3}{}\label{utils_8h_a61c3769ab239eae69caa17b97454aee3}
+
+\begin{DoxyCode}
+260 \{
+261     \textcolor{keywordtype}{double} sum=0.0f;
+262     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<rsteps;i++)
+263         sum += prof[i];
+264 
+265     \textcolor{keywordtype}{float} mean =sum/rsteps;
+266     \textcolor{keywordtype}{double} rmssum2 = 0.0;
+267 
+268     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<rsteps;i++) \{
+269         prof[i] -= mean;
+270         rmssum2 += prof[i]*prof[i];
+271     \}
+272     \textcolor{keywordtype}{double} invTotalrms = 1.0f/\hyperlink{std__incl_8h_a8a38721046513951c4bfc32bf101e180}{sqrt}(rmssum2/rsteps);
+273     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<rsteps;i++)
+274         prof[i] *= invTotalrms;
+275         
+276 \textcolor{comment}{/*}
+277 \textcolor{comment}{    scalar\_t minVal = prof[0];}
+278 \textcolor{comment}{    for (int i=0;i<rsteps;i++)}
+279 \textcolor{comment}{        if(prof[i]<minVal) minVal=prof[i]; }
+280 \textcolor{comment}{}
+281 \textcolor{comment}{    float rms=0;}
+282 \textcolor{comment}{    for (int i=0;i<rsteps;i++) \{}
+283 \textcolor{comment}{        prof[i]-=minVal;}
+284 \textcolor{comment}{        rms += prof[i]*prof[i];}
+285 \textcolor{comment}{    \}}
+286 \textcolor{comment}{    rms=1.0f/sqrt(rms);}
+287 \textcolor{comment}{    for (int i=0;i<rsteps;i++) \{}
+288 \textcolor{comment}{        prof[i]*=rms;}
+289 \textcolor{comment}{    \}*/}
+290 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!Normalize\+Z\+L\+UT@{Normalize\+Z\+L\+UT}}
+\index{Normalize\+Z\+L\+UT@{Normalize\+Z\+L\+UT}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Normalize\+Z\+L\+U\+T(float $\ast$zlut, int num\+L\+U\+Ts, int planes, int radialsteps)}{NormalizeZLUT(float *zlut, int numLUTs, int planes, int radialsteps)}}]{\setlength{\rightskip}{0pt plus 5cm}void Normalize\+Z\+L\+UT (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{zlut, }
+\item[{int}]{num\+L\+U\+Ts, }
+\item[{int}]{planes, }
+\item[{int}]{radialsteps}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_a676d4c7bb55f26c3629e9f060b2cfef5}{}\label{utils_8h_a676d4c7bb55f26c3629e9f060b2cfef5}
+
+\begin{DoxyCode}
+294 \{
+295     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=0;i<numBeads;i++)
+296         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} j=0;j<planes;j++)
+297             \hyperlink{utils_8cpp_a404fa660440d30ed70566aebf9f9e94a}{NormalizeRadialProfile}(&zlut[radialsteps*planes*i + radialsteps*j], 
+      radialsteps);
+298 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!qselect@{qselect}}
+\index{qselect@{qselect}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{qselect(\+T $\ast$data, int start, int end, int k)}{qselect(T *data, int start, int end, int k)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ T qselect (
+\begin{DoxyParamCaption}
+\item[{T $\ast$}]{data, }
+\item[{int}]{start, }
+\item[{int}]{end, }
+\item[{int}]{k}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_a4b0a27d7d56f378a09fa03dd12191278}{}\label{utils_8h_a4b0a27d7d56f378a09fa03dd12191278}
+
+\begin{DoxyCode}
+234 \{
+235     \textcolor{keywordflow}{if} (end-start==1)
+236         \textcolor{keywordflow}{return} data[start];
+237 
+238     \textcolor{comment}{// select one of the elements as pivot}
+239     \textcolor{keywordtype}{int} p = 0;
+240     T value = data[p+start];
+241     \textcolor{comment}{// swap with last value}
+242     \hyperlink{namespacesfft_a6fd4eed54bb67483098b21032bf68bf5}{std::swap}(data[p+start], data[end-1]);
+243 
+244     \textcolor{comment}{// move all items < pivot to the left}
+245     \textcolor{keywordtype}{int} nSmallerItems=0;
+246     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=start;i<end-1;i++)
+247         \textcolor{keywordflow}{if}(data[i]<value) \{
+248             \hyperlink{namespacesfft_a6fd4eed54bb67483098b21032bf68bf5}{std::swap}(data[i], data[start+nSmallerItems]);
+249             nSmallerItems++;
+250         \}
+251     \textcolor{comment}{// pivot is now at [# items < pivot]}
+252     \hyperlink{namespacesfft_a6fd4eed54bb67483098b21032bf68bf5}{std::swap}(data[start+nSmallerItems], data[end-1]);
+253 
+254     \textcolor{comment}{// we are trying to find the kth element}
+255     \textcolor{comment}{// so if pivotpos == k, we found it}
+256     \textcolor{comment}{// if k < pivotpos, we need to recurse left side}
+257     \textcolor{comment}{// if k > pivotpos, we need to recurse right side}
+258     \textcolor{keywordtype}{int} pivotpos = start+nSmallerItems;
+259     \textcolor{keywordflow}{if} (k == pivotpos)
+260         \textcolor{keywordflow}{return} data[k];
+261     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (k < pivotpos)
+262         \textcolor{keywordflow}{return} \hyperlink{utils_8h_a4b0a27d7d56f378a09fa03dd12191278}{qselect}(data, start, pivotpos, k);
+263     \textcolor{keywordflow}{else} 
+264         \textcolor{keywordflow}{return} \hyperlink{utils_8h_a4b0a27d7d56f378a09fa03dd12191278}{qselect}(data, pivotpos+1, end, k);
+265 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!Read\+C\+SV@{Read\+C\+SV}}
+\index{Read\+C\+SV@{Read\+C\+SV}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Read\+C\+S\+V(const char $\ast$filename, char sep=\textquotesingle{}\textbackslash{}t\textquotesingle{})}{ReadCSV(const char *filename, char sep='\textbackslash{}t')}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$ std\+::vector$<$float$>$ $>$ Read\+C\+SV (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{filename, }
+\item[{char}]{sep = {\ttfamily \textquotesingle{}\textbackslash{}t\textquotesingle{}}}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_af9643a3b319a2bd030772b21d187850c}{}\label{utils_8h_af9643a3b319a2bd030772b21d187850c}
+
+\begin{DoxyCode}
+468 \{
+469     std::list< std::vector <float> > data;
+470 
+471     FILE *f=fopen(filename,\textcolor{stringliteral}{"r"});
+472     \textcolor{keywordflow}{if} (f) \{
+473         std::string buf;
+474         std::vector<float> vals;
+475         \textcolor{keywordflow}{while} (!feof(f)) \{
+476             \textcolor{keywordtype}{char} c=fgetc(f);
+477             \textcolor{keywordflow}{if} (c == sep || c==\textcolor{charliteral}{'\(\backslash\)n'}) \{
+478                 vals.push\_back( atof(buf.c\_str()) );
+479                 buf.clear();
+480             \}
+481             \textcolor{keywordflow}{if} (c == \textcolor{charliteral}{'\(\backslash\)n'}) \{
+482                 data.push\_back( vals );
+483                 vals.clear();
+484             \}
+485 
+486             \textcolor{keywordflow}{if} (c != sep && c!= \textcolor{charliteral}{'\(\backslash\)n'})
+487                 buf+=c;
+488         \}
+489         fclose(f);
+490     \}
+491     
+492     std::vector<std::vector<float> > r;
+493     r.reserve(data.size());
+494     r.insert(r.begin(), data.begin(), data.end());
+495     \textcolor{keywordflow}{return} r;
+496 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!Read\+J\+P\+E\+G\+File@{Read\+J\+P\+E\+G\+File}}
+\index{Read\+J\+P\+E\+G\+File@{Read\+J\+P\+E\+G\+File}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Read\+J\+P\+E\+G\+File(const char $\ast$fn)}{ReadJPEGFile(const char *fn)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image\+Data} Read\+J\+P\+E\+G\+File (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{fn}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_a9d2506602d1c5b6419101f13380ddb59}{}\label{utils_8h_a9d2506602d1c5b6419101f13380ddb59}
+
+\begin{DoxyCode}
+634 \{
+635     \textcolor{keywordtype}{int} w, h;
+636     \hyperlink{std__incl_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar}* imgdata;
+637     std::vector<uchar> jpgdata = \hyperlink{utils_8cpp_afc3a35e21ebcc6c29a05f25c58c74157}{ReadToByteBuffer}(fn);
+638     \hyperlink{utils_8cpp_a9d2506602d1c5b6419101f13380ddb59}{ReadJPEGFile}(&jpgdata[0], jpgdata.size(), &imgdata, &w,&h);
+639 
+640     \textcolor{keywordtype}{float}* fbuf = \textcolor{keyword}{new} \textcolor{keywordtype}{float}[w*h];
+641     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x=0;x<w*h;x++)
+642         fbuf[x] = imgdata[x]/255.0f;
+643     \textcolor{keyword}{delete}[] imgdata;
+644 
+645     \textcolor{keywordflow}{return} \hyperlink{_queued_tracker_8h_a2d6726594ce64e82b9222b183f2571d1}{ImageData}(fbuf,w,h);
+646 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!Read\+J\+P\+E\+G\+File@{Read\+J\+P\+E\+G\+File}}
+\index{Read\+J\+P\+E\+G\+File@{Read\+J\+P\+E\+G\+File}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Read\+J\+P\+E\+G\+File(uchar $\ast$srcbuf, int srclen, uchar $\ast$$\ast$data, int $\ast$width, int $\ast$height)}{ReadJPEGFile(uchar *srcbuf, int srclen, uchar **data, int *width, int *height)}}]{\setlength{\rightskip}{0pt plus 5cm}int Read\+J\+P\+E\+G\+File (
+\begin{DoxyParamCaption}
+\item[{{\bf uchar} $\ast$}]{srcbuf, }
+\item[{int}]{srclen, }
+\item[{{\bf uchar} $\ast$$\ast$}]{data, }
+\item[{int $\ast$}]{width, }
+\item[{int $\ast$}]{height}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_aca9c9daac87f0810622bb7e207e4587f}{}\label{utils_8h_aca9c9daac87f0810622bb7e207e4587f}
+
+\begin{DoxyCode}
+13 \{
+14   \textcolor{keyword}{struct }jpeg\_decompress\_struct cinfo;
+15 
+16   JSAMPARRAY buffer;        \textcolor{comment}{/* Output row buffer */}
+17   \textcolor{keywordtype}{int} row\_stride;       \textcolor{comment}{/* physical row width in output buffer */}
+18   \hyperlink{structmy__error__mgr}{my\_error\_mgr} jerr;
+19   cinfo.err = jpeg\_std\_error(&jerr.\hyperlink{structmy__error__mgr_aac1fb61cc51b4d8edbb44ba85fcccdb4}{pub});
+20   jpeg\_create\_decompress(&cinfo);
+21 
+22   j\_mem\_src(&cinfo, srcbuf, srclen);
+23 
+24   \textcolor{comment}{/* Step 3: read file parameters with jpeg\_read\_header() */}
+25   jpeg\_read\_header(&cinfo, TRUE);
+26 
+27   jpeg\_start\_decompress(&cinfo);
+28   row\_stride = cinfo.output\_width * cinfo.output\_components;
+29   \textcolor{comment}{/* Make a one-row-high sample array that will go away when done with image */}
+30   buffer = (*cinfo.mem->alloc\_sarray) ((j\_common\_ptr) &cinfo, JPOOL\_IMAGE, row\_stride, 1);
+31 
+32   *width = cinfo.output\_width;
+33   *height = cinfo.output\_height;
+34   *data = \textcolor{keyword}{new} \hyperlink{std__incl_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar}[cinfo.output\_width*cinfo.output\_height];
+35 
+36 \textcolor{comment}{//  ResizeLVArray2D(output, cinfo.output\_height, cinfo.output\_width);}
+37 
+38   \textcolor{comment}{/* Step 6: while (scan lines remain to be read) */}
+39   \textcolor{comment}{/*           jpeg\_read\_scanlines(...); */}
+40 
+41   \textcolor{comment}{/* Here we use the library's state variable cinfo.output\_scanline as the}
+42 \textcolor{comment}{   * loop counter, so that we don't have to keep track ourselves.}
+43 \textcolor{comment}{   */}
+44   \hyperlink{std__incl_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar}* dst = *data;
+45   \textcolor{keywordflow}{while} (cinfo.output\_scanline < cinfo.output\_height) \{
+46     \textcolor{comment}{/* jpeg\_read\_scanlines expects an array of pointers to scanlines.}
+47 \textcolor{comment}{     * Here the array is only one element long, but you could ask for}
+48 \textcolor{comment}{     * more than one scanline at a time if that's more convenient.}
+49 \textcolor{comment}{     */}
+50     jpeg\_read\_scanlines(&cinfo, buffer, 1);
+51     \textcolor{comment}{/* Assume put\_scanline\_someplace wants a pointer and sample count. */}
+52 
+53     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}* src = buffer[0];
+54     \textcolor{keywordflow}{if} (cinfo.output\_components == 1) \{
+55         memcpy(dst, src, cinfo.output\_width);
+56     \} \textcolor{keywordflow}{else} \{
+57         \textcolor{keywordflow}{for} (\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} x=0;x<cinfo.output\_width;x++)
+58             dst[x] = src[x * cinfo.output\_components];
+59     \}
+60     dst += cinfo.output\_width;
+61   \}
+62 
+63   \textcolor{comment}{/* Step 7: Finish decompression */}
+64   jpeg\_finish\_decompress(&cinfo);
+65   \textcolor{comment}{/* We can ignore the return value since suspension is not possible}
+66 \textcolor{comment}{   * with the stdio data source.}
+67 \textcolor{comment}{   */}
+68 
+69   \textcolor{comment}{/* Step 8: Release JPEG decompression object */}
+70 
+71   \textcolor{comment}{/* This is an important step since it will release a good deal of memory. */}
+72   jpeg\_destroy\_decompress(&cinfo);
+73 
+74   \textcolor{comment}{/* After finish\_decompress, we can close the input file.}
+75 \textcolor{comment}{   * Here we postpone it until after no more JPEG errors are possible,}
+76 \textcolor{comment}{   * so as to simplify the setjmp error logic above.  (Actually, I don't}
+77 \textcolor{comment}{   * think that jpeg\_destroy can do an error exit, but why assume anything...)}
+78 \textcolor{comment}{   */}
+79 \textcolor{comment}{//  fclose(infile);}
+80 
+81   \textcolor{comment}{/* At this point you may want to check to see whether any corrupt-data}
+82 \textcolor{comment}{   * warnings occurred (test whether jerr.pub.num\_warnings is nonzero).}
+83 \textcolor{comment}{   */}
+84 
+85   \textcolor{keywordflow}{return} 1;
+86 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!Read\+L\+U\+T\+File@{Read\+L\+U\+T\+File}}
+\index{Read\+L\+U\+T\+File@{Read\+L\+U\+T\+File}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Read\+L\+U\+T\+File(const char $\ast$lutfile)}{ReadLUTFile(const char *lutfile)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image\+Data} Read\+L\+U\+T\+File (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{lutfile}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_afa12308b716c890001e2b072f45d4a74}{}\label{utils_8h_afa12308b716c890001e2b072f45d4a74}
+
+\begin{DoxyCode}
+729 \{
+730     \hyperlink{struct_path_seperator}{PathSeperator} sep(lutfile);
+731     \textcolor{keywordflow}{if}(sep.extension == \textcolor{stringliteral}{"jpg"}) \{
+732         \textcolor{keywordflow}{return} \hyperlink{utils_8cpp_a9d2506602d1c5b6419101f13380ddb59}{ReadJPEGFile}(lutfile);
+733     \}
+734     \textcolor{keywordflow}{else} \{
+735         std::string fn = lutfile;
+736         fn = std::string(fn.begin(), fn.begin()+fn.find(\textcolor{charliteral}{'#'}));
+737         std::string num( ++( sep.extension.begin() + sep.extension.find(\textcolor{charliteral}{'#'}) ), sep.extension.end());
+738         \textcolor{keywordtype}{int} lutIndex = atoi(num.c\_str());
+739 
+740         \textcolor{keywordtype}{int} nbeads, nplanes, nsteps;
+741         FILE *f = fopen(fn.c\_str(), \textcolor{stringliteral}{"rb"});
+742 
+743         \textcolor{keywordflow}{if} (!f)
+744             \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"Can't open "} + fn);
+745 
+746         fread(&nbeads, 4, 1, f);
+747         fread(&nplanes, 4, 1, f);
+748         fread(&nsteps, 4, 1, f);
+749 
+750 
+751         fseek(f, 12 + 4* (nsteps*nplanes * lutIndex), SEEK\_SET);
+752         \hyperlink{struct_t_image_data}{ImageData} lut = \hyperlink{struct_t_image_data_a8ae528964e70c0d0a98b8481cc8b083e}{ImageData::alloc}(nsteps,nplanes);
+753         fread(lut.\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data}, 4, nsteps*nplanes,f);
+754         fclose(f);
+755         lut.\hyperlink{struct_t_image_data_ac987182fb87787d7d274a30cf4a198d4}{normalize}();
+756         \textcolor{keywordflow}{return} lut;
+757     \}
+758 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!Read\+To\+Byte\+Buffer@{Read\+To\+Byte\+Buffer}}
+\index{Read\+To\+Byte\+Buffer@{Read\+To\+Byte\+Buffer}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Read\+To\+Byte\+Buffer(const char $\ast$filename)}{ReadToByteBuffer(const char *filename)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<${\bf uchar}$>$ Read\+To\+Byte\+Buffer (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{filename}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_afc3a35e21ebcc6c29a05f25c58c74157}{}\label{utils_8h_afc3a35e21ebcc6c29a05f25c58c74157}
+
+\begin{DoxyCode}
+615 \{
+616     FILE *f = fopen(filename, \textcolor{stringliteral}{"rb"});
+617 
+618     \textcolor{keywordflow}{if} (!f)
+619         \textcolor{keywordflow}{throw} std::runtime\_error(\hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"%s was not found"}, filename));
+620 
+621     fseek(f, 0, SEEK\_END);
+622     \textcolor{keywordtype}{int} len = ftell(f);
+623     fseek(f, 0, SEEK\_SET);
+624 
+625     std::vector<uchar> buf(len);
+626     fread(&buf[0], 1,len, f);
+627 
+628     fclose(f);
+629     \textcolor{keywordflow}{return} buf;
+630 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!Read\+Vector3\+C\+SV@{Read\+Vector3\+C\+SV}}
+\index{Read\+Vector3\+C\+SV@{Read\+Vector3\+C\+SV}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Read\+Vector3\+C\+S\+V(const char $\ast$file, char sep=\textquotesingle{}\textbackslash{}t\textquotesingle{})}{ReadVector3CSV(const char *file, char sep='\textbackslash{}t')}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<${\bf vector3f}$>$ Read\+Vector3\+C\+SV (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{file, }
+\item[{char}]{sep = {\ttfamily \textquotesingle{}\textbackslash{}t\textquotesingle{}}}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_ade675d97d337ee739562ee7ca4a50808}{}\label{utils_8h_ade675d97d337ee739562ee7ca4a50808}
+
+\begin{DoxyCode}
+500 \{
+501     \textcolor{keyword}{auto} data=\hyperlink{utils_8cpp_a97c4edb27d72c98256ae9ba9d9a92145}{ReadCSV}(file ,sep);
+502 
+503     std::vector<vector3f> r(data.size());
+504 
+505     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<data.size();i++)\{
+506         r[i]=\hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f}(data[i][0],data[i][1],data[i][2]);
+507     \}
+508     \textcolor{keywordflow}{return} r;
+509 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!S\+Printf@{S\+Printf}}
+\index{S\+Printf@{S\+Printf}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{S\+Printf(const char $\ast$fmt,...)}{SPrintf(const char *fmt,...)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string S\+Printf (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{fmt, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_aba26a6b64035ef7962a63b760dd9013e}{}\label{utils_8h_aba26a6b64035ef7962a63b760dd9013e}
+
+\begin{DoxyCode}
+132                                         \{
+133     va\_list ap;
+134     va\_start(ap, fmt);
+135 
+136     \textcolor{keywordtype}{char} buf[512];
+137     \hyperlink{std__incl_8h_ac2e4f48c3da557e8b268aee96009e135}{VSNPRINTF}(buf, \textcolor{keyword}{sizeof}(buf), fmt, ap);
+138 
+139     va\_end(ap);
+140     \textcolor{keywordflow}{return} buf;
+141 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!Std\+Deviation@{Std\+Deviation}}
+\index{Std\+Deviation@{Std\+Deviation}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Std\+Deviation(\+T $\ast$start, T $\ast$end)}{StdDeviation(T *start, T *end)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ T Std\+Deviation (
+\begin{DoxyParamCaption}
+\item[{T $\ast$}]{start, }
+\item[{T $\ast$}]{end}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_a94a47cedcb61227f25c64c5157508e85}{}\label{utils_8h_a94a47cedcb61227f25c64c5157508e85}
+
+\begin{DoxyCode}
+139                                  \{
+140     T sum=0,sum2=0;
+141     \textcolor{keywordflow}{for} (T* s = start; s!=end; ++s) \{
+142         sum+=*s; sum2+=(*s)*(*s);
+143     \}
+144 
+145     T invN = 1.0f/(end-start);
+146     T mean = sum * invN;
+147     \textcolor{keywordflow}{return} \hyperlink{std__incl_8h_a8a38721046513951c4bfc32bf101e180}{sqrt}(sum2 * invN - mean * mean);
+148 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!Write\+Array\+As\+C\+S\+V\+Row@{Write\+Array\+As\+C\+S\+V\+Row}}
+\index{Write\+Array\+As\+C\+S\+V\+Row@{Write\+Array\+As\+C\+S\+V\+Row}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Write\+Array\+As\+C\+S\+V\+Row(const char $\ast$file, float $\ast$d, int len, bool append)}{WriteArrayAsCSVRow(const char *file, float *d, int len, bool append)}}]{\setlength{\rightskip}{0pt plus 5cm}void Write\+Array\+As\+C\+S\+V\+Row (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{file, }
+\item[{float $\ast$}]{d, }
+\item[{int}]{len, }
+\item[{bool}]{append}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_aa0fb8da4922e3042928ed9f6388bc09a}{}\label{utils_8h_aa0fb8da4922e3042928ed9f6388bc09a}
+
+\begin{DoxyCode}
+543 \{
+544     FILE *f = fopen(file, append?\textcolor{stringliteral}{"a"}:\textcolor{stringliteral}{"w"});
+545     \textcolor{keywordflow}{if}(f) \{
+546         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<len;i++)
+547             fprintf(f, \textcolor{stringliteral}{"%.7f\(\backslash\)t"}, d[i]);
+548 
+549         fprintf(f, \textcolor{stringliteral}{"\(\backslash\)n"});
+550         fclose(f);
+551     \}
+552     \textcolor{keywordflow}{else}
+553         \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"WriteArrayAsCSVRow: Unable to open file %s\(\backslash\)n"}, file);
+554 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!Write\+Complex\+Image\+As\+C\+SV@{Write\+Complex\+Image\+As\+C\+SV}}
+\index{Write\+Complex\+Image\+As\+C\+SV@{Write\+Complex\+Image\+As\+C\+SV}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Write\+Complex\+Image\+As\+C\+S\+V(const char $\ast$file, std\+::complex$<$ float $>$ $\ast$d, int w, int h, const char $\ast$labels[]=0)}{WriteComplexImageAsCSV(const char *file, std::complex< float > *d, int w, int h, const char *labels[]=0)}}]{\setlength{\rightskip}{0pt plus 5cm}void Write\+Complex\+Image\+As\+C\+SV (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{file, }
+\item[{std\+::complex$<$ float $>$ $\ast$}]{d, }
+\item[{int}]{w, }
+\item[{int}]{h, }
+\item[{const char $\ast$}]{labels\mbox{[}$\,$\mbox{]} = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_a5fc7ffd129b030e18b0cd2438a6205b1}{}\label{utils_8h_a5fc7ffd129b030e18b0cd2438a6205b1}
+
+\begin{DoxyCode}
+586 \{
+587     FILE* f = fopen(file, \textcolor{stringliteral}{"w"});
+588 
+589     \textcolor{keywordflow}{if} (!f) \{
+590         \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"WriteComplexImageAsCSV: Unable to open file %s\(\backslash\)n"}, file);
+591         \textcolor{keywordflow}{return};
+592     \}
+593 
+594     \textcolor{keywordflow}{if} (labels) \{
+595         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<w;i++) \{
+596             fprintf(f, \textcolor{stringliteral}{"%s;\(\backslash\)t"}, labels[i]);
+597         \}
+598         fputs(\textcolor{stringliteral}{"\(\backslash\)n"}, f);
+599     \}
+600 
+601     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} y=0;y<h;y++) \{
+602         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x=0;x<w;x++)
+603         \{
+604             \textcolor{keywordtype}{float} i=d[y*w+x].imag();
+605             fprintf(f, \textcolor{stringliteral}{"%f%+fi"}, d[y*w+x].real(), i);
+606             \textcolor{keywordflow}{if}(x<w-1) fputs(\textcolor{stringliteral}{"\(\backslash\)t"}, f); 
+607         \}
+608         fprintf(f, \textcolor{stringliteral}{"\(\backslash\)n"});
+609     \}
+610 
+611     fclose(f);
+612 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!Write\+Image\+As\+C\+SV@{Write\+Image\+As\+C\+SV}}
+\index{Write\+Image\+As\+C\+SV@{Write\+Image\+As\+C\+SV}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Write\+Image\+As\+C\+S\+V(const char $\ast$file, float $\ast$d, int w, int h, const char $\ast$labels[]=0)}{WriteImageAsCSV(const char *file, float *d, int w, int h, const char *labels[]=0)}}]{\setlength{\rightskip}{0pt plus 5cm}void Write\+Image\+As\+C\+SV (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{file, }
+\item[{float $\ast$}]{d, }
+\item[{int}]{w, }
+\item[{int}]{h, }
+\item[{const char $\ast$}]{labels\mbox{[}$\,$\mbox{]} = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_a9896b62cf125008faeb27b5bad5b3c61}{}\label{utils_8h_a9896b62cf125008faeb27b5bad5b3c61}
+
+\begin{DoxyCode}
+557 \{
+558     FILE* f = fopen(file, \textcolor{stringliteral}{"w"});
+559 
+560     \textcolor{keywordflow}{if} (f) \{
+561 
+562         \textcolor{keywordflow}{if} (labels) \{
+563             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<w;i++) \{
+564                 fprintf(f, \textcolor{stringliteral}{"%s;\(\backslash\)t"}, labels[i]);
+565             \}
+566             fputs(\textcolor{stringliteral}{"\(\backslash\)n"}, f);
+567         \}
+568 
+569         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} y=0;y<h;y++) \{
+570             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x=0;x<w;x++)
+571             \{
+572                 fprintf(f, \textcolor{stringliteral}{"%.10f"}, d[y*w+x]);
+573                 \textcolor{keywordflow}{if}(x<w-1) fputs(\textcolor{stringliteral}{"\(\backslash\)t"}, f); 
+574             \}
+575             fprintf(f, \textcolor{stringliteral}{"\(\backslash\)n"});
+576         \}
+577 
+578         fclose(f);
+579     \}
+580     \textcolor{keywordflow}{else}
+581         \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"WriteImageAsCSV: Unable to open file %s\(\backslash\)n"}, file);
+582 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!Write\+J\+P\+E\+G\+File@{Write\+J\+P\+E\+G\+File}}
+\index{Write\+J\+P\+E\+G\+File@{Write\+J\+P\+E\+G\+File}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Write\+J\+P\+E\+G\+File(uchar $\ast$data, int w, int h, const char $\ast$filename, int quality)}{WriteJPEGFile(uchar *data, int w, int h, const char *filename, int quality)}}]{\setlength{\rightskip}{0pt plus 5cm}void Write\+J\+P\+E\+G\+File (
+\begin{DoxyParamCaption}
+\item[{{\bf uchar} $\ast$}]{data, }
+\item[{int}]{w, }
+\item[{int}]{h, }
+\item[{const char $\ast$}]{filename, }
+\item[{int}]{quality}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_a77db3a4044f8f77b5a550b6f05962172}{}\label{utils_8h_a77db3a4044f8f77b5a550b6f05962172}
+
+\begin{DoxyCode}
+90 \{
+91   \textcolor{comment}{/* This struct contains the JPEG compression parameters and pointers to}
+92 \textcolor{comment}{   * working space (which is allocated as needed by the JPEG library).}
+93 \textcolor{comment}{   * It is possible to have several such structures, representing multiple}
+94 \textcolor{comment}{   * compression/decompression processes, in existence at once.  We refer}
+95 \textcolor{comment}{   * to any one struct (and its associated working data) as a "JPEG object".}
+96 \textcolor{comment}{   */}
+97   \textcolor{keyword}{struct }jpeg\_compress\_struct cinfo;
+98   \textcolor{comment}{/* This struct represents a JPEG error handler.  It is declared separately}
+99 \textcolor{comment}{   * because applications often want to supply a specialized error handler}
+100 \textcolor{comment}{   * (see the second half of this file for an example).  But here we just}
+101 \textcolor{comment}{   * take the easy way out and use the standard error handler, which will}
+102 \textcolor{comment}{   * print a message on stderr and call exit() if compression fails.}
+103 \textcolor{comment}{   * Note that this struct must live as long as the main JPEG parameter}
+104 \textcolor{comment}{   * struct, to avoid dangling-pointer problems.}
+105 \textcolor{comment}{   */}
+106   \textcolor{keyword}{struct }jpeg\_error\_mgr jerr;
+107   \textcolor{comment}{/* More stuff */}
+108   JSAMPROW row\_pointer[1];  \textcolor{comment}{/* pointer to JSAMPLE row[s] */}
+109   \textcolor{keywordtype}{int} row\_stride;       \textcolor{comment}{/* physical row width in image buffer */}
+110 
+111   \textcolor{comment}{/* Step 1: allocate and initialize JPEG compression object */}
+112 
+113   \textcolor{comment}{/* We have to set up the error handler first, in case the initialization}
+114 \textcolor{comment}{   * step fails.  (Unlikely, but it could happen if you are out of memory.)}
+115 \textcolor{comment}{   * This routine fills in the contents of struct jerr, and returns jerr's}
+116 \textcolor{comment}{   * address which we place into the link field in cinfo.}
+117 \textcolor{comment}{   */}
+118   cinfo.err = jpeg\_std\_error(&jerr);
+119   \textcolor{comment}{/* Now we can initialize the JPEG compression object. */}
+120   jpeg\_create\_compress(&cinfo);
+121 
+122   \textcolor{comment}{/* Step 2: specify data destination (eg, a file) */}
+123   \textcolor{comment}{/* Note: steps 2 and 3 can be done in either order. */}
+124   
+125   \hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} len = w*h * 2;
+126   \hyperlink{std__incl_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar}* memBuf = \textcolor{keyword}{new} \hyperlink{std__incl_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar}[len];
+127   j\_mem\_dest(&cinfo, (\textcolor{keywordtype}{void}**)&memBuf, &len);
+128   \textcolor{comment}{//jpeg\_stdio\_dest(&cinfo, outfile);}
+129 
+130   \textcolor{comment}{/* Step 3: set parameters for compression */}
+131 
+132   \textcolor{comment}{/* First we supply a description of the input image.}
+133 \textcolor{comment}{   * Four fields of the cinfo struct must be filled in:}
+134 \textcolor{comment}{   */}
+135   cinfo.image\_width = w;    \textcolor{comment}{/* image width and height, in pixels */}
+136   cinfo.image\_height = h;
+137   cinfo.input\_components = 1;       \textcolor{comment}{/* # of color components per pixel */}
+138   cinfo.in\_color\_space = JCS\_GRAYSCALE;     \textcolor{comment}{/* colorspace of input image */}
+139   \textcolor{comment}{/* Now use the library's routine to set default compression parameters.}
+140 \textcolor{comment}{   * (You must set at least cinfo.in\_color\_space before calling this,}
+141 \textcolor{comment}{   * since the defaults depend on the source color space.)}
+142 \textcolor{comment}{   */}
+143   jpeg\_set\_defaults(&cinfo);
+144   \textcolor{comment}{/* Now you can set any non-default parameters you wish to.}
+145 \textcolor{comment}{   * Here we just illustrate the use of quality (quantization table) scaling:}
+146 \textcolor{comment}{   */}
+147   jpeg\_set\_quality(&cinfo, quality, TRUE \textcolor{comment}{/* limit to baseline-JPEG values */});
+148 
+149   \textcolor{comment}{/* Step 4: Start compressor */}
+150 
+151   \textcolor{comment}{/* TRUE ensures that we will write a complete interchange-JPEG file.}
+152 \textcolor{comment}{   * Pass TRUE unless you are very sure of what you're doing.}
+153 \textcolor{comment}{   */}
+154   jpeg\_start\_compress(&cinfo, TRUE);
+155 
+156   \textcolor{comment}{/* Step 5: while (scan lines remain to be written) */}
+157   \textcolor{comment}{/*           jpeg\_write\_scanlines(...); */}
+158 
+159   \textcolor{comment}{/* Here we use the library's state variable cinfo.next\_scanline as the}
+160 \textcolor{comment}{   * loop counter, so that we don't have to keep track ourselves.}
+161 \textcolor{comment}{   * To keep things simple, we pass one scanline per call; you can pass}
+162 \textcolor{comment}{   * more if you wish, though.}
+163 \textcolor{comment}{   */}
+164   row\_stride = w;   \textcolor{comment}{/* JSAMPLEs per row in image\_buffer */}
+165 
+166   \textcolor{keywordflow}{while} (cinfo.next\_scanline < cinfo.image\_height) \{
+167     \textcolor{comment}{/* jpeg\_write\_scanlines expects an array of pointers to scanlines.}
+168 \textcolor{comment}{     * Here the array is only one element long, but you could pass}
+169 \textcolor{comment}{     * more than one scanline at a time if that's more convenient.}
+170 \textcolor{comment}{     */}
+171     row\_pointer[0] = &data[cinfo.next\_scanline * row\_stride];
+172     (void) jpeg\_write\_scanlines(&cinfo, row\_pointer, 1);
+173   \}
+174   jpeg\_finish\_compress(&cinfo);
+175   jpeg\_destroy\_compress(&cinfo);
+176 
+177 
+178   FILE *f = fopen(filename, \textcolor{stringliteral}{"wb"});
+179   \textcolor{keywordflow}{if} (f) \{
+180       fwrite(memBuf, 1, len, f);
+181       fclose(f);
+182   \} \textcolor{keywordflow}{else} 
+183       \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"Failed to open file %s for writing\(\backslash\)n"}, filename);
+184 
+185   \textcolor{keyword}{delete}[] memBuf;
+186 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!Write\+J\+P\+E\+G\+File@{Write\+J\+P\+E\+G\+File}}
+\index{Write\+J\+P\+E\+G\+File@{Write\+J\+P\+E\+G\+File}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Write\+J\+P\+E\+G\+File(const char $\ast$name, const Image\+Data \&img)}{WriteJPEGFile(const char *name, const ImageData &img)}}]{\setlength{\rightskip}{0pt plus 5cm}void Write\+J\+P\+E\+G\+File (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{name, }
+\item[{const {\bf Image\+Data} \&}]{img}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{utils_8h_a1185e2d2592ebcef7e20900fde3198d9}{}\label{utils_8h_a1185e2d2592ebcef7e20900fde3198d9}
+
+\begin{DoxyCode}
+190 \{ \hyperlink{utils_8h_a197d79f00fb185491c4d109e966ca9ef}{FloatToJPEGFile}(name, img.\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data}, img.\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w},img.\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h}); \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!Write\+Trace@{Write\+Trace}}
+\index{Write\+Trace@{Write\+Trace}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Write\+Trace(std\+::string file, vector3f $\ast$results, int n\+Results)}{WriteTrace(std::string file, vector3f *results, int nResults)}}]{\setlength{\rightskip}{0pt plus 5cm}void Write\+Trace (
+\begin{DoxyParamCaption}
+\item[{std\+::string}]{file, }
+\item[{{\bf vector3f} $\ast$}]{results, }
+\item[{int}]{n\+Results}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_a892e890722fec10f712158e4f7bdd0f0}{}\label{utils_8h_a892e890722fec10f712158e4f7bdd0f0}
+
+\begin{DoxyCode}
+513 \{
+514     FILE *f = fopen(filename.c\_str(), \textcolor{stringliteral}{"w"});
+515 
+516     \textcolor{keywordflow}{if} (!f) \{
+517         \textcolor{keywordflow}{throw} std::runtime\_error(\hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"Can't open %s"}, filename.c\_str()));
+518     \}
+519 
+520     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<nResults;i++)
+521     \{
+522         fprintf(f, \textcolor{stringliteral}{"%.7f\(\backslash\)t%.7f\(\backslash\)t%.7f\(\backslash\)n"}, results[i].x, results[i].y, results[i].z);
+523     \}
+524 
+525     fclose(f);
+526 \}
+\end{DoxyCode}
+\index{utils.\+h@{utils.\+h}!Write\+Vector\+As\+C\+S\+V\+Row@{Write\+Vector\+As\+C\+S\+V\+Row}}
+\index{Write\+Vector\+As\+C\+S\+V\+Row@{Write\+Vector\+As\+C\+S\+V\+Row}!utils.\+h@{utils.\+h}}
+\subsubsection[{\texorpdfstring{Write\+Vector\+As\+C\+S\+V\+Row(const char $\ast$file, std\+::vector$<$ float $>$ d, bool append)}{WriteVectorAsCSVRow(const char *file, std::vector< float > d, bool append)}}]{\setlength{\rightskip}{0pt plus 5cm}void Write\+Vector\+As\+C\+S\+V\+Row (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{file, }
+\item[{std\+::vector$<$ float $>$}]{d, }
+\item[{bool}]{append}
+\end{DoxyParamCaption}
+)}\hypertarget{utils_8h_aeb2d139686549bd29fe86f72247eecf1}{}\label{utils_8h_aeb2d139686549bd29fe86f72247eecf1}
+
+\begin{DoxyCode}
+529 \{
+530     FILE *f = fopen(file, append?\textcolor{stringliteral}{"a"}:\textcolor{stringliteral}{"w"});
+531     \textcolor{keywordflow}{if}(f) \{
+532         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<d.size();i++)
+533             fprintf(f, \textcolor{stringliteral}{"%1.7f\(\backslash\)t"}, d[i]);
+534 
+535         fprintf(f, \textcolor{stringliteral}{"\(\backslash\)n"});
+536         fclose(f);
+537     \}
+538     \textcolor{keywordflow}{else}
+539         \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"WriteArrayAsCSVRow: Unable to open file %s\(\backslash\)n"}, file);
+540 \}
+\end{DoxyCode}

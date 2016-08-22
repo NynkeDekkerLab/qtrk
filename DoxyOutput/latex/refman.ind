@@ -1,0 +1,4086 @@
+\begin{theindex}
+
+  \item {\+\_\+\+C\+R\+T\+\_\+\+S\+E\+C\+U\+R\+E\+\_\+\+N\+O\+\_\+\+W\+A\+R\+N\+I\+N\+GS}
+    \subitem {std\+\_\+incl.\+h}, \hyperpage{321}
+  \item {\+\_\+\+S\+T\+D\+I\+N\+T\+\_\+H}
+    \subitem {labview.\+h}, \hyperpage{294}
+  \item {\+\_\+inverse}
+    \subitem {kissfft}, \hyperpage{110}
+  \item {\+\_\+nfft}
+    \subitem {kissfft}, \hyperpage{110}
+  \item {\+\_\+stage\+Radix}
+    \subitem {kissfft}, \hyperpage{110}
+  \item {\+\_\+stage\+Remainder}
+    \subitem {kissfft}, \hyperpage{110}
+  \item {\+\_\+twiddles}
+    \subitem {kissfft}, \hyperpage{110}
+  \item {$\sim$\+C\+Image\+Data}
+    \subitem {C\+Image\+Data}, \hyperpage{43}
+  \item {$\sim$\+C\+P\+U\+Tracker}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{52}
+  \item {$\sim$\+Device}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Device}, \hyperpage{75}
+  \item {$\sim$\+Device\+Instance}
+    \subitem {Q\+I\+::\+Device\+Instance}, \hyperpage{81}
+  \item {$\sim$\+F\+F\+T2D}
+    \subitem {C\+P\+U\+Tracker\+::\+F\+F\+T2D}, \hyperpage{82}
+  \item {$\sim$\+F\+F\+T2\+D\+Tracker}
+    \subitem {F\+F\+T2\+D\+Tracker}, \hyperpage{84}
+  \item {$\sim$\+Image4\+D\+Cuda\+Array}
+    \subitem {Image4\+D\+Cuda\+Array}, \hyperpage{89}
+  \item {$\sim$\+Image4\+D\+Memory}
+    \subitem {Image4\+D\+Memory}, \hyperpage{94}
+  \item {$\sim$\+Job}
+    \subitem {Queued\+C\+P\+U\+Tracker\+::\+Job}, \hyperpage{100}
+  \item {$\sim$\+Measure\+Time}
+    \subitem {Measure\+Time}, \hyperpage{130}
+  \item {$\sim$\+Mutex}
+    \subitem {Threads\+::\+Mutex}, \hyperpage{131}
+  \item {$\sim$\+Queued\+C\+P\+U\+Tracker}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{156}
+  \item {$\sim$\+Queued\+C\+U\+D\+A\+Tracker}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{175}
+  \item {$\sim$\+Queued\+Tracker}
+    \subitem {Queued\+Tracker}, \hyperpage{190}
+  \item {$\sim$\+Result\+File}
+    \subitem {Result\+File}, \hyperpage{197}
+  \item {$\sim$\+Result\+Manager}
+    \subitem {Result\+Manager}, \hyperpage{198}
+  \item {$\sim$\+Scoped\+C\+P\+U\+Profiler}
+    \subitem {Scoped\+C\+P\+U\+Profiler}, \hyperpage{210}
+  \item {$\sim$\+Stream}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Stream}, \hyperpage{213}
+  \item {$\sim$\+Stream\+Instance}
+    \subitem {Q\+I\+::\+Stream\+Instance}, \hyperpage{216}
+  \item {$\sim$\+Thread\+Pool}
+    \subitem {Thread\+Pool}, \hyperpage{220}
+  \item {$\sim$device\+\_\+vec}
+    \subitem {device\+\_\+vec}, \hyperpage{78}
+  \item {$\sim$outputter}
+    \subitem {outputter}, \hyperpage{134}
+  \item {$\sim$pinned\+\_\+array}
+    \subitem {pinned\+\_\+array}, \hyperpage{137}
+
+  \indexspace
+
+  \item {a}
+    \subitem {Lsq\+Sq\+Quad\+Fit}, \hyperpage{116}
+  \item {A\+L\+L\+O\+C\+A\+\_\+\+A\+R\+R\+AY}
+    \subitem {std\+\_\+incl.\+h}, \hyperpage{321}
+  \item {A\+L\+L\+O\+CA}
+    \subitem {std\+\_\+incl.\+h}, \hyperpage{321}
+  \item {A\+N\+G\+S\+T\+E\+PF}
+    \subitem {main.\+cpp}, \hyperpage{265}
+  \item {A\+P\+I -\/ C}, \hyperpage{29}
+    \subitem {Q\+Trk\+Build\+L\+UT}, \hyperpage{29}
+    \subitem {Q\+Trk\+Clear\+Results}, \hyperpage{29}
+    \subitem {Q\+Trk\+Create\+Instance}, \hyperpage{30}
+    \subitem {Q\+Trk\+Fetch\+Results}, \hyperpage{30}
+    \subitem {Q\+Trk\+Finalize\+L\+UT}, \hyperpage{30}
+    \subitem {Q\+Trk\+Flush}, \hyperpage{30}
+    \subitem {Q\+Trk\+Free\+Instance}, \hyperpage{30}
+    \subitem {Q\+Trk\+Get\+Computed\+Config}, \hyperpage{30}
+    \subitem {Q\+Trk\+Get\+Profile\+Report}, \hyperpage{31}
+    \subitem {Q\+Trk\+Get\+Queue\+Length}, \hyperpage{31}
+    \subitem {Q\+Trk\+Get\+Radial\+Z\+L\+U\+T\+Size}, \hyperpage{31}
+    \subitem {Q\+Trk\+Get\+Radial\+Z\+L\+UT}, \hyperpage{31}
+    \subitem {Q\+Trk\+Get\+Result\+Count}, \hyperpage{31}
+    \subitem {Q\+Trk\+Get\+Warnings}, \hyperpage{31}
+    \subitem {Q\+Trk\+Is\+Idle}, \hyperpage{31}
+    \subitem {Q\+Trk\+Schedule\+Frame}, \hyperpage{32}
+    \subitem {Q\+Trk\+Schedule\+Localization}, \hyperpage{32}
+    \subitem {Q\+Trk\+Set\+Localization\+Mode}, \hyperpage{32}
+    \subitem {Q\+Trk\+Set\+Radial\+Z\+L\+UT}, \hyperpage{32}
+  \item {A\+P\+I -\/ Lab\+V\+I\+EW}, \hyperpage{23}
+    \subitem {Q\+F\+F\+\_\+\+Force32\+Bit}, \hyperpage{24}
+    \subitem {qtrk\+\_\+clear\+\_\+results}, \hyperpage{24}
+    \subitem {qtrk\+\_\+create}, \hyperpage{24}
+    \subitem {qtrk\+\_\+destroy}, \hyperpage{24}
+    \subitem {qtrk\+\_\+dump\+\_\+memleaks}, \hyperpage{24}
+    \subitem {qtrk\+\_\+flush}, \hyperpage{25}
+    \subitem {qtrk\+\_\+generate\+\_\+image\+\_\+from\+\_\+lut}, 
+		\hyperpage{25}
+    \subitem {qtrk\+\_\+get\+\_\+\+Z\+L\+UT}, \hyperpage{25}
+    \subitem {qtrk\+\_\+get\+\_\+profile\+\_\+report}, \hyperpage{25}
+    \subitem {qtrk\+\_\+get\+\_\+results}, \hyperpage{25}
+    \subitem {qtrk\+\_\+idle}, \hyperpage{26}
+    \subitem {qtrk\+\_\+queue\+\_\+array}, \hyperpage{26}
+    \subitem {qtrk\+\_\+queue\+\_\+float}, \hyperpage{26}
+    \subitem {qtrk\+\_\+queue\+\_\+frame}, \hyperpage{26}
+    \subitem {qtrk\+\_\+queue\+\_\+pitchedmem}, \hyperpage{26}
+    \subitem {qtrk\+\_\+queue\+\_\+u16}, \hyperpage{27}
+    \subitem {qtrk\+\_\+queue\+\_\+u8}, \hyperpage{27}
+    \subitem {qtrk\+\_\+read\+\_\+timestamp}, \hyperpage{27}
+    \subitem {qtrk\+\_\+resultcount}, \hyperpage{27}
+    \subitem {qtrk\+\_\+set\+\_\+\+Z\+L\+UT}, \hyperpage{27}
+    \subitem {qtrkcuda\+\_\+device\+\_\+count}, \hyperpage{28}
+    \subitem {qtrkcuda\+\_\+set\+\_\+device\+\_\+list}, \hyperpage{28}
+    \subitem {Queue\+Frame\+Flags}, \hyperpage{24}
+  \item {abc}
+    \subitem {Lsq\+Sq\+Quad\+Fit\+::\+Coeff}, \hyperpage{45}
+  \item {abs}
+    \subitem {Bead\+Finder.\+cpp}, \hyperpage{282}
+  \item {acc}
+    \subitem {Speed\+Acc\+Result}, \hyperpage{211}
+  \item {Acc\+Bias\+Test}
+    \subitem {main.\+cpp}, \hyperpage{242}
+  \item {Add\+Images}
+    \subitem {testutils.\+cpp}, \hyperpage{274}
+    \subitem {testutils.\+h}, \hyperpage{278}
+  \item {Add\+Job}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{156}
+  \item {Add\+Profiles\+To\+Z\+L\+UT}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker.\+cu}, \hyperpage{382}
+  \item {Add\+Work}
+    \subitem {Thread\+Pool}, \hyperpage{220}
+  \item {alloc}
+    \subitem {cuda\+Image\+List}, \hyperpage{70}
+    \subitem {T\+Image\+Data}, \hyperpage{225}
+  \item {allocate\+Host\+Image\+Buffer}
+    \subitem {cuda\+Image\+List}, \hyperpage{70}
+  \item {Allocate\+Job}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{156}
+  \item {Allocate\+Q\+I\+F\+F\+Ts}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{52}
+  \item {angular\+Steps}
+    \subitem {Z\+L\+U\+T\+Params}, \hyperpage{235}
+  \item {Apply}
+    \subitem {C\+P\+U\+Tracker\+::\+F\+F\+T2D}, \hyperpage{83}
+  \item {Apply\+Gaussian\+Noise}
+    \subitem {utils.\+cpp}, \hyperpage{324}
+    \subitem {utils.\+h}, \hyperpage{337}
+  \item {Apply\+Offset\+Gain}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{52}
+    \subitem {Kernels.\+h}, \hyperpage{372}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{156}
+  \item {Apply\+Poisson\+Noise}
+    \subitem {utils.\+cpp}, \hyperpage{324}
+    \subitem {utils.\+h}, \hyperpage{337}
+  \item {Argument\+Error\+Msg}
+    \subitem {Lab\+V\+I\+E\+W datatypes and helper functions}, 
+		\hyperpage{20}
+  \item {array}
+    \subitem {Image4\+D\+Cuda\+Array}, \hyperpage{93}
+  \item {at}
+    \subitem {Matrix3\+X3}, \hyperpage{127}
+    \subitem {T\+Image\+Data}, \hyperpage{225}
+  \item {Atomic}
+    \subitem {Atomic}, \hyperpage{37}
+    \subitem {data}, \hyperpage{38}
+    \subitem {get}, \hyperpage{37}
+    \subitem {m}, \hyperpage{38}
+    \subitem {operator T}, \hyperpage{37}
+    \subitem {operator=}, \hyperpage{38}
+    \subitem {set}, \hyperpage{38}
+  \item {Atomic$<$ T $>$}, \hyperpage{37}
+  \item {Auto\+Bead\+Find\+Test}
+    \subitem {main.\+cpp}, \hyperpage{243}
+
+  \indexspace
+
+  \item {b}
+    \subitem {Lsq\+Sq\+Quad\+Fit}, \hyperpage{116}
+  \item {B\+I\+N\+F\+I\+L\+E\+\_\+\+V\+E\+R\+S\+I\+ON}
+    \subitem {Result\+Manager.\+cpp}, \hyperpage{319}
+  \item {B\+U\+I\+L\+D\+L\+U\+T\+\_\+\+B\+I\+A\+S\+C\+O\+R\+R\+E\+CT}
+    \subitem {Queued\+Tracker.\+h}, \hyperpage{317}
+  \item {B\+U\+I\+L\+D\+L\+U\+T\+\_\+\+F\+O\+U\+R\+I\+ER}
+    \subitem {Queued\+Tracker.\+h}, \hyperpage{317}
+  \item {B\+U\+I\+L\+D\+L\+U\+T\+\_\+\+I\+M\+A\+G\+E\+L\+UT}
+    \subitem {Queued\+Tracker.\+h}, \hyperpage{317}
+  \item {B\+U\+I\+L\+D\+L\+U\+T\+\_\+\+N\+O\+R\+M\+A\+L\+I\+ZE}
+    \subitem {Queued\+Tracker.\+h}, \hyperpage{317}
+  \item {Backg}
+    \subitem {main.\+cpp}, \hyperpage{242}
+  \item {Background\+Median}
+    \subitem {testutils.\+cpp}, \hyperpage{274}
+    \subitem {testutils.\+h}, \hyperpage{278}
+  \item {Background\+R\+MS}
+    \subitem {testutils.\+cpp}, \hyperpage{274}
+    \subitem {testutils.\+h}, \hyperpage{278}
+  \item {Background\+Std\+Dev}
+    \subitem {testutils.\+cpp}, \hyperpage{274}
+    \subitem {testutils.\+h}, \hyperpage{278}
+  \item {Base\+Kernel\+Params}, \hyperpage{38}
+    \subitem {images}, \hyperpage{38}
+    \subitem {imgmeans}, \hyperpage{38}
+    \subitem {loc\+Params}, \hyperpage{38}
+    \subitem {njobs}, \hyperpage{38}
+  \item {Basic\+Q\+Trk\+Test}
+    \subitem {test.\+cu}, \hyperpage{353}
+  \item {Basic\+Q\+Trk\+Test\+\_\+\+RM}
+    \subitem {test.\+cu}, \hyperpage{354}
+  \item {batch\+Size}
+    \subitem {QI}, \hyperpage{144}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{187}
+  \item {batch\+Start}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Stream}, \hyperpage{214}
+  \item {batches\+Done}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{187}
+  \item {Bead\+Finder}, \hyperpage{33}
+    \subitem {Find}, \hyperpage{33, 34}
+  \item {Bead\+Finder.\+cpp}
+    \subitem {abs}, \hyperpage{282}
+    \subitem {Complex\+To\+J\+P\+E\+G\+File}, \hyperpage{282}
+    \subitem {F\+F\+T2D}, \hyperpage{282}
+    \subitem {Next\+Power\+Of2}, \hyperpage{282}
+    \subitem {Recenter\+And\+Filter}, \hyperpage{282}
+    \subitem {Search\+Area}, \hyperpage{283}
+  \item {Bead\+Finder\+::\+Config}, \hyperpage{49}
+    \subitem {img\+\_\+distance}, \hyperpage{49}
+    \subitem {Min\+Pixel\+Distance}, \hyperpage{49}
+    \subitem {roi}, \hyperpage{49}
+    \subitem {similarity}, \hyperpage{49}
+  \item {Bead\+Finder\+::\+Position}, \hyperpage{140}
+    \subitem {Position}, \hyperpage{140}
+    \subitem {x}, \hyperpage{140}
+    \subitem {y}, \hyperpage{140}
+  \item {begin}
+    \subitem {pinned\+\_\+array}, \hyperpage{138}
+  \item {Begin\+L\+UT}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{157}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{175}
+    \subitem {Queued\+Tracker}, \hyperpage{190}
+  \item {Benchmark.\+cpp}
+    \subitem {Benchmark\+Config\+Param\+Range}, \hyperpage{238}
+    \subitem {Benchmark\+Params}, \hyperpage{238}
+    \subitem {Benchmark\+R\+O\+I\+Sizes}, \hyperpage{239}
+    \subitem {Benchmark\+Z\+Accuracy}, \hyperpage{239}
+    \subitem {Electrons\+Per\+Bit}, \hyperpage{240}
+    \subitem {img\+\_\+mean}, \hyperpage{240}
+    \subitem {img\+\_\+sigma}, \hyperpage{240}
+  \item {Benchmark\+Config\+Param\+Range}
+    \subitem {Benchmark.\+cpp}, \hyperpage{238}
+  \item {Benchmark\+L\+UT}, \hyperpage{39}
+    \subitem {Benchmark\+L\+UT}, \hyperpage{39}
+    \subitem {Cleanup\+L\+UT}, \hyperpage{40}
+    \subitem {Generate\+L\+UT}, \hyperpage{40}
+    \subitem {Generate\+Sample}, \hyperpage{40}
+    \subitem {Load}, \hyperpage{40, 41}
+    \subitem {lut\+\_\+h}, \hyperpage{41}
+    \subitem {lut\+\_\+w}, \hyperpage{41}
+    \subitem {max\+\_\+a}, \hyperpage{41}
+    \subitem {max\+\_\+b}, \hyperpage{41}
+    \subitem {max\+\_\+c}, \hyperpage{41}
+    \subitem {normprof}, \hyperpage{41}
+  \item {Benchmark\+Params}
+    \subitem {Benchmark.\+cpp}, \hyperpage{238}
+    \subitem {main.\+cpp}, \hyperpage{243}
+    \subitem {test.\+cu}, \hyperpage{355}
+  \item {Benchmark\+R\+O\+I\+Sizes}
+    \subitem {Benchmark.\+cpp}, \hyperpage{239}
+  \item {Benchmark\+Z\+Accuracy}
+    \subitem {Benchmark.\+cpp}, \hyperpage{239}
+  \item {bg}
+    \subitem {C\+P\+U\+Tracker\+::\+Gauss2\+D\+Result}, \hyperpage{87}
+  \item {Bg\+Corrected\+C\+OM}
+    \subitem {Kernels.\+h}, \hyperpage{372, 373}
+  \item {bias}
+    \subitem {Speed\+Acc\+Result}, \hyperpage{211}
+  \item {binary\+Output}
+    \subitem {Result\+Manager\+Config}, \hyperpage{205}
+  \item {Binary\+Result\+File}, \hyperpage{41}
+    \subitem {Binary\+Result\+File}, \hyperpage{42}
+    \subitem {f}, \hyperpage{42}
+    \subitem {Load\+Row}, \hyperpage{42}
+    \subitem {Save\+Row}, \hyperpage{42}
+  \item {bind}
+    \subitem {cuda\+Image\+List}, \hyperpage{70}
+    \subitem {Image4\+D\+Cuda\+Array}, \hyperpage{90}
+    \subitem {Image4\+D\+Memory}, \hyperpage{94}
+  \item {Bind\+Texture}
+    \subitem {Image\+Sampler\+\_\+\+Interpolated\+Texture}, 
+		\hyperpage{97}
+    \subitem {Image\+Sampler\+\_\+\+Mem\+Copy}, \hyperpage{98}
+    \subitem {Image\+Sampler\+\_\+\+Simple\+Texture\+Read}, 
+		\hyperpage{99}
+  \item {blocks}
+    \subitem {QI}, \hyperpage{141}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{175}
+  \item {boundary\+Hit}
+    \subitem {cuda\+Image\+List}, \hyperpage{70}
+  \item {Break}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{157}
+  \item {Build\+Convergence\+Map}
+    \subitem {main.\+cpp}, \hyperpage{244}
+  \item {Build\+L\+UT}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{157}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{175}
+    \subitem {Queued\+Tracker}, \hyperpage{190}
+  \item {Build\+Z\+L\+UT}
+    \subitem {main.\+cpp}, \hyperpage{245}
+    \subitem {test.\+cu}, \hyperpage{356}
+
+  \indexspace
+
+  \item {c}
+    \subitem {Lsq\+Sq\+Quad\+Fit}, \hyperpage{116}
+  \item {C\+\_\+\+A\+D\+D\+TO}
+    \subitem {kissfft}, \hyperpage{105}
+  \item {C\+\_\+\+A\+DD}
+    \subitem {kissfft}, \hyperpage{105}
+  \item {C\+\_\+\+F\+I\+X\+D\+IV}
+    \subitem {kissfft}, \hyperpage{106}
+  \item {C\+\_\+\+M\+U\+L\+B\+Y\+S\+C\+A\+L\+AR}
+    \subitem {kissfft}, \hyperpage{106}
+  \item {C\+\_\+\+M\+UL}
+    \subitem {kissfft}, \hyperpage{106}
+  \item {C\+\_\+\+S\+UB}
+    \subitem {kissfft}, \hyperpage{106}
+  \item {C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT}
+    \subitem {dllmacros.\+h}, \hyperpage{289}
+  \item {C\+Image\+Data}, \hyperpage{43}
+    \subitem {$\sim$\+C\+Image\+Data}, \hyperpage{43}
+    \subitem {C\+Image\+Data}, \hyperpage{43}
+    \subitem {operator=}, \hyperpage{44}
+  \item {C\+P\+U\+\_\+\+Apply\+Offset\+Gain}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{177}
+  \item {C\+P\+U\+Tracker}, \hyperpage{50}
+    \subitem {$\sim$\+C\+P\+U\+Tracker}, \hyperpage{52}
+    \subitem {Allocate\+Q\+I\+F\+F\+Ts}, \hyperpage{52}
+    \subitem {Apply\+Offset\+Gain}, \hyperpage{52}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{52}
+    \subitem {Calculate\+Error\+Curve}, \hyperpage{53}
+    \subitem {Calculate\+Error\+Flag}, \hyperpage{53}
+    \subitem {Calculate\+Interpolated\+Z\+L\+U\+T\+Profile}, 
+		\hyperpage{53}
+    \subitem {Check\+Boundaries}, \hyperpage{54}
+    \subitem {Compute2\+D\+Gaussian\+M\+LE}, \hyperpage{54}
+    \subitem {Compute\+Asymmetry}, \hyperpage{55}
+    \subitem {Compute\+Mean\+And\+C\+OM}, \hyperpage{55}
+    \subitem {Compute\+QI}, \hyperpage{56}
+    \subitem {Compute\+Quadrant\+Profile}, \hyperpage{57}
+    \subitem {Compute\+Radial\+Profile}, \hyperpage{58}
+    \subitem {Compute\+X\+Cor\+Interpolated}, \hyperpage{58}
+    \subitem {ComputeZ}, \hyperpage{59}
+    \subitem {debug\+Image}, \hyperpage{66}
+    \subitem {fft2d}, \hyperpage{66}
+    \subitem {Fourier\+Radial\+Profile}, \hyperpage{59}
+    \subitem {Fourier\+Transform2D}, \hyperpage{60}
+    \subitem {Get\+Debug\+Image}, \hyperpage{60}
+    \subitem {Get\+Height}, \hyperpage{60}
+    \subitem {Get\+Pixel}, \hyperpage{60}
+    \subitem {Get\+Radial\+Z\+L\+UT}, \hyperpage{60}
+    \subitem {Get\+Width}, \hyperpage{60}
+    \subitem {height}, \hyperpage{66}
+    \subitem {Keep\+Inside\+Boundaries}, \hyperpage{60}
+    \subitem {L\+U\+T\+Prof\+Max\+Quadratic\+Fit}, \hyperpage{51}
+    \subitem {L\+U\+T\+Prof\+Max\+Simple\+Interp}, \hyperpage{51}
+    \subitem {L\+U\+T\+Prof\+Max\+Spline\+Fit}, \hyperpage{51}
+    \subitem {L\+U\+T\+Profile\+Compare}, \hyperpage{61}
+    \subitem {L\+U\+T\+Profile\+Compare\+Adjusted\+Weights}, 
+		\hyperpage{63}
+    \subitem {L\+U\+T\+Profile\+Max\+Compute\+Mode}, \hyperpage{51}
+    \subitem {mean}, \hyperpage{66}
+    \subitem {Normalize}, \hyperpage{63}
+    \subitem {Q\+I\+\_\+\+Compute\+Offset}, \hyperpage{63}
+    \subitem {qa\+\_\+fft\+\_\+backward}, \hyperpage{67}
+    \subitem {qa\+\_\+fft\+\_\+forward}, \hyperpage{67}
+    \subitem {qi\+\_\+fft\+\_\+backward}, \hyperpage{67}
+    \subitem {qi\+\_\+fft\+\_\+forward}, \hyperpage{67}
+    \subitem {qi\+\_\+radialsteps}, \hyperpage{67}
+    \subitem {Quadrant\+Align}, \hyperpage{64}
+    \subitem {Quadrant\+Align\+\_\+\+Compute\+Offset}, \hyperpage{65}
+    \subitem {quadrant\+Dirs}, \hyperpage{67}
+    \subitem {radial\+Dirs}, \hyperpage{67}
+    \subitem {Save\+Image}, \hyperpage{65}
+    \subitem {Set\+Image}, \hyperpage{65}
+    \subitem {Set\+Image16\+Bit}, \hyperpage{65}
+    \subitem {Set\+Image8\+Bit}, \hyperpage{65}
+    \subitem {Set\+Image\+Float}, \hyperpage{66}
+    \subitem {Set\+Radial\+Weights}, \hyperpage{66}
+    \subitem {Set\+Radial\+Z\+L\+UT}, \hyperpage{66}
+    \subitem {src\+Image}, \hyperpage{67}
+    \subitem {stdev}, \hyperpage{67}
+    \subitem {test\+Run}, \hyperpage{67}
+    \subitem {tracker\+ID}, \hyperpage{67}
+    \subitem {width}, \hyperpage{67}
+    \subitem {xcor\+Buffer}, \hyperpage{67}
+    \subitem {xcorw}, \hyperpage{67}
+    \subitem {zlut\+\_\+count}, \hyperpage{67}
+    \subitem {zlut\+\_\+maxradius}, \hyperpage{67}
+    \subitem {zlut\+\_\+memory\+Owner}, \hyperpage{67}
+    \subitem {zlut\+\_\+minradius}, \hyperpage{67}
+    \subitem {zlut\+\_\+planes}, \hyperpage{67}
+    \subitem {zlut\+\_\+radialweights}, \hyperpage{67}
+    \subitem {zlut\+\_\+res}, \hyperpage{67}
+    \subitem {zlut\+\_\+use\+Correlation}, \hyperpage{67}
+    \subitem {zluts}, \hyperpage{67}
+  \item {C\+P\+U\+Tracker\+::\+F\+F\+T2D}, \hyperpage{82}
+    \subitem {$\sim$\+F\+F\+T2D}, \hyperpage{82}
+    \subitem {Apply}, \hyperpage{83}
+    \subitem {cbuf}, \hyperpage{83}
+    \subitem {F\+F\+T2D}, \hyperpage{82}
+    \subitem {xfft}, \hyperpage{83}
+    \subitem {yfft}, \hyperpage{83}
+  \item {C\+P\+U\+Tracker\+::\+Gauss2\+D\+Result}, \hyperpage{86}
+    \subitem {bg}, \hyperpage{87}
+    \subitem {I0}, \hyperpage{87}
+    \subitem {pos}, \hyperpage{87}
+  \item {C\+R\+P\+\_\+\+Test\+Generated\+Data}
+    \subitem {main.\+cpp}, \hyperpage{247}
+  \item {C\+U\+B\+O\+TH}
+    \subitem {gpu\+\_\+utils.\+h}, \hyperpage{369}
+  \item {C\+U\+D\+A\+\_\+\+S\+U\+P\+P\+O\+R\+T\+E\+D\+\_\+\+F\+U\+NC}
+    \subitem {Cubic\+B\+Spline.\+h}, \hyperpage{287}
+    \subitem {gpu\+\_\+utils.\+h}, \hyperpage{369}
+    \subitem {Lsq\+Quadratic\+Fit.\+h}, \hyperpage{294}
+  \item {C\+U\+D\+A\+Device\+Info}, \hyperpage{68}
+    \subitem {clock\+Rate}, \hyperpage{68}
+    \subitem {major}, \hyperpage{68}
+    \subitem {minor}, \hyperpage{68}
+    \subitem {multi\+Proc\+Count}, \hyperpage{68}
+    \subitem {name}, \hyperpage{68}
+  \item {calculate}
+    \subitem {Lsq\+Sq\+Quad\+Fit}, \hyperpage{115}
+  \item {Calculate\+Error\+Curve}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{53}
+  \item {Calculate\+Error\+Flag}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{53}
+  \item {Calculate\+Interpolated\+Z\+L\+U\+T\+Profile}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{53}
+  \item {calib\+\_\+gain}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{170}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Device}, \hyperpage{76}
+  \item {calib\+\_\+offset}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{170}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Device}, \hyperpage{76}
+  \item {callback}
+    \subitem {Threads\+::\+Handle}, \hyperpage{87}
+  \item {capacity}
+    \subitem {cuda\+Image\+List}, \hyperpage{70}
+  \item {captured\+Frames}
+    \subitem {Result\+Manager\+::\+Frame\+Counters}, \hyperpage{85}
+  \item {cbuf}
+    \subitem {C\+P\+U\+Tracker\+::\+F\+F\+T2D}, \hyperpage{83}
+  \item {cfg}
+    \subitem {Queued\+Tracker}, \hyperpage{196}
+  \item {check\+\_\+arg}
+    \subitem {test.\+cu}, \hyperpage{357}
+  \item {check\+\_\+strarg}
+    \subitem {test.\+cu}, \hyperpage{357}
+  \item {Check\+Boundaries}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{54}
+  \item {Check\+C\+U\+D\+A\+Error}
+    \subitem {gpu\+\_\+utils.\+h}, \hyperpage{369}
+  \item {Check\+Image\+Input}
+    \subitem {lv\+\_\+queuetrk\+\_\+api.\+cpp}, \hyperpage{302}
+  \item {Check\+Result\+Space}
+    \subitem {Result\+Manager}, \hyperpage{199}
+  \item {checksum}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker.\+cu}, \hyperpage{382}
+  \item {clamp}
+    \subitem {cpu\+\_\+tracker.\+cpp}, \hyperpage{285}
+  \item {Cleanup\+L\+UT}
+    \subitem {Benchmark\+L\+UT}, \hyperpage{40}
+  \item {clear}
+    \subitem {cuda\+Image\+List}, \hyperpage{70}
+    \subitem {Image4\+D\+Cuda\+Array}, \hyperpage{90}
+    \subitem {Image4\+D\+Memory}, \hyperpage{94}
+  \item {Clear\+Results}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{158}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{176}
+    \subitem {Queued\+Tracker}, \hyperpage{190}
+  \item {clock\+Rate}
+    \subitem {C\+U\+D\+A\+Device\+Info}, \hyperpage{68}
+  \item {Cmd\+Line\+Run}
+    \subitem {test.\+cu}, \hyperpage{357}
+  \item {cmp\+\_\+cpu\+\_\+qi\+\_\+fft\+\_\+out}
+    \subitem {test.\+cu}, \hyperpage{368}
+  \item {cmp\+\_\+cpu\+\_\+qi\+\_\+prof}
+    \subitem {test.\+cu}, \hyperpage{368}
+  \item {cmp\+\_\+gpu\+\_\+qi\+\_\+fft\+\_\+out}
+    \subitem {test.\+cu}, \hyperpage{368}
+  \item {cmp\+\_\+gpu\+\_\+qi\+\_\+prof}
+    \subitem {test.\+cu}, \hyperpage{368}
+  \item {cnt}
+    \subitem {Result\+Manager}, \hyperpage{204}
+  \item {code}
+    \subitem {Error\+Cluster}, \hyperpage{82}
+    \subitem {L\+V\+Data\+Type$<$ double $>$}, \hyperpage{120}
+    \subitem {L\+V\+Data\+Type$<$ float $>$}, \hyperpage{121}
+    \subitem {L\+V\+Data\+Type$<$ int16\+\_\+t $>$}, \hyperpage{121}
+    \subitem {L\+V\+Data\+Type$<$ int32\+\_\+t $>$}, \hyperpage{122}
+    \subitem {L\+V\+Data\+Type$<$ int64\+\_\+t $>$}, \hyperpage{122}
+    \subitem {L\+V\+Data\+Type$<$ int8\+\_\+t $>$}, \hyperpage{123}
+    \subitem {L\+V\+Data\+Type$<$ std\+::complex$<$ double $>$ $>$}, 
+		\hyperpage{123}
+    \subitem {L\+V\+Data\+Type$<$ std\+::complex$<$ float $>$ $>$}, 
+		\hyperpage{124}
+    \subitem {L\+V\+Data\+Type$<$ uint16\+\_\+t $>$}, \hyperpage{124}
+    \subitem {L\+V\+Data\+Type$<$ uint32\+\_\+t $>$}, \hyperpage{125}
+    \subitem {L\+V\+Data\+Type$<$ uint64\+\_\+t $>$}, \hyperpage{125}
+    \subitem {L\+V\+Data\+Type$<$ uint8\+\_\+t $>$}, \hyperpage{126}
+  \item {cols}
+    \subitem {Image4\+D\+Memory\+::\+Kernel\+Params}, \hyperpage{103}
+  \item {com}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Kernel\+Profile\+Time}, 
+		\hyperpage{104}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Stream}, \hyperpage{214}
+  \item {com\+\_\+bgcorrection}
+    \subitem {Q\+Trk\+Settings}, \hyperpage{150}
+  \item {com\+Done}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Stream}, \hyperpage{214}
+  \item {Compare\+Accuracy}
+    \subitem {test.\+cu}, \hyperpage{359}
+  \item {complex}
+    \subitem {sfft\+::complex}, \hyperpage{46}
+  \item {complex\+\_\+t}
+    \subitem {scalar\+\_\+types.\+h}, \hyperpage{320}
+  \item {Complex\+To\+J\+P\+E\+G\+File}
+    \subitem {Bead\+Finder.\+cpp}, \hyperpage{282}
+  \item {Compute}
+    \subitem {Compute\+Max\+Interp}, \hyperpage{48}
+    \subitem {Sample\+Fisher\+Matrix}, \hyperpage{208}
+    \subitem {Speed\+Acc\+Result}, \hyperpage{211}
+  \item {compute}
+    \subitem {Lsq\+Sq\+Quad\+Fit}, \hyperpage{115}
+    \subitem {test.\+cu}, \hyperpage{360}
+  \item {Compute2\+D\+Gaussian\+M\+LE}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{54}
+  \item {compute\+\_\+asymmetry}
+    \subitem {lv\+\_\+cputrack\+\_\+api.\+cpp}, \hyperpage{295}
+  \item {compute\+\_\+com}
+    \subitem {lv\+\_\+cputrack\+\_\+api.\+cpp}, \hyperpage{295}
+  \item {compute\+\_\+crp}
+    \subitem {lv\+\_\+cputrack\+\_\+api.\+cpp}, \hyperpage{295}
+  \item {compute\+\_\+qi}
+    \subitem {lv\+\_\+cputrack\+\_\+api.\+cpp}, \hyperpage{296}
+  \item {compute\+\_\+radial\+\_\+profile}
+    \subitem {lv\+\_\+cputrack\+\_\+api.\+cpp}, \hyperpage{296}
+  \item {compute\+\_\+xcor}
+    \subitem {lv\+\_\+cputrack\+\_\+api.\+cpp}, \hyperpage{296}
+  \item {compute\+\_\+z}
+    \subitem {lv\+\_\+cputrack\+\_\+api.\+cpp}, \hyperpage{296}
+  \item {Compute\+Asymmetry}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{55}
+  \item {Compute\+Average\+Fisher}
+    \subitem {Sample\+Fisher\+Matrix}, \hyperpage{208}
+  \item {Compute\+B\+Spline\+Derivatives}
+    \subitem {Cubic\+B\+Spline.\+h}, \hyperpage{287}
+  \item {Compute\+B\+Spline\+Weights}
+    \subitem {Cubic\+B\+Spline.\+h}, \hyperpage{287}
+  \item {Compute\+Bg\+Corrected\+C\+O\+M1D}
+    \subitem {utils.\+cpp}, \hyperpage{325}
+    \subitem {utils.\+h}, \hyperpage{337}
+  \item {Compute\+C\+RP}
+    \subitem {utils.\+cpp}, \hyperpage{325}
+    \subitem {utils.\+h}, \hyperpage{338}
+  \item {compute\+Deriv}
+    \subitem {Lsq\+Sq\+Quad\+Fit}, \hyperpage{115}
+  \item {compute\+Image\+Pos}
+    \subitem {cuda\+Image\+List}, \hyperpage{70}
+  \item {Compute\+Max2\+D\+Interpolated}
+    \subitem {F\+F\+T2\+D\+Tracker}, \hyperpage{84}
+  \item {Compute\+Max\+Interp}
+    \subitem {Compute}, \hyperpage{48}
+    \subitem {max\+\_\+}, \hyperpage{48}
+    \subitem {min\+\_\+}, \hyperpage{49}
+  \item {Compute\+Max\+Interp$<$ T, num\+Pts $>$}, \hyperpage{48}
+  \item {Compute\+Mean\+And\+C\+OM}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{55}
+  \item {Compute\+QI}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{56}
+  \item {Compute\+Quadrant\+Profile}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{57}
+    \subitem {Q\+I\+\_\+impl.\+h}, \hyperpage{377}
+  \item {Compute\+Radial\+Bin\+Window}
+    \subitem {utils.\+cpp}, \hyperpage{326}
+    \subitem {utils.\+h}, \hyperpage{338}
+  \item {Compute\+Radial\+Profile}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{58}
+    \subitem {utils.\+cpp}, \hyperpage{326}
+    \subitem {utils.\+h}, \hyperpage{339}
+  \item {Compute\+Radial\+Weights}
+    \subitem {main.\+cpp}, \hyperpage{246}
+  \item {Compute\+Spline\+Fit\+Max\+Pos}
+    \subitem {Cubic\+B\+Spline.\+h}, \hyperpage{288}
+  \item {compute\+Stats}
+    \subitem {Run\+Tracker\+Results}, \hyperpage{206}
+  \item {Compute\+Std\+Dev}
+    \subitem {utils.\+h}, \hyperpage{339}
+  \item {compute\+Sums}
+    \subitem {Lsq\+Sq\+Quad\+Fit}, \hyperpage{115}
+  \item {Compute\+X\+Cor}
+    \subitem {F\+F\+T2\+D\+Tracker}, \hyperpage{84}
+  \item {Compute\+X\+Cor\+Interpolated}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{58}
+  \item {Compute\+Z\+Bias\+Correction}
+    \subitem {Queued\+Tracker}, \hyperpage{190}
+  \item {ComputeZ}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{59}
+  \item {Config}
+    \subitem {Result\+Manager}, \hyperpage{199}
+  \item {config}
+    \subitem {Result\+Manager}, \hyperpage{204}
+  \item {Config\+Value\+Map}
+    \subitem {Queued\+Tracker}, \hyperpage{190}
+  \item {conjugate}
+    \subitem {cpu\+\_\+tracker.\+cpp}, \hyperpage{285}
+    \subitem {sfft\+::complex}, \hyperpage{46}
+  \item {Console}
+    \subitem {outputter\+::output\+Modes}, \hyperpage{133}
+    \subitem {testutils.\+h}, \hyperpage{277}
+  \item {copy\+Image\+To\+Device}
+    \subitem {cuda\+Image\+List}, \hyperpage{71}
+    \subitem {Image4\+D\+Cuda\+Array}, \hyperpage{90}
+    \subitem {Image4\+D\+Memory}, \hyperpage{94}
+  \item {Copy\+Image\+To\+Float}
+    \subitem {Queued\+Tracker.\+h}, \hyperpage{317}
+    \subitem {utils.\+cpp}, \hyperpage{327}
+  \item {copy\+Image\+To\+Host}
+    \subitem {cuda\+Image\+List}, \hyperpage{71}
+    \subitem {Image4\+D\+Cuda\+Array}, \hyperpage{91}
+    \subitem {Image4\+D\+Memory}, \hyperpage{94}
+  \item {Copy\+Stream\+Results}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{176}
+  \item {copy\+To}
+    \subitem {T\+Image\+Data}, \hyperpage{225}
+  \item {copy\+To\+Device}
+    \subitem {cuda\+Image\+List}, \hyperpage{71}
+    \subitem {device\+\_\+vec}, \hyperpage{78}
+    \subitem {Image4\+D\+Cuda\+Array}, \hyperpage{91}
+    \subitem {Image4\+D\+Memory}, \hyperpage{95}
+  \item {copy\+To\+Host}
+    \subitem {cuda\+Image\+List}, \hyperpage{71}
+    \subitem {device\+\_\+vec}, \hyperpage{79}
+    \subitem {Image4\+D\+Cuda\+Array}, \hyperpage{91}
+    \subitem {Image4\+D\+Memory}, \hyperpage{95}
+  \item {Corrected\+Radial\+Profile\+Test}
+    \subitem {main.\+cpp}, \hyperpage{246}
+  \item {cos\+\_\+sin\+\_\+table}
+    \subitem {Q\+I\+Params}, \hyperpage{144}
+  \item {count}
+    \subitem {cuda\+Image\+List}, \hyperpage{74}
+    \subitem {Result\+Manager\+::\+Frame\+Result}, \hyperpage{86}
+  \item {cpu\+\_\+time}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{187}
+  \item {cpu\+\_\+tracker.\+cpp}
+    \subitem {clamp}, \hyperpage{285}
+    \subitem {conjugate}, \hyperpage{285}
+    \subitem {M\+A\+R\+K\+P\+I\+X\+E\+LI}, \hyperpage{285}
+    \subitem {M\+A\+R\+K\+P\+I\+X\+EL}, \hyperpage{285}
+    \subitem {Q\+I\+Weights}, \hyperpage{286}
+    \subitem {round}, \hyperpage{286}
+    \subitem {S\+F\+F\+T\+\_\+\+B\+O\+TH}, \hyperpage{285}
+    \subitem {sum\+\_\+diff}, \hyperpage{286}
+    \subitem {X\+Cor\+Scale}, \hyperpage{286}
+    \subitem {Z\+L\+U\+T\+\_\+\+C\+M\+P\+D\+A\+TA}, \hyperpage{285}
+    \subitem {Z\+L\+U\+T\+Weights}, \hyperpage{286}
+    \subitem {Z\+L\+U\+T\+Weights\+\_\+d}, \hyperpage{286}
+  \item {cpu\+\_\+tracker.\+h}
+    \subitem {Create\+C\+P\+U\+Tracker\+Instance}, \hyperpage{287}
+    \subitem {pixel\+\_\+t}, \hyperpage{287}
+  \item {cputrack-\/test/\+Benchmark.\+cpp}, \hyperpage{237}
+  \item {cputrack-\/test/\+Shared\+Tests.\+h}, \hyperpage{266}
+  \item {cputrack-\/test/main.\+cpp}, \hyperpage{240}
+  \item {cputrack-\/test/testutils.\+cpp}, \hyperpage{273}
+  \item {cputrack-\/test/testutils.\+h}, \hyperpage{277}
+  \item {cputrack/\+Bead\+Finder.\+cpp}, \hyperpage{281}
+  \item {cputrack/\+Bead\+Finder.\+h}, \hyperpage{284}
+  \item {cputrack/\+Benchmark\+L\+U\+T.\+cpp}, \hyperpage{284}
+  \item {cputrack/\+Benchmark\+L\+U\+T.\+h}, \hyperpage{284}
+  \item {cputrack/\+Cubic\+B\+Spline.\+h}, \hyperpage{287}
+  \item {cputrack/\+Debug\+Result\+Compare.\+h}, \hyperpage{288}
+  \item {cputrack/\+F\+F\+T2\+D\+Tracker.\+h}, \hyperpage{292}
+  \item {cputrack/\+Fisher\+Matrix.\+h}, \hyperpage{292}
+  \item {cputrack/\+Lsq\+Quadratic\+Fit.\+h}, \hyperpage{294}
+  \item {cputrack/\+Queued\+C\+P\+U\+Tracker.\+cpp}, \hyperpage{315}
+  \item {cputrack/\+Queued\+C\+P\+U\+Tracker.\+h}, \hyperpage{315}
+  \item {cputrack/\+Queued\+Tracker.\+cpp}, \hyperpage{316}
+  \item {cputrack/\+Queued\+Tracker.\+h}, \hyperpage{316}
+  \item {cputrack/\+Result\+Manager.\+cpp}, \hyperpage{319}
+  \item {cputrack/\+Result\+Manager.\+h}, \hyperpage{319}
+  \item {cputrack/cpu\+\_\+tracker.\+cpp}, \hyperpage{285}
+  \item {cputrack/cpu\+\_\+tracker.\+h}, \hyperpage{286}
+  \item {cputrack/dllmacros.\+h}, \hyperpage{288}
+  \item {cputrack/fastjpg.\+cpp}, \hyperpage{289}
+  \item {cputrack/hash\+\_\+templates.\+h}, \hyperpage{292}
+  \item {cputrack/kissfft.\+h}, \hyperpage{293}
+  \item {cputrack/labview.\+h}, \hyperpage{293}
+  \item {cputrack/lv\+\_\+cputrack\+\_\+api.\+cpp}, \hyperpage{294}
+  \item {cputrack/lv\+\_\+qtrk\+\_\+api.\+h}, \hyperpage{299}
+  \item {cputrack/lv\+\_\+queuetrk\+\_\+api.\+cpp}, \hyperpage{300}
+  \item {cputrack/lv\+\_\+resultmanager\+\_\+api.\+cpp}, 
+		\hyperpage{308}
+  \item {cputrack/memdbg.\+cpp}, \hyperpage{311}
+  \item {cputrack/memdbg.\+h}, \hyperpage{311}
+  \item {cputrack/qtrk\+\_\+c\+\_\+api.\+cpp}, \hyperpage{311}
+  \item {cputrack/qtrk\+\_\+c\+\_\+api.\+h}, \hyperpage{312}
+  \item {cputrack/random\+\_\+distr.\+h}, \hyperpage{318}
+  \item {cputrack/scalar\+\_\+types.\+h}, \hyperpage{320}
+  \item {cputrack/std\+\_\+incl.\+h}, \hyperpage{320}
+  \item {cputrack/threads.\+h}, \hyperpage{322}
+  \item {cputrack/utils.\+cpp}, \hyperpage{323}
+  \item {cputrack/utils.\+h}, \hyperpage{335}
+  \item {cpx\+\_\+type}
+    \subitem {kissfft}, \hyperpage{105}
+    \subitem {kissfft\+\_\+utils\+::traits}, \hyperpage{227}
+  \item {Create}
+    \subitem {Threads}, \hyperpage{223}
+  \item {create\+\_\+tracker}
+    \subitem {lv\+\_\+cputrack\+\_\+api.\+cpp}, \hyperpage{297}
+  \item {Create\+C\+P\+U\+Tracker\+Instance}
+    \subitem {cpu\+\_\+tracker.\+h}, \hyperpage{287}
+  \item {Create\+Queued\+Tracker}
+    \subitem {Queued\+C\+P\+U\+Tracker.\+cpp}, \hyperpage{315}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker.\+cu}, \hyperpage{382}
+    \subitem {Queued\+Tracker.\+h}, \hyperpage{318}
+  \item {Create\+Stream}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{177}
+  \item {crlb}
+    \subitem {Speed\+Acc\+Result}, \hyperpage{211}
+  \item {Crop\+Image}
+    \subitem {testutils.\+cpp}, \hyperpage{274}
+    \subitem {testutils.\+h}, \hyperpage{278}
+  \item {Cubic\+B\+Spline.\+h}
+    \subitem {C\+U\+D\+A\+\_\+\+S\+U\+P\+P\+O\+R\+T\+E\+D\+\_\+\+F\+U\+NC}, 
+		\hyperpage{287}
+    \subitem {Compute\+B\+Spline\+Derivatives}, \hyperpage{287}
+    \subitem {Compute\+B\+Spline\+Weights}, \hyperpage{287}
+    \subitem {Compute\+Spline\+Fit\+Max\+Pos}, \hyperpage{288}
+  \item {cuda\+\_\+device}
+    \subitem {Q\+Trk\+Settings}, \hyperpage{150}
+  \item {cuda\+Device\+List}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker.\+cu}, \hyperpage{383}
+  \item {cuda\+Image\+List}
+    \subitem {alloc}, \hyperpage{70}
+    \subitem {allocate\+Host\+Image\+Buffer}, \hyperpage{70}
+    \subitem {bind}, \hyperpage{70}
+    \subitem {boundary\+Hit}, \hyperpage{70}
+    \subitem {capacity}, \hyperpage{70}
+    \subitem {clear}, \hyperpage{70}
+    \subitem {compute\+Image\+Pos}, \hyperpage{70}
+    \subitem {copy\+Image\+To\+Device}, \hyperpage{71}
+    \subitem {copy\+Image\+To\+Host}, \hyperpage{71}
+    \subitem {copy\+To\+Device}, \hyperpage{71}
+    \subitem {copy\+To\+Host}, \hyperpage{71}
+    \subitem {count}, \hyperpage{74}
+    \subitem {data}, \hyperpage{74}
+    \subitem {empty\+List}, \hyperpage{72}
+    \subitem {free}, \hyperpage{72}
+    \subitem {fullheight}, \hyperpage{72}
+    \subitem {fullwidth}, \hyperpage{72}
+    \subitem {get}, \hyperpage{72}
+    \subitem {h}, \hyperpage{74}
+    \subitem {interp}, \hyperpage{72}
+    \subitem {interpolate}, \hyperpage{72}
+    \subitem {interpolate\+From\+Texture}, \hyperpage{73}
+    \subitem {is\+Empty}, \hyperpage{73}
+    \subitem {Max\+Image\+Width}, \hyperpage{69}
+    \subitem {numpixels}, \hyperpage{73}
+    \subitem {pitch}, \hyperpage{74}
+    \subitem {pixel}, \hyperpage{73}
+    \subitem {pixel\+\_\+oobcheck}, \hyperpage{73}
+    \subitem {pixel\+Address}, \hyperpage{74}
+    \subitem {total\+Num\+Bytes}, \hyperpage{74}
+    \subitem {total\+Num\+Pixels}, \hyperpage{74}
+    \subitem {unbind}, \hyperpage{74}
+    \subitem {w}, \hyperpage{74}
+  \item {cuda\+Image\+List$<$ T $>$}, \hyperpage{68}
+  \item {cuda\+Image\+Listf}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker.\+h}, \hyperpage{383}
+  \item {cuda\+Shared\+Mem}
+    \subitem {test.\+cu}, \hyperpage{368}
+  \item {cudatrack-\/test/test.\+cu}, \hyperpage{352}
+  \item {cudatrack/\+Image\+Sampler.\+h}, \hyperpage{370}
+  \item {cudatrack/\+Kernels.\+h}, \hyperpage{371}
+  \item {cudatrack/\+Q\+I.\+h}, \hyperpage{376}
+  \item {cudatrack/\+Q\+I\+\_\+impl.\+h}, \hyperpage{377}
+  \item {cudatrack/\+Queued\+C\+U\+D\+A\+Tracker.\+cu}, \hyperpage{381}
+  \item {cudatrack/\+Queued\+C\+U\+D\+A\+Tracker.\+h}, \hyperpage{383}
+  \item {cudatrack/cuda\+Image\+List.\+h}, \hyperpage{368}
+  \item {cudatrack/gpu\+\_\+utils.\+h}, \hyperpage{368}
+  \item {cudatrack/simplefft.\+h}, \hyperpage{383}
+
+  \indexspace
+
+  \item {d}
+    \subitem {Lsq\+Sq\+Quad\+Fit}, \hyperpage{116}
+    \subitem {pinned\+\_\+array}, \hyperpage{140}
+  \item {d\+\_\+\+Q\+Iprofiles}
+    \subitem {Q\+I\+::\+Stream\+Instance}, \hyperpage{216}
+  \item {d\+\_\+\+Q\+Iprofiles\+\_\+reverse}
+    \subitem {Q\+I\+::\+Stream\+Instance}, \hyperpage{216}
+  \item {d\+\_\+com}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Stream}, \hyperpage{214}
+  \item {d\+\_\+data}
+    \subitem {Image4\+D\+Memory\+::\+Kernel\+Params}, \hyperpage{103}
+  \item {d\+\_\+imgmeans}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Stream}, \hyperpage{214}
+  \item {d\+\_\+loc\+Params}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Stream}, \hyperpage{214}
+  \item {d\+\_\+qiparams}
+    \subitem {Q\+I\+::\+Device\+Instance}, \hyperpage{81}
+  \item {d\+\_\+quadrants}
+    \subitem {Q\+I\+::\+Stream\+Instance}, \hyperpage{216}
+  \item {d\+\_\+radialprofiles}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Stream}, \hyperpage{214}
+  \item {d\+\_\+radialweights}
+    \subitem {Q\+I\+::\+Device\+Instance}, \hyperpage{81}
+  \item {d\+\_\+resultpos}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Stream}, \hyperpage{214}
+  \item {d\+\_\+shiftbuffer}
+    \subitem {Q\+I\+::\+Stream\+Instance}, \hyperpage{216}
+  \item {d\+\_\+zlutcmpscores}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Stream}, \hyperpage{214}
+  \item {D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV}
+    \subitem {dllmacros.\+h}, \hyperpage{289}
+  \item {D\+L\+L\+\_\+\+E\+X\+P\+O\+RT}
+    \subitem {dllmacros.\+h}, \hyperpage{289}
+  \item {data}
+    \subitem {Atomic}, \hyperpage{38}
+    \subitem {cuda\+Image\+List}, \hyperpage{74}
+    \subitem {device\+\_\+vec}, \hyperpage{80}
+    \subitem {pinned\+\_\+array}, \hyperpage{138}
+    \subitem {Queued\+C\+P\+U\+Tracker\+::\+Job}, \hyperpage{101}
+    \subitem {T\+Image\+Data}, \hyperpage{227}
+  \item {data\+Type}
+    \subitem {Queued\+C\+P\+U\+Tracker\+::\+Job}, \hyperpage{101}
+  \item {dbg\+C\+U\+D\+A\+Error\+Check}
+    \subitem {gpu\+\_\+utils.\+h}, \hyperpage{370}
+  \item {Dbg\+Copy\+Result}
+    \subitem {gpu\+\_\+utils.\+h}, \hyperpage{370}
+  \item {Dbg\+Output\+Vector\+To\+File}
+    \subitem {gpu\+\_\+utils.\+h}, \hyperpage{370}
+  \item {dbg\+Print\+Results}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{170}
+  \item {dbgout}
+    \subitem {utils.\+cpp}, \hyperpage{327}
+    \subitem {utils.\+h}, \hyperpage{340}
+  \item {dbgprint}
+    \subitem {Matrix3\+X3}, \hyperpage{127}
+  \item {dbgprintf}
+    \subitem {utils.\+cpp}, \hyperpage{327}
+    \subitem {utils.\+h}, \hyperpage{340}
+  \item {dbgsetlogfile}
+    \subitem {utils.\+cpp}, \hyperpage{327}
+    \subitem {utils.\+h}, \hyperpage{340}
+  \item {Debug\+Image}
+    \subitem {Queued\+Tracker}, \hyperpage{191}
+  \item {debug\+Image}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{66}
+  \item {Delete\+All\+Elems}
+    \subitem {utils.\+h}, \hyperpage{340}
+  \item {depth}
+    \subitem {Image4\+D\+Memory\+::\+Kernel\+Params}, \hyperpage{103}
+  \item {destroy\+\_\+tracker}
+    \subitem {lv\+\_\+cputrack\+\_\+api.\+cpp}, \hyperpage{297}
+  \item {Determinant}
+    \subitem {Matrix3\+X3}, \hyperpage{127}
+  \item {Device}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Device}, \hyperpage{75}
+  \item {device}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Stream}, \hyperpage{214}
+  \item {device\+\_\+vec}
+    \subitem {$\sim$device\+\_\+vec}, \hyperpage{78}
+    \subitem {copy\+To\+Device}, \hyperpage{78}
+    \subitem {copy\+To\+Host}, \hyperpage{79}
+    \subitem {data}, \hyperpage{80}
+    \subitem {device\+\_\+vec}, \hyperpage{78}
+    \subitem {free}, \hyperpage{79}
+    \subitem {init}, \hyperpage{79}
+    \subitem {memsize}, \hyperpage{79}
+    \subitem {operator std\+::vector$<$ T $>$}, \hyperpage{80}
+    \subitem {operator=}, \hyperpage{80}
+    \subitem {size}, \hyperpage{80}
+    \subitem {to\+Vector}, \hyperpage{80}
+  \item {device\+\_\+vec$<$ T $>$}, \hyperpage{77}
+  \item {Device\+Instance}
+    \subitem {Q\+I\+::\+Device\+Instance}, \hyperpage{81}
+  \item {device\+Prop}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{187}
+  \item {device\+Report}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{187}
+  \item {devices}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{187}
+  \item {diag}
+    \subitem {Matrix3\+X3}, \hyperpage{127}
+  \item {dim\+Size}
+    \subitem {L\+V\+Array}, \hyperpage{117}
+  \item {dim\+Sizes}
+    \subitem {L\+V\+Array2D}, \hyperpage{118}
+    \subitem {L\+V\+Array3D}, \hyperpage{119}
+    \subitem {L\+V\+Array\+ND}, \hyperpage{119}
+  \item {Dir\+Exists}
+    \subitem {testutils.\+cpp}, \hyperpage{275}
+    \subitem {testutils.\+h}, \hyperpage{279}
+  \item {directory}
+    \subitem {Path\+Seperator}, \hyperpage{136}
+  \item {distance}
+    \subitem {testutils.\+cpp}, \hyperpage{275}
+    \subitem {testutils.\+h}, \hyperpage{279}
+  \item {dllmacros.\+h}
+    \subitem {C\+D\+L\+L\+\_\+\+E\+X\+P\+O\+RT}, \hyperpage{289}
+    \subitem {D\+L\+L\+\_\+\+C\+A\+L\+L\+C\+O\+NV}, \hyperpage{289}
+    \subitem {D\+L\+L\+\_\+\+E\+X\+P\+O\+RT}, \hyperpage{289}
+  \item {downsample}
+    \subitem {Q\+Trk\+Settings}, \hyperpage{150}
+  \item {downsample\+Height}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{170}
+  \item {downsample\+Width}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{170}
+
+  \indexspace
+
+  \item {Electrons\+Per\+Bit}
+    \subitem {Benchmark.\+cpp}, \hyperpage{240}
+  \item {elem}
+    \subitem {L\+V\+Array}, \hyperpage{117}
+    \subitem {L\+V\+Array2D}, \hyperpage{118}
+    \subitem {L\+V\+Array3D}, \hyperpage{119}
+    \subitem {L\+V\+Array\+ND}, \hyperpage{119}
+  \item {empty}
+    \subitem {Image\+L\+U\+T\+Config}, \hyperpage{97}
+  \item {empty\+Kernel}
+    \subitem {test.\+cu}, \hyperpage{360}
+  \item {empty\+List}
+    \subitem {cuda\+Image\+List}, \hyperpage{72}
+  \item {Enable\+Gain\+Correction}
+    \subitem {Shared\+Tests.\+h}, \hyperpage{266}
+  \item {Enable\+Radial\+Z\+L\+U\+T\+Compare\+Profile}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{158}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{178}
+    \subitem {Queued\+Tracker}, \hyperpage{191}
+  \item {Enable\+Texture\+Cache}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{178}
+  \item {end}
+    \subitem {pinned\+\_\+array}, \hyperpage{138}
+  \item {erf}
+    \subitem {utils.\+h}, \hyperpage{340}
+  \item {error}
+    \subitem {Localization\+Result}, \hyperpage{113}
+  \item {Error\+Cluster}, \hyperpage{81}
+    \subitem {code}, \hyperpage{82}
+    \subitem {message}, \hyperpage{82}
+    \subitem {status}, \hyperpage{82}
+  \item {Execute}
+    \subitem {QI}, \hyperpage{141}
+  \item {Execute\+Batch}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{178}
+  \item {extension}
+    \subitem {Path\+Seperator}, \hyperpage{136}
+
+  \indexspace
+
+  \item {f}
+    \subitem {Binary\+Result\+File}, \hyperpage{42}
+    \subitem {Text\+Result\+File}, \hyperpage{218}
+  \item {F\+F\+T2\+D\+Tracker}, \hyperpage{83}
+    \subitem {$\sim$\+F\+F\+T2\+D\+Tracker}, \hyperpage{84}
+    \subitem {Compute\+Max2\+D\+Interpolated}, \hyperpage{84}
+    \subitem {Compute\+X\+Cor}, \hyperpage{84}
+    \subitem {F\+F\+T2\+D\+Tracker}, \hyperpage{84}
+    \subitem {fft\+\_\+buf}, \hyperpage{84}
+    \subitem {fft\+\_\+buf\+\_\+mirrored}, \hyperpage{84}
+    \subitem {Get\+Auto\+Conv\+Results}, \hyperpage{84}
+    \subitem {height}, \hyperpage{84}
+    \subitem {mirror2D}, \hyperpage{84}
+    \subitem {plan\+\_\+bw2D}, \hyperpage{84}
+    \subitem {plan\+\_\+fw2D}, \hyperpage{84}
+    \subitem {width}, \hyperpage{84}
+  \item {F\+F\+T2D}
+    \subitem {Bead\+Finder.\+cpp}, \hyperpage{282}
+    \subitem {C\+P\+U\+Tracker\+::\+F\+F\+T2D}, \hyperpage{82}
+  \item {fastjpg.\+cpp}
+    \subitem {Float\+To\+J\+P\+E\+G\+File}, \hyperpage{289}
+    \subitem {Read\+J\+P\+E\+G\+File}, \hyperpage{289}
+    \subitem {Write\+J\+P\+E\+G\+File}, \hyperpage{290}
+  \item {Fetch\+Results}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{158}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{180}
+    \subitem {Queued\+Tracker}, \hyperpage{191}
+    \subitem {Shared\+Tests.\+h}, \hyperpage{266}
+  \item {fft}
+    \subitem {sfft}, \hyperpage{35}
+  \item {fft2d}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{66}
+  \item {fft\+\_\+backward}
+    \subitem {X\+Cor1\+D\+Buffer}, \hyperpage{234}
+  \item {fft\+\_\+buf}
+    \subitem {F\+F\+T2\+D\+Tracker}, \hyperpage{84}
+  \item {fft\+\_\+buf\+\_\+mirrored}
+    \subitem {F\+F\+T2\+D\+Tracker}, \hyperpage{84}
+  \item {fft\+\_\+forward}
+    \subitem {sfft}, \hyperpage{35}
+    \subitem {X\+Cor1\+D\+Buffer}, \hyperpage{234}
+  \item {fft\+\_\+inverse}
+    \subitem {sfft}, \hyperpage{35}
+  \item {fft\+Plan}
+    \subitem {Q\+I\+::\+Stream\+Instance}, \hyperpage{216}
+  \item {File}
+    \subitem {outputter\+::output\+Modes}, \hyperpage{133}
+  \item {file\+\_\+ext}
+    \subitem {utils.\+cpp}, \hyperpage{328}
+    \subitem {utils.\+h}, \hyperpage{340}
+  \item {file\+Error}
+    \subitem {Result\+Manager\+::\+Frame\+Counters}, \hyperpage{85}
+  \item {filename}
+    \subitem {Path\+Seperator}, \hyperpage{136}
+  \item {Files}
+    \subitem {testutils.\+h}, \hyperpage{277}
+  \item {fill\+\_\+twiddles}
+    \subitem {kissfft\+\_\+utils\+::traits}, \hyperpage{227}
+    \subitem {sfft}, \hyperpage{36}
+  \item {Fill\+Error\+Cluster}
+    \subitem {Lab\+V\+I\+E\+W datatypes and helper functions}, 
+		\hyperpage{20}
+  \item {Finalize\+L\+UT}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{159}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{180}
+    \subitem {Queued\+Tracker}, \hyperpage{192}
+  \item {Find}
+    \subitem {Bead\+Finder}, \hyperpage{33, 34}
+  \item {first\+Guess}
+    \subitem {Localization\+Result}, \hyperpage{113}
+  \item {Fisher\+Elem}
+    \subitem {Sample\+Fisher\+Matrix}, \hyperpage{209}
+  \item {Float\+To\+J\+P\+E\+G\+File}
+    \subitem {fastjpg.\+cpp}, \hyperpage{289}
+    \subitem {utils.\+h}, \hyperpage{341}
+  \item {float\+To\+Normalized\+Int}
+    \subitem {utils.\+h}, \hyperpage{341}
+  \item {Flush}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{160}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{180}
+    \subitem {Queued\+Tracker}, \hyperpage{192}
+    \subitem {Result\+Manager}, \hyperpage{199}
+  \item {folder}
+    \subitem {outputter}, \hyperpage{135}
+  \item {Force\+C\+U\+D\+A\+Kernels\+To\+Load}
+    \subitem {Kernels.\+h}, \hyperpage{373}
+  \item {Fourier\+Radial\+Profile}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{59}
+  \item {Fourier\+Transform2D}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{60}
+  \item {frame}
+    \subitem {Localization\+Job}, \hyperpage{111}
+  \item {Frame\+Counters}
+    \subitem {Result\+Manager\+::\+Frame\+Counters}, \hyperpage{85}
+  \item {frame\+Info}
+    \subitem {Result\+Manager\+::\+Frame\+Result}, \hyperpage{86}
+  \item {frame\+Info\+File}
+    \subitem {Result\+Manager}, \hyperpage{204}
+  \item {frame\+Info\+Names}
+    \subitem {Result\+Manager}, \hyperpage{204}
+  \item {Frame\+Result}
+    \subitem {Result\+Manager\+::\+Frame\+Result}, \hyperpage{86}
+  \item {frame\+Results}
+    \subitem {Result\+Manager}, \hyperpage{204}
+  \item {free}
+    \subitem {cuda\+Image\+List}, \hyperpage{72}
+    \subitem {device\+\_\+vec}, \hyperpage{79}
+    \subitem {Image4\+D\+Cuda\+Array}, \hyperpage{92}
+    \subitem {Image4\+D\+Memory}, \hyperpage{95}
+    \subitem {pinned\+\_\+array}, \hyperpage{138}
+    \subitem {T\+Image\+Data}, \hyperpage{225}
+  \item {freq}
+    \subitem {Measure\+Time}, \hyperpage{130}
+  \item {fullheight}
+    \subitem {cuda\+Image\+List}, \hyperpage{72}
+  \item {fullwidth}
+    \subitem {cuda\+Image\+List}, \hyperpage{72}
+
+  \indexspace
+
+  \item {G2\+M\+L\+E\+\_\+\+Compute}
+    \subitem {Kernels.\+h}, \hyperpage{373}
+  \item {gauss2\+D\+\_\+iterations}
+    \subitem {Q\+Trk\+Settings}, \hyperpage{150}
+  \item {gauss2\+D\+\_\+sigma}
+    \subitem {Q\+Trk\+Settings}, \hyperpage{150}
+  \item {Gauss2\+D\+Test}
+    \subitem {Shared\+Tests.\+h}, \hyperpage{267}
+  \item {Gauss\+Mask}
+    \subitem {testutils.\+cpp}, \hyperpage{275}
+    \subitem {testutils.\+h}, \hyperpage{279}
+  \item {gc\+\_\+gain}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{187}
+  \item {gc\+\_\+gain\+Factor}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{170}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{187}
+  \item {gc\+\_\+mutex}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{170}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{187}
+  \item {gc\+\_\+offset}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{187}
+  \item {gc\+\_\+offset\+Factor}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{170}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{187}
+  \item {generate\+\_\+image\+\_\+from\+\_\+lut}
+    \subitem {lv\+\_\+cputrack\+\_\+api.\+cpp}, \hyperpage{297}
+  \item {generate\+\_\+test\+\_\+image}
+    \subitem {lv\+\_\+cputrack\+\_\+api.\+cpp}, \hyperpage{297}
+  \item {Generate\+Gaussian\+Spot\+Image}
+    \subitem {utils.\+cpp}, \hyperpage{328}
+    \subitem {utils.\+h}, \hyperpage{341}
+  \item {Generate\+Image\+From\+L\+UT}
+    \subitem {utils.\+cpp}, \hyperpage{328}
+    \subitem {utils.\+h}, \hyperpage{341}
+  \item {Generate\+L\+UT}
+    \subitem {Benchmark\+L\+UT}, \hyperpage{40}
+  \item {Generate\+Sample}
+    \subitem {Benchmark\+L\+UT}, \hyperpage{40}
+  \item {Generate\+Test\+Image}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{160}
+    \subitem {utils.\+cpp}, \hyperpage{329}
+    \subitem {utils.\+h}, \hyperpage{342}
+  \item {Generate\+Z\+L\+U\+T\+Fitting\+Curve}
+    \subitem {main.\+cpp}, \hyperpage{247}
+  \item {get}
+    \subitem {Atomic}, \hyperpage{37}
+    \subitem {cuda\+Image\+List}, \hyperpage{72}
+    \subitem {L\+V\+Array2D}, \hyperpage{118}
+  \item {get\+\_\+\+Z\+L\+UT}
+    \subitem {lv\+\_\+cputrack\+\_\+api.\+cpp}, \hyperpage{298}
+  \item {get\+\_\+debug\+\_\+img\+\_\+as\+\_\+array}
+    \subitem {lv\+\_\+cputrack\+\_\+api.\+cpp}, \hyperpage{297}
+  \item {Get\+Auto\+Conv\+Results}
+    \subitem {F\+F\+T2\+D\+Tracker}, \hyperpage{84}
+  \item {Get\+Bead\+Positions}
+    \subitem {Result\+Manager}, \hyperpage{199}
+  \item {Get\+Best\+C\+U\+D\+A\+Device}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker.\+cu}, \hyperpage{382}
+  \item {Get\+C\+P\+U\+Count}
+    \subitem {Threads}, \hyperpage{223}
+  \item {Get\+Config\+Values}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{160}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{180}
+    \subitem {Queued\+Tracker}, \hyperpage{192}
+  \item {Get\+Current\+Output\+Path}
+    \subitem {utils.\+cpp}, \hyperpage{329}
+    \subitem {utils.\+h}, \hyperpage{343}
+  \item {Get\+Debug\+Image}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{60}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{160}
+    \subitem {Queued\+Tracker}, \hyperpage{192}
+  \item {Get\+Directory\+From\+Path}
+    \subitem {utils.\+cpp}, \hyperpage{329}
+    \subitem {utils.\+h}, \hyperpage{343}
+  \item {get\+Extent}
+    \subitem {Image4\+D\+Cuda\+Array}, \hyperpage{92}
+  \item {Get\+Formatted\+Time\+String}
+    \subitem {utils.\+cpp}, \hyperpage{330}
+    \subitem {utils.\+h}, \hyperpage{343}
+  \item {Get\+Frame\+Count}
+    \subitem {Result\+Manager}, \hyperpage{200}
+  \item {Get\+Frame\+Counters}
+    \subitem {Result\+Manager}, \hyperpage{200}
+  \item {Get\+Height}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{60}
+  \item {Get\+Image\+L\+U\+T\+By\+Index}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{160}
+  \item {Get\+Image\+Pos}
+    \subitem {Image4\+D\+Memory\+::\+Kernel\+Params}, \hyperpage{103}
+  \item {get\+Image\+Pos}
+    \subitem {Image4\+D\+Cuda\+Array}, \hyperpage{92}
+    \subitem {Image4\+D\+Cuda\+Array\+::\+Kernel\+Inst}, 
+		\hyperpage{101}
+  \item {Get\+Image\+Z\+L\+U\+T\+Size}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{161}
+    \subitem {Queued\+Tracker}, \hyperpage{192}
+  \item {Get\+Image\+Z\+L\+UT}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{161}
+    \subitem {Queued\+Tracker}, \hyperpage{192}
+  \item {get\+Img\+Addr}
+    \subitem {Image4\+D\+Memory}, \hyperpage{95}
+  \item {Get\+Local\+Module\+Filename}
+    \subitem {utils.\+cpp}, \hyperpage{330}
+    \subitem {utils.\+h}, \hyperpage{343}
+  \item {Get\+Local\+Module\+Path}
+    \subitem {utils.\+cpp}, \hyperpage{330}
+    \subitem {utils.\+h}, \hyperpage{343}
+  \item {Get\+New\+Item}
+    \subitem {Thread\+Pool}, \hyperpage{220}
+  \item {Get\+Next\+Job}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{161}
+  \item {Get\+Outer\+Edges}
+    \subitem {testutils.\+cpp}, \hyperpage{275}
+    \subitem {testutils.\+h}, \hyperpage{279}
+  \item {get\+Path}
+    \subitem {test.\+cu}, \hyperpage{360}
+  \item {Get\+Pixel}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{60}
+  \item {Get\+Precise\+Time}
+    \subitem {utils.\+cpp}, \hyperpage{330}
+    \subitem {utils.\+h}, \hyperpage{344}
+  \item {Get\+Profile\+Report}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{161}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{181}
+    \subitem {Queued\+Tracker}, \hyperpage{192}
+  \item {Get\+Queue\+Length}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{161}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{181}
+    \subitem {Queued\+Tracker}, \hyperpage{192}
+  \item {Get\+Radial\+Z\+L\+U\+T\+Compare\+Profile}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{162}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{181}
+    \subitem {Queued\+Tracker}, \hyperpage{193}
+  \item {Get\+Radial\+Z\+L\+U\+T\+Size}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{162}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{182}
+    \subitem {Queued\+Tracker}, \hyperpage{193}
+  \item {Get\+Radial\+Z\+L\+UT}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{60}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{162}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{181}
+    \subitem {Queued\+Tracker}, \hyperpage{193}
+    \subitem {Z\+L\+U\+T\+Params}, \hyperpage{234}
+  \item {Get\+Ready\+Stream}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{182}
+  \item {Get\+Result\+Count}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{162}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{182}
+    \subitem {Queued\+Tracker}, \hyperpage{193}
+  \item {Get\+Results}
+    \subitem {Result\+Manager}, \hyperpage{200}
+  \item {get\+Results}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Kernel\+Profile\+Time}, 
+		\hyperpage{104}
+  \item {Get\+Tracker}
+    \subitem {Result\+Manager}, \hyperpage{200}
+  \item {Get\+Warnings}
+    \subitem {Queued\+Tracker}, \hyperpage{193}
+  \item {Get\+Width}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{60}
+  \item {Get\+Z\+L\+U\+T\+Bias\+Correction}
+    \subitem {Queued\+Tracker}, \hyperpage{193}
+  \item {Get\+Z\+L\+U\+T\+By\+Index}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{163}
+  \item {gpu\+\_\+utils.\+h}
+    \subitem {C\+U\+B\+O\+TH}, \hyperpage{369}
+    \subitem {C\+U\+D\+A\+\_\+\+S\+U\+P\+P\+O\+R\+T\+E\+D\+\_\+\+F\+U\+NC}, 
+		\hyperpage{369}
+    \subitem {Check\+C\+U\+D\+A\+Error}, \hyperpage{369}
+    \subitem {dbg\+C\+U\+D\+A\+Error\+Check}, \hyperpage{370}
+    \subitem {Dbg\+Copy\+Result}, \hyperpage{370}
+    \subitem {Dbg\+Output\+Vector\+To\+File}, \hyperpage{370}
+    \subitem {output\+Total\+G\+P\+U\+Mem\+Use}, \hyperpage{370}
+
+  \indexspace
+
+  \item {h}
+    \subitem {cuda\+Image\+List}, \hyperpage{74}
+    \subitem {Image\+L\+U\+T\+Config}, \hyperpage{97}
+    \subitem {Lsq\+Sq\+Quad\+Fit}, \hyperpage{116}
+    \subitem {T\+Image\+Data}, \hyperpage{227}
+    \subitem {Threads\+::\+Mutex}, \hyperpage{132}
+  \item {H\+A\+L\+F\+\_\+\+OF}
+    \subitem {kissfft}, \hyperpage{106}
+  \item {has\+Frame\+Info}
+    \subitem {Result\+Manager\+::\+Frame\+Result}, \hyperpage{86}
+  \item {height}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{66}
+    \subitem {F\+F\+T2\+D\+Tracker}, \hyperpage{84}
+    \subitem {Q\+Trk\+Settings}, \hyperpage{151}
+  \item {host\+Image\+Buf}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Stream}, \hyperpage{214}
+
+  \indexspace
+
+  \item {I0}
+    \subitem {C\+P\+U\+Tracker\+::\+Gauss2\+D\+Result}, \hyperpage{87}
+  \item {imag}
+    \subitem {sfft\+::complex}, \hyperpage{46}
+  \item {Image4\+D\+Cuda\+Array}
+    \subitem {$\sim$\+Image4\+D\+Cuda\+Array}, \hyperpage{89}
+    \subitem {array}, \hyperpage{93}
+    \subitem {bind}, \hyperpage{90}
+    \subitem {clear}, \hyperpage{90}
+    \subitem {copy\+Image\+To\+Device}, \hyperpage{90}
+    \subitem {copy\+Image\+To\+Host}, \hyperpage{91}
+    \subitem {copy\+To\+Device}, \hyperpage{91}
+    \subitem {copy\+To\+Host}, \hyperpage{91}
+    \subitem {free}, \hyperpage{92}
+    \subitem {get\+Extent}, \hyperpage{92}
+    \subitem {get\+Image\+Pos}, \hyperpage{92}
+    \subitem {Image4\+D\+Cuda\+Array}, \hyperpage{89}
+    \subitem {imgh}, \hyperpage{93}
+    \subitem {imgw}, \hyperpage{93}
+    \subitem {kernel\+Inst}, \hyperpage{92}
+    \subitem {layerh}, \hyperpage{93}
+    \subitem {layerw}, \hyperpage{93}
+    \subitem {nlayers}, \hyperpage{93}
+    \subitem {num\+Img}, \hyperpage{93}
+    \subitem {unbind}, \hyperpage{92}
+  \item {Image4\+D\+Cuda\+Array$<$ T $>$}, \hyperpage{88}
+  \item {Image4\+D\+Cuda\+Array$<$ T $>$\+::\+Kernel\+Inst}, 
+		\hyperpage{101}
+  \item {Image4\+D\+Cuda\+Array\+::\+Kernel\+Inst}
+    \subitem {get\+Image\+Pos}, \hyperpage{101}
+    \subitem {imgh}, \hyperpage{102}
+    \subitem {imgw}, \hyperpage{102}
+    \subitem {layerw}, \hyperpage{102}
+    \subitem {read\+Surface\+Pixel}, \hyperpage{101}
+    \subitem {write\+Surface\+Pixel}, \hyperpage{102}
+  \item {Image4\+D\+Memory}
+    \subitem {$\sim$\+Image4\+D\+Memory}, \hyperpage{94}
+    \subitem {bind}, \hyperpage{94}
+    \subitem {clear}, \hyperpage{94}
+    \subitem {copy\+Image\+To\+Device}, \hyperpage{94}
+    \subitem {copy\+Image\+To\+Host}, \hyperpage{94}
+    \subitem {copy\+To\+Device}, \hyperpage{95}
+    \subitem {copy\+To\+Host}, \hyperpage{95}
+    \subitem {free}, \hyperpage{95}
+    \subitem {get\+Img\+Addr}, \hyperpage{95}
+    \subitem {Image4\+D\+Memory}, \hyperpage{94}
+    \subitem {kp}, \hyperpage{96}
+    \subitem {layers}, \hyperpage{96}
+    \subitem {read}, \hyperpage{95}
+    \subitem {rows}, \hyperpage{96}
+    \subitem {total\+Img}, \hyperpage{96}
+    \subitem {unbind}, \hyperpage{95}
+    \subitem {write}, \hyperpage{96}
+  \item {Image4\+D\+Memory$<$ T $>$}, \hyperpage{93}
+  \item {Image4\+D\+Memory$<$ T $>$\+::\+Kernel\+Params}, 
+		\hyperpage{102}
+  \item {Image4\+D\+Memory\+::\+Kernel\+Params}
+    \subitem {cols}, \hyperpage{103}
+    \subitem {d\+\_\+data}, \hyperpage{103}
+    \subitem {depth}, \hyperpage{103}
+    \subitem {Get\+Image\+Pos}, \hyperpage{103}
+    \subitem {imgh}, \hyperpage{103}
+    \subitem {imgw}, \hyperpage{103}
+    \subitem {pitch}, \hyperpage{103}
+  \item {image\+\_\+lut}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{170}
+  \item {image\+\_\+lut\+\_\+dims}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{170}
+  \item {image\+\_\+lut\+\_\+dz}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{170}
+  \item {image\+\_\+lut\+\_\+dz2}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{170}
+  \item {image\+\_\+lut\+\_\+n\+Elem\+\_\+per\+\_\+bead}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{170}
+  \item {image\+\_\+lut\+\_\+surface}
+    \subitem {Kernels.\+h}, \hyperpage{376}
+  \item {image\+\_\+sampler\+\_\+texture\+\_\+linear}
+    \subitem {Image\+Sampler.\+h}, \hyperpage{371}
+  \item {image\+\_\+sampler\+\_\+texture\+\_\+nearest}
+    \subitem {Image\+Sampler.\+h}, \hyperpage{371}
+  \item {image\+Buf\+Mutex}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Stream}, \hyperpage{215}
+  \item {image\+Copy}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Kernel\+Profile\+Time}, 
+		\hyperpage{104}
+  \item {image\+Copy\+Done}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Stream}, \hyperpage{215}
+  \item {Image\+Data}
+    \subitem {Queued\+Tracker.\+h}, \hyperpage{317}
+    \subitem {utils.\+h}, \hyperpage{337}
+  \item {Image\+Datad}
+    \subitem {utils.\+h}, \hyperpage{337}
+  \item {Image\+L\+U\+T\+\_\+\+Sample}
+    \subitem {Kernels.\+h}, \hyperpage{374}
+  \item {Image\+L\+U\+T\+Config}, \hyperpage{96}
+    \subitem {empty}, \hyperpage{97}
+    \subitem {h}, \hyperpage{97}
+    \subitem {n\+L\+U\+Ts}, \hyperpage{97}
+    \subitem {planes}, \hyperpage{97}
+    \subitem {w}, \hyperpage{97}
+    \subitem {xscale}, \hyperpage{97}
+    \subitem {yscale}, \hyperpage{97}
+  \item {Image\+L\+U\+T\+Height}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{163}
+  \item {Image\+L\+U\+T\+Num\+Beads}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{163}
+  \item {Image\+L\+U\+T\+Width}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{163}
+  \item {Image\+L\+UT}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{174}
+  \item {image\+Mean}
+    \subitem {Localization\+Result}, \hyperpage{113}
+  \item {Image\+Sampler.\+h}
+    \subitem {image\+\_\+sampler\+\_\+texture\+\_\+linear}, 
+		\hyperpage{371}
+    \subitem {image\+\_\+sampler\+\_\+texture\+\_\+nearest}, 
+		\hyperpage{371}
+    \subitem {Image\+Sampler\+\_\+\+Tex}, \hyperpage{371}
+  \item {Image\+Sampler\+\_\+\+Interpolated\+Texture}, \hyperpage{97}
+    \subitem {Bind\+Texture}, \hyperpage{97}
+    \subitem {Index}, \hyperpage{97}
+    \subitem {Interpolated}, \hyperpage{98}
+    \subitem {Unbind\+Texture}, \hyperpage{98}
+  \item {Image\+Sampler\+\_\+\+Mem\+Copy}, \hyperpage{98}
+    \subitem {Bind\+Texture}, \hyperpage{98}
+    \subitem {Index}, \hyperpage{98}
+    \subitem {Interpolated}, \hyperpage{98}
+    \subitem {Unbind\+Texture}, \hyperpage{99}
+  \item {Image\+Sampler\+\_\+\+Simple\+Texture\+Read}, \hyperpage{99}
+    \subitem {Bind\+Texture}, \hyperpage{99}
+    \subitem {Index}, \hyperpage{99}
+    \subitem {Interpolated}, \hyperpage{99}
+    \subitem {ofs}, \hyperpage{100}
+    \subitem {Unbind\+Texture}, \hyperpage{100}
+  \item {Image\+Sampler\+\_\+\+Tex}
+    \subitem {Image\+Sampler.\+h}, \hyperpage{371}
+  \item {Images}
+    \subitem {outputter\+::output\+Modes}, \hyperpage{133}
+    \subitem {testutils.\+h}, \hyperpage{277}
+  \item {images}
+    \subitem {Base\+Kernel\+Params}, \hyperpage{38}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Stream}, \hyperpage{215}
+  \item {imap\+Done}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Stream}, \hyperpage{215}
+  \item {img}
+    \subitem {Z\+L\+U\+T\+Params}, \hyperpage{235}
+  \item {img\+\_\+distance}
+    \subitem {Bead\+Finder\+::\+Config}, \hyperpage{49}
+  \item {img\+\_\+mean}
+    \subitem {Benchmark.\+cpp}, \hyperpage{240}
+  \item {img\+\_\+sigma}
+    \subitem {Benchmark.\+cpp}, \hyperpage{240}
+  \item {Img\+Deriv}
+    \subitem {Sample\+Fisher\+Matrix}, \hyperpage{209}
+  \item {img\+Means}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Stream}, \hyperpage{215}
+  \item {imgh}
+    \subitem {Image4\+D\+Cuda\+Array}, \hyperpage{93}
+    \subitem {Image4\+D\+Cuda\+Array\+::\+Kernel\+Inst}, 
+		\hyperpage{102}
+    \subitem {Image4\+D\+Memory\+::\+Kernel\+Params}, \hyperpage{103}
+  \item {imgmeans}
+    \subitem {Base\+Kernel\+Params}, \hyperpage{38}
+  \item {imgw}
+    \subitem {Image4\+D\+Cuda\+Array}, \hyperpage{93}
+    \subitem {Image4\+D\+Cuda\+Array\+::\+Kernel\+Inst}, 
+		\hyperpage{102}
+    \subitem {Image4\+D\+Memory\+::\+Kernel\+Params}, \hyperpage{103}
+  \item {In\+Debug\+Mode}
+    \subitem {main.\+cpp}, \hyperpage{265}
+  \item {in\+Progress}
+    \subitem {Thread\+Pool}, \hyperpage{222}
+  \item {Index}
+    \subitem {Image\+Sampler\+\_\+\+Interpolated\+Texture}, 
+		\hyperpage{97}
+    \subitem {Image\+Sampler\+\_\+\+Mem\+Copy}, \hyperpage{98}
+    \subitem {Image\+Sampler\+\_\+\+Simple\+Texture\+Read}, 
+		\hyperpage{99}
+  \item {index}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Device}, \hyperpage{76}
+  \item {Init}
+    \subitem {QI}, \hyperpage{141}
+  \item {init}
+    \subitem {device\+\_\+vec}, \hyperpage{79}
+    \subitem {outputter}, \hyperpage{134}
+    \subitem {pinned\+\_\+array}, \hyperpage{139}
+  \item {Init\+Device}
+    \subitem {QI}, \hyperpage{142}
+  \item {Init\+Stream}
+    \subitem {QI}, \hyperpage{142}
+  \item {initial\+Pos}
+    \subitem {Localization\+Job}, \hyperpage{111}
+  \item {Initialize\+Device\+List}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{182}
+  \item {Inter}
+    \subitem {main.\+cpp}, \hyperpage{242}
+  \item {interp}
+    \subitem {cuda\+Image\+List}, \hyperpage{72}
+  \item {Interpolate}
+    \subitem {utils.\+h}, \hyperpage{344}
+  \item {interpolate}
+    \subitem {cuda\+Image\+List}, \hyperpage{72}
+    \subitem {Kernels.\+h}, \hyperpage{374}
+    \subitem {T\+Image\+Data}, \hyperpage{225}
+  \item {Interpolate1D}
+    \subitem {utils.\+h}, \hyperpage{344}
+  \item {interpolate1D}
+    \subitem {T\+Image\+Data}, \hyperpage{225}
+  \item {interpolate\+From\+Texture}
+    \subitem {cuda\+Image\+List}, \hyperpage{73}
+  \item {Interpolated}
+    \subitem {Image\+Sampler\+\_\+\+Interpolated\+Texture}, 
+		\hyperpage{98}
+    \subitem {Image\+Sampler\+\_\+\+Mem\+Copy}, \hyperpage{98}
+    \subitem {Image\+Sampler\+\_\+\+Simple\+Texture\+Read}, 
+		\hyperpage{99}
+  \item {Inverse}
+    \subitem {Matrix3\+X3}, \hyperpage{127}
+  \item {Inverse\+Transpose}
+    \subitem {Matrix3\+X3}, \hyperpage{128}
+  \item {Is\+Done}
+    \subitem {Thread\+Pool}, \hyperpage{220}
+  \item {is\+Empty}
+    \subitem {cuda\+Image\+List}, \hyperpage{73}
+  \item {Is\+Execution\+Done}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Stream}, \hyperpage{214}
+  \item {Is\+Idle}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{163}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{183}
+    \subitem {Queued\+Tracker}, \hyperpage{193}
+  \item {is\+N\+AN}
+    \subitem {utils.\+h}, \hyperpage{344}
+  \item {Item\+Done}
+    \subitem {Thread\+Pool}, \hyperpage{220}
+  \item {Iterate}
+    \subitem {QI}, \hyperpage{142}
+  \item {iterations}
+    \subitem {Q\+I\+Params}, \hyperpage{144}
+
+  \indexspace
+
+  \item {Job}
+    \subitem {Queued\+C\+P\+U\+Tracker\+::\+Job}, \hyperpage{100}
+  \item {job}
+    \subitem {Localization\+Result}, \hyperpage{113}
+    \subitem {Queued\+C\+P\+U\+Tracker\+::\+Job}, \hyperpage{101}
+  \item {Job\+Count}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Stream}, \hyperpage{214}
+  \item {job\+Count}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{170}
+  \item {Job\+Finished}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{163}
+  \item {job\+Queue\+Mutex}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{187}
+  \item {jobs}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{170}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Stream}, \hyperpage{215}
+  \item {jobs\+\_\+buffer}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{170}
+  \item {jobs\+\_\+buffer\+\_\+mutex}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{170}
+  \item {jobs\+\_\+mutex}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{170}
+  \item {jobs\+In\+Progress}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{170}
+
+  \indexspace
+
+  \item {k}
+    \subitem {Lsq\+Sq\+Quad\+Fit}, \hyperpage{117}
+  \item {Keep\+Inside\+Boundaries}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{60}
+  \item {kernel\+Inst}
+    \subitem {Image4\+D\+Cuda\+Array}, \hyperpage{92}
+  \item {Kernel\+Profile\+Time}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Kernel\+Profile\+Time}, 
+		\hyperpage{104}
+  \item {Kernels.\+h}
+    \subitem {Apply\+Offset\+Gain}, \hyperpage{372}
+    \subitem {Bg\+Corrected\+C\+OM}, \hyperpage{372, 373}
+    \subitem {Force\+C\+U\+D\+A\+Kernels\+To\+Load}, \hyperpage{373}
+    \subitem {G2\+M\+L\+E\+\_\+\+Compute}, \hyperpage{373}
+    \subitem {image\+\_\+lut\+\_\+surface}, \hyperpage{376}
+    \subitem {Image\+L\+U\+T\+\_\+\+Sample}, \hyperpage{374}
+    \subitem {interpolate}, \hyperpage{374}
+    \subitem {Z\+L\+U\+T\+\_\+\+Compute\+Profile\+Match\+Scores}, 
+		\hyperpage{374}
+    \subitem {Z\+L\+U\+T\+\_\+\+ComputeZ}, \hyperpage{375}
+    \subitem {Z\+L\+U\+T\+\_\+\+Normalize\+Profiles}, \hyperpage{375}
+    \subitem {Z\+L\+U\+T\+\_\+\+Profiles\+To\+Z\+L\+UT}, 
+		\hyperpage{375}
+    \subitem {Z\+L\+U\+T\+\_\+\+Radial\+Profile\+Kernel}, 
+		\hyperpage{376}
+  \item {kf\+\_\+bfly2}
+    \subitem {kissfft}, \hyperpage{106}
+  \item {kf\+\_\+bfly3}
+    \subitem {kissfft}, \hyperpage{106}
+  \item {kf\+\_\+bfly4}
+    \subitem {kissfft}, \hyperpage{107}
+  \item {kf\+\_\+bfly5}
+    \subitem {kissfft}, \hyperpage{107}
+  \item {kf\+\_\+bfly\+\_\+generic}
+    \subitem {kissfft}, \hyperpage{108}
+  \item {kf\+\_\+work}
+    \subitem {kissfft}, \hyperpage{109}
+  \item {kissfft}
+    \subitem {\+\_\+inverse}, \hyperpage{110}
+    \subitem {\+\_\+nfft}, \hyperpage{110}
+    \subitem {\+\_\+stage\+Radix}, \hyperpage{110}
+    \subitem {\+\_\+stage\+Remainder}, \hyperpage{110}
+    \subitem {\+\_\+twiddles}, \hyperpage{110}
+    \subitem {C\+\_\+\+A\+D\+D\+TO}, \hyperpage{105}
+    \subitem {C\+\_\+\+A\+DD}, \hyperpage{105}
+    \subitem {C\+\_\+\+F\+I\+X\+D\+IV}, \hyperpage{106}
+    \subitem {C\+\_\+\+M\+U\+L\+B\+Y\+S\+C\+A\+L\+AR}, \hyperpage{106}
+    \subitem {C\+\_\+\+M\+UL}, \hyperpage{106}
+    \subitem {C\+\_\+\+S\+UB}, \hyperpage{106}
+    \subitem {cpx\+\_\+type}, \hyperpage{105}
+    \subitem {H\+A\+L\+F\+\_\+\+OF}, \hyperpage{106}
+    \subitem {kf\+\_\+bfly2}, \hyperpage{106}
+    \subitem {kf\+\_\+bfly3}, \hyperpage{106}
+    \subitem {kf\+\_\+bfly4}, \hyperpage{107}
+    \subitem {kf\+\_\+bfly5}, \hyperpage{107}
+    \subitem {kf\+\_\+bfly\+\_\+generic}, \hyperpage{108}
+    \subitem {kf\+\_\+work}, \hyperpage{109}
+    \subitem {kissfft}, \hyperpage{105}
+    \subitem {nfft}, \hyperpage{109}
+    \subitem {S\+\_\+\+M\+UL}, \hyperpage{109}
+    \subitem {scalar\+\_\+type}, \hyperpage{105}
+    \subitem {traits\+\_\+type}, \hyperpage{105}
+    \subitem {transform}, \hyperpage{109}
+  \item {kissfft$<$ T\+\_\+\+Scalar, T\+\_\+traits $>$}, 
+		\hyperpage{104}
+  \item {kissfft\+\_\+utils}, \hyperpage{34}
+  \item {kissfft\+\_\+utils\+::traits}
+    \subitem {cpx\+\_\+type}, \hyperpage{227}
+    \subitem {fill\+\_\+twiddles}, \hyperpage{227}
+    \subitem {prepare}, \hyperpage{227}
+    \subitem {scalar\+\_\+type}, \hyperpage{227}
+  \item {kissfft\+\_\+utils\+::traits$<$ T\+\_\+scalar $>$}, 
+		\hyperpage{227}
+  \item {kp}
+    \subitem {Image4\+D\+Memory}, \hyperpage{96}
+
+  \indexspace
+
+  \item {L\+T\+\_\+\+Clear\+First\+Four\+Pixels}
+    \subitem {qtrk\+\_\+c\+\_\+api.\+h}, \hyperpage{314}
+  \item {L\+T\+\_\+\+Force32\+Bit}
+    \subitem {qtrk\+\_\+c\+\_\+api.\+h}, \hyperpage{314}
+  \item {L\+T\+\_\+\+Fourier\+L\+UT}
+    \subitem {qtrk\+\_\+c\+\_\+api.\+h}, \hyperpage{314}
+  \item {L\+T\+\_\+\+Gaussian2D}
+    \subitem {qtrk\+\_\+c\+\_\+api.\+h}, \hyperpage{314}
+  \item {L\+T\+\_\+\+Localize\+Z\+Weighted}
+    \subitem {qtrk\+\_\+c\+\_\+api.\+h}, \hyperpage{314}
+  \item {L\+T\+\_\+\+LocalizeZ}
+    \subitem {qtrk\+\_\+c\+\_\+api.\+h}, \hyperpage{314}
+  \item {L\+T\+\_\+\+Normalize\+Profile}
+    \subitem {qtrk\+\_\+c\+\_\+api.\+h}, \hyperpage{314}
+  \item {L\+T\+\_\+\+Only\+C\+OM}
+    \subitem {qtrk\+\_\+c\+\_\+api.\+h}, \hyperpage{314}
+  \item {L\+T\+\_\+\+QI}
+    \subitem {qtrk\+\_\+c\+\_\+api.\+h}, \hyperpage{314}
+  \item {L\+T\+\_\+\+X\+Cor1D}
+    \subitem {qtrk\+\_\+c\+\_\+api.\+h}, \hyperpage{314}
+  \item {L\+T\+\_\+\+Z\+L\+U\+T\+Align}
+    \subitem {qtrk\+\_\+c\+\_\+api.\+h}, \hyperpage{314}
+  \item {L\+U\+T\+Prof\+Max\+Quadratic\+Fit}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{51}
+  \item {L\+U\+T\+Prof\+Max\+Simple\+Interp}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{51}
+  \item {L\+U\+T\+Prof\+Max\+Spline\+Fit}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{51}
+  \item {L\+U\+T\+Profile\+Compare}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{61}
+  \item {L\+U\+T\+Profile\+Compare\+Adjusted\+Weights}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{63}
+  \item {L\+U\+T\+Profile\+Max\+Compute\+Mode}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{51}
+  \item {L\+V\+Array}
+    \subitem {dim\+Size}, \hyperpage{117}
+    \subitem {elem}, \hyperpage{117}
+  \item {L\+V\+Array$<$ T $>$}, \hyperpage{117}
+  \item {L\+V\+Array2\+D$<$ T $>$}, \hyperpage{117}
+  \item {L\+V\+Array2D}
+    \subitem {dim\+Sizes}, \hyperpage{118}
+    \subitem {elem}, \hyperpage{118}
+    \subitem {get}, \hyperpage{118}
+    \subitem {num\+Elem}, \hyperpage{118}
+    \subitem {xy}, \hyperpage{118}
+  \item {L\+V\+Array3\+D$<$ T $>$}, \hyperpage{118}
+  \item {L\+V\+Array3D}
+    \subitem {dim\+Sizes}, \hyperpage{119}
+    \subitem {elem}, \hyperpage{119}
+    \subitem {num\+Elem}, \hyperpage{119}
+  \item {L\+V\+Array\+N\+D$<$ T, N $>$}, \hyperpage{119}
+  \item {L\+V\+Array\+ND}
+    \subitem {dim\+Sizes}, \hyperpage{119}
+    \subitem {elem}, \hyperpage{119}
+    \subitem {num\+Elem}, \hyperpage{119}
+  \item {L\+V\+Data\+Type$<$ double $>$}, \hyperpage{120}
+    \subitem {code}, \hyperpage{120}
+  \item {L\+V\+Data\+Type$<$ float $>$}, \hyperpage{120}
+    \subitem {code}, \hyperpage{121}
+  \item {L\+V\+Data\+Type$<$ int16\+\_\+t $>$}, \hyperpage{121}
+    \subitem {code}, \hyperpage{121}
+  \item {L\+V\+Data\+Type$<$ int32\+\_\+t $>$}, \hyperpage{121}
+    \subitem {code}, \hyperpage{122}
+  \item {L\+V\+Data\+Type$<$ int64\+\_\+t $>$}, \hyperpage{122}
+    \subitem {code}, \hyperpage{122}
+  \item {L\+V\+Data\+Type$<$ int8\+\_\+t $>$}, \hyperpage{122}
+    \subitem {code}, \hyperpage{123}
+  \item {L\+V\+Data\+Type$<$ std\+::complex$<$ double $>$ $>$}, 
+		\hyperpage{123}
+    \subitem {code}, \hyperpage{123}
+  \item {L\+V\+Data\+Type$<$ std\+::complex$<$ float $>$ $>$}, 
+		\hyperpage{123}
+    \subitem {code}, \hyperpage{124}
+  \item {L\+V\+Data\+Type$<$ T $>$}, \hyperpage{120}
+  \item {L\+V\+Data\+Type$<$ uint16\+\_\+t $>$}, \hyperpage{124}
+    \subitem {code}, \hyperpage{124}
+  \item {L\+V\+Data\+Type$<$ uint32\+\_\+t $>$}, \hyperpage{124}
+    \subitem {code}, \hyperpage{125}
+  \item {L\+V\+Data\+Type$<$ uint64\+\_\+t $>$}, \hyperpage{125}
+    \subitem {code}, \hyperpage{125}
+  \item {L\+V\+Data\+Type$<$ uint8\+\_\+t $>$}, \hyperpage{125}
+    \subitem {code}, \hyperpage{126}
+  \item {L\+V\+Get\+String\+Array}
+    \subitem {Lab\+V\+I\+E\+W datatypes and helper functions}, 
+		\hyperpage{20}
+  \item {Lab\+V\+I\+E\+W datatypes and helper functions}, 
+		\hyperpage{19}
+    \subitem {Argument\+Error\+Msg}, \hyperpage{20}
+    \subitem {Fill\+Error\+Cluster}, \hyperpage{20}
+    \subitem {L\+V\+Get\+String\+Array}, \hyperpage{20}
+    \subitem {pp\+Float\+Array}, \hyperpage{20}
+    \subitem {pp\+Float\+Array2}, \hyperpage{20}
+    \subitem {Resize\+L\+V\+Array}, \hyperpage{21}
+    \subitem {Resize\+L\+V\+Array2D}, \hyperpage{21}
+    \subitem {Resize\+L\+V\+Array3D}, \hyperpage{21}
+    \subitem {Set\+L\+V\+String}, \hyperpage{21}
+    \subitem {Validate\+Tracker}, \hyperpage{22}
+  \item {labview.\+h}
+    \subitem {\+\_\+\+S\+T\+D\+I\+N\+T\+\_\+H}, \hyperpage{294}
+  \item {last\+Save\+Frame}
+    \subitem {Result\+Manager\+::\+Frame\+Counters}, \hyperpage{85}
+  \item {layerh}
+    \subitem {Image4\+D\+Cuda\+Array}, \hyperpage{93}
+  \item {layers}
+    \subitem {Image4\+D\+Memory}, \hyperpage{96}
+  \item {layerw}
+    \subitem {Image4\+D\+Cuda\+Array}, \hyperpage{93}
+    \subitem {Image4\+D\+Cuda\+Array\+::\+Kernel\+Inst}, 
+		\hyperpage{102}
+  \item {length}
+    \subitem {vector3}, \hyperpage{230}
+  \item {Lerp}
+    \subitem {utils.\+h}, \hyperpage{344}
+  \item {linspace}
+    \subitem {Shared\+Tests.\+h}, \hyperpage{268}
+  \item {list\+Devices}
+    \subitem {test.\+cu}, \hyperpage{360}
+  \item {Load}
+    \subitem {Benchmark\+L\+UT}, \hyperpage{40, 41}
+  \item {Load\+Row}
+    \subitem {Binary\+Result\+File}, \hyperpage{42}
+    \subitem {Result\+File}, \hyperpage{197}
+    \subitem {Text\+Result\+File}, \hyperpage{217}
+  \item {Loc\+Mode\+\_\+t}
+    \subitem {qtrk\+\_\+c\+\_\+api.\+h}, \hyperpage{314}
+  \item {loc\+Params}
+    \subitem {Base\+Kernel\+Params}, \hyperpage{38}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Stream}, \hyperpage{215}
+  \item {localization\+Done}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Stream}, \hyperpage{215}
+  \item {Localization\+Job}, \hyperpage{110}
+    \subitem {frame}, \hyperpage{111}
+    \subitem {initial\+Pos}, \hyperpage{111}
+    \subitem {Localization\+Job}, \hyperpage{111}
+    \subitem {timestamp}, \hyperpage{111}
+    \subitem {zlut\+Index}, \hyperpage{111}
+  \item {Localization\+Params}, \hyperpage{112}
+    \subitem {zlut\+Index}, \hyperpage{112}
+    \subitem {zlut\+Plane}, \hyperpage{112}
+  \item {Localization\+Result}, \hyperpage{112}
+    \subitem {error}, \hyperpage{113}
+    \subitem {first\+Guess}, \hyperpage{113}
+    \subitem {image\+Mean}, \hyperpage{113}
+    \subitem {job}, \hyperpage{113}
+    \subitem {pos}, \hyperpage{113}
+    \subitem {pos2D}, \hyperpage{113}
+  \item {localizations\+Done}
+    \subitem {Result\+Manager\+::\+Frame\+Counters}, \hyperpage{85}
+  \item {localize\+Flags}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Stream}, \hyperpage{215}
+  \item {localize\+Mode}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{170}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{187}
+  \item {Localize\+Mode\+Enum}
+    \subitem {qtrk\+\_\+c\+\_\+api.\+h}, \hyperpage{314}
+  \item {lock}
+    \subitem {Queued\+C\+P\+U\+Tracker\+::\+Thread}, \hyperpage{218}
+    \subitem {Threads\+::\+Mutex}, \hyperpage{131}
+  \item {lock\+Count}
+    \subitem {Threads\+::\+Mutex}, \hyperpage{132}
+  \item {log\+Filename}
+    \subitem {utils.\+cpp}, \hyperpage{335}
+  \item {logspace}
+    \subitem {Shared\+Tests.\+h}, \hyperpage{268}
+  \item {lost\+Frames}
+    \subitem {Result\+Manager\+::\+Frame\+Counters}, \hyperpage{85}
+  \item {Lsq\+Quadratic\+Fit.\+h}
+    \subitem {C\+U\+D\+A\+\_\+\+S\+U\+P\+P\+O\+R\+T\+E\+D\+\_\+\+F\+U\+NC}, 
+		\hyperpage{294}
+  \item {Lsq\+Sq\+Quad\+Fit}
+    \subitem {a}, \hyperpage{116}
+    \subitem {b}, \hyperpage{116}
+    \subitem {c}, \hyperpage{116}
+    \subitem {calculate}, \hyperpage{115}
+    \subitem {compute}, \hyperpage{115}
+    \subitem {compute\+Deriv}, \hyperpage{115}
+    \subitem {compute\+Sums}, \hyperpage{115}
+    \subitem {d}, \hyperpage{116}
+    \subitem {h}, \hyperpage{116}
+    \subitem {k}, \hyperpage{117}
+    \subitem {Lsq\+Sq\+Quad\+Fit}, \hyperpage{114}
+    \subitem {max\+Pos}, \hyperpage{116}
+    \subitem {vertex\+Form}, \hyperpage{116}
+    \subitem {xoffset}, \hyperpage{117}
+  \item {Lsq\+Sq\+Quad\+Fit$<$ T $>$}, \hyperpage{114}
+  \item {Lsq\+Sq\+Quad\+Fit$<$ T $>$\+::\+Coeff}, \hyperpage{44}
+  \item {Lsq\+Sq\+Quad\+Fit\+::\+Coeff}
+    \subitem {abc}, \hyperpage{45}
+    \subitem {s00}, \hyperpage{45}
+    \subitem {s01}, \hyperpage{45}
+    \subitem {s10}, \hyperpage{45}
+    \subitem {s11}, \hyperpage{45}
+    \subitem {s20}, \hyperpage{45}
+    \subitem {s21}, \hyperpage{45}
+    \subitem {s30}, \hyperpage{45}
+    \subitem {s40}, \hyperpage{45}
+  \item {lut\+\_\+h}
+    \subitem {Benchmark\+L\+UT}, \hyperpage{41}
+  \item {lut\+\_\+w}
+    \subitem {Benchmark\+L\+UT}, \hyperpage{41}
+  \item {lv\+\_\+cputrack\+\_\+api.\+cpp}
+    \subitem {compute\+\_\+asymmetry}, \hyperpage{295}
+    \subitem {compute\+\_\+com}, \hyperpage{295}
+    \subitem {compute\+\_\+crp}, \hyperpage{295}
+    \subitem {compute\+\_\+qi}, \hyperpage{296}
+    \subitem {compute\+\_\+radial\+\_\+profile}, \hyperpage{296}
+    \subitem {compute\+\_\+xcor}, \hyperpage{296}
+    \subitem {compute\+\_\+z}, \hyperpage{296}
+    \subitem {create\+\_\+tracker}, \hyperpage{297}
+    \subitem {destroy\+\_\+tracker}, \hyperpage{297}
+    \subitem {generate\+\_\+image\+\_\+from\+\_\+lut}, \hyperpage{297}
+    \subitem {generate\+\_\+test\+\_\+image}, \hyperpage{297}
+    \subitem {get\+\_\+\+Z\+L\+UT}, \hyperpage{298}
+    \subitem {get\+\_\+debug\+\_\+img\+\_\+as\+\_\+array}, 
+		\hyperpage{297}
+    \subitem {set\+\_\+\+Z\+L\+UT}, \hyperpage{299}
+    \subitem {set\+\_\+image\+\_\+float}, \hyperpage{298}
+    \subitem {set\+\_\+image\+\_\+from\+\_\+memory}, \hyperpage{298}
+    \subitem {set\+\_\+image\+\_\+u16}, \hyperpage{298}
+    \subitem {set\+\_\+image\+\_\+u8}, \hyperpage{298}
+  \item {lv\+\_\+queuetrk\+\_\+api.\+cpp}
+    \subitem {Check\+Image\+Input}, \hyperpage{302}
+    \subitem {qtrk\+\_\+build\+\_\+lut\+\_\+plane}, \hyperpage{302}
+    \subitem {qtrk\+\_\+compute\+\_\+fisher}, \hyperpage{303}
+    \subitem {qtrk\+\_\+compute\+\_\+zlut\+\_\+bias\+\_\+table}, 
+		\hyperpage{303}
+    \subitem {qtrk\+\_\+enable\+\_\+zlut\+\_\+cmpprof}, \hyperpage{303}
+    \subitem {qtrk\+\_\+finalize\+\_\+lut}, \hyperpage{304}
+    \subitem {qtrk\+\_\+find\+\_\+beads}, \hyperpage{304}
+    \subitem {qtrk\+\_\+free\+\_\+all}, \hyperpage{304}
+    \subitem {qtrk\+\_\+generate\+\_\+gaussian\+\_\+spot}, 
+		\hyperpage{304}
+    \subitem {qtrk\+\_\+get\+\_\+computed\+\_\+config}, \hyperpage{304}
+    \subitem {qtrk\+\_\+get\+\_\+debug\+\_\+image}, \hyperpage{304}
+    \subitem {qtrk\+\_\+get\+\_\+image\+\_\+lut}, \hyperpage{305}
+    \subitem {qtrk\+\_\+get\+\_\+queue\+\_\+len}, \hyperpage{305}
+    \subitem {qtrk\+\_\+get\+\_\+zlut\+\_\+cmpprof}, \hyperpage{305}
+    \subitem {qtrk\+\_\+set\+\_\+image\+\_\+lut}, \hyperpage{305}
+    \subitem {qtrk\+\_\+set\+\_\+localization\+\_\+mode}, 
+		\hyperpage{305}
+    \subitem {qtrk\+\_\+set\+\_\+logfile\+\_\+path}, \hyperpage{306}
+    \subitem {qtrk\+\_\+set\+\_\+pixel\+\_\+calib}, \hyperpage{306}
+    \subitem {qtrk\+\_\+set\+\_\+pixel\+\_\+calib\+\_\+factors}, 
+		\hyperpage{306}
+    \subitem {qtrk\+\_\+set\+\_\+zlut\+\_\+bias\+\_\+table}, 
+		\hyperpage{306}
+    \subitem {qtrk\+\_\+simulate\+\_\+tracking}, \hyperpage{307}
+    \subitem {qtrkcuda\+\_\+get\+\_\+device}, \hyperpage{307}
+    \subitem {test\+\_\+array\+\_\+passing}, \hyperpage{308}
+    \subitem {tracker\+List}, \hyperpage{308}
+    \subitem {tracker\+List\+Mutex}, \hyperpage{308}
+  \item {lv\+\_\+resultmanager\+\_\+api.\+cpp}
+    \subitem {rm\+\_\+create}, \hyperpage{309}
+    \subitem {rm\+\_\+destroy}, \hyperpage{309}
+    \subitem {rm\+\_\+destroy\+\_\+all}, \hyperpage{309}
+    \subitem {rm\+\_\+flush}, \hyperpage{309}
+    \subitem {rm\+\_\+getbeadresults}, \hyperpage{309}
+    \subitem {rm\+\_\+getconfig}, \hyperpage{310}
+    \subitem {rm\+\_\+getframecounters}, \hyperpage{310}
+    \subitem {rm\+\_\+getresults}, \hyperpage{310}
+    \subitem {rm\+\_\+instances}, \hyperpage{311}
+    \subitem {rm\+\_\+removebead}, \hyperpage{310}
+    \subitem {rm\+\_\+set\+\_\+tracker}, \hyperpage{310}
+    \subitem {rm\+\_\+store\+\_\+frame\+\_\+info}, \hyperpage{311}
+    \subitem {Valid\+RM}, \hyperpage{311}
+
+  \indexspace
+
+  \item {m}
+    \subitem {Atomic}, \hyperpage{38}
+    \subitem {Matrix3\+X3}, \hyperpage{129}
+  \item {M\+A\+R\+K\+P\+I\+X\+E\+LI}
+    \subitem {cpu\+\_\+tracker.\+cpp}, \hyperpage{285}
+  \item {M\+A\+R\+K\+P\+I\+X\+EL}
+    \subitem {cpu\+\_\+tracker.\+cpp}, \hyperpage{285}
+  \item {M\+I\+N\+\_\+\+R\+A\+D\+P\+R\+O\+F\+I\+L\+E\+\_\+\+S\+M\+P\+\_\+\+C\+O\+U\+NT}
+    \subitem {Queued\+Tracker.\+h}, \hyperpage{317}
+  \item {main}
+    \subitem {main.\+cpp}, \hyperpage{247}
+    \subitem {test.\+cu}, \hyperpage{360}
+  \item {main.\+cpp}
+    \subitem {A\+N\+G\+S\+T\+E\+PF}, \hyperpage{265}
+    \subitem {Acc\+Bias\+Test}, \hyperpage{242}
+    \subitem {Auto\+Bead\+Find\+Test}, \hyperpage{243}
+    \subitem {Backg}, \hyperpage{242}
+    \subitem {Benchmark\+Params}, \hyperpage{243}
+    \subitem {Build\+Convergence\+Map}, \hyperpage{244}
+    \subitem {Build\+Z\+L\+UT}, \hyperpage{245}
+    \subitem {C\+R\+P\+\_\+\+Test\+Generated\+Data}, \hyperpage{247}
+    \subitem {Compute\+Radial\+Weights}, \hyperpage{246}
+    \subitem {Corrected\+Radial\+Profile\+Test}, \hyperpage{246}
+    \subitem {Generate\+Z\+L\+U\+T\+Fitting\+Curve}, \hyperpage{247}
+    \subitem {In\+Debug\+Mode}, \hyperpage{265}
+    \subitem {Inter}, \hyperpage{242}
+    \subitem {main}, \hyperpage{247}
+    \subitem {Man\+Test}, \hyperpage{248}
+    \subitem {One\+Pixel\+Test}, \hyperpage{250}
+    \subitem {Output\+Profile\+Img}, \hyperpage{250}
+    \subitem {Pixelation\+Error\+Test}, \hyperpage{251}
+    \subitem {Print\+Menu}, \hyperpage{251}
+    \subitem {R\+O\+I\+Dis}, \hyperpage{242}
+    \subitem {R\+W\+Derivative}, \hyperpage{242}
+    \subitem {R\+W\+None}, \hyperpage{242}
+    \subitem {R\+W\+Radial}, \hyperpage{242}
+    \subitem {R\+W\+Stetson}, \hyperpage{242}
+    \subitem {R\+W\+Uniform}, \hyperpage{242}
+    \subitem {R\+Weight\+Mode}, \hyperpage{242}
+    \subitem {Rescale\+L\+UT}, \hyperpage{251}
+    \subitem {Run\+C\+O\+M\+And\+QI}, \hyperpage{251}
+    \subitem {Run\+Test}, \hyperpage{252}
+    \subitem {Run\+Z\+Trace}, \hyperpage{252}
+    \subitem {Scatter\+Bias\+Area}, \hyperpage{255}
+    \subitem {Select\+Tests}, \hyperpage{255}
+    \subitem {Simple\+Test}, \hyperpage{256}
+    \subitem {Skew}, \hyperpage{242}
+    \subitem {Skew\+Param}, \hyperpage{257}
+    \subitem {Small\+Image\+Test}, \hyperpage{257}
+    \subitem {Speed\+Test}, \hyperpage{257}
+    \subitem {Test\+B\+Spline\+Max}, \hyperpage{260}
+    \subitem {Test\+Background}, \hyperpage{259}
+    \subitem {Test\+Bias}, \hyperpage{259}
+    \subitem {Test\+Bound\+Check}, \hyperpage{260}
+    \subitem {Test\+Fourier\+L\+U\+T\+On\+Dataset}, \hyperpage{261}
+    \subitem {Test\+Fourier\+L\+UT}, \hyperpage{260}
+    \subitem {Test\+Interference}, \hyperpage{261}
+    \subitem {Test\+Quadrant\+Align}, \hyperpage{261}
+    \subitem {Test\+R\+O\+I\+Displacement}, \hyperpage{262}
+    \subitem {Test\+Skew}, \hyperpage{262}
+    \subitem {Test\+Z\+L\+U\+T\+Align}, \hyperpage{262}
+    \subitem {Test\+Z\+Range}, \hyperpage{263}
+    \subitem {Test\+Z\+Range\+Bias}, \hyperpage{265}
+    \subitem {Tests}, \hyperpage{242}
+    \subitem {Write\+Radial\+Prof}, \hyperpage{265}
+  \item {major}
+    \subitem {C\+U\+D\+A\+Device\+Info}, \hyperpage{68}
+  \item {Man\+Test}
+    \subitem {main.\+cpp}, \hyperpage{248}
+  \item {manager}
+    \subitem {Queued\+C\+P\+U\+Tracker\+::\+Thread}, \hyperpage{219}
+  \item {Matrix3\+X3}, \hyperpage{126}
+    \subitem {at}, \hyperpage{127}
+    \subitem {dbgprint}, \hyperpage{127}
+    \subitem {Determinant}, \hyperpage{127}
+    \subitem {diag}, \hyperpage{127}
+    \subitem {Inverse}, \hyperpage{127}
+    \subitem {Inverse\+Transpose}, \hyperpage{128}
+    \subitem {m}, \hyperpage{129}
+    \subitem {Matrix3\+X3}, \hyperpage{127}
+    \subitem {operator$\ast$=}, \hyperpage{128}
+    \subitem {operator()}, \hyperpage{128}
+    \subitem {operator+=}, \hyperpage{128}
+    \subitem {operator[]}, \hyperpage{129}
+    \subitem {row}, \hyperpage{129}
+    \subitem {test}, \hyperpage{129}
+  \item {max\+\_\+}
+    \subitem {Compute\+Max\+Interp}, \hyperpage{48}
+  \item {max\+\_\+a}
+    \subitem {Benchmark\+L\+UT}, \hyperpage{41}
+  \item {max\+\_\+b}
+    \subitem {Benchmark\+L\+UT}, \hyperpage{41}
+  \item {max\+\_\+c}
+    \subitem {Benchmark\+L\+UT}, \hyperpage{41}
+  \item {max\+Frames\+In\+Memory}
+    \subitem {Result\+Manager\+Config}, \hyperpage{205}
+  \item {Max\+Image\+Width}
+    \subitem {cuda\+Image\+List}, \hyperpage{69}
+  \item {max\+Pos}
+    \subitem {Lsq\+Sq\+Quad\+Fit}, \hyperpage{116}
+  \item {max\+Queue\+Size}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{170}
+  \item {max\+Radius}
+    \subitem {Q\+I\+Params}, \hyperpage{144}
+    \subitem {Z\+L\+U\+T\+Params}, \hyperpage{235}
+  \item {max\+Value}
+    \subitem {Sample\+Fisher\+Matrix}, \hyperpage{209}
+  \item {mean}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{66}
+    \subitem {T\+Image\+Data}, \hyperpage{226}
+  \item {mean\+Err}
+    \subitem {Run\+Tracker\+Results}, \hyperpage{207}
+  \item {Mean\+St\+Dev\+Error}
+    \subitem {Shared\+Tests.\+h}, \hyperpage{268}
+  \item {Measure\+Time}, \hyperpage{129}
+    \subitem {$\sim$\+Measure\+Time}, \hyperpage{130}
+    \subitem {freq}, \hyperpage{130}
+    \subitem {Measure\+Time}, \hyperpage{130}
+    \subitem {name}, \hyperpage{130}
+    \subitem {time}, \hyperpage{130}
+  \item {memsize}
+    \subitem {device\+\_\+vec}, \hyperpage{79}
+    \subitem {pinned\+\_\+array}, \hyperpage{139}
+    \subitem {Q\+I\+::\+Stream\+Instance}, \hyperpage{216}
+  \item {message}
+    \subitem {Error\+Cluster}, \hyperpage{82}
+  \item {min\+\_\+}
+    \subitem {Compute\+Max\+Interp}, \hyperpage{49}
+  \item {Min\+Pixel\+Distance}
+    \subitem {Bead\+Finder\+::\+Config}, \hyperpage{49}
+  \item {min\+Radius}
+    \subitem {Q\+I\+Params}, \hyperpage{144}
+    \subitem {Z\+L\+U\+T\+Params}, \hyperpage{235}
+  \item {minor}
+    \subitem {C\+U\+D\+A\+Device\+Info}, \hyperpage{68}
+  \item {mirror2D}
+    \subitem {F\+F\+T2\+D\+Tracker}, \hyperpage{84}
+  \item {modes}
+    \subitem {outputter}, \hyperpage{135}
+  \item {msg}
+    \subitem {Threads\+::\+Mutex}, \hyperpage{131}
+  \item {mul\+\_\+conjugate}
+    \subitem {test.\+cu}, \hyperpage{361}
+  \item {multi\+Proc\+Count}
+    \subitem {C\+U\+D\+A\+Device\+Info}, \hyperpage{68}
+  \item {Mutex}
+    \subitem {Threads\+::\+Mutex}, \hyperpage{131}
+  \item {mutex}
+    \subitem {Queued\+C\+P\+U\+Tracker\+::\+Thread}, \hyperpage{219}
+  \item {my\+\_\+error\+\_\+mgr}, \hyperpage{132}
+    \subitem {pub}, \hyperpage{132}
+
+  \indexspace
+
+  \item {n}
+    \subitem {pinned\+\_\+array}, \hyperpage{140}
+  \item {n\+L\+U\+Ts}
+    \subitem {Image\+L\+U\+T\+Config}, \hyperpage{97}
+  \item {name}
+    \subitem {C\+U\+D\+A\+Device\+Info}, \hyperpage{68}
+    \subitem {Measure\+Time}, \hyperpage{130}
+    \subitem {Threads\+::\+Mutex}, \hyperpage{132}
+  \item {Nearest\+Power\+Of2}
+    \subitem {utils.\+cpp}, \hyperpage{330}
+    \subitem {utils.\+h}, \hyperpage{345}
+  \item {Nearest\+Power\+Of3}
+    \subitem {utils.\+cpp}, \hyperpage{331}
+    \subitem {utils.\+h}, \hyperpage{345}
+  \item {Nearest\+Power\+Of\+Two}
+    \subitem {test.\+cu}, \hyperpage{361}
+  \item {new\+File}
+    \subitem {outputter}, \hyperpage{134}
+  \item {Next\+Power\+Of2}
+    \subitem {Bead\+Finder.\+cpp}, \hyperpage{282}
+  \item {nfft}
+    \subitem {kissfft}, \hyperpage{109}
+  \item {njobs}
+    \subitem {Base\+Kernel\+Params}, \hyperpage{38}
+  \item {nlayers}
+    \subitem {Image4\+D\+Cuda\+Array}, \hyperpage{93}
+  \item {Normalize}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{63}
+  \item {normalize}
+    \subitem {T\+Image\+Data}, \hyperpage{226}
+    \subitem {utils.\+h}, \hyperpage{345}
+  \item {Normalize\+Radial\+Profile}
+    \subitem {utils.\+cpp}, \hyperpage{331}
+    \subitem {utils.\+h}, \hyperpage{345}
+  \item {Normalize\+Z\+L\+UT}
+    \subitem {utils.\+cpp}, \hyperpage{331}
+    \subitem {utils.\+h}, \hyperpage{345}
+  \item {normprof}
+    \subitem {Benchmark\+L\+UT}, \hyperpage{41}
+  \item {num\+Beads}
+    \subitem {Result\+Manager\+Config}, \hyperpage{205}
+  \item {num\+Elem}
+    \subitem {L\+V\+Array2D}, \hyperpage{118}
+    \subitem {L\+V\+Array3D}, \hyperpage{119}
+    \subitem {L\+V\+Array\+ND}, \hyperpage{119}
+  \item {Num\+Files\+In\+Dir}
+    \subitem {testutils.\+cpp}, \hyperpage{275}
+    \subitem {testutils.\+h}, \hyperpage{280}
+  \item {num\+Frame\+Info\+Columns}
+    \subitem {Result\+Manager\+Config}, \hyperpage{205}
+  \item {num\+Img}
+    \subitem {Image4\+D\+Cuda\+Array}, \hyperpage{93}
+  \item {Num\+Jpg\+In\+Dir}
+    \subitem {testutils.\+cpp}, \hyperpage{276}
+    \subitem {testutils.\+h}, \hyperpage{280}
+  \item {num\+Pixels}
+    \subitem {T\+Image\+Data}, \hyperpage{226}
+  \item {Num\+Threads}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{163}
+  \item {num\+Threads}
+    \subitem {Q\+Trk\+Settings}, \hyperpage{151}
+    \subitem {QI}, \hyperpage{144}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{187}
+  \item {numpixels}
+    \subitem {cuda\+Image\+List}, \hyperpage{73}
+
+  \indexspace
+
+  \item {offset}
+    \subitem {Result\+Manager\+Config}, \hyperpage{205}
+  \item {ofs}
+    \subitem {Image\+Sampler\+\_\+\+Simple\+Texture\+Read}, 
+		\hyperpage{100}
+  \item {One\+Pixel\+Test}
+    \subitem {main.\+cpp}, \hyperpage{250}
+  \item {operator std\+::vector$<$ T $>$}
+    \subitem {device\+\_\+vec}, \hyperpage{80}
+  \item {operator T}
+    \subitem {Atomic}, \hyperpage{37}
+  \item {operator$\ast$}
+    \subitem {sfft\+::complex}, \hyperpage{47}
+    \subitem {vector3}, \hyperpage{230}, \hyperpage{232}
+  \item {operator$\ast$=}
+    \subitem {Matrix3\+X3}, \hyperpage{128}
+    \subitem {sfft\+::complex}, \hyperpage{47}
+    \subitem {vector3}, \hyperpage{231}
+  \item {operator()}
+    \subitem {Matrix3\+X3}, \hyperpage{128}
+  \item {operator+}
+    \subitem {sfft\+::complex}, \hyperpage{47}
+    \subitem {vector3}, \hyperpage{231}
+  \item {operator+=}
+    \subitem {Matrix3\+X3}, \hyperpage{128}
+    \subitem {sfft\+::complex}, \hyperpage{47}
+    \subitem {vector3}, \hyperpage{231}
+  \item {operator-\/}
+    \subitem {sfft\+::complex}, \hyperpage{47}
+    \subitem {vector3}, \hyperpage{231}
+  \item {operator-\/=}
+    \subitem {vector3}, \hyperpage{232}
+  \item {operator/}
+    \subitem {vector3}, \hyperpage{232}
+  \item {operator/=}
+    \subitem {vector3}, \hyperpage{232}
+  \item {operator=}
+    \subitem {Atomic}, \hyperpage{38}
+    \subitem {C\+Image\+Data}, \hyperpage{44}
+    \subitem {device\+\_\+vec}, \hyperpage{80}
+    \subitem {pinned\+\_\+array}, \hyperpage{139}
+  \item {operator[]}
+    \subitem {Matrix3\+X3}, \hyperpage{129}
+    \subitem {pinned\+\_\+array}, \hyperpage{139}
+    \subitem {T\+Image\+Data}, \hyperpage{226}
+  \item {output}
+    \subitem {Run\+Tracker\+Results}, \hyperpage{207}
+  \item {output\+Array}
+    \subitem {outputter}, \hyperpage{134}
+  \item {output\+File}
+    \subitem {outputter}, \hyperpage{135}
+    \subitem {Result\+Manager}, \hyperpage{204}
+  \item {output\+Image}
+    \subitem {outputter}, \hyperpage{135}
+  \item {Output\+Memory\+Use}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Stream}, \hyperpage{214}
+  \item {Output\+Modes}
+    \subitem {testutils.\+h}, \hyperpage{277}
+  \item {Output\+Profile\+Img}
+    \subitem {main.\+cpp}, \hyperpage{250}
+  \item {output\+String}
+    \subitem {outputter}, \hyperpage{135}
+  \item {output\+Total\+G\+P\+U\+Mem\+Use}
+    \subitem {gpu\+\_\+utils.\+h}, \hyperpage{370}
+  \item {outputter}, \hyperpage{133}
+    \subitem {$\sim$outputter}, \hyperpage{134}
+    \subitem {folder}, \hyperpage{135}
+    \subitem {init}, \hyperpage{134}
+    \subitem {modes}, \hyperpage{135}
+    \subitem {new\+File}, \hyperpage{134}
+    \subitem {output\+Array}, \hyperpage{134}
+    \subitem {output\+File}, \hyperpage{135}
+    \subitem {output\+Image}, \hyperpage{135}
+    \subitem {output\+String}, \hyperpage{135}
+    \subitem {outputter}, \hyperpage{134}
+  \item {outputter\+::output\+Modes}, \hyperpage{132}
+    \subitem {Console}, \hyperpage{133}
+    \subitem {File}, \hyperpage{133}
+    \subitem {Images}, \hyperpage{133}
+
+  \indexspace
+
+  \item {P\+D\+T\+\_\+\+Bytes\+Per\+Pixel}
+    \subitem {Queued\+Tracker.\+h}, \hyperpage{318}
+  \item {parallel\+\_\+for}
+    \subitem {threads.\+h}, \hyperpage{323}
+  \item {param}
+    \subitem {Threads\+::\+Handle}, \hyperpage{87}
+  \item {params}
+    \subitem {QI}, \hyperpage{144}
+  \item {Path\+Seperator}, \hyperpage{135}
+    \subitem {directory}, \hyperpage{136}
+    \subitem {extension}, \hyperpage{136}
+    \subitem {filename}, \hyperpage{136}
+    \subitem {Path\+Seperator}, \hyperpage{136}
+  \item {pinned\+\_\+array}
+    \subitem {$\sim$pinned\+\_\+array}, \hyperpage{137}
+    \subitem {begin}, \hyperpage{138}
+    \subitem {d}, \hyperpage{140}
+    \subitem {data}, \hyperpage{138}
+    \subitem {end}, \hyperpage{138}
+    \subitem {free}, \hyperpage{138}
+    \subitem {init}, \hyperpage{139}
+    \subitem {memsize}, \hyperpage{139}
+    \subitem {n}, \hyperpage{140}
+    \subitem {operator=}, \hyperpage{139}
+    \subitem {operator[]}, \hyperpage{139}
+    \subitem {pinned\+\_\+array}, \hyperpage{137, 138}
+    \subitem {size}, \hyperpage{139}
+  \item {pinned\+\_\+array$<$ T, flags $>$}, \hyperpage{136}
+  \item {pitch}
+    \subitem {cuda\+Image\+List}, \hyperpage{74}
+    \subitem {Image4\+D\+Memory\+::\+Kernel\+Params}, \hyperpage{103}
+    \subitem {T\+Image\+Data}, \hyperpage{226}
+  \item {pixel}
+    \subitem {cuda\+Image\+List}, \hyperpage{73}
+  \item {pixel\+\_\+oobcheck}
+    \subitem {cuda\+Image\+List}, \hyperpage{73}
+  \item {pixel\+\_\+t}
+    \subitem {cpu\+\_\+tracker.\+h}, \hyperpage{287}
+  \item {pixel\+Address}
+    \subitem {cuda\+Image\+List}, \hyperpage{74}
+  \item {Pixelation\+Error\+Test}
+    \subitem {main.\+cpp}, \hyperpage{251}
+  \item {plan\+\_\+bw2D}
+    \subitem {F\+F\+T2\+D\+Tracker}, \hyperpage{84}
+  \item {plan\+\_\+fw2D}
+    \subitem {F\+F\+T2\+D\+Tracker}, \hyperpage{84}
+  \item {planes}
+    \subitem {Image\+L\+U\+T\+Config}, \hyperpage{97}
+    \subitem {Z\+L\+U\+T\+Params}, \hyperpage{235}
+  \item {pos}
+    \subitem {C\+P\+U\+Tracker\+::\+Gauss2\+D\+Result}, \hyperpage{87}
+    \subitem {Localization\+Result}, \hyperpage{113}
+  \item {pos2D}
+    \subitem {Localization\+Result}, \hyperpage{113}
+  \item {Position}
+    \subitem {Bead\+Finder\+::\+Position}, \hyperpage{140}
+  \item {pp\+Float\+Array}
+    \subitem {Lab\+V\+I\+E\+W datatypes and helper functions}, 
+		\hyperpage{20}
+  \item {pp\+Float\+Array2}
+    \subitem {Lab\+V\+I\+E\+W datatypes and helper functions}, 
+		\hyperpage{20}
+  \item {prepare}
+    \subitem {kissfft\+\_\+utils\+::traits}, \hyperpage{227}
+  \item {Print\+Menu}
+    \subitem {main.\+cpp}, \hyperpage{251}
+  \item {Process\+Array}
+    \subitem {Thread\+Pool}, \hyperpage{221}
+  \item {Process\+Job}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{164}
+  \item {process\+Jobs}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{170}
+  \item {processed\+Frames}
+    \subitem {Result\+Manager\+::\+Frame\+Counters}, \hyperpage{85}
+  \item {Profile\+Speed\+Vs\+R\+OI}
+    \subitem {test.\+cu}, \hyperpage{361}
+  \item {pub}
+    \subitem {my\+\_\+error\+\_\+mgr}, \hyperpage{132}
+
+  \indexspace
+
+  \item {Q\+F\+F\+\_\+\+Force32\+Bit}
+    \subitem {A\+P\+I -\/ Lab\+V\+I\+EW}, \hyperpage{24}
+  \item {Q\+I.\+h}
+    \subitem {qicomplex\+\_\+t}, \hyperpage{377}
+    \subitem {qivalue\+\_\+t}, \hyperpage{377}
+  \item {Q\+I\+::\+Device\+Instance}, \hyperpage{81}
+    \subitem {$\sim$\+Device\+Instance}, \hyperpage{81}
+    \subitem {d\+\_\+qiparams}, \hyperpage{81}
+    \subitem {d\+\_\+radialweights}, \hyperpage{81}
+    \subitem {Device\+Instance}, \hyperpage{81}
+    \subitem {qi\+\_\+trigtable}, \hyperpage{81}
+  \item {Q\+I\+::\+Stream\+Instance}, \hyperpage{215}
+    \subitem {$\sim$\+Stream\+Instance}, \hyperpage{216}
+    \subitem {d\+\_\+\+Q\+Iprofiles}, \hyperpage{216}
+    \subitem {d\+\_\+\+Q\+Iprofiles\+\_\+reverse}, \hyperpage{216}
+    \subitem {d\+\_\+quadrants}, \hyperpage{216}
+    \subitem {d\+\_\+shiftbuffer}, \hyperpage{216}
+    \subitem {fft\+Plan}, \hyperpage{216}
+    \subitem {memsize}, \hyperpage{216}
+    \subitem {stream}, \hyperpage{216}
+  \item {Q\+I\+\_\+\+Compute\+Axis\+Offset}
+    \subitem {Q\+I\+\_\+impl.\+h}, \hyperpage{378}
+  \item {Q\+I\+\_\+\+Compute\+Offset}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{63}
+  \item {Q\+I\+\_\+\+Compute\+Profile}
+    \subitem {Q\+I\+\_\+impl.\+h}, \hyperpage{378}
+  \item {Q\+I\+\_\+\+Compute\+Quadrants}
+    \subitem {Q\+I\+\_\+impl.\+h}, \hyperpage{379}
+  \item {Q\+I\+\_\+\+L\+S\+Q\+F\+I\+T\+\_\+\+N\+W\+E\+I\+G\+H\+TS}
+    \subitem {Queued\+Tracker.\+h}, \hyperpage{317}
+  \item {Q\+I\+\_\+\+L\+S\+Q\+F\+I\+T\+\_\+\+W\+E\+I\+G\+H\+TS}
+    \subitem {Queued\+Tracker.\+h}, \hyperpage{317}
+  \item {Q\+I\+\_\+\+Multiply\+With\+Conjugate}
+    \subitem {Q\+I\+\_\+impl.\+h}, \hyperpage{379}
+  \item {Q\+I\+\_\+\+Offset\+Positions}
+    \subitem {Q\+I\+\_\+impl.\+h}, \hyperpage{380}
+  \item {Q\+I\+\_\+\+Quadrants\+To\+Profiles}
+    \subitem {Q\+I\+\_\+impl.\+h}, \hyperpage{380}
+  \item {Q\+I\+\_\+impl.\+h}
+    \subitem {Compute\+Quadrant\+Profile}, \hyperpage{377}
+    \subitem {Q\+I\+\_\+\+Compute\+Axis\+Offset}, \hyperpage{378}
+    \subitem {Q\+I\+\_\+\+Compute\+Profile}, \hyperpage{378}
+    \subitem {Q\+I\+\_\+\+Compute\+Quadrants}, \hyperpage{379}
+    \subitem {Q\+I\+\_\+\+Multiply\+With\+Conjugate}, \hyperpage{379}
+    \subitem {Q\+I\+\_\+\+Offset\+Positions}, \hyperpage{380}
+    \subitem {Q\+I\+\_\+\+Quadrants\+To\+Profiles}, \hyperpage{380}
+  \item {Q\+I\+Compare}
+    \subitem {test.\+cu}, \hyperpage{362}
+  \item {Q\+I\+Params}, \hyperpage{144}
+    \subitem {cos\+\_\+sin\+\_\+table}, \hyperpage{144}
+    \subitem {iterations}, \hyperpage{144}
+    \subitem {max\+Radius}, \hyperpage{144}
+    \subitem {min\+Radius}, \hyperpage{144}
+    \subitem {radial\+Steps}, \hyperpage{144}
+    \subitem {trigtablesize}, \hyperpage{144}
+  \item {Q\+I\+Weights}
+    \subitem {cpu\+\_\+tracker.\+cpp}, \hyperpage{286}
+  \item {Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type}
+    \subitem {qtrk\+\_\+c\+\_\+api.\+h}, \hyperpage{314}
+  \item {Q\+Trk\+Build\+L\+UT}
+    \subitem {A\+P\+I -\/ C}, \hyperpage{29}
+  \item {Q\+Trk\+C\+U\+D\+A\+\_\+\+Use\+All}
+    \subitem {qtrk\+\_\+c\+\_\+api.\+h}, \hyperpage{314}
+  \item {Q\+Trk\+C\+U\+D\+A\+\_\+\+Use\+Best}
+    \subitem {qtrk\+\_\+c\+\_\+api.\+h}, \hyperpage{314}
+  \item {Q\+Trk\+C\+U\+D\+A\+\_\+\+Use\+List}
+    \subitem {qtrk\+\_\+c\+\_\+api.\+h}, \hyperpage{314}
+  \item {Q\+Trk\+Clear\+Results}
+    \subitem {A\+P\+I -\/ C}, \hyperpage{29}
+  \item {Q\+Trk\+Compare\+Test}
+    \subitem {test.\+cu}, \hyperpage{362}
+  \item {Q\+Trk\+Computed\+Config}, \hyperpage{145}
+    \subitem {Q\+Trk\+Computed\+Config}, \hyperpage{146}
+    \subitem {qi\+\_\+angstepspq}, \hyperpage{147}
+    \subitem {qi\+\_\+maxradius}, \hyperpage{147}
+    \subitem {qi\+\_\+radialsteps}, \hyperpage{147}
+    \subitem {Update}, \hyperpage{146}
+    \subitem {Write\+To\+File}, \hyperpage{146}
+    \subitem {Write\+To\+Log}, \hyperpage{146}
+    \subitem {zlut\+\_\+angularsteps}, \hyperpage{147}
+    \subitem {zlut\+\_\+maxradius}, \hyperpage{147}
+    \subitem {zlut\+\_\+radialsteps}, \hyperpage{147}
+  \item {Q\+Trk\+Create\+Instance}
+    \subitem {A\+P\+I -\/ C}, \hyperpage{30}
+  \item {Q\+Trk\+Fetch\+Results}
+    \subitem {A\+P\+I -\/ C}, \hyperpage{30}
+  \item {Q\+Trk\+Finalize\+L\+UT}
+    \subitem {A\+P\+I -\/ C}, \hyperpage{30}
+  \item {Q\+Trk\+Float}
+    \subitem {qtrk\+\_\+c\+\_\+api.\+h}, \hyperpage{315}
+  \item {Q\+Trk\+Flush}
+    \subitem {A\+P\+I -\/ C}, \hyperpage{30}
+  \item {Q\+Trk\+Free\+Instance}
+    \subitem {A\+P\+I -\/ C}, \hyperpage{30}
+  \item {Q\+Trk\+Get\+Computed\+Config}
+    \subitem {A\+P\+I -\/ C}, \hyperpage{30}
+  \item {Q\+Trk\+Get\+Profile\+Report}
+    \subitem {A\+P\+I -\/ C}, \hyperpage{31}
+  \item {Q\+Trk\+Get\+Queue\+Length}
+    \subitem {A\+P\+I -\/ C}, \hyperpage{31}
+  \item {Q\+Trk\+Get\+Radial\+Z\+L\+U\+T\+Size}
+    \subitem {A\+P\+I -\/ C}, \hyperpage{31}
+  \item {Q\+Trk\+Get\+Radial\+Z\+L\+UT}
+    \subitem {A\+P\+I -\/ C}, \hyperpage{31}
+  \item {Q\+Trk\+Get\+Result\+Count}
+    \subitem {A\+P\+I -\/ C}, \hyperpage{31}
+  \item {Q\+Trk\+Get\+Warnings}
+    \subitem {A\+P\+I -\/ C}, \hyperpage{31}
+  \item {Q\+Trk\+Is\+Idle}
+    \subitem {A\+P\+I -\/ C}, \hyperpage{31}
+  \item {Q\+Trk\+Schedule\+Frame}
+    \subitem {A\+P\+I -\/ C}, \hyperpage{32}
+  \item {Q\+Trk\+Schedule\+Localization}
+    \subitem {A\+P\+I -\/ C}, \hyperpage{32}
+  \item {Q\+Trk\+Set\+Localization\+Mode}
+    \subitem {A\+P\+I -\/ C}, \hyperpage{32}
+  \item {Q\+Trk\+Set\+Radial\+Z\+L\+UT}
+    \subitem {A\+P\+I -\/ C}, \hyperpage{32}
+  \item {Q\+Trk\+Settings}, \hyperpage{148}
+    \subitem {com\+\_\+bgcorrection}, \hyperpage{150}
+    \subitem {cuda\+\_\+device}, \hyperpage{150}
+    \subitem {downsample}, \hyperpage{150}
+    \subitem {gauss2\+D\+\_\+iterations}, \hyperpage{150}
+    \subitem {gauss2\+D\+\_\+sigma}, \hyperpage{150}
+    \subitem {height}, \hyperpage{151}
+    \subitem {num\+Threads}, \hyperpage{151}
+    \subitem {Q\+Trk\+Settings}, \hyperpage{150}
+    \subitem {qi\+\_\+angstep\+\_\+factor}, \hyperpage{151}
+    \subitem {qi\+\_\+angular\+\_\+coverage}, \hyperpage{151}
+    \subitem {qi\+\_\+iterations}, \hyperpage{151}
+    \subitem {qi\+\_\+minradius}, \hyperpage{151}
+    \subitem {qi\+\_\+radial\+\_\+coverage}, \hyperpage{151}
+    \subitem {qi\+\_\+roi\+\_\+coverage}, \hyperpage{151}
+    \subitem {test\+Run}, \hyperpage{151}
+    \subitem {width}, \hyperpage{152}
+    \subitem {xc1\+\_\+iterations}, \hyperpage{152}
+    \subitem {xc1\+\_\+profile\+Length}, \hyperpage{152}
+    \subitem {xc1\+\_\+profile\+Width}, \hyperpage{152}
+    \subitem {zlut\+\_\+angular\+\_\+coverage}, \hyperpage{152}
+    \subitem {zlut\+\_\+minradius}, \hyperpage{152}
+    \subitem {zlut\+\_\+radial\+\_\+coverage}, \hyperpage{152}
+    \subitem {zlut\+\_\+roi\+\_\+coverage}, \hyperpage{152}
+  \item {Q\+Trk\+U16}
+    \subitem {qtrk\+\_\+c\+\_\+api.\+h}, \hyperpage{315}
+  \item {Q\+Trk\+U8}
+    \subitem {qtrk\+\_\+c\+\_\+api.\+h}, \hyperpage{315}
+  \item {qa\+\_\+fft\+\_\+backward}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{67}
+  \item {qa\+\_\+fft\+\_\+forward}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{67}
+  \item {qalign}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{187}
+  \item {qalign\+\_\+instance}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Device}, \hyperpage{77}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Stream}, \hyperpage{215}
+  \item {qalign\+Done}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Stream}, \hyperpage{215}
+  \item {QI}, \hyperpage{140}
+    \subitem {batch\+Size}, \hyperpage{144}
+    \subitem {blocks}, \hyperpage{141}
+    \subitem {Execute}, \hyperpage{141}
+    \subitem {Init}, \hyperpage{141}
+    \subitem {Init\+Device}, \hyperpage{142}
+    \subitem {Init\+Stream}, \hyperpage{142}
+    \subitem {Iterate}, \hyperpage{142}
+    \subitem {num\+Threads}, \hyperpage{144}
+    \subitem {params}, \hyperpage{144}
+    \subitem {qi\+\_\+\+F\+F\+T\+\_\+length}, \hyperpage{144}
+    \subitem {threads}, \hyperpage{143}
+  \item {qi}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{187}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Kernel\+Profile\+Time}, 
+		\hyperpage{104}
+  \item {qi\+\_\+\+F\+F\+T\+\_\+length}
+    \subitem {QI}, \hyperpage{144}
+  \item {qi\+\_\+angstep\+\_\+factor}
+    \subitem {Q\+Trk\+Settings}, \hyperpage{151}
+  \item {qi\+\_\+angstepspq}
+    \subitem {Q\+Trk\+Computed\+Config}, \hyperpage{147}
+  \item {qi\+\_\+angular\+\_\+coverage}
+    \subitem {Q\+Trk\+Settings}, \hyperpage{151}
+  \item {qi\+\_\+fft\+\_\+backward}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{67}
+  \item {qi\+\_\+fft\+\_\+forward}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{67}
+  \item {qi\+\_\+instance}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Device}, \hyperpage{77}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Stream}, \hyperpage{215}
+  \item {qi\+\_\+iterations}
+    \subitem {Q\+Trk\+Settings}, \hyperpage{151}
+  \item {qi\+\_\+maxradius}
+    \subitem {Q\+Trk\+Computed\+Config}, \hyperpage{147}
+  \item {qi\+\_\+minradius}
+    \subitem {Q\+Trk\+Settings}, \hyperpage{151}
+  \item {qi\+\_\+radial\+\_\+coverage}
+    \subitem {Q\+Trk\+Settings}, \hyperpage{151}
+  \item {qi\+\_\+radialbinweights}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{170}
+  \item {qi\+\_\+radialsteps}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{67}
+    \subitem {Q\+Trk\+Computed\+Config}, \hyperpage{147}
+  \item {qi\+\_\+roi\+\_\+coverage}
+    \subitem {Q\+Trk\+Settings}, \hyperpage{151}
+  \item {qi\+\_\+trigtable}
+    \subitem {Q\+I\+::\+Device\+Instance}, \hyperpage{81}
+  \item {qi\+Done}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Stream}, \hyperpage{215}
+  \item {qicomplex\+\_\+t}
+    \subitem {Q\+I.\+h}, \hyperpage{377}
+  \item {qivalue\+\_\+t}
+    \subitem {Q\+I.\+h}, \hyperpage{377}
+  \item {qselect}
+    \subitem {utils.\+h}, \hyperpage{346}
+  \item {qtrk}, \hyperpage{34}
+    \subitem {Result\+Manager}, \hyperpage{204}
+  \item {qtrk\+::hash\+\_\+map$<$ T\+Key, T $>$}, \hyperpage{88}
+  \item {qtrk\+::hash\+\_\+set$<$ T $>$}, \hyperpage{88}
+  \item {qtrk\+\_\+build\+\_\+lut\+\_\+plane}
+    \subitem {lv\+\_\+queuetrk\+\_\+api.\+cpp}, \hyperpage{302}
+  \item {qtrk\+\_\+c\+\_\+api.\+h}
+    \subitem {L\+T\+\_\+\+Clear\+First\+Four\+Pixels}, \hyperpage{314}
+    \subitem {L\+T\+\_\+\+Force32\+Bit}, \hyperpage{314}
+    \subitem {L\+T\+\_\+\+Fourier\+L\+UT}, \hyperpage{314}
+    \subitem {L\+T\+\_\+\+Gaussian2D}, \hyperpage{314}
+    \subitem {L\+T\+\_\+\+Localize\+Z\+Weighted}, \hyperpage{314}
+    \subitem {L\+T\+\_\+\+LocalizeZ}, \hyperpage{314}
+    \subitem {L\+T\+\_\+\+Normalize\+Profile}, \hyperpage{314}
+    \subitem {L\+T\+\_\+\+Only\+C\+OM}, \hyperpage{314}
+    \subitem {L\+T\+\_\+\+QI}, \hyperpage{314}
+    \subitem {L\+T\+\_\+\+X\+Cor1D}, \hyperpage{314}
+    \subitem {L\+T\+\_\+\+Z\+L\+U\+T\+Align}, \hyperpage{314}
+    \subitem {Loc\+Mode\+\_\+t}, \hyperpage{314}
+    \subitem {Localize\+Mode\+Enum}, \hyperpage{314}
+    \subitem {Q\+T\+R\+K\+\_\+\+Pixel\+Data\+Type}, \hyperpage{314}
+    \subitem {Q\+Trk\+C\+U\+D\+A\+\_\+\+Use\+All}, \hyperpage{314}
+    \subitem {Q\+Trk\+C\+U\+D\+A\+\_\+\+Use\+Best}, \hyperpage{314}
+    \subitem {Q\+Trk\+C\+U\+D\+A\+\_\+\+Use\+List}, \hyperpage{314}
+    \subitem {Q\+Trk\+Float}, \hyperpage{315}
+    \subitem {Q\+Trk\+U16}, \hyperpage{315}
+    \subitem {Q\+Trk\+U8}, \hyperpage{315}
+  \item {qtrk\+\_\+clear\+\_\+results}
+    \subitem {A\+P\+I -\/ Lab\+V\+I\+EW}, \hyperpage{24}
+  \item {qtrk\+\_\+compute\+\_\+fisher}
+    \subitem {lv\+\_\+queuetrk\+\_\+api.\+cpp}, \hyperpage{303}
+  \item {qtrk\+\_\+compute\+\_\+zlut\+\_\+bias\+\_\+table}
+    \subitem {lv\+\_\+queuetrk\+\_\+api.\+cpp}, \hyperpage{303}
+  \item {qtrk\+\_\+create}
+    \subitem {A\+P\+I -\/ Lab\+V\+I\+EW}, \hyperpage{24}
+  \item {qtrk\+\_\+destroy}
+    \subitem {A\+P\+I -\/ Lab\+V\+I\+EW}, \hyperpage{24}
+  \item {qtrk\+\_\+dump\+\_\+memleaks}
+    \subitem {A\+P\+I -\/ Lab\+V\+I\+EW}, \hyperpage{24}
+  \item {qtrk\+\_\+enable\+\_\+zlut\+\_\+cmpprof}
+    \subitem {lv\+\_\+queuetrk\+\_\+api.\+cpp}, \hyperpage{303}
+  \item {qtrk\+\_\+finalize\+\_\+lut}
+    \subitem {lv\+\_\+queuetrk\+\_\+api.\+cpp}, \hyperpage{304}
+  \item {qtrk\+\_\+find\+\_\+beads}
+    \subitem {lv\+\_\+queuetrk\+\_\+api.\+cpp}, \hyperpage{304}
+  \item {qtrk\+\_\+flush}
+    \subitem {A\+P\+I -\/ Lab\+V\+I\+EW}, \hyperpage{25}
+  \item {qtrk\+\_\+free\+\_\+all}
+    \subitem {lv\+\_\+queuetrk\+\_\+api.\+cpp}, \hyperpage{304}
+  \item {qtrk\+\_\+generate\+\_\+gaussian\+\_\+spot}
+    \subitem {lv\+\_\+queuetrk\+\_\+api.\+cpp}, \hyperpage{304}
+  \item {qtrk\+\_\+generate\+\_\+image\+\_\+from\+\_\+lut}
+    \subitem {A\+P\+I -\/ Lab\+V\+I\+EW}, \hyperpage{25}
+  \item {qtrk\+\_\+get\+\_\+\+Z\+L\+UT}
+    \subitem {A\+P\+I -\/ Lab\+V\+I\+EW}, \hyperpage{25}
+  \item {qtrk\+\_\+get\+\_\+computed\+\_\+config}
+    \subitem {lv\+\_\+queuetrk\+\_\+api.\+cpp}, \hyperpage{304}
+  \item {qtrk\+\_\+get\+\_\+debug\+\_\+image}
+    \subitem {lv\+\_\+queuetrk\+\_\+api.\+cpp}, \hyperpage{304}
+  \item {qtrk\+\_\+get\+\_\+image\+\_\+lut}
+    \subitem {lv\+\_\+queuetrk\+\_\+api.\+cpp}, \hyperpage{305}
+  \item {qtrk\+\_\+get\+\_\+profile\+\_\+report}
+    \subitem {A\+P\+I -\/ Lab\+V\+I\+EW}, \hyperpage{25}
+  \item {qtrk\+\_\+get\+\_\+queue\+\_\+len}
+    \subitem {lv\+\_\+queuetrk\+\_\+api.\+cpp}, \hyperpage{305}
+  \item {qtrk\+\_\+get\+\_\+results}
+    \subitem {A\+P\+I -\/ Lab\+V\+I\+EW}, \hyperpage{25}
+  \item {qtrk\+\_\+get\+\_\+zlut\+\_\+cmpprof}
+    \subitem {lv\+\_\+queuetrk\+\_\+api.\+cpp}, \hyperpage{305}
+  \item {qtrk\+\_\+idle}
+    \subitem {A\+P\+I -\/ Lab\+V\+I\+EW}, \hyperpage{26}
+  \item {qtrk\+\_\+queue\+\_\+array}
+    \subitem {A\+P\+I -\/ Lab\+V\+I\+EW}, \hyperpage{26}
+  \item {qtrk\+\_\+queue\+\_\+float}
+    \subitem {A\+P\+I -\/ Lab\+V\+I\+EW}, \hyperpage{26}
+  \item {qtrk\+\_\+queue\+\_\+frame}
+    \subitem {A\+P\+I -\/ Lab\+V\+I\+EW}, \hyperpage{26}
+  \item {qtrk\+\_\+queue\+\_\+pitchedmem}
+    \subitem {A\+P\+I -\/ Lab\+V\+I\+EW}, \hyperpage{26}
+  \item {qtrk\+\_\+queue\+\_\+u16}
+    \subitem {A\+P\+I -\/ Lab\+V\+I\+EW}, \hyperpage{27}
+  \item {qtrk\+\_\+queue\+\_\+u8}
+    \subitem {A\+P\+I -\/ Lab\+V\+I\+EW}, \hyperpage{27}
+  \item {qtrk\+\_\+read\+\_\+timestamp}
+    \subitem {A\+P\+I -\/ Lab\+V\+I\+EW}, \hyperpage{27}
+  \item {qtrk\+\_\+resultcount}
+    \subitem {A\+P\+I -\/ Lab\+V\+I\+EW}, \hyperpage{27}
+  \item {qtrk\+\_\+set\+\_\+\+Z\+L\+UT}
+    \subitem {A\+P\+I -\/ Lab\+V\+I\+EW}, \hyperpage{27}
+  \item {qtrk\+\_\+set\+\_\+image\+\_\+lut}
+    \subitem {lv\+\_\+queuetrk\+\_\+api.\+cpp}, \hyperpage{305}
+  \item {qtrk\+\_\+set\+\_\+localization\+\_\+mode}
+    \subitem {lv\+\_\+queuetrk\+\_\+api.\+cpp}, \hyperpage{305}
+  \item {qtrk\+\_\+set\+\_\+logfile\+\_\+path}
+    \subitem {lv\+\_\+queuetrk\+\_\+api.\+cpp}, \hyperpage{306}
+  \item {qtrk\+\_\+set\+\_\+pixel\+\_\+calib}
+    \subitem {lv\+\_\+queuetrk\+\_\+api.\+cpp}, \hyperpage{306}
+  \item {qtrk\+\_\+set\+\_\+pixel\+\_\+calib\+\_\+factors}
+    \subitem {lv\+\_\+queuetrk\+\_\+api.\+cpp}, \hyperpage{306}
+  \item {qtrk\+\_\+set\+\_\+zlut\+\_\+bias\+\_\+table}
+    \subitem {lv\+\_\+queuetrk\+\_\+api.\+cpp}, \hyperpage{306}
+  \item {qtrk\+\_\+simulate\+\_\+tracking}
+    \subitem {lv\+\_\+queuetrk\+\_\+api.\+cpp}, \hyperpage{307}
+  \item {qtrkcuda\+\_\+device\+\_\+count}
+    \subitem {A\+P\+I -\/ Lab\+V\+I\+EW}, \hyperpage{28}
+  \item {qtrkcuda\+\_\+get\+\_\+device}
+    \subitem {lv\+\_\+queuetrk\+\_\+api.\+cpp}, \hyperpage{307}
+  \item {qtrkcuda\+\_\+set\+\_\+device\+\_\+list}
+    \subitem {A\+P\+I -\/ Lab\+V\+I\+EW}, \hyperpage{28}
+  \item {Quadrant\+Align}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{64}
+  \item {Quadrant\+Align\+\_\+\+Compute\+Offset}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{65}
+  \item {quadrant\+Dirs}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{67}
+  \item {Queue\+Frame\+Flags}
+    \subitem {A\+P\+I -\/ Lab\+V\+I\+EW}, \hyperpage{24}
+  \item {Queued\+C\+P\+U\+Tracker}, \hyperpage{153}
+    \subitem {$\sim$\+Queued\+C\+P\+U\+Tracker}, \hyperpage{156}
+    \subitem {Add\+Job}, \hyperpage{156}
+    \subitem {Allocate\+Job}, \hyperpage{156}
+    \subitem {Apply\+Offset\+Gain}, \hyperpage{156}
+    \subitem {Begin\+L\+UT}, \hyperpage{157}
+    \subitem {Break}, \hyperpage{157}
+    \subitem {Build\+L\+UT}, \hyperpage{157}
+    \subitem {calib\+\_\+gain}, \hyperpage{170}
+    \subitem {calib\+\_\+offset}, \hyperpage{170}
+    \subitem {Clear\+Results}, \hyperpage{158}
+    \subitem {dbg\+Print\+Results}, \hyperpage{170}
+    \subitem {downsample\+Height}, \hyperpage{170}
+    \subitem {downsample\+Width}, \hyperpage{170}
+    \subitem {Enable\+Radial\+Z\+L\+U\+T\+Compare\+Profile}, 
+		\hyperpage{158}
+    \subitem {Fetch\+Results}, \hyperpage{158}
+    \subitem {Finalize\+L\+UT}, \hyperpage{159}
+    \subitem {Flush}, \hyperpage{160}
+    \subitem {gc\+\_\+gain\+Factor}, \hyperpage{170}
+    \subitem {gc\+\_\+mutex}, \hyperpage{170}
+    \subitem {gc\+\_\+offset\+Factor}, \hyperpage{170}
+    \subitem {Generate\+Test\+Image}, \hyperpage{160}
+    \subitem {Get\+Config\+Values}, \hyperpage{160}
+    \subitem {Get\+Debug\+Image}, \hyperpage{160}
+    \subitem {Get\+Image\+L\+U\+T\+By\+Index}, \hyperpage{160}
+    \subitem {Get\+Image\+Z\+L\+U\+T\+Size}, \hyperpage{161}
+    \subitem {Get\+Image\+Z\+L\+UT}, \hyperpage{161}
+    \subitem {Get\+Next\+Job}, \hyperpage{161}
+    \subitem {Get\+Profile\+Report}, \hyperpage{161}
+    \subitem {Get\+Queue\+Length}, \hyperpage{161}
+    \subitem {Get\+Radial\+Z\+L\+U\+T\+Compare\+Profile}, 
+		\hyperpage{162}
+    \subitem {Get\+Radial\+Z\+L\+U\+T\+Size}, \hyperpage{162}
+    \subitem {Get\+Radial\+Z\+L\+UT}, \hyperpage{162}
+    \subitem {Get\+Result\+Count}, \hyperpage{162}
+    \subitem {Get\+Z\+L\+U\+T\+By\+Index}, \hyperpage{163}
+    \subitem {image\+\_\+lut}, \hyperpage{170}
+    \subitem {image\+\_\+lut\+\_\+dims}, \hyperpage{170}
+    \subitem {image\+\_\+lut\+\_\+dz}, \hyperpage{170}
+    \subitem {image\+\_\+lut\+\_\+dz2}, \hyperpage{170}
+    \subitem {image\+\_\+lut\+\_\+n\+Elem\+\_\+per\+\_\+bead}, 
+		\hyperpage{170}
+    \subitem {Image\+L\+U\+T\+Height}, \hyperpage{163}
+    \subitem {Image\+L\+U\+T\+Num\+Beads}, \hyperpage{163}
+    \subitem {Image\+L\+U\+T\+Width}, \hyperpage{163}
+    \subitem {Is\+Idle}, \hyperpage{163}
+    \subitem {job\+Count}, \hyperpage{170}
+    \subitem {Job\+Finished}, \hyperpage{163}
+    \subitem {jobs}, \hyperpage{170}
+    \subitem {jobs\+\_\+buffer}, \hyperpage{170}
+    \subitem {jobs\+\_\+buffer\+\_\+mutex}, \hyperpage{170}
+    \subitem {jobs\+\_\+mutex}, \hyperpage{170}
+    \subitem {jobs\+In\+Progress}, \hyperpage{170}
+    \subitem {localize\+Mode}, \hyperpage{170}
+    \subitem {max\+Queue\+Size}, \hyperpage{170}
+    \subitem {Num\+Threads}, \hyperpage{163}
+    \subitem {Process\+Job}, \hyperpage{164}
+    \subitem {process\+Jobs}, \hyperpage{170}
+    \subitem {qi\+\_\+radialbinweights}, \hyperpage{170}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{155}
+    \subitem {quit\+Work}, \hyperpage{171}
+    \subitem {result\+Count}, \hyperpage{171}
+    \subitem {results}, \hyperpage{171}
+    \subitem {results\+\_\+mutex}, \hyperpage{171}
+    \subitem {Schedule\+Localization}, \hyperpage{165}
+    \subitem {Set\+Config\+Value}, \hyperpage{166}
+    \subitem {Set\+Image\+Z\+L\+UT}, \hyperpage{166}
+    \subitem {Set\+Localization\+Mode}, \hyperpage{166}
+    \subitem {Set\+Pixel\+Calibration\+Factors}, \hyperpage{166}
+    \subitem {Set\+Pixel\+Calibration\+Images}, \hyperpage{167}
+    \subitem {Set\+Radial\+Weights}, \hyperpage{167}
+    \subitem {Set\+Radial\+Z\+L\+UT}, \hyperpage{168}
+    \subitem {Set\+Tracker\+Image}, \hyperpage{168}
+    \subitem {Start}, \hyperpage{168}
+    \subitem {threads}, \hyperpage{171}
+    \subitem {Update\+Z\+L\+U\+Ts}, \hyperpage{168}
+    \subitem {Worker\+Thread\+Main}, \hyperpage{169}
+    \subitem {Z\+L\+U\+T\+Self\+Test}, \hyperpage{169}
+    \subitem {zcmp}, \hyperpage{171}
+    \subitem {zlut\+\_\+buildflags}, \hyperpage{171}
+    \subitem {zlut\+\_\+cmpprofiles}, \hyperpage{171}
+    \subitem {zlut\+\_\+count}, \hyperpage{171}
+    \subitem {zlut\+\_\+enablecmpprof}, \hyperpage{171}
+    \subitem {zlut\+\_\+planes}, \hyperpage{171}
+    \subitem {zluts}, \hyperpage{171}
+  \item {Queued\+C\+P\+U\+Tracker.\+cpp}
+    \subitem {Create\+Queued\+Tracker}, \hyperpage{315}
+    \subitem {Set\+C\+U\+D\+A\+Devices}, \hyperpage{315}
+  \item {Queued\+C\+P\+U\+Tracker\+::\+Job}, \hyperpage{100}
+    \subitem {$\sim$\+Job}, \hyperpage{100}
+    \subitem {data}, \hyperpage{101}
+    \subitem {data\+Type}, \hyperpage{101}
+    \subitem {Job}, \hyperpage{100}
+    \subitem {job}, \hyperpage{101}
+  \item {Queued\+C\+P\+U\+Tracker\+::\+Thread}, \hyperpage{218}
+    \subitem {lock}, \hyperpage{218}
+    \subitem {manager}, \hyperpage{219}
+    \subitem {mutex}, \hyperpage{219}
+    \subitem {Thread}, \hyperpage{218}
+    \subitem {thread}, \hyperpage{219}
+    \subitem {tracker}, \hyperpage{219}
+    \subitem {unlock}, \hyperpage{218}
+  \item {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{171}
+    \subitem {$\sim$\+Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{175}
+    \subitem {batch\+Size}, \hyperpage{187}
+    \subitem {batches\+Done}, \hyperpage{187}
+    \subitem {Begin\+L\+UT}, \hyperpage{175}
+    \subitem {blocks}, \hyperpage{175}
+    \subitem {Build\+L\+UT}, \hyperpage{175}
+    \subitem {C\+P\+U\+\_\+\+Apply\+Offset\+Gain}, \hyperpage{177}
+    \subitem {Clear\+Results}, \hyperpage{176}
+    \subitem {Copy\+Stream\+Results}, \hyperpage{176}
+    \subitem {cpu\+\_\+time}, \hyperpage{187}
+    \subitem {Create\+Stream}, \hyperpage{177}
+    \subitem {device\+Prop}, \hyperpage{187}
+    \subitem {device\+Report}, \hyperpage{187}
+    \subitem {devices}, \hyperpage{187}
+    \subitem {Enable\+Radial\+Z\+L\+U\+T\+Compare\+Profile}, 
+		\hyperpage{178}
+    \subitem {Enable\+Texture\+Cache}, \hyperpage{178}
+    \subitem {Execute\+Batch}, \hyperpage{178}
+    \subitem {Fetch\+Results}, \hyperpage{180}
+    \subitem {Finalize\+L\+UT}, \hyperpage{180}
+    \subitem {Flush}, \hyperpage{180}
+    \subitem {gc\+\_\+gain}, \hyperpage{187}
+    \subitem {gc\+\_\+gain\+Factor}, \hyperpage{187}
+    \subitem {gc\+\_\+mutex}, \hyperpage{187}
+    \subitem {gc\+\_\+offset}, \hyperpage{187}
+    \subitem {gc\+\_\+offset\+Factor}, \hyperpage{187}
+    \subitem {Get\+Config\+Values}, \hyperpage{180}
+    \subitem {Get\+Profile\+Report}, \hyperpage{181}
+    \subitem {Get\+Queue\+Length}, \hyperpage{181}
+    \subitem {Get\+Radial\+Z\+L\+U\+T\+Compare\+Profile}, 
+		\hyperpage{181}
+    \subitem {Get\+Radial\+Z\+L\+U\+T\+Size}, \hyperpage{182}
+    \subitem {Get\+Radial\+Z\+L\+UT}, \hyperpage{181}
+    \subitem {Get\+Ready\+Stream}, \hyperpage{182}
+    \subitem {Get\+Result\+Count}, \hyperpage{182}
+    \subitem {Image\+L\+UT}, \hyperpage{174}
+    \subitem {Initialize\+Device\+List}, \hyperpage{182}
+    \subitem {Is\+Idle}, \hyperpage{183}
+    \subitem {job\+Queue\+Mutex}, \hyperpage{187}
+    \subitem {localize\+Mode}, \hyperpage{187}
+    \subitem {num\+Threads}, \hyperpage{187}
+    \subitem {qalign}, \hyperpage{187}
+    \subitem {qi}, \hyperpage{187}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{174}
+    \subitem {quit\+Scheduler}, \hyperpage{187}
+    \subitem {result\+Count}, \hyperpage{187}
+    \subitem {result\+Mutex}, \hyperpage{187}
+    \subitem {results}, \hyperpage{188}
+    \subitem {Schedule\+Localization}, \hyperpage{183}
+    \subitem {scheduling\+Thread}, \hyperpage{188}
+    \subitem {Scheduling\+Thread\+Entry\+Point}, \hyperpage{184}
+    \subitem {Scheduling\+Thread\+Main}, \hyperpage{184}
+    \subitem {Set\+Config\+Value}, \hyperpage{184}
+    \subitem {Set\+Localization\+Mode}, \hyperpage{185}
+    \subitem {Set\+Pixel\+Calibration\+Factors}, \hyperpage{185}
+    \subitem {Set\+Pixel\+Calibration\+Images}, \hyperpage{185}
+    \subitem {Set\+Radial\+Weights}, \hyperpage{186}
+    \subitem {Set\+Radial\+Z\+L\+UT}, \hyperpage{186}
+    \subitem {Stream\+Update\+Z\+L\+U\+T\+Size}, \hyperpage{186}
+    \subitem {streams}, \hyperpage{188}
+    \subitem {threads}, \hyperpage{186}
+    \subitem {time}, \hyperpage{188}
+    \subitem {use\+Texture\+Cache}, \hyperpage{188}
+    \subitem {zlut\+\_\+build\+\_\+flags}, \hyperpage{188}
+  \item {Queued\+C\+U\+D\+A\+Tracker.\+cu}
+    \subitem {Add\+Profiles\+To\+Z\+L\+UT}, \hyperpage{382}
+    \subitem {checksum}, \hyperpage{382}
+    \subitem {Create\+Queued\+Tracker}, \hyperpage{382}
+    \subitem {cuda\+Device\+List}, \hyperpage{383}
+    \subitem {Get\+Best\+C\+U\+D\+A\+Device}, \hyperpage{382}
+    \subitem {Set\+C\+U\+D\+A\+Devices}, \hyperpage{382}
+    \subitem {T\+R\+K\+\_\+\+P\+R\+O\+F\+I\+LE}, \hyperpage{382}
+  \item {Queued\+C\+U\+D\+A\+Tracker.\+h}
+    \subitem {cuda\+Image\+Listf}, \hyperpage{383}
+  \item {Queued\+C\+U\+D\+A\+Tracker\+::\+Device}, \hyperpage{75}
+    \subitem {$\sim$\+Device}, \hyperpage{75}
+    \subitem {calib\+\_\+gain}, \hyperpage{76}
+    \subitem {calib\+\_\+offset}, \hyperpage{76}
+    \subitem {Device}, \hyperpage{75}
+    \subitem {index}, \hyperpage{76}
+    \subitem {qalign\+\_\+instance}, \hyperpage{77}
+    \subitem {qi\+\_\+instance}, \hyperpage{77}
+    \subitem {radial\+\_\+zlut}, \hyperpage{77}
+    \subitem {Set\+Pixel\+Calibration\+Images}, \hyperpage{76}
+    \subitem {Set\+Radial\+Weights}, \hyperpage{76}
+    \subitem {Set\+Radial\+Z\+L\+UT}, \hyperpage{76}
+    \subitem {zcompare\+Window}, \hyperpage{77}
+    \subitem {zlut\+\_\+trigtable}, \hyperpage{77}
+  \item {Queued\+C\+U\+D\+A\+Tracker\+::\+Kernel\+Profile\+Time}, 
+		\hyperpage{103}
+    \subitem {com}, \hyperpage{104}
+    \subitem {get\+Results}, \hyperpage{104}
+    \subitem {image\+Copy}, \hyperpage{104}
+    \subitem {Kernel\+Profile\+Time}, \hyperpage{104}
+    \subitem {qi}, \hyperpage{104}
+    \subitem {zcompute}, \hyperpage{104}
+    \subitem {zlut\+Align}, \hyperpage{104}
+  \item {Queued\+C\+U\+D\+A\+Tracker\+::\+Stream}, \hyperpage{212}
+    \subitem {$\sim$\+Stream}, \hyperpage{213}
+    \subitem {batch\+Start}, \hyperpage{214}
+    \subitem {com}, \hyperpage{214}
+    \subitem {com\+Done}, \hyperpage{214}
+    \subitem {d\+\_\+com}, \hyperpage{214}
+    \subitem {d\+\_\+imgmeans}, \hyperpage{214}
+    \subitem {d\+\_\+loc\+Params}, \hyperpage{214}
+    \subitem {d\+\_\+radialprofiles}, \hyperpage{214}
+    \subitem {d\+\_\+resultpos}, \hyperpage{214}
+    \subitem {d\+\_\+zlutcmpscores}, \hyperpage{214}
+    \subitem {device}, \hyperpage{214}
+    \subitem {host\+Image\+Buf}, \hyperpage{214}
+    \subitem {image\+Buf\+Mutex}, \hyperpage{215}
+    \subitem {image\+Copy\+Done}, \hyperpage{215}
+    \subitem {images}, \hyperpage{215}
+    \subitem {imap\+Done}, \hyperpage{215}
+    \subitem {img\+Means}, \hyperpage{215}
+    \subitem {Is\+Execution\+Done}, \hyperpage{214}
+    \subitem {Job\+Count}, \hyperpage{214}
+    \subitem {jobs}, \hyperpage{215}
+    \subitem {loc\+Params}, \hyperpage{215}
+    \subitem {localization\+Done}, \hyperpage{215}
+    \subitem {localize\+Flags}, \hyperpage{215}
+    \subitem {Output\+Memory\+Use}, \hyperpage{214}
+    \subitem {qalign\+\_\+instance}, \hyperpage{215}
+    \subitem {qalign\+Done}, \hyperpage{215}
+    \subitem {qi\+\_\+instance}, \hyperpage{215}
+    \subitem {qi\+Done}, \hyperpage{215}
+    \subitem {results}, \hyperpage{215}
+    \subitem {State}, \hyperpage{213}
+    \subitem {state}, \hyperpage{215}
+    \subitem {Stream}, \hyperpage{213}
+    \subitem {stream}, \hyperpage{215}
+    \subitem {Stream\+Executing}, \hyperpage{213}
+    \subitem {Stream\+Idle}, \hyperpage{213}
+    \subitem {Stream\+Pending\+Exec}, \hyperpage{213}
+    \subitem {zcompute\+Done}, \hyperpage{215}
+  \item {Queued\+Tracker}, \hyperpage{188}
+    \subitem {$\sim$\+Queued\+Tracker}, \hyperpage{190}
+    \subitem {Begin\+L\+UT}, \hyperpage{190}
+    \subitem {Build\+L\+UT}, \hyperpage{190}
+    \subitem {cfg}, \hyperpage{196}
+    \subitem {Clear\+Results}, \hyperpage{190}
+    \subitem {Compute\+Z\+Bias\+Correction}, \hyperpage{190}
+    \subitem {Config\+Value\+Map}, \hyperpage{190}
+    \subitem {Debug\+Image}, \hyperpage{191}
+    \subitem {Enable\+Radial\+Z\+L\+U\+T\+Compare\+Profile}, 
+		\hyperpage{191}
+    \subitem {Fetch\+Results}, \hyperpage{191}
+    \subitem {Finalize\+L\+UT}, \hyperpage{192}
+    \subitem {Flush}, \hyperpage{192}
+    \subitem {Get\+Config\+Values}, \hyperpage{192}
+    \subitem {Get\+Debug\+Image}, \hyperpage{192}
+    \subitem {Get\+Image\+Z\+L\+U\+T\+Size}, \hyperpage{192}
+    \subitem {Get\+Image\+Z\+L\+UT}, \hyperpage{192}
+    \subitem {Get\+Profile\+Report}, \hyperpage{192}
+    \subitem {Get\+Queue\+Length}, \hyperpage{192}
+    \subitem {Get\+Radial\+Z\+L\+U\+T\+Compare\+Profile}, 
+		\hyperpage{193}
+    \subitem {Get\+Radial\+Z\+L\+U\+T\+Size}, \hyperpage{193}
+    \subitem {Get\+Radial\+Z\+L\+UT}, \hyperpage{193}
+    \subitem {Get\+Result\+Count}, \hyperpage{193}
+    \subitem {Get\+Warnings}, \hyperpage{193}
+    \subitem {Get\+Z\+L\+U\+T\+Bias\+Correction}, \hyperpage{193}
+    \subitem {Is\+Idle}, \hyperpage{193}
+    \subitem {Queued\+Tracker}, \hyperpage{190}
+    \subitem {Schedule\+Frame}, \hyperpage{193}
+    \subitem {Schedule\+Image\+Data}, \hyperpage{194}
+    \subitem {Schedule\+Localization}, \hyperpage{194}
+    \subitem {Set\+Config\+Value}, \hyperpage{194}
+    \subitem {Set\+Image\+Z\+L\+UT}, \hyperpage{195}
+    \subitem {Set\+Localization\+Mode}, \hyperpage{195}
+    \subitem {Set\+Pixel\+Calibration\+Factors}, \hyperpage{195}
+    \subitem {Set\+Pixel\+Calibration\+Images}, \hyperpage{195}
+    \subitem {Set\+Radial\+Weights}, \hyperpage{195}
+    \subitem {Set\+Radial\+Z\+L\+UT}, \hyperpage{195}
+    \subitem {Set\+Z\+L\+U\+T\+Bias\+Correction}, \hyperpage{195}
+    \subitem {Z\+L\+U\+T\+Bias\+Correction}, \hyperpage{195}
+    \subitem {zlut\+\_\+bias\+\_\+correction}, \hyperpage{196}
+  \item {Queued\+Tracker.\+cpp}
+    \subitem {W\+R\+I\+T\+E\+V\+AR}, \hyperpage{316}
+  \item {Queued\+Tracker.\+h}
+    \subitem {B\+U\+I\+L\+D\+L\+U\+T\+\_\+\+B\+I\+A\+S\+C\+O\+R\+R\+E\+CT}, 
+		\hyperpage{317}
+    \subitem {B\+U\+I\+L\+D\+L\+U\+T\+\_\+\+F\+O\+U\+R\+I\+ER}, 
+		\hyperpage{317}
+    \subitem {B\+U\+I\+L\+D\+L\+U\+T\+\_\+\+I\+M\+A\+G\+E\+L\+UT}, 
+		\hyperpage{317}
+    \subitem {B\+U\+I\+L\+D\+L\+U\+T\+\_\+\+N\+O\+R\+M\+A\+L\+I\+ZE}, 
+		\hyperpage{317}
+    \subitem {Copy\+Image\+To\+Float}, \hyperpage{317}
+    \subitem {Create\+Queued\+Tracker}, \hyperpage{318}
+    \subitem {Image\+Data}, \hyperpage{317}
+    \subitem {M\+I\+N\+\_\+\+R\+A\+D\+P\+R\+O\+F\+I\+L\+E\+\_\+\+S\+M\+P\+\_\+\+C\+O\+U\+NT}, 
+		\hyperpage{317}
+    \subitem {P\+D\+T\+\_\+\+Bytes\+Per\+Pixel}, \hyperpage{318}
+    \subitem {Q\+I\+\_\+\+L\+S\+Q\+F\+I\+T\+\_\+\+N\+W\+E\+I\+G\+H\+TS}, 
+		\hyperpage{317}
+    \subitem {Q\+I\+\_\+\+L\+S\+Q\+F\+I\+T\+\_\+\+W\+E\+I\+G\+H\+TS}, 
+		\hyperpage{317}
+    \subitem {Set\+C\+U\+D\+A\+Devices}, \hyperpage{318}
+    \subitem {Z\+L\+U\+T\+\_\+\+L\+S\+Q\+F\+I\+T\+\_\+\+N\+W\+E\+I\+G\+H\+TS}, 
+		\hyperpage{317}
+    \subitem {Z\+L\+U\+T\+\_\+\+L\+S\+Q\+F\+I\+T\+\_\+\+W\+E\+I\+G\+H\+TS}, 
+		\hyperpage{317}
+  \item {Quit}
+    \subitem {Thread\+Pool}, \hyperpage{221}
+  \item {quit}
+    \subitem {Result\+Manager}, \hyperpage{204}
+    \subitem {Thread\+Pool}, \hyperpage{222}
+  \item {quit\+Scheduler}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{187}
+  \item {quit\+Work}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{171}
+
+  \indexspace
+
+  \item {R\+O\+I\+Dis}
+    \subitem {main.\+cpp}, \hyperpage{242}
+  \item {R\+O\+I\+Position}, \hyperpage{205}
+    \subitem {x}, \hyperpage{206}
+    \subitem {y}, \hyperpage{206}
+  \item {R\+W\+Derivative}
+    \subitem {main.\+cpp}, \hyperpage{242}
+  \item {R\+W\+None}
+    \subitem {main.\+cpp}, \hyperpage{242}
+  \item {R\+W\+Radial}
+    \subitem {main.\+cpp}, \hyperpage{242}
+  \item {R\+W\+Stetson}
+    \subitem {main.\+cpp}, \hyperpage{242}
+  \item {R\+W\+Uniform}
+    \subitem {main.\+cpp}, \hyperpage{242}
+  \item {R\+Weight\+Mode}
+    \subitem {main.\+cpp}, \hyperpage{242}
+  \item {radial\+\_\+zlut}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Device}, \hyperpage{77}
+  \item {radial\+Dirs}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{67}
+  \item {radial\+Steps}
+    \subitem {Q\+I\+Params}, \hyperpage{144}
+    \subitem {Z\+L\+U\+T\+Params}, \hyperpage{234}
+  \item {rand\+\_\+normal}
+    \subitem {random\+\_\+distr.\+h}, \hyperpage{318}
+  \item {rand\+\_\+poisson}
+    \subitem {random\+\_\+distr.\+h}, \hyperpage{318}
+  \item {rand\+\_\+uniform}
+    \subitem {random\+\_\+distr.\+h}, \hyperpage{319}
+  \item {random}
+    \subitem {vector2}, \hyperpage{229}
+  \item {random\+\_\+distr.\+h}
+    \subitem {rand\+\_\+normal}, \hyperpage{318}
+    \subitem {rand\+\_\+poisson}, \hyperpage{318}
+    \subitem {rand\+\_\+uniform}, \hyperpage{319}
+  \item {Random\+Fill}
+    \subitem {Shared\+Tests.\+h}, \hyperpage{268}
+  \item {read}
+    \subitem {Image4\+D\+Memory}, \hyperpage{95}
+  \item {Read\+C\+SV}
+    \subitem {utils.\+cpp}, \hyperpage{331}
+    \subitem {utils.\+h}, \hyperpage{346}
+  \item {Read\+J\+P\+E\+G\+File}
+    \subitem {fastjpg.\+cpp}, \hyperpage{289}
+    \subitem {utils.\+cpp}, \hyperpage{332}
+    \subitem {utils.\+h}, \hyperpage{346, 347}
+  \item {Read\+L\+U\+T\+File}
+    \subitem {utils.\+cpp}, \hyperpage{332}
+    \subitem {utils.\+h}, \hyperpage{348}
+  \item {read\+Surface\+Pixel}
+    \subitem {Image4\+D\+Cuda\+Array\+::\+Kernel\+Inst}, 
+		\hyperpage{101}
+  \item {Read\+To\+Byte\+Buffer}
+    \subitem {utils.\+cpp}, \hyperpage{332}
+    \subitem {utils.\+h}, \hyperpage{348}
+  \item {Read\+Vector3\+C\+SV}
+    \subitem {utils.\+cpp}, \hyperpage{333}
+    \subitem {utils.\+h}, \hyperpage{348}
+  \item {real}
+    \subitem {sfft\+::complex}, \hyperpage{47}
+  \item {Recenter\+And\+Filter}
+    \subitem {Bead\+Finder.\+cpp}, \hyperpage{282}
+  \item {Remove\+Bead\+Results}
+    \subitem {Result\+Manager}, \hyperpage{200}
+  \item {Resample\+L\+UT}
+    \subitem {Shared\+Tests.\+h}, \hyperpage{269}
+  \item {Rescale\+L\+UT}
+    \subitem {main.\+cpp}, \hyperpage{251}
+  \item {Resize\+Image}
+    \subitem {testutils.\+cpp}, \hyperpage{276}
+    \subitem {testutils.\+h}, \hyperpage{280}
+  \item {Resize\+L\+UT}
+    \subitem {Shared\+Tests.\+h}, \hyperpage{269}
+  \item {Resize\+L\+V\+Array}
+    \subitem {Lab\+V\+I\+E\+W datatypes and helper functions}, 
+		\hyperpage{21}
+  \item {Resize\+L\+V\+Array2D}
+    \subitem {Lab\+V\+I\+E\+W datatypes and helper functions}, 
+		\hyperpage{21}
+  \item {Resize\+L\+V\+Array3D}
+    \subitem {Lab\+V\+I\+E\+W datatypes and helper functions}, 
+		\hyperpage{21}
+  \item {result\+Count}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{171}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{187}
+  \item {Result\+File}, \hyperpage{196}
+    \subitem {$\sim$\+Result\+File}, \hyperpage{197}
+    \subitem {Load\+Row}, \hyperpage{197}
+    \subitem {Result\+File}, \hyperpage{197}
+    \subitem {Save\+Row}, \hyperpage{197}
+  \item {result\+File}
+    \subitem {Result\+Manager}, \hyperpage{204}
+  \item {Result\+Manager}, \hyperpage{197}
+    \subitem {$\sim$\+Result\+Manager}, \hyperpage{198}
+    \subitem {Check\+Result\+Space}, \hyperpage{199}
+    \subitem {cnt}, \hyperpage{204}
+    \subitem {Config}, \hyperpage{199}
+    \subitem {config}, \hyperpage{204}
+    \subitem {Flush}, \hyperpage{199}
+    \subitem {frame\+Info\+File}, \hyperpage{204}
+    \subitem {frame\+Info\+Names}, \hyperpage{204}
+    \subitem {frame\+Results}, \hyperpage{204}
+    \subitem {Get\+Bead\+Positions}, \hyperpage{199}
+    \subitem {Get\+Frame\+Count}, \hyperpage{200}
+    \subitem {Get\+Frame\+Counters}, \hyperpage{200}
+    \subitem {Get\+Results}, \hyperpage{200}
+    \subitem {Get\+Tracker}, \hyperpage{200}
+    \subitem {output\+File}, \hyperpage{204}
+    \subitem {qtrk}, \hyperpage{204}
+    \subitem {quit}, \hyperpage{204}
+    \subitem {Remove\+Bead\+Results}, \hyperpage{200}
+    \subitem {result\+File}, \hyperpage{204}
+    \subitem {Result\+Manager}, \hyperpage{198}
+    \subitem {result\+Mutex}, \hyperpage{204}
+    \subitem {Save\+Section}, \hyperpage{201}
+    \subitem {Set\+Tracker}, \hyperpage{201}
+    \subitem {Store\+Frame\+Info}, \hyperpage{201}
+    \subitem {Store\+Result}, \hyperpage{201}
+    \subitem {thread}, \hyperpage{204}
+    \subitem {Thread\+Loop}, \hyperpage{202}
+    \subitem {tracker\+Mutex}, \hyperpage{204}
+    \subitem {Update}, \hyperpage{202}
+    \subitem {Write}, \hyperpage{202}
+    \subitem {Write\+Binary\+File\+Header}, \hyperpage{203}
+    \subitem {Write\+Binary\+Results}, \hyperpage{203}
+    \subitem {Write\+Text\+Results}, \hyperpage{204}
+  \item {Result\+Manager.\+cpp}
+    \subitem {B\+I\+N\+F\+I\+L\+E\+\_\+\+V\+E\+R\+S\+I\+ON}, 
+		\hyperpage{319}
+  \item {Result\+Manager\+::\+Frame\+Counters}, \hyperpage{85}
+    \subitem {captured\+Frames}, \hyperpage{85}
+    \subitem {file\+Error}, \hyperpage{85}
+    \subitem {Frame\+Counters}, \hyperpage{85}
+    \subitem {last\+Save\+Frame}, \hyperpage{85}
+    \subitem {localizations\+Done}, \hyperpage{85}
+    \subitem {lost\+Frames}, \hyperpage{85}
+    \subitem {processed\+Frames}, \hyperpage{85}
+    \subitem {start\+Frame}, \hyperpage{85}
+  \item {Result\+Manager\+::\+Frame\+Result}, \hyperpage{86}
+    \subitem {count}, \hyperpage{86}
+    \subitem {frame\+Info}, \hyperpage{86}
+    \subitem {Frame\+Result}, \hyperpage{86}
+    \subitem {has\+Frame\+Info}, \hyperpage{86}
+    \subitem {results}, \hyperpage{86}
+    \subitem {timestamp}, \hyperpage{86}
+  \item {Result\+Manager\+Config}, \hyperpage{205}
+    \subitem {binary\+Output}, \hyperpage{205}
+    \subitem {max\+Frames\+In\+Memory}, \hyperpage{205}
+    \subitem {num\+Beads}, \hyperpage{205}
+    \subitem {num\+Frame\+Info\+Columns}, \hyperpage{205}
+    \subitem {offset}, \hyperpage{205}
+    \subitem {scaling}, \hyperpage{205}
+    \subitem {write\+Interval}, \hyperpage{205}
+  \item {result\+Mutex}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{187}
+    \subitem {Result\+Manager}, \hyperpage{204}
+  \item {results}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{171}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{188}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Stream}, \hyperpage{215}
+    \subitem {Result\+Manager\+::\+Frame\+Result}, \hyperpage{86}
+  \item {results\+\_\+mutex}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{171}
+  \item {rm\+\_\+create}
+    \subitem {lv\+\_\+resultmanager\+\_\+api.\+cpp}, \hyperpage{309}
+  \item {rm\+\_\+destroy}
+    \subitem {lv\+\_\+resultmanager\+\_\+api.\+cpp}, \hyperpage{309}
+  \item {rm\+\_\+destroy\+\_\+all}
+    \subitem {lv\+\_\+resultmanager\+\_\+api.\+cpp}, \hyperpage{309}
+  \item {rm\+\_\+flush}
+    \subitem {lv\+\_\+resultmanager\+\_\+api.\+cpp}, \hyperpage{309}
+  \item {rm\+\_\+getbeadresults}
+    \subitem {lv\+\_\+resultmanager\+\_\+api.\+cpp}, \hyperpage{309}
+  \item {rm\+\_\+getconfig}
+    \subitem {lv\+\_\+resultmanager\+\_\+api.\+cpp}, \hyperpage{310}
+  \item {rm\+\_\+getframecounters}
+    \subitem {lv\+\_\+resultmanager\+\_\+api.\+cpp}, \hyperpage{310}
+  \item {rm\+\_\+getresults}
+    \subitem {lv\+\_\+resultmanager\+\_\+api.\+cpp}, \hyperpage{310}
+  \item {rm\+\_\+instances}
+    \subitem {lv\+\_\+resultmanager\+\_\+api.\+cpp}, \hyperpage{311}
+  \item {rm\+\_\+removebead}
+    \subitem {lv\+\_\+resultmanager\+\_\+api.\+cpp}, \hyperpage{310}
+  \item {rm\+\_\+set\+\_\+tracker}
+    \subitem {lv\+\_\+resultmanager\+\_\+api.\+cpp}, \hyperpage{310}
+  \item {rm\+\_\+store\+\_\+frame\+\_\+info}
+    \subitem {lv\+\_\+resultmanager\+\_\+api.\+cpp}, \hyperpage{311}
+  \item {roi}
+    \subitem {Bead\+Finder\+::\+Config}, \hyperpage{49}
+  \item {round}
+    \subitem {cpu\+\_\+tracker.\+cpp}, \hyperpage{286}
+  \item {row}
+    \subitem {Matrix3\+X3}, \hyperpage{129}
+  \item {rows}
+    \subitem {Image4\+D\+Memory}, \hyperpage{96}
+  \item {Run\+C\+O\+M\+And\+QI}
+    \subitem {main.\+cpp}, \hyperpage{251}
+  \item {Run\+Test}
+    \subitem {main.\+cpp}, \hyperpage{252}
+  \item {Run\+Tracker}
+    \subitem {Shared\+Tests.\+h}, \hyperpage{269}
+  \item {Run\+Tracker\+Results}, \hyperpage{206}
+    \subitem {compute\+Stats}, \hyperpage{206}
+    \subitem {mean\+Err}, \hyperpage{207}
+    \subitem {output}, \hyperpage{207}
+    \subitem {stdev}, \hyperpage{207}
+    \subitem {truepos}, \hyperpage{207}
+  \item {Run\+Z\+Trace}
+    \subitem {main.\+cpp}, \hyperpage{252}
+  \item {Running\+Vista\+Or\+Better}
+    \subitem {Threads}, \hyperpage{223}
+
+  \indexspace
+
+  \item {s00}
+    \subitem {Lsq\+Sq\+Quad\+Fit\+::\+Coeff}, \hyperpage{45}
+  \item {s01}
+    \subitem {Lsq\+Sq\+Quad\+Fit\+::\+Coeff}, \hyperpage{45}
+  \item {s10}
+    \subitem {Lsq\+Sq\+Quad\+Fit\+::\+Coeff}, \hyperpage{45}
+  \item {s11}
+    \subitem {Lsq\+Sq\+Quad\+Fit\+::\+Coeff}, \hyperpage{45}
+  \item {s20}
+    \subitem {Lsq\+Sq\+Quad\+Fit\+::\+Coeff}, \hyperpage{45}
+  \item {s21}
+    \subitem {Lsq\+Sq\+Quad\+Fit\+::\+Coeff}, \hyperpage{45}
+  \item {s30}
+    \subitem {Lsq\+Sq\+Quad\+Fit\+::\+Coeff}, \hyperpage{45}
+  \item {s40}
+    \subitem {Lsq\+Sq\+Quad\+Fit\+::\+Coeff}, \hyperpage{45}
+  \item {S\+\_\+\+M\+UL}
+    \subitem {kissfft}, \hyperpage{109}
+  \item {S\+F\+F\+T\+\_\+\+B\+O\+TH}
+    \subitem {cpu\+\_\+tracker.\+cpp}, \hyperpage{285}
+    \subitem {simplefft.\+h}, \hyperpage{384}
+  \item {S\+N\+P\+R\+I\+N\+TF}
+    \subitem {std\+\_\+incl.\+h}, \hyperpage{321}
+  \item {S\+Printf}
+    \subitem {utils.\+cpp}, \hyperpage{333}
+    \subitem {utils.\+h}, \hyperpage{348}
+  \item {S\+T\+R\+C\+A\+S\+E\+C\+MP}
+    \subitem {std\+\_\+incl.\+h}, \hyperpage{321}
+  \item {S\+T\+R\+N\+C\+A\+S\+E\+C\+MP}
+    \subitem {std\+\_\+incl.\+h}, \hyperpage{321}
+  \item {Sample\+Fisher\+Matrix}, \hyperpage{207}
+    \subitem {Compute}, \hyperpage{208}
+    \subitem {Compute\+Average\+Fisher}, \hyperpage{208}
+    \subitem {Fisher\+Elem}, \hyperpage{209}
+    \subitem {Img\+Deriv}, \hyperpage{209}
+    \subitem {max\+Value}, \hyperpage{209}
+    \subitem {Sample\+Fisher\+Matrix}, \hyperpage{207}
+  \item {Save\+Image}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{65}
+  \item {Save\+Row}
+    \subitem {Binary\+Result\+File}, \hyperpage{42}
+    \subitem {Result\+File}, \hyperpage{197}
+    \subitem {Text\+Result\+File}, \hyperpage{217}
+  \item {Save\+Section}
+    \subitem {Result\+Manager}, \hyperpage{201}
+  \item {scalar\+\_\+t}
+    \subitem {scalar\+\_\+types.\+h}, \hyperpage{320}
+  \item {scalar\+\_\+type}
+    \subitem {kissfft}, \hyperpage{105}
+    \subitem {kissfft\+\_\+utils\+::traits}, \hyperpage{227}
+  \item {scalar\+\_\+types.\+h}
+    \subitem {complex\+\_\+t}, \hyperpage{320}
+    \subitem {scalar\+\_\+t}, \hyperpage{320}
+  \item {scaling}
+    \subitem {Result\+Manager\+Config}, \hyperpage{205}
+  \item {Scatter\+Bias\+Area}
+    \subitem {main.\+cpp}, \hyperpage{255}
+  \item {sched\+\_\+cpu}
+    \subitem {Speed\+Info}, \hyperpage{212}
+  \item {sched\+\_\+gpu}
+    \subitem {Speed\+Info}, \hyperpage{212}
+  \item {Schedule\+Frame}
+    \subitem {Queued\+Tracker}, \hyperpage{193}
+  \item {Schedule\+Image\+Data}
+    \subitem {Queued\+Tracker}, \hyperpage{194}
+  \item {Schedule\+Localization}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{165}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{183}
+    \subitem {Queued\+Tracker}, \hyperpage{194}
+  \item {scheduling\+Thread}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{188}
+  \item {Scheduling\+Thread\+Entry\+Point}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{184}
+  \item {Scheduling\+Thread\+Main}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{184}
+  \item {Scoped\+C\+P\+U\+Profiler}, \hyperpage{210}
+    \subitem {$\sim$\+Scoped\+C\+P\+U\+Profiler}, \hyperpage{210}
+    \subitem {Scoped\+C\+P\+U\+Profiler}, \hyperpage{210}
+    \subitem {start}, \hyperpage{210}
+    \subitem {time}, \hyperpage{210}
+  \item {Search\+Area}
+    \subitem {Bead\+Finder.\+cpp}, \hyperpage{283}
+  \item {Select\+Tests}
+    \subitem {main.\+cpp}, \hyperpage{255}
+  \item {set}
+    \subitem {Atomic}, \hyperpage{38}
+    \subitem {T\+Image\+Data}, \hyperpage{226}
+  \item {set\+\_\+\+Z\+L\+UT}
+    \subitem {lv\+\_\+cputrack\+\_\+api.\+cpp}, \hyperpage{299}
+  \item {set\+\_\+image\+\_\+float}
+    \subitem {lv\+\_\+cputrack\+\_\+api.\+cpp}, \hyperpage{298}
+  \item {set\+\_\+image\+\_\+from\+\_\+memory}
+    \subitem {lv\+\_\+cputrack\+\_\+api.\+cpp}, \hyperpage{298}
+  \item {set\+\_\+image\+\_\+u16}
+    \subitem {lv\+\_\+cputrack\+\_\+api.\+cpp}, \hyperpage{298}
+  \item {set\+\_\+image\+\_\+u8}
+    \subitem {lv\+\_\+cputrack\+\_\+api.\+cpp}, \hyperpage{298}
+  \item {Set\+Background\+Priority}
+    \subitem {Threads}, \hyperpage{223}
+  \item {Set\+C\+U\+D\+A\+Devices}
+    \subitem {Queued\+C\+P\+U\+Tracker.\+cpp}, \hyperpage{315}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker.\+cu}, \hyperpage{382}
+    \subitem {Queued\+Tracker.\+h}, \hyperpage{318}
+  \item {Set\+Config\+Value}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{166}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{184}
+    \subitem {Queued\+Tracker}, \hyperpage{194}
+  \item {Set\+Image}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{65}
+  \item {Set\+Image16\+Bit}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{65}
+  \item {Set\+Image8\+Bit}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{65}
+  \item {Set\+Image\+Float}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{66}
+  \item {Set\+Image\+Z\+L\+UT}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{166}
+    \subitem {Queued\+Tracker}, \hyperpage{195}
+  \item {Set\+L\+V\+String}
+    \subitem {Lab\+V\+I\+E\+W datatypes and helper functions}, 
+		\hyperpage{21}
+  \item {Set\+Localization\+Mode}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{166}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{185}
+    \subitem {Queued\+Tracker}, \hyperpage{195}
+  \item {Set\+Pixel\+Calibration\+Factors}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{166}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{185}
+    \subitem {Queued\+Tracker}, \hyperpage{195}
+  \item {Set\+Pixel\+Calibration\+Images}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{167}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{185}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Device}, \hyperpage{76}
+    \subitem {Queued\+Tracker}, \hyperpage{195}
+  \item {Set\+Radial\+Weights}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{66}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{167}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{186}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Device}, \hyperpage{76}
+    \subitem {Queued\+Tracker}, \hyperpage{195}
+  \item {Set\+Radial\+Z\+L\+UT}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{66}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{168}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{186}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Device}, \hyperpage{76}
+    \subitem {Queued\+Tracker}, \hyperpage{195}
+  \item {Set\+Tracker}
+    \subitem {Result\+Manager}, \hyperpage{201}
+  \item {Set\+Tracker\+Image}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{168}
+  \item {Set\+Z\+L\+U\+T\+Bias\+Correction}
+    \subitem {Queued\+Tracker}, \hyperpage{195}
+  \item {sfft}, \hyperpage{35}
+    \subitem {fft}, \hyperpage{35}
+    \subitem {fft\+\_\+forward}, \hyperpage{35}
+    \subitem {fft\+\_\+inverse}, \hyperpage{35}
+    \subitem {fill\+\_\+twiddles}, \hyperpage{36}
+    \subitem {swap}, \hyperpage{36}
+  \item {sfft\+::complex}
+    \subitem {complex}, \hyperpage{46}
+    \subitem {conjugate}, \hyperpage{46}
+    \subitem {imag}, \hyperpage{46}
+    \subitem {operator$\ast$}, \hyperpage{47}
+    \subitem {operator$\ast$=}, \hyperpage{47}
+    \subitem {operator+}, \hyperpage{47}
+    \subitem {operator+=}, \hyperpage{47}
+    \subitem {operator-\/}, \hyperpage{47}
+    \subitem {real}, \hyperpage{47}
+    \subitem {x}, \hyperpage{48}
+    \subitem {y}, \hyperpage{48}
+  \item {sfft\+::complex$<$ T $>$}, \hyperpage{45}
+  \item {Shared\+Tests.\+h}
+    \subitem {Enable\+Gain\+Correction}, \hyperpage{266}
+    \subitem {Fetch\+Results}, \hyperpage{266}
+    \subitem {Gauss2\+D\+Test}, \hyperpage{267}
+    \subitem {linspace}, \hyperpage{268}
+    \subitem {logspace}, \hyperpage{268}
+    \subitem {Mean\+St\+Dev\+Error}, \hyperpage{268}
+    \subitem {Random\+Fill}, \hyperpage{268}
+    \subitem {Resample\+L\+UT}, \hyperpage{269}
+    \subitem {Resize\+L\+UT}, \hyperpage{269}
+    \subitem {Run\+Tracker}, \hyperpage{269}
+    \subitem {Speed\+Acc\+Test}, \hyperpage{270}
+    \subitem {Test\+C\+M\+O\+S\+Noise\+Influence}, \hyperpage{271}
+    \subitem {Wait\+For\+Finish}, \hyperpage{273}
+  \item {Show\+C\+U\+D\+A\+Error}
+    \subitem {test.\+cu}, \hyperpage{364}
+  \item {similarity}
+    \subitem {Bead\+Finder\+::\+Config}, \hyperpage{49}
+  \item {Simple\+Kernel}
+    \subitem {test.\+cu}, \hyperpage{364}
+  \item {Simple\+Test}
+    \subitem {main.\+cpp}, \hyperpage{256}
+  \item {simplefft.\+h}
+    \subitem {S\+F\+F\+T\+\_\+\+B\+O\+TH}, \hyperpage{384}
+  \item {size}
+    \subitem {device\+\_\+vec}, \hyperpage{80}
+    \subitem {pinned\+\_\+array}, \hyperpage{139}
+  \item {Skew}
+    \subitem {main.\+cpp}, \hyperpage{242}
+  \item {Skew\+Image}
+    \subitem {testutils.\+cpp}, \hyperpage{276}
+    \subitem {testutils.\+h}, \hyperpage{281}
+  \item {Skew\+Param}
+    \subitem {main.\+cpp}, \hyperpage{257}
+  \item {Sleep}
+    \subitem {Threads}, \hyperpage{223}
+  \item {Small\+Image\+Test}
+    \subitem {main.\+cpp}, \hyperpage{257}
+  \item {Smallest\+Power\+Of\+Two}
+    \subitem {test.\+cu}, \hyperpage{364}
+  \item {speed}
+    \subitem {Speed\+Acc\+Result}, \hyperpage{211}
+  \item {speed\+\_\+cpu}
+    \subitem {Speed\+Info}, \hyperpage{212}
+  \item {speed\+\_\+gpu}
+    \subitem {Speed\+Info}, \hyperpage{212}
+  \item {Speed\+Acc\+Result}, \hyperpage{210}
+    \subitem {acc}, \hyperpage{211}
+    \subitem {bias}, \hyperpage{211}
+    \subitem {Compute}, \hyperpage{211}
+    \subitem {crlb}, \hyperpage{211}
+    \subitem {speed}, \hyperpage{211}
+  \item {Speed\+Acc\+Test}
+    \subitem {Shared\+Tests.\+h}, \hyperpage{270}
+  \item {Speed\+Compare\+Test}
+    \subitem {test.\+cu}, \hyperpage{365}
+  \item {Speed\+Info}, \hyperpage{211}
+    \subitem {sched\+\_\+cpu}, \hyperpage{212}
+    \subitem {sched\+\_\+gpu}, \hyperpage{212}
+    \subitem {speed\+\_\+cpu}, \hyperpage{212}
+    \subitem {speed\+\_\+gpu}, \hyperpage{212}
+  \item {Speed\+Test}
+    \subitem {main.\+cpp}, \hyperpage{257}
+    \subitem {test.\+cu}, \hyperpage{365}
+  \item {sq}
+    \subitem {testutils.\+h}, \hyperpage{281}
+    \subitem {utils.\+cpp}, \hyperpage{333}
+  \item {sqrt}
+    \subitem {std\+\_\+incl.\+h}, \hyperpage{322}
+  \item {src\+Image}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{67}
+  \item {Start}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{168}
+  \item {start}
+    \subitem {Scoped\+C\+P\+U\+Profiler}, \hyperpage{210}
+  \item {start\+Frame}
+    \subitem {Result\+Manager\+::\+Frame\+Counters}, \hyperpage{85}
+  \item {State}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Stream}, \hyperpage{213}
+  \item {state}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Stream}, \hyperpage{215}
+  \item {status}
+    \subitem {Error\+Cluster}, \hyperpage{82}
+  \item {std\+\_\+incl.\+h}
+    \subitem {\+\_\+\+C\+R\+T\+\_\+\+S\+E\+C\+U\+R\+E\+\_\+\+N\+O\+\_\+\+W\+A\+R\+N\+I\+N\+GS}, 
+		\hyperpage{321}
+    \subitem {A\+L\+L\+O\+C\+A\+\_\+\+A\+R\+R\+AY}, \hyperpage{321}
+    \subitem {A\+L\+L\+O\+CA}, \hyperpage{321}
+    \subitem {S\+N\+P\+R\+I\+N\+TF}, \hyperpage{321}
+    \subitem {S\+T\+R\+C\+A\+S\+E\+C\+MP}, \hyperpage{321}
+    \subitem {S\+T\+R\+N\+C\+A\+S\+E\+C\+MP}, \hyperpage{321}
+    \subitem {sqrt}, \hyperpage{322}
+    \subitem {uchar}, \hyperpage{322}
+    \subitem {uint}, \hyperpage{322}
+    \subitem {ulong}, \hyperpage{322}
+    \subitem {ushort}, \hyperpage{322}
+    \subitem {V\+S\+N\+P\+R\+I\+N\+TF}, \hyperpage{321}
+    \subitem {vector2d}, \hyperpage{322}
+    \subitem {vector2f}, \hyperpage{322}
+    \subitem {vector3d}, \hyperpage{322}
+    \subitem {vector3f}, \hyperpage{322}
+  \item {Std\+Deviation}
+    \subitem {utils.\+h}, \hyperpage{349}
+  \item {stdev}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{67}
+    \subitem {Run\+Tracker\+Results}, \hyperpage{207}
+  \item {Store\+Frame\+Info}
+    \subitem {Result\+Manager}, \hyperpage{201}
+  \item {Store\+Result}
+    \subitem {Result\+Manager}, \hyperpage{201}
+  \item {Stream}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Stream}, \hyperpage{213}
+  \item {stream}
+    \subitem {Q\+I\+::\+Stream\+Instance}, \hyperpage{216}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Stream}, \hyperpage{215}
+  \item {Stream\+Executing}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Stream}, \hyperpage{213}
+  \item {Stream\+Idle}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Stream}, \hyperpage{213}
+  \item {Stream\+Pending\+Exec}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Stream}, \hyperpage{213}
+  \item {Stream\+Update\+Z\+L\+U\+T\+Size}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{186}
+  \item {streams}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{188}
+  \item {sum\+\_\+diff}
+    \subitem {cpu\+\_\+tracker.\+cpp}, \hyperpage{286}
+  \item {swap}
+    \subitem {sfft}, \hyperpage{36}
+
+  \indexspace
+
+  \item {T\+Image\+Data}
+    \subitem {alloc}, \hyperpage{225}
+    \subitem {at}, \hyperpage{225}
+    \subitem {copy\+To}, \hyperpage{225}
+    \subitem {data}, \hyperpage{227}
+    \subitem {free}, \hyperpage{225}
+    \subitem {h}, \hyperpage{227}
+    \subitem {interpolate}, \hyperpage{225}
+    \subitem {interpolate1D}, \hyperpage{225}
+    \subitem {mean}, \hyperpage{226}
+    \subitem {normalize}, \hyperpage{226}
+    \subitem {num\+Pixels}, \hyperpage{226}
+    \subitem {operator[]}, \hyperpage{226}
+    \subitem {pitch}, \hyperpage{226}
+    \subitem {set}, \hyperpage{226}
+    \subitem {T\+Image\+Data}, \hyperpage{225}
+    \subitem {w}, \hyperpage{227}
+    \subitem {write\+As\+C\+SV}, \hyperpage{226}
+  \item {T\+Image\+Data$<$ T $>$}, \hyperpage{224}
+  \item {T\+R\+K\+\_\+\+P\+R\+O\+F\+I\+LE}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker.\+cu}, \hyperpage{382}
+  \item {test}
+    \subitem {Matrix3\+X3}, \hyperpage{129}
+  \item {test.\+cu}
+    \subitem {Basic\+Q\+Trk\+Test}, \hyperpage{353}
+    \subitem {Basic\+Q\+Trk\+Test\+\_\+\+RM}, \hyperpage{354}
+    \subitem {Benchmark\+Params}, \hyperpage{355}
+    \subitem {Build\+Z\+L\+UT}, \hyperpage{356}
+    \subitem {check\+\_\+arg}, \hyperpage{357}
+    \subitem {check\+\_\+strarg}, \hyperpage{357}
+    \subitem {Cmd\+Line\+Run}, \hyperpage{357}
+    \subitem {cmp\+\_\+cpu\+\_\+qi\+\_\+fft\+\_\+out}, \hyperpage{368}
+    \subitem {cmp\+\_\+cpu\+\_\+qi\+\_\+prof}, \hyperpage{368}
+    \subitem {cmp\+\_\+gpu\+\_\+qi\+\_\+fft\+\_\+out}, \hyperpage{368}
+    \subitem {cmp\+\_\+gpu\+\_\+qi\+\_\+prof}, \hyperpage{368}
+    \subitem {Compare\+Accuracy}, \hyperpage{359}
+    \subitem {compute}, \hyperpage{360}
+    \subitem {cuda\+Shared\+Mem}, \hyperpage{368}
+    \subitem {empty\+Kernel}, \hyperpage{360}
+    \subitem {get\+Path}, \hyperpage{360}
+    \subitem {list\+Devices}, \hyperpage{360}
+    \subitem {main}, \hyperpage{360}
+    \subitem {mul\+\_\+conjugate}, \hyperpage{361}
+    \subitem {Nearest\+Power\+Of\+Two}, \hyperpage{361}
+    \subitem {Profile\+Speed\+Vs\+R\+OI}, \hyperpage{361}
+    \subitem {Q\+I\+Compare}, \hyperpage{362}
+    \subitem {Q\+Trk\+Compare\+Test}, \hyperpage{362}
+    \subitem {Show\+C\+U\+D\+A\+Error}, \hyperpage{364}
+    \subitem {Simple\+Kernel}, \hyperpage{364}
+    \subitem {Smallest\+Power\+Of\+Two}, \hyperpage{364}
+    \subitem {Speed\+Compare\+Test}, \hyperpage{365}
+    \subitem {Speed\+Test}, \hyperpage{365}
+    \subitem {Test\+Async}, \hyperpage{366}
+    \subitem {Test\+Benchmark\+L\+UT}, \hyperpage{367}
+    \subitem {Test\+Gauss2D}, \hyperpage{367}
+    \subitem {Test\+Radial\+L\+U\+T\+Gradient\+Method}, \hyperpage{367}
+    \subitem {Test\+Shared\+Mem}, \hyperpage{367}
+    \subitem {test\+With\+Global}, \hyperpage{367}
+    \subitem {test\+With\+Shared}, \hyperpage{368}
+  \item {test\+\_\+array\+\_\+passing}
+    \subitem {lv\+\_\+queuetrk\+\_\+api.\+cpp}, \hyperpage{308}
+  \item {Test\+Async}
+    \subitem {test.\+cu}, \hyperpage{366}
+  \item {Test\+B\+Spline\+Max}
+    \subitem {main.\+cpp}, \hyperpage{260}
+  \item {Test\+Background}
+    \subitem {main.\+cpp}, \hyperpage{259}
+  \item {Test\+Benchmark\+L\+UT}
+    \subitem {test.\+cu}, \hyperpage{367}
+  \item {Test\+Bias}
+    \subitem {main.\+cpp}, \hyperpage{259}
+  \item {Test\+Bound\+Check}
+    \subitem {main.\+cpp}, \hyperpage{260}
+  \item {Test\+C\+M\+O\+S\+Noise\+Influence}
+    \subitem {Shared\+Tests.\+h}, \hyperpage{271}
+  \item {Test\+Fourier\+L\+U\+T\+On\+Dataset}
+    \subitem {main.\+cpp}, \hyperpage{261}
+  \item {Test\+Fourier\+L\+UT}
+    \subitem {main.\+cpp}, \hyperpage{260}
+  \item {Test\+Gauss2D}
+    \subitem {test.\+cu}, \hyperpage{367}
+  \item {Test\+Interference}
+    \subitem {main.\+cpp}, \hyperpage{261}
+  \item {Test\+Quadrant\+Align}
+    \subitem {main.\+cpp}, \hyperpage{261}
+  \item {Test\+R\+O\+I\+Displacement}
+    \subitem {main.\+cpp}, \hyperpage{262}
+  \item {Test\+Radial\+L\+U\+T\+Gradient\+Method}
+    \subitem {test.\+cu}, \hyperpage{367}
+  \item {test\+Run}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{67}
+    \subitem {Q\+Trk\+Settings}, \hyperpage{151}
+  \item {Test\+Shared\+Mem}
+    \subitem {test.\+cu}, \hyperpage{367}
+  \item {Test\+Skew}
+    \subitem {main.\+cpp}, \hyperpage{262}
+  \item {test\+With\+Global}
+    \subitem {test.\+cu}, \hyperpage{367}
+  \item {test\+With\+Shared}
+    \subitem {test.\+cu}, \hyperpage{368}
+  \item {Test\+Z\+L\+U\+T\+Align}
+    \subitem {main.\+cpp}, \hyperpage{262}
+  \item {Test\+Z\+Range}
+    \subitem {main.\+cpp}, \hyperpage{263}
+  \item {Test\+Z\+Range\+Bias}
+    \subitem {main.\+cpp}, \hyperpage{265}
+  \item {Tests}
+    \subitem {main.\+cpp}, \hyperpage{242}
+  \item {testutils.\+cpp}
+    \subitem {Add\+Images}, \hyperpage{274}
+    \subitem {Background\+Median}, \hyperpage{274}
+    \subitem {Background\+R\+MS}, \hyperpage{274}
+    \subitem {Background\+Std\+Dev}, \hyperpage{274}
+    \subitem {Crop\+Image}, \hyperpage{274}
+    \subitem {Dir\+Exists}, \hyperpage{275}
+    \subitem {distance}, \hyperpage{275}
+    \subitem {Gauss\+Mask}, \hyperpage{275}
+    \subitem {Get\+Outer\+Edges}, \hyperpage{275}
+    \subitem {Num\+Files\+In\+Dir}, \hyperpage{275}
+    \subitem {Num\+Jpg\+In\+Dir}, \hyperpage{276}
+    \subitem {Resize\+Image}, \hyperpage{276}
+    \subitem {Skew\+Image}, \hyperpage{276}
+  \item {testutils.\+h}
+    \subitem {Add\+Images}, \hyperpage{278}
+    \subitem {Background\+Median}, \hyperpage{278}
+    \subitem {Background\+R\+MS}, \hyperpage{278}
+    \subitem {Background\+Std\+Dev}, \hyperpage{278}
+    \subitem {Console}, \hyperpage{277}
+    \subitem {Crop\+Image}, \hyperpage{278}
+    \subitem {Dir\+Exists}, \hyperpage{279}
+    \subitem {distance}, \hyperpage{279}
+    \subitem {Files}, \hyperpage{277}
+    \subitem {Gauss\+Mask}, \hyperpage{279}
+    \subitem {Get\+Outer\+Edges}, \hyperpage{279}
+    \subitem {Images}, \hyperpage{277}
+    \subitem {Num\+Files\+In\+Dir}, \hyperpage{280}
+    \subitem {Num\+Jpg\+In\+Dir}, \hyperpage{280}
+    \subitem {Output\+Modes}, \hyperpage{277}
+    \subitem {Resize\+Image}, \hyperpage{280}
+    \subitem {Skew\+Image}, \hyperpage{281}
+    \subitem {sq}, \hyperpage{281}
+  \item {Text\+Result\+File}, \hyperpage{217}
+    \subitem {f}, \hyperpage{218}
+    \subitem {Load\+Row}, \hyperpage{217}
+    \subitem {Save\+Row}, \hyperpage{217}
+    \subitem {Text\+Result\+File}, \hyperpage{217}
+  \item {Thread}
+    \subitem {Queued\+C\+P\+U\+Tracker\+::\+Thread}, \hyperpage{218}
+  \item {thread}
+    \subitem {Queued\+C\+P\+U\+Tracker\+::\+Thread}, \hyperpage{219}
+    \subitem {Result\+Manager}, \hyperpage{204}
+  \item {Thread\+Caller}
+    \subitem {Threads}, \hyperpage{223}
+  \item {Thread\+Entry\+Point}
+    \subitem {Thread\+Pool}, \hyperpage{221}
+    \subitem {Threads}, \hyperpage{223}
+  \item {Thread\+Handle}
+    \subitem {threads.\+h}, \hyperpage{323}
+  \item {thread\+ID}
+    \subitem {Threads\+::\+Handle}, \hyperpage{87}
+  \item {Thread\+Loop}
+    \subitem {Result\+Manager}, \hyperpage{202}
+  \item {Thread\+Pool}
+    \subitem {$\sim$\+Thread\+Pool}, \hyperpage{220}
+    \subitem {Add\+Work}, \hyperpage{220}
+    \subitem {Get\+New\+Item}, \hyperpage{220}
+    \subitem {in\+Progress}, \hyperpage{222}
+    \subitem {Is\+Done}, \hyperpage{220}
+    \subitem {Item\+Done}, \hyperpage{220}
+    \subitem {Process\+Array}, \hyperpage{221}
+    \subitem {Quit}, \hyperpage{221}
+    \subitem {quit}, \hyperpage{222}
+    \subitem {Thread\+Entry\+Point}, \hyperpage{221}
+    \subitem {Thread\+Pool}, \hyperpage{220}
+    \subitem {threads}, \hyperpage{222}
+    \subitem {Wait\+Until\+Done}, \hyperpage{221}
+    \subitem {work}, \hyperpage{222}
+    \subitem {work\+Mutex}, \hyperpage{222}
+    \subitem {worker}, \hyperpage{222}
+  \item {Thread\+Pool$<$ T\+Work\+Item, T\+Functor $>$}, 
+		\hyperpage{219}
+  \item {Threads}, \hyperpage{222}
+    \subitem {Create}, \hyperpage{223}
+    \subitem {Get\+C\+P\+U\+Count}, \hyperpage{223}
+    \subitem {Running\+Vista\+Or\+Better}, \hyperpage{223}
+    \subitem {Set\+Background\+Priority}, \hyperpage{223}
+    \subitem {Sleep}, \hyperpage{223}
+    \subitem {Thread\+Caller}, \hyperpage{223}
+    \subitem {Thread\+Entry\+Point}, \hyperpage{223}
+    \subitem {Wait\+And\+Close}, \hyperpage{224}
+  \item {threads}
+    \subitem {QI}, \hyperpage{143}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{171}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{186}
+    \subitem {Thread\+Pool}, \hyperpage{222}
+  \item {threads.\+h}
+    \subitem {parallel\+\_\+for}, \hyperpage{323}
+    \subitem {Thread\+Handle}, \hyperpage{323}
+  \item {Threads\+::\+Handle}, \hyperpage{87}
+    \subitem {callback}, \hyperpage{87}
+    \subitem {param}, \hyperpage{87}
+    \subitem {thread\+ID}, \hyperpage{87}
+    \subitem {winhdl}, \hyperpage{87}
+  \item {Threads\+::\+Mutex}, \hyperpage{130}
+    \subitem {$\sim$\+Mutex}, \hyperpage{131}
+    \subitem {h}, \hyperpage{132}
+    \subitem {lock}, \hyperpage{131}
+    \subitem {lock\+Count}, \hyperpage{132}
+    \subitem {msg}, \hyperpage{131}
+    \subitem {Mutex}, \hyperpage{131}
+    \subitem {name}, \hyperpage{132}
+    \subitem {trace}, \hyperpage{132}
+    \subitem {unlock}, \hyperpage{131}
+  \item {time}
+    \subitem {Measure\+Time}, \hyperpage{130}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{188}
+    \subitem {Scoped\+C\+P\+U\+Profiler}, \hyperpage{210}
+  \item {timestamp}
+    \subitem {Localization\+Job}, \hyperpage{111}
+    \subitem {Result\+Manager\+::\+Frame\+Result}, \hyperpage{86}
+  \item {to\+Vector}
+    \subitem {device\+\_\+vec}, \hyperpage{80}
+  \item {total\+Img}
+    \subitem {Image4\+D\+Memory}, \hyperpage{96}
+  \item {total\+Num\+Bytes}
+    \subitem {cuda\+Image\+List}, \hyperpage{74}
+  \item {total\+Num\+Pixels}
+    \subitem {cuda\+Image\+List}, \hyperpage{74}
+  \item {trace}
+    \subitem {Threads\+::\+Mutex}, \hyperpage{132}
+  \item {tracker}
+    \subitem {Queued\+C\+P\+U\+Tracker\+::\+Thread}, \hyperpage{219}
+  \item {tracker\+ID}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{67}
+  \item {tracker\+List}
+    \subitem {lv\+\_\+queuetrk\+\_\+api.\+cpp}, \hyperpage{308}
+  \item {tracker\+List\+Mutex}
+    \subitem {lv\+\_\+queuetrk\+\_\+api.\+cpp}, \hyperpage{308}
+  \item {tracker\+Mutex}
+    \subitem {Result\+Manager}, \hyperpage{204}
+  \item {traits\+\_\+type}
+    \subitem {kissfft}, \hyperpage{105}
+  \item {transform}
+    \subitem {kissfft}, \hyperpage{109}
+  \item {trigtable}
+    \subitem {Z\+L\+U\+T\+Params}, \hyperpage{235}
+  \item {trigtablesize}
+    \subitem {Q\+I\+Params}, \hyperpage{144}
+  \item {truepos}
+    \subitem {Run\+Tracker\+Results}, \hyperpage{207}
+
+  \indexspace
+
+  \item {uchar}
+    \subitem {std\+\_\+incl.\+h}, \hyperpage{322}
+  \item {uint}
+    \subitem {std\+\_\+incl.\+h}, \hyperpage{322}
+  \item {ulong}
+    \subitem {std\+\_\+incl.\+h}, \hyperpage{322}
+  \item {unbind}
+    \subitem {cuda\+Image\+List}, \hyperpage{74}
+    \subitem {Image4\+D\+Cuda\+Array}, \hyperpage{92}
+    \subitem {Image4\+D\+Memory}, \hyperpage{95}
+  \item {Unbind\+Texture}
+    \subitem {Image\+Sampler\+\_\+\+Interpolated\+Texture}, 
+		\hyperpage{98}
+    \subitem {Image\+Sampler\+\_\+\+Mem\+Copy}, \hyperpage{99}
+    \subitem {Image\+Sampler\+\_\+\+Simple\+Texture\+Read}, 
+		\hyperpage{100}
+  \item {unlock}
+    \subitem {Queued\+C\+P\+U\+Tracker\+::\+Thread}, \hyperpage{218}
+    \subitem {Threads\+::\+Mutex}, \hyperpage{131}
+  \item {Update}
+    \subitem {Q\+Trk\+Computed\+Config}, \hyperpage{146}
+    \subitem {Result\+Manager}, \hyperpage{202}
+  \item {Update\+Z\+L\+U\+Ts}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{168}
+  \item {use\+Texture\+Cache}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{188}
+  \item {ushort}
+    \subitem {std\+\_\+incl.\+h}, \hyperpage{322}
+  \item {utils.\+cpp}
+    \subitem {Apply\+Gaussian\+Noise}, \hyperpage{324}
+    \subitem {Apply\+Poisson\+Noise}, \hyperpage{324}
+    \subitem {Compute\+Bg\+Corrected\+C\+O\+M1D}, \hyperpage{325}
+    \subitem {Compute\+C\+RP}, \hyperpage{325}
+    \subitem {Compute\+Radial\+Bin\+Window}, \hyperpage{326}
+    \subitem {Compute\+Radial\+Profile}, \hyperpage{326}
+    \subitem {Copy\+Image\+To\+Float}, \hyperpage{327}
+    \subitem {dbgout}, \hyperpage{327}
+    \subitem {dbgprintf}, \hyperpage{327}
+    \subitem {dbgsetlogfile}, \hyperpage{327}
+    \subitem {file\+\_\+ext}, \hyperpage{328}
+    \subitem {Generate\+Gaussian\+Spot\+Image}, \hyperpage{328}
+    \subitem {Generate\+Image\+From\+L\+UT}, \hyperpage{328}
+    \subitem {Generate\+Test\+Image}, \hyperpage{329}
+    \subitem {Get\+Current\+Output\+Path}, \hyperpage{329}
+    \subitem {Get\+Directory\+From\+Path}, \hyperpage{329}
+    \subitem {Get\+Formatted\+Time\+String}, \hyperpage{330}
+    \subitem {Get\+Local\+Module\+Filename}, \hyperpage{330}
+    \subitem {Get\+Local\+Module\+Path}, \hyperpage{330}
+    \subitem {Get\+Precise\+Time}, \hyperpage{330}
+    \subitem {log\+Filename}, \hyperpage{335}
+    \subitem {Nearest\+Power\+Of2}, \hyperpage{330}
+    \subitem {Nearest\+Power\+Of3}, \hyperpage{331}
+    \subitem {Normalize\+Radial\+Profile}, \hyperpage{331}
+    \subitem {Normalize\+Z\+L\+UT}, \hyperpage{331}
+    \subitem {Read\+C\+SV}, \hyperpage{331}
+    \subitem {Read\+J\+P\+E\+G\+File}, \hyperpage{332}
+    \subitem {Read\+L\+U\+T\+File}, \hyperpage{332}
+    \subitem {Read\+To\+Byte\+Buffer}, \hyperpage{332}
+    \subitem {Read\+Vector3\+C\+SV}, \hyperpage{333}
+    \subitem {S\+Printf}, \hyperpage{333}
+    \subitem {sq}, \hyperpage{333}
+    \subitem {Write\+Array\+As\+C\+S\+V\+Row}, \hyperpage{333}
+    \subitem {Write\+Complex\+Image\+As\+C\+SV}, \hyperpage{333}
+    \subitem {Write\+Image\+As\+C\+SV}, \hyperpage{334}
+    \subitem {Write\+To\+Log}, \hyperpage{334}
+    \subitem {Write\+Trace}, \hyperpage{334}
+    \subitem {Write\+Vector\+As\+C\+S\+V\+Row}, \hyperpage{335}
+  \item {utils.\+h}
+    \subitem {Apply\+Gaussian\+Noise}, \hyperpage{337}
+    \subitem {Apply\+Poisson\+Noise}, \hyperpage{337}
+    \subitem {Compute\+Bg\+Corrected\+C\+O\+M1D}, \hyperpage{337}
+    \subitem {Compute\+C\+RP}, \hyperpage{338}
+    \subitem {Compute\+Radial\+Bin\+Window}, \hyperpage{338}
+    \subitem {Compute\+Radial\+Profile}, \hyperpage{339}
+    \subitem {Compute\+Std\+Dev}, \hyperpage{339}
+    \subitem {dbgout}, \hyperpage{340}
+    \subitem {dbgprintf}, \hyperpage{340}
+    \subitem {dbgsetlogfile}, \hyperpage{340}
+    \subitem {Delete\+All\+Elems}, \hyperpage{340}
+    \subitem {erf}, \hyperpage{340}
+    \subitem {file\+\_\+ext}, \hyperpage{340}
+    \subitem {Float\+To\+J\+P\+E\+G\+File}, \hyperpage{341}
+    \subitem {float\+To\+Normalized\+Int}, \hyperpage{341}
+    \subitem {Generate\+Gaussian\+Spot\+Image}, \hyperpage{341}
+    \subitem {Generate\+Image\+From\+L\+UT}, \hyperpage{341}
+    \subitem {Generate\+Test\+Image}, \hyperpage{342}
+    \subitem {Get\+Current\+Output\+Path}, \hyperpage{343}
+    \subitem {Get\+Directory\+From\+Path}, \hyperpage{343}
+    \subitem {Get\+Formatted\+Time\+String}, \hyperpage{343}
+    \subitem {Get\+Local\+Module\+Filename}, \hyperpage{343}
+    \subitem {Get\+Local\+Module\+Path}, \hyperpage{343}
+    \subitem {Get\+Precise\+Time}, \hyperpage{344}
+    \subitem {Image\+Data}, \hyperpage{337}
+    \subitem {Image\+Datad}, \hyperpage{337}
+    \subitem {Interpolate}, \hyperpage{344}
+    \subitem {Interpolate1D}, \hyperpage{344}
+    \subitem {is\+N\+AN}, \hyperpage{344}
+    \subitem {Lerp}, \hyperpage{344}
+    \subitem {Nearest\+Power\+Of2}, \hyperpage{345}
+    \subitem {Nearest\+Power\+Of3}, \hyperpage{345}
+    \subitem {normalize}, \hyperpage{345}
+    \subitem {Normalize\+Radial\+Profile}, \hyperpage{345}
+    \subitem {Normalize\+Z\+L\+UT}, \hyperpage{345}
+    \subitem {qselect}, \hyperpage{346}
+    \subitem {Read\+C\+SV}, \hyperpage{346}
+    \subitem {Read\+J\+P\+E\+G\+File}, \hyperpage{346, 347}
+    \subitem {Read\+L\+U\+T\+File}, \hyperpage{348}
+    \subitem {Read\+To\+Byte\+Buffer}, \hyperpage{348}
+    \subitem {Read\+Vector3\+C\+SV}, \hyperpage{348}
+    \subitem {S\+Printf}, \hyperpage{348}
+    \subitem {Std\+Deviation}, \hyperpage{349}
+    \subitem {Write\+Array\+As\+C\+S\+V\+Row}, \hyperpage{349}
+    \subitem {Write\+Complex\+Image\+As\+C\+SV}, \hyperpage{349}
+    \subitem {Write\+Image\+As\+C\+SV}, \hyperpage{349}
+    \subitem {Write\+J\+P\+E\+G\+File}, \hyperpage{350, 351}
+    \subitem {Write\+Trace}, \hyperpage{351}
+    \subitem {Write\+Vector\+As\+C\+S\+V\+Row}, \hyperpage{351}
+
+  \indexspace
+
+  \item {V\+S\+N\+P\+R\+I\+N\+TF}
+    \subitem {std\+\_\+incl.\+h}, \hyperpage{321}
+  \item {Valid\+RM}
+    \subitem {lv\+\_\+resultmanager\+\_\+api.\+cpp}, \hyperpage{311}
+  \item {Validate\+Tracker}
+    \subitem {Lab\+V\+I\+E\+W datatypes and helper functions}, 
+		\hyperpage{22}
+  \item {vector2}
+    \subitem {random}, \hyperpage{229}
+    \subitem {vector2}, \hyperpage{228}
+    \subitem {x}, \hyperpage{229}
+    \subitem {y}, \hyperpage{229}
+  \item {vector2$<$ T $>$}, \hyperpage{228}
+  \item {vector2d}
+    \subitem {std\+\_\+incl.\+h}, \hyperpage{322}
+  \item {vector2f}
+    \subitem {std\+\_\+incl.\+h}, \hyperpage{322}
+  \item {vector3}
+    \subitem {length}, \hyperpage{230}
+    \subitem {operator$\ast$}, \hyperpage{230}, \hyperpage{232}
+    \subitem {operator$\ast$=}, \hyperpage{231}
+    \subitem {operator+}, \hyperpage{231}
+    \subitem {operator+=}, \hyperpage{231}
+    \subitem {operator-\/}, \hyperpage{231}
+    \subitem {operator-\/=}, \hyperpage{232}
+    \subitem {operator/}, \hyperpage{232}
+    \subitem {operator/=}, \hyperpage{232}
+    \subitem {vector3}, \hyperpage{230}
+    \subitem {x}, \hyperpage{233}
+    \subitem {xy}, \hyperpage{232}
+    \subitem {y}, \hyperpage{233}
+    \subitem {z}, \hyperpage{233}
+  \item {vector3$<$ T $>$}, \hyperpage{229}
+  \item {vector3d}
+    \subitem {std\+\_\+incl.\+h}, \hyperpage{322}
+  \item {vector3f}
+    \subitem {std\+\_\+incl.\+h}, \hyperpage{322}
+  \item {vertex\+Form}
+    \subitem {Lsq\+Sq\+Quad\+Fit}, \hyperpage{116}
+
+  \indexspace
+
+  \item {w}
+    \subitem {cuda\+Image\+List}, \hyperpage{74}
+    \subitem {Image\+L\+U\+T\+Config}, \hyperpage{97}
+    \subitem {T\+Image\+Data}, \hyperpage{227}
+  \item {W\+R\+I\+T\+E\+V\+AR}
+    \subitem {Queued\+Tracker.\+cpp}, \hyperpage{316}
+  \item {Wait\+And\+Close}
+    \subitem {Threads}, \hyperpage{224}
+  \item {Wait\+For\+Finish}
+    \subitem {Shared\+Tests.\+h}, \hyperpage{273}
+  \item {Wait\+Until\+Done}
+    \subitem {Thread\+Pool}, \hyperpage{221}
+  \item {width}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{67}
+    \subitem {F\+F\+T2\+D\+Tracker}, \hyperpage{84}
+    \subitem {Q\+Trk\+Settings}, \hyperpage{152}
+  \item {winhdl}
+    \subitem {Threads\+::\+Handle}, \hyperpage{87}
+  \item {work}
+    \subitem {Thread\+Pool}, \hyperpage{222}
+  \item {work\+Mutex}
+    \subitem {Thread\+Pool}, \hyperpage{222}
+  \item {worker}
+    \subitem {Thread\+Pool}, \hyperpage{222}
+  \item {Worker\+Thread\+Main}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{169}
+  \item {Write}
+    \subitem {Result\+Manager}, \hyperpage{202}
+  \item {write}
+    \subitem {Image4\+D\+Memory}, \hyperpage{96}
+  \item {Write\+Array\+As\+C\+S\+V\+Row}
+    \subitem {utils.\+cpp}, \hyperpage{333}
+    \subitem {utils.\+h}, \hyperpage{349}
+  \item {write\+As\+C\+SV}
+    \subitem {T\+Image\+Data}, \hyperpage{226}
+  \item {Write\+Binary\+File\+Header}
+    \subitem {Result\+Manager}, \hyperpage{203}
+  \item {Write\+Binary\+Results}
+    \subitem {Result\+Manager}, \hyperpage{203}
+  \item {Write\+Complex\+Image\+As\+C\+SV}
+    \subitem {utils.\+cpp}, \hyperpage{333}
+    \subitem {utils.\+h}, \hyperpage{349}
+  \item {Write\+Image\+As\+C\+SV}
+    \subitem {utils.\+cpp}, \hyperpage{334}
+    \subitem {utils.\+h}, \hyperpage{349}
+  \item {write\+Interval}
+    \subitem {Result\+Manager\+Config}, \hyperpage{205}
+  \item {Write\+J\+P\+E\+G\+File}
+    \subitem {fastjpg.\+cpp}, \hyperpage{290}
+    \subitem {utils.\+h}, \hyperpage{350, 351}
+  \item {Write\+Radial\+Prof}
+    \subitem {main.\+cpp}, \hyperpage{265}
+  \item {write\+Surface\+Pixel}
+    \subitem {Image4\+D\+Cuda\+Array\+::\+Kernel\+Inst}, 
+		\hyperpage{102}
+  \item {Write\+Text\+Results}
+    \subitem {Result\+Manager}, \hyperpage{204}
+  \item {Write\+To\+File}
+    \subitem {Q\+Trk\+Computed\+Config}, \hyperpage{146}
+  \item {Write\+To\+Log}
+    \subitem {Q\+Trk\+Computed\+Config}, \hyperpage{146}
+    \subitem {utils.\+cpp}, \hyperpage{334}
+  \item {Write\+Trace}
+    \subitem {utils.\+cpp}, \hyperpage{334}
+    \subitem {utils.\+h}, \hyperpage{351}
+  \item {Write\+Vector\+As\+C\+S\+V\+Row}
+    \subitem {utils.\+cpp}, \hyperpage{335}
+    \subitem {utils.\+h}, \hyperpage{351}
+
+  \indexspace
+
+  \item {x}
+    \subitem {Bead\+Finder\+::\+Position}, \hyperpage{140}
+    \subitem {R\+O\+I\+Position}, \hyperpage{206}
+    \subitem {sfft\+::complex}, \hyperpage{48}
+    \subitem {vector2}, \hyperpage{229}
+    \subitem {vector3}, \hyperpage{233}
+  \item {X\+Cor1\+D\+Buffer}, \hyperpage{233}
+    \subitem {fft\+\_\+backward}, \hyperpage{234}
+    \subitem {fft\+\_\+forward}, \hyperpage{234}
+    \subitem {X\+Cor1\+D\+Buffer}, \hyperpage{233}
+    \subitem {X\+Cor\+F\+F\+T\+Helper}, \hyperpage{233}
+    \subitem {xcorw}, \hyperpage{234}
+  \item {X\+Cor\+F\+F\+T\+Helper}
+    \subitem {X\+Cor1\+D\+Buffer}, \hyperpage{233}
+  \item {X\+Cor\+Scale}
+    \subitem {cpu\+\_\+tracker.\+cpp}, \hyperpage{286}
+  \item {xc1\+\_\+iterations}
+    \subitem {Q\+Trk\+Settings}, \hyperpage{152}
+  \item {xc1\+\_\+profile\+Length}
+    \subitem {Q\+Trk\+Settings}, \hyperpage{152}
+  \item {xc1\+\_\+profile\+Width}
+    \subitem {Q\+Trk\+Settings}, \hyperpage{152}
+  \item {xcor\+Buffer}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{67}
+  \item {xcorw}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{67}
+    \subitem {X\+Cor1\+D\+Buffer}, \hyperpage{234}
+  \item {xfft}
+    \subitem {C\+P\+U\+Tracker\+::\+F\+F\+T2D}, \hyperpage{83}
+  \item {xoffset}
+    \subitem {Lsq\+Sq\+Quad\+Fit}, \hyperpage{117}
+  \item {xscale}
+    \subitem {Image\+L\+U\+T\+Config}, \hyperpage{97}
+  \item {xy}
+    \subitem {L\+V\+Array2D}, \hyperpage{118}
+    \subitem {vector3}, \hyperpage{232}
+
+  \indexspace
+
+  \item {y}
+    \subitem {Bead\+Finder\+::\+Position}, \hyperpage{140}
+    \subitem {R\+O\+I\+Position}, \hyperpage{206}
+    \subitem {sfft\+::complex}, \hyperpage{48}
+    \subitem {vector2}, \hyperpage{229}
+    \subitem {vector3}, \hyperpage{233}
+  \item {yfft}
+    \subitem {C\+P\+U\+Tracker\+::\+F\+F\+T2D}, \hyperpage{83}
+  \item {yscale}
+    \subitem {Image\+L\+U\+T\+Config}, \hyperpage{97}
+
+  \indexspace
+
+  \item {z}
+    \subitem {vector3}, \hyperpage{233}
+  \item {Z\+L\+U\+T\+\_\+\+C\+M\+P\+D\+A\+TA}
+    \subitem {cpu\+\_\+tracker.\+cpp}, \hyperpage{285}
+  \item {Z\+L\+U\+T\+\_\+\+Compute\+Profile\+Match\+Scores}
+    \subitem {Kernels.\+h}, \hyperpage{374}
+  \item {Z\+L\+U\+T\+\_\+\+ComputeZ}
+    \subitem {Kernels.\+h}, \hyperpage{375}
+  \item {Z\+L\+U\+T\+\_\+\+L\+S\+Q\+F\+I\+T\+\_\+\+N\+W\+E\+I\+G\+H\+TS}
+    \subitem {Queued\+Tracker.\+h}, \hyperpage{317}
+  \item {Z\+L\+U\+T\+\_\+\+L\+S\+Q\+F\+I\+T\+\_\+\+W\+E\+I\+G\+H\+TS}
+    \subitem {Queued\+Tracker.\+h}, \hyperpage{317}
+  \item {Z\+L\+U\+T\+\_\+\+Normalize\+Profiles}
+    \subitem {Kernels.\+h}, \hyperpage{375}
+  \item {Z\+L\+U\+T\+\_\+\+Profiles\+To\+Z\+L\+UT}
+    \subitem {Kernels.\+h}, \hyperpage{375}
+  \item {Z\+L\+U\+T\+\_\+\+Radial\+Profile\+Kernel}
+    \subitem {Kernels.\+h}, \hyperpage{376}
+  \item {Z\+L\+U\+T\+Bias\+Correction}
+    \subitem {Queued\+Tracker}, \hyperpage{195}
+  \item {Z\+L\+U\+T\+Params}, \hyperpage{234}
+    \subitem {angular\+Steps}, \hyperpage{235}
+    \subitem {Get\+Radial\+Z\+L\+UT}, \hyperpage{234}
+    \subitem {img}, \hyperpage{235}
+    \subitem {max\+Radius}, \hyperpage{235}
+    \subitem {min\+Radius}, \hyperpage{235}
+    \subitem {planes}, \hyperpage{235}
+    \subitem {radial\+Steps}, \hyperpage{234}
+    \subitem {trigtable}, \hyperpage{235}
+    \subitem {zcmpwindow}, \hyperpage{235}
+  \item {Z\+L\+U\+T\+Self\+Test}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{169}
+  \item {Z\+L\+U\+T\+Weights}
+    \subitem {cpu\+\_\+tracker.\+cpp}, \hyperpage{286}
+  \item {Z\+L\+U\+T\+Weights\+\_\+d}
+    \subitem {cpu\+\_\+tracker.\+cpp}, \hyperpage{286}
+  \item {zcmp}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{171}
+  \item {zcmpwindow}
+    \subitem {Z\+L\+U\+T\+Params}, \hyperpage{235}
+  \item {zcompare\+Window}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Device}, \hyperpage{77}
+  \item {zcompute}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Kernel\+Profile\+Time}, 
+		\hyperpage{104}
+  \item {zcompute\+Done}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Stream}, \hyperpage{215}
+  \item {zlut\+\_\+angular\+\_\+coverage}
+    \subitem {Q\+Trk\+Settings}, \hyperpage{152}
+  \item {zlut\+\_\+angularsteps}
+    \subitem {Q\+Trk\+Computed\+Config}, \hyperpage{147}
+  \item {zlut\+\_\+bias\+\_\+correction}
+    \subitem {Queued\+Tracker}, \hyperpage{196}
+  \item {zlut\+\_\+build\+\_\+flags}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker}, \hyperpage{188}
+  \item {zlut\+\_\+buildflags}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{171}
+  \item {zlut\+\_\+cmpprofiles}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{171}
+  \item {zlut\+\_\+count}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{67}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{171}
+  \item {zlut\+\_\+enablecmpprof}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{171}
+  \item {zlut\+\_\+maxradius}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{67}
+    \subitem {Q\+Trk\+Computed\+Config}, \hyperpage{147}
+  \item {zlut\+\_\+memory\+Owner}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{67}
+  \item {zlut\+\_\+minradius}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{67}
+    \subitem {Q\+Trk\+Settings}, \hyperpage{152}
+  \item {zlut\+\_\+planes}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{67}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{171}
+  \item {zlut\+\_\+radial\+\_\+coverage}
+    \subitem {Q\+Trk\+Settings}, \hyperpage{152}
+  \item {zlut\+\_\+radialsteps}
+    \subitem {Q\+Trk\+Computed\+Config}, \hyperpage{147}
+  \item {zlut\+\_\+radialweights}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{67}
+  \item {zlut\+\_\+res}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{67}
+  \item {zlut\+\_\+roi\+\_\+coverage}
+    \subitem {Q\+Trk\+Settings}, \hyperpage{152}
+  \item {zlut\+\_\+trigtable}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Device}, \hyperpage{77}
+  \item {zlut\+\_\+use\+Correlation}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{67}
+  \item {zlut\+Align}
+    \subitem {Queued\+C\+U\+D\+A\+Tracker\+::\+Kernel\+Profile\+Time}, 
+		\hyperpage{104}
+  \item {zlut\+Index}
+    \subitem {Localization\+Job}, \hyperpage{111}
+    \subitem {Localization\+Params}, \hyperpage{112}
+  \item {zlut\+Plane}
+    \subitem {Localization\+Params}, \hyperpage{112}
+  \item {zluts}
+    \subitem {C\+P\+U\+Tracker}, \hyperpage{67}
+    \subitem {Queued\+C\+P\+U\+Tracker}, \hyperpage{171}
+
+\end{theindex}

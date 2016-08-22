@@ -3,11 +3,42 @@
 #include <cuda_runtime.h>
 #include <vector>
 #include <cstdarg>
+#include "cufft.h"
+
+#ifdef _DEBUG
+#define GPU_DEBUG
+#endif
 
 #define CUDA_SUPPORTED_FUNC __device__ __host__
 #include "LsqQuadraticFit.h"
 
 #define CUBOTH __device__ __host__
+
+inline void outputTotalGPUMemUse(std::string info = "")
+{
+	// show total memory usage of GPU
+    size_t free_byte;
+    size_t total_byte;
+    cudaError_t cuda_status = cudaMemGetInfo( &free_byte, &total_byte );
+    if ( cudaSuccess != cuda_status ){
+        dbgprintf("Error: cudaMemGetInfo fails, %s \n", cudaGetErrorString(cuda_status) );
+        exit(1);
+    }
+    double free_db = (double)free_byte;
+    double total_db = (double)total_byte;
+    double used_db = total_db - free_db;
+    dbgprintf("%sused = %2.2f MB, free = %2.2f MB, total = %2.2f MB\n",
+		info != "" ? (info+": ").c_str() : "",
+        used_db/1024.0/1024.0, free_db/1024.0/1024.0, total_db/1024.0/1024.0);
+}
+
+inline void CheckCUDAError(cufftResult_t err)
+{
+	if (err != CUFFT_SUCCESS) {
+		outputTotalGPUMemUse("CUFFT Error");
+		throw std::runtime_error(SPrintf("CUDA error: CUFFT failed (%d)\n",err));
+	}
+}
 
 inline void CheckCUDAError(cudaError_t err)
 {
@@ -25,7 +56,6 @@ inline void CheckCUDAError()
 		dbgprintf("CUDA error: %s\n" ,errstr);
 	}
 }
-
 #ifdef _DEBUG
 inline void dbgCUDAErrorCheck(cudaError_t e) { CheckCUDAError(e); }
 #else
@@ -212,3 +242,28 @@ protected:
 	T* d;
 	size_t n;
 };
+
+#ifdef GPU_DEBUG
+inline void DbgCopyResult(device_vec<float2>& src, std::vector< std::complex<float> >& dst) {
+	cudaDeviceSynchronize();
+	std::vector<float2> x(src.size);
+	src.copyToHost(x,false,0);
+	dst.resize(src.size);
+	for(int i=0;i<x.size();i++)
+		dst[i]=std::complex<float>(x[i].x,x[i].y);
+}
+inline void DbgCopyResult(device_vec<float>& src, std::vector< float >& dst) {
+	cudaDeviceSynchronize();
+	src.copyToHost(dst,false,0);
+}
+inline void DbgOutputVectorToFile(std::string loc, device_vec<float>& src, bool append = true) {
+	std::vector<float> dbg_output(src.size);
+	DbgCopyResult(src, dbg_output);
+	WriteVectorAsCSVRow(loc.c_str(), dbg_output, append);
+	dbg_output.clear();
+}
+#else
+inline void DbgCopyResult(device_vec<float2> src, std::vector< std::complex<float> >& dst) {} 
+inline void DbgCopyResult(device_vec<float> src, std::vector<float>& dst) {}
+inline void DbgOutputVectorToFile(std::string loc, device_vec<float>& src, bool append) {}
+#endif

@@ -1,8 +1,7 @@
 #pragma once
 
-#include "../cputrack/std_incl.h"
-#include "../cputrack/QueuedCPUTracker.h"
-
+#include "std_incl.h"
+#include "QueuedCPUTracker.h"
 
 template<typename T> T sq(T x) { return x*x; }
 template<typename T> T distance(T x, T y) { return sqrt(x*x+y*y); }

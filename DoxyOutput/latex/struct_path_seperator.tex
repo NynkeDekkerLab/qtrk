@@ -1,0 +1,67 @@
+\hypertarget{struct_path_seperator}{}\section{Path\+Seperator Struct Reference}
+\label{struct_path_seperator}\index{Path\+Seperator@{Path\+Seperator}}
+
+
+{\ttfamily \#include $<$utils.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{struct_path_seperator_ae1fb743b506a73b6f3984aa2ddc7f3df}{Path\+Seperator} (std\+::string fullpath)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \hyperlink{struct_path_seperator_a969fd95b83c553bf3e355c657ed742af}{filename}
+\item 
+std\+::string \hyperlink{struct_path_seperator_a986f1ce49f0ad6233a525562fbbc25a6}{extension}
+\item 
+std\+::string \hyperlink{struct_path_seperator_a91bdacb37b263197f8a8f05e73481fc4}{directory}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Path\+Seperator@{Path\+Seperator}!Path\+Seperator@{Path\+Seperator}}
+\index{Path\+Seperator@{Path\+Seperator}!Path\+Seperator@{Path\+Seperator}}
+\subsubsection[{\texorpdfstring{Path\+Seperator(std\+::string fullpath)}{PathSeperator(std::string fullpath)}}]{\setlength{\rightskip}{0pt plus 5cm}Path\+Seperator\+::\+Path\+Seperator (
+\begin{DoxyParamCaption}
+\item[{std\+::string}]{fullpath}
+\end{DoxyParamCaption}
+)}\hypertarget{struct_path_seperator_ae1fb743b506a73b6f3984aa2ddc7f3df}{}\label{struct_path_seperator_ae1fb743b506a73b6f3984aa2ddc7f3df}
+
+\begin{DoxyCode}
+71 \{
+72     \textcolor{keywordtype}{int} filenameEnd = fullpath.size();
+73     \textcolor{keywordtype}{int} filenameStart = 0;
+74     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = fullpath.size()-1; i>=0; i--) \{
+75         \textcolor{keywordflow}{if} (fullpath[i] == \textcolor{charliteral}{'.'} && \hyperlink{struct_path_seperator_a986f1ce49f0ad6233a525562fbbc25a6}{extension}.empty()) \{
+76             \hyperlink{struct_path_seperator_a986f1ce49f0ad6233a525562fbbc25a6}{extension} = fullpath.substr(i+1);
+77             filenameEnd = i;
+78         \}
+79         \textcolor{keywordflow}{if} (fullpath[i] == \textcolor{charliteral}{'/'} || fullpath[i] == \textcolor{charliteral}{'\(\backslash\)\(\backslash\)'})  \{
+80             \hyperlink{struct_path_seperator_a91bdacb37b263197f8a8f05e73481fc4}{directory} = fullpath.substr(0,i+1);
+81             filenameStart = i+1;
+82             \textcolor{keywordflow}{break};
+83         \}
+84     \}
+85     \hyperlink{struct_path_seperator_a969fd95b83c553bf3e355c657ed742af}{filename} = fullpath.substr(filenameStart, filenameEnd - filenameStart);
+86 \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\index{Path\+Seperator@{Path\+Seperator}!directory@{directory}}
+\index{directory@{directory}!Path\+Seperator@{Path\+Seperator}}
+\subsubsection[{\texorpdfstring{directory}{directory}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string Path\+Seperator\+::directory}\hypertarget{struct_path_seperator_a91bdacb37b263197f8a8f05e73481fc4}{}\label{struct_path_seperator_a91bdacb37b263197f8a8f05e73481fc4}
+\index{Path\+Seperator@{Path\+Seperator}!extension@{extension}}
+\index{extension@{extension}!Path\+Seperator@{Path\+Seperator}}
+\subsubsection[{\texorpdfstring{extension}{extension}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string Path\+Seperator\+::extension}\hypertarget{struct_path_seperator_a986f1ce49f0ad6233a525562fbbc25a6}{}\label{struct_path_seperator_a986f1ce49f0ad6233a525562fbbc25a6}
+\index{Path\+Seperator@{Path\+Seperator}!filename@{filename}}
+\index{filename@{filename}!Path\+Seperator@{Path\+Seperator}}
+\subsubsection[{\texorpdfstring{filename}{filename}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string Path\+Seperator\+::filename}\hypertarget{struct_path_seperator_a969fd95b83c553bf3e355c657ed742af}{}\label{struct_path_seperator_a969fd95b83c553bf3e355c657ed742af}
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+cputrack/\hyperlink{utils_8h}{utils.\+h}\item 
+cputrack/\hyperlink{utils_8cpp}{utils.\+cpp}\end{DoxyCompactItemize}

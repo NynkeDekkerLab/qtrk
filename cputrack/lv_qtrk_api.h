@@ -4,6 +4,16 @@
 
 #include "QueuedTracker.h"
 
+/** \defgroup lab_API API - LabVIEW
+\brief API functions available to LabVIEW. 
+
+These DLLs are compiled by the \a lvcputrack and \a lvcudatrack projects.
+*/
+
+/** \addtogroup lab_API
+	@{
+*/
+
 CDLL_EXPORT void DLL_CALLCONV qtrk_set_ZLUT(QueuedTracker* tracker, LVArray3D<float>** pZlut, LVArray<float>** zcmpWindow, int normalize, ErrorCluster* e);
 CDLL_EXPORT void DLL_CALLCONV qtrk_get_ZLUT(QueuedTracker* tracker, LVArray3D<float>** pzlut, ErrorCluster* e);
 CDLL_EXPORT QueuedTracker* DLL_CALLCONV qtrk_create(QTrkSettings* settings, LStrHandle warnings, ErrorCluster* e);
@@ -45,3 +55,4 @@ struct CUDADeviceInfo
 CDLL_EXPORT int DLL_CALLCONV qtrkcuda_device_count(ErrorCluster* e);
 CDLL_EXPORT void DLL_CALLCONV qtrkcuda_set_device_list(LVArray<int>** devices);
 
+/** @} */

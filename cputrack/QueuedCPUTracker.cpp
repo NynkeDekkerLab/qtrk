@@ -96,7 +96,7 @@ int QueuedCPUTracker::GetQueueLength(int *maxQueueLength)
 QueuedCPUTracker::QueuedCPUTracker(const QTrkComputedConfig& cc) 
 	: jobs_mutex("jobs"), jobs_buffer_mutex("jobs_buffer"), results_mutex("results")
 {
-	if(cc.testRun){
+	if(0){//cc.testRun){
 		std::string folder = GetCurrentOutputPath();
 		if(GetFileAttributesA(folder.c_str()) & FILE_ATTRIBUTE_DIRECTORY)
 			CreateDirectory((LPCTSTR)folder.c_str(),NULL);
@@ -223,7 +223,7 @@ void QueuedCPUTracker::Start()
 		threads[k].mutex->name = SPrintf("thread%d", k);
 		threads[k].mutex->trace = true;
 #endif
-		threads[k].tracker = new CPUTracker(downsampleWidth, downsampleHeight, cfg.xc1_profileLength, cfg.testRun);
+		threads[k].tracker = new CPUTracker(downsampleWidth, downsampleHeight, cfg.xc1_profileLength, false);//cfg.testRun);
 		threads[k].manager = this;
 		threads[k].tracker->trackerID = k;
 	}
@@ -573,7 +573,7 @@ bool QueuedCPUTracker::SetImageZLUT(float* src, float *radial_lut, int* dims)
 
 	SetRadialZLUT(radial_lut, dims[0], dims[1]);
 
-	return true; // returning true indicates this implementation support ImageLUT
+	return true; // returning true indicates this implementation supports ImageLUT
 }
 
 
@@ -639,9 +639,8 @@ void QueuedCPUTracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, i
 					trk.srcImage[i]=sqrtf(trk.srcImage[i]);
 				trk.SaveImage("freqimg.jpg");
 			}
-		}
-		else {
-			trk.ComputeRadialProfile(tmp, cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, pos, false, 0, (zlut_buildflags&BUILDLUT_NORMALIZE)!=0);
+		} else {
+			trk.ComputeRadialProfile(tmp, cfg.zlut_radialsteps, cfg.zlut_angularsteps, cfg.zlut_minradius, cfg.zlut_maxradius, pos, false);
 		}
 	//	WriteArrayAsCSVRow("rlut-test.csv", tmp, cfg.zlut_radialsteps, plane>0);
 		for(int i=0;i<cfg.zlut_radialsteps;i++) 

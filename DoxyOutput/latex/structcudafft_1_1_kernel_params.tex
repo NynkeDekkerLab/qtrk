@@ -1,0 +1,134 @@
+\hypertarget{structcudafft_1_1_kernel_params}{}\section{cudafft$<$ T, T\+\_\+traits $>$\+:\+:Kernel\+Params Struct Reference}
+\label{structcudafft_1_1_kernel_params}\index{cudafft$<$ T, T\+\_\+traits $>$\+::\+Kernel\+Params@{cudafft$<$ T, T\+\_\+traits $>$\+::\+Kernel\+Params}}
+
+
+{\ttfamily \#include $<$cudafft.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{structcudafft_1_1_kernel_params_ad0be6596aeac3ac8bbdd24da474ba36c}{make\+Shared} (int offset=0)
+\item 
+\hyperlink{cudafft_8h_ac4c6e1a008a73d82e1c532fd74830837}{C\+F\+F\+T\+\_\+\+B\+O\+TH} \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\+\_\+type} \& \hyperlink{structcudafft_1_1_kernel_params_a22d047345d9de9a83b010ba5fd35d17b}{twiddles} (int i)
+\item 
+\hyperlink{cudafft_8h_ac4c6e1a008a73d82e1c532fd74830837}{C\+F\+F\+T\+\_\+\+B\+O\+TH} int \& \hyperlink{structcudafft_1_1_kernel_params_acebcf4450afbdb00652fad09399a837f}{radix} (int i)
+\item 
+\hyperlink{cudafft_8h_ac4c6e1a008a73d82e1c532fd74830837}{C\+F\+F\+T\+\_\+\+B\+O\+TH} int \& \hyperlink{structcudafft_1_1_kernel_params_a26d79a55493598108efa7c93b085f5d1}{remainder} (int i)
+\item 
+\hyperlink{cudafft_8h_ac4c6e1a008a73d82e1c532fd74830837}{C\+F\+F\+T\+\_\+\+B\+O\+TH} \hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\+\_\+type} $\ast$ \hyperlink{structcudafft_1_1_kernel_params_a61f05eeade72281b0dc51b61d35025ea}{scratchbuf} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+char $\ast$ \hyperlink{structcudafft_1_1_kernel_params_ad0cc484b02fe3e05acc1124a9ae38425}{data}
+\item 
+int \hyperlink{structcudafft_1_1_kernel_params_a2ee91ebed15013326314b5d803801630}{twiddles\+\_\+offset}
+\item 
+int \hyperlink{structcudafft_1_1_kernel_params_a677b1b8ee251eba05899356f73bc83da}{remainder\+\_\+offset}
+\item 
+int \hyperlink{structcudafft_1_1_kernel_params_a4eafcb24027353ff226701187e4d5b92}{scratchbuf\+\_\+offset}
+\item 
+bool \hyperlink{structcudafft_1_1_kernel_params_a3f28c1de3298efe072243b0ea196b03f}{inverse}
+\item 
+int \hyperlink{structcudafft_1_1_kernel_params_aeca8012eac182feb4cec53a338a0018e}{memsize}
+\item 
+int \hyperlink{structcudafft_1_1_kernel_params_a4e6ea9cd74f781c767a3a7ce6eee3ff2}{nfft}
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static \+\_\+\+\_\+shared\+\_\+\+\_\+ char \hyperlink{structcudafft_1_1_kernel_params_af2be5b2ab519a326d5386719ce24226e}{cuda\+Shared\+Memory} \mbox{[}$\,$\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\index{cudafft\+::\+Kernel\+Params@{cudafft\+::\+Kernel\+Params}!make\+Shared@{make\+Shared}}
+\index{make\+Shared@{make\+Shared}!cudafft\+::\+Kernel\+Params@{cudafft\+::\+Kernel\+Params}}
+\subsubsection[{\texorpdfstring{make\+Shared(int offset=0)}{makeShared(int offset=0)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename T\+\_\+traits  = kissfft\+\_\+utils\+::traits$<$\+T$>$$>$ \+\_\+\+\_\+device\+\_\+\+\_\+ void {\bf cudafft}$<$ T, T\+\_\+traits $>$\+::Kernel\+Params\+::make\+Shared (
+\begin{DoxyParamCaption}
+\item[{int}]{offset = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{structcudafft_1_1_kernel_params_ad0be6596aeac3ac8bbdd24da474ba36c}{}\label{structcudafft_1_1_kernel_params_ad0be6596aeac3ac8bbdd24da474ba36c}
+
+\begin{DoxyCode}
+100                                                  \{
+101             memcpy(\hyperlink{structcudafft_1_1_kernel_params_af2be5b2ab519a326d5386719ce24226e}{cudaSharedMemory}+offset, \hyperlink{structcudafft_1_1_kernel_params_ad0cc484b02fe3e05acc1124a9ae38425}{data}, \hyperlink{structcudafft_1_1_kernel_params_aeca8012eac182feb4cec53a338a0018e}{memsize});
+102             \hyperlink{structcudafft_1_1_kernel_params_ad0cc484b02fe3e05acc1124a9ae38425}{data}=\hyperlink{structcudafft_1_1_kernel_params_af2be5b2ab519a326d5386719ce24226e}{cudaSharedMemory}+offset;
+103         \}
+\end{DoxyCode}
+\index{cudafft\+::\+Kernel\+Params@{cudafft\+::\+Kernel\+Params}!radix@{radix}}
+\index{radix@{radix}!cudafft\+::\+Kernel\+Params@{cudafft\+::\+Kernel\+Params}}
+\subsubsection[{\texorpdfstring{radix(int i)}{radix(int i)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename T\+\_\+traits  = kissfft\+\_\+utils\+::traits$<$\+T$>$$>$ {\bf C\+F\+F\+T\+\_\+\+B\+O\+TH} int\& {\bf cudafft}$<$ T, T\+\_\+traits $>$\+::Kernel\+Params\+::radix (
+\begin{DoxyParamCaption}
+\item[{int}]{i}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{structcudafft_1_1_kernel_params_acebcf4450afbdb00652fad09399a837f}{}\label{structcudafft_1_1_kernel_params_acebcf4450afbdb00652fad09399a837f}
+
+\begin{DoxyCode}
+106 \{ \textcolor{keywordflow}{return} ((\textcolor{keywordtype}{int}*)\hyperlink{structcudafft_1_1_kernel_params_ad0cc484b02fe3e05acc1124a9ae38425}{data}) [i]; \}
+\end{DoxyCode}
+\index{cudafft\+::\+Kernel\+Params@{cudafft\+::\+Kernel\+Params}!remainder@{remainder}}
+\index{remainder@{remainder}!cudafft\+::\+Kernel\+Params@{cudafft\+::\+Kernel\+Params}}
+\subsubsection[{\texorpdfstring{remainder(int i)}{remainder(int i)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename T\+\_\+traits  = kissfft\+\_\+utils\+::traits$<$\+T$>$$>$ {\bf C\+F\+F\+T\+\_\+\+B\+O\+TH} int\& {\bf cudafft}$<$ T, T\+\_\+traits $>$\+::Kernel\+Params\+::remainder (
+\begin{DoxyParamCaption}
+\item[{int}]{i}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{structcudafft_1_1_kernel_params_a26d79a55493598108efa7c93b085f5d1}{}\label{structcudafft_1_1_kernel_params_a26d79a55493598108efa7c93b085f5d1}
+
+\begin{DoxyCode}
+107 \{ \textcolor{keywordflow}{return} ((\textcolor{keywordtype}{int}*)(\hyperlink{structcudafft_1_1_kernel_params_ad0cc484b02fe3e05acc1124a9ae38425}{data} + \hyperlink{structcudafft_1_1_kernel_params_a677b1b8ee251eba05899356f73bc83da}{remainder\_offset})) [i]; \}
+\end{DoxyCode}
+\index{cudafft\+::\+Kernel\+Params@{cudafft\+::\+Kernel\+Params}!scratchbuf@{scratchbuf}}
+\index{scratchbuf@{scratchbuf}!cudafft\+::\+Kernel\+Params@{cudafft\+::\+Kernel\+Params}}
+\subsubsection[{\texorpdfstring{scratchbuf()}{scratchbuf()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename T\+\_\+traits  = kissfft\+\_\+utils\+::traits$<$\+T$>$$>$ {\bf C\+F\+F\+T\+\_\+\+B\+O\+TH} {\bf cpx\+\_\+type}$\ast$ {\bf cudafft}$<$ T, T\+\_\+traits $>$\+::Kernel\+Params\+::scratchbuf (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{structcudafft_1_1_kernel_params_a61f05eeade72281b0dc51b61d35025ea}{}\label{structcudafft_1_1_kernel_params_a61f05eeade72281b0dc51b61d35025ea}
+
+\begin{DoxyCode}
+108 \{ \textcolor{keywordflow}{return} (\hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\_type}*)(\hyperlink{structcudafft_1_1_kernel_params_ad0cc484b02fe3e05acc1124a9ae38425}{data} + \hyperlink{structcudafft_1_1_kernel_params_a4eafcb24027353ff226701187e4d5b92}{scratchbuf\_offset}); \}
+\end{DoxyCode}
+\index{cudafft\+::\+Kernel\+Params@{cudafft\+::\+Kernel\+Params}!twiddles@{twiddles}}
+\index{twiddles@{twiddles}!cudafft\+::\+Kernel\+Params@{cudafft\+::\+Kernel\+Params}}
+\subsubsection[{\texorpdfstring{twiddles(int i)}{twiddles(int i)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename T\+\_\+traits  = kissfft\+\_\+utils\+::traits$<$\+T$>$$>$ {\bf C\+F\+F\+T\+\_\+\+B\+O\+TH} {\bf cpx\+\_\+type}\& {\bf cudafft}$<$ T, T\+\_\+traits $>$\+::Kernel\+Params\+::twiddles (
+\begin{DoxyParamCaption}
+\item[{int}]{i}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{structcudafft_1_1_kernel_params_a22d047345d9de9a83b010ba5fd35d17b}{}\label{structcudafft_1_1_kernel_params_a22d047345d9de9a83b010ba5fd35d17b}
+
+\begin{DoxyCode}
+105 \{ \textcolor{keywordflow}{return} ((\hyperlink{classcudafft_a6b6e4901630f197baf4cf7f165543ece}{cpx\_type}*) (\hyperlink{structcudafft_1_1_kernel_params_ad0cc484b02fe3e05acc1124a9ae38425}{data} + \hyperlink{structcudafft_1_1_kernel_params_a2ee91ebed15013326314b5d803801630}{twiddles\_offset}))[i]; \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\index{cudafft\+::\+Kernel\+Params@{cudafft\+::\+Kernel\+Params}!cuda\+Shared\+Memory@{cuda\+Shared\+Memory}}
+\index{cuda\+Shared\+Memory@{cuda\+Shared\+Memory}!cudafft\+::\+Kernel\+Params@{cudafft\+::\+Kernel\+Params}}
+\subsubsection[{\texorpdfstring{cuda\+Shared\+Memory}{cudaSharedMemory}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename T\+\_\+traits  = kissfft\+\_\+utils\+::traits$<$\+T$>$$>$ \+\_\+\+\_\+shared\+\_\+\+\_\+ char {\bf cudafft}$<$ T, T\+\_\+traits $>$\+::Kernel\+Params\+::cuda\+Shared\+Memory\mbox{[}$\,$\mbox{]}\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{structcudafft_1_1_kernel_params_af2be5b2ab519a326d5386719ce24226e}{}\label{structcudafft_1_1_kernel_params_af2be5b2ab519a326d5386719ce24226e}
+\index{cudafft\+::\+Kernel\+Params@{cudafft\+::\+Kernel\+Params}!data@{data}}
+\index{data@{data}!cudafft\+::\+Kernel\+Params@{cudafft\+::\+Kernel\+Params}}
+\subsubsection[{\texorpdfstring{data}{data}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename T\+\_\+traits  = kissfft\+\_\+utils\+::traits$<$\+T$>$$>$ char$\ast$ {\bf cudafft}$<$ T, T\+\_\+traits $>$\+::Kernel\+Params\+::data}\hypertarget{structcudafft_1_1_kernel_params_ad0cc484b02fe3e05acc1124a9ae38425}{}\label{structcudafft_1_1_kernel_params_ad0cc484b02fe3e05acc1124a9ae38425}
+\index{cudafft\+::\+Kernel\+Params@{cudafft\+::\+Kernel\+Params}!inverse@{inverse}}
+\index{inverse@{inverse}!cudafft\+::\+Kernel\+Params@{cudafft\+::\+Kernel\+Params}}
+\subsubsection[{\texorpdfstring{inverse}{inverse}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename T\+\_\+traits  = kissfft\+\_\+utils\+::traits$<$\+T$>$$>$ bool {\bf cudafft}$<$ T, T\+\_\+traits $>$\+::Kernel\+Params\+::inverse}\hypertarget{structcudafft_1_1_kernel_params_a3f28c1de3298efe072243b0ea196b03f}{}\label{structcudafft_1_1_kernel_params_a3f28c1de3298efe072243b0ea196b03f}
+\index{cudafft\+::\+Kernel\+Params@{cudafft\+::\+Kernel\+Params}!memsize@{memsize}}
+\index{memsize@{memsize}!cudafft\+::\+Kernel\+Params@{cudafft\+::\+Kernel\+Params}}
+\subsubsection[{\texorpdfstring{memsize}{memsize}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename T\+\_\+traits  = kissfft\+\_\+utils\+::traits$<$\+T$>$$>$ int {\bf cudafft}$<$ T, T\+\_\+traits $>$\+::Kernel\+Params\+::memsize}\hypertarget{structcudafft_1_1_kernel_params_aeca8012eac182feb4cec53a338a0018e}{}\label{structcudafft_1_1_kernel_params_aeca8012eac182feb4cec53a338a0018e}
+\index{cudafft\+::\+Kernel\+Params@{cudafft\+::\+Kernel\+Params}!nfft@{nfft}}
+\index{nfft@{nfft}!cudafft\+::\+Kernel\+Params@{cudafft\+::\+Kernel\+Params}}
+\subsubsection[{\texorpdfstring{nfft}{nfft}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename T\+\_\+traits  = kissfft\+\_\+utils\+::traits$<$\+T$>$$>$ int {\bf cudafft}$<$ T, T\+\_\+traits $>$\+::Kernel\+Params\+::nfft}\hypertarget{structcudafft_1_1_kernel_params_a4e6ea9cd74f781c767a3a7ce6eee3ff2}{}\label{structcudafft_1_1_kernel_params_a4e6ea9cd74f781c767a3a7ce6eee3ff2}
+\index{cudafft\+::\+Kernel\+Params@{cudafft\+::\+Kernel\+Params}!remainder\+\_\+offset@{remainder\+\_\+offset}}
+\index{remainder\+\_\+offset@{remainder\+\_\+offset}!cudafft\+::\+Kernel\+Params@{cudafft\+::\+Kernel\+Params}}
+\subsubsection[{\texorpdfstring{remainder\+\_\+offset}{remainder_offset}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename T\+\_\+traits  = kissfft\+\_\+utils\+::traits$<$\+T$>$$>$ int {\bf cudafft}$<$ T, T\+\_\+traits $>$\+::Kernel\+Params\+::remainder\+\_\+offset}\hypertarget{structcudafft_1_1_kernel_params_a677b1b8ee251eba05899356f73bc83da}{}\label{structcudafft_1_1_kernel_params_a677b1b8ee251eba05899356f73bc83da}
+\index{cudafft\+::\+Kernel\+Params@{cudafft\+::\+Kernel\+Params}!scratchbuf\+\_\+offset@{scratchbuf\+\_\+offset}}
+\index{scratchbuf\+\_\+offset@{scratchbuf\+\_\+offset}!cudafft\+::\+Kernel\+Params@{cudafft\+::\+Kernel\+Params}}
+\subsubsection[{\texorpdfstring{scratchbuf\+\_\+offset}{scratchbuf_offset}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename T\+\_\+traits  = kissfft\+\_\+utils\+::traits$<$\+T$>$$>$ int {\bf cudafft}$<$ T, T\+\_\+traits $>$\+::Kernel\+Params\+::scratchbuf\+\_\+offset}\hypertarget{structcudafft_1_1_kernel_params_a4eafcb24027353ff226701187e4d5b92}{}\label{structcudafft_1_1_kernel_params_a4eafcb24027353ff226701187e4d5b92}
+\index{cudafft\+::\+Kernel\+Params@{cudafft\+::\+Kernel\+Params}!twiddles\+\_\+offset@{twiddles\+\_\+offset}}
+\index{twiddles\+\_\+offset@{twiddles\+\_\+offset}!cudafft\+::\+Kernel\+Params@{cudafft\+::\+Kernel\+Params}}
+\subsubsection[{\texorpdfstring{twiddles\+\_\+offset}{twiddles_offset}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T , typename T\+\_\+traits  = kissfft\+\_\+utils\+::traits$<$\+T$>$$>$ int {\bf cudafft}$<$ T, T\+\_\+traits $>$\+::Kernel\+Params\+::twiddles\+\_\+offset}\hypertarget{structcudafft_1_1_kernel_params_a2ee91ebed15013326314b5d803801630}{}\label{structcudafft_1_1_kernel_params_a2ee91ebed15013326314b5d803801630}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+cudatrack/cudafft/\hyperlink{cudafft_8h}{cudafft.\+h}\end{DoxyCompactItemize}

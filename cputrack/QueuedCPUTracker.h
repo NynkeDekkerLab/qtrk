@@ -7,6 +7,12 @@
 
 #include <list>
 
+/*! \brief CPU implementation of the QueuedTracker interface.
+
+Creates and maintains multiple threads (one per available core by default)
+and schedules localizations over them. Each thread has its own CPUTracker instance which
+provides the actual calculations.
+*/
 class QueuedCPUTracker : public QueuedTracker {
 public:
 	QueuedCPUTracker(const QTrkComputedConfig& cc);

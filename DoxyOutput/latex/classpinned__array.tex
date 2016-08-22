@@ -1,0 +1,303 @@
+\hypertarget{classpinned__array}{}\section{pinned\+\_\+array$<$ T, flags $>$ Class Template Reference}
+\label{classpinned__array}\index{pinned\+\_\+array$<$ T, flags $>$@{pinned\+\_\+array$<$ T, flags $>$}}
+
+
+{\ttfamily \#include $<$gpu\+\_\+utils.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classpinned__array_a00c76b52b2cd9ee62a581db5c6bff216}{pinned\+\_\+array} ()
+\item 
+\hyperlink{classpinned__array_afb2330e858f4b9a1288be6e6ddbedfbd}{$\sim$pinned\+\_\+array} ()
+\item 
+\hyperlink{classpinned__array_aec9bbda6eb87c91b5b139f5732b3d56c}{pinned\+\_\+array} (size\+\_\+t \hyperlink{classpinned__array_a8038d2f3dbfca5173ef9e4727cbac721}{n})
+\item 
+{\footnotesize template$<$typename T\+Other , int f$>$ }\\\hyperlink{classpinned__array_af38f986c689bfcb469a51a9a207b7e6d}{pinned\+\_\+array} (const \hyperlink{classpinned__array}{pinned\+\_\+array}$<$ T\+Other, f $>$ \&src)
+\item 
+{\footnotesize template$<$typename T\+Other , int F$>$ }\\\hyperlink{classpinned__array}{pinned\+\_\+array} \& \hyperlink{classpinned__array_ae597a3ac693ae9b714c9ed6b03f94993}{operator=} (const \hyperlink{classpinned__array}{pinned\+\_\+array}$<$ T\+Other, F $>$ \&src)
+\item 
+{\footnotesize template$<$typename Iterator $>$ }\\\hyperlink{classpinned__array_a11eaec4e43a52f844b08646bcd5c166e}{pinned\+\_\+array} (Iterator first, Iterator \hyperlink{classpinned__array_ae390c83407b010c28eb33fa19448c9a1}{end})
+\item 
+{\footnotesize template$<$typename T $>$ }\\\hyperlink{classpinned__array_a22bae9fe08fa2e926281adcf920882e3}{pinned\+\_\+array} (const \hyperlink{classdevice__vec}{device\+\_\+vec}$<$ T $>$ \&src)
+\item 
+int \hyperlink{classpinned__array_aa57ce93b5413ac43025d474fcff85855}{size} () const 
+\item 
+T $\ast$ \hyperlink{classpinned__array_aba04baaa6a150019df690ddbec8258f5}{begin} ()
+\item 
+T $\ast$ \hyperlink{classpinned__array_ae390c83407b010c28eb33fa19448c9a1}{end} ()
+\item 
+const T $\ast$ \hyperlink{classpinned__array_a5993a75c9b22d7e63907670453259e09}{begin} () const 
+\item 
+const T $\ast$ \hyperlink{classpinned__array_a90d68f7c6eed3c0df6ebabaeebdec920}{end} () const 
+\item 
+T $\ast$ \hyperlink{classpinned__array_a8e3706727fddb407394fdc19327c8e66}{data} ()
+\item 
+void \hyperlink{classpinned__array_a1d5ca6818be502c6fcacf935cd52f034}{free} ()
+\item 
+void \hyperlink{classpinned__array_afcb2e45a55852c293d11c67de5064007}{init} (int \hyperlink{classpinned__array_a8038d2f3dbfca5173ef9e4727cbac721}{n})
+\item 
+T \& \hyperlink{classpinned__array_a1a8ee28648e8d9ddb999f87cc823f545}{operator\mbox{[}$\,$\mbox{]}} (int i)
+\item 
+const T \& \hyperlink{classpinned__array_ad61274856acc86af81562be4ddae3fe1}{operator\mbox{[}$\,$\mbox{]}} (int i) const 
+\item 
+size\+\_\+t \hyperlink{classpinned__array_a9297c5f8756d0ac90ba4203370557549}{memsize} ()
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+T $\ast$ \hyperlink{classpinned__array_a5ffd81435f51946d3f9365fd49ab0274}{d}
+\item 
+size\+\_\+t \hyperlink{classpinned__array_a8038d2f3dbfca5173ef9e4727cbac721}{n}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{pinned\+\_\+array@{pinned\+\_\+array}!pinned\+\_\+array@{pinned\+\_\+array}}
+\index{pinned\+\_\+array@{pinned\+\_\+array}!pinned\+\_\+array@{pinned\+\_\+array}}
+\subsubsection[{\texorpdfstring{pinned\+\_\+array()}{pinned_array()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T, int flags = 0$>$ {\bf pinned\+\_\+array}$<$ T, flags $>$\+::{\bf pinned\+\_\+array} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classpinned__array_a00c76b52b2cd9ee62a581db5c6bff216}{}\label{classpinned__array_a00c76b52b2cd9ee62a581db5c6bff216}
+
+\begin{DoxyCode}
+186                    \{
+187         \hyperlink{classpinned__array_a5ffd81435f51946d3f9365fd49ab0274}{d}=0; \hyperlink{classpinned__array_a8038d2f3dbfca5173ef9e4727cbac721}{n}=0;
+188     \}
+\end{DoxyCode}
+\index{pinned\+\_\+array@{pinned\+\_\+array}!````~pinned\+\_\+array@{$\sim$pinned\+\_\+array}}
+\index{````~pinned\+\_\+array@{$\sim$pinned\+\_\+array}!pinned\+\_\+array@{pinned\+\_\+array}}
+\subsubsection[{\texorpdfstring{$\sim$pinned\+\_\+array()}{~pinned_array()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T, int flags = 0$>$ {\bf pinned\+\_\+array}$<$ T, flags $>$\+::$\sim${\bf pinned\+\_\+array} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classpinned__array_afb2330e858f4b9a1288be6e6ddbedfbd}{}\label{classpinned__array_afb2330e858f4b9a1288be6e6ddbedfbd}
+
+\begin{DoxyCode}
+189                     \{
+190         \hyperlink{classpinned__array_a1d5ca6818be502c6fcacf935cd52f034}{free}();
+191     \}
+\end{DoxyCode}
+\index{pinned\+\_\+array@{pinned\+\_\+array}!pinned\+\_\+array@{pinned\+\_\+array}}
+\index{pinned\+\_\+array@{pinned\+\_\+array}!pinned\+\_\+array@{pinned\+\_\+array}}
+\subsubsection[{\texorpdfstring{pinned\+\_\+array(size\+\_\+t n)}{pinned_array(size_t n)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T, int flags = 0$>$ {\bf pinned\+\_\+array}$<$ T, flags $>$\+::{\bf pinned\+\_\+array} (
+\begin{DoxyParamCaption}
+\item[{size\+\_\+t}]{n}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classpinned__array_aec9bbda6eb87c91b5b139f5732b3d56c}{}\label{classpinned__array_aec9bbda6eb87c91b5b139f5732b3d56c}
+
+\begin{DoxyCode}
+192                            \{
+193         \hyperlink{classpinned__array_a5ffd81435f51946d3f9365fd49ab0274}{d}=0; \hyperlink{classpinned__array_afcb2e45a55852c293d11c67de5064007}{init}(\hyperlink{classpinned__array_a8038d2f3dbfca5173ef9e4727cbac721}{n});
+194     \}
+\end{DoxyCode}
+\index{pinned\+\_\+array@{pinned\+\_\+array}!pinned\+\_\+array@{pinned\+\_\+array}}
+\index{pinned\+\_\+array@{pinned\+\_\+array}!pinned\+\_\+array@{pinned\+\_\+array}}
+\subsubsection[{\texorpdfstring{pinned\+\_\+array(const pinned\+\_\+array$<$ T\+Other, f $>$ \&src)}{pinned_array(const pinned_array< TOther, f > &src)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T, int flags = 0$>$ template$<$typename T\+Other , int f$>$ {\bf pinned\+\_\+array}$<$ T, flags $>$\+::{\bf pinned\+\_\+array} (
+\begin{DoxyParamCaption}
+\item[{const {\bf pinned\+\_\+array}$<$ T\+Other, f $>$ \&}]{src}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classpinned__array_af38f986c689bfcb469a51a9a207b7e6d}{}\label{classpinned__array_af38f986c689bfcb469a51a9a207b7e6d}
+
+\begin{DoxyCode}
+196                                                     \{
+197         \hyperlink{classpinned__array_a5ffd81435f51946d3f9365fd49ab0274}{d}=0;\hyperlink{classpinned__array_afcb2e45a55852c293d11c67de5064007}{init}(src.\hyperlink{classpinned__array_a8038d2f3dbfca5173ef9e4727cbac721}{n});
+198         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} k=0;k<src.\hyperlink{classpinned__array_a8038d2f3dbfca5173ef9e4727cbac721}{n};k++)
+199             \hyperlink{classpinned__array_a5ffd81435f51946d3f9365fd49ab0274}{d}[k]=src[k];
+200     \}
+\end{DoxyCode}
+\index{pinned\+\_\+array@{pinned\+\_\+array}!pinned\+\_\+array@{pinned\+\_\+array}}
+\index{pinned\+\_\+array@{pinned\+\_\+array}!pinned\+\_\+array@{pinned\+\_\+array}}
+\subsubsection[{\texorpdfstring{pinned\+\_\+array(\+Iterator first, Iterator end)}{pinned_array(Iterator first, Iterator end)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T, int flags = 0$>$ template$<$typename Iterator $>$ {\bf pinned\+\_\+array}$<$ T, flags $>$\+::{\bf pinned\+\_\+array} (
+\begin{DoxyParamCaption}
+\item[{Iterator}]{first, }
+\item[{Iterator}]{end}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classpinned__array_a11eaec4e43a52f844b08646bcd5c166e}{}\label{classpinned__array_a11eaec4e43a52f844b08646bcd5c166e}
+
+\begin{DoxyCode}
+209                                                \{
+210         \hyperlink{classpinned__array_a5ffd81435f51946d3f9365fd49ab0274}{d}=0; \hyperlink{classpinned__array_afcb2e45a55852c293d11c67de5064007}{init}(\hyperlink{classpinned__array_ae390c83407b010c28eb33fa19448c9a1}{end}-first);
+211         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} k = 0; first != \hyperlink{classpinned__array_ae390c83407b010c28eb33fa19448c9a1}{end}; ++first) \{
+212             \hyperlink{classpinned__array_a5ffd81435f51946d3f9365fd49ab0274}{d}[k++] = *first;
+213         \}
+214     \}
+\end{DoxyCode}
+\index{pinned\+\_\+array@{pinned\+\_\+array}!pinned\+\_\+array@{pinned\+\_\+array}}
+\index{pinned\+\_\+array@{pinned\+\_\+array}!pinned\+\_\+array@{pinned\+\_\+array}}
+\subsubsection[{\texorpdfstring{pinned\+\_\+array(const device\+\_\+vec$<$ T $>$ \&src)}{pinned_array(const device_vec< T > &src)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T, int flags = 0$>$ template$<$typename T $>$ {\bf pinned\+\_\+array}$<$ T, flags $>$\+::{\bf pinned\+\_\+array} (
+\begin{DoxyParamCaption}
+\item[{const {\bf device\+\_\+vec}$<$ T $>$ \&}]{src}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classpinned__array_a22bae9fe08fa2e926281adcf920882e3}{}\label{classpinned__array_a22bae9fe08fa2e926281adcf920882e3}
+
+\begin{DoxyCode}
+216                                            \{
+217         \hyperlink{classpinned__array_a5ffd81435f51946d3f9365fd49ab0274}{d}=0; \hyperlink{classpinned__array_afcb2e45a55852c293d11c67de5064007}{init}(src.\hyperlink{classdevice__vec_a1452496fe02af53427d0284e2bb6ca6e}{size}()); src.\hyperlink{classdevice__vec_a9e8112582faa85f58fff7aeeafb3c455}{copyToHost}(\hyperlink{classpinned__array_a5ffd81435f51946d3f9365fd49ab0274}{d},\textcolor{keyword}{false});
+218     \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\index{pinned\+\_\+array@{pinned\+\_\+array}!begin@{begin}}
+\index{begin@{begin}!pinned\+\_\+array@{pinned\+\_\+array}}
+\subsubsection[{\texorpdfstring{begin()}{begin()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T, int flags = 0$>$ T$\ast$ {\bf pinned\+\_\+array}$<$ T, flags $>$\+::begin (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classpinned__array_aba04baaa6a150019df690ddbec8258f5}{}\label{classpinned__array_aba04baaa6a150019df690ddbec8258f5}
+
+\begin{DoxyCode}
+221 \{ \textcolor{keywordflow}{return} \hyperlink{classpinned__array_a5ffd81435f51946d3f9365fd49ab0274}{d}; \}
+\end{DoxyCode}
+\index{pinned\+\_\+array@{pinned\+\_\+array}!begin@{begin}}
+\index{begin@{begin}!pinned\+\_\+array@{pinned\+\_\+array}}
+\subsubsection[{\texorpdfstring{begin() const }{begin() const }}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T, int flags = 0$>$ const T$\ast$ {\bf pinned\+\_\+array}$<$ T, flags $>$\+::begin (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classpinned__array_a5993a75c9b22d7e63907670453259e09}{}\label{classpinned__array_a5993a75c9b22d7e63907670453259e09}
+
+\begin{DoxyCode}
+223 \{ \textcolor{keywordflow}{return} \hyperlink{classpinned__array_a5ffd81435f51946d3f9365fd49ab0274}{d}; \}
+\end{DoxyCode}
+\index{pinned\+\_\+array@{pinned\+\_\+array}!data@{data}}
+\index{data@{data}!pinned\+\_\+array@{pinned\+\_\+array}}
+\subsubsection[{\texorpdfstring{data()}{data()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T, int flags = 0$>$ T$\ast$ {\bf pinned\+\_\+array}$<$ T, flags $>$\+::data (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classpinned__array_a8e3706727fddb407394fdc19327c8e66}{}\label{classpinned__array_a8e3706727fddb407394fdc19327c8e66}
+
+\begin{DoxyCode}
+225 \{ \textcolor{keywordflow}{return} \hyperlink{classpinned__array_a5ffd81435f51946d3f9365fd49ab0274}{d}; \}
+\end{DoxyCode}
+\index{pinned\+\_\+array@{pinned\+\_\+array}!end@{end}}
+\index{end@{end}!pinned\+\_\+array@{pinned\+\_\+array}}
+\subsubsection[{\texorpdfstring{end()}{end()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T, int flags = 0$>$ T$\ast$ {\bf pinned\+\_\+array}$<$ T, flags $>$\+::end (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classpinned__array_ae390c83407b010c28eb33fa19448c9a1}{}\label{classpinned__array_ae390c83407b010c28eb33fa19448c9a1}
+
+\begin{DoxyCode}
+222 \{ \textcolor{keywordflow}{return} \hyperlink{classpinned__array_a5ffd81435f51946d3f9365fd49ab0274}{d}+\hyperlink{classpinned__array_a8038d2f3dbfca5173ef9e4727cbac721}{n}; \}
+\end{DoxyCode}
+\index{pinned\+\_\+array@{pinned\+\_\+array}!end@{end}}
+\index{end@{end}!pinned\+\_\+array@{pinned\+\_\+array}}
+\subsubsection[{\texorpdfstring{end() const }{end() const }}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T, int flags = 0$>$ const T$\ast$ {\bf pinned\+\_\+array}$<$ T, flags $>$\+::end (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classpinned__array_a90d68f7c6eed3c0df6ebabaeebdec920}{}\label{classpinned__array_a90d68f7c6eed3c0df6ebabaeebdec920}
+
+\begin{DoxyCode}
+224 \{ \textcolor{keywordflow}{return} \hyperlink{classpinned__array_a5ffd81435f51946d3f9365fd49ab0274}{d}+\hyperlink{classpinned__array_a8038d2f3dbfca5173ef9e4727cbac721}{n}; \}
+\end{DoxyCode}
+\index{pinned\+\_\+array@{pinned\+\_\+array}!free@{free}}
+\index{free@{free}!pinned\+\_\+array@{pinned\+\_\+array}}
+\subsubsection[{\texorpdfstring{free()}{free()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T, int flags = 0$>$ void {\bf pinned\+\_\+array}$<$ T, flags $>$\+::free (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classpinned__array_a1d5ca6818be502c6fcacf935cd52f034}{}\label{classpinned__array_a1d5ca6818be502c6fcacf935cd52f034}
+
+\begin{DoxyCode}
+226                 \{
+227         cudaFreeHost(\hyperlink{classpinned__array_a5ffd81435f51946d3f9365fd49ab0274}{d});
+228         \hyperlink{classpinned__array_a5ffd81435f51946d3f9365fd49ab0274}{d}=0;\hyperlink{classpinned__array_a8038d2f3dbfca5173ef9e4727cbac721}{n}=0;
+229     \}
+\end{DoxyCode}
+\index{pinned\+\_\+array@{pinned\+\_\+array}!init@{init}}
+\index{init@{init}!pinned\+\_\+array@{pinned\+\_\+array}}
+\subsubsection[{\texorpdfstring{init(int n)}{init(int n)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T, int flags = 0$>$ void {\bf pinned\+\_\+array}$<$ T, flags $>$\+::init (
+\begin{DoxyParamCaption}
+\item[{int}]{n}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classpinned__array_afcb2e45a55852c293d11c67de5064007}{}\label{classpinned__array_afcb2e45a55852c293d11c67de5064007}
+
+\begin{DoxyCode}
+230                      \{
+231         \textcolor{keywordflow}{if} (\hyperlink{classpinned__array_a5ffd81435f51946d3f9365fd49ab0274}{d}) \hyperlink{classpinned__array_a1d5ca6818be502c6fcacf935cd52f034}{free}();
+232         this->\hyperlink{classpinned__array_a8038d2f3dbfca5173ef9e4727cbac721}{n} = \hyperlink{classpinned__array_a8038d2f3dbfca5173ef9e4727cbac721}{n};
+233         \textcolor{keywordflow}{if} (cudaMallocHost(&\hyperlink{classpinned__array_a5ffd81435f51946d3f9365fd49ab0274}{d}, \textcolor{keyword}{sizeof}(T)*\hyperlink{classpinned__array_a8038d2f3dbfca5173ef9e4727cbac721}{n}, flags) != cudaSuccess) \{
+234             \textcolor{keywordflow}{throw} std::bad\_alloc(\hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"%s init %d elements failed"}, \textcolor{keyword}{typeid}(*this).name(), 
+      \hyperlink{classpinned__array_a8038d2f3dbfca5173ef9e4727cbac721}{n}).c\_str());
+235         \}
+236     \}
+\end{DoxyCode}
+\index{pinned\+\_\+array@{pinned\+\_\+array}!memsize@{memsize}}
+\index{memsize@{memsize}!pinned\+\_\+array@{pinned\+\_\+array}}
+\subsubsection[{\texorpdfstring{memsize()}{memsize()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T, int flags = 0$>$ size\+\_\+t {\bf pinned\+\_\+array}$<$ T, flags $>$\+::memsize (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classpinned__array_a9297c5f8756d0ac90ba4203370557549}{}\label{classpinned__array_a9297c5f8756d0ac90ba4203370557549}
+
+\begin{DoxyCode}
+239 \{ \textcolor{keywordflow}{return} \hyperlink{classpinned__array_a8038d2f3dbfca5173ef9e4727cbac721}{n}*\textcolor{keyword}{sizeof}(T); \}
+\end{DoxyCode}
+\index{pinned\+\_\+array@{pinned\+\_\+array}!operator=@{operator=}}
+\index{operator=@{operator=}!pinned\+\_\+array@{pinned\+\_\+array}}
+\subsubsection[{\texorpdfstring{operator=(const pinned\+\_\+array$<$ T\+Other, F $>$ \&src)}{operator=(const pinned_array< TOther, F > &src)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T, int flags = 0$>$ template$<$typename T\+Other , int F$>$ {\bf pinned\+\_\+array}\& {\bf pinned\+\_\+array}$<$ T, flags $>$\+::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf pinned\+\_\+array}$<$ T\+Other, F $>$ \&}]{src}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classpinned__array_ae597a3ac693ae9b714c9ed6b03f94993}{}\label{classpinned__array_ae597a3ac693ae9b714c9ed6b03f94993}
+
+\begin{DoxyCode}
+202                                                                 \{
+203         \textcolor{keywordflow}{if} (src.\hyperlink{classpinned__array_a8038d2f3dbfca5173ef9e4727cbac721}{n} != \hyperlink{classpinned__array_a8038d2f3dbfca5173ef9e4727cbac721}{n}) \hyperlink{classpinned__array_afcb2e45a55852c293d11c67de5064007}{init}(src.\hyperlink{classpinned__array_a8038d2f3dbfca5173ef9e4727cbac721}{n});
+204         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} k=0;k<src.\hyperlink{classpinned__array_a8038d2f3dbfca5173ef9e4727cbac721}{n};k++)
+205             \hyperlink{classpinned__array_a5ffd81435f51946d3f9365fd49ab0274}{d}[k]=src[k];
+206         \textcolor{keywordflow}{return} *\textcolor{keyword}{this};
+207     \}
+\end{DoxyCode}
+\index{pinned\+\_\+array@{pinned\+\_\+array}!operator\mbox{[}$\,$\mbox{]}@{operator[]}}
+\index{operator\mbox{[}$\,$\mbox{]}@{operator[]}!pinned\+\_\+array@{pinned\+\_\+array}}
+\subsubsection[{\texorpdfstring{operator[](int i)}{operator[](int i)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T, int flags = 0$>$ T\& {\bf pinned\+\_\+array}$<$ T, flags $>$\+::operator\mbox{[}$\,$\mbox{]} (
+\begin{DoxyParamCaption}
+\item[{int}]{i}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classpinned__array_a1a8ee28648e8d9ddb999f87cc823f545}{}\label{classpinned__array_a1a8ee28648e8d9ddb999f87cc823f545}
+
+\begin{DoxyCode}
+237 \{  \textcolor{keywordflow}{return} \hyperlink{classpinned__array_a5ffd81435f51946d3f9365fd49ab0274}{d}[i]; \}
+\end{DoxyCode}
+\index{pinned\+\_\+array@{pinned\+\_\+array}!operator\mbox{[}$\,$\mbox{]}@{operator[]}}
+\index{operator\mbox{[}$\,$\mbox{]}@{operator[]}!pinned\+\_\+array@{pinned\+\_\+array}}
+\subsubsection[{\texorpdfstring{operator[](int i) const }{operator[](int i) const }}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T, int flags = 0$>$ const T\& {\bf pinned\+\_\+array}$<$ T, flags $>$\+::operator\mbox{[}$\,$\mbox{]} (
+\begin{DoxyParamCaption}
+\item[{int}]{i}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classpinned__array_ad61274856acc86af81562be4ddae3fe1}{}\label{classpinned__array_ad61274856acc86af81562be4ddae3fe1}
+
+\begin{DoxyCode}
+238 \{ \textcolor{keywordflow}{return} \hyperlink{classpinned__array_a5ffd81435f51946d3f9365fd49ab0274}{d}[i];\}
+\end{DoxyCode}
+\index{pinned\+\_\+array@{pinned\+\_\+array}!size@{size}}
+\index{size@{size}!pinned\+\_\+array@{pinned\+\_\+array}}
+\subsubsection[{\texorpdfstring{size() const }{size() const }}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T, int flags = 0$>$ int {\bf pinned\+\_\+array}$<$ T, flags $>$\+::size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classpinned__array_aa57ce93b5413ac43025d474fcff85855}{}\label{classpinned__array_aa57ce93b5413ac43025d474fcff85855}
+
+\begin{DoxyCode}
+220 \{ \textcolor{keywordflow}{return} \hyperlink{classpinned__array_a8038d2f3dbfca5173ef9e4727cbac721}{n}; \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\index{pinned\+\_\+array@{pinned\+\_\+array}!d@{d}}
+\index{d@{d}!pinned\+\_\+array@{pinned\+\_\+array}}
+\subsubsection[{\texorpdfstring{d}{d}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T, int flags = 0$>$ T$\ast$ {\bf pinned\+\_\+array}$<$ T, flags $>$\+::d\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classpinned__array_a5ffd81435f51946d3f9365fd49ab0274}{}\label{classpinned__array_a5ffd81435f51946d3f9365fd49ab0274}
+\index{pinned\+\_\+array@{pinned\+\_\+array}!n@{n}}
+\index{n@{n}!pinned\+\_\+array@{pinned\+\_\+array}}
+\subsubsection[{\texorpdfstring{n}{n}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T, int flags = 0$>$ size\+\_\+t {\bf pinned\+\_\+array}$<$ T, flags $>$\+::n\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classpinned__array_a8038d2f3dbfca5173ef9e4727cbac721}{}\label{classpinned__array_a8038d2f3dbfca5173ef9e4727cbac721}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+cudatrack/\hyperlink{gpu__utils_8h}{gpu\+\_\+utils.\+h}\end{DoxyCompactItemize}

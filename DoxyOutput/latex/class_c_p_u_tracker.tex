@@ -1,0 +1,1686 @@
+\hypertarget{class_c_p_u_tracker}{}\section{C\+P\+U\+Tracker Class Reference}
+\label{class_c_p_u_tracker}\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+
+
+{\ttfamily \#include $<$cpu\+\_\+tracker.\+h$>$}
+
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_c_p_u_tracker_1_1_f_f_t2_d}{F\+F\+T2D}
+\item 
+struct \hyperlink{struct_c_p_u_tracker_1_1_gauss2_d_result}{Gauss2\+D\+Result}
+\end{DoxyCompactItemize}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_c_p_u_tracker_a196ac690351a7a8449fe21012de9efdf}{L\+U\+T\+Profile\+Max\+Compute\+Mode} \{ \hyperlink{class_c_p_u_tracker_a196ac690351a7a8449fe21012de9efdfa699b606aff628359036eef4585adba0e}{L\+U\+T\+Prof\+Max\+Quadratic\+Fit}, 
+\hyperlink{class_c_p_u_tracker_a196ac690351a7a8449fe21012de9efdfac91717f744a9d4cd4403cb334ed8f736}{L\+U\+T\+Prof\+Max\+Spline\+Fit}, 
+\hyperlink{class_c_p_u_tracker_a196ac690351a7a8449fe21012de9efdfac33bc6099016f7da393c53fe4c7ecd5c}{L\+U\+T\+Prof\+Max\+Simple\+Interp}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+float $\ast$ \hyperlink{class_c_p_u_tracker_a8a8ca2636eca91688ff90d68d04ad69d}{Get\+Radial\+Z\+L\+UT} (int index)
+\item 
+float \& \hyperlink{class_c_p_u_tracker_afd0e07572adc7f6f70e5e130ff01402b}{Get\+Pixel} (int x, int y)
+\item 
+int \hyperlink{class_c_p_u_tracker_a1f380a0c3d1826e7ef6f7299ce9e5999}{Get\+Width} ()
+\item 
+int \hyperlink{class_c_p_u_tracker_a6da03daaee4bcdfdf8439f3adbc36aa7}{Get\+Height} ()
+\item 
+\hyperlink{class_c_p_u_tracker_a1efdc9c713bc19ea67b5ab1e2a82588f}{C\+P\+U\+Tracker} (int w, int h, int xcorwindow=128, bool \hyperlink{class_c_p_u_tracker_a5dd04ccf64ee6885b2dc272553c29644}{test\+Run}=false)
+\item 
+\hyperlink{class_c_p_u_tracker_adfd0dc510c6791891d247362ab751dd7}{$\sim$\+C\+P\+U\+Tracker} ()
+\item 
+bool \hyperlink{class_c_p_u_tracker_a5dd95e6830eb86a06e5302e04e411c1a}{Keep\+Inside\+Boundaries} (\hyperlink{std__incl_8h_aba974726076ec2d63a67114c536d123e}{vector2f} $\ast$center, float radius)
+\item 
+bool \hyperlink{class_c_p_u_tracker_a7d853e9c7142eefcbd227f18c05b60e7}{Check\+Boundaries} (\hyperlink{std__incl_8h_aba974726076ec2d63a67114c536d123e}{vector2f} center, float radius)
+\item 
+\hyperlink{std__incl_8h_aba974726076ec2d63a67114c536d123e}{vector2f} \hyperlink{class_c_p_u_tracker_aeb547c7da30e1621b2869634182c0900}{Compute\+X\+Cor\+Interpolated} (\hyperlink{std__incl_8h_aba974726076ec2d63a67114c536d123e}{vector2f} initial, int iterations, int profile\+Width, bool \&boundary\+Hit)
+\item 
+\hyperlink{std__incl_8h_aba974726076ec2d63a67114c536d123e}{vector2f} \hyperlink{class_c_p_u_tracker_ab856aa12313a07c083f2e193180fd5b6}{Compute\+QI} (\hyperlink{std__incl_8h_aba974726076ec2d63a67114c536d123e}{vector2f} initial, int iterations, int radial\+Steps, int angular\+Steps\+Per\+Quadrant, float ang\+Step\+Iteration\+Factor, float min\+Radius, float max\+Radius, bool \&boundary\+Hit, float $\ast$radialweights=0)
+\item 
+\hyperlink{struct_c_p_u_tracker_1_1_gauss2_d_result}{Gauss2\+D\+Result} \hyperlink{class_c_p_u_tracker_a99567e8137e89ff9ee084558e9f26344}{Compute2\+D\+Gaussian\+M\+LE} (\hyperlink{std__incl_8h_aba974726076ec2d63a67114c536d123e}{vector2f} initial, int iterations, float sigma)
+\item 
+\hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\+\_\+t} \hyperlink{class_c_p_u_tracker_ac714cf7bcefab595734cc2768a4d4236}{Q\+I\+\_\+\+Compute\+Offset} (\hyperlink{scalar__types_8h_abaffcd8bea58063cc6c608dda082ad05}{complex\+\_\+t} $\ast$qi\+\_\+profile, int nr, int axis\+For\+Debug)
+\item 
+\hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\+\_\+t} \hyperlink{class_c_p_u_tracker_a71992f53900219b3c62bf559b9e28980}{Quadrant\+Align\+\_\+\+Compute\+Offset} (\hyperlink{scalar__types_8h_abaffcd8bea58063cc6c608dda082ad05}{complex\+\_\+t} $\ast$profile, \hyperlink{scalar__types_8h_abaffcd8bea58063cc6c608dda082ad05}{complex\+\_\+t} $\ast$zlut\+\_\+prof\+\_\+fft, int nr, int axis\+For\+Debug)
+\item 
+float \hyperlink{class_c_p_u_tracker_a05039be68af2184529ccb2a8713f7cbe}{Compute\+Asymmetry} (\hyperlink{std__incl_8h_aba974726076ec2d63a67114c536d123e}{vector2f} center, int radial\+Steps, int angular\+Steps, float min\+Radius, float max\+Radius, float $\ast$dst\+Ang\+Prof=0)
+\item 
+{\footnotesize template$<$typename T\+Pixel $>$ }\\void \hyperlink{class_c_p_u_tracker_ab64472ecfac7e3ae784dc6bc6271a77f}{Set\+Image} (T\+Pixel $\ast$\hyperlink{class_c_p_u_tracker_a393778bc9b49eb6d5014fd814c5dfcdf}{src\+Image}, \hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} srcpitch)
+\item 
+void \hyperlink{class_c_p_u_tracker_a0f15bef0a76790ce0ba31ce104e3c39a}{Set\+Image16\+Bit} (\hyperlink{std__incl_8h_ab95f123a6c9bcfee6a343170ef8c5f69}{ushort} $\ast$\hyperlink{class_c_p_u_tracker_a393778bc9b49eb6d5014fd814c5dfcdf}{src\+Image}, \hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} srcpitch)
+\item 
+void \hyperlink{class_c_p_u_tracker_a6bca00a1c694bec1c0858a5794580cce}{Set\+Image8\+Bit} (\hyperlink{std__incl_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar} $\ast$\hyperlink{class_c_p_u_tracker_a393778bc9b49eb6d5014fd814c5dfcdf}{src\+Image}, \hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} srcpitch)
+\item 
+void \hyperlink{class_c_p_u_tracker_ab0a855205943f129c8ddd19d34c4a6b3}{Set\+Image\+Float} (float $\ast$\hyperlink{class_c_p_u_tracker_a393778bc9b49eb6d5014fd814c5dfcdf}{src\+Image})
+\item 
+void \hyperlink{class_c_p_u_tracker_ad43acbdbc335850b8b01a5c6508ef902}{Save\+Image} (const char $\ast$filename)
+\item 
+\hyperlink{std__incl_8h_aba974726076ec2d63a67114c536d123e}{vector2f} \hyperlink{class_c_p_u_tracker_a18c3c6ec23abbbfb018d30b166ed140e}{Compute\+Mean\+And\+C\+OM} (float bgcorrection=0.\+0f)
+\item 
+void \hyperlink{class_c_p_u_tracker_a425db1a2a66d9635d2b4b565ecfdc3b0}{Compute\+Radial\+Profile} (float $\ast$dst, int radial\+Steps, int angular\+Steps, float minradius, float maxradius, \hyperlink{std__incl_8h_aba974726076ec2d63a67114c536d123e}{vector2f} center, bool crp, bool $\ast$boundary\+Hit=0, bool \hyperlink{utils_8h_a32b5810b69072511c66006593bcf7a89}{normalize}=true)
+\item 
+void \hyperlink{class_c_p_u_tracker_a96cc7e3d9d65226c8aa718b4bb03a633}{Compute\+Quadrant\+Profile} (\hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\+\_\+t} $\ast$dst, int radial\+Steps, int angular\+Steps, int quadrant, float min\+Radius, float max\+Radius, \hyperlink{std__incl_8h_aba974726076ec2d63a67114c536d123e}{vector2f} center, float $\ast$radial\+Weights=0)
+\item 
+float \hyperlink{class_c_p_u_tracker_a8aaf20eab116d030a8549dadc5e2fb03}{ComputeZ} (\hyperlink{std__incl_8h_aba974726076ec2d63a67114c536d123e}{vector2f} center, int angular\+Steps, int zlut\+Index, bool $\ast$boundary\+Hit=0, float $\ast$profile=0, float $\ast$cmpprof=0, bool normalize\+Profile=true)
+\item 
+void \hyperlink{class_c_p_u_tracker_a723e3ea86ab2cc99e147477037895398}{Fourier\+Transform2D} ()
+\item 
+void \hyperlink{class_c_p_u_tracker_a680410d9616a6e65ea1ad430aa8a56cf}{Fourier\+Radial\+Profile} (float $\ast$dst, int radial\+Steps, int angular\+Steps, float minradius, float maxradius)
+\item 
+void \hyperlink{class_c_p_u_tracker_a86461dca5334095dc16624d13e9e859d}{Normalize} (float $\ast$image=0)
+\item 
+void \hyperlink{class_c_p_u_tracker_a4ce07a1fc9189a4bdd66f5e6917af28b}{Set\+Radial\+Z\+L\+UT} (float $\ast$data, int planes, int res, int num\+\_\+zluts, float minradius, float maxradius, bool copy\+Memory, bool use\+Correlation)
+\item 
+void \hyperlink{class_c_p_u_tracker_a1b14ce6b297fa7f0816a28973a881a95}{Set\+Radial\+Weights} (float $\ast$w)
+\item 
+void \hyperlink{class_c_p_u_tracker_a3505604c838186c348562bac8a2fedfe}{Calculate\+Error\+Curve} (double $\ast$errorcurve\+\_\+dest, float $\ast$profile, float $\ast$zlut\+\_\+sel)
+\item 
+void \hyperlink{class_c_p_u_tracker_a4ae169f9618eeb09f129815229eaeb33}{Calculate\+Interpolated\+Z\+L\+U\+T\+Profile} (float $\ast$profile\+\_\+dest, float z, int zlut\+Index)
+\item 
+float \hyperlink{class_c_p_u_tracker_a9222708c644ddeecbc2519ad8c1b4a2f}{Calculate\+Error\+Flag} (double $\ast$prof1, double $\ast$prof2)
+\item 
+float \hyperlink{class_c_p_u_tracker_a605758e0bf1f897f86f38b65e99e320b}{L\+U\+T\+Profile\+Compare} (float $\ast$profile, int zlut\+Index, float $\ast$cmp\+Prof, \hyperlink{class_c_p_u_tracker_a196ac690351a7a8449fe21012de9efdf}{L\+U\+T\+Profile\+Max\+Compute\+Mode} max\+Pos\+Method, float $\ast$lsqfittedcurve=0, int $\ast$max\+Pos=0, int frame\+Num=0)
+\item 
+float \hyperlink{class_c_p_u_tracker_ab915cca7e40b60f68f5e7d5c10386ddc}{L\+U\+T\+Profile\+Compare\+Adjusted\+Weights} (float $\ast$rprof, int zlut\+Index, float z\+\_\+estim)
+\item 
+float $\ast$ \hyperlink{class_c_p_u_tracker_ac0c9033626a30f3b8d1eccf02b7efa82}{Get\+Debug\+Image} ()
+\item 
+void \hyperlink{class_c_p_u_tracker_a97e9bde337abe501b108f5aac09c7db9}{Apply\+Offset\+Gain} (float $\ast$offset, float $\ast$gain, float offset\+Factor, float gain\+Factor)
+\item 
+void \hyperlink{class_c_p_u_tracker_aafcdd89f94bd04e92bf0fd228a59b1a5}{Allocate\+Q\+I\+F\+F\+Ts} (int nsteps)
+\item 
+\hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f} \hyperlink{class_c_p_u_tracker_a7e9e0d809af103c8a24d6ecf09fdfb1c}{Quadrant\+Align} (\hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f} initial, int bead\+Index, int angular\+Steps\+Per\+Quadrant, bool \&boundary\+Hit)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{class_c_p_u_tracker_afb77fe1c7e1a38d25d5aadded5a36fb9}{width}
+\item 
+int \hyperlink{class_c_p_u_tracker_a5d1e01c6a878ff7f0c138f011b0ca5d3}{height}
+\item 
+int \hyperlink{class_c_p_u_tracker_a31994d45332742dd422f876f5897233b}{xcorw}
+\item 
+int \hyperlink{class_c_p_u_tracker_ad80ba679c9c88be30b018a31fef72ed1}{tracker\+ID}
+\item 
+float $\ast$ \hyperlink{class_c_p_u_tracker_a393778bc9b49eb6d5014fd814c5dfcdf}{src\+Image}
+\item 
+float $\ast$ \hyperlink{class_c_p_u_tracker_a58cde24ef2ce5057d42b678951a2239b}{debug\+Image}
+\item 
+float \hyperlink{class_c_p_u_tracker_a611986d18c52010b79815a9cb920b00d}{mean}
+\item 
+float \hyperlink{class_c_p_u_tracker_ae5697cf2319755515193ae21d0c8995f}{stdev}
+\item 
+std\+::vector$<$ \hyperlink{std__incl_8h_aba974726076ec2d63a67114c536d123e}{vector2f} $>$ \hyperlink{class_c_p_u_tracker_a88ec0839b0866df86fb12603e553a9b9}{radial\+Dirs}
+\item 
+float $\ast$ \hyperlink{class_c_p_u_tracker_ac187d3124a66c6743c2037bb82d9a67d}{zluts}
+\item 
+bool \hyperlink{class_c_p_u_tracker_a52fb6848573fc603a4e6e435e3e2352f}{zlut\+\_\+memory\+Owner}
+\item 
+int \hyperlink{class_c_p_u_tracker_ad28d60ad587ae3f89b9dba7f82c135f7}{zlut\+\_\+planes}
+\item 
+int \hyperlink{class_c_p_u_tracker_a058eae282c9bf847cd8e39664688c5bc}{zlut\+\_\+res}
+\item 
+int \hyperlink{class_c_p_u_tracker_a492dd4655d741df0d4d1bb51c52bcca2}{zlut\+\_\+count}
+\item 
+float \hyperlink{class_c_p_u_tracker_a18ed4e4c7e10ea5728eaf4d36b864fdc}{zlut\+\_\+minradius}
+\item 
+float \hyperlink{class_c_p_u_tracker_aac96fa28c0ee4462e176e78c9ec91335}{zlut\+\_\+maxradius}
+\item 
+bool \hyperlink{class_c_p_u_tracker_a324e4b9cfe1337d9c33bf9690e6c1ef6}{zlut\+\_\+use\+Correlation}
+\item 
+std\+::vector$<$ float $>$ \hyperlink{class_c_p_u_tracker_a0512849e34777963ac4d380682f804a3}{zlut\+\_\+radialweights}
+\item 
+\hyperlink{classkissfft}{kissfft}$<$ \hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\+\_\+t} $>$ $\ast$ \hyperlink{class_c_p_u_tracker_af3a10b319bc4de18d2429f9e30544c4a}{qa\+\_\+fft\+\_\+forward}
+\item 
+\hyperlink{classkissfft}{kissfft}$<$ \hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\+\_\+t} $>$ $\ast$ \hyperlink{class_c_p_u_tracker_aca16d9dc92365498d092b937d6959d7e}{qa\+\_\+fft\+\_\+backward}
+\item 
+bool \hyperlink{class_c_p_u_tracker_a5dd04ccf64ee6885b2dc272553c29644}{test\+Run}
+\item 
+\hyperlink{class_x_cor1_d_buffer}{X\+Cor1\+D\+Buffer} $\ast$ \hyperlink{class_c_p_u_tracker_a50c41b873db189fb3cb01068025a2764}{xcor\+Buffer}
+\item 
+std\+::vector$<$ \hyperlink{std__incl_8h_aba974726076ec2d63a67114c536d123e}{vector2f} $>$ \hyperlink{class_c_p_u_tracker_ae155aab5f1ed07d8467818b915087b20}{quadrant\+Dirs}
+\item 
+int \hyperlink{class_c_p_u_tracker_a98d341a251610821e51783ce2dc4179c}{qi\+\_\+radialsteps}
+\item 
+\hyperlink{classkissfft}{kissfft}$<$ \hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\+\_\+t} $>$ $\ast$ \hyperlink{class_c_p_u_tracker_a1b17351aec1bcd117d6f1e304904b282}{qi\+\_\+fft\+\_\+forward}
+\item 
+\hyperlink{classkissfft}{kissfft}$<$ \hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\+\_\+t} $>$ $\ast$ \hyperlink{class_c_p_u_tracker_aa0ff71d20678c294eeeebb0b0eec1fc8}{qi\+\_\+fft\+\_\+backward}
+\item 
+\hyperlink{class_c_p_u_tracker_1_1_f_f_t2_d}{F\+F\+T2D} $\ast$ \hyperlink{class_c_p_u_tracker_a62ed72a32b90914199ba06c3df929dd6}{fft2d}
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Enumeration Documentation}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!L\+U\+T\+Profile\+Max\+Compute\+Mode@{L\+U\+T\+Profile\+Max\+Compute\+Mode}}
+\index{L\+U\+T\+Profile\+Max\+Compute\+Mode@{L\+U\+T\+Profile\+Max\+Compute\+Mode}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{L\+U\+T\+Profile\+Max\+Compute\+Mode}{LUTProfileMaxComputeMode}}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf C\+P\+U\+Tracker\+::\+L\+U\+T\+Profile\+Max\+Compute\+Mode}}\hypertarget{class_c_p_u_tracker_a196ac690351a7a8449fe21012de9efdf}{}\label{class_c_p_u_tracker_a196ac690351a7a8449fe21012de9efdf}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{L\+U\+T\+Prof\+Max\+Quadratic\+Fit@{L\+U\+T\+Prof\+Max\+Quadratic\+Fit}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!L\+U\+T\+Prof\+Max\+Quadratic\+Fit@{L\+U\+T\+Prof\+Max\+Quadratic\+Fit}}\item[{\em 
+L\+U\+T\+Prof\+Max\+Quadratic\+Fit\hypertarget{class_c_p_u_tracker_a196ac690351a7a8449fe21012de9efdfa699b606aff628359036eef4585adba0e}{}\label{class_c_p_u_tracker_a196ac690351a7a8449fe21012de9efdfa699b606aff628359036eef4585adba0e}
+}]\index{L\+U\+T\+Prof\+Max\+Spline\+Fit@{L\+U\+T\+Prof\+Max\+Spline\+Fit}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!L\+U\+T\+Prof\+Max\+Spline\+Fit@{L\+U\+T\+Prof\+Max\+Spline\+Fit}}\item[{\em 
+L\+U\+T\+Prof\+Max\+Spline\+Fit\hypertarget{class_c_p_u_tracker_a196ac690351a7a8449fe21012de9efdfac91717f744a9d4cd4403cb334ed8f736}{}\label{class_c_p_u_tracker_a196ac690351a7a8449fe21012de9efdfac91717f744a9d4cd4403cb334ed8f736}
+}]\index{L\+U\+T\+Prof\+Max\+Simple\+Interp@{L\+U\+T\+Prof\+Max\+Simple\+Interp}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!L\+U\+T\+Prof\+Max\+Simple\+Interp@{L\+U\+T\+Prof\+Max\+Simple\+Interp}}\item[{\em 
+L\+U\+T\+Prof\+Max\+Simple\+Interp\hypertarget{class_c_p_u_tracker_a196ac690351a7a8449fe21012de9efdfac33bc6099016f7da393c53fe4c7ecd5c}{}\label{class_c_p_u_tracker_a196ac690351a7a8449fe21012de9efdfac33bc6099016f7da393c53fe4c7ecd5c}
+}]\end{description}
+\end{Desc}
+
+\begin{DoxyCode}
+110 \{ \hyperlink{class_c_p_u_tracker_a196ac690351a7a8449fe21012de9efdfa699b606aff628359036eef4585adba0e}{LUTProfMaxQuadraticFit}, \hyperlink{class_c_p_u_tracker_a196ac690351a7a8449fe21012de9efdfac91717f744a9d4cd4403cb334ed8f736}{LUTProfMaxSplineFit}, 
+      \hyperlink{class_c_p_u_tracker_a196ac690351a7a8449fe21012de9efdfac33bc6099016f7da393c53fe4c7ecd5c}{LUTProfMaxSimpleInterp} \};
+\end{DoxyCode}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{C\+P\+U\+Tracker(int w, int h, int xcorwindow=128, bool test\+Run=false)}{CPUTracker(int w, int h, int xcorwindow=128, bool testRun=false)}}]{\setlength{\rightskip}{0pt plus 5cm}C\+P\+U\+Tracker\+::\+C\+P\+U\+Tracker (
+\begin{DoxyParamCaption}
+\item[{int}]{w, }
+\item[{int}]{h, }
+\item[{int}]{xcorwindow = {\ttfamily 128}, }
+\item[{bool}]{test\+Run = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}\hypertarget{class_c_p_u_tracker_a1efdc9c713bc19ea67b5ab1e2a82588f}{}\label{class_c_p_u_tracker_a1efdc9c713bc19ea67b5ab1e2a82588f}
+
+\begin{DoxyCode}
+43 \{
+44     \hyperlink{class_c_p_u_tracker_afb77fe1c7e1a38d25d5aadded5a36fb9}{width} = w;
+45     \hyperlink{class_c_p_u_tracker_a5d1e01c6a878ff7f0c138f011b0ca5d3}{height} = h;
+46     \hyperlink{class_c_p_u_tracker_ad80ba679c9c88be30b018a31fef72ed1}{trackerID} = 0;
+47 
+48     \hyperlink{class_c_p_u_tracker_a50c41b873db189fb3cb01068025a2764}{xcorBuffer} = 0;
+49     
+50     \hyperlink{class_c_p_u_tracker_a611986d18c52010b79815a9cb920b00d}{mean}=0.0f;
+51     \hyperlink{class_c_p_u_tracker_a393778bc9b49eb6d5014fd814c5dfcdf}{srcImage} = \textcolor{keyword}{new} \textcolor{keywordtype}{float} [w*h];
+52     \hyperlink{class_c_p_u_tracker_a58cde24ef2ce5057d42b678951a2239b}{debugImage} = \textcolor{keyword}{new} \textcolor{keywordtype}{float} [w*h];
+53     std::fill(\hyperlink{class_c_p_u_tracker_a393778bc9b49eb6d5014fd814c5dfcdf}{srcImage}, \hyperlink{class_c_p_u_tracker_a393778bc9b49eb6d5014fd814c5dfcdf}{srcImage}+w*h, 0.0f);
+54     std::fill(\hyperlink{class_c_p_u_tracker_a58cde24ef2ce5057d42b678951a2239b}{debugImage}, \hyperlink{class_c_p_u_tracker_a58cde24ef2ce5057d42b678951a2239b}{debugImage}+w*h, 0.0f);
+55 
+56     \hyperlink{class_c_p_u_tracker_ac187d3124a66c6743c2037bb82d9a67d}{zluts} = 0;
+57     \hyperlink{class_c_p_u_tracker_ad28d60ad587ae3f89b9dba7f82c135f7}{zlut\_planes} = \hyperlink{class_c_p_u_tracker_a058eae282c9bf847cd8e39664688c5bc}{zlut\_res} = \hyperlink{class_c_p_u_tracker_a492dd4655d741df0d4d1bb51c52bcca2}{zlut\_count} = 0;
+58     \hyperlink{class_c_p_u_tracker_a18ed4e4c7e10ea5728eaf4d36b864fdc}{zlut\_minradius} = \hyperlink{class_c_p_u_tracker_aac96fa28c0ee4462e176e78c9ec91335}{zlut\_maxradius} = 0.0f;
+59     \hyperlink{class_c_p_u_tracker_a31994d45332742dd422f876f5897233b}{xcorw} = xcorwindow;
+60     \hyperlink{class_c_p_u_tracker_af3a10b319bc4de18d2429f9e30544c4a}{qa\_fft\_forward} = \hyperlink{class_c_p_u_tracker_aca16d9dc92365498d092b937d6959d7e}{qa\_fft\_backward} = 0;
+61 
+62     \hyperlink{class_c_p_u_tracker_a98d341a251610821e51783ce2dc4179c}{qi\_radialsteps} = 0;
+63     \hyperlink{class_c_p_u_tracker_a1b17351aec1bcd117d6f1e304904b282}{qi\_fft\_forward} = \hyperlink{class_c_p_u_tracker_aa0ff71d20678c294eeeebb0b0eec1fc8}{qi\_fft\_backward} = 0;
+64 
+65     \hyperlink{class_c_p_u_tracker_a62ed72a32b90914199ba06c3df929dd6}{fft2d}=0;
+66 
+67     \hyperlink{class_c_p_u_tracker_a5dd04ccf64ee6885b2dc272553c29644}{testRun} = testMode;
+68 \}
+\end{DoxyCode}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!````~C\+P\+U\+Tracker@{$\sim$\+C\+P\+U\+Tracker}}
+\index{````~C\+P\+U\+Tracker@{$\sim$\+C\+P\+U\+Tracker}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{$\sim$\+C\+P\+U\+Tracker()}{~CPUTracker()}}]{\setlength{\rightskip}{0pt plus 5cm}C\+P\+U\+Tracker\+::$\sim$\+C\+P\+U\+Tracker (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_c_p_u_tracker_adfd0dc510c6791891d247362ab751dd7}{}\label{class_c_p_u_tracker_adfd0dc510c6791891d247362ab751dd7}
+
+\begin{DoxyCode}
+71 \{
+72     \textcolor{keyword}{delete}[] \hyperlink{class_c_p_u_tracker_a393778bc9b49eb6d5014fd814c5dfcdf}{srcImage};
+73     \textcolor{keyword}{delete}[] \hyperlink{class_c_p_u_tracker_a58cde24ef2ce5057d42b678951a2239b}{debugImage};
+74     \textcolor{keywordflow}{if} (\hyperlink{class_c_p_u_tracker_ac187d3124a66c6743c2037bb82d9a67d}{zluts} && \hyperlink{class_c_p_u_tracker_a52fb6848573fc603a4e6e435e3e2352f}{zlut\_memoryOwner}) 
+75         \textcolor{keyword}{delete}[] \hyperlink{class_c_p_u_tracker_ac187d3124a66c6743c2037bb82d9a67d}{zluts};
+76 
+77     \textcolor{keywordflow}{if} (\hyperlink{class_c_p_u_tracker_a50c41b873db189fb3cb01068025a2764}{xcorBuffer})
+78         \textcolor{keyword}{delete} \hyperlink{class_c_p_u_tracker_a50c41b873db189fb3cb01068025a2764}{xcorBuffer};
+79 
+80     \textcolor{keywordflow}{if} (\hyperlink{class_c_p_u_tracker_a1b17351aec1bcd117d6f1e304904b282}{qi\_fft\_forward}) \{ 
+81         \textcolor{keyword}{delete} \hyperlink{class_c_p_u_tracker_a1b17351aec1bcd117d6f1e304904b282}{qi\_fft\_forward};
+82         \textcolor{keyword}{delete} \hyperlink{class_c_p_u_tracker_aa0ff71d20678c294eeeebb0b0eec1fc8}{qi\_fft\_backward};
+83     \}
+84 
+85     \textcolor{keywordflow}{if} (\hyperlink{class_c_p_u_tracker_aca16d9dc92365498d092b937d6959d7e}{qa\_fft\_backward}) \{
+86         \textcolor{keyword}{delete} \hyperlink{class_c_p_u_tracker_aca16d9dc92365498d092b937d6959d7e}{qa\_fft\_backward};
+87         \textcolor{keyword}{delete} \hyperlink{class_c_p_u_tracker_af3a10b319bc4de18d2429f9e30544c4a}{qa\_fft\_forward};
+88     \}
+89 
+90     \textcolor{keywordflow}{if} (\hyperlink{class_c_p_u_tracker_a62ed72a32b90914199ba06c3df929dd6}{fft2d})
+91         \textcolor{keyword}{delete} \hyperlink{class_c_p_u_tracker_a62ed72a32b90914199ba06c3df929dd6}{fft2d};
+92 \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!Allocate\+Q\+I\+F\+F\+Ts@{Allocate\+Q\+I\+F\+F\+Ts}}
+\index{Allocate\+Q\+I\+F\+F\+Ts@{Allocate\+Q\+I\+F\+F\+Ts}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{Allocate\+Q\+I\+F\+F\+Ts(int nsteps)}{AllocateQIFFTs(int nsteps)}}]{\setlength{\rightskip}{0pt plus 5cm}void C\+P\+U\+Tracker\+::\+Allocate\+Q\+I\+F\+F\+Ts (
+\begin{DoxyParamCaption}
+\item[{int}]{nsteps}
+\end{DoxyParamCaption}
+)}\hypertarget{class_c_p_u_tracker_aafcdd89f94bd04e92bf0fd228a59b1a5}{}\label{class_c_p_u_tracker_aafcdd89f94bd04e92bf0fd228a59b1a5}
+
+\begin{DoxyCode}
+276 \{
+277     \textcolor{keywordflow}{if}(!\hyperlink{class_c_p_u_tracker_a1b17351aec1bcd117d6f1e304904b282}{qi\_fft\_forward} || \hyperlink{class_c_p_u_tracker_a98d341a251610821e51783ce2dc4179c}{qi\_radialsteps} != nr) \{
+278         \textcolor{keywordflow}{if}(\hyperlink{class_c_p_u_tracker_a1b17351aec1bcd117d6f1e304904b282}{qi\_fft\_forward}) \{
+279             \textcolor{keyword}{delete} \hyperlink{class_c_p_u_tracker_a1b17351aec1bcd117d6f1e304904b282}{qi\_fft\_forward};
+280             \textcolor{keyword}{delete} \hyperlink{class_c_p_u_tracker_aa0ff71d20678c294eeeebb0b0eec1fc8}{qi\_fft\_backward};
+281         \}
+282         \hyperlink{class_c_p_u_tracker_a98d341a251610821e51783ce2dc4179c}{qi\_radialsteps} = nr;
+283         \hyperlink{class_c_p_u_tracker_a1b17351aec1bcd117d6f1e304904b282}{qi\_fft\_forward} = \textcolor{keyword}{new} \hyperlink{classkissfft}{kissfft<scalar\_t>}(nr*2,\textcolor{keyword}{false});
+284         \hyperlink{class_c_p_u_tracker_aa0ff71d20678c294eeeebb0b0eec1fc8}{qi\_fft\_backward} = \textcolor{keyword}{new} \hyperlink{classkissfft}{kissfft<scalar\_t>}(nr*2,\textcolor{keyword}{true});
+285     \}
+286 \}
+\end{DoxyCode}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!Apply\+Offset\+Gain@{Apply\+Offset\+Gain}}
+\index{Apply\+Offset\+Gain@{Apply\+Offset\+Gain}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{Apply\+Offset\+Gain(float $\ast$offset, float $\ast$gain, float offset\+Factor, float gain\+Factor)}{ApplyOffsetGain(float *offset, float *gain, float offsetFactor, float gainFactor)}}]{\setlength{\rightskip}{0pt plus 5cm}void C\+P\+U\+Tracker\+::\+Apply\+Offset\+Gain (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{offset, }
+\item[{float $\ast$}]{gain, }
+\item[{float}]{offset\+Factor, }
+\item[{float}]{gain\+Factor}
+\end{DoxyParamCaption}
+)}\hypertarget{class_c_p_u_tracker_a97e9bde337abe501b108f5aac09c7db9}{}\label{class_c_p_u_tracker_a97e9bde337abe501b108f5aac09c7db9}
+
+\begin{DoxyCode}
+102 \{
+103     \textcolor{keywordflow}{if} (offset && !gain) \{
+104         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<\hyperlink{class_c_p_u_tracker_afb77fe1c7e1a38d25d5aadded5a36fb9}{width}*\hyperlink{class_c_p_u_tracker_a5d1e01c6a878ff7f0c138f011b0ca5d3}{height};i++)
+105             \hyperlink{class_c_p_u_tracker_a393778bc9b49eb6d5014fd814c5dfcdf}{srcImage}[i] = \hyperlink{class_c_p_u_tracker_a393778bc9b49eb6d5014fd814c5dfcdf}{srcImage}[i]+offset[i]*offsetFactor;
+106     \}
+107     \textcolor{keywordflow}{if} (gain && !offset) \{
+108         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<\hyperlink{class_c_p_u_tracker_afb77fe1c7e1a38d25d5aadded5a36fb9}{width}*\hyperlink{class_c_p_u_tracker_a5d1e01c6a878ff7f0c138f011b0ca5d3}{height};i++)
+109             \hyperlink{class_c_p_u_tracker_a393778bc9b49eb6d5014fd814c5dfcdf}{srcImage}[i] = \hyperlink{class_c_p_u_tracker_a393778bc9b49eb6d5014fd814c5dfcdf}{srcImage}[i]*gain[i]*gainFactor;
+110     \}
+111     \textcolor{keywordflow}{if} (gain && offset)  \{
+112         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<\hyperlink{class_c_p_u_tracker_afb77fe1c7e1a38d25d5aadded5a36fb9}{width}*\hyperlink{class_c_p_u_tracker_a5d1e01c6a878ff7f0c138f011b0ca5d3}{height};i++)
+113             \hyperlink{class_c_p_u_tracker_a393778bc9b49eb6d5014fd814c5dfcdf}{srcImage}[i] = (\hyperlink{class_c_p_u_tracker_a393778bc9b49eb6d5014fd814c5dfcdf}{srcImage}[i]+offset[i]*offsetFactor)*gain[i]*gainFactor;
+114     \}
+115 \}
+\end{DoxyCode}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!Calculate\+Error\+Curve@{Calculate\+Error\+Curve}}
+\index{Calculate\+Error\+Curve@{Calculate\+Error\+Curve}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{Calculate\+Error\+Curve(double $\ast$errorcurve\+\_\+dest, float $\ast$profile, float $\ast$zlut\+\_\+sel)}{CalculateErrorCurve(double *errorcurve_dest, float *profile, float *zlut_sel)}}]{\setlength{\rightskip}{0pt plus 5cm}void C\+P\+U\+Tracker\+::\+Calculate\+Error\+Curve (
+\begin{DoxyParamCaption}
+\item[{double $\ast$}]{errorcurve\+\_\+dest, }
+\item[{float $\ast$}]{profile, }
+\item[{float $\ast$}]{zlut\+\_\+sel}
+\end{DoxyParamCaption}
+)}\hypertarget{class_c_p_u_tracker_a3505604c838186c348562bac8a2fedfe}{}\label{class_c_p_u_tracker_a3505604c838186c348562bac8a2fedfe}
+
+\begin{DoxyCode}
+806 \{
+807 \textcolor{preprocessor}{#if 0}
+808     \textcolor{keywordtype}{float}* zlut\_norm = \hyperlink{std__incl_8h_a37dbccb865134ee3a70c5044b365ded7}{ALLOCA\_ARRAY}(\textcolor{keywordtype}{float}, \hyperlink{class_c_p_u_tracker_a058eae282c9bf847cd8e39664688c5bc}{zlut\_res});
+809     \textcolor{keywordtype}{float}* prof\_norm = \hyperlink{std__incl_8h_a37dbccb865134ee3a70c5044b365ded7}{ALLOCA\_ARRAY}(\textcolor{keywordtype}{float}, \hyperlink{class_c_p_u_tracker_a058eae282c9bf847cd8e39664688c5bc}{zlut\_res});
+810     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} r=0;r<\hyperlink{class_c_p_u_tracker_a058eae282c9bf847cd8e39664688c5bc}{zlut\_res};r++)
+811         prof\_norm[r] = rprof[r] * \hyperlink{class_c_p_u_tracker_a0512849e34777963ac4d380682f804a3}{zlut\_radialweights}[r];
+812     \hyperlink{utils_8cpp_a404fa660440d30ed70566aebf9f9e94a}{NormalizeRadialProfile}(prof\_norm, zlut\_res);
+813 
+814     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} k=0;k<\hyperlink{class_c_p_u_tracker_ad28d60ad587ae3f89b9dba7f82c135f7}{zlut\_planes};k++) \{
+815         \textcolor{keywordtype}{double} diffsum = 0.0f;
+816 
+817         \textcolor{keywordflow}{if} (\hyperlink{class_c_p_u_tracker_a0512849e34777963ac4d380682f804a3}{zlut\_radialweights}.empty()) \{
+818             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} r=0;r<\hyperlink{class_c_p_u_tracker_a058eae282c9bf847cd8e39664688c5bc}{zlut\_res};r++)  zlut\_norm[r]=zlut\_sel[k*zlut\_res+r];
+819         \} \textcolor{keywordflow}{else} \{
+820             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} r=0;r<\hyperlink{class_c_p_u_tracker_a058eae282c9bf847cd8e39664688c5bc}{zlut\_res};r++) \{
+821                 zlut\_norm[r] = zlut\_sel[k*zlut\_res+r] * \hyperlink{class_c_p_u_tracker_a0512849e34777963ac4d380682f804a3}{zlut\_radialweights}[r];
+822             \}
+823         \}
+824         \hyperlink{utils_8cpp_a404fa660440d30ed70566aebf9f9e94a}{NormalizeRadialProfile}(zlut\_norm, zlut\_res);
+825 
+826         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} r = 0; r<\hyperlink{class_c_p_u_tracker_a058eae282c9bf847cd8e39664688c5bc}{zlut\_res};r++) \{
+827             \textcolor{keywordtype}{double} d = prof\_norm[r]-zlut\_norm[r];
+828             d = -d*d;
+829             diffsum += d;
+830         \}
+831         rprof\_diff[k] = diffsum;
+832     \}
+833 \textcolor{preprocessor}{#else}
+834     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} k=0;k<\hyperlink{class_c_p_u_tracker_ad28d60ad587ae3f89b9dba7f82c135f7}{zlut\_planes};k++) \{
+835         \textcolor{keywordtype}{double} diffsum = 0.0f;
+836         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} r = 0; r<\hyperlink{class_c_p_u_tracker_a058eae282c9bf847cd8e39664688c5bc}{zlut\_res};r++) \{
+837             \textcolor{keywordtype}{double} d = profile[r]-zlut\_sel[k*zlut\_res+r];
+838             \textcolor{keywordflow}{if} (!\hyperlink{class_c_p_u_tracker_a0512849e34777963ac4d380682f804a3}{zlut\_radialweights}.empty())
+839                 d*=\hyperlink{class_c_p_u_tracker_a0512849e34777963ac4d380682f804a3}{zlut\_radialweights}[r];
+840             d = -d*d;
+841             diffsum += d;
+842         \}
+843         errorcurve\_dest[k] = diffsum;
+844     \}
+845 \textcolor{preprocessor}{#endif}
+846 \}
+\end{DoxyCode}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!Calculate\+Error\+Flag@{Calculate\+Error\+Flag}}
+\index{Calculate\+Error\+Flag@{Calculate\+Error\+Flag}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{Calculate\+Error\+Flag(double $\ast$prof1, double $\ast$prof2)}{CalculateErrorFlag(double *prof1, double *prof2)}}]{\setlength{\rightskip}{0pt plus 5cm}float C\+P\+U\+Tracker\+::\+Calculate\+Error\+Flag (
+\begin{DoxyParamCaption}
+\item[{double $\ast$}]{prof1, }
+\item[{double $\ast$}]{prof2}
+\end{DoxyParamCaption}
+)}\hypertarget{class_c_p_u_tracker_a9222708c644ddeecbc2519ad8c1b4a2f}{}\label{class_c_p_u_tracker_a9222708c644ddeecbc2519ad8c1b4a2f}
+
+\begin{DoxyCode}
+863 \{
+864     \textcolor{comment}{//      sum(abs(expectedCurve-errorCurve))/size(errorCurve,2)}
+865     \textcolor{keywordtype}{float} flag = 0.0f;
+866     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} ii = 0; ii < \hyperlink{class_c_p_u_tracker_a058eae282c9bf847cd8e39664688c5bc}{zlut\_res}; ii++)\{
+867         flag += \hyperlink{_bead_finder_8cpp_aade100f3798a339fdf25b22a55f85bbc}{std::abs}(prof1[ii]-prof2[ii]);
+868     \}   
+869     \textcolor{keywordflow}{return} flag/\hyperlink{class_c_p_u_tracker_a058eae282c9bf847cd8e39664688c5bc}{zlut\_res};
+870 \}
+\end{DoxyCode}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!Calculate\+Interpolated\+Z\+L\+U\+T\+Profile@{Calculate\+Interpolated\+Z\+L\+U\+T\+Profile}}
+\index{Calculate\+Interpolated\+Z\+L\+U\+T\+Profile@{Calculate\+Interpolated\+Z\+L\+U\+T\+Profile}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{Calculate\+Interpolated\+Z\+L\+U\+T\+Profile(float $\ast$profile\+\_\+dest, float z, int zlut\+Index)}{CalculateInterpolatedZLUTProfile(float *profile_dest, float z, int zlutIndex)}}]{\setlength{\rightskip}{0pt plus 5cm}void C\+P\+U\+Tracker\+::\+Calculate\+Interpolated\+Z\+L\+U\+T\+Profile (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{profile\+\_\+dest, }
+\item[{float}]{z, }
+\item[{int}]{zlut\+Index}
+\end{DoxyParamCaption}
+)}\hypertarget{class_c_p_u_tracker_a4ae169f9618eeb09f129815229eaeb33}{}\label{class_c_p_u_tracker_a4ae169f9618eeb09f129815229eaeb33}
+
+\begin{DoxyCode}
+849 \{
+850     \textcolor{keywordtype}{float}* zlut\_sel = \hyperlink{class_c_p_u_tracker_a8a8ca2636eca91688ff90d68d04ad69d}{GetRadialZLUT}(zlutIndex);
+851     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} r = 0; r<\hyperlink{class_c_p_u_tracker_a058eae282c9bf847cd8e39664688c5bc}{zlut\_res};r++) \{
+852         \textcolor{keywordflow}{if} ( z < 0 )
+853             profile\_dest[r] = 0;
+854         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}( ((\textcolor{keywordtype}{int})z+1) < \hyperlink{class_c_p_u_tracker_ad28d60ad587ae3f89b9dba7f82c135f7}{zlut\_planes} ) \textcolor{comment}{// Index out of bounds if z > LUT resolution}
+855             profile\_dest[r] = \hyperlink{utils_8h_a19361b487ecc29968d6a8924f5601bfa}{Lerp}(zlut\_sel[(\textcolor{keywordtype}{int})z*zlut\_res+r],zlut\_sel[((\textcolor{keywordtype}{int})z+1)*zlut\_res+r],z-(\textcolor{keywordtype}{int})z
+      );
+856         \textcolor{keywordflow}{else}
+857             profile\_dest[r] = zlut\_sel[(\hyperlink{class_c_p_u_tracker_ad28d60ad587ae3f89b9dba7f82c135f7}{zlut\_planes}-1)*zlut\_res+r];
+858     \}
+859     \hyperlink{utils_8cpp_a404fa660440d30ed70566aebf9f9e94a}{NormalizeRadialProfile}(profile\_dest,zlut\_res);
+860 \}
+\end{DoxyCode}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!Check\+Boundaries@{Check\+Boundaries}}
+\index{Check\+Boundaries@{Check\+Boundaries}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{Check\+Boundaries(vector2f center, float radius)}{CheckBoundaries(vector2f center, float radius)}}]{\setlength{\rightskip}{0pt plus 5cm}bool C\+P\+U\+Tracker\+::\+Check\+Boundaries (
+\begin{DoxyParamCaption}
+\item[{{\bf vector2f}}]{center, }
+\item[{float}]{radius}
+\end{DoxyParamCaption}
+)}\hypertarget{class_c_p_u_tracker_a7d853e9c7142eefcbd227f18c05b60e7}{}\label{class_c_p_u_tracker_a7d853e9c7142eefcbd227f18c05b60e7}
+
+\begin{DoxyCode}
+186 \{
+187     \textcolor{keywordflow}{return} center.\hyperlink{structvector2_a22b63498d8e4abf9a2da054a247965b9}{x} + radius >= \hyperlink{class_c_p_u_tracker_afb77fe1c7e1a38d25d5aadded5a36fb9}{width} ||
+188         center.\hyperlink{structvector2_a22b63498d8e4abf9a2da054a247965b9}{x} - radius < 0 ||
+189         center.\hyperlink{structvector2_a00b3268bc895adddf0b72d6acd8274a7}{y} + radius >= \hyperlink{class_c_p_u_tracker_a5d1e01c6a878ff7f0c138f011b0ca5d3}{height} ||
+190         center.\hyperlink{structvector2_a00b3268bc895adddf0b72d6acd8274a7}{y} - radius < 0;
+191 \}
+\end{DoxyCode}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!Compute2\+D\+Gaussian\+M\+LE@{Compute2\+D\+Gaussian\+M\+LE}}
+\index{Compute2\+D\+Gaussian\+M\+LE@{Compute2\+D\+Gaussian\+M\+LE}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{Compute2\+D\+Gaussian\+M\+L\+E(vector2f initial, int iterations, float sigma)}{Compute2DGaussianMLE(vector2f initial, int iterations, float sigma)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf C\+P\+U\+Tracker\+::\+Gauss2\+D\+Result} C\+P\+U\+Tracker\+::\+Compute2\+D\+Gaussian\+M\+LE (
+\begin{DoxyParamCaption}
+\item[{{\bf vector2f}}]{initial, }
+\item[{int}]{iterations, }
+\item[{float}]{sigma}
+\end{DoxyParamCaption}
+)}\hypertarget{class_c_p_u_tracker_a99567e8137e89ff9ee084558e9f26344}{}\label{class_c_p_u_tracker_a99567e8137e89ff9ee084558e9f26344}
+
+\begin{DoxyCode}
+526 \{
+527     \hyperlink{structvector2}{vector2f} pos = initial;
+528     \textcolor{keywordtype}{float} I0 = \hyperlink{class_c_p_u_tracker_a611986d18c52010b79815a9cb920b00d}{mean}*0.5f*\hyperlink{class_c_p_u_tracker_afb77fe1c7e1a38d25d5aadded5a36fb9}{width}*\hyperlink{class_c_p_u_tracker_a5d1e01c6a878ff7f0c138f011b0ca5d3}{height};
+529     \textcolor{keywordtype}{float} bg = \hyperlink{class_c_p_u_tracker_a611986d18c52010b79815a9cb920b00d}{mean}*0.5f;
+530 
+531     \textcolor{keyword}{const} \textcolor{keywordtype}{float} \_1oSq2Sigma = 1.0f / (sqrtf(2) * sigma);
+532     \textcolor{keyword}{const} \textcolor{keywordtype}{float} \_1oSq2PiSigma = 1.0f / (sqrtf(2*3.14159265359f) * sigma);
+533     \textcolor{keyword}{const} \textcolor{keywordtype}{float} \_1oSq2PiSigma3 = 1.0f / (sqrtf(2*3.14159265359f) * sigma*sigma*sigma);
+534 
+535     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<iterations;i++)
+536     \{
+537         \textcolor{keywordtype}{double} dL\_dx = 0.0; 
+538         \textcolor{keywordtype}{double} dL\_dy = 0.0; 
+539         \textcolor{keywordtype}{double} dL\_dI0 = 0.0;
+540         \textcolor{keywordtype}{double} dL\_dIbg = 0.0;
+541         \textcolor{keywordtype}{double} dL2\_dx = 0.0;
+542         \textcolor{keywordtype}{double} dL2\_dy = 0.0;
+543         \textcolor{keywordtype}{double} dL2\_dI0 = 0.0;
+544         \textcolor{keywordtype}{double} dL2\_dIbg = 0.0;
+545 
+546         \textcolor{keywordtype}{double} mu\_sum = 0.0;
+547                 
+548         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} y=0;y<\hyperlink{class_c_p_u_tracker_a5d1e01c6a878ff7f0c138f011b0ca5d3}{height};y++)
+549         \{
+550             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x=0;x<\hyperlink{class_c_p_u_tracker_afb77fe1c7e1a38d25d5aadded5a36fb9}{width};x++)
+551             \{
+552                 \textcolor{keywordtype}{float} Xexp0 = (x-pos.\hyperlink{structvector2_a22b63498d8e4abf9a2da054a247965b9}{x} + .5f) * \_1oSq2Sigma;
+553                 \textcolor{keywordtype}{float} Yexp0 = (y-pos.\hyperlink{structvector2_a00b3268bc895adddf0b72d6acd8274a7}{y} + .5f) * \_1oSq2Sigma;
+554         
+555                 \textcolor{keywordtype}{float} Xexp1 = (x-pos.\hyperlink{structvector2_a22b63498d8e4abf9a2da054a247965b9}{x} - .5f) * \_1oSq2Sigma;
+556                 \textcolor{keywordtype}{float} Yexp1 = (y-pos.\hyperlink{structvector2_a00b3268bc895adddf0b72d6acd8274a7}{y} - .5f) * \_1oSq2Sigma;
+557                 
+558                 \textcolor{keywordtype}{float} DeltaX = 0.5f * \hyperlink{utils_8h_ab395c4718c08b423258c297fe9b1cae8}{erf}(Xexp0) - 0.5f * \hyperlink{utils_8h_ab395c4718c08b423258c297fe9b1cae8}{erf}(Xexp1);
+559                 \textcolor{keywordtype}{float} DeltaY = 0.5f * \hyperlink{utils_8h_ab395c4718c08b423258c297fe9b1cae8}{erf}(Yexp0) - 0.5f * \hyperlink{utils_8h_ab395c4718c08b423258c297fe9b1cae8}{erf}(Yexp1);
+560                 \textcolor{keywordtype}{float} mu = bg + I0 * DeltaX * DeltaY;
+561                 
+562                 \textcolor{keywordtype}{float} dmu\_dx = I0*\_1oSq2PiSigma * ( expf(-Xexp1*Xexp1) - expf(-Xexp0*Xexp0)) * DeltaY;
+563 
+564                 \textcolor{keywordtype}{float} dmu\_dy = I0*\_1oSq2PiSigma * ( expf(-Yexp1*Yexp1) - expf(-Yexp0*Yexp0)) * DeltaX;
+565                 \textcolor{keywordtype}{float} dmu\_dI0 = DeltaX*DeltaY;
+566                 \textcolor{keywordtype}{float} dmu\_dIbg = 1;
+567         
+568                 \textcolor{keywordtype}{float} smp = \hyperlink{class_c_p_u_tracker_afd0e07572adc7f6f70e5e130ff01402b}{GetPixel}(x,y);
+569                 \textcolor{keywordtype}{float} f = smp / mu - 1;
+570                 dL\_dx += dmu\_dx * f;
+571                 dL\_dy += dmu\_dy * f;
+572                 dL\_dI0 += dmu\_dI0 * f;
+573                 dL\_dIbg += dmu\_dIbg * f;
+574 
+575                 \textcolor{keywordtype}{float} d2mu\_dx = I0*\_1oSq2PiSigma3 * ( (x - pos.\hyperlink{structvector2_a22b63498d8e4abf9a2da054a247965b9}{x} - .5f) * expf (-Xexp1*Xexp1) - (x - pos.
+      \hyperlink{structvector2_a22b63498d8e4abf9a2da054a247965b9}{x} + .5f) * expf(-Xexp0*Xexp0) ) * DeltaY;
+576                 \textcolor{keywordtype}{float} d2mu\_dy = I0*\_1oSq2PiSigma3 * ( (y - pos.\hyperlink{structvector2_a00b3268bc895adddf0b72d6acd8274a7}{y} - .5f) * expf (-Yexp1*Yexp1) - (y - pos.
+      \hyperlink{structvector2_a00b3268bc895adddf0b72d6acd8274a7}{y} + .5f) * expf(-Yexp0*Yexp0) ) * DeltaX;
+577                 dL2\_dx += d2mu\_dx * f - dmu\_dx*dmu\_dx * smp / (mu*mu);
+578                 dL2\_dy += d2mu\_dy * f - dmu\_dy*dmu\_dy * smp / (mu*mu);
+579                 dL2\_dI0 += -dmu\_dI0*dmu\_dI0 * smp / (mu*mu);
+580                 dL2\_dIbg += -smp / (mu*mu);
+581 
+582                 mu\_sum += mu;
+583             \}
+584         \}
+585 
+586         \textcolor{keywordtype}{double} mean\_mu = mu\_sum / (width*\hyperlink{class_c_p_u_tracker_a5d1e01c6a878ff7f0c138f011b0ca5d3}{height});
+587 
+588         pos.\hyperlink{structvector2_a22b63498d8e4abf9a2da054a247965b9}{x} -= dL\_dx / dL2\_dx;
+589         pos.\hyperlink{structvector2_a00b3268bc895adddf0b72d6acd8274a7}{y} -= dL\_dy / dL2\_dy;
+590         I0 -= dL\_dI0 / dL2\_dI0;
+591         bg -= dL\_dIbg / dL2\_dIbg;
+592     \}
+593 
+594     Gauss2DResult r;
+595     r.pos = pos;
+596     r.I0 = I0;
+597     r.bg = bg;
+598 
+599     \textcolor{keywordflow}{return} r;
+600 \}
+\end{DoxyCode}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!Compute\+Asymmetry@{Compute\+Asymmetry}}
+\index{Compute\+Asymmetry@{Compute\+Asymmetry}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{Compute\+Asymmetry(vector2f center, int radial\+Steps, int angular\+Steps, float min\+Radius, float max\+Radius, float $\ast$dst\+Ang\+Prof=0)}{ComputeAsymmetry(vector2f center, int radialSteps, int angularSteps, float minRadius, float maxRadius, float *dstAngProf=0)}}]{\setlength{\rightskip}{0pt plus 5cm}float C\+P\+U\+Tracker\+::\+Compute\+Asymmetry (
+\begin{DoxyParamCaption}
+\item[{{\bf vector2f}}]{center, }
+\item[{int}]{radial\+Steps, }
+\item[{int}]{angular\+Steps, }
+\item[{float}]{min\+Radius, }
+\item[{float}]{max\+Radius, }
+\item[{float $\ast$}]{dst\+Ang\+Prof = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}\hypertarget{class_c_p_u_tracker_a05039be68af2184529ccb2a8713f7cbe}{}\label{class_c_p_u_tracker_a05039be68af2184529ccb2a8713f7cbe}
+
+\begin{DoxyCode}
+605 \{
+606     \hyperlink{structvector2}{vector2f}* \hyperlink{class_c_p_u_tracker_a88ec0839b0866df86fb12603e553a9b9}{radialDirs} = (\hyperlink{structvector2}{vector2f}*)\hyperlink{std__incl_8h_a72fc0ed307a114ba9a46ebd095267d2f}{ALLOCA}(\textcolor{keyword}{sizeof}(
+      \hyperlink{structvector2}{vector2f})*angularSteps);
+607     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} j=0;j<angularSteps;j++) \{
+608         \textcolor{keywordtype}{float} ang = 2*3.141593f*j/(float)angularSteps;
+609         radialDirs[j] = \hyperlink{std__incl_8h_aba974726076ec2d63a67114c536d123e}{vector2f} (cosf(ang), sinf(ang));
+610     \}
+611 
+612     \textcolor{comment}{// profile along single radial direction}
+613     \textcolor{keywordtype}{float}* rline = (\textcolor{keywordtype}{float}*)\hyperlink{std__incl_8h_a72fc0ed307a114ba9a46ebd095267d2f}{ALLOCA}(\textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float})*radialSteps);
+614 
+615     \textcolor{keywordflow}{if} (!dstAngProf) 
+616         dstAngProf = (\textcolor{keywordtype}{float}*)\hyperlink{std__incl_8h_a72fc0ed307a114ba9a46ebd095267d2f}{ALLOCA}(\textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float})*radialSteps);
+617 
+618     \textcolor{keywordtype}{float} rstep = (maxRadius-minRadius) / radialSteps;
+619 
+620     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} a=0;a<angularSteps;a++) \{
+621         \textcolor{comment}{// fill rline}
+622         \textcolor{comment}{// angularProfile[a] = rline COM }
+623         
+624         \textcolor{keywordtype}{float} r = minRadius;
+625         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<radialSteps;i++) \{
+626             \textcolor{keywordtype}{float} x = center.\hyperlink{structvector2_a22b63498d8e4abf9a2da054a247965b9}{x} + radialDirs[a].\hyperlink{structvector2_a22b63498d8e4abf9a2da054a247965b9}{x} * r;
+627             \textcolor{keywordtype}{float} y = center.\hyperlink{structvector2_a00b3268bc895adddf0b72d6acd8274a7}{y} + radialDirs[a].\hyperlink{structvector2_a00b3268bc895adddf0b72d6acd8274a7}{y} * r;
+628             rline[i] = \hyperlink{utils_8h_aa9cfad3280334f04e799bb33b442f653}{Interpolate}(\hyperlink{class_c_p_u_tracker_a393778bc9b49eb6d5014fd814c5dfcdf}{srcImage},\hyperlink{class_c_p_u_tracker_afb77fe1c7e1a38d25d5aadded5a36fb9}{width},\hyperlink{class_c_p_u_tracker_a5d1e01c6a878ff7f0c138f011b0ca5d3}{height}, x,y);
+629             r += rstep;
+630         \}
+631 
+632         \textcolor{comment}{// Compute rline COM}
+633         dstAngProf[a] = \hyperlink{utils_8cpp_af2c5d75118d6b7de9ac5300c92124b2c}{ComputeBgCorrectedCOM1D}(rline, radialSteps, 1.0f);
+634     \}
+635     
+636     \textcolor{keywordtype}{float} \hyperlink{class_c_p_u_tracker_ae5697cf2319755515193ae21d0c8995f}{stdev} = \hyperlink{utils_8h_a862170e4b42dfe51e108e159dde39e54}{ComputeStdDev}(dstAngProf, angularSteps);
+637     \textcolor{keywordflow}{return} \hyperlink{class_c_p_u_tracker_ae5697cf2319755515193ae21d0c8995f}{stdev};
+638 \}
+\end{DoxyCode}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!Compute\+Mean\+And\+C\+OM@{Compute\+Mean\+And\+C\+OM}}
+\index{Compute\+Mean\+And\+C\+OM@{Compute\+Mean\+And\+C\+OM}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{Compute\+Mean\+And\+C\+O\+M(float bgcorrection=0.\+0f)}{ComputeMeanAndCOM(float bgcorrection=0.0f)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf vector2f} C\+P\+U\+Tracker\+::\+Compute\+Mean\+And\+C\+OM (
+\begin{DoxyParamCaption}
+\item[{float}]{bgcorrection = {\ttfamily 0.0f}}
+\end{DoxyParamCaption}
+)}\hypertarget{class_c_p_u_tracker_a18c3c6ec23abbbfb018d30b166ed140e}{}\label{class_c_p_u_tracker_a18c3c6ec23abbbfb018d30b166ed140e}
+
+\begin{DoxyCode}
+690 \{
+691     \textcolor{keywordtype}{double} sum=0, sum2=0;
+692     \textcolor{keywordtype}{double} momentX=0;
+693     \textcolor{keywordtype}{double} momentY=0;
+694     \textcolor{comment}{// Order is important }
+695     \textcolor{comment}{//COM: x:53.959133, y:53.958984}
+696     \textcolor{comment}{//COM: x:53.958984, y:53.959133 }
+697 
+698     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} y=0;y<\hyperlink{class_c_p_u_tracker_a5d1e01c6a878ff7f0c138f011b0ca5d3}{height};y++) \{
+699         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x=0;x<\hyperlink{class_c_p_u_tracker_afb77fe1c7e1a38d25d5aadded5a36fb9}{width};x++)  \{
+700             \textcolor{keywordtype}{float} v = \hyperlink{class_c_p_u_tracker_afd0e07572adc7f6f70e5e130ff01402b}{GetPixel}(x,y);
+701             sum += v;
+702             sum2 += v*v;
+703         \}
+704     \}
+705 
+706     \textcolor{keywordtype}{float} invN = 1.0f/(\hyperlink{class_c_p_u_tracker_afb77fe1c7e1a38d25d5aadded5a36fb9}{width}*\hyperlink{class_c_p_u_tracker_a5d1e01c6a878ff7f0c138f011b0ca5d3}{height});
+707     \hyperlink{class_c_p_u_tracker_a611986d18c52010b79815a9cb920b00d}{mean} = sum * invN;
+708     \hyperlink{class_c_p_u_tracker_ae5697cf2319755515193ae21d0c8995f}{stdev} = sqrtf(sum2 * invN - \hyperlink{class_c_p_u_tracker_a611986d18c52010b79815a9cb920b00d}{mean} * \hyperlink{class_c_p_u_tracker_a611986d18c52010b79815a9cb920b00d}{mean});
+709     sum = 0.0f;
+710 
+711     \textcolor{comment}{/*float *ymom = ALLOCA\_ARRAY(float, width);}
+712 \textcolor{comment}{    float *xmom = ALLOCA\_ARRAY(float, height);}
+713 \textcolor{comment}{}
+714 \textcolor{comment}{    for(int x=0;x<width;x++)}
+715 \textcolor{comment}{        ymom[x]=0;}
+716 \textcolor{comment}{    for(int y=0;y<height;y++)}
+717 \textcolor{comment}{        xmom[y]=0;*/}
+718 
+719     \textcolor{comment}{// Comments: Gaussian mask not currently used}
+720     \textcolor{comment}{//vector2f centre = vector2f((float)width/2,(float)height/2);}
+721     \textcolor{comment}{//float sigma = (float)width/4; // Suppress to 5% at edges}
+722     \textcolor{comment}{//float devi = 1/(2*sigma*sigma);}
+723     
+724     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} x=0;x<\hyperlink{class_c_p_u_tracker_afb77fe1c7e1a38d25d5aadded5a36fb9}{width};x++) \{
+725         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} y=0;y<\hyperlink{class_c_p_u_tracker_a5d1e01c6a878ff7f0c138f011b0ca5d3}{height};y++) \{
+726             \textcolor{keywordtype}{float} v = \hyperlink{class_c_p_u_tracker_afd0e07572adc7f6f70e5e130ff01402b}{GetPixel}(x,y);
+727             
+728             \textcolor{comment}{//float xabs = (x-centre.x); float yabs = (y-centre.y);}
+729             \textcolor{comment}{//float gaussfact = 1.0f;//expf(- xabs*xabs*devi - yabs*yabs*devi);}
+730             
+731             v =  std::max(0.0f, fabs(v-\hyperlink{class_c_p_u_tracker_a611986d18c52010b79815a9cb920b00d}{mean})-bgcorrection*\hyperlink{class_c_p_u_tracker_ae5697cf2319755515193ae21d0c8995f}{stdev});
+732             sum += v;
+733     \textcolor{comment}{//      xmom[y] += x*v;}
+734     \textcolor{comment}{//      ymom[x] += y*v;}
+735             momentX += x*(double)v;
+736             momentY += y*(double)v;
+737         \}
+738     \}
+739     
+740     \hyperlink{structvector2}{vector2f} com;
+741     com.\hyperlink{structvector2_a22b63498d8e4abf9a2da054a247965b9}{x} = (float)( momentX / sum );
+742     com.y = (float)( momentY / sum );
+743     \textcolor{keywordflow}{return} com;
+744 \}
+\end{DoxyCode}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!Compute\+QI@{Compute\+QI}}
+\index{Compute\+QI@{Compute\+QI}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{Compute\+Q\+I(vector2f initial, int iterations, int radial\+Steps, int angular\+Steps\+Per\+Quadrant, float ang\+Step\+Iteration\+Factor, float min\+Radius, float max\+Radius, bool \&boundary\+Hit, float $\ast$radialweights=0)}{ComputeQI(vector2f initial, int iterations, int radialSteps, int angularStepsPerQuadrant, float angStepIterationFactor, float minRadius, float maxRadius, bool &boundaryHit, float *radialweights=0)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf vector2f} C\+P\+U\+Tracker\+::\+Compute\+QI (
+\begin{DoxyParamCaption}
+\item[{{\bf vector2f}}]{initial, }
+\item[{int}]{iterations, }
+\item[{int}]{radial\+Steps, }
+\item[{int}]{angular\+Steps\+Per\+Quadrant, }
+\item[{float}]{ang\+Step\+Iteration\+Factor, }
+\item[{float}]{min\+Radius, }
+\item[{float}]{max\+Radius, }
+\item[{bool \&}]{boundary\+Hit, }
+\item[{float $\ast$}]{radialweights = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}\hypertarget{class_c_p_u_tracker_ab856aa12313a07c083f2e193180fd5b6}{}\label{class_c_p_u_tracker_ab856aa12313a07c083f2e193180fd5b6}
+
+\begin{DoxyCode}
+290 \{
+291     \textcolor{keywordtype}{int} nr=radialSteps;
+292 \textcolor{preprocessor}{#ifdef \_DEBUG}
+293     std::copy(\hyperlink{class_c_p_u_tracker_a393778bc9b49eb6d5014fd814c5dfcdf}{srcImage}, \hyperlink{class_c_p_u_tracker_a393778bc9b49eb6d5014fd814c5dfcdf}{srcImage}+\hyperlink{class_c_p_u_tracker_afb77fe1c7e1a38d25d5aadded5a36fb9}{width}*\hyperlink{class_c_p_u_tracker_a5d1e01c6a878ff7f0c138f011b0ca5d3}{height}, 
+      \hyperlink{class_c_p_u_tracker_a58cde24ef2ce5057d42b678951a2239b}{debugImage});
+294     maxImageValue = *std::max\_element(\hyperlink{class_c_p_u_tracker_a393778bc9b49eb6d5014fd814c5dfcdf}{srcImage},\hyperlink{class_c_p_u_tracker_a393778bc9b49eb6d5014fd814c5dfcdf}{srcImage}+\hyperlink{class_c_p_u_tracker_afb77fe1c7e1a38d25d5aadded5a36fb9}{width}*
+      \hyperlink{class_c_p_u_tracker_a5d1e01c6a878ff7f0c138f011b0ca5d3}{height});
+295 \textcolor{preprocessor}{#endif}
+296 
+297     \textcolor{keywordflow}{if} (angularStepsPerQ != \hyperlink{class_c_p_u_tracker_ae155aab5f1ed07d8467818b915087b20}{quadrantDirs}.size()) \{
+298         \hyperlink{class_c_p_u_tracker_ae155aab5f1ed07d8467818b915087b20}{quadrantDirs}.resize(angularStepsPerQ);
+299         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} j=0;j<angularStepsPerQ;j++) \{
+300             \textcolor{keywordtype}{float} ang = 0.5*3.141593f*(j+0.5f)/(\textcolor{keywordtype}{float})angularStepsPerQ;
+301             \hyperlink{class_c_p_u_tracker_ae155aab5f1ed07d8467818b915087b20}{quadrantDirs}[j] = \hyperlink{std__incl_8h_aba974726076ec2d63a67114c536d123e}{vector2f}( cosf(ang), sinf(ang) );
+302         \}
+303     \}
+304 
+305     \hyperlink{class_c_p_u_tracker_aafcdd89f94bd04e92bf0fd228a59b1a5}{AllocateQIFFTs}(radialSteps);
+306 
+307     \hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\_t}* buf = (\hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\_t}*)\hyperlink{std__incl_8h_a72fc0ed307a114ba9a46ebd095267d2f}{ALLOCA}(\textcolor{keyword}{sizeof}(\hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\_t})*nr*4);
+308     \hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\_t}* q0=buf, *q1=buf+nr, *q2=buf+nr*2, *q3=buf+nr*3;
+309     \hyperlink{scalar__types_8h_abaffcd8bea58063cc6c608dda082ad05}{complex\_t}* concat0 = (\hyperlink{scalar__types_8h_abaffcd8bea58063cc6c608dda082ad05}{complex\_t}*)\hyperlink{std__incl_8h_a72fc0ed307a114ba9a46ebd095267d2f}{ALLOCA}(\textcolor{keyword}{sizeof}(
+      \hyperlink{scalar__types_8h_abaffcd8bea58063cc6c608dda082ad05}{complex\_t})*nr*2);
+310     \hyperlink{scalar__types_8h_abaffcd8bea58063cc6c608dda082ad05}{complex\_t}* concat1 = concat0 + nr;
+311 
+312     \hyperlink{structvector2}{vector2f} center = initial;
+313 
+314     \textcolor{keywordtype}{float} pixelsPerProfLen = (maxRadius-minRadius)/radialSteps;
+315     boundaryHit = \textcolor{keyword}{false};
+316 
+317     \textcolor{keywordtype}{float} angsteps = angularStepsPerQ / powf(angStepIterationFactor, iterations);
+318     
+319     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} k=0;k<iterations;k++)\{
+320         \textcolor{comment}{// check bounds}
+321         boundaryHit = \hyperlink{class_c_p_u_tracker_a7d853e9c7142eefcbd227f18c05b60e7}{CheckBoundaries}(center, maxRadius);
+322 
+323         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} q=0;q<4;q++) \{
+324             \hyperlink{class_c_p_u_tracker_a96cc7e3d9d65226c8aa718b4bb03a633}{ComputeQuadrantProfile}(buf+q*nr, nr, angsteps, q, minRadius, maxRadius, 
+      center, radialWeights);
+325             \textcolor{comment}{//NormalizeRadialProfile(buf+q*nr, nr);}
+326         \}
+327 \textcolor{preprocessor}{#ifdef QI\_DEBUG}
+328         \hyperlink{test_8cu_a4504c3c7ffae71a4f843424dd228b123}{cmp\_cpu\_qi\_prof}.assign (buf,buf+4*nr);
+329 \textcolor{preprocessor}{#endif}
+330 
+331         \textcolor{comment}{// Build Ix = [ qL(-r)  qR(r) ]}
+332         \textcolor{comment}{// qL = q1 + q2   (concat0)}
+333         \textcolor{comment}{// qR = q0 + q3   (concat1)}
+334         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} r=0;r<nr;r++) \{
+335             concat0[nr-r-1] = q1[r]+q2[r];
+336             concat1[r] = q0[r]+q3[r];
+337         \}
+338 
+339         \hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\_t} offsetX = \hyperlink{class_c_p_u_tracker_ac714cf7bcefab595734cc2768a4d4236}{QI\_ComputeOffset}(concat0, nr, 0);
+340 
+341         \textcolor{comment}{// Build Iy = [ qB(-r)  qT(r) ]}
+342         \textcolor{comment}{// qT = q0 + q1}
+343         \textcolor{comment}{// qB = q2 + q3}
+344         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} r=0;r<nr;r++) \{
+345             concat1[r] = q0[r]+q1[r];
+346             concat0[nr-r-1] = q2[r]+q3[r];
+347         \}
+348         
+349         \hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\_t} offsetY = \hyperlink{class_c_p_u_tracker_ac714cf7bcefab595734cc2768a4d4236}{QI\_ComputeOffset}(concat0, nr, 1);
+350 
+351 \textcolor{preprocessor}{#ifdef QI\_DBG\_EXPORT}
+352         std::copy(concat0, concat0+nr*2,tmp.begin()+nr*2);
+353         \hyperlink{utils_8cpp_a1a1189014022a9f0fe2333757512155a}{WriteComplexImageAsCSV}(\textcolor{stringliteral}{"cpuprofxy.txt"}, &tmp[0], nr, 4);
+354         \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"[%d] OffsetX: %f, OffsetY: %f\(\backslash\)n"}, k, offsetX, offsetY);
+355 \textcolor{preprocessor}{#endif}
+356 
+357         center.\hyperlink{structvector2_a22b63498d8e4abf9a2da054a247965b9}{x} += offsetX * pixelsPerProfLen;
+358         center.\hyperlink{structvector2_a00b3268bc895adddf0b72d6acd8274a7}{y} += offsetY * pixelsPerProfLen;
+359 
+360         angsteps *= angStepIterationFactor;
+361     \}
+362 
+363     \textcolor{keywordflow}{return} center;
+364 \}
+\end{DoxyCode}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!Compute\+Quadrant\+Profile@{Compute\+Quadrant\+Profile}}
+\index{Compute\+Quadrant\+Profile@{Compute\+Quadrant\+Profile}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{Compute\+Quadrant\+Profile(scalar\+\_\+t $\ast$dst, int radial\+Steps, int angular\+Steps, int quadrant, float min\+Radius, float max\+Radius, vector2f center, float $\ast$radial\+Weights=0)}{ComputeQuadrantProfile(scalar_t *dst, int radialSteps, int angularSteps, int quadrant, float minRadius, float maxRadius, vector2f center, float *radialWeights=0)}}]{\setlength{\rightskip}{0pt plus 5cm}void C\+P\+U\+Tracker\+::\+Compute\+Quadrant\+Profile (
+\begin{DoxyParamCaption}
+\item[{{\bf scalar\+\_\+t} $\ast$}]{dst, }
+\item[{int}]{radial\+Steps, }
+\item[{int}]{angular\+Steps, }
+\item[{int}]{quadrant, }
+\item[{float}]{min\+Radius, }
+\item[{float}]{max\+Radius, }
+\item[{{\bf vector2f}}]{center, }
+\item[{float $\ast$}]{radial\+Weights = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}\hypertarget{class_c_p_u_tracker_a96cc7e3d9d65226c8aa718b4bb03a633}{}\label{class_c_p_u_tracker_a96cc7e3d9d65226c8aa718b4bb03a633}
+
+\begin{DoxyCode}
+643 \{
+644     \textcolor{keyword}{const} \textcolor{keywordtype}{int} qmat[] = \{
+645         1, 1,
+646         -1, 1,
+647         -1, -1,
+648         1, -1 \};
+649     \textcolor{keywordtype}{int} mx = qmat[2*quadrant+0];
+650     \textcolor{keywordtype}{int} my = qmat[2*quadrant+1];
+651 
+652     \textcolor{keywordflow}{if} (angularSteps < \hyperlink{_queued_tracker_8h_a1625167c310599739f4d73170413e64a}{MIN\_RADPROFILE\_SMP\_COUNT})
+653         angularSteps = \hyperlink{_queued_tracker_8h_a1625167c310599739f4d73170413e64a}{MIN\_RADPROFILE\_SMP\_COUNT};
+654 
+655     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<radialSteps;i++)
+656         dst[i]=0.0f;
+657 
+658     \hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\_t} total = 0.0f;
+659     \hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\_t} rstep = (maxRadius - minRadius) / radialSteps;
+660     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<radialSteps; i++) \{
+661         \hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\_t} sum = 0.0f;
+662         \hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\_t} r = minRadius + rstep * i;
+663 
+664         \textcolor{keywordtype}{int} nPixels = 0;
+665         \hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\_t} angstepf = (\hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\_t}) \hyperlink{class_c_p_u_tracker_ae155aab5f1ed07d8467818b915087b20}{quadrantDirs}.size() / angularSteps;
+666         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} a=0;a<angularSteps;a++) \{
+667             \textcolor{keywordtype}{int} i = (int)angstepf * a;
+668             \hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\_t} x = center.\hyperlink{structvector2_a22b63498d8e4abf9a2da054a247965b9}{x} + mx*\hyperlink{class_c_p_u_tracker_ae155aab5f1ed07d8467818b915087b20}{quadrantDirs}[i].x * r;
+669             \hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\_t} y = center.\hyperlink{structvector2_a00b3268bc895adddf0b72d6acd8274a7}{y} + my*\hyperlink{class_c_p_u_tracker_ae155aab5f1ed07d8467818b915087b20}{quadrantDirs}[i].y * r;
+670 
+671             \textcolor{keywordtype}{bool} outside;
+672             \hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\_t} v = \hyperlink{utils_8h_aa9cfad3280334f04e799bb33b442f653}{Interpolate}(\hyperlink{class_c_p_u_tracker_a393778bc9b49eb6d5014fd814c5dfcdf}{srcImage},\hyperlink{class_c_p_u_tracker_afb77fe1c7e1a38d25d5aadded5a36fb9}{width},
+      \hyperlink{class_c_p_u_tracker_a5d1e01c6a878ff7f0c138f011b0ca5d3}{height}, x,y, &outside);
+673             \textcolor{keywordflow}{if} (!outside) \{
+674                 sum += v;
+675                 nPixels++;
+676                 \hyperlink{cpu__tracker_8cpp_a836b0d44a08a0508ab0581612404f960}{MARKPIXELI}(x,y);
+677             \}
+678         \}
+679 
+680         dst[i] = nPixels>=\hyperlink{_queued_tracker_8h_a1625167c310599739f4d73170413e64a}{MIN\_RADPROFILE\_SMP\_COUNT} ? sum/nPixels : 
+      \hyperlink{class_c_p_u_tracker_a611986d18c52010b79815a9cb920b00d}{mean};
+681         \textcolor{keywordflow}{if} (radialWeights) dst[i] *= radialWeights[i];
+682         total += dst[i];
+683     \}
+684     
+685     \textcolor{comment}{//WriteImageAsCSV(SPrintf("D:\(\backslash\)\(\backslash\)TestImages\(\backslash\)\(\backslash\)qprof%d.txt", quadrant).c\_str(), dst, 1, radialSteps);   }
+686     \textcolor{comment}{//WriteArrayAsCSVRow("D:\(\backslash\)\(\backslash\)TestImages\(\backslash\)\(\backslash\)radialWeights.csv",radialWeights,radialSteps,false);}
+687 \}
+\end{DoxyCode}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!Compute\+Radial\+Profile@{Compute\+Radial\+Profile}}
+\index{Compute\+Radial\+Profile@{Compute\+Radial\+Profile}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{Compute\+Radial\+Profile(float $\ast$dst, int radial\+Steps, int angular\+Steps, float minradius, float maxradius, vector2f center, bool crp, bool $\ast$boundary\+Hit=0, bool normalize=true)}{ComputeRadialProfile(float *dst, int radialSteps, int angularSteps, float minradius, float maxradius, vector2f center, bool crp, bool *boundaryHit=0, bool normalize=true)}}]{\setlength{\rightskip}{0pt plus 5cm}void C\+P\+U\+Tracker\+::\+Compute\+Radial\+Profile (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{dst, }
+\item[{int}]{radial\+Steps, }
+\item[{int}]{angular\+Steps, }
+\item[{float}]{minradius, }
+\item[{float}]{maxradius, }
+\item[{{\bf vector2f}}]{center, }
+\item[{bool}]{crp, }
+\item[{bool $\ast$}]{boundary\+Hit = {\ttfamily 0}, }
+\item[{bool}]{normalize = {\ttfamily true}}
+\end{DoxyParamCaption}
+)}\hypertarget{class_c_p_u_tracker_a425db1a2a66d9635d2b4b565ecfdc3b0}{}\label{class_c_p_u_tracker_a425db1a2a66d9635d2b4b565ecfdc3b0}
+
+\begin{DoxyCode}
+756 \{
+757     \textcolor{keywordtype}{bool} boundaryHit = \hyperlink{class_c_p_u_tracker_a7d853e9c7142eefcbd227f18c05b60e7}{CheckBoundaries}(center, maxradius);
+758     \textcolor{keywordflow}{if} (pBoundaryHit) *pBoundaryHit = boundaryHit;
+759 
+760     \hyperlink{struct_t_image_data}{ImageData} imgData (\hyperlink{class_c_p_u_tracker_a393778bc9b49eb6d5014fd814c5dfcdf}{srcImage}, \hyperlink{class_c_p_u_tracker_afb77fe1c7e1a38d25d5aadded5a36fb9}{width},\hyperlink{class_c_p_u_tracker_a5d1e01c6a878ff7f0c138f011b0ca5d3}{height});
+761     \textcolor{keywordflow}{if} (crp) \{
+762         \hyperlink{utils_8cpp_ab6d583c937db5602a34e949fcf64805d}{ComputeCRP}(dst, radialSteps, angularSteps, minradius, maxradius, center, &imgData, 
+      \hyperlink{class_c_p_u_tracker_a611986d18c52010b79815a9cb920b00d}{mean});
+763     \}
+764     \textcolor{keywordflow}{else} \{
+765         \hyperlink{class_c_p_u_tracker_a425db1a2a66d9635d2b4b565ecfdc3b0}{::ComputeRadialProfile}(dst, radialSteps, angularSteps, minradius, maxradius, 
+      center, &imgData, \hyperlink{class_c_p_u_tracker_a611986d18c52010b79815a9cb920b00d}{mean}, \hyperlink{utils_8h_a32b5810b69072511c66006593bcf7a89}{normalize});
+766     \}
+767 \}
+\end{DoxyCode}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!Compute\+X\+Cor\+Interpolated@{Compute\+X\+Cor\+Interpolated}}
+\index{Compute\+X\+Cor\+Interpolated@{Compute\+X\+Cor\+Interpolated}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{Compute\+X\+Cor\+Interpolated(vector2f initial, int iterations, int profile\+Width, bool \&boundary\+Hit)}{ComputeXCorInterpolated(vector2f initial, int iterations, int profileWidth, bool &boundaryHit)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf vector2f} C\+P\+U\+Tracker\+::\+Compute\+X\+Cor\+Interpolated (
+\begin{DoxyParamCaption}
+\item[{{\bf vector2f}}]{initial, }
+\item[{int}]{iterations, }
+\item[{int}]{profile\+Width, }
+\item[{bool \&}]{boundary\+Hit}
+\end{DoxyParamCaption}
+)}\hypertarget{class_c_p_u_tracker_aeb547c7da30e1621b2869634182c0900}{}\label{class_c_p_u_tracker_aeb547c7da30e1621b2869634182c0900}
+
+\begin{DoxyCode}
+194 \{
+195     \textcolor{comment}{// extract the image}
+196     \hyperlink{structvector2}{vector2f} pos = initial;
+197 
+198     \textcolor{keywordflow}{if} (!\hyperlink{class_c_p_u_tracker_a50c41b873db189fb3cb01068025a2764}{xcorBuffer})
+199         \hyperlink{class_c_p_u_tracker_a50c41b873db189fb3cb01068025a2764}{xcorBuffer} = \textcolor{keyword}{new} \hyperlink{class_x_cor1_d_buffer}{XCor1DBuffer}(\hyperlink{class_c_p_u_tracker_a31994d45332742dd422f876f5897233b}{xcorw});
+200 
+201     \textcolor{keywordflow}{if} (\hyperlink{class_c_p_u_tracker_a31994d45332742dd422f876f5897233b}{xcorw} < profileWidth)
+202         profileWidth = \hyperlink{class_c_p_u_tracker_a31994d45332742dd422f876f5897233b}{xcorw};
+203 
+204 \textcolor{preprocessor}{#ifdef \_DEBUG}
+205     std::copy(\hyperlink{class_c_p_u_tracker_a393778bc9b49eb6d5014fd814c5dfcdf}{srcImage}, \hyperlink{class_c_p_u_tracker_a393778bc9b49eb6d5014fd814c5dfcdf}{srcImage}+\hyperlink{class_c_p_u_tracker_afb77fe1c7e1a38d25d5aadded5a36fb9}{width}*\hyperlink{class_c_p_u_tracker_a5d1e01c6a878ff7f0c138f011b0ca5d3}{height}, 
+      \hyperlink{class_c_p_u_tracker_a58cde24ef2ce5057d42b678951a2239b}{debugImage});
+206     maxImageValue = *std::max\_element(\hyperlink{class_c_p_u_tracker_a393778bc9b49eb6d5014fd814c5dfcdf}{srcImage},\hyperlink{class_c_p_u_tracker_a393778bc9b49eb6d5014fd814c5dfcdf}{srcImage}+\hyperlink{class_c_p_u_tracker_afb77fe1c7e1a38d25d5aadded5a36fb9}{width}*
+      \hyperlink{class_c_p_u_tracker_a5d1e01c6a878ff7f0c138f011b0ca5d3}{height});
+207 \textcolor{preprocessor}{#endif}
+208 
+209     \textcolor{keywordflow}{if} (\hyperlink{class_c_p_u_tracker_a31994d45332742dd422f876f5897233b}{xcorw} > \hyperlink{class_c_p_u_tracker_afb77fe1c7e1a38d25d5aadded5a36fb9}{width} || \hyperlink{class_c_p_u_tracker_a31994d45332742dd422f876f5897233b}{xcorw} > \hyperlink{class_c_p_u_tracker_a5d1e01c6a878ff7f0c138f011b0ca5d3}{height}) \{
+210         boundaryHit = \textcolor{keyword}{true};
+211         \textcolor{keywordflow}{return} initial;
+212     \}
+213 
+214     \hyperlink{scalar__types_8h_abaffcd8bea58063cc6c608dda082ad05}{complex\_t}* prof = (\hyperlink{scalar__types_8h_abaffcd8bea58063cc6c608dda082ad05}{complex\_t}*)\hyperlink{std__incl_8h_a72fc0ed307a114ba9a46ebd095267d2f}{ALLOCA}(\textcolor{keyword}{sizeof}(
+      \hyperlink{scalar__types_8h_abaffcd8bea58063cc6c608dda082ad05}{complex\_t})*\hyperlink{class_c_p_u_tracker_a31994d45332742dd422f876f5897233b}{xcorw});
+215     \hyperlink{scalar__types_8h_abaffcd8bea58063cc6c608dda082ad05}{complex\_t}* prof\_rev = (\hyperlink{scalar__types_8h_abaffcd8bea58063cc6c608dda082ad05}{complex\_t}*)\hyperlink{std__incl_8h_a72fc0ed307a114ba9a46ebd095267d2f}{ALLOCA}(\textcolor{keyword}{sizeof}(
+      \hyperlink{scalar__types_8h_abaffcd8bea58063cc6c608dda082ad05}{complex\_t})*\hyperlink{class_c_p_u_tracker_a31994d45332742dd422f876f5897233b}{xcorw});
+216     \hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\_t}* prof\_autocor = (\hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\_t}*)\hyperlink{std__incl_8h_a72fc0ed307a114ba9a46ebd095267d2f}{ALLOCA}(\textcolor{keyword}{sizeof}(
+      \hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\_t})*\hyperlink{class_c_p_u_tracker_a31994d45332742dd422f876f5897233b}{xcorw});
+217 
+218     boundaryHit = \textcolor{keyword}{false};
+219     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} k=0;k<iterations;k++) \{
+220         boundaryHit = \hyperlink{class_c_p_u_tracker_a7d853e9c7142eefcbd227f18c05b60e7}{CheckBoundaries}(pos, \hyperlink{cpu__tracker_8cpp_a77e160342e10850dcb9757230b309c24}{XCorScale}*
+      \hyperlink{class_c_p_u_tracker_a31994d45332742dd422f876f5897233b}{xcorw}/2);
+221 
+222         \textcolor{keywordtype}{float} xmin = pos.\hyperlink{structvector2_a22b63498d8e4abf9a2da054a247965b9}{x} - \hyperlink{cpu__tracker_8cpp_a77e160342e10850dcb9757230b309c24}{XCorScale} * \hyperlink{class_c_p_u_tracker_a31994d45332742dd422f876f5897233b}{xcorw}/2;
+223         \textcolor{keywordtype}{float} ymin = pos.\hyperlink{structvector2_a00b3268bc895adddf0b72d6acd8274a7}{y} - \hyperlink{cpu__tracker_8cpp_a77e160342e10850dcb9757230b309c24}{XCorScale} * \hyperlink{class_c_p_u_tracker_a31994d45332742dd422f876f5897233b}{xcorw}/2;
+224 
+225         \textcolor{comment}{// generate X position xcor array (summing over y range)}
+226         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x=0;x<\hyperlink{class_c_p_u_tracker_a31994d45332742dd422f876f5897233b}{xcorw};x++) \{
+227             \hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\_t} s = 0.0f;
+228             \textcolor{keywordtype}{int} n=0;
+229             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} y=0;y<profileWidth;y++) \{
+230                 \hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\_t} xp = x * \hyperlink{cpu__tracker_8cpp_a77e160342e10850dcb9757230b309c24}{XCorScale} + xmin;
+231                 \hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\_t} yp = pos.\hyperlink{structvector2_a00b3268bc895adddf0b72d6acd8274a7}{y} + \hyperlink{cpu__tracker_8cpp_a77e160342e10850dcb9757230b309c24}{XCorScale} * (y - profileWidth/2);
+232                 \textcolor{keywordtype}{bool} outside;
+233                 s += \hyperlink{utils_8h_aa9cfad3280334f04e799bb33b442f653}{Interpolate}(\hyperlink{class_c_p_u_tracker_a393778bc9b49eb6d5014fd814c5dfcdf}{srcImage}, \hyperlink{class_c_p_u_tracker_afb77fe1c7e1a38d25d5aadded5a36fb9}{width}, \hyperlink{class_c_p_u_tracker_a5d1e01c6a878ff7f0c138f011b0ca5d3}{height}, xp, yp, &outside);
+234                 n += outside?0:1;
+235                 \hyperlink{cpu__tracker_8cpp_a836b0d44a08a0508ab0581612404f960}{MARKPIXELI}(xp, yp);
+236             \}
+237             \textcolor{keywordflow}{if} (n >0) s/=n;
+238             \textcolor{keywordflow}{else} s=0;
+239             prof [x] = s;
+240             prof\_rev [xcorw-x-1] = s;
+241         \}
+242 
+243         \hyperlink{class_c_p_u_tracker_a50c41b873db189fb3cb01068025a2764}{xcorBuffer}->\hyperlink{class_x_cor1_d_buffer_a4c14e7a041865cb0405f460881d738b6}{XCorFFTHelper}(prof, prof\_rev, prof\_autocor);
+244         \hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\_t} offsetX = 
+      \hyperlink{class_compute_max_interp_aa1ec2481d8a866f624f05ba53fb2d3bc}{ComputeMaxInterp<scalar\_t,QI\_LSQFIT\_NWEIGHTS>::Compute}
+      (prof\_autocor, xcorw, \hyperlink{cpu__tracker_8cpp_a4d62cbde784e969529c728aed83f85e3}{QIWeights}) - (\hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\_t})xcorw/2;
+245 
+246         \textcolor{comment}{// generate Y position xcor array (summing over x range)}
+247         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} y=0;y<\hyperlink{class_c_p_u_tracker_a31994d45332742dd422f876f5897233b}{xcorw};y++) \{
+248             \hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\_t} s = 0.0f; 
+249             \textcolor{keywordtype}{int} n=0;
+250             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x=0;x<profileWidth;x++) \{
+251                 \hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\_t} xp = pos.\hyperlink{structvector2_a22b63498d8e4abf9a2da054a247965b9}{x} + \hyperlink{cpu__tracker_8cpp_a77e160342e10850dcb9757230b309c24}{XCorScale} * (x - profileWidth/2);
+252                 \hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\_t} yp = y * \hyperlink{cpu__tracker_8cpp_a77e160342e10850dcb9757230b309c24}{XCorScale} + ymin;
+253                 \textcolor{keywordtype}{bool} outside;
+254                 s += \hyperlink{utils_8h_aa9cfad3280334f04e799bb33b442f653}{Interpolate}(\hyperlink{class_c_p_u_tracker_a393778bc9b49eb6d5014fd814c5dfcdf}{srcImage},\hyperlink{class_c_p_u_tracker_afb77fe1c7e1a38d25d5aadded5a36fb9}{width},\hyperlink{class_c_p_u_tracker_a5d1e01c6a878ff7f0c138f011b0ca5d3}{height}, xp, yp, &outside);
+255                 n += outside?0:1;
+256                 \hyperlink{cpu__tracker_8cpp_a836b0d44a08a0508ab0581612404f960}{MARKPIXELI}(xp,yp);
+257             \}
+258             \textcolor{keywordflow}{if} (n >0) s/=n;
+259             \textcolor{keywordflow}{else} s=0;
+260             prof[y] = s;
+261             prof\_rev [xcorw-y-1] =s;
+262         \}
+263 
+264         \hyperlink{class_c_p_u_tracker_a50c41b873db189fb3cb01068025a2764}{xcorBuffer}->\hyperlink{class_x_cor1_d_buffer_a4c14e7a041865cb0405f460881d738b6}{XCorFFTHelper}(prof,prof\_rev, prof\_autocor);
+265         \textcolor{comment}{//WriteImageAsCSV("xcorautoconv.txt",&xcorBuffer->Y\_result[0],xcorBuffer->Y\_result.size(),1);}
+266         \hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\_t} offsetY = 
+      \hyperlink{class_compute_max_interp_aa1ec2481d8a866f624f05ba53fb2d3bc}{ComputeMaxInterp<scalar\_t, QI\_LSQFIT\_NWEIGHTS>::Compute}
+      (prof\_autocor, xcorw, \hyperlink{cpu__tracker_8cpp_a4d62cbde784e969529c728aed83f85e3}{QIWeights}) - (\hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\_t})xcorw/2;
+267 
+268         pos.\hyperlink{structvector2_a22b63498d8e4abf9a2da054a247965b9}{x} += (offsetX - 1) * \hyperlink{cpu__tracker_8cpp_a77e160342e10850dcb9757230b309c24}{XCorScale} * 0.5f;
+269         pos.\hyperlink{structvector2_a00b3268bc895adddf0b72d6acd8274a7}{y} += (offsetY - 1) * \hyperlink{cpu__tracker_8cpp_a77e160342e10850dcb9757230b309c24}{XCorScale} * 0.5f;
+270     \}
+271 
+272     \textcolor{keywordflow}{return} pos;
+273 \}
+\end{DoxyCode}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!ComputeZ@{ComputeZ}}
+\index{ComputeZ@{ComputeZ}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{Compute\+Z(vector2f center, int angular\+Steps, int zlut\+Index, bool $\ast$boundary\+Hit=0, float $\ast$profile=0, float $\ast$cmpprof=0, bool normalize\+Profile=true)}{ComputeZ(vector2f center, int angularSteps, int zlutIndex, bool *boundaryHit=0, float *profile=0, float *cmpprof=0, bool normalizeProfile=true)}}]{\setlength{\rightskip}{0pt plus 5cm}float C\+P\+U\+Tracker\+::\+ComputeZ (
+\begin{DoxyParamCaption}
+\item[{{\bf vector2f}}]{center, }
+\item[{int}]{angular\+Steps, }
+\item[{int}]{zlut\+Index, }
+\item[{bool $\ast$}]{boundary\+Hit = {\ttfamily 0}, }
+\item[{float $\ast$}]{profile = {\ttfamily 0}, }
+\item[{float $\ast$}]{cmpprof = {\ttfamily 0}, }
+\item[{bool}]{normalize\+Profile = {\ttfamily true}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_c_p_u_tracker_a8aaf20eab116d030a8549dadc5e2fb03}{}\label{class_c_p_u_tracker_a8aaf20eab116d030a8549dadc5e2fb03}
+
+\begin{DoxyCode}
+98     \{
+99         \textcolor{keywordtype}{float}* prof = profile ? profile : \hyperlink{std__incl_8h_a37dbccb865134ee3a70c5044b365ded7}{ALLOCA\_ARRAY}(\textcolor{keywordtype}{float}, 
+      \hyperlink{class_c_p_u_tracker_a058eae282c9bf847cd8e39664688c5bc}{zlut\_res});
+100         \hyperlink{class_c_p_u_tracker_a425db1a2a66d9635d2b4b565ecfdc3b0}{ComputeRadialProfile}(prof,\hyperlink{class_c_p_u_tracker_a058eae282c9bf847cd8e39664688c5bc}{zlut\_res},angularSteps, 
+      \hyperlink{class_c_p_u_tracker_a18ed4e4c7e10ea5728eaf4d36b864fdc}{zlut\_minradius}, \hyperlink{class_c_p_u_tracker_aac96fa28c0ee4462e176e78c9ec91335}{zlut\_maxradius}, center, \textcolor{keyword}{false}, boundaryHit, normalizeProfile);
+101         \textcolor{keywordflow}{return} \hyperlink{class_c_p_u_tracker_a605758e0bf1f897f86f38b65e99e320b}{LUTProfileCompare}(prof, zlutIndex, cmpprof, 
+      \hyperlink{class_c_p_u_tracker_a196ac690351a7a8449fe21012de9efdfa699b606aff628359036eef4585adba0e}{LUTProfMaxQuadraticFit});
+102     \}
+\end{DoxyCode}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!Fourier\+Radial\+Profile@{Fourier\+Radial\+Profile}}
+\index{Fourier\+Radial\+Profile@{Fourier\+Radial\+Profile}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{Fourier\+Radial\+Profile(float $\ast$dst, int radial\+Steps, int angular\+Steps, float minradius, float maxradius)}{FourierRadialProfile(float *dst, int radialSteps, int angularSteps, float minradius, float maxradius)}}]{\setlength{\rightskip}{0pt plus 5cm}void C\+P\+U\+Tracker\+::\+Fourier\+Radial\+Profile (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{dst, }
+\item[{int}]{radial\+Steps, }
+\item[{int}]{angular\+Steps, }
+\item[{float}]{minradius, }
+\item[{float}]{maxradius}
+\end{DoxyParamCaption}
+)}\hypertarget{class_c_p_u_tracker_a680410d9616a6e65ea1ad430aa8a56cf}{}\label{class_c_p_u_tracker_a680410d9616a6e65ea1ad430aa8a56cf}
+
+\begin{DoxyCode}
+1090 \{
+1091     \hyperlink{class_c_p_u_tracker_a723e3ea86ab2cc99e147477037895398}{FourierTransform2D}();
+1092     \hyperlink{struct_t_image_data}{ImageData} img(\hyperlink{class_c_p_u_tracker_a393778bc9b49eb6d5014fd814c5dfcdf}{srcImage},\hyperlink{class_c_p_u_tracker_afb77fe1c7e1a38d25d5aadded5a36fb9}{width},\hyperlink{class_c_p_u_tracker_a5d1e01c6a878ff7f0c138f011b0ca5d3}{height});
+1093     \hyperlink{class_c_p_u_tracker_a425db1a2a66d9635d2b4b565ecfdc3b0}{::ComputeRadialProfile}(dst, radialSteps, angularSteps, 1, 
+      \hyperlink{class_c_p_u_tracker_afb77fe1c7e1a38d25d5aadded5a36fb9}{width}*0.3f, \hyperlink{std__incl_8h_aba974726076ec2d63a67114c536d123e}{vector2f}(\hyperlink{class_c_p_u_tracker_afb77fe1c7e1a38d25d5aadded5a36fb9}{width}/2,\hyperlink{class_c_p_u_tracker_a5d1e01c6a878ff7f0c138f011b0ca5d3}{height}/2), &img, 0, \textcolor{keyword}{false});
+1094     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<radialSteps;i++) \{
+1095         dst[i]=logf(dst[i]);
+1096     \}
+1097     \textcolor{comment}{//NormalizeRadialProfile(dst, radialSteps);}
+1098 \}
+\end{DoxyCode}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!Fourier\+Transform2D@{Fourier\+Transform2D}}
+\index{Fourier\+Transform2D@{Fourier\+Transform2D}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{Fourier\+Transform2\+D()}{FourierTransform2D()}}]{\setlength{\rightskip}{0pt plus 5cm}void C\+P\+U\+Tracker\+::\+Fourier\+Transform2D (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_c_p_u_tracker_a723e3ea86ab2cc99e147477037895398}{}\label{class_c_p_u_tracker_a723e3ea86ab2cc99e147477037895398}
+
+\begin{DoxyCode}
+1046 \{
+1047     \textcolor{comment}{//kissfft<float> yfft(h, inverse);}
+1048     \textcolor{keywordflow}{if} (!\hyperlink{class_c_p_u_tracker_a62ed72a32b90914199ba06c3df929dd6}{fft2d})\{
+1049         \hyperlink{class_c_p_u_tracker_a62ed72a32b90914199ba06c3df929dd6}{fft2d} = \textcolor{keyword}{new} \hyperlink{_bead_finder_8cpp_aecf220354d51380bea7873a57bc29862}{FFT2D}(\hyperlink{class_c_p_u_tracker_afb77fe1c7e1a38d25d5aadded5a36fb9}{width}, \hyperlink{class_c_p_u_tracker_a5d1e01c6a878ff7f0c138f011b0ca5d3}{height});
+1050     \}
+1051 
+1052     \hyperlink{class_c_p_u_tracker_a62ed72a32b90914199ba06c3df929dd6}{fft2d}->\hyperlink{class_c_p_u_tracker_1_1_f_f_t2_d_a266f6fac8b291b4d7cc81a903320615a}{Apply}(\hyperlink{class_c_p_u_tracker_a393778bc9b49eb6d5014fd814c5dfcdf}{srcImage});
+1053 \}
+\end{DoxyCode}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!Get\+Debug\+Image@{Get\+Debug\+Image}}
+\index{Get\+Debug\+Image@{Get\+Debug\+Image}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{Get\+Debug\+Image()}{GetDebugImage()}}]{\setlength{\rightskip}{0pt plus 5cm}float$\ast$ C\+P\+U\+Tracker\+::\+Get\+Debug\+Image (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_c_p_u_tracker_ac0c9033626a30f3b8d1eccf02b7efa82}{}\label{class_c_p_u_tracker_ac0c9033626a30f3b8d1eccf02b7efa82}
+
+\begin{DoxyCode}
+119 \{ \textcolor{keywordflow}{return} \hyperlink{class_c_p_u_tracker_a58cde24ef2ce5057d42b678951a2239b}{debugImage}; \}
+\end{DoxyCode}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!Get\+Height@{Get\+Height}}
+\index{Get\+Height@{Get\+Height}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{Get\+Height()}{GetHeight()}}]{\setlength{\rightskip}{0pt plus 5cm}int C\+P\+U\+Tracker\+::\+Get\+Height (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_c_p_u_tracker_a6da03daaee4bcdfdf8439f3adbc36aa7}{}\label{class_c_p_u_tracker_a6da03daaee4bcdfdf8439f3adbc36aa7}
+
+\begin{DoxyCode}
+66 \{ \textcolor{keywordflow}{return} \hyperlink{class_c_p_u_tracker_a5d1e01c6a878ff7f0c138f011b0ca5d3}{height}; \}
+\end{DoxyCode}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!Get\+Pixel@{Get\+Pixel}}
+\index{Get\+Pixel@{Get\+Pixel}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{Get\+Pixel(int x, int y)}{GetPixel(int x, int y)}}]{\setlength{\rightskip}{0pt plus 5cm}float\& C\+P\+U\+Tracker\+::\+Get\+Pixel (
+\begin{DoxyParamCaption}
+\item[{int}]{x, }
+\item[{int}]{y}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_c_p_u_tracker_afd0e07572adc7f6f70e5e130ff01402b}{}\label{class_c_p_u_tracker_afd0e07572adc7f6f70e5e130ff01402b}
+
+\begin{DoxyCode}
+64 \{ \textcolor{keywordflow}{return} \hyperlink{class_c_p_u_tracker_a393778bc9b49eb6d5014fd814c5dfcdf}{srcImage}[\hyperlink{class_c_p_u_tracker_afb77fe1c7e1a38d25d5aadded5a36fb9}{width}*y+x]; \}
+\end{DoxyCode}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!Get\+Radial\+Z\+L\+UT@{Get\+Radial\+Z\+L\+UT}}
+\index{Get\+Radial\+Z\+L\+UT@{Get\+Radial\+Z\+L\+UT}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{Get\+Radial\+Z\+L\+U\+T(int index)}{GetRadialZLUT(int index)}}]{\setlength{\rightskip}{0pt plus 5cm}float$\ast$ C\+P\+U\+Tracker\+::\+Get\+Radial\+Z\+L\+UT (
+\begin{DoxyParamCaption}
+\item[{int}]{index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_c_p_u_tracker_a8a8ca2636eca91688ff90d68d04ad69d}{}\label{class_c_p_u_tracker_a8a8ca2636eca91688ff90d68d04ad69d}
+
+\begin{DoxyCode}
+47 \{ \textcolor{keywordflow}{return} &\hyperlink{class_c_p_u_tracker_ac187d3124a66c6743c2037bb82d9a67d}{zluts}[\hyperlink{class_c_p_u_tracker_a058eae282c9bf847cd8e39664688c5bc}{zlut\_res}*\hyperlink{class_c_p_u_tracker_ad28d60ad587ae3f89b9dba7f82c135f7}{zlut\_planes}*index]; \}
+\end{DoxyCode}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!Get\+Width@{Get\+Width}}
+\index{Get\+Width@{Get\+Width}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{Get\+Width()}{GetWidth()}}]{\setlength{\rightskip}{0pt plus 5cm}int C\+P\+U\+Tracker\+::\+Get\+Width (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_c_p_u_tracker_a1f380a0c3d1826e7ef6f7299ce9e5999}{}\label{class_c_p_u_tracker_a1f380a0c3d1826e7ef6f7299ce9e5999}
+
+\begin{DoxyCode}
+65 \{ \textcolor{keywordflow}{return} \hyperlink{class_c_p_u_tracker_afb77fe1c7e1a38d25d5aadded5a36fb9}{width}; \}
+\end{DoxyCode}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!Keep\+Inside\+Boundaries@{Keep\+Inside\+Boundaries}}
+\index{Keep\+Inside\+Boundaries@{Keep\+Inside\+Boundaries}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{Keep\+Inside\+Boundaries(vector2f $\ast$center, float radius)}{KeepInsideBoundaries(vector2f *center, float radius)}}]{\setlength{\rightskip}{0pt plus 5cm}bool C\+P\+U\+Tracker\+::\+Keep\+Inside\+Boundaries (
+\begin{DoxyParamCaption}
+\item[{{\bf vector2f} $\ast$}]{center, }
+\item[{float}]{radius}
+\end{DoxyParamCaption}
+)}\hypertarget{class_c_p_u_tracker_a5dd95e6830eb86a06e5302e04e411c1a}{}\label{class_c_p_u_tracker_a5dd95e6830eb86a06e5302e04e411c1a}
+
+\begin{DoxyCode}
+165 \{
+166     \textcolor{keywordtype}{bool} boundaryHit = center->\hyperlink{structvector2_a22b63498d8e4abf9a2da054a247965b9}{x} + radius >= \hyperlink{class_c_p_u_tracker_afb77fe1c7e1a38d25d5aadded5a36fb9}{width} ||
+167         center->\hyperlink{structvector2_a22b63498d8e4abf9a2da054a247965b9}{x} - radius < 0 ||
+168         center->\hyperlink{structvector2_a00b3268bc895adddf0b72d6acd8274a7}{y} + radius >= \hyperlink{class_c_p_u_tracker_a5d1e01c6a878ff7f0c138f011b0ca5d3}{height} ||
+169         center->\hyperlink{structvector2_a00b3268bc895adddf0b72d6acd8274a7}{y} - radius < 0;
+170 
+171     \textcolor{keywordflow}{if} (center->\hyperlink{structvector2_a22b63498d8e4abf9a2da054a247965b9}{x} - radius < 0.0f)
+172         center->\hyperlink{structvector2_a22b63498d8e4abf9a2da054a247965b9}{x} = radius;
+173 
+174     \textcolor{keywordflow}{if} (center->\hyperlink{structvector2_a00b3268bc895adddf0b72d6acd8274a7}{y} - radius < 0.0f)
+175         center->\hyperlink{structvector2_a00b3268bc895adddf0b72d6acd8274a7}{y} = radius;
+176 
+177     \textcolor{keywordflow}{if} (center->\hyperlink{structvector2_a22b63498d8e4abf9a2da054a247965b9}{x} + radius >= \hyperlink{class_c_p_u_tracker_afb77fe1c7e1a38d25d5aadded5a36fb9}{width})
+178         center->\hyperlink{structvector2_a22b63498d8e4abf9a2da054a247965b9}{x} = \hyperlink{class_c_p_u_tracker_afb77fe1c7e1a38d25d5aadded5a36fb9}{width}-radius-1;
+179 
+180     \textcolor{keywordflow}{if} (center->\hyperlink{structvector2_a00b3268bc895adddf0b72d6acd8274a7}{y} + radius >= \hyperlink{class_c_p_u_tracker_a5d1e01c6a878ff7f0c138f011b0ca5d3}{height})
+181         center->\hyperlink{structvector2_a00b3268bc895adddf0b72d6acd8274a7}{y} = \hyperlink{class_c_p_u_tracker_a5d1e01c6a878ff7f0c138f011b0ca5d3}{height}-radius-1;
+182     \textcolor{keywordflow}{return} boundaryHit;
+183 \}
+\end{DoxyCode}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!L\+U\+T\+Profile\+Compare@{L\+U\+T\+Profile\+Compare}}
+\index{L\+U\+T\+Profile\+Compare@{L\+U\+T\+Profile\+Compare}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{L\+U\+T\+Profile\+Compare(float $\ast$profile, int zlut\+Index, float $\ast$cmp\+Prof, L\+U\+T\+Profile\+Max\+Compute\+Mode max\+Pos\+Method, float $\ast$lsqfittedcurve=0, int $\ast$max\+Pos=0, int frame\+Num=0)}{LUTProfileCompare(float *profile, int zlutIndex, float *cmpProf, LUTProfileMaxComputeMode maxPosMethod, float *lsqfittedcurve=0, int *maxPos=0, int frameNum=0)}}]{\setlength{\rightskip}{0pt plus 5cm}float C\+P\+U\+Tracker\+::\+L\+U\+T\+Profile\+Compare (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{profile, }
+\item[{int}]{zlut\+Index, }
+\item[{float $\ast$}]{cmp\+Prof, }
+\item[{{\bf L\+U\+T\+Profile\+Max\+Compute\+Mode}}]{max\+Pos\+Method, }
+\item[{float $\ast$}]{lsqfittedcurve = {\ttfamily 0}, }
+\item[{int $\ast$}]{max\+Pos = {\ttfamily 0}, }
+\item[{int}]{frame\+Num = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}\hypertarget{class_c_p_u_tracker_a605758e0bf1f897f86f38b65e99e320b}{}\label{class_c_p_u_tracker_a605758e0bf1f897f86f38b65e99e320b}
+
+\begin{DoxyCode}
+873 \{
+874     \textcolor{comment}{/* From this function save:}
+875 \textcolor{comment}{        - Frame number?}
+876 \textcolor{comment}{        }
+877 \textcolor{comment}{        - Original image}
+878 \textcolor{comment}{        - Profile}
+879 \textcolor{comment}{        - LUT}
+880 \textcolor{comment}{        - Error curve}
+881 \textcolor{comment}{        - Final value}
+882 \textcolor{comment}{    */}
+883 
+884     \textcolor{keywordtype}{bool} freeMem = \textcolor{keyword}{false};
+885     std::string outputName;
+886     \textcolor{keywordtype}{float} zOffset;
+887 
+888     \textcolor{keywordflow}{if}(\hyperlink{class_c_p_u_tracker_a5dd04ccf64ee6885b2dc272553c29644}{testRun})\{
+889         outputName = \hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"%s%05d-%05d"},\hyperlink{utils_8cpp_a5db0cac9cdabe121a5e8f63bb22c3cc4}{GetCurrentOutputPath}().c\_str(),
+      zlutIndex,frameNum);
+890         
+891         \textcolor{keywordflow}{if} (FILE *file = fopen(\hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"%s.jpg"},outputName.c\_str()).c\_str(), \textcolor{stringliteral}{"r"})) \{
+892             fclose(file);
+893             printf(\textcolor{stringliteral}{"File exists\(\backslash\)n"});
+894         \}
+895         \hyperlink{class_c_p_u_tracker_ad43acbdbc335850b8b01a5c6508ef902}{SaveImage}(\hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"%s.jpg"},outputName.c\_str()).c\_str());
+896         \textcolor{comment}{//FloatToJPEGFile(SPrintf("%s-prof.jpg",outputName.c\_str()).c\_str(), rprof, zlut\_res, 1);}
+897         \hyperlink{utils_8cpp_aa0fb8da4922e3042928ed9f6388bc09a}{WriteArrayAsCSVRow}(\hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"%s-prof.txt"},outputName.c\_str()).c\_str(), 
+      rprof, \hyperlink{class_c_p_u_tracker_a058eae282c9bf847cd8e39664688c5bc}{zlut\_res}, 0);
+898 
+899         \textcolor{keywordflow}{if}(!fitcurve)\{
+900             fitcurve = \textcolor{keyword}{new} \textcolor{keywordtype}{float}[\hyperlink{class_c_p_u_tracker_ad28d60ad587ae3f89b9dba7f82c135f7}{zlut\_planes}];
+901             freeMem = \textcolor{keyword}{true};
+902         \}
+903 
+904         \textcolor{comment}{/* }
+905 \textcolor{comment}{            For testing, we want to introduce a fixed height offset of xx nm, regardless of amount of zlut
+       planes}
+906 \textcolor{comment}{            Z is in zlut planes here, so calculate back}
+907 \textcolor{comment}{}
+908 \textcolor{comment}{            int numImgInStack = 1218;}
+909 \textcolor{comment}{            int numPositions = 1001; // ~10nm/frame}
+910 \textcolor{comment}{            float range = 10.0f; // total range 25.0 um -> 35.0 um}
+911 \textcolor{comment}{            float umPerImg = range/numImgInStack; //}
+912 \textcolor{comment}{            }
+913 \textcolor{comment}{            int zplanes = 50;}
+914 \textcolor{comment}{            int startFrame = 400;}
+915 \textcolor{comment}{        */}
+916         \textcolor{keywordtype}{float} range = 10.0f; \textcolor{comment}{// total range 25.0 um -> 35.0 um}
+917         \textcolor{keywordtype}{int} numImgInStack = 1218;
+918         \textcolor{keywordtype}{float} umPerImg = range/numImgInStack;
+919         \textcolor{keywordtype}{int} startFrame = 400;
+920         \textcolor{keywordtype}{int} usedFrames = numImgInStack-startFrame;
+921         \textcolor{keywordtype}{float} rangeInLUT = usedFrames*umPerImg; \textcolor{comment}{// Total um of LUT range}
+922         \textcolor{keywordtype}{float} umPerPlane = rangeInLUT/\hyperlink{class_c_p_u_tracker_ad28d60ad587ae3f89b9dba7f82c135f7}{zlut\_planes};
+923 
+924         \textcolor{keywordtype}{float} error = 0.000f; \textcolor{comment}{// Forced error in um}
+925         zOffset = error/umPerPlane; \textcolor{comment}{// um * planes / um}
+926     \}
+927 
+928     \textcolor{keywordflow}{if} (!\hyperlink{class_c_p_u_tracker_ac187d3124a66c6743c2037bb82d9a67d}{zluts})
+929         \textcolor{keywordflow}{return} 0.0f;
+930 
+931     \textcolor{keywordtype}{double}* rprof\_diff = \hyperlink{std__incl_8h_a37dbccb865134ee3a70c5044b365ded7}{ALLOCA\_ARRAY}(\textcolor{keywordtype}{double}, \hyperlink{class_c_p_u_tracker_ad28d60ad587ae3f89b9dba7f82c135f7}{zlut\_planes});
+932     \textcolor{comment}{//WriteImageAsCSV("zlutradprof-cpu.txt", rprof, zlut\_res, 1);}
+933 
+934     \textcolor{comment}{// Now compare the radial profile to the profiles stored in Z}
+935     \textcolor{keywordtype}{float}* zlut\_sel = \hyperlink{class_c_p_u_tracker_a8a8ca2636eca91688ff90d68d04ad69d}{GetRadialZLUT}(zlutIndex);
+936 
+937     \textcolor{keywordflow}{if}(\hyperlink{class_c_p_u_tracker_a5dd04ccf64ee6885b2dc272553c29644}{testRun})\{
+938         \hyperlink{fastjpg_8cpp_a197d79f00fb185491c4d109e966ca9ef}{FloatToJPEGFile}(\hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"%s-zlut.jpg"},outputName.c\_str()).c\_str(),zlut\_sel,
+      \hyperlink{class_c_p_u_tracker_a058eae282c9bf847cd8e39664688c5bc}{zlut\_res},\hyperlink{class_c_p_u_tracker_ad28d60ad587ae3f89b9dba7f82c135f7}{zlut\_planes});
+939     \}
+940 
+941     \hyperlink{class_c_p_u_tracker_a3505604c838186c348562bac8a2fedfe}{CalculateErrorCurve}(rprof\_diff, rprof, zlut\_sel);
+942 
+943     \textcolor{keywordflow}{if} (cmpProf) \{
+944         \textcolor{comment}{//cmpProf->resize(zlut\_planes);}
+945         std::copy(rprof\_diff, rprof\_diff+\hyperlink{class_c_p_u_tracker_ad28d60ad587ae3f89b9dba7f82c135f7}{zlut\_planes}, cmpProf);
+946     \}
+947 
+948     \textcolor{keywordflow}{if} (maxPosComputeMode == \hyperlink{class_c_p_u_tracker_a196ac690351a7a8449fe21012de9efdfa699b606aff628359036eef4585adba0e}{LUTProfMaxQuadraticFit}) \{
+949         \textcolor{keywordflow}{if} (maxPos) \{
+950             *maxPos = std::max\_element(rprof\_diff, rprof\_diff+\hyperlink{class_c_p_u_tracker_ad28d60ad587ae3f89b9dba7f82c135f7}{zlut\_planes}) - rprof\_diff;
+951         \}
+952 
+953         \textcolor{keywordflow}{if} (fitcurve) \{
+954             \hyperlink{class_lsq_sq_quad_fit}{LsqSqQuadFit<double>} fit;
+955             \textcolor{keywordtype}{float} z = \hyperlink{class_compute_max_interp_aa1ec2481d8a866f624f05ba53fb2d3bc}{ComputeMaxInterp<double, ZLUT\_LSQFIT\_NWEIGHTS>::Compute}
+      (rprof\_diff, \hyperlink{class_c_p_u_tracker_ad28d60ad587ae3f89b9dba7f82c135f7}{zlut\_planes}, \hyperlink{cpu__tracker_8cpp_a79c9b3cd0d6bf4409d49ad9b784f7f87}{ZLUTWeights\_d}, &fit);
+956 
+957             \textcolor{keywordtype}{int} iMax = std::max\_element(rprof\_diff, rprof\_diff+\hyperlink{class_c_p_u_tracker_ad28d60ad587ae3f89b9dba7f82c135f7}{zlut\_planes}) - rprof\_diff;
+958             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<\hyperlink{class_c_p_u_tracker_ad28d60ad587ae3f89b9dba7f82c135f7}{zlut\_planes};i++)
+959                 fitcurve[i] = fit.\hyperlink{class_lsq_sq_quad_fit_a6aa52c07c1b7a5057f2a2cd878035d7d}{compute}(i-iMax);
+960             
+961             \textcolor{keywordflow}{if}(\hyperlink{class_c_p_u_tracker_a5dd04ccf64ee6885b2dc272553c29644}{testRun})  \{
+962                 z += zOffset; \textcolor{comment}{// For testing purposes}
+963 
+964                 \textcolor{comment}{// Calculate errorcurve of found ZLUT plane}
+965                 \textcolor{keywordtype}{float}* int\_prof = \hyperlink{std__incl_8h_a37dbccb865134ee3a70c5044b365ded7}{ALLOCA\_ARRAY}(\textcolor{keywordtype}{float}, zlut\_res);
+966                 \hyperlink{class_c_p_u_tracker_a4ae169f9618eeb09f129815229eaeb33}{CalculateInterpolatedZLUTProfile}(int\_prof, z, zlutIndex);
+967 
+968                 \textcolor{keywordtype}{double}* plane\_auto\_diff = \hyperlink{std__incl_8h_a37dbccb865134ee3a70c5044b365ded7}{ALLOCA\_ARRAY}(\textcolor{keywordtype}{double}, zlut\_planes);
+969                 \hyperlink{class_c_p_u_tracker_a3505604c838186c348562bac8a2fedfe}{CalculateErrorCurve}(plane\_auto\_diff, int\_prof, zlut\_sel);
+970                 \textcolor{comment}{/*for (int k=0;k<zlut\_planes;k++) \{}
+971 \textcolor{comment}{                    double diffsum = 0.0f;}
+972 \textcolor{comment}{                    for (int r = 0; r<zlut\_res;r++) \{}
+973 \textcolor{comment}{                        double d = int\_prof[r] - zlut\_sel[k*zlut\_res+r];}
+974 \textcolor{comment}{                        if (!zlut\_radialweights.empty())}
+975 \textcolor{comment}{                            d*=zlut\_radialweights[r];}
+976 \textcolor{comment}{                        d = -d*d;}
+977 \textcolor{comment}{                        diffsum += d;}
+978 \textcolor{comment}{                    \}}
+979 \textcolor{comment}{                    plane\_auto\_diff[k] = diffsum;}
+980 \textcolor{comment}{                \}*/}
+981 
+982                 \textcolor{comment}{//float errorFlag = CalculateErrorFlag(rprof\_diff, plane\_auto\_diff);}
+983 
+984                 \hyperlink{utils_8cpp_aa0fb8da4922e3042928ed9f6388bc09a}{WriteArrayAsCSVRow}(\hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"%s-int-prof.txt"},outputName.c\_str()).
+      c\_str(), int\_prof, \hyperlink{class_c_p_u_tracker_a058eae282c9bf847cd8e39664688c5bc}{zlut\_res}, 0);
+985 
+986                 FILE* f = fopen(\hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"%s-out.txt"},outputName.c\_str()).c\_str(),\textcolor{stringliteral}{"w+"});
+987                 fprintf\_s(f,\textcolor{stringliteral}{"z: %f\(\backslash\)n"},z);
+988                 \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<\hyperlink{class_c_p_u_tracker_ad28d60ad587ae3f89b9dba7f82c135f7}{zlut\_planes};i++)
+989                     fprintf\_s(f,\textcolor{stringliteral}{"%f\(\backslash\)t%f\(\backslash\)t%f\(\backslash\)t%f\(\backslash\)t%f\(\backslash\)n"},rprof\_diff[i],fitcurve[i],plane\_auto\_diff[i],fit.
+      \hyperlink{class_lsq_sq_quad_fit_aed5761aec0a7a0f48c00668e07018f5f}{a},fit.\hyperlink{class_lsq_sq_quad_fit_a1d893652bce7f1438a4ad48e937f5405}{vertexForm}());
+990                 fclose(f);
+991 
+992                 \textcolor{keywordflow}{if}(freeMem)
+993                     \textcolor{keyword}{delete}[] fitcurve;
+994             \}
+995             
+996             \textcolor{keywordflow}{return} z;
+997         \} \textcolor{keywordflow}{else} \{
+998             \textcolor{keywordflow}{return} \hyperlink{class_compute_max_interp_aa1ec2481d8a866f624f05ba53fb2d3bc}{ComputeMaxInterp<double, ZLUT\_LSQFIT\_NWEIGHTS>::Compute}
+      (rprof\_diff, zlut\_planes, \hyperlink{cpu__tracker_8cpp_a79c9b3cd0d6bf4409d49ad9b784f7f87}{ZLUTWeights\_d});
+999         \}
+1000     \}
+1001     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (maxPosComputeMode == \hyperlink{class_c_p_u_tracker_a196ac690351a7a8449fe21012de9efdfac33bc6099016f7da393c53fe4c7ecd5c}{LUTProfMaxSimpleInterp}) \{
+1002         assert(0);
+1003         \textcolor{keywordflow}{return} 0;
+1004     \} \textcolor{keywordflow}{else} 
+1005         \textcolor{keywordflow}{return} \hyperlink{_cubic_b_spline_8h_a0ef36a18640354badceb901eaee34557}{ComputeSplineFitMaxPos}(rprof\_diff, zlut\_planes);
+1006 \}
+\end{DoxyCode}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!L\+U\+T\+Profile\+Compare\+Adjusted\+Weights@{L\+U\+T\+Profile\+Compare\+Adjusted\+Weights}}
+\index{L\+U\+T\+Profile\+Compare\+Adjusted\+Weights@{L\+U\+T\+Profile\+Compare\+Adjusted\+Weights}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{L\+U\+T\+Profile\+Compare\+Adjusted\+Weights(float $\ast$rprof, int zlut\+Index, float z\+\_\+estim)}{LUTProfileCompareAdjustedWeights(float *rprof, int zlutIndex, float z_estim)}}]{\setlength{\rightskip}{0pt plus 5cm}float C\+P\+U\+Tracker\+::\+L\+U\+T\+Profile\+Compare\+Adjusted\+Weights (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{rprof, }
+\item[{int}]{zlut\+Index, }
+\item[{float}]{z\+\_\+estim}
+\end{DoxyParamCaption}
+)}\hypertarget{class_c_p_u_tracker_ab915cca7e40b60f68f5e7d5c10386ddc}{}\label{class_c_p_u_tracker_ab915cca7e40b60f68f5e7d5c10386ddc}
+
+\begin{DoxyCode}
+1009 \{
+1010     \textcolor{keywordflow}{if} (!\hyperlink{class_c_p_u_tracker_ac187d3124a66c6743c2037bb82d9a67d}{zluts})
+1011         \textcolor{keywordflow}{return} 0.0f;
+1012     
+1013     \textcolor{keywordtype}{double}* rprof\_diff = \hyperlink{std__incl_8h_a37dbccb865134ee3a70c5044b365ded7}{ALLOCA\_ARRAY}(\textcolor{keywordtype}{double}, \hyperlink{class_c_p_u_tracker_ad28d60ad587ae3f89b9dba7f82c135f7}{zlut\_planes});
+1014 
+1015     \textcolor{comment}{// Now compare the radial profile to the profiles stored in Z}
+1016     \textcolor{keywordtype}{float}* zlut\_sel = \hyperlink{class_c_p_u_tracker_a8a8ca2636eca91688ff90d68d04ad69d}{GetRadialZLUT}(zlutIndex);
+1017 
+1018     \textcolor{keywordtype}{int} zi = (int)z\_estim;
+1019     \textcolor{keywordflow}{if} (zi > \hyperlink{class_c_p_u_tracker_ad28d60ad587ae3f89b9dba7f82c135f7}{zlut\_planes}-2) zi = \hyperlink{class_c_p_u_tracker_ad28d60ad587ae3f89b9dba7f82c135f7}{zlut\_planes}-2;
+1020     \textcolor{keywordtype}{float}* z0 = &zlut\_sel[zi*\hyperlink{class_c_p_u_tracker_a058eae282c9bf847cd8e39664688c5bc}{zlut\_res}];
+1021     \textcolor{keywordtype}{float}* z1 = &zlut\_sel[(zi+1)*\hyperlink{class_c_p_u_tracker_a058eae282c9bf847cd8e39664688c5bc}{zlut\_res}];
+1022     \textcolor{keywordtype}{double}* zlut\_weights = \hyperlink{std__incl_8h_a37dbccb865134ee3a70c5044b365ded7}{ALLOCA\_ARRAY}(\textcolor{keywordtype}{double}, \hyperlink{class_c_p_u_tracker_a058eae282c9bf847cd8e39664688c5bc}{zlut\_res});
+1023     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<\hyperlink{class_c_p_u_tracker_a058eae282c9bf847cd8e39664688c5bc}{zlut\_res};i++)
+1024         zlut\_weights[i] = fabs((\textcolor{keywordtype}{double})z1[i]-(\textcolor{keywordtype}{double})z0[i]) * ( \hyperlink{class_c_p_u_tracker_a18ed4e4c7e10ea5728eaf4d36b864fdc}{zlut\_minradius} + (
+      \hyperlink{class_c_p_u_tracker_aac96fa28c0ee4462e176e78c9ec91335}{zlut\_maxradius} - \hyperlink{class_c_p_u_tracker_a18ed4e4c7e10ea5728eaf4d36b864fdc}{zlut\_minradius}) * i/(\textcolor{keywordtype}{float})zlut\_res );
+1025 
+1026     for (\textcolor{keywordtype}{int} k=0;k<\hyperlink{class_c_p_u_tracker_ad28d60ad587ae3f89b9dba7f82c135f7}{zlut\_planes};k++) \{
+1027         \textcolor{keywordtype}{double} diffsum = 0.0f;
+1028         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} r = 0; r<\hyperlink{class_c_p_u_tracker_a058eae282c9bf847cd8e39664688c5bc}{zlut\_res};r++) \{
+1029             \textcolor{keywordtype}{double} d = (double)rprof[r]-(\textcolor{keywordtype}{double})zlut\_sel[k*zlut\_res+r];
+1030             d = -d*d;
+1031             d *= zlut\_weights[r];
+1032             diffsum += d;
+1033         \}
+1034         rprof\_diff[k] = diffsum;
+1035     \}
+1036     \textcolor{comment}{//return ComputeSplineFitMaxPos(rprof\_diff,zlut\_planes);}
+1037     \textcolor{keywordflow}{return} \hyperlink{class_compute_max_interp_aa1ec2481d8a866f624f05ba53fb2d3bc}{ComputeMaxInterp<double, ZLUT\_LSQFIT\_NWEIGHTS>::Compute}
+      (rprof\_diff, zlut\_planes, \hyperlink{cpu__tracker_8cpp_a79c9b3cd0d6bf4409d49ad9b784f7f87}{ZLUTWeights\_d});
+1038 \}
+\end{DoxyCode}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!Normalize@{Normalize}}
+\index{Normalize@{Normalize}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{Normalize(float $\ast$image=0)}{Normalize(float *image=0)}}]{\setlength{\rightskip}{0pt plus 5cm}void C\+P\+U\+Tracker\+::\+Normalize (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{image = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}\hypertarget{class_c_p_u_tracker_a86461dca5334095dc16624d13e9e859d}{}\label{class_c_p_u_tracker_a86461dca5334095dc16624d13e9e859d}
+
+\begin{DoxyCode}
+748 \{
+749     \textcolor{keywordflow}{if} (!d) d=\hyperlink{class_c_p_u_tracker_a393778bc9b49eb6d5014fd814c5dfcdf}{srcImage};
+750     \hyperlink{utils_8h_a32b5810b69072511c66006593bcf7a89}{normalize}(d, \hyperlink{class_c_p_u_tracker_afb77fe1c7e1a38d25d5aadded5a36fb9}{width}, \hyperlink{class_c_p_u_tracker_a5d1e01c6a878ff7f0c138f011b0ca5d3}{height});
+751 \}
+\end{DoxyCode}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!Q\+I\+\_\+\+Compute\+Offset@{Q\+I\+\_\+\+Compute\+Offset}}
+\index{Q\+I\+\_\+\+Compute\+Offset@{Q\+I\+\_\+\+Compute\+Offset}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{Q\+I\+\_\+\+Compute\+Offset(complex\+\_\+t $\ast$qi\+\_\+profile, int nr, int axis\+For\+Debug)}{QI_ComputeOffset(complex_t *qi_profile, int nr, int axisForDebug)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf scalar\+\_\+t} C\+P\+U\+Tracker\+::\+Q\+I\+\_\+\+Compute\+Offset (
+\begin{DoxyParamCaption}
+\item[{{\bf complex\+\_\+t} $\ast$}]{qi\+\_\+profile, }
+\item[{int}]{nr, }
+\item[{int}]{axis\+For\+Debug}
+\end{DoxyParamCaption}
+)}\hypertarget{class_c_p_u_tracker_ac714cf7bcefab595734cc2768a4d4236}{}\label{class_c_p_u_tracker_ac714cf7bcefab595734cc2768a4d4236}
+
+\begin{DoxyCode}
+380 \{
+381     \hyperlink{scalar__types_8h_abaffcd8bea58063cc6c608dda082ad05}{complex\_t}* reverse = \hyperlink{std__incl_8h_a37dbccb865134ee3a70c5044b365ded7}{ALLOCA\_ARRAY}(\hyperlink{scalar__types_8h_abaffcd8bea58063cc6c608dda082ad05}{complex\_t}, nr*2);
+382     \hyperlink{scalar__types_8h_abaffcd8bea58063cc6c608dda082ad05}{complex\_t}* fft\_out = \hyperlink{std__incl_8h_a37dbccb865134ee3a70c5044b365ded7}{ALLOCA\_ARRAY}(\hyperlink{scalar__types_8h_abaffcd8bea58063cc6c608dda082ad05}{complex\_t}, nr*2);
+383     \hyperlink{scalar__types_8h_abaffcd8bea58063cc6c608dda082ad05}{complex\_t}* fft\_out2 = \hyperlink{std__incl_8h_a37dbccb865134ee3a70c5044b365ded7}{ALLOCA\_ARRAY}(\hyperlink{scalar__types_8h_abaffcd8bea58063cc6c608dda082ad05}{complex\_t}, nr*2);
+384 
+385     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} x=0;x<nr*2;x++)
+386         reverse[x] = profile[nr*2-1-x];
+387 
+388     \hyperlink{class_c_p_u_tracker_a1b17351aec1bcd117d6f1e304904b282}{qi\_fft\_forward}->\hyperlink{classkissfft_ad2db80b9c9b087fb36fbe8b3b0078df8}{transform}(profile, fft\_out);
+389     \hyperlink{class_c_p_u_tracker_a1b17351aec1bcd117d6f1e304904b282}{qi\_fft\_forward}->\hyperlink{classkissfft_ad2db80b9c9b087fb36fbe8b3b0078df8}{transform}(reverse, fft\_out2); \textcolor{comment}{// fft\_out2 contains
+       fourier-domain version of reverse profile}
+390 
+391     \textcolor{comment}{// multiply with conjugate}
+392     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} x=0;x<nr*2;x++)
+393         fft\_out[x] *= \hyperlink{cpu__tracker_8cpp_acbdcd9cf414b5dca4a7c2b9cae44832c}{conjugate}(fft\_out2[x]);
+394 
+395     \hyperlink{class_c_p_u_tracker_aa0ff71d20678c294eeeebb0b0eec1fc8}{qi\_fft\_backward}->\hyperlink{classkissfft_ad2db80b9c9b087fb36fbe8b3b0078df8}{transform}(fft\_out, fft\_out2);
+396 
+397 \textcolor{preprocessor}{#ifdef QI\_DEBUG}
+398     \hyperlink{test_8cu_a9d2895908a386c1f380b8085f1e28340}{cmp\_cpu\_qi\_fft\_out}.assign(fft\_out2, fft\_out2+nr*2);
+399 \textcolor{preprocessor}{#endif}
+400 
+401     \textcolor{comment}{// fft\_out2 now contains the autoconvolution}
+402     \textcolor{comment}{// convert it to float}
+403     \hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\_t}* autoconv = \hyperlink{std__incl_8h_a37dbccb865134ee3a70c5044b365ded7}{ALLOCA\_ARRAY}(\hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\_t}, nr*2);
+404     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} x=0;x<nr*2;x++)  \{
+405         autoconv[x] = fft\_out2[(x+nr)%(nr*2)].real();
+406     \}
+407 
+408     \textcolor{keywordtype}{float}* profileReal = \hyperlink{std__incl_8h_a37dbccb865134ee3a70c5044b365ded7}{ALLOCA\_ARRAY}(\textcolor{keywordtype}{float}, nr*2);
+409     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} x=0;x<nr*2;x++)  \{
+410         profileReal[x] = profile[x].real();
+411     \}
+412     \textcolor{comment}{//WriteArrayAsCSVRow(SPrintf("D:\(\backslash\)\(\backslash\)TestImages\(\backslash\)\(\backslash\)AutoconvProf-%d.txt",axisForDebug).c\_str()    
+      ,profileReal,nr*2,false);}
+413     \textcolor{comment}{//WriteArrayAsCSVRow(SPrintf("D:\(\backslash\)\(\backslash\)TestImages\(\backslash\)\(\backslash\)Autoconv-%d.txt",axisForDebug).c\_str()        
+      ,autoconv,nr*2,false); // */}
+414     
+415     \hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\_t} maxPos = 
+      \hyperlink{class_compute_max_interp_aa1ec2481d8a866f624f05ba53fb2d3bc}{ComputeMaxInterp<scalar\_t, QI\_LSQFIT\_NWEIGHTS>::Compute}
+      (autoconv, nr*2, \hyperlink{cpu__tracker_8cpp_a4d62cbde784e969529c728aed83f85e3}{QIWeights});
+416     \textcolor{keywordflow}{return} (maxPos - nr) * (3.14159265359f / 4);
+417 \}
+\end{DoxyCode}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!Quadrant\+Align@{Quadrant\+Align}}
+\index{Quadrant\+Align@{Quadrant\+Align}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{Quadrant\+Align(vector3f initial, int bead\+Index, int angular\+Steps\+Per\+Quadrant, bool \&boundary\+Hit)}{QuadrantAlign(vector3f initial, int beadIndex, int angularStepsPerQuadrant, bool &boundaryHit)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf vector3f} C\+P\+U\+Tracker\+::\+Quadrant\+Align (
+\begin{DoxyParamCaption}
+\item[{{\bf vector3f}}]{initial, }
+\item[{int}]{bead\+Index, }
+\item[{int}]{angular\+Steps\+Per\+Quadrant, }
+\item[{bool \&}]{boundary\+Hit}
+\end{DoxyParamCaption}
+)}\hypertarget{class_c_p_u_tracker_a7e9e0d809af103c8a24d6ecf09fdfb1c}{}\label{class_c_p_u_tracker_a7e9e0d809af103c8a24d6ecf09fdfb1c}
+
+\begin{DoxyCode}
+464 \{
+465     \textcolor{keywordtype}{float}* zlut = \hyperlink{class_c_p_u_tracker_a8a8ca2636eca91688ff90d68d04ad69d}{GetRadialZLUT}(beadIndex);
+466     \textcolor{keywordtype}{int} res=\hyperlink{class_c_p_u_tracker_a058eae282c9bf847cd8e39664688c5bc}{zlut\_res};
+467     \hyperlink{scalar__types_8h_abaffcd8bea58063cc6c608dda082ad05}{complex\_t}* profile = \hyperlink{std__incl_8h_a37dbccb865134ee3a70c5044b365ded7}{ALLOCA\_ARRAY}(\hyperlink{scalar__types_8h_abaffcd8bea58063cc6c608dda082ad05}{complex\_t}, res*2);
+468     \hyperlink{scalar__types_8h_abaffcd8bea58063cc6c608dda082ad05}{complex\_t}* concat0 = \hyperlink{std__incl_8h_a37dbccb865134ee3a70c5044b365ded7}{ALLOCA\_ARRAY}(\hyperlink{scalar__types_8h_abaffcd8bea58063cc6c608dda082ad05}{complex\_t}, res*2);
+469     \hyperlink{scalar__types_8h_abaffcd8bea58063cc6c608dda082ad05}{complex\_t}* concat1 = concat0 + res;
+470 
+471     memset(concat0, 0, \textcolor{keyword}{sizeof}(\hyperlink{scalar__types_8h_abaffcd8bea58063cc6c608dda082ad05}{complex\_t})*res*2);
+472 
+473     \textcolor{keywordtype}{int} zp0 = \hyperlink{cpu__tracker_8cpp_a9617db7688b5219c285f2cb31165be18}{clamp}( (\textcolor{keywordtype}{int})pos.z, 0, \hyperlink{class_c_p_u_tracker_ad28d60ad587ae3f89b9dba7f82c135f7}{zlut\_planes} - 1);
+474     \textcolor{keywordtype}{int} zp1 = \hyperlink{cpu__tracker_8cpp_a9617db7688b5219c285f2cb31165be18}{clamp}( (\textcolor{keywordtype}{int})pos.z + 1, 0, \hyperlink{class_c_p_u_tracker_ad28d60ad587ae3f89b9dba7f82c135f7}{zlut\_planes} - 1);
+475 
+476     \textcolor{keywordtype}{float}* zlut0 = &zlut[ res * zp0 ];
+477     \textcolor{keywordtype}{float}* zlut1 = &zlut[ res * zp1 ];
+478     \textcolor{keywordtype}{float} frac = pos.z - (int)pos.z;
+479     for (\textcolor{keywordtype}{int} r=0;r<\hyperlink{class_c_p_u_tracker_a058eae282c9bf847cd8e39664688c5bc}{zlut\_res};r++) \{
+480     \textcolor{comment}{// Interpolate plane}
+481         \textcolor{keywordtype}{double} zlutValue = \hyperlink{utils_8h_a19361b487ecc29968d6a8924f5601bfa}{Lerp}(zlut0[r], zlut1[r], frac);
+482         concat0[res-r-1] = concat1[r] = zlutValue;
+483     \}
+484 \textcolor{comment}{//  WriteComplexImageAsCSV("qa\_zlutprof.txt", concat0, res,2);}
+485     \hyperlink{class_c_p_u_tracker_af3a10b319bc4de18d2429f9e30544c4a}{qa\_fft\_forward}->\hyperlink{classkissfft_ad2db80b9c9b087fb36fbe8b3b0078df8}{transform}(concat0, profile);
+486 
+487     \hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\_t}* buf = \hyperlink{std__incl_8h_a37dbccb865134ee3a70c5044b365ded7}{ALLOCA\_ARRAY}(\hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\_t}, res*4);
+488     \hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\_t}* q0=buf, *q1=buf+res, *q2=buf+res*2, *q3=buf+res*3;
+489 
+490     boundaryHit = \hyperlink{class_c_p_u_tracker_a7d853e9c7142eefcbd227f18c05b60e7}{CheckBoundaries}(\hyperlink{std__incl_8h_aba974726076ec2d63a67114c536d123e}{vector2f}(pos.x,pos.y), 
+      \hyperlink{class_c_p_u_tracker_aac96fa28c0ee4462e176e78c9ec91335}{zlut\_maxradius});
+491     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} q=0;q<4;q++) \{
+492         \hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\_t} *quadrantProfile = buf+q*res;
+493         \hyperlink{class_c_p_u_tracker_a96cc7e3d9d65226c8aa718b4bb03a633}{ComputeQuadrantProfile}(quadrantProfile, res, angularStepsPerQuadrant, q, 
+      \hyperlink{class_c_p_u_tracker_a18ed4e4c7e10ea5728eaf4d36b864fdc}{zlut\_minradius}, \hyperlink{class_c_p_u_tracker_aac96fa28c0ee4462e176e78c9ec91335}{zlut\_maxradius}, \hyperlink{std__incl_8h_aba974726076ec2d63a67114c536d123e}{vector2f}(pos.x,pos.y));
+494         \hyperlink{utils_8cpp_a404fa660440d30ed70566aebf9f9e94a}{NormalizeRadialProfile}(quadrantProfile, res);
+495     \}
+496     
+497     \textcolor{comment}{//WriteImageAsCSV("qa\_qdr.txt" , buf, res,4);}
+498     
+499     \textcolor{keywordtype}{float} pixelsPerProfLen = (\hyperlink{class_c_p_u_tracker_aac96fa28c0ee4462e176e78c9ec91335}{zlut\_maxradius}-\hyperlink{class_c_p_u_tracker_a18ed4e4c7e10ea5728eaf4d36b864fdc}{zlut\_minradius})/zlut\_res;
+500     boundaryHit = \textcolor{keyword}{false};
+501 
+502     \textcolor{comment}{// Build Ix = [ qL(-r)  qR(r) ]}
+503     \textcolor{comment}{// qL = q1 + q2   (concat0)}
+504     \textcolor{comment}{// qR = q0 + q3   (concat1)}
+505     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} r=0;r<res;r++) \{
+506         concat0[res-r-1] = q1[r]+q2[r];
+507         concat1[r] = q0[r]+q3[r];
+508     \}
+509 
+510     \hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\_t} offsetX = \hyperlink{class_c_p_u_tracker_a71992f53900219b3c62bf559b9e28980}{QuadrantAlign\_ComputeOffset}(concat0, profile, res
+      , 0);
+511 
+512     \textcolor{comment}{// Build Iy = [ qB(-r)  qT(r) ]}
+513     \textcolor{comment}{// qT = q0 + q1}
+514     \textcolor{comment}{// qB = q2 + q3}
+515     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} r=0;r<res;r++) \{
+516         concat1[r] = q0[r]+q1[r];
+517         concat0[res-r-1] = q2[r]+q3[r];
+518     \}
+519         
+520     \hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\_t} offsetY = \hyperlink{class_c_p_u_tracker_a71992f53900219b3c62bf559b9e28980}{QuadrantAlign\_ComputeOffset}(concat0, profile, res
+      , 1);
+521 
+522     \textcolor{keywordflow}{return} \hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f}(pos.x + offsetX * pixelsPerProfLen, pos.y + offsetY * pixelsPerProfLen, pos.z);
+523 \}
+\end{DoxyCode}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!Quadrant\+Align\+\_\+\+Compute\+Offset@{Quadrant\+Align\+\_\+\+Compute\+Offset}}
+\index{Quadrant\+Align\+\_\+\+Compute\+Offset@{Quadrant\+Align\+\_\+\+Compute\+Offset}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{Quadrant\+Align\+\_\+\+Compute\+Offset(complex\+\_\+t $\ast$profile, complex\+\_\+t $\ast$zlut\+\_\+prof\+\_\+fft, int nr, int axis\+For\+Debug)}{QuadrantAlign_ComputeOffset(complex_t *profile, complex_t *zlut_prof_fft, int nr, int axisForDebug)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf scalar\+\_\+t} C\+P\+U\+Tracker\+::\+Quadrant\+Align\+\_\+\+Compute\+Offset (
+\begin{DoxyParamCaption}
+\item[{{\bf complex\+\_\+t} $\ast$}]{profile, }
+\item[{{\bf complex\+\_\+t} $\ast$}]{zlut\+\_\+prof\+\_\+fft, }
+\item[{int}]{nr, }
+\item[{int}]{axis\+For\+Debug}
+\end{DoxyParamCaption}
+)}\hypertarget{class_c_p_u_tracker_a71992f53900219b3c62bf559b9e28980}{}\label{class_c_p_u_tracker_a71992f53900219b3c62bf559b9e28980}
+
+\begin{DoxyCode}
+422 \{
+423     \hyperlink{scalar__types_8h_abaffcd8bea58063cc6c608dda082ad05}{complex\_t}* fft\_out = \hyperlink{std__incl_8h_a37dbccb865134ee3a70c5044b365ded7}{ALLOCA\_ARRAY}(\hyperlink{scalar__types_8h_abaffcd8bea58063cc6c608dda082ad05}{complex\_t}, nr*2);
+424 
+425 \textcolor{comment}{//  WriteComplexImageAsCSV("qa\_profile.txt", profile, nr*2, 1);}
+426 
+427     \hyperlink{class_c_p_u_tracker_af3a10b319bc4de18d2429f9e30544c4a}{qa\_fft\_forward}->\hyperlink{classkissfft_ad2db80b9c9b087fb36fbe8b3b0078df8}{transform}(profile, fft\_out);
+428 
+429     \textcolor{comment}{// multiply with conjugate}
+430     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} x=0;x<nr*2;x++)
+431         fft\_out[x] *= \hyperlink{cpu__tracker_8cpp_acbdcd9cf414b5dca4a7c2b9cae44832c}{conjugate}(zlut\_prof\_fft[x]);
+432 
+433     \hyperlink{class_c_p_u_tracker_aca16d9dc92365498d092b937d6959d7e}{qa\_fft\_backward}->\hyperlink{classkissfft_ad2db80b9c9b087fb36fbe8b3b0078df8}{transform}(fft\_out, profile);
+434 
+435 \textcolor{preprocessor}{#ifdef QI\_DEBUG}
+436     \hyperlink{test_8cu_a9d2895908a386c1f380b8085f1e28340}{cmp\_cpu\_qi\_fft\_out}.assign(fft\_out2, fft\_out2+nr*2);
+437 \textcolor{preprocessor}{#endif}
+438 
+439     \textcolor{comment}{// profile now contains the autoconvolution}
+440     \textcolor{comment}{// convert it to float}
+441     \hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\_t}* autoconv = \hyperlink{std__incl_8h_a37dbccb865134ee3a70c5044b365ded7}{ALLOCA\_ARRAY}(\hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\_t}, nr*2);
+442     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} x=0;x<nr*2;x++)  \{
+443         autoconv[x] = profile[(x+nr)%(nr*2)].real();
+444     \}
+445 
+446 \textcolor{comment}{//  WriteImageAsCSV("qa\_autoconv.txt", autoconv, nr*2, 1);}
+447 
+448     \hyperlink{scalar__types_8h_a03fcef84665498b9cfcf9c7cc25574e9}{scalar\_t} maxPos = 
+      \hyperlink{class_compute_max_interp_aa1ec2481d8a866f624f05ba53fb2d3bc}{ComputeMaxInterp<scalar\_t, QI\_LSQFIT\_NWEIGHTS>::Compute}
+      (autoconv, nr*2, \hyperlink{cpu__tracker_8cpp_a4d62cbde784e969529c728aed83f85e3}{QIWeights});
+449     \textcolor{keywordflow}{return} (maxPos - nr) * (3.14159265359f / 4);
+450     
+451 \}
+\end{DoxyCode}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!Save\+Image@{Save\+Image}}
+\index{Save\+Image@{Save\+Image}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{Save\+Image(const char $\ast$filename)}{SaveImage(const char *filename)}}]{\setlength{\rightskip}{0pt plus 5cm}void C\+P\+U\+Tracker\+::\+Save\+Image (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{filename}
+\end{DoxyParamCaption}
+)}\hypertarget{class_c_p_u_tracker_ad43acbdbc335850b8b01a5c6508ef902}{}\label{class_c_p_u_tracker_ad43acbdbc335850b8b01a5c6508ef902}
+
+\begin{DoxyCode}
+1041 \{
+1042     \hyperlink{fastjpg_8cpp_a197d79f00fb185491c4d109e966ca9ef}{FloatToJPEGFile}(filename, \hyperlink{class_c_p_u_tracker_a393778bc9b49eb6d5014fd814c5dfcdf}{srcImage}, \hyperlink{class_c_p_u_tracker_afb77fe1c7e1a38d25d5aadded5a36fb9}{width}, 
+      \hyperlink{class_c_p_u_tracker_a5d1e01c6a878ff7f0c138f011b0ca5d3}{height});
+1043 \}
+\end{DoxyCode}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!Set\+Image@{Set\+Image}}
+\index{Set\+Image@{Set\+Image}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{Set\+Image(\+T\+Pixel $\ast$src\+Image, uint srcpitch)}{SetImage(TPixel *srcImage, uint srcpitch)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+Pixel $>$ void C\+P\+U\+Tracker\+::\+Set\+Image (
+\begin{DoxyParamCaption}
+\item[{T\+Pixel $\ast$}]{src\+Image, }
+\item[{{\bf uint}}]{srcpitch}
+\end{DoxyParamCaption}
+)}\hypertarget{class_c_p_u_tracker_ab64472ecfac7e3ae784dc6bc6271a77f}{}\label{class_c_p_u_tracker_ab64472ecfac7e3ae784dc6bc6271a77f}
+
+\begin{DoxyCode}
+132 \{
+133     \hyperlink{std__incl_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar}* bp = (\hyperlink{std__incl_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar}*)data;
+134 
+135     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} y=0;y<\hyperlink{class_c_p_u_tracker_a5d1e01c6a878ff7f0c138f011b0ca5d3}{height};y++) \{
+136         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x=0;x<\hyperlink{class_c_p_u_tracker_afb77fe1c7e1a38d25d5aadded5a36fb9}{width};x++) \{
+137             \hyperlink{class_c_p_u_tracker_a393778bc9b49eb6d5014fd814c5dfcdf}{srcImage}[y*width+x] = ((TPixel*)bp)[x];
+138         \}
+139         bp += pitchInBytes;
+140     \}
+141 
+142     \hyperlink{class_c_p_u_tracker_a611986d18c52010b79815a9cb920b00d}{mean}=0.0f;
+143 \}
+\end{DoxyCode}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!Set\+Image16\+Bit@{Set\+Image16\+Bit}}
+\index{Set\+Image16\+Bit@{Set\+Image16\+Bit}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{Set\+Image16\+Bit(ushort $\ast$src\+Image, uint srcpitch)}{SetImage16Bit(ushort *srcImage, uint srcpitch)}}]{\setlength{\rightskip}{0pt plus 5cm}void C\+P\+U\+Tracker\+::\+Set\+Image16\+Bit (
+\begin{DoxyParamCaption}
+\item[{{\bf ushort} $\ast$}]{src\+Image, }
+\item[{{\bf uint}}]{srcpitch}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_c_p_u_tracker_a0f15bef0a76790ce0ba31ce104e3c39a}{}\label{class_c_p_u_tracker_a0f15bef0a76790ce0ba31ce104e3c39a}
+
+\begin{DoxyCode}
+88 \{ \hyperlink{class_c_p_u_tracker_ab64472ecfac7e3ae784dc6bc6271a77f}{SetImage}(\hyperlink{class_c_p_u_tracker_a393778bc9b49eb6d5014fd814c5dfcdf}{srcImage}, srcpitch); \}
+\end{DoxyCode}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!Set\+Image8\+Bit@{Set\+Image8\+Bit}}
+\index{Set\+Image8\+Bit@{Set\+Image8\+Bit}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{Set\+Image8\+Bit(uchar $\ast$src\+Image, uint srcpitch)}{SetImage8Bit(uchar *srcImage, uint srcpitch)}}]{\setlength{\rightskip}{0pt plus 5cm}void C\+P\+U\+Tracker\+::\+Set\+Image8\+Bit (
+\begin{DoxyParamCaption}
+\item[{{\bf uchar} $\ast$}]{src\+Image, }
+\item[{{\bf uint}}]{srcpitch}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_c_p_u_tracker_a6bca00a1c694bec1c0858a5794580cce}{}\label{class_c_p_u_tracker_a6bca00a1c694bec1c0858a5794580cce}
+
+\begin{DoxyCode}
+89 \{ \hyperlink{class_c_p_u_tracker_ab64472ecfac7e3ae784dc6bc6271a77f}{SetImage}(\hyperlink{class_c_p_u_tracker_a393778bc9b49eb6d5014fd814c5dfcdf}{srcImage}, srcpitch); \}
+\end{DoxyCode}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!Set\+Image\+Float@{Set\+Image\+Float}}
+\index{Set\+Image\+Float@{Set\+Image\+Float}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{Set\+Image\+Float(float $\ast$src\+Image)}{SetImageFloat(float *srcImage)}}]{\setlength{\rightskip}{0pt plus 5cm}void C\+P\+U\+Tracker\+::\+Set\+Image\+Float (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{src\+Image}
+\end{DoxyParamCaption}
+)}\hypertarget{class_c_p_u_tracker_ab0a855205943f129c8ddd19d34c4a6b3}{}\label{class_c_p_u_tracker_ab0a855205943f129c8ddd19d34c4a6b3}
+
+\begin{DoxyCode}
+95 \{
+96     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} k=0;k<\hyperlink{class_c_p_u_tracker_afb77fe1c7e1a38d25d5aadded5a36fb9}{width}*\hyperlink{class_c_p_u_tracker_a5d1e01c6a878ff7f0c138f011b0ca5d3}{height};k++)
+97         \hyperlink{class_c_p_u_tracker_a393778bc9b49eb6d5014fd814c5dfcdf}{srcImage}[k]=src[k];
+98     \hyperlink{class_c_p_u_tracker_a611986d18c52010b79815a9cb920b00d}{mean}=0.0f;
+99 \}
+\end{DoxyCode}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!Set\+Radial\+Weights@{Set\+Radial\+Weights}}
+\index{Set\+Radial\+Weights@{Set\+Radial\+Weights}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{Set\+Radial\+Weights(float $\ast$w)}{SetRadialWeights(float *w)}}]{\setlength{\rightskip}{0pt plus 5cm}void C\+P\+U\+Tracker\+::\+Set\+Radial\+Weights (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{w}
+\end{DoxyParamCaption}
+)}\hypertarget{class_c_p_u_tracker_a1b14ce6b297fa7f0816a28973a881a95}{}\label{class_c_p_u_tracker_a1b14ce6b297fa7f0816a28973a881a95}
+
+\begin{DoxyCode}
+797 \{
+798     \textcolor{keywordflow}{if} (radweights) \{
+799         \hyperlink{class_c_p_u_tracker_a0512849e34777963ac4d380682f804a3}{zlut\_radialweights}.resize(\hyperlink{class_c_p_u_tracker_a058eae282c9bf847cd8e39664688c5bc}{zlut\_res});
+800         std::copy(radweights, radweights+\hyperlink{class_c_p_u_tracker_a058eae282c9bf847cd8e39664688c5bc}{zlut\_res}, \hyperlink{class_c_p_u_tracker_a0512849e34777963ac4d380682f804a3}{zlut\_radialweights}.begin());
+801     \} \textcolor{keywordflow}{else}
+802         \hyperlink{class_c_p_u_tracker_a0512849e34777963ac4d380682f804a3}{zlut\_radialweights}.clear();
+803 \}
+\end{DoxyCode}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!Set\+Radial\+Z\+L\+UT@{Set\+Radial\+Z\+L\+UT}}
+\index{Set\+Radial\+Z\+L\+UT@{Set\+Radial\+Z\+L\+UT}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{Set\+Radial\+Z\+L\+U\+T(float $\ast$data, int planes, int res, int num\+\_\+zluts, float minradius, float maxradius, bool copy\+Memory, bool use\+Correlation)}{SetRadialZLUT(float *data, int planes, int res, int num_zluts, float minradius, float maxradius, bool copyMemory, bool useCorrelation)}}]{\setlength{\rightskip}{0pt plus 5cm}void C\+P\+U\+Tracker\+::\+Set\+Radial\+Z\+L\+UT (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{data, }
+\item[{int}]{planes, }
+\item[{int}]{res, }
+\item[{int}]{num\+\_\+zluts, }
+\item[{float}]{minradius, }
+\item[{float}]{maxradius, }
+\item[{bool}]{copy\+Memory, }
+\item[{bool}]{use\+Correlation}
+\end{DoxyParamCaption}
+)}\hypertarget{class_c_p_u_tracker_a4ce07a1fc9189a4bdd66f5e6917af28b}{}\label{class_c_p_u_tracker_a4ce07a1fc9189a4bdd66f5e6917af28b}
+
+\begin{DoxyCode}
+770 \{
+771     \textcolor{keywordflow}{if} (\hyperlink{class_c_p_u_tracker_ac187d3124a66c6743c2037bb82d9a67d}{zluts} && \hyperlink{class_c_p_u_tracker_a52fb6848573fc603a4e6e435e3e2352f}{zlut\_memoryOwner})
+772         \textcolor{keyword}{delete}[] \hyperlink{class_c_p_u_tracker_ac187d3124a66c6743c2037bb82d9a67d}{zluts};
+773     
+774     \textcolor{keywordflow}{if} (copyMemory) \{
+775         \hyperlink{class_c_p_u_tracker_ac187d3124a66c6743c2037bb82d9a67d}{zluts} = \textcolor{keyword}{new} \textcolor{keywordtype}{float}[planes*res*numLUTs];
+776         std::copy(data, data+(planes*res*numLUTs), \hyperlink{class_c_p_u_tracker_ac187d3124a66c6743c2037bb82d9a67d}{zluts});
+777     \} \textcolor{keywordflow}{else}
+778         \hyperlink{class_c_p_u_tracker_ac187d3124a66c6743c2037bb82d9a67d}{zluts} = data;
+779     \hyperlink{class_c_p_u_tracker_a52fb6848573fc603a4e6e435e3e2352f}{zlut\_memoryOwner} = copyMemory;
+780     \hyperlink{class_c_p_u_tracker_ad28d60ad587ae3f89b9dba7f82c135f7}{zlut\_planes} = planes;
+781     \hyperlink{class_c_p_u_tracker_a058eae282c9bf847cd8e39664688c5bc}{zlut\_res} = res;
+782     \hyperlink{class_c_p_u_tracker_a492dd4655d741df0d4d1bb51c52bcca2}{zlut\_count} = numLUTs;
+783     \hyperlink{class_c_p_u_tracker_a18ed4e4c7e10ea5728eaf4d36b864fdc}{zlut\_minradius} = minradius;
+784     \hyperlink{class_c_p_u_tracker_aac96fa28c0ee4462e176e78c9ec91335}{zlut\_maxradius} = maxradius;
+785     \hyperlink{class_c_p_u_tracker_a324e4b9cfe1337d9c33bf9690e6c1ef6}{zlut\_useCorrelation} = useCorrelation;
+786 
+787     \textcolor{keywordflow}{if} (\hyperlink{class_c_p_u_tracker_aca16d9dc92365498d092b937d6959d7e}{qa\_fft\_backward}) \{
+788         \textcolor{keyword}{delete} \hyperlink{class_c_p_u_tracker_aca16d9dc92365498d092b937d6959d7e}{qa\_fft\_backward};
+789         \textcolor{keyword}{delete} \hyperlink{class_c_p_u_tracker_af3a10b319bc4de18d2429f9e30544c4a}{qa\_fft\_forward};
+790     \}
+791 
+792     \hyperlink{class_c_p_u_tracker_af3a10b319bc4de18d2429f9e30544c4a}{qa\_fft\_forward} = \textcolor{keyword}{new} \hyperlink{classkissfft}{kissfft<scalar\_t>}(res*2,\textcolor{keyword}{false});
+793     \hyperlink{class_c_p_u_tracker_aca16d9dc92365498d092b937d6959d7e}{qa\_fft\_backward} = \textcolor{keyword}{new} \hyperlink{classkissfft}{kissfft<scalar\_t>}(res*2,\textcolor{keyword}{true});
+794 \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!debug\+Image@{debug\+Image}}
+\index{debug\+Image@{debug\+Image}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{debug\+Image}{debugImage}}]{\setlength{\rightskip}{0pt plus 5cm}float $\ast$ C\+P\+U\+Tracker\+::debug\+Image}\hypertarget{class_c_p_u_tracker_a58cde24ef2ce5057d42b678951a2239b}{}\label{class_c_p_u_tracker_a58cde24ef2ce5057d42b678951a2239b}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!fft2d@{fft2d}}
+\index{fft2d@{fft2d}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{fft2d}{fft2d}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf F\+F\+T2D}$\ast$ C\+P\+U\+Tracker\+::fft2d}\hypertarget{class_c_p_u_tracker_a62ed72a32b90914199ba06c3df929dd6}{}\label{class_c_p_u_tracker_a62ed72a32b90914199ba06c3df929dd6}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!height@{height}}
+\index{height@{height}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{height}{height}}]{\setlength{\rightskip}{0pt plus 5cm}int C\+P\+U\+Tracker\+::height}\hypertarget{class_c_p_u_tracker_a5d1e01c6a878ff7f0c138f011b0ca5d3}{}\label{class_c_p_u_tracker_a5d1e01c6a878ff7f0c138f011b0ca5d3}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!mean@{mean}}
+\index{mean@{mean}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{mean}{mean}}]{\setlength{\rightskip}{0pt plus 5cm}float C\+P\+U\+Tracker\+::mean}\hypertarget{class_c_p_u_tracker_a611986d18c52010b79815a9cb920b00d}{}\label{class_c_p_u_tracker_a611986d18c52010b79815a9cb920b00d}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!qa\+\_\+fft\+\_\+backward@{qa\+\_\+fft\+\_\+backward}}
+\index{qa\+\_\+fft\+\_\+backward@{qa\+\_\+fft\+\_\+backward}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{qa\+\_\+fft\+\_\+backward}{qa_fft_backward}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf kissfft}$<${\bf scalar\+\_\+t}$>$ $\ast$ C\+P\+U\+Tracker\+::qa\+\_\+fft\+\_\+backward}\hypertarget{class_c_p_u_tracker_aca16d9dc92365498d092b937d6959d7e}{}\label{class_c_p_u_tracker_aca16d9dc92365498d092b937d6959d7e}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!qa\+\_\+fft\+\_\+forward@{qa\+\_\+fft\+\_\+forward}}
+\index{qa\+\_\+fft\+\_\+forward@{qa\+\_\+fft\+\_\+forward}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{qa\+\_\+fft\+\_\+forward}{qa_fft_forward}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf kissfft}$<${\bf scalar\+\_\+t}$>$$\ast$ C\+P\+U\+Tracker\+::qa\+\_\+fft\+\_\+forward}\hypertarget{class_c_p_u_tracker_af3a10b319bc4de18d2429f9e30544c4a}{}\label{class_c_p_u_tracker_af3a10b319bc4de18d2429f9e30544c4a}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!qi\+\_\+fft\+\_\+backward@{qi\+\_\+fft\+\_\+backward}}
+\index{qi\+\_\+fft\+\_\+backward@{qi\+\_\+fft\+\_\+backward}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{qi\+\_\+fft\+\_\+backward}{qi_fft_backward}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf kissfft}$<${\bf scalar\+\_\+t}$>$ $\ast$ C\+P\+U\+Tracker\+::qi\+\_\+fft\+\_\+backward}\hypertarget{class_c_p_u_tracker_aa0ff71d20678c294eeeebb0b0eec1fc8}{}\label{class_c_p_u_tracker_aa0ff71d20678c294eeeebb0b0eec1fc8}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!qi\+\_\+fft\+\_\+forward@{qi\+\_\+fft\+\_\+forward}}
+\index{qi\+\_\+fft\+\_\+forward@{qi\+\_\+fft\+\_\+forward}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{qi\+\_\+fft\+\_\+forward}{qi_fft_forward}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf kissfft}$<${\bf scalar\+\_\+t}$>$$\ast$ C\+P\+U\+Tracker\+::qi\+\_\+fft\+\_\+forward}\hypertarget{class_c_p_u_tracker_a1b17351aec1bcd117d6f1e304904b282}{}\label{class_c_p_u_tracker_a1b17351aec1bcd117d6f1e304904b282}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!qi\+\_\+radialsteps@{qi\+\_\+radialsteps}}
+\index{qi\+\_\+radialsteps@{qi\+\_\+radialsteps}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{qi\+\_\+radialsteps}{qi_radialsteps}}]{\setlength{\rightskip}{0pt plus 5cm}int C\+P\+U\+Tracker\+::qi\+\_\+radialsteps}\hypertarget{class_c_p_u_tracker_a98d341a251610821e51783ce2dc4179c}{}\label{class_c_p_u_tracker_a98d341a251610821e51783ce2dc4179c}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!quadrant\+Dirs@{quadrant\+Dirs}}
+\index{quadrant\+Dirs@{quadrant\+Dirs}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{quadrant\+Dirs}{quadrantDirs}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<${\bf vector2f}$>$ C\+P\+U\+Tracker\+::quadrant\+Dirs}\hypertarget{class_c_p_u_tracker_ae155aab5f1ed07d8467818b915087b20}{}\label{class_c_p_u_tracker_ae155aab5f1ed07d8467818b915087b20}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!radial\+Dirs@{radial\+Dirs}}
+\index{radial\+Dirs@{radial\+Dirs}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{radial\+Dirs}{radialDirs}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<${\bf vector2f}$>$ C\+P\+U\+Tracker\+::radial\+Dirs}\hypertarget{class_c_p_u_tracker_a88ec0839b0866df86fb12603e553a9b9}{}\label{class_c_p_u_tracker_a88ec0839b0866df86fb12603e553a9b9}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!src\+Image@{src\+Image}}
+\index{src\+Image@{src\+Image}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{src\+Image}{srcImage}}]{\setlength{\rightskip}{0pt plus 5cm}float$\ast$ C\+P\+U\+Tracker\+::src\+Image}\hypertarget{class_c_p_u_tracker_a393778bc9b49eb6d5014fd814c5dfcdf}{}\label{class_c_p_u_tracker_a393778bc9b49eb6d5014fd814c5dfcdf}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!stdev@{stdev}}
+\index{stdev@{stdev}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{stdev}{stdev}}]{\setlength{\rightskip}{0pt plus 5cm}float C\+P\+U\+Tracker\+::stdev}\hypertarget{class_c_p_u_tracker_ae5697cf2319755515193ae21d0c8995f}{}\label{class_c_p_u_tracker_ae5697cf2319755515193ae21d0c8995f}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!test\+Run@{test\+Run}}
+\index{test\+Run@{test\+Run}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{test\+Run}{testRun}}]{\setlength{\rightskip}{0pt plus 5cm}bool C\+P\+U\+Tracker\+::test\+Run}\hypertarget{class_c_p_u_tracker_a5dd04ccf64ee6885b2dc272553c29644}{}\label{class_c_p_u_tracker_a5dd04ccf64ee6885b2dc272553c29644}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!tracker\+ID@{tracker\+ID}}
+\index{tracker\+ID@{tracker\+ID}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{tracker\+ID}{trackerID}}]{\setlength{\rightskip}{0pt plus 5cm}int C\+P\+U\+Tracker\+::tracker\+ID}\hypertarget{class_c_p_u_tracker_ad80ba679c9c88be30b018a31fef72ed1}{}\label{class_c_p_u_tracker_ad80ba679c9c88be30b018a31fef72ed1}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!width@{width}}
+\index{width@{width}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{width}{width}}]{\setlength{\rightskip}{0pt plus 5cm}int C\+P\+U\+Tracker\+::width}\hypertarget{class_c_p_u_tracker_afb77fe1c7e1a38d25d5aadded5a36fb9}{}\label{class_c_p_u_tracker_afb77fe1c7e1a38d25d5aadded5a36fb9}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!xcor\+Buffer@{xcor\+Buffer}}
+\index{xcor\+Buffer@{xcor\+Buffer}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{xcor\+Buffer}{xcorBuffer}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf X\+Cor1\+D\+Buffer}$\ast$ C\+P\+U\+Tracker\+::xcor\+Buffer}\hypertarget{class_c_p_u_tracker_a50c41b873db189fb3cb01068025a2764}{}\label{class_c_p_u_tracker_a50c41b873db189fb3cb01068025a2764}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!xcorw@{xcorw}}
+\index{xcorw@{xcorw}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{xcorw}{xcorw}}]{\setlength{\rightskip}{0pt plus 5cm}int C\+P\+U\+Tracker\+::xcorw}\hypertarget{class_c_p_u_tracker_a31994d45332742dd422f876f5897233b}{}\label{class_c_p_u_tracker_a31994d45332742dd422f876f5897233b}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!zlut\+\_\+count@{zlut\+\_\+count}}
+\index{zlut\+\_\+count@{zlut\+\_\+count}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{zlut\+\_\+count}{zlut_count}}]{\setlength{\rightskip}{0pt plus 5cm}int C\+P\+U\+Tracker\+::zlut\+\_\+count}\hypertarget{class_c_p_u_tracker_a492dd4655d741df0d4d1bb51c52bcca2}{}\label{class_c_p_u_tracker_a492dd4655d741df0d4d1bb51c52bcca2}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!zlut\+\_\+maxradius@{zlut\+\_\+maxradius}}
+\index{zlut\+\_\+maxradius@{zlut\+\_\+maxradius}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{zlut\+\_\+maxradius}{zlut_maxradius}}]{\setlength{\rightskip}{0pt plus 5cm}float C\+P\+U\+Tracker\+::zlut\+\_\+maxradius}\hypertarget{class_c_p_u_tracker_aac96fa28c0ee4462e176e78c9ec91335}{}\label{class_c_p_u_tracker_aac96fa28c0ee4462e176e78c9ec91335}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!zlut\+\_\+memory\+Owner@{zlut\+\_\+memory\+Owner}}
+\index{zlut\+\_\+memory\+Owner@{zlut\+\_\+memory\+Owner}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{zlut\+\_\+memory\+Owner}{zlut_memoryOwner}}]{\setlength{\rightskip}{0pt plus 5cm}bool C\+P\+U\+Tracker\+::zlut\+\_\+memory\+Owner}\hypertarget{class_c_p_u_tracker_a52fb6848573fc603a4e6e435e3e2352f}{}\label{class_c_p_u_tracker_a52fb6848573fc603a4e6e435e3e2352f}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!zlut\+\_\+minradius@{zlut\+\_\+minradius}}
+\index{zlut\+\_\+minradius@{zlut\+\_\+minradius}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{zlut\+\_\+minradius}{zlut_minradius}}]{\setlength{\rightskip}{0pt plus 5cm}float C\+P\+U\+Tracker\+::zlut\+\_\+minradius}\hypertarget{class_c_p_u_tracker_a18ed4e4c7e10ea5728eaf4d36b864fdc}{}\label{class_c_p_u_tracker_a18ed4e4c7e10ea5728eaf4d36b864fdc}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!zlut\+\_\+planes@{zlut\+\_\+planes}}
+\index{zlut\+\_\+planes@{zlut\+\_\+planes}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{zlut\+\_\+planes}{zlut_planes}}]{\setlength{\rightskip}{0pt plus 5cm}int C\+P\+U\+Tracker\+::zlut\+\_\+planes}\hypertarget{class_c_p_u_tracker_ad28d60ad587ae3f89b9dba7f82c135f7}{}\label{class_c_p_u_tracker_ad28d60ad587ae3f89b9dba7f82c135f7}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!zlut\+\_\+radialweights@{zlut\+\_\+radialweights}}
+\index{zlut\+\_\+radialweights@{zlut\+\_\+radialweights}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{zlut\+\_\+radialweights}{zlut_radialweights}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$float$>$ C\+P\+U\+Tracker\+::zlut\+\_\+radialweights}\hypertarget{class_c_p_u_tracker_a0512849e34777963ac4d380682f804a3}{}\label{class_c_p_u_tracker_a0512849e34777963ac4d380682f804a3}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!zlut\+\_\+res@{zlut\+\_\+res}}
+\index{zlut\+\_\+res@{zlut\+\_\+res}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{zlut\+\_\+res}{zlut_res}}]{\setlength{\rightskip}{0pt plus 5cm}int C\+P\+U\+Tracker\+::zlut\+\_\+res}\hypertarget{class_c_p_u_tracker_a058eae282c9bf847cd8e39664688c5bc}{}\label{class_c_p_u_tracker_a058eae282c9bf847cd8e39664688c5bc}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!zlut\+\_\+use\+Correlation@{zlut\+\_\+use\+Correlation}}
+\index{zlut\+\_\+use\+Correlation@{zlut\+\_\+use\+Correlation}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{zlut\+\_\+use\+Correlation}{zlut_useCorrelation}}]{\setlength{\rightskip}{0pt plus 5cm}bool C\+P\+U\+Tracker\+::zlut\+\_\+use\+Correlation}\hypertarget{class_c_p_u_tracker_a324e4b9cfe1337d9c33bf9690e6c1ef6}{}\label{class_c_p_u_tracker_a324e4b9cfe1337d9c33bf9690e6c1ef6}
+\index{C\+P\+U\+Tracker@{C\+P\+U\+Tracker}!zluts@{zluts}}
+\index{zluts@{zluts}!C\+P\+U\+Tracker@{C\+P\+U\+Tracker}}
+\subsubsection[{\texorpdfstring{zluts}{zluts}}]{\setlength{\rightskip}{0pt plus 5cm}float$\ast$ C\+P\+U\+Tracker\+::zluts}\hypertarget{class_c_p_u_tracker_ac187d3124a66c6743c2037bb82d9a67d}{}\label{class_c_p_u_tracker_ac187d3124a66c6743c2037bb82d9a67d}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+cputrack/\hyperlink{cpu__tracker_8h}{cpu\+\_\+tracker.\+h}\item 
+cputrack/\hyperlink{cpu__tracker_8cpp}{cpu\+\_\+tracker.\+cpp}\end{DoxyCompactItemize}

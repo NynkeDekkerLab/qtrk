@@ -1,0 +1,93 @@
+\hypertarget{structkissfft__utils_1_1traits}{}\section{kissfft\+\_\+utils\+:\+:traits$<$ T\+\_\+scalar $>$ Struct Template Reference}
+\label{structkissfft__utils_1_1traits}\index{kissfft\+\_\+utils\+::traits$<$ T\+\_\+scalar $>$@{kissfft\+\_\+utils\+::traits$<$ T\+\_\+scalar $>$}}
+
+
+{\ttfamily \#include $<$kissfft.\+h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef T\+\_\+scalar \hyperlink{structkissfft__utils_1_1traits_ac60e3850ace9adc525d8f4008f13a190}{scalar\+\_\+type}
+\item 
+typedef std\+::complex$<$ \hyperlink{structkissfft__utils_1_1traits_ac60e3850ace9adc525d8f4008f13a190}{scalar\+\_\+type} $>$ \hyperlink{structkissfft__utils_1_1traits_aa5947bb96077231ba1f1870b1c947034}{cpx\+\_\+type}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{structkissfft__utils_1_1traits_a963aa6e0faf253b4db8cf348e1853c0c}{fill\+\_\+twiddles} (std\+::complex$<$ T\+\_\+scalar $>$ $\ast$dst, int nfft, bool inverse) const 
+\item 
+void \hyperlink{structkissfft__utils_1_1traits_aba3bcc9f5ad48851acc458711852d74c}{prepare} (std\+::vector$<$ std\+::complex$<$ T\+\_\+scalar $>$ $>$ \&dst, int nfft, bool inverse, std\+::vector$<$ int $>$ \&stage\+Radix, std\+::vector$<$ int $>$ \&stage\+Remainder) const 
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Typedef Documentation}
+\index{kissfft\+\_\+utils\+::traits@{kissfft\+\_\+utils\+::traits}!cpx\+\_\+type@{cpx\+\_\+type}}
+\index{cpx\+\_\+type@{cpx\+\_\+type}!kissfft\+\_\+utils\+::traits@{kissfft\+\_\+utils\+::traits}}
+\subsubsection[{\texorpdfstring{cpx\+\_\+type}{cpx_type}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+\_\+scalar $>$ typedef std\+::complex$<${\bf scalar\+\_\+type}$>$ {\bf kissfft\+\_\+utils\+::traits}$<$ T\+\_\+scalar $>$\+::{\bf cpx\+\_\+type}}\hypertarget{structkissfft__utils_1_1traits_aa5947bb96077231ba1f1870b1c947034}{}\label{structkissfft__utils_1_1traits_aa5947bb96077231ba1f1870b1c947034}
+\index{kissfft\+\_\+utils\+::traits@{kissfft\+\_\+utils\+::traits}!scalar\+\_\+type@{scalar\+\_\+type}}
+\index{scalar\+\_\+type@{scalar\+\_\+type}!kissfft\+\_\+utils\+::traits@{kissfft\+\_\+utils\+::traits}}
+\subsubsection[{\texorpdfstring{scalar\+\_\+type}{scalar_type}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+\_\+scalar $>$ typedef T\+\_\+scalar {\bf kissfft\+\_\+utils\+::traits}$<$ T\+\_\+scalar $>$\+::{\bf scalar\+\_\+type}}\hypertarget{structkissfft__utils_1_1traits_ac60e3850ace9adc525d8f4008f13a190}{}\label{structkissfft__utils_1_1traits_ac60e3850ace9adc525d8f4008f13a190}
+
+
+\subsection{Member Function Documentation}
+\index{kissfft\+\_\+utils\+::traits@{kissfft\+\_\+utils\+::traits}!fill\+\_\+twiddles@{fill\+\_\+twiddles}}
+\index{fill\+\_\+twiddles@{fill\+\_\+twiddles}!kissfft\+\_\+utils\+::traits@{kissfft\+\_\+utils\+::traits}}
+\subsubsection[{\texorpdfstring{fill\+\_\+twiddles(std\+::complex$<$ T\+\_\+scalar $>$ $\ast$dst, int nfft, bool inverse) const }{fill_twiddles(std::complex< T_scalar > *dst, int nfft, bool inverse) const }}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+\_\+scalar $>$ void {\bf kissfft\+\_\+utils\+::traits}$<$ T\+\_\+scalar $>$\+::fill\+\_\+twiddles (
+\begin{DoxyParamCaption}
+\item[{std\+::complex$<$ T\+\_\+scalar $>$ $\ast$}]{dst, }
+\item[{int}]{nfft, }
+\item[{bool}]{inverse}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{structkissfft__utils_1_1traits_a963aa6e0faf253b4db8cf348e1853c0c}{}\label{structkissfft__utils_1_1traits_a963aa6e0faf253b4db8cf348e1853c0c}
+
+\begin{DoxyCode}
+12     \{
+13         T\_scalar phinc =  (inverse?2:-2)* acos( (T\_scalar) -1)  / nfft;
+14         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<nfft;++i)
+15             dst[i] = exp( std::complex<T\_scalar>(0,i*phinc) );
+16     \}
+\end{DoxyCode}
+\index{kissfft\+\_\+utils\+::traits@{kissfft\+\_\+utils\+::traits}!prepare@{prepare}}
+\index{prepare@{prepare}!kissfft\+\_\+utils\+::traits@{kissfft\+\_\+utils\+::traits}}
+\subsubsection[{\texorpdfstring{prepare(std\+::vector$<$ std\+::complex$<$ T\+\_\+scalar $>$ $>$ \&dst, int nfft, bool inverse, std\+::vector$<$ int $>$ \&stage\+Radix, std\+::vector$<$ int $>$ \&stage\+Remainder) const }{prepare(std::vector< std::complex< T_scalar > > &dst, int nfft, bool inverse, std::vector< int > &stageRadix, std::vector< int > &stageRemainder) const }}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+\_\+scalar $>$ void {\bf kissfft\+\_\+utils\+::traits}$<$ T\+\_\+scalar $>$\+::prepare (
+\begin{DoxyParamCaption}
+\item[{std\+::vector$<$ std\+::complex$<$ T\+\_\+scalar $>$ $>$ \&}]{dst, }
+\item[{int}]{nfft, }
+\item[{bool}]{inverse, }
+\item[{std\+::vector$<$ int $>$ \&}]{stage\+Radix, }
+\item[{std\+::vector$<$ int $>$ \&}]{stage\+Remainder}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{structkissfft__utils_1_1traits_aba3bcc9f5ad48851acc458711852d74c}{}\label{structkissfft__utils_1_1traits_aba3bcc9f5ad48851acc458711852d74c}
+
+\begin{DoxyCode}
+23     \{
+24         std::vector<cpx\_type> \_twiddles;
+25         \_twiddles.resize(nfft);
+26         \hyperlink{structkissfft__utils_1_1traits_a963aa6e0faf253b4db8cf348e1853c0c}{fill\_twiddles}( &\_twiddles[0],nfft,inverse);
+27         dst = \_twiddles;
+28 
+29         \textcolor{comment}{//factorize}
+30         \textcolor{comment}{//start factoring out 4's, then 2's, then 3,5,7,9,...}
+31         \textcolor{keywordtype}{int} n= nfft;
+32         \textcolor{keywordtype}{int} p=4;
+33         \textcolor{keywordflow}{do} \{
+34             \textcolor{keywordflow}{while} (n % p) \{
+35                 \textcolor{keywordflow}{switch} (p) \{
+36                     \textcolor{keywordflow}{case} 4: p = 2; \textcolor{keywordflow}{break};
+37                     \textcolor{keywordflow}{case} 2: p = 3; \textcolor{keywordflow}{break};
+38                     \textcolor{keywordflow}{default}: p += 2; \textcolor{keywordflow}{break};
+39                 \}
+40                 \textcolor{keywordflow}{if} (p*p>n)
+41                     p=n;\textcolor{comment}{// no more factors}
+42             \}
+43             n /= p;
+44             stageRadix.push\_back(p);
+45             stageRemainder.push\_back(n);
+46         \}\textcolor{keywordflow}{while}(n>1);
+47     \}
+\end{DoxyCode}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+cputrack/\hyperlink{kissfft_8h}{kissfft.\+h}\end{DoxyCompactItemize}

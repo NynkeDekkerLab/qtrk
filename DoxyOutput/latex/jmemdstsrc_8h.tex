@@ -1,0 +1,73 @@
+\hypertarget{jmemdstsrc_8h}{}\section{cputrack/\+Te\+Lib\+Jpeg/jmemdstsrc.h File Reference}
+\label{jmemdstsrc_8h}\index{cputrack/\+Te\+Lib\+Jpeg/jmemdstsrc.\+h@{cputrack/\+Te\+Lib\+Jpeg/jmemdstsrc.\+h}}
+{\ttfamily \#include \char`\"{}jpeglib.\+h\char`\"{}}\\*
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structmem__destination__mgr}{mem\+\_\+destination\+\_\+mgr}
+\item 
+struct \hyperlink{structmy__source__mgr}{my\+\_\+source\+\_\+mgr}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{jmemdstsrc_8h_a8acf94def2dcba72a4fce097981e0aa7}{O\+U\+T\+P\+U\+T\+\_\+\+B\+U\+F\+\_\+\+S\+I\+ZE}~((unsigned int)1048576)
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{structmem__destination__mgr}{mem\+\_\+destination\+\_\+mgr} $\ast$ \hyperlink{jmemdstsrc_8h_acaa24add62b9c0703e4f4181d37d2ae5}{mem\+\_\+dest\+\_\+ptr}
+\item 
+typedef \hyperlink{structmy__source__mgr}{my\+\_\+source\+\_\+mgr} $\ast$ \hyperlink{jmemdstsrc_8h_a49288434c1d7bc0883779c6489426881}{my\+\_\+src\+\_\+ptr}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{jmemdstsrc_8h_ac4bb39d8376546f75322e08d7ce34ceb}{j\+\_\+mem\+\_\+dest} (j\+\_\+compress\+\_\+ptr cinfo, void $\ast$$\ast$p\+Target\+Data, unsigned int $\ast$p\+Num\+Bytes)
+\begin{DoxyCompactList}\small\item\em Function to allows the writing of J\+P\+EG data to a memory buffer. \end{DoxyCompactList}\item 
+\hyperlink{jmemdstsrc_8h_ab271eb032704bc54b4bd96ff7c0f0734}{j\+\_\+mem\+\_\+src} (j\+\_\+decompress\+\_\+ptr cinfo, unsigned char $\ast$buffer, unsigned int bufsize)
+\begin{DoxyCompactList}\small\item\em Function to allows the reading of J\+P\+EG data from a memory buffer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\index{jmemdstsrc.\+h@{jmemdstsrc.\+h}!O\+U\+T\+P\+U\+T\+\_\+\+B\+U\+F\+\_\+\+S\+I\+ZE@{O\+U\+T\+P\+U\+T\+\_\+\+B\+U\+F\+\_\+\+S\+I\+ZE}}
+\index{O\+U\+T\+P\+U\+T\+\_\+\+B\+U\+F\+\_\+\+S\+I\+ZE@{O\+U\+T\+P\+U\+T\+\_\+\+B\+U\+F\+\_\+\+S\+I\+ZE}!jmemdstsrc.\+h@{jmemdstsrc.\+h}}
+\subsubsection[{\texorpdfstring{O\+U\+T\+P\+U\+T\+\_\+\+B\+U\+F\+\_\+\+S\+I\+ZE}{OUTPUT_BUF_SIZE}}]{\setlength{\rightskip}{0pt plus 5cm}\#define O\+U\+T\+P\+U\+T\+\_\+\+B\+U\+F\+\_\+\+S\+I\+ZE~((unsigned int)1048576)}\hypertarget{jmemdstsrc_8h_a8acf94def2dcba72a4fce097981e0aa7}{}\label{jmemdstsrc_8h_a8acf94def2dcba72a4fce097981e0aa7}
+try initial buffer size of 1M 
+
+\subsection{Typedef Documentation}
+\index{jmemdstsrc.\+h@{jmemdstsrc.\+h}!mem\+\_\+dest\+\_\+ptr@{mem\+\_\+dest\+\_\+ptr}}
+\index{mem\+\_\+dest\+\_\+ptr@{mem\+\_\+dest\+\_\+ptr}!jmemdstsrc.\+h@{jmemdstsrc.\+h}}
+\subsubsection[{\texorpdfstring{mem\+\_\+dest\+\_\+ptr}{mem_dest_ptr}}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf mem\+\_\+destination\+\_\+mgr}$\ast$ {\bf mem\+\_\+dest\+\_\+ptr}}\hypertarget{jmemdstsrc_8h_acaa24add62b9c0703e4f4181d37d2ae5}{}\label{jmemdstsrc_8h_acaa24add62b9c0703e4f4181d37d2ae5}
+\index{jmemdstsrc.\+h@{jmemdstsrc.\+h}!my\+\_\+src\+\_\+ptr@{my\+\_\+src\+\_\+ptr}}
+\index{my\+\_\+src\+\_\+ptr@{my\+\_\+src\+\_\+ptr}!jmemdstsrc.\+h@{jmemdstsrc.\+h}}
+\subsubsection[{\texorpdfstring{my\+\_\+src\+\_\+ptr}{my_src_ptr}}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf my\+\_\+source\+\_\+mgr}$\ast$ {\bf my\+\_\+src\+\_\+ptr}}\hypertarget{jmemdstsrc_8h_a49288434c1d7bc0883779c6489426881}{}\label{jmemdstsrc_8h_a49288434c1d7bc0883779c6489426881}
+
+
+\subsection{Function Documentation}
+\index{jmemdstsrc.\+h@{jmemdstsrc.\+h}!j\+\_\+mem\+\_\+dest@{j\+\_\+mem\+\_\+dest}}
+\index{j\+\_\+mem\+\_\+dest@{j\+\_\+mem\+\_\+dest}!jmemdstsrc.\+h@{jmemdstsrc.\+h}}
+\subsubsection[{\texorpdfstring{j\+\_\+mem\+\_\+dest(j\+\_\+compress\+\_\+ptr cinfo, void $\ast$$\ast$p\+Target\+Data, unsigned int $\ast$p\+Num\+Bytes)}{j_mem_dest(j_compress_ptr cinfo, void **pTargetData, unsigned int *pNumBytes)}}]{\setlength{\rightskip}{0pt plus 5cm}j\+\_\+mem\+\_\+dest (
+\begin{DoxyParamCaption}
+\item[{j\+\_\+compress\+\_\+ptr}]{cinfo, }
+\item[{void $\ast$$\ast$}]{p\+Target\+Data, }
+\item[{unsigned int $\ast$}]{p\+Num\+Bytes}
+\end{DoxyParamCaption}
+)}\hypertarget{jmemdstsrc_8h_ac4bb39d8376546f75322e08d7ce34ceb}{}\label{jmemdstsrc_8h_ac4bb39d8376546f75322e08d7ce34ceb}
+
+
+Function to allows the writing of J\+P\+EG data to a memory buffer. 
+
+\index{jmemdstsrc.\+h@{jmemdstsrc.\+h}!j\+\_\+mem\+\_\+src@{j\+\_\+mem\+\_\+src}}
+\index{j\+\_\+mem\+\_\+src@{j\+\_\+mem\+\_\+src}!jmemdstsrc.\+h@{jmemdstsrc.\+h}}
+\subsubsection[{\texorpdfstring{j\+\_\+mem\+\_\+src(j\+\_\+decompress\+\_\+ptr cinfo, unsigned char $\ast$buffer, unsigned int bufsize)}{j_mem_src(j_decompress_ptr cinfo, unsigned char *buffer, unsigned int bufsize)}}]{\setlength{\rightskip}{0pt plus 5cm}j\+\_\+mem\+\_\+src (
+\begin{DoxyParamCaption}
+\item[{j\+\_\+decompress\+\_\+ptr}]{cinfo, }
+\item[{unsigned char $\ast$}]{buffer, }
+\item[{unsigned int}]{bufsize}
+\end{DoxyParamCaption}
+)}\hypertarget{jmemdstsrc_8h_ab271eb032704bc54b4bd96ff7c0f0734}{}\label{jmemdstsrc_8h_ab271eb032704bc54b4bd96ff7c0f0734}
+
+
+Function to allows the reading of J\+P\+EG data from a memory buffer. 
+

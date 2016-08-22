@@ -24,6 +24,8 @@
     <ClInclude Include="..\cudatrack\QI.h" />
     <ClInclude Include="..\cudatrack\QI_impl.h" />
     <ClInclude Include="..\cputrack\LsqQuadraticFit.h" />
+    <ClInclude Include="..\cputrack\ResultManager.h" />
+    <ClInclude Include="..\cputrack-test\testutils.h" />
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="test.cu" />
@@ -54,5 +56,7 @@
     <ClCompile Include="..\utils\ExtractBeadImages.cpp" />
     <ClCompile Include="..\cputrack\BenchmarkLUT.cpp" />
     <ClCompile Include="..\cputrack-test\Benchmark.cpp" />
+    <ClCompile Include="..\cputrack\ResultManager.cpp" />
+    <ClCompile Include="..\cputrack-test\testutils.cpp" />
   </ItemGroup>
 </Project>

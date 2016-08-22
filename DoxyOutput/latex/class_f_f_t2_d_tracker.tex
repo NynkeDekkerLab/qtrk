@@ -1,0 +1,111 @@
+\hypertarget{class_f_f_t2_d_tracker}{}\section{F\+F\+T2\+D\+Tracker Class Reference}
+\label{class_f_f_t2_d_tracker}\index{F\+F\+T2\+D\+Tracker@{F\+F\+T2\+D\+Tracker}}
+
+
+{\ttfamily \#include $<$F\+F\+T2\+D\+Tracker.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_f_f_t2_d_tracker_aaa109a807ec00addd7e1c0b5faf583c5}{F\+F\+T2\+D\+Tracker} (int w, int h)
+\item 
+\hyperlink{class_f_f_t2_d_tracker_a79355155c2ca3268cac22e272f8ca550}{$\sim$\+F\+F\+T2\+D\+Tracker} ()
+\item 
+\hyperlink{std__incl_8h_aba974726076ec2d63a67114c536d123e}{vector2f} \hyperlink{class_f_f_t2_d_tracker_ab8387ba87f83f0e0605e96eab1ca7421}{Compute\+X\+Cor} (float $\ast$image)
+\item 
+float $\ast$ \hyperlink{class_f_f_t2_d_tracker_adffbefc9db10af5151b0c8a4862b6a4f}{Get\+Auto\+Conv\+Results} ()
+\item 
+\hyperlink{std__incl_8h_aba974726076ec2d63a67114c536d123e}{vector2f} \hyperlink{class_f_f_t2_d_tracker_aae1858f776337766c223c8eec77dce3e}{Compute\+Max2\+D\+Interpolated} (float $\ast$img)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{class_f_f_t2_d_tracker_a3e9fc0e59543897aa47e4f195ed407a1}{width}
+\item 
+int \hyperlink{class_f_f_t2_d_tracker_a027298d540cbb086c92c63a70e04c40a}{height}
+\item 
+fftw\+\_\+plan\+\_\+t \hyperlink{class_f_f_t2_d_tracker_ac204a75a497e87e7c43fc38758fba7d2}{plan\+\_\+fw2D}
+\item 
+fftw\+\_\+plan\+\_\+t \hyperlink{class_f_f_t2_d_tracker_a90c38a2c90a3e0212a85ce7b2d645215}{plan\+\_\+bw2D}
+\item 
+float $\ast$ \hyperlink{class_f_f_t2_d_tracker_a9e3e37029c015de1f4750964a3ed5701}{mirror2D}
+\item 
+complexc $\ast$ \hyperlink{class_f_f_t2_d_tracker_ad9f4ba4806399035ae865bc6dcfdfce4}{fft\+\_\+buf}
+\item 
+complexc $\ast$ \hyperlink{class_f_f_t2_d_tracker_a5d416515e26ec5f4415778227209d52a}{fft\+\_\+buf\+\_\+mirrored}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{F\+F\+T2\+D\+Tracker@{F\+F\+T2\+D\+Tracker}!F\+F\+T2\+D\+Tracker@{F\+F\+T2\+D\+Tracker}}
+\index{F\+F\+T2\+D\+Tracker@{F\+F\+T2\+D\+Tracker}!F\+F\+T2\+D\+Tracker@{F\+F\+T2\+D\+Tracker}}
+\subsubsection[{\texorpdfstring{F\+F\+T2\+D\+Tracker(int w, int h)}{FFT2DTracker(int w, int h)}}]{\setlength{\rightskip}{0pt plus 5cm}F\+F\+T2\+D\+Tracker\+::\+F\+F\+T2\+D\+Tracker (
+\begin{DoxyParamCaption}
+\item[{int}]{w, }
+\item[{int}]{h}
+\end{DoxyParamCaption}
+)}\hypertarget{class_f_f_t2_d_tracker_aaa109a807ec00addd7e1c0b5faf583c5}{}\label{class_f_f_t2_d_tracker_aaa109a807ec00addd7e1c0b5faf583c5}
+\index{F\+F\+T2\+D\+Tracker@{F\+F\+T2\+D\+Tracker}!````~F\+F\+T2\+D\+Tracker@{$\sim$\+F\+F\+T2\+D\+Tracker}}
+\index{````~F\+F\+T2\+D\+Tracker@{$\sim$\+F\+F\+T2\+D\+Tracker}!F\+F\+T2\+D\+Tracker@{F\+F\+T2\+D\+Tracker}}
+\subsubsection[{\texorpdfstring{$\sim$\+F\+F\+T2\+D\+Tracker()}{~FFT2DTracker()}}]{\setlength{\rightskip}{0pt plus 5cm}F\+F\+T2\+D\+Tracker\+::$\sim$\+F\+F\+T2\+D\+Tracker (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_f_f_t2_d_tracker_a79355155c2ca3268cac22e272f8ca550}{}\label{class_f_f_t2_d_tracker_a79355155c2ca3268cac22e272f8ca550}
+
+
+\subsection{Member Function Documentation}
+\index{F\+F\+T2\+D\+Tracker@{F\+F\+T2\+D\+Tracker}!Compute\+Max2\+D\+Interpolated@{Compute\+Max2\+D\+Interpolated}}
+\index{Compute\+Max2\+D\+Interpolated@{Compute\+Max2\+D\+Interpolated}!F\+F\+T2\+D\+Tracker@{F\+F\+T2\+D\+Tracker}}
+\subsubsection[{\texorpdfstring{Compute\+Max2\+D\+Interpolated(float $\ast$img)}{ComputeMax2DInterpolated(float *img)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf vector2f} F\+F\+T2\+D\+Tracker\+::\+Compute\+Max2\+D\+Interpolated (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{img}
+\end{DoxyParamCaption}
+)}\hypertarget{class_f_f_t2_d_tracker_aae1858f776337766c223c8eec77dce3e}{}\label{class_f_f_t2_d_tracker_aae1858f776337766c223c8eec77dce3e}
+\index{F\+F\+T2\+D\+Tracker@{F\+F\+T2\+D\+Tracker}!Compute\+X\+Cor@{Compute\+X\+Cor}}
+\index{Compute\+X\+Cor@{Compute\+X\+Cor}!F\+F\+T2\+D\+Tracker@{F\+F\+T2\+D\+Tracker}}
+\subsubsection[{\texorpdfstring{Compute\+X\+Cor(float $\ast$image)}{ComputeXCor(float *image)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf vector2f} F\+F\+T2\+D\+Tracker\+::\+Compute\+X\+Cor (
+\begin{DoxyParamCaption}
+\item[{float $\ast$}]{image}
+\end{DoxyParamCaption}
+)}\hypertarget{class_f_f_t2_d_tracker_ab8387ba87f83f0e0605e96eab1ca7421}{}\label{class_f_f_t2_d_tracker_ab8387ba87f83f0e0605e96eab1ca7421}
+\index{F\+F\+T2\+D\+Tracker@{F\+F\+T2\+D\+Tracker}!Get\+Auto\+Conv\+Results@{Get\+Auto\+Conv\+Results}}
+\index{Get\+Auto\+Conv\+Results@{Get\+Auto\+Conv\+Results}!F\+F\+T2\+D\+Tracker@{F\+F\+T2\+D\+Tracker}}
+\subsubsection[{\texorpdfstring{Get\+Auto\+Conv\+Results()}{GetAutoConvResults()}}]{\setlength{\rightskip}{0pt plus 5cm}float$\ast$ F\+F\+T2\+D\+Tracker\+::\+Get\+Auto\+Conv\+Results (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_f_f_t2_d_tracker_adffbefc9db10af5151b0c8a4862b6a4f}{}\label{class_f_f_t2_d_tracker_adffbefc9db10af5151b0c8a4862b6a4f}
+
+\begin{DoxyCode}
+14 \{ \textcolor{keywordflow}{return} \hyperlink{class_f_f_t2_d_tracker_a9e3e37029c015de1f4750964a3ed5701}{mirror2D}; \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\index{F\+F\+T2\+D\+Tracker@{F\+F\+T2\+D\+Tracker}!fft\+\_\+buf@{fft\+\_\+buf}}
+\index{fft\+\_\+buf@{fft\+\_\+buf}!F\+F\+T2\+D\+Tracker@{F\+F\+T2\+D\+Tracker}}
+\subsubsection[{\texorpdfstring{fft\+\_\+buf}{fft_buf}}]{\setlength{\rightskip}{0pt plus 5cm}complexc$\ast$ F\+F\+T2\+D\+Tracker\+::fft\+\_\+buf}\hypertarget{class_f_f_t2_d_tracker_ad9f4ba4806399035ae865bc6dcfdfce4}{}\label{class_f_f_t2_d_tracker_ad9f4ba4806399035ae865bc6dcfdfce4}
+\index{F\+F\+T2\+D\+Tracker@{F\+F\+T2\+D\+Tracker}!fft\+\_\+buf\+\_\+mirrored@{fft\+\_\+buf\+\_\+mirrored}}
+\index{fft\+\_\+buf\+\_\+mirrored@{fft\+\_\+buf\+\_\+mirrored}!F\+F\+T2\+D\+Tracker@{F\+F\+T2\+D\+Tracker}}
+\subsubsection[{\texorpdfstring{fft\+\_\+buf\+\_\+mirrored}{fft_buf_mirrored}}]{\setlength{\rightskip}{0pt plus 5cm}complexc $\ast$ F\+F\+T2\+D\+Tracker\+::fft\+\_\+buf\+\_\+mirrored}\hypertarget{class_f_f_t2_d_tracker_a5d416515e26ec5f4415778227209d52a}{}\label{class_f_f_t2_d_tracker_a5d416515e26ec5f4415778227209d52a}
+\index{F\+F\+T2\+D\+Tracker@{F\+F\+T2\+D\+Tracker}!height@{height}}
+\index{height@{height}!F\+F\+T2\+D\+Tracker@{F\+F\+T2\+D\+Tracker}}
+\subsubsection[{\texorpdfstring{height}{height}}]{\setlength{\rightskip}{0pt plus 5cm}int F\+F\+T2\+D\+Tracker\+::height}\hypertarget{class_f_f_t2_d_tracker_a027298d540cbb086c92c63a70e04c40a}{}\label{class_f_f_t2_d_tracker_a027298d540cbb086c92c63a70e04c40a}
+\index{F\+F\+T2\+D\+Tracker@{F\+F\+T2\+D\+Tracker}!mirror2D@{mirror2D}}
+\index{mirror2D@{mirror2D}!F\+F\+T2\+D\+Tracker@{F\+F\+T2\+D\+Tracker}}
+\subsubsection[{\texorpdfstring{mirror2D}{mirror2D}}]{\setlength{\rightskip}{0pt plus 5cm}float$\ast$ F\+F\+T2\+D\+Tracker\+::mirror2D}\hypertarget{class_f_f_t2_d_tracker_a9e3e37029c015de1f4750964a3ed5701}{}\label{class_f_f_t2_d_tracker_a9e3e37029c015de1f4750964a3ed5701}
+\index{F\+F\+T2\+D\+Tracker@{F\+F\+T2\+D\+Tracker}!plan\+\_\+bw2D@{plan\+\_\+bw2D}}
+\index{plan\+\_\+bw2D@{plan\+\_\+bw2D}!F\+F\+T2\+D\+Tracker@{F\+F\+T2\+D\+Tracker}}
+\subsubsection[{\texorpdfstring{plan\+\_\+bw2D}{plan_bw2D}}]{\setlength{\rightskip}{0pt plus 5cm}fftw\+\_\+plan\+\_\+t F\+F\+T2\+D\+Tracker\+::plan\+\_\+bw2D}\hypertarget{class_f_f_t2_d_tracker_a90c38a2c90a3e0212a85ce7b2d645215}{}\label{class_f_f_t2_d_tracker_a90c38a2c90a3e0212a85ce7b2d645215}
+\index{F\+F\+T2\+D\+Tracker@{F\+F\+T2\+D\+Tracker}!plan\+\_\+fw2D@{plan\+\_\+fw2D}}
+\index{plan\+\_\+fw2D@{plan\+\_\+fw2D}!F\+F\+T2\+D\+Tracker@{F\+F\+T2\+D\+Tracker}}
+\subsubsection[{\texorpdfstring{plan\+\_\+fw2D}{plan_fw2D}}]{\setlength{\rightskip}{0pt plus 5cm}fftw\+\_\+plan\+\_\+t F\+F\+T2\+D\+Tracker\+::plan\+\_\+fw2D}\hypertarget{class_f_f_t2_d_tracker_ac204a75a497e87e7c43fc38758fba7d2}{}\label{class_f_f_t2_d_tracker_ac204a75a497e87e7c43fc38758fba7d2}
+\index{F\+F\+T2\+D\+Tracker@{F\+F\+T2\+D\+Tracker}!width@{width}}
+\index{width@{width}!F\+F\+T2\+D\+Tracker@{F\+F\+T2\+D\+Tracker}}
+\subsubsection[{\texorpdfstring{width}{width}}]{\setlength{\rightskip}{0pt plus 5cm}int F\+F\+T2\+D\+Tracker\+::width}\hypertarget{class_f_f_t2_d_tracker_a3e9fc0e59543897aa47e4f195ed407a1}{}\label{class_f_f_t2_d_tracker_a3e9fc0e59543897aa47e4f195ed407a1}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+cputrack/\hyperlink{_f_f_t2_d_tracker_8h}{F\+F\+T2\+D\+Tracker.\+h}\end{DoxyCompactItemize}

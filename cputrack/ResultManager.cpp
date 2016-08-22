@@ -77,8 +77,8 @@ void ResultManager::WriteBinaryFileHeader()
 	fwrite(&config.numBeads, sizeof(int), 1, f);
 	fwrite(&config.numFrameInfoColumns, sizeof(int), 1, f);
 	long data_offset_pos = ftell(f);
-	int tmp=1234;
-	fwrite(&tmp,sizeof(int), 1,f);
+	long tmp=1234;
+	fwrite(&tmp, sizeof(long), 1,f);
 	for (int i=0;i<config.numFrameInfoColumns;i++) {
 		auto& n = frameInfoNames[i];
 		fwrite(n.c_str(), n.length()+1, 1, f);
@@ -406,7 +406,7 @@ int ResultManager::GetFrameCount()
 
 bool ResultManager::RemoveBeadResults(int bead)
 {
-	// TODO: We need to modify the saved data file
+	/// \todo We need to modify the saved data file
 
 	for (uint i=0;i<frameResults.size();i++) {
 		auto fr = frameResults[i];

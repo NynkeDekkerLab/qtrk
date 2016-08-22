@@ -1,0 +1,111 @@
+\hypertarget{class_atomic}{}\section{Atomic$<$ T $>$ Class Template Reference}
+\label{class_atomic}\index{Atomic$<$ T $>$@{Atomic$<$ T $>$}}
+
+
+{\ttfamily \#include $<$threads.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_atomic_a2dfd3129fef6bcbfb132945505058955}{Atomic} (const T \&o=T())
+\item 
+\hyperlink{class_atomic_a6ffb6a65b9abcfb3d41836336edf2664}{operator T} () const 
+\item 
+\hyperlink{class_atomic}{Atomic} \& \hyperlink{class_atomic_a41ed023d1866301cfae9d000ae813acd}{operator=} (const T \&x)
+\item 
+void \hyperlink{class_atomic_a959cd3820b21468204617d66c27d84c9}{set} (const T \&x)
+\item 
+T \hyperlink{class_atomic_a50d5b1eadc07bf419245a5e11d718486}{get} () const 
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{struct_threads_1_1_mutex}{Threads\+::\+Mutex} \hyperlink{class_atomic_abae1e58efe0a8b71805ed84d8e8f155a}{m}
+\item 
+T \hyperlink{class_atomic_aeb248989b8f2d011dbd057dc66b82d8e}{data}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Atomic@{Atomic}!Atomic@{Atomic}}
+\index{Atomic@{Atomic}!Atomic@{Atomic}}
+\subsubsection[{\texorpdfstring{Atomic(const T \&o=\+T())}{Atomic(const T &o=T())}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ {\bf Atomic}$<$ T $>$\+::{\bf Atomic} (
+\begin{DoxyParamCaption}
+\item[{const T \&}]{o = {\ttfamily T()}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_atomic_a2dfd3129fef6bcbfb132945505058955}{}\label{class_atomic_a2dfd3129fef6bcbfb132945505058955}
+
+\begin{DoxyCode}
+160 : \hyperlink{class_atomic_aeb248989b8f2d011dbd057dc66b82d8e}{data}(o) \{\} \textcolor{comment}{// no need for locking: the object is not allowed to be used before the constructor is
+       done anyway}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\index{Atomic@{Atomic}!get@{get}}
+\index{get@{get}!Atomic@{Atomic}}
+\subsubsection[{\texorpdfstring{get() const }{get() const }}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ T {\bf Atomic}$<$ T $>$\+::get (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_atomic_a50d5b1eadc07bf419245a5e11d718486}{}\label{class_atomic_a50d5b1eadc07bf419245a5e11d718486}
+
+\begin{DoxyCode}
+168                   \{
+169         \hyperlink{class_atomic_abae1e58efe0a8b71805ed84d8e8f155a}{m}.\hyperlink{struct_threads_1_1_mutex_af3cb09072ecd935be502deb78f4519d5}{lock}();
+170         T x=\hyperlink{class_atomic_aeb248989b8f2d011dbd057dc66b82d8e}{data};
+171         \hyperlink{class_atomic_abae1e58efe0a8b71805ed84d8e8f155a}{m}.\hyperlink{struct_threads_1_1_mutex_ad78fadce2239c6d359986e443822f6f6}{unlock}();
+172         \textcolor{keywordflow}{return} x;
+173     \}
+\end{DoxyCode}
+\index{Atomic@{Atomic}!operator T@{operator T}}
+\index{operator T@{operator T}!Atomic@{Atomic}}
+\subsubsection[{\texorpdfstring{operator T() const }{operator T() const }}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ {\bf Atomic}$<$ T $>$\+::operator T (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_atomic_a6ffb6a65b9abcfb3d41836336edf2664}{}\label{class_atomic_a6ffb6a65b9abcfb3d41836336edf2664}
+
+\begin{DoxyCode}
+161 \{ \textcolor{keywordflow}{return} \textcolor{keyword}{get}(); \};
+\end{DoxyCode}
+\index{Atomic@{Atomic}!operator=@{operator=}}
+\index{operator=@{operator=}!Atomic@{Atomic}}
+\subsubsection[{\texorpdfstring{operator=(const T \&x)}{operator=(const T &x)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ {\bf Atomic}\& {\bf Atomic}$<$ T $>$\+::operator= (
+\begin{DoxyParamCaption}
+\item[{const T \&}]{x}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_atomic_a41ed023d1866301cfae9d000ae813acd}{}\label{class_atomic_a41ed023d1866301cfae9d000ae813acd}
+
+\begin{DoxyCode}
+162 \{ \textcolor{keyword}{set}(x); \textcolor{keywordflow}{return} *\textcolor{keyword}{this}; \}
+\end{DoxyCode}
+\index{Atomic@{Atomic}!set@{set}}
+\index{set@{set}!Atomic@{Atomic}}
+\subsubsection[{\texorpdfstring{set(const T \&x)}{set(const T &x)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ void {\bf Atomic}$<$ T $>$\+::set (
+\begin{DoxyParamCaption}
+\item[{const T \&}]{x}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_atomic_a959cd3820b21468204617d66c27d84c9}{}\label{class_atomic_a959cd3820b21468204617d66c27d84c9}
+
+\begin{DoxyCode}
+163                          \{
+164         \hyperlink{class_atomic_abae1e58efe0a8b71805ed84d8e8f155a}{m}.\hyperlink{struct_threads_1_1_mutex_af3cb09072ecd935be502deb78f4519d5}{lock}();
+165         \hyperlink{class_atomic_aeb248989b8f2d011dbd057dc66b82d8e}{data}=x;
+166         \hyperlink{class_atomic_abae1e58efe0a8b71805ed84d8e8f155a}{m}.\hyperlink{struct_threads_1_1_mutex_ad78fadce2239c6d359986e443822f6f6}{unlock}();
+167     \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\index{Atomic@{Atomic}!data@{data}}
+\index{data@{data}!Atomic@{Atomic}}
+\subsubsection[{\texorpdfstring{data}{data}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ T {\bf Atomic}$<$ T $>$\+::data\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{class_atomic_aeb248989b8f2d011dbd057dc66b82d8e}{}\label{class_atomic_aeb248989b8f2d011dbd057dc66b82d8e}
+\index{Atomic@{Atomic}!m@{m}}
+\index{m@{m}!Atomic@{Atomic}}
+\subsubsection[{\texorpdfstring{m}{m}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ {\bf Threads\+::\+Mutex} {\bf Atomic}$<$ T $>$\+::m\hspace{0.3cm}{\ttfamily [mutable]}, {\ttfamily [private]}}\hypertarget{class_atomic_abae1e58efe0a8b71805ed84d8e8f155a}{}\label{class_atomic_abae1e58efe0a8b71805ed84d8e8f155a}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+cputrack/\hyperlink{threads_8h}{threads.\+h}\end{DoxyCompactItemize}

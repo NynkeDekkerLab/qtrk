@@ -1,0 +1,102 @@
+\hypertarget{struct_result_manager_1_1_frame_result}{}\section{Result\+Manager\+:\+:Frame\+Result Struct Reference}
+\label{struct_result_manager_1_1_frame_result}\index{Result\+Manager\+::\+Frame\+Result@{Result\+Manager\+::\+Frame\+Result}}
+
+
+Structure to save all bead results of a single frame in memory.  
+
+
+
+
+{\ttfamily \#include $<$Result\+Manager.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{struct_result_manager_1_1_frame_result_a2d8d206f9a774cd500cb3a3c5301b0e6}{Frame\+Result} (int n\+Result, int n\+Frame\+Info)
+\begin{DoxyCompactList}\small\item\em Initialize a new frame. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ \hyperlink{struct_localization_result}{Localization\+Result} $>$ \hyperlink{struct_result_manager_1_1_frame_result_a090e9b69a382702cb7d551566d3bee76}{results}
+\begin{DoxyCompactList}\small\item\em Vector of \hyperlink{struct_localization_result}{Localization\+Result}. To be filled with tracking results. \end{DoxyCompactList}\item 
+std\+::vector$<$ float $>$ \hyperlink{struct_result_manager_1_1_frame_result_a8ad3ac9ceb60b928bffae4e978b87eb0}{frame\+Info}
+\begin{DoxyCompactList}\small\item\em Vector of frame info values. To be filled through \hyperlink{class_result_manager_a0bbedc935395c1af29f175f81ab063c9}{Store\+Frame\+Info}. \end{DoxyCompactList}\item 
+int \hyperlink{struct_result_manager_1_1_frame_result_a0f8a4a4c5ba0eb70faa74b2074d1d7d1}{count}
+\begin{DoxyCompactList}\small\item\em Number of completed localizations for this frame. \end{DoxyCompactList}\item 
+double \hyperlink{struct_result_manager_1_1_frame_result_a6ed8062b8120c1bb853f6d14d8b904e7}{timestamp}
+\begin{DoxyCompactList}\small\item\em Timestamp at which the frame was taken. Set through \hyperlink{class_result_manager_a0bbedc935395c1af29f175f81ab063c9}{Store\+Frame\+Info}. \end{DoxyCompactList}\item 
+bool \hyperlink{struct_result_manager_1_1_frame_result_ac2f96ff6a7017bd7dd4a6e9ab14dbd0b}{has\+Frame\+Info}
+\begin{DoxyCompactList}\small\item\em Flag (boolean) indicating whether frame info columns exist. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Structure to save all bead results of a single frame in memory. 
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Result\+Manager\+::\+Frame\+Result@{Result\+Manager\+::\+Frame\+Result}!Frame\+Result@{Frame\+Result}}
+\index{Frame\+Result@{Frame\+Result}!Result\+Manager\+::\+Frame\+Result@{Result\+Manager\+::\+Frame\+Result}}
+\subsubsection[{\texorpdfstring{Frame\+Result(int n\+Result, int n\+Frame\+Info)}{FrameResult(int nResult, int nFrameInfo)}}]{\setlength{\rightskip}{0pt plus 5cm}Result\+Manager\+::\+Frame\+Result\+::\+Frame\+Result (
+\begin{DoxyParamCaption}
+\item[{int}]{n\+Result, }
+\item[{int}]{n\+Frame\+Info}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{struct_result_manager_1_1_frame_result_a2d8d206f9a774cd500cb3a3c5301b0e6}{}\label{struct_result_manager_1_1_frame_result_a2d8d206f9a774cd500cb3a3c5301b0e6}
+
+
+Initialize a new frame. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em n\+Result} & Number of beads in the frame. Used to initialize \hyperlink{struct_result_manager_1_1_frame_result_a090e9b69a382702cb7d551566d3bee76}{results} vector. \\
+\hline
+\mbox{\tt in}  & {\em n\+Frame\+Info} & Number of frame info columns. Used to initialize \hyperlink{struct_result_manager_1_1_frame_result_a8ad3ac9ceb60b928bffae4e978b87eb0}{frame\+Info} vector. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyCode}
+283 : \hyperlink{struct_result_manager_1_1_frame_result_a8ad3ac9ceb60b928bffae4e978b87eb0}{frameInfo}(nFrameInfo), \hyperlink{struct_result_manager_1_1_frame_result_a090e9b69a382702cb7d551566d3bee76}{results}(nResult) \{ \hyperlink{struct_result_manager_1_1_frame_result_a0f8a4a4c5ba0eb70faa74b2074d1d7d1}{count}=0; 
+      \hyperlink{struct_result_manager_1_1_frame_result_a6ed8062b8120c1bb853f6d14d8b904e7}{timestamp}=0; \hyperlink{struct_result_manager_1_1_frame_result_ac2f96ff6a7017bd7dd4a6e9ab14dbd0b}{hasFrameInfo}=\textcolor{keyword}{false};\}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\index{Result\+Manager\+::\+Frame\+Result@{Result\+Manager\+::\+Frame\+Result}!count@{count}}
+\index{count@{count}!Result\+Manager\+::\+Frame\+Result@{Result\+Manager\+::\+Frame\+Result}}
+\subsubsection[{\texorpdfstring{count}{count}}]{\setlength{\rightskip}{0pt plus 5cm}int Result\+Manager\+::\+Frame\+Result\+::count}\hypertarget{struct_result_manager_1_1_frame_result_a0f8a4a4c5ba0eb70faa74b2074d1d7d1}{}\label{struct_result_manager_1_1_frame_result_a0f8a4a4c5ba0eb70faa74b2074d1d7d1}
+
+
+Number of completed localizations for this frame. 
+
+\index{Result\+Manager\+::\+Frame\+Result@{Result\+Manager\+::\+Frame\+Result}!frame\+Info@{frame\+Info}}
+\index{frame\+Info@{frame\+Info}!Result\+Manager\+::\+Frame\+Result@{Result\+Manager\+::\+Frame\+Result}}
+\subsubsection[{\texorpdfstring{frame\+Info}{frameInfo}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$float$>$ Result\+Manager\+::\+Frame\+Result\+::frame\+Info}\hypertarget{struct_result_manager_1_1_frame_result_a8ad3ac9ceb60b928bffae4e978b87eb0}{}\label{struct_result_manager_1_1_frame_result_a8ad3ac9ceb60b928bffae4e978b87eb0}
+
+
+Vector of frame info values. To be filled through \hyperlink{class_result_manager_a0bbedc935395c1af29f175f81ab063c9}{Store\+Frame\+Info}. 
+
+\index{Result\+Manager\+::\+Frame\+Result@{Result\+Manager\+::\+Frame\+Result}!has\+Frame\+Info@{has\+Frame\+Info}}
+\index{has\+Frame\+Info@{has\+Frame\+Info}!Result\+Manager\+::\+Frame\+Result@{Result\+Manager\+::\+Frame\+Result}}
+\subsubsection[{\texorpdfstring{has\+Frame\+Info}{hasFrameInfo}}]{\setlength{\rightskip}{0pt plus 5cm}bool Result\+Manager\+::\+Frame\+Result\+::has\+Frame\+Info}\hypertarget{struct_result_manager_1_1_frame_result_ac2f96ff6a7017bd7dd4a6e9ab14dbd0b}{}\label{struct_result_manager_1_1_frame_result_ac2f96ff6a7017bd7dd4a6e9ab14dbd0b}
+
+
+Flag (boolean) indicating whether frame info columns exist. 
+
+\index{Result\+Manager\+::\+Frame\+Result@{Result\+Manager\+::\+Frame\+Result}!results@{results}}
+\index{results@{results}!Result\+Manager\+::\+Frame\+Result@{Result\+Manager\+::\+Frame\+Result}}
+\subsubsection[{\texorpdfstring{results}{results}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<${\bf Localization\+Result}$>$ Result\+Manager\+::\+Frame\+Result\+::results}\hypertarget{struct_result_manager_1_1_frame_result_a090e9b69a382702cb7d551566d3bee76}{}\label{struct_result_manager_1_1_frame_result_a090e9b69a382702cb7d551566d3bee76}
+
+
+Vector of \hyperlink{struct_localization_result}{Localization\+Result}. To be filled with tracking results. 
+
+\index{Result\+Manager\+::\+Frame\+Result@{Result\+Manager\+::\+Frame\+Result}!timestamp@{timestamp}}
+\index{timestamp@{timestamp}!Result\+Manager\+::\+Frame\+Result@{Result\+Manager\+::\+Frame\+Result}}
+\subsubsection[{\texorpdfstring{timestamp}{timestamp}}]{\setlength{\rightskip}{0pt plus 5cm}double Result\+Manager\+::\+Frame\+Result\+::timestamp}\hypertarget{struct_result_manager_1_1_frame_result_a6ed8062b8120c1bb853f6d14d8b904e7}{}\label{struct_result_manager_1_1_frame_result_a6ed8062b8120c1bb853f6d14d8b904e7}
+
+
+Timestamp at which the frame was taken. Set through \hyperlink{class_result_manager_a0bbedc935395c1af29f175f81ab063c9}{Store\+Frame\+Info}. 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+cputrack/\hyperlink{_result_manager_8h}{Result\+Manager.\+h}\end{DoxyCompactItemize}

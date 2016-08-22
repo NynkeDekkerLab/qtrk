@@ -1,0 +1,110 @@
+\hypertarget{_cubic_b_spline_8h}{}\section{cputrack/\+Cubic\+B\+Spline.h File Reference}
+\label{_cubic_b_spline_8h}\index{cputrack/\+Cubic\+B\+Spline.\+h@{cputrack/\+Cubic\+B\+Spline.\+h}}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{_cubic_b_spline_8h_a69f41cb6c15f0e34b0889a5f6d5aae32}{C\+U\+D\+A\+\_\+\+S\+U\+P\+P\+O\+R\+T\+E\+D\+\_\+\+F\+U\+NC}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{gpu__utils_8h_a69f41cb6c15f0e34b0889a5f6d5aae32}{C\+U\+D\+A\+\_\+\+S\+U\+P\+P\+O\+R\+T\+E\+D\+\_\+\+F\+U\+NC} \hyperlink{_cubic_b_spline_8h_a9eba800c8695b13f0a31ab6ef429d171}{Compute\+B\+Spline\+Weights} (float w\mbox{[}$\,$\mbox{]}, float t)
+\item 
+{\footnotesize template$<$typename T $>$ }\\void \hyperlink{gpu__utils_8h_a69f41cb6c15f0e34b0889a5f6d5aae32}{C\+U\+D\+A\+\_\+\+S\+U\+P\+P\+O\+R\+T\+E\+D\+\_\+\+F\+U\+NC} \hyperlink{_cubic_b_spline_8h_abbb4bba709c4349bbdbf7b3b1e5ed726}{Compute\+B\+Spline\+Derivatives} (float t, T $\ast$k, T \&deriv, T \&deriv2)
+\item 
+{\footnotesize template$<$typename T $>$ }\\float \hyperlink{gpu__utils_8h_a69f41cb6c15f0e34b0889a5f6d5aae32}{C\+U\+D\+A\+\_\+\+S\+U\+P\+P\+O\+R\+T\+E\+D\+\_\+\+F\+U\+NC} \hyperlink{_cubic_b_spline_8h_a0ef36a18640354badceb901eaee34557}{Compute\+Spline\+Fit\+Max\+Pos} (T $\ast$data, int len)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\index{Cubic\+B\+Spline.\+h@{Cubic\+B\+Spline.\+h}!C\+U\+D\+A\+\_\+\+S\+U\+P\+P\+O\+R\+T\+E\+D\+\_\+\+F\+U\+NC@{C\+U\+D\+A\+\_\+\+S\+U\+P\+P\+O\+R\+T\+E\+D\+\_\+\+F\+U\+NC}}
+\index{C\+U\+D\+A\+\_\+\+S\+U\+P\+P\+O\+R\+T\+E\+D\+\_\+\+F\+U\+NC@{C\+U\+D\+A\+\_\+\+S\+U\+P\+P\+O\+R\+T\+E\+D\+\_\+\+F\+U\+NC}!Cubic\+B\+Spline.\+h@{Cubic\+B\+Spline.\+h}}
+\subsubsection[{\texorpdfstring{C\+U\+D\+A\+\_\+\+S\+U\+P\+P\+O\+R\+T\+E\+D\+\_\+\+F\+U\+NC}{CUDA_SUPPORTED_FUNC}}]{\setlength{\rightskip}{0pt plus 5cm}\#define C\+U\+D\+A\+\_\+\+S\+U\+P\+P\+O\+R\+T\+E\+D\+\_\+\+F\+U\+NC}\hypertarget{_cubic_b_spline_8h_a69f41cb6c15f0e34b0889a5f6d5aae32}{}\label{_cubic_b_spline_8h_a69f41cb6c15f0e34b0889a5f6d5aae32}
+
+
+\subsection{Function Documentation}
+\index{Cubic\+B\+Spline.\+h@{Cubic\+B\+Spline.\+h}!Compute\+B\+Spline\+Derivatives@{Compute\+B\+Spline\+Derivatives}}
+\index{Compute\+B\+Spline\+Derivatives@{Compute\+B\+Spline\+Derivatives}!Cubic\+B\+Spline.\+h@{Cubic\+B\+Spline.\+h}}
+\subsubsection[{\texorpdfstring{Compute\+B\+Spline\+Derivatives(float t, T $\ast$k, T \&deriv, T \&deriv2)}{ComputeBSplineDerivatives(float t, T *k, T &deriv, T &deriv2)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ void {\bf C\+U\+D\+A\+\_\+\+S\+U\+P\+P\+O\+R\+T\+E\+D\+\_\+\+F\+U\+NC} Compute\+B\+Spline\+Derivatives (
+\begin{DoxyParamCaption}
+\item[{float}]{t, }
+\item[{T $\ast$}]{k, }
+\item[{T \&}]{deriv, }
+\item[{T \&}]{deriv2}
+\end{DoxyParamCaption}
+)}\hypertarget{_cubic_b_spline_8h_abbb4bba709c4349bbdbf7b3b1e5ed726}{}\label{_cubic_b_spline_8h_abbb4bba709c4349bbdbf7b3b1e5ed726}
+
+\begin{DoxyCode}
+43 \{
+44     \textcolor{keywordtype}{float} t2=t*t;
+45     \textcolor{keywordtype}{float} t3=t2*t;
+46     \textcolor{keywordtype}{float} omt=1-t;
+47 
+48     deriv = 0.5f * (-omt*omt * k[0] + (3*t2 - 4*t) * k[1] + (-3*t2 + 2*t + 1) * k[2] + t2 * k[3]);
+49     deriv2 = omt * k[0] + (3*t - 2) * k[1] + (-3*t + 1) * k[2] + t * k[3];
+50 \}
+\end{DoxyCode}
+\index{Cubic\+B\+Spline.\+h@{Cubic\+B\+Spline.\+h}!Compute\+B\+Spline\+Weights@{Compute\+B\+Spline\+Weights}}
+\index{Compute\+B\+Spline\+Weights@{Compute\+B\+Spline\+Weights}!Cubic\+B\+Spline.\+h@{Cubic\+B\+Spline.\+h}}
+\subsubsection[{\texorpdfstring{Compute\+B\+Spline\+Weights(float w[], float t)}{ComputeBSplineWeights(float w[], float t)}}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf C\+U\+D\+A\+\_\+\+S\+U\+P\+P\+O\+R\+T\+E\+D\+\_\+\+F\+U\+NC} Compute\+B\+Spline\+Weights (
+\begin{DoxyParamCaption}
+\item[{float}]{w\mbox{[}$\,$\mbox{]}, }
+\item[{float}]{t}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{_cubic_b_spline_8h_a9eba800c8695b13f0a31ab6ef429d171}{}\label{_cubic_b_spline_8h_a9eba800c8695b13f0a31ab6ef429d171}
+
+\begin{DoxyCode}
+16 \{
+17     \textcolor{keywordtype}{float} t2=t*t;
+18     \textcolor{keywordtype}{float} t3=t2*t;
+19     \textcolor{keywordtype}{float} omt = 1-t;
+20     w[0] = 1.0f/6 * omt*omt*omt;
+21     w[1] = 1.0f/6 * (3*t3 - 6*t2 + 4);
+22     w[2] = 1.0f/6 * (-3*t3 + 3*t2 + 3*t + 1);
+23     w[3] = 1.0f/6 * t3;
+24 \}
+\end{DoxyCode}
+\index{Cubic\+B\+Spline.\+h@{Cubic\+B\+Spline.\+h}!Compute\+Spline\+Fit\+Max\+Pos@{Compute\+Spline\+Fit\+Max\+Pos}}
+\index{Compute\+Spline\+Fit\+Max\+Pos@{Compute\+Spline\+Fit\+Max\+Pos}!Cubic\+B\+Spline.\+h@{Cubic\+B\+Spline.\+h}}
+\subsubsection[{\texorpdfstring{Compute\+Spline\+Fit\+Max\+Pos(\+T $\ast$data, int len)}{ComputeSplineFitMaxPos(T *data, int len)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ float {\bf C\+U\+D\+A\+\_\+\+S\+U\+P\+P\+O\+R\+T\+E\+D\+\_\+\+F\+U\+NC} Compute\+Spline\+Fit\+Max\+Pos (
+\begin{DoxyParamCaption}
+\item[{T $\ast$}]{data, }
+\item[{int}]{len}
+\end{DoxyParamCaption}
+)}\hypertarget{_cubic_b_spline_8h_a0ef36a18640354badceb901eaee34557}{}\label{_cubic_b_spline_8h_a0ef36a18640354badceb901eaee34557}
+
+\begin{DoxyCode}
+56 \{
+57     \textcolor{comment}{// find the maximum by doing following the spline gradient}
+58     \textcolor{keywordtype}{int} iMax=0;
+59     T vMax=data[0];
+60     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} k=1;k<len;k++) \{
+61         \textcolor{keywordflow}{if} (data[k]>vMax) \{
+62             vMax = data[k];
+63             iMax = k;
+64         \}
+65     \}
+66     \textcolor{keywordflow}{if} (iMax < 1) iMax=1;
+67     \textcolor{keywordflow}{if} (len < 4) \textcolor{keywordflow}{return} iMax;
+68         
+69     \textcolor{comment}{// x(t) = w(0, t) * p(0) + w(1, t) * p(1) + w(2, t) * p(2) + w(3, t) * p(3)}
+70     \textcolor{comment}{// x'(t) = w'(0, t) * p(0) + w'(1, t) * p(1) + w'(2, t) * p(2) + w'(3, t) * p(3)}
+71     \textcolor{comment}{// x''(t) = w''(0, t) * p(0) + w''(1, t) * p(1) + w'(2, t) * p(2) + w'(3, t) * p(3)}
+72 
+73     T x = iMax;
+74     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} it=0;it<5;it++) \{
+75         \textcolor{keywordflow}{if} (x < 1 )x = 1;
+76         \textcolor{keywordflow}{if} (x >= len-2) x = len-2;
+77         \textcolor{keywordtype}{int} i = (int)x;
+78         T t=x-i;
+79         T w,w2;
+80         \hyperlink{_cubic_b_spline_8h_abbb4bba709c4349bbdbf7b3b1e5ed726}{ComputeBSplineDerivatives}(t, &data[i-1], w, w2);
+81         T dx=w/w2;
+82 \textcolor{comment}{//      dbgprintf("[%d]: x=%f, w=%f, w2=%f. dx=%f\(\backslash\)n", it, x,w,w2, -dx);}
+83         x -= dx;
+84     \}
+85     \textcolor{keywordflow}{if} (x<0) x=0;
+86     \textcolor{keywordflow}{if} (x>=len-1) x=len-1;
+87     \textcolor{keywordflow}{return} x;
+88 \}
+\end{DoxyCode}

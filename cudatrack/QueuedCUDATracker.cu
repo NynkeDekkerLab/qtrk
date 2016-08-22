@@ -53,7 +53,7 @@ Issues:
 #include "DebugResultCompare.h"
 
 #include "QI_impl.h"
-
+#include "DebugResultCompare.h"
 
 // Do CPU-side profiling of kernel launches?
 #define TRK_PROFILE
@@ -85,13 +85,10 @@ void SetCUDADevices(int* dev, int numdev) {
 	cudaDeviceList.assign(dev,dev+numdev);
 }
 
-
-
 QueuedTracker* CreateQueuedTracker(const QTrkComputedConfig& cc)
 {
 	return new QueuedCUDATracker(cc);
 }
-
 
 static int GetBestCUDADevice()
 {
@@ -139,7 +136,6 @@ void QueuedCUDATracker::InitializeDeviceList()
 	}
 }
 
-
 QueuedCUDATracker::QueuedCUDATracker(const QTrkComputedConfig& cc, int batchSize) 
 	: resultMutex("result"), jobQueueMutex("jobqueue")
 {
@@ -155,21 +151,22 @@ QueuedCUDATracker::QueuedCUDATracker(const QTrkComputedConfig& cc, int batchSize
 
 	cudaGetDeviceProperties(&deviceProp, devices[0]->index);
 
-	if (deviceProp.kernelExecTimeoutEnabled) 
-		throw std::runtime_error(SPrintf("CUDA Tracker init error: CUDA Kernel execution timeout is enabled for %s. Disable WDDM Time-out Detection and Recovery (TDR) in the nVidia NSight Monitor before running this code", deviceProp.name));
+	//if (deviceProp.kernelExecTimeoutEnabled) 
+	//	throw std::runtime_error(SPrintf("CUDA Tracker init error: CUDA Kernel execution timeout is enabled for %s. Disable WDDM Time-out Detection and Recovery (TDR) in the nVidia NSight Monitor before running this code", deviceProp.name));
 	if (deviceProp.major < 2)
 		throw std::runtime_error("CUDA Tracker init error: GPU not supported, capability < 2.0");
 
 	numThreads = deviceProp.warpSize;
 	
-	if(batchSize<0) batchSize = 256;
-	while (batchSize * cfg.height > deviceProp.maxTexture2D[1]) {
-		batchSize/=2;
-	}
+	if(batchSize<0) batchSize = (int)(deviceProp.maxTexture2D[1]/cfg.height * 0.99f);
+	//while (batchSize * cfg.height > deviceProp.maxTexture2D[1]) {
+	//	batchSize/=2;
+	//}
 	this->batchSize = batchSize;
 
-	dbgprintf("CUDA Hardware: %s. \n# of CUDA processors:%d. Using %d streams\n", deviceProp.name, deviceProp.multiProcessorCount, numStreams);
+	dbgprintf("CUDA Hardware: %s. \n# of CUDA processors: %d. Using %d streams\n", deviceProp.name, deviceProp.multiProcessorCount, numStreams);
 	dbgprintf("Warp size: %d. Max threads: %d, Batch size: %d\n", deviceProp.warpSize, deviceProp.maxThreadsPerBlock, batchSize);
+	// dbgprintf("Mem: %u MB. Per block: %u B\n", deviceProp.totalGlobalMem/1024/1024, deviceProp.sharedMemPerBlock); // Total memory available in Mbytes
 	
 	qi.Init(cfg, batchSize);
 
@@ -186,6 +183,9 @@ QueuedCUDATracker::QueuedCUDATracker(const QTrkComputedConfig& cc, int batchSize
 		d->zlut_trigtable = zlut_radialgrid;
 	}
 	
+	dbgprintf("\n");
+	outputTotalGPUMemUse("pre-streams");
+
 	streams.reserve(numStreams);
 	try {
 		for (int i=0;i<numStreams;i++)
@@ -193,10 +193,14 @@ QueuedCUDATracker::QueuedCUDATracker(const QTrkComputedConfig& cc, int batchSize
 	}
 	catch(...) {
 		DeleteAllElems(streams);
-		throw;
+		throw std::runtime_error("CUDA Tracker init error: Failed to create GPU streams.");
 	}
 
+	dbgprintf("\n");
 	streams[0]->OutputMemoryUse();
+	dbgprintf("\n");
+	outputTotalGPUMemUse("post-streams");
+	dbgprintf("\n");
 
 	batchesDone = 0;
 	useTextureCache = true;
@@ -209,7 +213,7 @@ QueuedCUDATracker::QueuedCUDATracker(const QTrkComputedConfig& cc, int batchSize
 	gc_offsetFactor = gc_gainFactor = 1.0f;
 	localizeMode = LT_OnlyCOM;
 
-	ForceCUDAKernelsToLoad<<< dim3(),dim3() >>> ();
+	ForceCUDAKernelsToLoad <<< dim3(),dim3() >>> ();
 }
 
 QueuedCUDATracker::~QueuedCUDATracker()
@@ -241,11 +245,11 @@ void QueuedCUDATracker::SchedulingThreadMain()
 	while (!quitScheduler) {
 		jobQueueMutex.lock();
 		Stream* s = 0;
-		for (int i=0;i<streams.size();i++) 
+		for (uint i=0;i<streams.size();i++) 
 			if (streams[i]->state == Stream::StreamPendingExec) {
 				s=streams[i];
 				s->state = Stream::StreamExecuting;
-			//	dbgprintf("Executing stream %p [%d]. %d jobs\n", s, i, s->JobCount());
+		//		dbgprintf("Executing stream %p [%d]. %d jobs\n", s, i, s->JobCount());
 				break;
 			}
 		jobQueueMutex.unlock();
@@ -261,9 +265,9 @@ void QueuedCUDATracker::SchedulingThreadMain()
 			s->imageBufMutex.unlock();
 			activeStreams.push_back(s);
 		}
-
+		
 		// Fetch results
-		for (int a=0;a<activeStreams.size();a++) {
+		for (uint a=0;a<activeStreams.size();a++) {
 			Stream* s = activeStreams[a];
 			if (s->IsExecutionDone()) {
 		//		dbgprintf("Stream %p done.\n", s);
@@ -281,7 +285,6 @@ void QueuedCUDATracker::SchedulingThreadMain()
 		Threads::Sleep(1);
 	}
 }
-
 
 QueuedCUDATracker::Stream::Stream(int streamIndex)
 	: imageBufMutex(SPrintf("imagebuf%d", streamIndex).c_str())
@@ -311,13 +314,11 @@ QueuedCUDATracker::Stream::~Stream()
 		cudaStreamDestroy(stream); // stream can be zero if in debugStream mode.
 }
 
-
 bool QueuedCUDATracker::Stream::IsExecutionDone()
 {
 	cudaSetDevice(device->index);
 	return cudaEventQuery(localizationDone) == cudaSuccess;
 }
-
 
 void QueuedCUDATracker::Stream::OutputMemoryUse()
 {
@@ -326,9 +327,8 @@ void QueuedCUDATracker::Stream::OutputMemoryUse()
 
 	int hostMem = hostImageBuf.memsize() + com.memsize() + locParams.memsize() + results.memsize();
 
-	dbgprintf("Stream memory use: %d kb pinned on host, %d kb device memory (%d for images). \n", hostMem / 1024, deviceMem/1024, images.totalNumBytes()/1024);
+	dbgprintf("Stream memory use: %d MB on host, %d MB device memory (%d for images). \n", hostMem/1024/1024, deviceMem/1024/1024, images.totalNumBytes()/1024/1024);
 }
-
 
 QueuedCUDATracker::Stream* QueuedCUDATracker::CreateStream(Device* device, int streamIndex)
 {
@@ -371,15 +371,14 @@ QueuedCUDATracker::Stream* QueuedCUDATracker::CreateStream(Device* device, int s
 	return s;
 }
 
-
- // get a stream that is not currently executing, and still has room for images
+// get a stream that is not currently executing, and still has room for images
 QueuedCUDATracker::Stream* QueuedCUDATracker::GetReadyStream()
 {
 	while (true) {
 		jobQueueMutex.lock();
 
 		Stream *best = 0;
-		for (int i=0;i<streams.size();i++) 
+		for (uint i=0;i<streams.size();i++) 
 		{
 			Stream*s = streams[i];			
 			if (s->state == Stream::StreamIdle) {
@@ -396,7 +395,6 @@ QueuedCUDATracker::Stream* QueuedCUDATracker::GetReadyStream()
 		Threads::Sleep(1);
 	}
 }
-
 
 bool QueuedCUDATracker::IsIdle()
 {
@@ -420,7 +418,6 @@ int QueuedCUDATracker::GetQueueLength(int *maxQueueLen)
 	return qlen;
 }
 
-
 void QueuedCUDATracker::SetLocalizationMode(int mode)
 {
 	Flush();
@@ -430,7 +427,6 @@ void QueuedCUDATracker::SetLocalizationMode(int mode)
 	localizeMode = mode;
 	jobQueueMutex.unlock();
 }
-
 
 void QueuedCUDATracker::ScheduleLocalization(void* data, int pitch, QTRK_PixelDataType pdt, const LocalizationJob* jobInfo )
 {
@@ -459,7 +455,6 @@ void QueuedCUDATracker::ScheduleLocalization(void* data, int pitch, QTRK_PixelDa
 	//dbgprintf("Job: %d\n", jobIndex);
 }
 
-// 
 __global__ void AddProfilesToZLUT(float* d_src, int nbeads, int radialsteps, int plane, cudaImageListf zlut)
 {
 	int b = threadIdx.x + blockIdx.x * blockDim.x;
@@ -470,12 +465,10 @@ __global__ void AddProfilesToZLUT(float* d_src, int nbeads, int radialsteps, int
 	}
 }
 
-
 void QueuedCUDATracker::BeginLUT(uint flags)
 {
 	zlut_build_flags = flags;
 }
-
 
 void QueuedCUDATracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, int plane, vector2f* known_pos)
 {
@@ -549,17 +542,15 @@ void QueuedCUDATracker::FinalizeLUT()
 	delete[] tmp;
 }
 
-
 void QueuedCUDATracker::Flush()
 {
 	jobQueueMutex.lock();
-	for (int i=0;i<streams.size();i++) {
+	for (uint i=0;i<streams.size();i++) {
 		if(streams[i]->JobCount()>0 && streams[i]->state != Stream::StreamExecuting)
 			streams[i]->state = Stream::StreamPendingExec;
 	}
 	jobQueueMutex.unlock();
 }
-
 
 #ifdef QI_DBG_EXPORT
 static unsigned long hash(unsigned char *str, int n)
@@ -590,7 +581,6 @@ void checksum(T* data, int elemsize, int numelem, const char *name)
 	}
 #endif
 }
-
 
 template<typename TImageSampler>
 void QueuedCUDATracker::ExecuteBatch(Stream *s)
@@ -639,6 +629,8 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 		checksum(s->d_com.data, 1, s->JobCount(), "com");
 	}
 	cudaEventRecord(s->comDone, s->stream);
+
+	// DbgOutputVectorToFile("D:\\TestImages\\imgmeans.csv", s->d_imgmeans, false);
 
 	device_vec<float3> *curpos = &s->d_com;
 	if (s->localizeFlags & LT_QI) {
@@ -703,7 +695,6 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 	cudaEventRecord(s->localizationDone, s->stream);
 }
 
-
 void QueuedCUDATracker::CopyStreamResults(Stream *s)
 {
 	resultMutex.lock();
@@ -748,7 +739,6 @@ int QueuedCUDATracker::FetchResults(LocalizationResult* dstResults, int maxResul
 	return numResults;
 }
 
-
 void QueuedCUDATracker::SetPixelCalibrationImages(float* offset, float* gain)
 {
 	for (uint i=0;i<devices.size();i++) {
@@ -769,7 +759,6 @@ void QueuedCUDATracker::SetPixelCalibrationImages(float* offset, float* gain)
 	}
 	if (!gain) gc_gain.clear();
 }
-
 
 void QueuedCUDATracker::CPU_ApplyOffsetGain(CPUTracker* trk, int beadIndex)
 {
@@ -857,7 +846,6 @@ void QueuedCUDATracker::Device::SetRadialZLUT(float *data, int radialsteps, int 
 	else radial_zlut.clear();
 }
 
-
 void QueuedCUDATracker::Device::SetRadialWeights(float* zcmp)
 {
 	cudaSetDevice(index);
@@ -866,7 +854,6 @@ void QueuedCUDATracker::Device::SetRadialWeights(float* zcmp)
 	else 
 		zcompareWindow.free();
 }
-
 
 void QueuedCUDATracker::GetRadialZLUT(float* data)
 {
@@ -903,7 +890,6 @@ void QueuedCUDATracker::ClearResults()
 	resultMutex.unlock();
 }
 
-
 std::string QueuedCUDATracker::GetProfileReport()
 {
 	float f = 1.0f/batchesDone;
@@ -915,7 +901,6 @@ std::string QueuedCUDATracker::GetProfileReport()
 		SPrintf("COM:           %.2f,\t%.2f ms\n", time.com*f, cpu_time.com*f) +
 		SPrintf("Z Computing:   %.2f,\t%.2f ms\n", time.zcompute*f, cpu_time.zcompute*f);
 }
-
 
 QueuedCUDATracker::ConfigValueMap QueuedCUDATracker::GetConfigValues()
 {
@@ -929,6 +914,3 @@ void QueuedCUDATracker::SetConfigValue(std::string name, std::string value)
 	if (name == "use_texturecache")
 		useTextureCache = atoi(value.c_str()) != 0;
 }
-
-
-

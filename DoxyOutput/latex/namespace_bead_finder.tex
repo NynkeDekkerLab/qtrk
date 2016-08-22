@@ -1,0 +1,123 @@
+\hypertarget{namespace_bead_finder}{}\section{Bead\+Finder Namespace Reference}
+\label{namespace_bead_finder}\index{Bead\+Finder@{Bead\+Finder}}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_bead_finder_1_1_config}{Config}
+\item 
+struct \hyperlink{struct_bead_finder_1_1_position}{Position}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ \hyperlink{struct_bead_finder_1_1_position}{Position} $>$ \hyperlink{namespace_bead_finder_ab23a6df0dccd8f6af8e78f79d2f05b69}{Find} (\hyperlink{_queued_tracker_8h_a2d6726594ce64e82b9222b183f2571d1}{Image\+Data} $\ast$img, float $\ast$sample, \hyperlink{struct_bead_finder_1_1_config}{Config} $\ast$cfg)
+\item 
+std\+::vector$<$ \hyperlink{struct_bead_finder_1_1_position}{Position} $>$ \hyperlink{namespace_bead_finder_abfee549a957611e22b398fdcb1e28178}{Find} (uint8\+\_\+t $\ast$img, int pitch, int w, int h, int smp\+CornerX, int smp\+CornerY, \hyperlink{struct_bead_finder_1_1_config}{Config} $\ast$cfg)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\index{Bead\+Finder@{Bead\+Finder}!Find@{Find}}
+\index{Find@{Find}!Bead\+Finder@{Bead\+Finder}}
+\subsubsection[{\texorpdfstring{Find(\+Image\+Data $\ast$img, float $\ast$sample, Config $\ast$cfg)}{Find(ImageData *img, float *sample, Config *cfg)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$ {\bf Position} $>$ Bead\+Finder\+::\+Find (
+\begin{DoxyParamCaption}
+\item[{{\bf Image\+Data} $\ast$}]{img, }
+\item[{float $\ast$}]{sample, }
+\item[{{\bf Config} $\ast$}]{cfg}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_bead_finder_ab23a6df0dccd8f6af8e78f79d2f05b69}{}\label{namespace_bead_finder_ab23a6df0dccd8f6af8e78f79d2f05b69}
+
+\begin{DoxyCode}
+169 \{
+170     \textcolor{keyword}{typedef} std::complex<float> pixelc\_t;
+171 
+172     \textcolor{comment}{// Compute nearest power of two dimension}
+173     \textcolor{keywordtype}{int} w=\hyperlink{_bead_finder_8cpp_aad803495a7d339a6441f165b24443421}{NextPowerOf2}(img->\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w});
+174     \textcolor{keywordtype}{int} h=\hyperlink{_bead_finder_8cpp_aad803495a7d339a6441f165b24443421}{NextPowerOf2}(img->\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h});
+175 
+176     \textcolor{comment}{// Convert to std::complex and copy the image in there (subtract mean first)}
+177     \textcolor{keywordtype}{float} mean = img->\hyperlink{struct_t_image_data_a3b6f4073306aa6f7f819b270196b9bae}{mean}();
+178     pixelc\_t* cimg = \textcolor{keyword}{new} pixelc\_t[w*h];
+179     std::fill(cimg, cimg+w*h, pixelc\_t());
+180     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} y=0;y<img->\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h};y++) \{
+181         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x=0;x<img->\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w};x++) \{
+182             cimg[y*w+x] = img->\hyperlink{struct_t_image_data_a78c7415ecee3965da7e25149cea6f4d8}{data}[y*img->\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w}+x]-mean;
+183         \}
+184     \}
+185 
+186     \textcolor{comment}{// Inplace 2D fft}
+187     \hyperlink{_bead_finder_8cpp_aecf220354d51380bea7873a57bc29862}{FFT2D}(cimg,w,h,\textcolor{keyword}{false});
+188 
+189     \textcolor{comment}{// Create an image to put the sample in with size [w,h] as well}
+190     pixelc\_t* smpimg = \textcolor{keyword}{new} pixelc\_t[w*h];
+191     std::fill(smpimg, smpimg+w*h, pixelc\_t());
+192     \textcolor{keywordtype}{float} smpmean = \hyperlink{_queued_tracker_8h_a2d6726594ce64e82b9222b183f2571d1}{ImageData}(sample,cfg->\hyperlink{struct_bead_finder_1_1_config_afd0fcc1cea252dc5c64d98d3df23887e}{roi},cfg->\hyperlink{struct_bead_finder_1_1_config_afd0fcc1cea252dc5c64d98d3df23887e}{roi}).\hyperlink{struct_t_image_data_a3b6f4073306aa6f7f819b270196b9bae}{mean}();
+193     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} y=0;y<cfg->\hyperlink{struct_bead_finder_1_1_config_afd0fcc1cea252dc5c64d98d3df23887e}{roi};y++) 
+194         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x=0;x<cfg->\hyperlink{struct_bead_finder_1_1_config_afd0fcc1cea252dc5c64d98d3df23887e}{roi};x++) 
+195             smpimg[ ((y-cfg->\hyperlink{struct_bead_finder_1_1_config_afd0fcc1cea252dc5c64d98d3df23887e}{roi})&(h-1)) * w + ( (x-cfg->\hyperlink{struct_bead_finder_1_1_config_afd0fcc1cea252dc5c64d98d3df23887e}{roi})&(w-1))] = sample[cfg->
+      \hyperlink{struct_bead_finder_1_1_config_afd0fcc1cea252dc5c64d98d3df23887e}{roi}*y+x]-smpmean;
+196 
+197 \textcolor{comment}{//  ComplexToJPEGFile("smpimg.jpg", smpimg, w,h);}
+198     \hyperlink{_bead_finder_8cpp_aecf220354d51380bea7873a57bc29862}{FFT2D}(smpimg,w,h,\textcolor{keyword}{false});
+199 
+200     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<w*h;i++)
+201         cimg[i]*=smpimg[i];
+202     \hyperlink{_bead_finder_8cpp_aecf220354d51380bea7873a57bc29862}{FFT2D}(cimg,w,h,\textcolor{keyword}{true});
+203 
+204     \textcolor{keywordtype}{float} maxVal = 0.0f;
+205     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<w*h;i++)
+206         maxVal=std::max(maxVal, cimg[i].real());
+207 
+208     std::vector<Position> pts;
+209     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} y=0;y<img->\hyperlink{struct_t_image_data_a252235d07e487e8d02908aed062147bd}{h};y++) \{
+210         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x=0;x<img->\hyperlink{struct_t_image_data_aa46faa6f66f9d6f93c65e14aea643eb3}{w};x++) \{
+211             \textcolor{keywordflow}{if} (cimg[y*w+x].real()>maxVal*cfg->\hyperlink{struct_bead_finder_1_1_config_ace5e499578ca57df89b304adab763a3e}{similarity} )
+212                 pts.push\_back ( \hyperlink{_bead_finder_8cpp_a1d0fc598b31063d9ebc4199a1d6c8649}{SearchArea}(cimg, w, h, x,y, cfg->
+      \hyperlink{struct_bead_finder_1_1_config_acb90a601bdb1ca9547d7e1948c0ea9f6}{MinPixelDistance}()) );
+213         \}
+214     \}
+215     \textcolor{comment}{//ComplexToJPEGFile("result.jpg", cimg, w,h);}
+216     \textcolor{keyword}{delete}[] smpimg;
+217     \textcolor{keyword}{delete}[] cimg;
+218 
+219     \hyperlink{_bead_finder_8cpp_adfad9807250c401f6ec50af3caafeabd}{RecenterAndFilter}(img, pts, cfg);
+220 
+221     \textcolor{keywordflow}{return} pts;
+222 \}
+\end{DoxyCode}
+\index{Bead\+Finder@{Bead\+Finder}!Find@{Find}}
+\index{Find@{Find}!Bead\+Finder@{Bead\+Finder}}
+\subsubsection[{\texorpdfstring{Find(uint8\+\_\+t $\ast$img, int pitch, int w, int h, int smp\+Corner\+X, int smp\+Corner\+Y, Config $\ast$cfg)}{Find(uint8_t *img, int pitch, int w, int h, int smpCornerX, int smpCornerY, Config *cfg)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$ {\bf Position} $>$ Bead\+Finder\+::\+Find (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t $\ast$}]{img, }
+\item[{int}]{pitch, }
+\item[{int}]{w, }
+\item[{int}]{h, }
+\item[{int}]{smp\+CornerX, }
+\item[{int}]{smp\+CornerY, }
+\item[{{\bf Bead\+Finder\+::\+Config} $\ast$}]{cfg}
+\end{DoxyParamCaption}
+)}\hypertarget{namespace_bead_finder_abfee549a957611e22b398fdcb1e28178}{}\label{namespace_bead_finder_abfee549a957611e22b398fdcb1e28178}
+
+\begin{DoxyCode}
+225 \{
+226     \hyperlink{struct_t_image_data}{ImageData} fimg = \hyperlink{struct_t_image_data_a8ae528964e70c0d0a98b8481cc8b083e}{ImageData::alloc}(w,h);
+227 
+228     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} y=0;y<h;y++)
+229         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x=0;x<w;x++) 
+230             fimg.\hyperlink{struct_t_image_data_ad13c1527ffabe17b997c38090ec5e6b9}{at}(x,y) = img[y*pitch+x];
+231 
+232     \textcolor{keywordtype}{float} *fsmp = \textcolor{keyword}{new} \textcolor{keywordtype}{float}[cfg->\hyperlink{struct_bead_finder_1_1_config_afd0fcc1cea252dc5c64d98d3df23887e}{roi}*cfg->\hyperlink{struct_bead_finder_1_1_config_afd0fcc1cea252dc5c64d98d3df23887e}{roi}];
+233     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} y=0;y<cfg->\hyperlink{struct_bead_finder_1_1_config_afd0fcc1cea252dc5c64d98d3df23887e}{roi};y++) \{
+234         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x=0;x<cfg->\hyperlink{struct_bead_finder_1_1_config_afd0fcc1cea252dc5c64d98d3df23887e}{roi};x++) \{
+235             fsmp [y*cfg->\hyperlink{struct_bead_finder_1_1_config_afd0fcc1cea252dc5c64d98d3df23887e}{roi}+x] = fimg [ (y+smpCornerY) * h + x + smpCornerX ];
+236         \}
+237     \}
+238 
+239     std::vector<Position> beads = \hyperlink{namespace_bead_finder_ab23a6df0dccd8f6af8e78f79d2f05b69}{Find}(&fimg, fsmp, cfg);
+240 
+241     \textcolor{keyword}{delete}[] fsmp;
+242     fimg.\hyperlink{struct_t_image_data_a60a60e309657216a2e35809fdc582b11}{free}();
+243     \textcolor{keywordflow}{return} beads;
+244 \}
+\end{DoxyCode}

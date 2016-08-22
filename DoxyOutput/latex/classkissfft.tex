@@ -1,0 +1,520 @@
+\hypertarget{classkissfft}{}\section{kissfft$<$ T\+\_\+\+Scalar, T\+\_\+traits $>$ Class Template Reference}
+\label{classkissfft}\index{kissfft$<$ T\+\_\+\+Scalar, T\+\_\+traits $>$@{kissfft$<$ T\+\_\+\+Scalar, T\+\_\+traits $>$}}
+
+
+{\ttfamily \#include $<$kissfft.\+h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef T\+\_\+traits \hyperlink{classkissfft_aa5a17184447b2a77c41e61f2d491bad5}{traits\+\_\+type}
+\item 
+typedef traits\+\_\+type\+::scalar\+\_\+type \hyperlink{classkissfft_a074a5f74883901c625b6e80660d16ad4}{scalar\+\_\+type}
+\item 
+typedef traits\+\_\+type\+::cpx\+\_\+type \hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\+\_\+type}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classkissfft_a9140ed2cbfe6116eba53256e16084475}{kissfft} (int \hyperlink{classkissfft_a387da366ef44c52769e5052e327009dc}{nfft}, bool inverse, const \hyperlink{classkissfft_aa5a17184447b2a77c41e61f2d491bad5}{traits\+\_\+type} \&traits=\hyperlink{classkissfft_aa5a17184447b2a77c41e61f2d491bad5}{traits\+\_\+type}())
+\item 
+void \hyperlink{classkissfft_ad2db80b9c9b087fb36fbe8b3b0078df8}{transform} (const \hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\+\_\+type} $\ast$src, \hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\+\_\+type} $\ast$dst)
+\item 
+int \hyperlink{classkissfft_a387da366ef44c52769e5052e327009dc}{nfft} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classkissfft_a33dc368507355e068428fb51bb42ba56}{kf\+\_\+work} (int stage, \hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\+\_\+type} $\ast$Fout, const \hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\+\_\+type} $\ast$f, size\+\_\+t fstride, size\+\_\+t in\+\_\+stride)
+\item 
+void \hyperlink{classkissfft_a4f053d9dbac7e4c7c8594b01eca50511}{C\+\_\+\+A\+DD} (\hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\+\_\+type} \&c, const \hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\+\_\+type} \&a, const \hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\+\_\+type} \&b)
+\item 
+void \hyperlink{classkissfft_afa4efc3959abe6bb1e4c10f4442fed07}{C\+\_\+\+M\+UL} (\hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\+\_\+type} \&c, const \hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\+\_\+type} \&a, const \hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\+\_\+type} \&b)
+\item 
+void \hyperlink{classkissfft_a1f4a4ec1b1ac1f2b199710b921b53a6d}{C\+\_\+\+S\+UB} (\hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\+\_\+type} \&c, const \hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\+\_\+type} \&a, const \hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\+\_\+type} \&b)
+\item 
+void \hyperlink{classkissfft_a1cb327491bc3dce979631f5c2ebd142a}{C\+\_\+\+A\+D\+D\+TO} (\hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\+\_\+type} \&c, const \hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\+\_\+type} \&a)
+\item 
+void \hyperlink{classkissfft_aef8eb1d4326ae5c6a94ad71af0af87c5}{C\+\_\+\+F\+I\+X\+D\+IV} (\hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\+\_\+type} \&, int)
+\item 
+\hyperlink{classkissfft_a074a5f74883901c625b6e80660d16ad4}{scalar\+\_\+type} \hyperlink{classkissfft_a118797ba0c80bcd14ed5792deeb22c58}{S\+\_\+\+M\+UL} (const \hyperlink{classkissfft_a074a5f74883901c625b6e80660d16ad4}{scalar\+\_\+type} \&a, const \hyperlink{classkissfft_a074a5f74883901c625b6e80660d16ad4}{scalar\+\_\+type} \&b)
+\item 
+\hyperlink{classkissfft_a074a5f74883901c625b6e80660d16ad4}{scalar\+\_\+type} \hyperlink{classkissfft_aca22ce3dafcd91ffca189121367fd026}{H\+A\+L\+F\+\_\+\+OF} (const \hyperlink{classkissfft_a074a5f74883901c625b6e80660d16ad4}{scalar\+\_\+type} \&a)
+\item 
+void \hyperlink{classkissfft_a25bc023cec82dce6d314dea8c124349a}{C\+\_\+\+M\+U\+L\+B\+Y\+S\+C\+A\+L\+AR} (\hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\+\_\+type} \&c, const \hyperlink{classkissfft_a074a5f74883901c625b6e80660d16ad4}{scalar\+\_\+type} \&a)
+\item 
+void \hyperlink{classkissfft_a88750fa038b343d9e94bdcefc66cf604}{kf\+\_\+bfly2} (\hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\+\_\+type} $\ast$Fout, const size\+\_\+t fstride, int m)
+\item 
+void \hyperlink{classkissfft_a64876ee331b8349c63873207a87880db}{kf\+\_\+bfly4} (\hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\+\_\+type} $\ast$Fout, const size\+\_\+t fstride, const size\+\_\+t m)
+\item 
+void \hyperlink{classkissfft_a5eafd09bfe32414e9efca3f74ca99266}{kf\+\_\+bfly3} (\hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\+\_\+type} $\ast$Fout, const size\+\_\+t fstride, const size\+\_\+t m)
+\item 
+void \hyperlink{classkissfft_af6b0264b4e13de975edaa006b2ab98b6}{kf\+\_\+bfly5} (\hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\+\_\+type} $\ast$Fout, const size\+\_\+t fstride, const size\+\_\+t m)
+\item 
+void \hyperlink{classkissfft_abf9a27bb71715184e6886ee38c371650}{kf\+\_\+bfly\+\_\+generic} (\hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\+\_\+type} $\ast$Fout, const size\+\_\+t fstride, int m, int p)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classkissfft_abbfab972dff7a11d401150233e54041d}{\+\_\+nfft}
+\item 
+bool \hyperlink{classkissfft_af0fce7031f3363ac6305d9c1f5da0008}{\+\_\+inverse}
+\item 
+std\+::vector$<$ \hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\+\_\+type} $>$ \hyperlink{classkissfft_abd5d6e3a0d08f56c711590d890fdd740}{\+\_\+twiddles}
+\item 
+std\+::vector$<$ int $>$ \hyperlink{classkissfft_a89d4645ae457422179835a92f2e4bf7c}{\+\_\+stage\+Radix}
+\item 
+std\+::vector$<$ int $>$ \hyperlink{classkissfft_a112fd0185ddaaf837cab9e7abb839d13}{\+\_\+stage\+Remainder}
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Typedef Documentation}
+\index{kissfft@{kissfft}!cpx\+\_\+type@{cpx\+\_\+type}}
+\index{cpx\+\_\+type@{cpx\+\_\+type}!kissfft@{kissfft}}
+\subsubsection[{\texorpdfstring{cpx\+\_\+type}{cpx_type}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+\_\+\+Scalar, typename T\+\_\+traits = kissfft\+\_\+utils\+::traits$<$\+T\+\_\+\+Scalar$>$$>$ typedef traits\+\_\+type\+::cpx\+\_\+type {\bf kissfft}$<$ T\+\_\+\+Scalar, T\+\_\+traits $>$\+::{\bf cpx\+\_\+type}}\hypertarget{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{}\label{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}
+\index{kissfft@{kissfft}!scalar\+\_\+type@{scalar\+\_\+type}}
+\index{scalar\+\_\+type@{scalar\+\_\+type}!kissfft@{kissfft}}
+\subsubsection[{\texorpdfstring{scalar\+\_\+type}{scalar_type}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+\_\+\+Scalar, typename T\+\_\+traits = kissfft\+\_\+utils\+::traits$<$\+T\+\_\+\+Scalar$>$$>$ typedef traits\+\_\+type\+::scalar\+\_\+type {\bf kissfft}$<$ T\+\_\+\+Scalar, T\+\_\+traits $>$\+::{\bf scalar\+\_\+type}}\hypertarget{classkissfft_a074a5f74883901c625b6e80660d16ad4}{}\label{classkissfft_a074a5f74883901c625b6e80660d16ad4}
+\index{kissfft@{kissfft}!traits\+\_\+type@{traits\+\_\+type}}
+\index{traits\+\_\+type@{traits\+\_\+type}!kissfft@{kissfft}}
+\subsubsection[{\texorpdfstring{traits\+\_\+type}{traits_type}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+\_\+\+Scalar, typename T\+\_\+traits = kissfft\+\_\+utils\+::traits$<$\+T\+\_\+\+Scalar$>$$>$ typedef T\+\_\+traits {\bf kissfft}$<$ T\+\_\+\+Scalar, T\+\_\+traits $>$\+::{\bf traits\+\_\+type}}\hypertarget{classkissfft_aa5a17184447b2a77c41e61f2d491bad5}{}\label{classkissfft_aa5a17184447b2a77c41e61f2d491bad5}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{kissfft@{kissfft}!kissfft@{kissfft}}
+\index{kissfft@{kissfft}!kissfft@{kissfft}}
+\subsubsection[{\texorpdfstring{kissfft(int nfft, bool inverse, const traits\+\_\+type \&traits=traits\+\_\+type())}{kissfft(int nfft, bool inverse, const traits_type &traits=traits_type())}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+\_\+\+Scalar, typename T\+\_\+traits = kissfft\+\_\+utils\+::traits$<$\+T\+\_\+\+Scalar$>$$>$ {\bf kissfft}$<$ T\+\_\+\+Scalar, T\+\_\+traits $>$\+::{\bf kissfft} (
+\begin{DoxyParamCaption}
+\item[{int}]{nfft, }
+\item[{bool}]{inverse, }
+\item[{const {\bf traits\+\_\+type} \&}]{traits = {\ttfamily {\bf traits\+\_\+type}()}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classkissfft_a9140ed2cbfe6116eba53256e16084475}{}\label{classkissfft_a9140ed2cbfe6116eba53256e16084475}
+
+\begin{DoxyCode}
+65             :\hyperlink{classkissfft_abbfab972dff7a11d401150233e54041d}{\_nfft}(\hyperlink{classkissfft_a387da366ef44c52769e5052e327009dc}{nfft}),\hyperlink{classkissfft_af0fce7031f3363ac6305d9c1f5da0008}{\_inverse}(inverse)
+66         \{
+67             traits.prepare(\hyperlink{classkissfft_abd5d6e3a0d08f56c711590d890fdd740}{\_twiddles}, \hyperlink{classkissfft_abbfab972dff7a11d401150233e54041d}{\_nfft},\hyperlink{classkissfft_af0fce7031f3363ac6305d9c1f5da0008}{\_inverse} ,
+      \hyperlink{classkissfft_a89d4645ae457422179835a92f2e4bf7c}{\_stageRadix}, \hyperlink{classkissfft_a112fd0185ddaaf837cab9e7abb839d13}{\_stageRemainder});
+68         \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\index{kissfft@{kissfft}!C\+\_\+\+A\+DD@{C\+\_\+\+A\+DD}}
+\index{C\+\_\+\+A\+DD@{C\+\_\+\+A\+DD}!kissfft@{kissfft}}
+\subsubsection[{\texorpdfstring{C\+\_\+\+A\+D\+D(cpx\+\_\+type \&c, const cpx\+\_\+type \&a, const cpx\+\_\+type \&b)}{C_ADD(cpx_type &c, const cpx_type &a, const cpx_type &b)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+\_\+\+Scalar, typename T\+\_\+traits = kissfft\+\_\+utils\+::traits$<$\+T\+\_\+\+Scalar$>$$>$ void {\bf kissfft}$<$ T\+\_\+\+Scalar, T\+\_\+traits $>$\+::C\+\_\+\+A\+DD (
+\begin{DoxyParamCaption}
+\item[{{\bf cpx\+\_\+type} \&}]{c, }
+\item[{const {\bf cpx\+\_\+type} \&}]{a, }
+\item[{const {\bf cpx\+\_\+type} \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}\hypertarget{classkissfft_a4f053d9dbac7e4c7c8594b01eca50511}{}\label{classkissfft_a4f053d9dbac7e4c7c8594b01eca50511}
+
+\begin{DoxyCode}
+114 \{ c=a+b;\}
+\end{DoxyCode}
+\index{kissfft@{kissfft}!C\+\_\+\+A\+D\+D\+TO@{C\+\_\+\+A\+D\+D\+TO}}
+\index{C\+\_\+\+A\+D\+D\+TO@{C\+\_\+\+A\+D\+D\+TO}!kissfft@{kissfft}}
+\subsubsection[{\texorpdfstring{C\+\_\+\+A\+D\+D\+T\+O(cpx\+\_\+type \&c, const cpx\+\_\+type \&a)}{C_ADDTO(cpx_type &c, const cpx_type &a)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+\_\+\+Scalar, typename T\+\_\+traits = kissfft\+\_\+utils\+::traits$<$\+T\+\_\+\+Scalar$>$$>$ void {\bf kissfft}$<$ T\+\_\+\+Scalar, T\+\_\+traits $>$\+::C\+\_\+\+A\+D\+D\+TO (
+\begin{DoxyParamCaption}
+\item[{{\bf cpx\+\_\+type} \&}]{c, }
+\item[{const {\bf cpx\+\_\+type} \&}]{a}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}\hypertarget{classkissfft_a1cb327491bc3dce979631f5c2ebd142a}{}\label{classkissfft_a1cb327491bc3dce979631f5c2ebd142a}
+
+\begin{DoxyCode}
+117 \{ c+=a;\}
+\end{DoxyCode}
+\index{kissfft@{kissfft}!C\+\_\+\+F\+I\+X\+D\+IV@{C\+\_\+\+F\+I\+X\+D\+IV}}
+\index{C\+\_\+\+F\+I\+X\+D\+IV@{C\+\_\+\+F\+I\+X\+D\+IV}!kissfft@{kissfft}}
+\subsubsection[{\texorpdfstring{C\+\_\+\+F\+I\+X\+D\+I\+V(cpx\+\_\+type \&, int)}{C_FIXDIV(cpx_type &, int)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+\_\+\+Scalar, typename T\+\_\+traits = kissfft\+\_\+utils\+::traits$<$\+T\+\_\+\+Scalar$>$$>$ void {\bf kissfft}$<$ T\+\_\+\+Scalar, T\+\_\+traits $>$\+::C\+\_\+\+F\+I\+X\+D\+IV (
+\begin{DoxyParamCaption}
+\item[{{\bf cpx\+\_\+type} \&}]{, }
+\item[{int}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}\hypertarget{classkissfft_aef8eb1d4326ae5c6a94ad71af0af87c5}{}\label{classkissfft_aef8eb1d4326ae5c6a94ad71af0af87c5}
+
+\begin{DoxyCode}
+118 \{\} \textcolor{comment}{// NO-OP for float types}
+\end{DoxyCode}
+\index{kissfft@{kissfft}!C\+\_\+\+M\+UL@{C\+\_\+\+M\+UL}}
+\index{C\+\_\+\+M\+UL@{C\+\_\+\+M\+UL}!kissfft@{kissfft}}
+\subsubsection[{\texorpdfstring{C\+\_\+\+M\+U\+L(cpx\+\_\+type \&c, const cpx\+\_\+type \&a, const cpx\+\_\+type \&b)}{C_MUL(cpx_type &c, const cpx_type &a, const cpx_type &b)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+\_\+\+Scalar, typename T\+\_\+traits = kissfft\+\_\+utils\+::traits$<$\+T\+\_\+\+Scalar$>$$>$ void {\bf kissfft}$<$ T\+\_\+\+Scalar, T\+\_\+traits $>$\+::C\+\_\+\+M\+UL (
+\begin{DoxyParamCaption}
+\item[{{\bf cpx\+\_\+type} \&}]{c, }
+\item[{const {\bf cpx\+\_\+type} \&}]{a, }
+\item[{const {\bf cpx\+\_\+type} \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}\hypertarget{classkissfft_afa4efc3959abe6bb1e4c10f4442fed07}{}\label{classkissfft_afa4efc3959abe6bb1e4c10f4442fed07}
+
+\begin{DoxyCode}
+115 \{ c=a*b;\}
+\end{DoxyCode}
+\index{kissfft@{kissfft}!C\+\_\+\+M\+U\+L\+B\+Y\+S\+C\+A\+L\+AR@{C\+\_\+\+M\+U\+L\+B\+Y\+S\+C\+A\+L\+AR}}
+\index{C\+\_\+\+M\+U\+L\+B\+Y\+S\+C\+A\+L\+AR@{C\+\_\+\+M\+U\+L\+B\+Y\+S\+C\+A\+L\+AR}!kissfft@{kissfft}}
+\subsubsection[{\texorpdfstring{C\+\_\+\+M\+U\+L\+B\+Y\+S\+C\+A\+L\+A\+R(cpx\+\_\+type \&c, const scalar\+\_\+type \&a)}{C_MULBYSCALAR(cpx_type &c, const scalar_type &a)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+\_\+\+Scalar, typename T\+\_\+traits = kissfft\+\_\+utils\+::traits$<$\+T\+\_\+\+Scalar$>$$>$ void {\bf kissfft}$<$ T\+\_\+\+Scalar, T\+\_\+traits $>$\+::C\+\_\+\+M\+U\+L\+B\+Y\+S\+C\+A\+L\+AR (
+\begin{DoxyParamCaption}
+\item[{{\bf cpx\+\_\+type} \&}]{c, }
+\item[{const {\bf scalar\+\_\+type} \&}]{a}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}\hypertarget{classkissfft_a25bc023cec82dce6d314dea8c124349a}{}\label{classkissfft_a25bc023cec82dce6d314dea8c124349a}
+
+\begin{DoxyCode}
+121 \{c*=a;\}
+\end{DoxyCode}
+\index{kissfft@{kissfft}!C\+\_\+\+S\+UB@{C\+\_\+\+S\+UB}}
+\index{C\+\_\+\+S\+UB@{C\+\_\+\+S\+UB}!kissfft@{kissfft}}
+\subsubsection[{\texorpdfstring{C\+\_\+\+S\+U\+B(cpx\+\_\+type \&c, const cpx\+\_\+type \&a, const cpx\+\_\+type \&b)}{C_SUB(cpx_type &c, const cpx_type &a, const cpx_type &b)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+\_\+\+Scalar, typename T\+\_\+traits = kissfft\+\_\+utils\+::traits$<$\+T\+\_\+\+Scalar$>$$>$ void {\bf kissfft}$<$ T\+\_\+\+Scalar, T\+\_\+traits $>$\+::C\+\_\+\+S\+UB (
+\begin{DoxyParamCaption}
+\item[{{\bf cpx\+\_\+type} \&}]{c, }
+\item[{const {\bf cpx\+\_\+type} \&}]{a, }
+\item[{const {\bf cpx\+\_\+type} \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}\hypertarget{classkissfft_a1f4a4ec1b1ac1f2b199710b921b53a6d}{}\label{classkissfft_a1f4a4ec1b1ac1f2b199710b921b53a6d}
+
+\begin{DoxyCode}
+116 \{ c=a-b;\}
+\end{DoxyCode}
+\index{kissfft@{kissfft}!H\+A\+L\+F\+\_\+\+OF@{H\+A\+L\+F\+\_\+\+OF}}
+\index{H\+A\+L\+F\+\_\+\+OF@{H\+A\+L\+F\+\_\+\+OF}!kissfft@{kissfft}}
+\subsubsection[{\texorpdfstring{H\+A\+L\+F\+\_\+\+O\+F(const scalar\+\_\+type \&a)}{HALF_OF(const scalar_type &a)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+\_\+\+Scalar, typename T\+\_\+traits = kissfft\+\_\+utils\+::traits$<$\+T\+\_\+\+Scalar$>$$>$ {\bf scalar\+\_\+type} {\bf kissfft}$<$ T\+\_\+\+Scalar, T\+\_\+traits $>$\+::H\+A\+L\+F\+\_\+\+OF (
+\begin{DoxyParamCaption}
+\item[{const {\bf scalar\+\_\+type} \&}]{a}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}\hypertarget{classkissfft_aca22ce3dafcd91ffca189121367fd026}{}\label{classkissfft_aca22ce3dafcd91ffca189121367fd026}
+
+\begin{DoxyCode}
+120 \{ \textcolor{keywordflow}{return} a*.5;\}
+\end{DoxyCode}
+\index{kissfft@{kissfft}!kf\+\_\+bfly2@{kf\+\_\+bfly2}}
+\index{kf\+\_\+bfly2@{kf\+\_\+bfly2}!kissfft@{kissfft}}
+\subsubsection[{\texorpdfstring{kf\+\_\+bfly2(cpx\+\_\+type $\ast$\+Fout, const size\+\_\+t fstride, int m)}{kf_bfly2(cpx_type *Fout, const size_t fstride, int m)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+\_\+\+Scalar, typename T\+\_\+traits = kissfft\+\_\+utils\+::traits$<$\+T\+\_\+\+Scalar$>$$>$ void {\bf kissfft}$<$ T\+\_\+\+Scalar, T\+\_\+traits $>$\+::kf\+\_\+bfly2 (
+\begin{DoxyParamCaption}
+\item[{{\bf cpx\+\_\+type} $\ast$}]{Fout, }
+\item[{const size\+\_\+t}]{fstride, }
+\item[{int}]{m}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}\hypertarget{classkissfft_a88750fa038b343d9e94bdcefc66cf604}{}\label{classkissfft_a88750fa038b343d9e94bdcefc66cf604}
+
+\begin{DoxyCode}
+124         \{
+125             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} k=0;k<m;++k) \{
+126                 \hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\_type} t = Fout[m+k] * \hyperlink{classkissfft_abd5d6e3a0d08f56c711590d890fdd740}{\_twiddles}[k*fstride];
+127                 Fout[m+k] = Fout[k] - t;
+128                 Fout[k] += t;
+129             \}
+130         \}
+\end{DoxyCode}
+\index{kissfft@{kissfft}!kf\+\_\+bfly3@{kf\+\_\+bfly3}}
+\index{kf\+\_\+bfly3@{kf\+\_\+bfly3}!kissfft@{kissfft}}
+\subsubsection[{\texorpdfstring{kf\+\_\+bfly3(cpx\+\_\+type $\ast$\+Fout, const size\+\_\+t fstride, const size\+\_\+t m)}{kf_bfly3(cpx_type *Fout, const size_t fstride, const size_t m)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+\_\+\+Scalar, typename T\+\_\+traits = kissfft\+\_\+utils\+::traits$<$\+T\+\_\+\+Scalar$>$$>$ void {\bf kissfft}$<$ T\+\_\+\+Scalar, T\+\_\+traits $>$\+::kf\+\_\+bfly3 (
+\begin{DoxyParamCaption}
+\item[{{\bf cpx\+\_\+type} $\ast$}]{Fout, }
+\item[{const size\+\_\+t}]{fstride, }
+\item[{const size\+\_\+t}]{m}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}\hypertarget{classkissfft_a5eafd09bfe32414e9efca3f74ca99266}{}\label{classkissfft_a5eafd09bfe32414e9efca3f74ca99266}
+
+\begin{DoxyCode}
+155         \{
+156             \textcolor{keywordtype}{size\_t} k=m;
+157             \textcolor{keyword}{const} \textcolor{keywordtype}{size\_t} m2 = 2*m;
+158             \hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\_type} *tw1,*tw2;
+159             \hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\_type} scratch[5];
+160             \hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\_type} epi3;
+161             epi3 = \hyperlink{classkissfft_abd5d6e3a0d08f56c711590d890fdd740}{\_twiddles}[fstride*m];
+162 
+163             tw1=tw2=&\hyperlink{classkissfft_abd5d6e3a0d08f56c711590d890fdd740}{\_twiddles}[0];
+164 
+165             \textcolor{keywordflow}{do}\{
+166                 \hyperlink{classkissfft_aef8eb1d4326ae5c6a94ad71af0af87c5}{C\_FIXDIV}(*Fout,3); \hyperlink{classkissfft_aef8eb1d4326ae5c6a94ad71af0af87c5}{C\_FIXDIV}(Fout[m],3); \hyperlink{classkissfft_aef8eb1d4326ae5c6a94ad71af0af87c5}{C\_FIXDIV}(Fout[m2],3);
+167 
+168                 \hyperlink{classkissfft_afa4efc3959abe6bb1e4c10f4442fed07}{C\_MUL}(scratch[1],Fout[m] , *tw1);
+169                 \hyperlink{classkissfft_afa4efc3959abe6bb1e4c10f4442fed07}{C\_MUL}(scratch[2],Fout[m2] , *tw2);
+170 
+171                 \hyperlink{classkissfft_a4f053d9dbac7e4c7c8594b01eca50511}{C\_ADD}(scratch[3],scratch[1],scratch[2]);
+172                 \hyperlink{classkissfft_a1f4a4ec1b1ac1f2b199710b921b53a6d}{C\_SUB}(scratch[0],scratch[1],scratch[2]);
+173                 tw1 += fstride;
+174                 tw2 += fstride*2;
+175 
+176                 Fout[m] = \hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\_type}( Fout->real() - \hyperlink{classkissfft_aca22ce3dafcd91ffca189121367fd026}{HALF\_OF}(scratch[3].real() ) , Fout->imag(
+      ) - \hyperlink{classkissfft_aca22ce3dafcd91ffca189121367fd026}{HALF\_OF}(scratch[3].imag() ) );
+177 
+178                 \hyperlink{classkissfft_a25bc023cec82dce6d314dea8c124349a}{C\_MULBYSCALAR}( scratch[0] , epi3.imag() );
+179 
+180                 \hyperlink{classkissfft_a1cb327491bc3dce979631f5c2ebd142a}{C\_ADDTO}(*Fout,scratch[3]);
+181 
+182                 Fout[m2] = \hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\_type}(  Fout[m].real() + scratch[0].imag() , Fout[m].imag() - scratch
+      [0].real() );
+183 
+184                 \hyperlink{classkissfft_a1cb327491bc3dce979631f5c2ebd142a}{C\_ADDTO}( Fout[m] , \hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\_type}( -scratch[0].imag(),scratch[0].real() ) );
+185                 ++Fout;
+186             \}\textcolor{keywordflow}{while}(--k);
+187         \}
+\end{DoxyCode}
+\index{kissfft@{kissfft}!kf\+\_\+bfly4@{kf\+\_\+bfly4}}
+\index{kf\+\_\+bfly4@{kf\+\_\+bfly4}!kissfft@{kissfft}}
+\subsubsection[{\texorpdfstring{kf\+\_\+bfly4(cpx\+\_\+type $\ast$\+Fout, const size\+\_\+t fstride, const size\+\_\+t m)}{kf_bfly4(cpx_type *Fout, const size_t fstride, const size_t m)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+\_\+\+Scalar, typename T\+\_\+traits = kissfft\+\_\+utils\+::traits$<$\+T\+\_\+\+Scalar$>$$>$ void {\bf kissfft}$<$ T\+\_\+\+Scalar, T\+\_\+traits $>$\+::kf\+\_\+bfly4 (
+\begin{DoxyParamCaption}
+\item[{{\bf cpx\+\_\+type} $\ast$}]{Fout, }
+\item[{const size\+\_\+t}]{fstride, }
+\item[{const size\+\_\+t}]{m}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}\hypertarget{classkissfft_a64876ee331b8349c63873207a87880db}{}\label{classkissfft_a64876ee331b8349c63873207a87880db}
+
+\begin{DoxyCode}
+133         \{
+134             \hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\_type} scratch[7];
+135             \textcolor{keywordtype}{int} negative\_if\_inverse = \hyperlink{classkissfft_af0fce7031f3363ac6305d9c1f5da0008}{\_inverse} * -2 +1;
+136             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} k=0;k<m;++k) \{
+137                 scratch[0] = Fout[k+m] * \hyperlink{classkissfft_abd5d6e3a0d08f56c711590d890fdd740}{\_twiddles}[k*fstride];
+138                 scratch[1] = Fout[k+2*m] * \_twiddles[k*fstride*2];
+139                 scratch[2] = Fout[k+3*m] * \_twiddles[k*fstride*3];
+140                 scratch[5] = Fout[k] - scratch[1];
+141 
+142                 Fout[k] += scratch[1];
+143                 scratch[3] = scratch[0] + scratch[2];
+144                 scratch[4] = scratch[0] - scratch[2];
+145                 scratch[4] = \hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\_type}( scratch[4].imag()*negative\_if\_inverse , -scratch[4].real()* 
+      negative\_if\_inverse );
+146 
+147                 Fout[k+2*m]  = Fout[k] - scratch[3];
+148                 Fout[k] += scratch[3];
+149                 Fout[k+m] = scratch[5] + scratch[4];
+150                 Fout[k+3*m] = scratch[5] - scratch[4];
+151             \}
+152         \}
+\end{DoxyCode}
+\index{kissfft@{kissfft}!kf\+\_\+bfly5@{kf\+\_\+bfly5}}
+\index{kf\+\_\+bfly5@{kf\+\_\+bfly5}!kissfft@{kissfft}}
+\subsubsection[{\texorpdfstring{kf\+\_\+bfly5(cpx\+\_\+type $\ast$\+Fout, const size\+\_\+t fstride, const size\+\_\+t m)}{kf_bfly5(cpx_type *Fout, const size_t fstride, const size_t m)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+\_\+\+Scalar, typename T\+\_\+traits = kissfft\+\_\+utils\+::traits$<$\+T\+\_\+\+Scalar$>$$>$ void {\bf kissfft}$<$ T\+\_\+\+Scalar, T\+\_\+traits $>$\+::kf\+\_\+bfly5 (
+\begin{DoxyParamCaption}
+\item[{{\bf cpx\+\_\+type} $\ast$}]{Fout, }
+\item[{const size\+\_\+t}]{fstride, }
+\item[{const size\+\_\+t}]{m}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}\hypertarget{classkissfft_af6b0264b4e13de975edaa006b2ab98b6}{}\label{classkissfft_af6b0264b4e13de975edaa006b2ab98b6}
+
+\begin{DoxyCode}
+190         \{
+191             \hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\_type} *Fout0,*Fout1,*Fout2,*Fout3,*Fout4;
+192             \textcolor{keywordtype}{size\_t} u;
+193             \hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\_type} scratch[13];
+194             \hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\_type} * twiddles = &\hyperlink{classkissfft_abd5d6e3a0d08f56c711590d890fdd740}{\_twiddles}[0];
+195             \hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\_type} *tw;
+196             \hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\_type} ya,yb;
+197             ya = twiddles[fstride*m];
+198             yb = twiddles[fstride*2*m];
+199 
+200             Fout0=Fout;
+201             Fout1=Fout0+m;
+202             Fout2=Fout0+2*m;
+203             Fout3=Fout0+3*m;
+204             Fout4=Fout0+4*m;
+205 
+206             tw=twiddles;
+207             \textcolor{keywordflow}{for} ( u=0; u<m; ++u ) \{
+208                 \hyperlink{classkissfft_aef8eb1d4326ae5c6a94ad71af0af87c5}{C\_FIXDIV}( *Fout0,5); \hyperlink{classkissfft_aef8eb1d4326ae5c6a94ad71af0af87c5}{C\_FIXDIV}( *Fout1,5); 
+      \hyperlink{classkissfft_aef8eb1d4326ae5c6a94ad71af0af87c5}{C\_FIXDIV}( *Fout2,5); \hyperlink{classkissfft_aef8eb1d4326ae5c6a94ad71af0af87c5}{C\_FIXDIV}( *Fout3,5); \hyperlink{classkissfft_aef8eb1d4326ae5c6a94ad71af0af87c5}{C\_FIXDIV}( *Fout4,5);
+209                 scratch[0] = *Fout0;
+210 
+211                 \hyperlink{classkissfft_afa4efc3959abe6bb1e4c10f4442fed07}{C\_MUL}(scratch[1] ,*Fout1, tw[u*fstride]);
+212                 \hyperlink{classkissfft_afa4efc3959abe6bb1e4c10f4442fed07}{C\_MUL}(scratch[2] ,*Fout2, tw[2*u*fstride]);
+213                 \hyperlink{classkissfft_afa4efc3959abe6bb1e4c10f4442fed07}{C\_MUL}(scratch[3] ,*Fout3, tw[3*u*fstride]);
+214                 \hyperlink{classkissfft_afa4efc3959abe6bb1e4c10f4442fed07}{C\_MUL}(scratch[4] ,*Fout4, tw[4*u*fstride]);
+215 
+216                 \hyperlink{classkissfft_a4f053d9dbac7e4c7c8594b01eca50511}{C\_ADD}( scratch[7],scratch[1],scratch[4]);
+217                 \hyperlink{classkissfft_a1f4a4ec1b1ac1f2b199710b921b53a6d}{C\_SUB}( scratch[10],scratch[1],scratch[4]);
+218                 \hyperlink{classkissfft_a4f053d9dbac7e4c7c8594b01eca50511}{C\_ADD}( scratch[8],scratch[2],scratch[3]);
+219                 \hyperlink{classkissfft_a1f4a4ec1b1ac1f2b199710b921b53a6d}{C\_SUB}( scratch[9],scratch[2],scratch[3]);
+220 
+221                 \hyperlink{classkissfft_a1cb327491bc3dce979631f5c2ebd142a}{C\_ADDTO}( *Fout0, scratch[7]);
+222                 \hyperlink{classkissfft_a1cb327491bc3dce979631f5c2ebd142a}{C\_ADDTO}( *Fout0, scratch[8]);
+223 
+224                 scratch[5] = scratch[0] + \hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\_type}(
+225                         \hyperlink{classkissfft_a118797ba0c80bcd14ed5792deeb22c58}{S\_MUL}(scratch[7].real(),ya.real() ) + \hyperlink{classkissfft_a118797ba0c80bcd14ed5792deeb22c58}{S\_MUL}(scratch[8].real() ,yb.real() 
+      ),
+226                         \hyperlink{classkissfft_a118797ba0c80bcd14ed5792deeb22c58}{S\_MUL}(scratch[7].imag(),ya.real()) + \hyperlink{classkissfft_a118797ba0c80bcd14ed5792deeb22c58}{S\_MUL}(scratch[8].imag(),yb.real())
+227                         );
+228 
+229                 scratch[6] =  \hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\_type}( 
+230                         \hyperlink{classkissfft_a118797ba0c80bcd14ed5792deeb22c58}{S\_MUL}(scratch[10].imag(),ya.imag()) + \hyperlink{classkissfft_a118797ba0c80bcd14ed5792deeb22c58}{S\_MUL}(scratch[9].imag(),yb.imag()),
+231                         -\hyperlink{classkissfft_a118797ba0c80bcd14ed5792deeb22c58}{S\_MUL}(scratch[10].real(),ya.imag()) - \hyperlink{classkissfft_a118797ba0c80bcd14ed5792deeb22c58}{S\_MUL}(scratch[9].real(),yb.imag())
+       
+232                         );
+233 
+234                 \hyperlink{classkissfft_a1f4a4ec1b1ac1f2b199710b921b53a6d}{C\_SUB}(*Fout1,scratch[5],scratch[6]);
+235                 \hyperlink{classkissfft_a4f053d9dbac7e4c7c8594b01eca50511}{C\_ADD}(*Fout4,scratch[5],scratch[6]);
+236 
+237                 scratch[11] = scratch[0] + 
+238                     \hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\_type}(
+239                             \hyperlink{classkissfft_a118797ba0c80bcd14ed5792deeb22c58}{S\_MUL}(scratch[7].real(),yb.real()) + \hyperlink{classkissfft_a118797ba0c80bcd14ed5792deeb22c58}{S\_MUL}(scratch[8].real(),ya.real(
+      )),
+240                             \hyperlink{classkissfft_a118797ba0c80bcd14ed5792deeb22c58}{S\_MUL}(scratch[7].imag(),yb.real()) + \hyperlink{classkissfft_a118797ba0c80bcd14ed5792deeb22c58}{S\_MUL}(scratch[8].imag(),ya.real(
+      ))
+241                             );
+242 
+243                 scratch[12] = \hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\_type}(
+244                         -\hyperlink{classkissfft_a118797ba0c80bcd14ed5792deeb22c58}{S\_MUL}(scratch[10].imag(),yb.imag()) + \hyperlink{classkissfft_a118797ba0c80bcd14ed5792deeb22c58}{S\_MUL}(scratch[9].imag(),ya.imag())
+      ,
+245                         \hyperlink{classkissfft_a118797ba0c80bcd14ed5792deeb22c58}{S\_MUL}(scratch[10].real(),yb.imag()) - \hyperlink{classkissfft_a118797ba0c80bcd14ed5792deeb22c58}{S\_MUL}(scratch[9].real(),ya.imag())
+246                         );
+247 
+248                 \hyperlink{classkissfft_a4f053d9dbac7e4c7c8594b01eca50511}{C\_ADD}(*Fout2,scratch[11],scratch[12]);
+249                 \hyperlink{classkissfft_a1f4a4ec1b1ac1f2b199710b921b53a6d}{C\_SUB}(*Fout3,scratch[11],scratch[12]);
+250 
+251                 ++Fout0;++Fout1;++Fout2;++Fout3;++Fout4;
+252             \}
+253         \}
+\end{DoxyCode}
+\index{kissfft@{kissfft}!kf\+\_\+bfly\+\_\+generic@{kf\+\_\+bfly\+\_\+generic}}
+\index{kf\+\_\+bfly\+\_\+generic@{kf\+\_\+bfly\+\_\+generic}!kissfft@{kissfft}}
+\subsubsection[{\texorpdfstring{kf\+\_\+bfly\+\_\+generic(cpx\+\_\+type $\ast$\+Fout, const size\+\_\+t fstride, int m, int p)}{kf_bfly_generic(cpx_type *Fout, const size_t fstride, int m, int p)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+\_\+\+Scalar, typename T\+\_\+traits = kissfft\+\_\+utils\+::traits$<$\+T\+\_\+\+Scalar$>$$>$ void {\bf kissfft}$<$ T\+\_\+\+Scalar, T\+\_\+traits $>$\+::kf\+\_\+bfly\+\_\+generic (
+\begin{DoxyParamCaption}
+\item[{{\bf cpx\+\_\+type} $\ast$}]{Fout, }
+\item[{const size\+\_\+t}]{fstride, }
+\item[{int}]{m, }
+\item[{int}]{p}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}\hypertarget{classkissfft_abf9a27bb71715184e6886ee38c371650}{}\label{classkissfft_abf9a27bb71715184e6886ee38c371650}
+
+\begin{DoxyCode}
+262         \{
+263             \textcolor{keywordtype}{int} u,k,q1,q;
+264             \hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\_type} * twiddles = &\hyperlink{classkissfft_abd5d6e3a0d08f56c711590d890fdd740}{\_twiddles}[0];
+265             \hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\_type} t;
+266             \textcolor{keywordtype}{int} Norig = \hyperlink{classkissfft_abbfab972dff7a11d401150233e54041d}{\_nfft};
+267             \hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\_type} *scratchbuf = (\hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\_type}*)\hyperlink{std__incl_8h_a72fc0ed307a114ba9a46ebd095267d2f}{ALLOCA}(\textcolor{keyword}{sizeof}(
+      \hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\_type})*p);
+268 
+269             \textcolor{keywordflow}{for} ( u=0; u<m; ++u ) \{
+270                 k=u;
+271                 \textcolor{keywordflow}{for} ( q1=0 ; q1<p ; ++q1 ) \{
+272                     scratchbuf[q1] = Fout[ k  ];
+273                     \hyperlink{classkissfft_aef8eb1d4326ae5c6a94ad71af0af87c5}{C\_FIXDIV}(scratchbuf[q1],p);
+274                     k += m;
+275                 \}
+276 
+277                 k=u;
+278                 \textcolor{keywordflow}{for} ( q1=0 ; q1<p ; ++q1 ) \{
+279                     \textcolor{keywordtype}{int} twidx=0;
+280                     Fout[ k ] = scratchbuf[0];
+281                     \textcolor{keywordflow}{for} (q=1;q<p;++q ) \{
+282                         twidx += fstride * k;
+283                         \textcolor{keywordflow}{if} (twidx>=Norig) twidx-=Norig;
+284                         \hyperlink{classkissfft_afa4efc3959abe6bb1e4c10f4442fed07}{C\_MUL}(t,scratchbuf[q] , twiddles[twidx] );
+285                         \hyperlink{classkissfft_a1cb327491bc3dce979631f5c2ebd142a}{C\_ADDTO}( Fout[ k ] ,t);
+286                     \}
+287                     k += m;
+288                 \}
+289             \}
+290         \}
+\end{DoxyCode}
+\index{kissfft@{kissfft}!kf\+\_\+work@{kf\+\_\+work}}
+\index{kf\+\_\+work@{kf\+\_\+work}!kissfft@{kissfft}}
+\subsubsection[{\texorpdfstring{kf\+\_\+work(int stage, cpx\+\_\+type $\ast$\+Fout, const cpx\+\_\+type $\ast$f, size\+\_\+t fstride, size\+\_\+t in\+\_\+stride)}{kf_work(int stage, cpx_type *Fout, const cpx_type *f, size_t fstride, size_t in_stride)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+\_\+\+Scalar, typename T\+\_\+traits = kissfft\+\_\+utils\+::traits$<$\+T\+\_\+\+Scalar$>$$>$ void {\bf kissfft}$<$ T\+\_\+\+Scalar, T\+\_\+traits $>$\+::kf\+\_\+work (
+\begin{DoxyParamCaption}
+\item[{int}]{stage, }
+\item[{{\bf cpx\+\_\+type} $\ast$}]{Fout, }
+\item[{const {\bf cpx\+\_\+type} $\ast$}]{f, }
+\item[{size\+\_\+t}]{fstride, }
+\item[{size\+\_\+t}]{in\+\_\+stride}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}\hypertarget{classkissfft_a33dc368507355e068428fb51bb42ba56}{}\label{classkissfft_a33dc368507355e068428fb51bb42ba56}
+
+\begin{DoxyCode}
+79         \{
+80             \textcolor{keywordtype}{int} p = \hyperlink{classkissfft_a89d4645ae457422179835a92f2e4bf7c}{\_stageRadix}[stage];
+81             \textcolor{keywordtype}{int} m = \hyperlink{classkissfft_a112fd0185ddaaf837cab9e7abb839d13}{\_stageRemainder}[stage];
+82             \hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\_type} * Fout\_beg = Fout;
+83             \hyperlink{classkissfft_af66664488b0b1b2995f3e4c2f63a8b7d}{cpx\_type} * Fout\_end = Fout + p*m;
+84 
+85             \textcolor{keywordflow}{if} (m==1) \{
+86                 \textcolor{keywordflow}{do}\{
+87                     *Fout = *f;
+88                     f += fstride*in\_stride;
+89                 \}\textcolor{keywordflow}{while}(++Fout != Fout\_end );
+90             \}\textcolor{keywordflow}{else}\{
+91                 \textcolor{keywordflow}{do}\{
+92                     \textcolor{comment}{// recursive call:}
+93                     \textcolor{comment}{// DFT of size m*p performed by doing}
+94                     \textcolor{comment}{// p instances of smaller DFTs of size m, }
+95                     \textcolor{comment}{// each one takes a decimated version of the input}
+96                     \hyperlink{classkissfft_a33dc368507355e068428fb51bb42ba56}{kf\_work}(stage+1, Fout , f, fstride*p,in\_stride);
+97                     f += fstride*in\_stride;
+98                 \}\textcolor{keywordflow}{while}( (Fout += m) != Fout\_end );
+99             \}
+100 
+101             Fout=Fout\_beg;
+102 
+103             \textcolor{comment}{// recombine the p smaller DFTs }
+104             \textcolor{keywordflow}{switch} (p) \{
+105                 \textcolor{keywordflow}{case} 2: \hyperlink{classkissfft_a88750fa038b343d9e94bdcefc66cf604}{kf\_bfly2}(Fout,fstride,m); \textcolor{keywordflow}{break};
+106                 \textcolor{keywordflow}{case} 3: \hyperlink{classkissfft_a5eafd09bfe32414e9efca3f74ca99266}{kf\_bfly3}(Fout,fstride,m); \textcolor{keywordflow}{break};
+107                 \textcolor{keywordflow}{case} 4: \hyperlink{classkissfft_a64876ee331b8349c63873207a87880db}{kf\_bfly4}(Fout,fstride,m); \textcolor{keywordflow}{break};
+108                 \textcolor{keywordflow}{case} 5: \hyperlink{classkissfft_af6b0264b4e13de975edaa006b2ab98b6}{kf\_bfly5}(Fout,fstride,m); \textcolor{keywordflow}{break};
+109                 \textcolor{keywordflow}{default}: \hyperlink{classkissfft_abf9a27bb71715184e6886ee38c371650}{kf\_bfly\_generic}(Fout,fstride,m,p); \textcolor{keywordflow}{break};
+110             \}
+111         \}
+\end{DoxyCode}
+\index{kissfft@{kissfft}!nfft@{nfft}}
+\index{nfft@{nfft}!kissfft@{kissfft}}
+\subsubsection[{\texorpdfstring{nfft()}{nfft()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+\_\+\+Scalar, typename T\+\_\+traits = kissfft\+\_\+utils\+::traits$<$\+T\+\_\+\+Scalar$>$$>$ int {\bf kissfft}$<$ T\+\_\+\+Scalar, T\+\_\+traits $>$\+::nfft (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classkissfft_a387da366ef44c52769e5052e327009dc}{}\label{classkissfft_a387da366ef44c52769e5052e327009dc}
+
+\begin{DoxyCode}
+75 \{ \textcolor{keywordflow}{return} \hyperlink{classkissfft_abbfab972dff7a11d401150233e54041d}{\_nfft}; \}
+\end{DoxyCode}
+\index{kissfft@{kissfft}!S\+\_\+\+M\+UL@{S\+\_\+\+M\+UL}}
+\index{S\+\_\+\+M\+UL@{S\+\_\+\+M\+UL}!kissfft@{kissfft}}
+\subsubsection[{\texorpdfstring{S\+\_\+\+M\+U\+L(const scalar\+\_\+type \&a, const scalar\+\_\+type \&b)}{S_MUL(const scalar_type &a, const scalar_type &b)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+\_\+\+Scalar, typename T\+\_\+traits = kissfft\+\_\+utils\+::traits$<$\+T\+\_\+\+Scalar$>$$>$ {\bf scalar\+\_\+type} {\bf kissfft}$<$ T\+\_\+\+Scalar, T\+\_\+traits $>$\+::S\+\_\+\+M\+UL (
+\begin{DoxyParamCaption}
+\item[{const {\bf scalar\+\_\+type} \&}]{a, }
+\item[{const {\bf scalar\+\_\+type} \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}\hypertarget{classkissfft_a118797ba0c80bcd14ed5792deeb22c58}{}\label{classkissfft_a118797ba0c80bcd14ed5792deeb22c58}
+
+\begin{DoxyCode}
+119 \{ \textcolor{keywordflow}{return} a*b;\}
+\end{DoxyCode}
+\index{kissfft@{kissfft}!transform@{transform}}
+\index{transform@{transform}!kissfft@{kissfft}}
+\subsubsection[{\texorpdfstring{transform(const cpx\+\_\+type $\ast$src, cpx\+\_\+type $\ast$dst)}{transform(const cpx_type *src, cpx_type *dst)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+\_\+\+Scalar, typename T\+\_\+traits = kissfft\+\_\+utils\+::traits$<$\+T\+\_\+\+Scalar$>$$>$ void {\bf kissfft}$<$ T\+\_\+\+Scalar, T\+\_\+traits $>$\+::transform (
+\begin{DoxyParamCaption}
+\item[{const {\bf cpx\+\_\+type} $\ast$}]{src, }
+\item[{{\bf cpx\+\_\+type} $\ast$}]{dst}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classkissfft_ad2db80b9c9b087fb36fbe8b3b0078df8}{}\label{classkissfft_ad2db80b9c9b087fb36fbe8b3b0078df8}
+
+\begin{DoxyCode}
+71         \{
+72             \hyperlink{classkissfft_a33dc368507355e068428fb51bb42ba56}{kf\_work}(0, dst, src, 1,1);
+73         \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\index{kissfft@{kissfft}!\+\_\+inverse@{\+\_\+inverse}}
+\index{\+\_\+inverse@{\+\_\+inverse}!kissfft@{kissfft}}
+\subsubsection[{\texorpdfstring{\+\_\+inverse}{_inverse}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+\_\+\+Scalar, typename T\+\_\+traits = kissfft\+\_\+utils\+::traits$<$\+T\+\_\+\+Scalar$>$$>$ bool {\bf kissfft}$<$ T\+\_\+\+Scalar, T\+\_\+traits $>$\+::\+\_\+inverse\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classkissfft_af0fce7031f3363ac6305d9c1f5da0008}{}\label{classkissfft_af0fce7031f3363ac6305d9c1f5da0008}
+\index{kissfft@{kissfft}!\+\_\+nfft@{\+\_\+nfft}}
+\index{\+\_\+nfft@{\+\_\+nfft}!kissfft@{kissfft}}
+\subsubsection[{\texorpdfstring{\+\_\+nfft}{_nfft}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+\_\+\+Scalar, typename T\+\_\+traits = kissfft\+\_\+utils\+::traits$<$\+T\+\_\+\+Scalar$>$$>$ int {\bf kissfft}$<$ T\+\_\+\+Scalar, T\+\_\+traits $>$\+::\+\_\+nfft\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classkissfft_abbfab972dff7a11d401150233e54041d}{}\label{classkissfft_abbfab972dff7a11d401150233e54041d}
+\index{kissfft@{kissfft}!\+\_\+stage\+Radix@{\+\_\+stage\+Radix}}
+\index{\+\_\+stage\+Radix@{\+\_\+stage\+Radix}!kissfft@{kissfft}}
+\subsubsection[{\texorpdfstring{\+\_\+stage\+Radix}{_stageRadix}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+\_\+\+Scalar, typename T\+\_\+traits = kissfft\+\_\+utils\+::traits$<$\+T\+\_\+\+Scalar$>$$>$ std\+::vector$<$int$>$ {\bf kissfft}$<$ T\+\_\+\+Scalar, T\+\_\+traits $>$\+::\+\_\+stage\+Radix\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classkissfft_a89d4645ae457422179835a92f2e4bf7c}{}\label{classkissfft_a89d4645ae457422179835a92f2e4bf7c}
+\index{kissfft@{kissfft}!\+\_\+stage\+Remainder@{\+\_\+stage\+Remainder}}
+\index{\+\_\+stage\+Remainder@{\+\_\+stage\+Remainder}!kissfft@{kissfft}}
+\subsubsection[{\texorpdfstring{\+\_\+stage\+Remainder}{_stageRemainder}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+\_\+\+Scalar, typename T\+\_\+traits = kissfft\+\_\+utils\+::traits$<$\+T\+\_\+\+Scalar$>$$>$ std\+::vector$<$int$>$ {\bf kissfft}$<$ T\+\_\+\+Scalar, T\+\_\+traits $>$\+::\+\_\+stage\+Remainder\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classkissfft_a112fd0185ddaaf837cab9e7abb839d13}{}\label{classkissfft_a112fd0185ddaaf837cab9e7abb839d13}
+\index{kissfft@{kissfft}!\+\_\+twiddles@{\+\_\+twiddles}}
+\index{\+\_\+twiddles@{\+\_\+twiddles}!kissfft@{kissfft}}
+\subsubsection[{\texorpdfstring{\+\_\+twiddles}{_twiddles}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T\+\_\+\+Scalar, typename T\+\_\+traits = kissfft\+\_\+utils\+::traits$<$\+T\+\_\+\+Scalar$>$$>$ std\+::vector$<${\bf cpx\+\_\+type}$>$ {\bf kissfft}$<$ T\+\_\+\+Scalar, T\+\_\+traits $>$\+::\+\_\+twiddles\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classkissfft_abd5d6e3a0d08f56c711590d890fdd740}{}\label{classkissfft_abd5d6e3a0d08f56c711590d890fdd740}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+cputrack/\hyperlink{kissfft_8h}{kissfft.\+h}\end{DoxyCompactItemize}

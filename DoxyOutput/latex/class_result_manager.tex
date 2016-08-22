@@ -1,0 +1,997 @@
+\hypertarget{class_result_manager}{}\section{Result\+Manager Class Reference}
+\label{class_result_manager}\index{Result\+Manager@{Result\+Manager}}
+
+
+Class that handles data gathering and saving from \hyperlink{class_queued_tracker}{Queued\+Tracker} instances.  
+
+
+
+
+{\ttfamily \#include $<$Result\+Manager.\+h$>$}
+
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_result_manager_1_1_frame_counters}{Frame\+Counters}
+\begin{DoxyCompactList}\small\item\em Structure to keep track of frame counts. \end{DoxyCompactList}\item 
+struct \hyperlink{struct_result_manager_1_1_frame_result}{Frame\+Result}
+\begin{DoxyCompactList}\small\item\em Structure to save all bead results of a single frame in memory. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_result_manager_a44c51e60829a40eb9d12d50dd7157cff}{Result\+Manager} (const char $\ast$outfile, const char $\ast$frameinfo, \hyperlink{struct_result_manager_config}{Result\+Manager\+Config} $\ast$cfg, std\+::vector$<$ std\+::string $>$ colnames)
+\begin{DoxyCompactList}\small\item\em Create an instance of \hyperlink{class_result_manager}{Result\+Manager}. \end{DoxyCompactList}\item 
+\hyperlink{class_result_manager_ab74fc12f867b0e890d2aec3e0a935293}{$\sim$\+Result\+Manager} ()
+\begin{DoxyCompactList}\small\item\em Destroy an instance of \hyperlink{class_result_manager}{Result\+Manager}. \end{DoxyCompactList}\item 
+void \hyperlink{class_result_manager_ab744ccc8dd33fc3b1880bd24e3981fcc}{Save\+Section} (int start, int end, const char $\ast$beadposfile, const char $\ast$infofile)
+\begin{DoxyCompactList}\small\item\em Save an interval of frames to a file. \end{DoxyCompactList}\item 
+void \hyperlink{class_result_manager_a415bd4a67729b4347866be136dd413b5}{Set\+Tracker} (\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$\hyperlink{class_result_manager_a782d776e818e9be737c418d2151402ed}{qtrk})
+\begin{DoxyCompactList}\small\item\em Set the tracker from which to fetch results. \end{DoxyCompactList}\item 
+\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$ \hyperlink{class_result_manager_aafc624688ed2b4ef158299935ba3f043}{Get\+Tracker} ()
+\begin{DoxyCompactList}\small\item\em Get the tracker from which results are fetched. \end{DoxyCompactList}\item 
+int \hyperlink{class_result_manager_aa258efc5ddd5e737fd6a00bf3372dd81}{Get\+Bead\+Positions} (int start\+Frame, int end\+Frame, int bead, \hyperlink{struct_localization_result}{Localization\+Result} $\ast$r)
+\begin{DoxyCompactList}\small\item\em Get the positions of a single bead over an interval of frames. \end{DoxyCompactList}\item 
+int \hyperlink{class_result_manager_a8baf4f5befea704f8e63ef24af2b7c2f}{Get\+Results} (\hyperlink{struct_localization_result}{Localization\+Result} $\ast$results, int start\+Frame, int num\+Results)
+\begin{DoxyCompactList}\small\item\em Get the positions of all beads over an interval of frames. \end{DoxyCompactList}\item 
+void \hyperlink{class_result_manager_af33fd9c1dda86151405a08d826320794}{Flush} ()
+\begin{DoxyCompactList}\small\item\em Write all available data regardless of \hyperlink{struct_result_manager_config_a24c57e2403e5012fc5900924db770611}{Result\+Manager\+Config\+::write\+Interval}. \end{DoxyCompactList}\item 
+\hyperlink{struct_result_manager_1_1_frame_counters}{Frame\+Counters} \hyperlink{class_result_manager_af0e807e271c8626bcc1a01c498e2ad38}{Get\+Frame\+Counters} ()
+\begin{DoxyCompactList}\small\item\em Returns a \hyperlink{struct_result_manager_1_1_frame_counters}{Frame\+Counters} structure with the current counts. \end{DoxyCompactList}\item 
+void \hyperlink{class_result_manager_a0bbedc935395c1af29f175f81ab063c9}{Store\+Frame\+Info} (int frame, double timestamp, float $\ast$columns)
+\begin{DoxyCompactList}\small\item\em Store metadata for a frame. This data will be saved in the info file. \end{DoxyCompactList}\item 
+int \hyperlink{class_result_manager_a473002eab88049c663eab8c97cbf2d34}{Get\+Frame\+Count} ()
+\begin{DoxyCompactList}\small\item\em Returns the number of captured frames. \end{DoxyCompactList}\item 
+bool \hyperlink{class_result_manager_aaa749abf3e879376677dc051745ed665}{Remove\+Bead\+Results} (int bead)
+\begin{DoxyCompactList}\small\item\em Remove all results of a certain bead. \end{DoxyCompactList}\item 
+const \hyperlink{struct_result_manager_config}{Result\+Manager\+Config} \& \hyperlink{class_result_manager_a6a54dc8335c40471d40312f383df178c}{Config} ()
+\begin{DoxyCompactList}\small\item\em Returns a reference to the used configuration to review. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{class_result_manager_ad274290b02aabcaae7cb1052f8aaad14}{Check\+Result\+Space} (int fr)
+\begin{DoxyCompactList}\small\item\em Checks if a frame index is valid. \end{DoxyCompactList}\item 
+void \hyperlink{class_result_manager_a6a43d521555ef47d76c8a7e9bb8ff87e}{Write} ()
+\begin{DoxyCompactList}\small\item\em Write available results to output files. \end{DoxyCompactList}\item 
+void \hyperlink{class_result_manager_aafdacba27b69bef50732f72053d21845}{Write\+Binary\+Results} ()
+\begin{DoxyCompactList}\small\item\em Write available data to a binary file. \end{DoxyCompactList}\item 
+void \hyperlink{class_result_manager_a8e0e6fb46d3d512b11663e1f4c7af5f1}{Write\+Text\+Results} ()
+\begin{DoxyCompactList}\small\item\em Write available data to a text file. \end{DoxyCompactList}\item 
+void \hyperlink{class_result_manager_aef219e3b0da98522795633ed3e38180c}{Store\+Result} (\hyperlink{struct_localization_result}{Localization\+Result} $\ast$r)
+\begin{DoxyCompactList}\small\item\em Copies results from \hyperlink{class_queued_tracker}{Queued\+Tracker} to internal data structures. \end{DoxyCompactList}\item 
+bool \hyperlink{class_result_manager_a96d36b8b947374edf13ede8e12822f10}{Update} ()
+\begin{DoxyCompactList}\small\item\em General worker function called from \hyperlink{class_result_manager_a0aff477d777703dd9f1e01ba0bd6f2d8}{Thread\+Loop}. \end{DoxyCompactList}\item 
+void \hyperlink{class_result_manager_ad67d6303de94c15cbb8de23cf1837270}{Write\+Binary\+File\+Header} ()
+\begin{DoxyCompactList}\small\item\em Writes metadata to the header of a binary data file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \hyperlink{class_result_manager_a0aff477d777703dd9f1e01ba0bd6f2d8}{Thread\+Loop} (void $\ast$param)
+\begin{DoxyCompactList}\small\item\em The base loop of the gathering and saving thread. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{struct_threads_1_1_mutex}{Threads\+::\+Mutex} \hyperlink{class_result_manager_a736af7b3783f456fb05aa011bafc5bde}{result\+Mutex}
+\begin{DoxyCompactList}\small\item\em Mutex to govern access to \hyperlink{class_result_manager_a2b7ba6801c7d9cfff0b4f8ee5ffc7569}{frame\+Results}. \end{DoxyCompactList}\item 
+\hyperlink{struct_threads_1_1_mutex}{Threads\+::\+Mutex} \hyperlink{class_result_manager_ab8b3508ac87e3990b0b6a70c9031719d}{tracker\+Mutex}
+\begin{DoxyCompactList}\small\item\em Mutex to govern access to the linked \hyperlink{class_queued_tracker}{Queued\+Tracker} instance. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::string $>$ \hyperlink{class_result_manager_a13591c71dc8de59c119c3a26de681e21}{frame\+Info\+Names}
+\begin{DoxyCompactList}\small\item\em Vector with frame info column names. See \hyperlink{class_result_manager_ad67d6303de94c15cbb8de23cf1837270}{Write\+Binary\+File\+Header}. \end{DoxyCompactList}\item 
+std\+::deque$<$ \hyperlink{struct_result_manager_1_1_frame_result}{Frame\+Result} $\ast$ $>$ \hyperlink{class_result_manager_a2b7ba6801c7d9cfff0b4f8ee5ffc7569}{frame\+Results}
+\begin{DoxyCompactList}\small\item\em Vector to hold the results for all frames. \end{DoxyCompactList}\item 
+\hyperlink{struct_result_manager_1_1_frame_counters}{Frame\+Counters} \hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}
+\begin{DoxyCompactList}\small\item\em Local instance of \hyperlink{struct_result_manager_1_1_frame_counters}{Frame\+Counters} to maintain counts accross functions. \end{DoxyCompactList}\item 
+\hyperlink{struct_result_manager_config}{Result\+Manager\+Config} \hyperlink{class_result_manager_a23c07e2966ffb6b48c5c043418b4c748}{config}
+\begin{DoxyCompactList}\small\item\em Local instance of \hyperlink{struct_result_manager_config}{Result\+Manager\+Config} with the settings used by this instance of \hyperlink{class_result_manager}{Result\+Manager}. \end{DoxyCompactList}\item 
+\hyperlink{class_result_file}{Result\+File} $\ast$ \hyperlink{class_result_manager_a886e75626ba90bb4aff4dcf661733b30}{result\+File}
+\begin{DoxyCompactList}\small\item\em Local instance of \hyperlink{class_result_file}{Result\+File} to generalize output to text or binary files. Not used. \end{DoxyCompactList}\item 
+\hyperlink{class_queued_tracker}{Queued\+Tracker} $\ast$ \hyperlink{class_result_manager_a782d776e818e9be737c418d2151402ed}{qtrk}
+\begin{DoxyCompactList}\small\item\em Pointer to the \hyperlink{class_queued_tracker}{Queued\+Tracker} instance to check. \end{DoxyCompactList}\item 
+std\+::string \hyperlink{class_result_manager_aa882de00c45911638edda0705fb54f36}{output\+File}
+\begin{DoxyCompactList}\small\item\em Path and filename of the main data output file. \end{DoxyCompactList}\item 
+std\+::string \hyperlink{class_result_manager_a204b1725be212dbad21eea374420270f}{frame\+Info\+File}
+\begin{DoxyCompactList}\small\item\em Path and filename of the frame info (metadata) file. \end{DoxyCompactList}\item 
+\hyperlink{struct_threads_1_1_handle}{Threads\+::\+Handle} $\ast$ \hyperlink{class_result_manager_ab3ef361e61d16ef54726cd7b78f03cd5}{thread}
+\begin{DoxyCompactList}\small\item\em Handle to the thread running the \hyperlink{class_result_manager_a0aff477d777703dd9f1e01ba0bd6f2d8}{Thread\+Loop}. \end{DoxyCompactList}\item 
+\hyperlink{class_atomic}{Atomic}$<$ bool $>$ \hyperlink{class_result_manager_a2e8af4e9f24aff29025adb24032d788e}{quit}
+\begin{DoxyCompactList}\small\item\em Flag to exit the threads. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class that handles data gathering and saving from \hyperlink{class_queued_tracker}{Queued\+Tracker} instances. 
+
+Creates a separate thread to check a linked Q\+Trk instance for new data. Gathers data and saves to the disk at regular intervals. Mutexes used to ensure thread safety. ~\newline
+ Results from \hyperlink{class_queued_tracker}{Queued\+Tracker} are sorted as \mbox{[}frame\mbox{]}\mbox{[}bead\mbox{]} to enable saving data on a frame-\/per-\/line basis. 
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Result\+Manager@{Result\+Manager}!Result\+Manager@{Result\+Manager}}
+\index{Result\+Manager@{Result\+Manager}!Result\+Manager@{Result\+Manager}}
+\subsubsection[{\texorpdfstring{Result\+Manager(const char $\ast$outfile, const char $\ast$frameinfo, Result\+Manager\+Config $\ast$cfg, std\+::vector$<$ std\+::string $>$ colnames)}{ResultManager(const char *outfile, const char *frameinfo, ResultManagerConfig *cfg, std::vector< std::string > colnames)}}]{\setlength{\rightskip}{0pt plus 5cm}Result\+Manager\+::\+Result\+Manager (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{outfile, }
+\item[{const char $\ast$}]{frameinfo, }
+\item[{{\bf Result\+Manager\+Config} $\ast$}]{cfg, }
+\item[{std\+::vector$<$ std\+::string $>$}]{colnames}
+\end{DoxyParamCaption}
+)}\hypertarget{class_result_manager_a44c51e60829a40eb9d12d50dd7157cff}{}\label{class_result_manager_a44c51e60829a40eb9d12d50dd7157cff}
+
+
+Create an instance of \hyperlink{class_result_manager}{Result\+Manager}. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em outfile} & String (char array) with full path and filename of desired output file for data. \\
+\hline
+\mbox{\tt in}  & {\em frameinfo} & String (char array) with full path and filename of desired output file for frame metadata. \\
+\hline
+\mbox{\tt in}  & {\em cfg} & Pointer to structure \hyperlink{struct_result_manager_config}{Result\+Manager\+Config} with settings to use. \\
+\hline
+\mbox{\tt in}  & {\em colnames} & Vector of names for the columns in the frame info file. Size must equal \hyperlink{struct_result_manager_config_a97e9e26724a91e3a6757957f18b8f8b7}{Result\+Manager\+Config\+::num\+Frame\+Info\+Columns}. ~\newline
+ Only used for binary files. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyCode}
+43 \{
+44     \hyperlink{class_result_manager_a23c07e2966ffb6b48c5c043418b4c748}{config} = *cfg;
+45     \hyperlink{class_result_manager_aa882de00c45911638edda0705fb54f36}{outputFile} = outfile;
+46     this->\hyperlink{class_result_manager_a204b1725be212dbad21eea374420270f}{frameInfoFile} = \hyperlink{class_result_manager_a204b1725be212dbad21eea374420270f}{frameInfoFile};
+47 
+48     \hyperlink{namespaceqtrk}{qtrk} = 0;
+49 
+50     \hyperlink{class_result_manager_ab3ef361e61d16ef54726cd7b78f03cd5}{thread} = \hyperlink{struct_threads_ab6aa79b1b2c148b8d384916d58e2443e}{Threads::Create}(\hyperlink{class_result_manager_a0aff477d777703dd9f1e01ba0bd6f2d8}{ThreadLoop}, \textcolor{keyword}{this});
+51     \hyperlink{class_result_manager_a2e8af4e9f24aff29025adb24032d788e}{quit}=\textcolor{keyword}{false};
+52 
+53     \textcolor{keywordflow}{if} (!\hyperlink{class_result_manager_aa882de00c45911638edda0705fb54f36}{outputFile}.empty())
+54         \textcolor{keyword}{remove}(outfile);
+55     \textcolor{keywordflow}{if} (!this->\hyperlink{class_result_manager_a204b1725be212dbad21eea374420270f}{frameInfoFile}.empty())
+56         \textcolor{keyword}{remove}(\hyperlink{class_result_manager_a204b1725be212dbad21eea374420270f}{frameInfoFile});
+57 
+58     \hyperlink{class_result_manager_a13591c71dc8de59c119c3a26de681e21}{frameInfoNames} = colnames;
+59 
+60     \textcolor{keywordflow}{if} (\hyperlink{class_result_manager_a23c07e2966ffb6b48c5c043418b4c748}{config}.\hyperlink{struct_result_manager_config_a292ca1e5db1a9599d5dc52e14e83c2eb}{binaryOutput}) \{
+61         \hyperlink{class_result_manager_ad67d6303de94c15cbb8de23cf1837270}{WriteBinaryFileHeader}();
+62     \}
+63 
+64     \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"Allocating ResultManager with %d beads, %d motor columns and writeinterval %d\(\backslash\)n"}, 
+      cfg->\hyperlink{struct_result_manager_config_a790ecadd32a0c0242cb002752af806af}{numBeads}, cfg->\hyperlink{struct_result_manager_config_a97e9e26724a91e3a6757957f18b8f8b7}{numFrameInfoColumns}, cfg->
+      \hyperlink{struct_result_manager_config_a24c57e2403e5012fc5900924db770611}{writeInterval});
+65 \}
+\end{DoxyCode}
+\index{Result\+Manager@{Result\+Manager}!````~Result\+Manager@{$\sim$\+Result\+Manager}}
+\index{````~Result\+Manager@{$\sim$\+Result\+Manager}!Result\+Manager@{Result\+Manager}}
+\subsubsection[{\texorpdfstring{$\sim$\+Result\+Manager()}{~ResultManager()}}]{\setlength{\rightskip}{0pt plus 5cm}Result\+Manager\+::$\sim$\+Result\+Manager (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_result_manager_ab74fc12f867b0e890d2aec3e0a935293}{}\label{class_result_manager_ab74fc12f867b0e890d2aec3e0a935293}
+
+
+Destroy an instance of \hyperlink{class_result_manager}{Result\+Manager}. 
+
+Sets a flag to stop the thread and frees all results from memory. 
+\begin{DoxyCode}
+96 \{
+97     \hyperlink{class_result_manager_a2e8af4e9f24aff29025adb24032d788e}{quit} = \textcolor{keyword}{true};
+98     \hyperlink{struct_threads_a66c81807dee0d29c5ae6d254860e94d2}{Threads::WaitAndClose}(\hyperlink{class_result_manager_ab3ef361e61d16ef54726cd7b78f03cd5}{thread});
+99 
+100     \hyperlink{utils_8h_a79b36225c16ffe10c47c2aae8bee2d99}{DeleteAllElems}(\hyperlink{class_result_manager_a2b7ba6801c7d9cfff0b4f8ee5ffc7569}{frameResults});
+101 \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\index{Result\+Manager@{Result\+Manager}!Check\+Result\+Space@{Check\+Result\+Space}}
+\index{Check\+Result\+Space@{Check\+Result\+Space}!Result\+Manager@{Result\+Manager}}
+\subsubsection[{\texorpdfstring{Check\+Result\+Space(int fr)}{CheckResultSpace(int fr)}}]{\setlength{\rightskip}{0pt plus 5cm}bool Result\+Manager\+::\+Check\+Result\+Space (
+\begin{DoxyParamCaption}
+\item[{int}]{fr}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_result_manager_ad274290b02aabcaae7cb1052f8aaad14}{}\label{class_result_manager_ad274290b02aabcaae7cb1052f8aaad14}
+
+
+Checks if a frame index is valid. 
+
+Frame index is valid if within bounds of the current frames allowed in memory. Initializes the required \hyperlink{struct_result_manager_1_1_frame_result}{Frame\+Result} to store data for the frame {\ttfamily fr} if it is valid.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em fr} & Frame index to be checked. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em True} & Index is fine. New \hyperlink{struct_result_manager_1_1_frame_result}{Frame\+Result} initialized and added to results vector. \\
+\hline
+{\em False} & Index is invalid. Can\textquotesingle{}t process this frame index. \\
+\hline
+\end{DoxyRetVals}
+
+\begin{DoxyCode}
+362 \{
+363     \textcolor{keywordflow}{if}(fr < \hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a91cdacd9e2418fc49cdebabc171a1aa6}{startFrame})
+364         \textcolor{keywordflow}{return} \textcolor{keyword}{false}; \textcolor{comment}{// already removed, ignore}
+365 
+366     \textcolor{keywordflow}{if} (fr > \hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a9170beb3735c4d08f00050377eeebef5}{processedFrames} + 20000) \{
+367 
+368         \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"ResultManager: Ignoring suspiciously large frame number (%d).\(\backslash\)n"}, fr);
+369 
+370         \textcolor{keywordflow}{return} \textcolor{keyword}{false};
+371     \}
+372 
+373     \textcolor{keywordflow}{while} (fr >= \hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a91cdacd9e2418fc49cdebabc171a1aa6}{startFrame} + \hyperlink{class_result_manager_a2b7ba6801c7d9cfff0b4f8ee5ffc7569}{frameResults}.size()) \{
+374         \hyperlink{class_result_manager_a2b7ba6801c7d9cfff0b4f8ee5ffc7569}{frameResults}.push\_back (\textcolor{keyword}{new} FrameResult( \hyperlink{class_result_manager_a23c07e2966ffb6b48c5c043418b4c748}{config}.
+      \hyperlink{struct_result_manager_config_a790ecadd32a0c0242cb002752af806af}{numBeads}, \hyperlink{class_result_manager_a23c07e2966ffb6b48c5c043418b4c748}{config}.\hyperlink{struct_result_manager_config_a97e9e26724a91e3a6757957f18b8f8b7}{numFrameInfoColumns}));
+375     \}
+376     \textcolor{keywordflow}{return} \textcolor{keyword}{true};
+377 \}
+\end{DoxyCode}
+\index{Result\+Manager@{Result\+Manager}!Config@{Config}}
+\index{Config@{Config}!Result\+Manager@{Result\+Manager}}
+\subsubsection[{\texorpdfstring{Config()}{Config()}}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf Result\+Manager\+Config}\& Result\+Manager\+::\+Config (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_result_manager_a6a54dc8335c40471d40312f383df178c}{}\label{class_result_manager_a6a54dc8335c40471d40312f383df178c}
+
+
+Returns a reference to the used configuration to review. 
+
+\begin{DoxyReturn}{Returns}
+The \hyperlink{struct_result_manager_config}{Result\+Manager\+Config} structure used for this instance of \hyperlink{class_result_manager}{Result\+Manager}. Read-\/only. 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+206 \{ \textcolor{keywordflow}{return} \hyperlink{class_result_manager_a23c07e2966ffb6b48c5c043418b4c748}{config}; \}
+\end{DoxyCode}
+\index{Result\+Manager@{Result\+Manager}!Flush@{Flush}}
+\index{Flush@{Flush}!Result\+Manager@{Result\+Manager}}
+\subsubsection[{\texorpdfstring{Flush()}{Flush()}}]{\setlength{\rightskip}{0pt plus 5cm}void Result\+Manager\+::\+Flush (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_result_manager_af33fd9c1dda86151405a08d826320794}{}\label{class_result_manager_af33fd9c1dda86151405a08d826320794}
+
+
+Write all available data regardless of \hyperlink{struct_result_manager_config_a24c57e2403e5012fc5900924db770611}{Result\+Manager\+Config\+::write\+Interval}. 
+
+Use to write unsaved frames from memory when no new ones are expected anymore. Writes all leftover data after waiting for the linked \hyperlink{class_queued_tracker}{Queued\+Tracker} to finish its queued localizations. 
+\begin{DoxyCode}
+308 \{
+309     \hyperlink{class_result_manager_ab8b3508ac87e3990b0b6a70c9031719d}{trackerMutex}.\hyperlink{struct_threads_1_1_mutex_af3cb09072ecd935be502deb78f4519d5}{lock}();
+310     \textcolor{keywordflow}{if} (\hyperlink{namespaceqtrk}{qtrk}) \hyperlink{namespaceqtrk}{qtrk}->Flush();
+311     \hyperlink{class_result_manager_ab8b3508ac87e3990b0b6a70c9031719d}{trackerMutex}.\hyperlink{struct_threads_1_1_mutex_ad78fadce2239c6d359986e443822f6f6}{unlock}();
+312 
+313     \hyperlink{class_result_manager_a96d36b8b947374edf13ede8e12822f10}{Update}();
+314 
+315     \hyperlink{class_result_manager_a736af7b3783f456fb05aa011bafc5bde}{resultMutex}.\hyperlink{struct_threads_1_1_mutex_af3cb09072ecd935be502deb78f4519d5}{lock}();
+316 
+317     \hyperlink{class_result_manager_a6a43d521555ef47d76c8a7e9bb8ff87e}{Write}();
+318 
+319     \textcolor{comment}{// Dump stats about unfinished frames for debugging}
+320 \textcolor{preprocessor}{#ifdef \_DEBUG}
+321     \textcolor{keywordflow}{for} (\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} i=0;i<\hyperlink{class_result_manager_a2b7ba6801c7d9cfff0b4f8ee5ffc7569}{frameResults}.size();i++) \{
+322         FrameResult *fr = \hyperlink{class_result_manager_a2b7ba6801c7d9cfff0b4f8ee5ffc7569}{frameResults}[i];
+323 \textcolor{comment}{//      dbgprintf("Frame %d. TS: %f, Count: %d\(\backslash\)n", i, fr->timestamp, fr->count);}
+324         \textcolor{keywordflow}{if} (fr->count != \hyperlink{class_result_manager_a23c07e2966ffb6b48c5c043418b4c748}{config}.\hyperlink{struct_result_manager_config_a790ecadd32a0c0242cb002752af806af}{numBeads}) \{
+325             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} j=0;j<fr->results.size();j++) \{
+326                 \textcolor{keywordflow}{if}( fr->results[j].job.frame == 0)
+327                     \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"%d, "}, j );
+328             \}
+329             \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"\(\backslash\)n"});
+330         \}
+331     \}
+332 \textcolor{preprocessor}{#endif}
+333     \hyperlink{class_result_manager_a736af7b3783f456fb05aa011bafc5bde}{resultMutex}.\hyperlink{struct_threads_1_1_mutex_ad78fadce2239c6d359986e443822f6f6}{unlock}();
+334 \}
+\end{DoxyCode}
+\index{Result\+Manager@{Result\+Manager}!Get\+Bead\+Positions@{Get\+Bead\+Positions}}
+\index{Get\+Bead\+Positions@{Get\+Bead\+Positions}!Result\+Manager@{Result\+Manager}}
+\subsubsection[{\texorpdfstring{Get\+Bead\+Positions(int start\+Frame, int end\+Frame, int bead, Localization\+Result $\ast$r)}{GetBeadPositions(int startFrame, int endFrame, int bead, LocalizationResult *r)}}]{\setlength{\rightskip}{0pt plus 5cm}int Result\+Manager\+::\+Get\+Bead\+Positions (
+\begin{DoxyParamCaption}
+\item[{int}]{start\+Frame, }
+\item[{int}]{end\+Frame, }
+\item[{int}]{bead, }
+\item[{{\bf Localization\+Result} $\ast$}]{r}
+\end{DoxyParamCaption}
+)}\hypertarget{class_result_manager_aa258efc5ddd5e737fd6a00bf3372dd81}{}\label{class_result_manager_aa258efc5ddd5e737fd6a00bf3372dd81}
+
+
+Get the positions of a single bead over an interval of frames. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em start\+Frame} & Framenumber of the start of the interval to save. \\
+\hline
+\mbox{\tt in}  & {\em end\+Frame} & Framenumber of the end of the interval to save. \\
+\hline
+\mbox{\tt in}  & {\em bead} & Beadnumber of the bead for which the results are requested. \\
+\hline
+\mbox{\tt in,out}  & {\em r} & Array of \hyperlink{struct_localization_result}{Localization\+Result} in which to store the data. ~\newline
+ Has to be initialized before calling this function. Size has to be equal to {\ttfamily end\+Frame} -\/ {\ttfamily start\+Frame}. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyCode}
+286 \{
+287     \textcolor{keywordtype}{int} count = end-startfr;
+288 
+289     \hyperlink{class_result_manager_a736af7b3783f456fb05aa011bafc5bde}{resultMutex}.\hyperlink{struct_threads_1_1_mutex_af3cb09072ecd935be502deb78f4519d5}{lock}();
+290     \textcolor{keywordflow}{if} (end > \hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a9170beb3735c4d08f00050377eeebef5}{processedFrames})
+291         end = \hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a9170beb3735c4d08f00050377eeebef5}{processedFrames};
+292 
+293     \textcolor{keywordtype}{int} start = startfr - \hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a91cdacd9e2418fc49cdebabc171a1aa6}{startFrame};
+294     \textcolor{keywordflow}{if} (start < 0) start = 0;
+295     \textcolor{keywordflow}{if} (count > \hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a9170beb3735c4d08f00050377eeebef5}{processedFrames}-\hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a91cdacd9e2418fc49cdebabc171a1aa6}{startFrame})
+296         count = \hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a9170beb3735c4d08f00050377eeebef5}{processedFrames}-\hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a91cdacd9e2418fc49cdebabc171a1aa6}{startFrame};
+297 
+298     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<count;i++)\{
+299         results[i] = \hyperlink{class_result_manager_a2b7ba6801c7d9cfff0b4f8ee5ffc7569}{frameResults}[i+start]->results[bead];
+300     \}
+301     \hyperlink{class_result_manager_a736af7b3783f456fb05aa011bafc5bde}{resultMutex}.\hyperlink{struct_threads_1_1_mutex_ad78fadce2239c6d359986e443822f6f6}{unlock}();
+302 
+303     \textcolor{keywordflow}{return} count;
+304 \}
+\end{DoxyCode}
+\index{Result\+Manager@{Result\+Manager}!Get\+Frame\+Count@{Get\+Frame\+Count}}
+\index{Get\+Frame\+Count@{Get\+Frame\+Count}!Result\+Manager@{Result\+Manager}}
+\subsubsection[{\texorpdfstring{Get\+Frame\+Count()}{GetFrameCount()}}]{\setlength{\rightskip}{0pt plus 5cm}int Result\+Manager\+::\+Get\+Frame\+Count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_result_manager_a473002eab88049c663eab8c97cbf2d34}{}\label{class_result_manager_a473002eab88049c663eab8c97cbf2d34}
+
+
+Returns the number of captured frames. 
+
+\begin{DoxyReturn}{Returns}
+Number of captured frames 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+400 \{
+401     \hyperlink{class_result_manager_a736af7b3783f456fb05aa011bafc5bde}{resultMutex}.\hyperlink{struct_threads_1_1_mutex_af3cb09072ecd935be502deb78f4519d5}{lock}();
+402     \textcolor{keywordtype}{int} nfr = \hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_ae9b12ed92f9c0a9e72a51beaf9cca61f}{capturedFrames};
+403     \hyperlink{class_result_manager_a736af7b3783f456fb05aa011bafc5bde}{resultMutex}.\hyperlink{struct_threads_1_1_mutex_ad78fadce2239c6d359986e443822f6f6}{unlock}();
+404     \textcolor{keywordflow}{return} nfr;
+405 \}
+\end{DoxyCode}
+\index{Result\+Manager@{Result\+Manager}!Get\+Frame\+Counters@{Get\+Frame\+Counters}}
+\index{Get\+Frame\+Counters@{Get\+Frame\+Counters}!Result\+Manager@{Result\+Manager}}
+\subsubsection[{\texorpdfstring{Get\+Frame\+Counters()}{GetFrameCounters()}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Result\+Manager\+::\+Frame\+Counters} Result\+Manager\+::\+Get\+Frame\+Counters (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_result_manager_af0e807e271c8626bcc1a01c498e2ad38}{}\label{class_result_manager_af0e807e271c8626bcc1a01c498e2ad38}
+
+
+Returns a \hyperlink{struct_result_manager_1_1_frame_counters}{Frame\+Counters} structure with the current counts. 
+
+
+\begin{DoxyCode}
+338 \{
+339     \hyperlink{class_result_manager_a736af7b3783f456fb05aa011bafc5bde}{resultMutex}.\hyperlink{struct_threads_1_1_mutex_af3cb09072ecd935be502deb78f4519d5}{lock}();
+340     FrameCounters c = \hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt};
+341     \hyperlink{class_result_manager_a736af7b3783f456fb05aa011bafc5bde}{resultMutex}.\hyperlink{struct_threads_1_1_mutex_ad78fadce2239c6d359986e443822f6f6}{unlock}();
+342     \textcolor{keywordflow}{return} c;
+343 \}
+\end{DoxyCode}
+\index{Result\+Manager@{Result\+Manager}!Get\+Results@{Get\+Results}}
+\index{Get\+Results@{Get\+Results}!Result\+Manager@{Result\+Manager}}
+\subsubsection[{\texorpdfstring{Get\+Results(\+Localization\+Result $\ast$results, int start\+Frame, int num\+Results)}{GetResults(LocalizationResult *results, int startFrame, int numResults)}}]{\setlength{\rightskip}{0pt plus 5cm}int Result\+Manager\+::\+Get\+Results (
+\begin{DoxyParamCaption}
+\item[{{\bf Localization\+Result} $\ast$}]{results, }
+\item[{int}]{start\+Frame, }
+\item[{int}]{num\+Results}
+\end{DoxyParamCaption}
+)}\hypertarget{class_result_manager_a8baf4f5befea704f8e63ef24af2b7c2f}{}\label{class_result_manager_a8baf4f5befea704f8e63ef24af2b7c2f}
+
+
+Get the positions of all beads over an interval of frames. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em start\+Frame} & Framenumber of the start of the interval to save. \\
+\hline
+\mbox{\tt in}  & {\em num\+Results} & Number of frames to save. \\
+\hline
+\mbox{\tt in,out}  & {\em results} & Array of \hyperlink{struct_localization_result}{Localization\+Result} in which to store the data. ~\newline
+ Has to be initialized before calling this function. Size has to be equal to {\ttfamily num\+Results}. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyCode}
+346 \{
+347     \hyperlink{class_result_manager_a736af7b3783f456fb05aa011bafc5bde}{resultMutex}.\hyperlink{struct_threads_1_1_mutex_af3cb09072ecd935be502deb78f4519d5}{lock}();
+348 
+349     \textcolor{keywordflow}{if} (startFrame >= \hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a91cdacd9e2418fc49cdebabc171a1aa6}{startFrame} && numFrames+startFrame <= \hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.
+      \hyperlink{struct_result_manager_1_1_frame_counters_a9170beb3735c4d08f00050377eeebef5}{processedFrames})  \{
+350         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} f=0;f<numFrames;f++) \{
+351             \textcolor{keywordtype}{int} index = f + startFrame - \hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a91cdacd9e2418fc49cdebabc171a1aa6}{startFrame};
+352             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} j=0;j<\hyperlink{class_result_manager_a23c07e2966ffb6b48c5c043418b4c748}{config}.\hyperlink{struct_result_manager_config_a790ecadd32a0c0242cb002752af806af}{numBeads};j++)
+353                 results[\hyperlink{class_result_manager_a23c07e2966ffb6b48c5c043418b4c748}{config}.\hyperlink{struct_result_manager_config_a790ecadd32a0c0242cb002752af806af}{numBeads}*f+j] = \hyperlink{class_result_manager_a2b7ba6801c7d9cfff0b4f8ee5ffc7569}{frameResults}[index]->results[j];
+354         \}
+355     \}
+356     \hyperlink{class_result_manager_a736af7b3783f456fb05aa011bafc5bde}{resultMutex}.\hyperlink{struct_threads_1_1_mutex_ad78fadce2239c6d359986e443822f6f6}{unlock}();
+357 
+358     \textcolor{keywordflow}{return} numFrames;
+359 \}
+\end{DoxyCode}
+\index{Result\+Manager@{Result\+Manager}!Get\+Tracker@{Get\+Tracker}}
+\index{Get\+Tracker@{Get\+Tracker}!Result\+Manager@{Result\+Manager}}
+\subsubsection[{\texorpdfstring{Get\+Tracker()}{GetTracker()}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Queued\+Tracker} $\ast$ Result\+Manager\+::\+Get\+Tracker (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_result_manager_aafc624688ed2b4ef158299935ba3f043}{}\label{class_result_manager_aafc624688ed2b4ef158299935ba3f043}
+
+
+Get the tracker from which results are fetched. 
+
+\begin{DoxyReturn}{Returns}
+Pointer to the current \hyperlink{class_queued_tracker}{Queued\+Tracker} instance. 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+208 \{
+209     \hyperlink{class_result_manager_ab8b3508ac87e3990b0b6a70c9031719d}{trackerMutex}.\hyperlink{struct_threads_1_1_mutex_af3cb09072ecd935be502deb78f4519d5}{lock}();
+210     \hyperlink{class_queued_tracker}{QueuedTracker}* trk = \hyperlink{class_result_manager_a782d776e818e9be737c418d2151402ed}{qtrk};
+211     \hyperlink{class_result_manager_ab8b3508ac87e3990b0b6a70c9031719d}{trackerMutex}.\hyperlink{struct_threads_1_1_mutex_ad78fadce2239c6d359986e443822f6f6}{unlock}();
+212     \textcolor{keywordflow}{return} trk;
+213 \}
+\end{DoxyCode}
+\index{Result\+Manager@{Result\+Manager}!Remove\+Bead\+Results@{Remove\+Bead\+Results}}
+\index{Remove\+Bead\+Results@{Remove\+Bead\+Results}!Result\+Manager@{Result\+Manager}}
+\subsubsection[{\texorpdfstring{Remove\+Bead\+Results(int bead)}{RemoveBeadResults(int bead)}}]{\setlength{\rightskip}{0pt plus 5cm}bool Result\+Manager\+::\+Remove\+Bead\+Results (
+\begin{DoxyParamCaption}
+\item[{int}]{bead}
+\end{DoxyParamCaption}
+)}\hypertarget{class_result_manager_aaa749abf3e879376677dc051745ed665}{}\label{class_result_manager_aaa749abf3e879376677dc051745ed665}
+
+
+Remove all results of a certain bead. 
+
+Currently only removes from memory.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em bead} & The index of the bead for which to remove the data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyRefDesc}{Todo}
+\item[\hyperlink{todo__todo000002}{Todo}]We need to modify the saved data file \end{DoxyRefDesc}
+
+\begin{DoxyCode}
+408 \{
+410 
+411     \textcolor{keywordflow}{for} (\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} i=0;i<\hyperlink{class_result_manager_a2b7ba6801c7d9cfff0b4f8ee5ffc7569}{frameResults}.size();i++) \{
+412         \textcolor{keyword}{auto} fr = \hyperlink{class_result_manager_a2b7ba6801c7d9cfff0b4f8ee5ffc7569}{frameResults}[i];
+413 
+414         fr->count--;
+415         fr->results.erase(fr->results.begin()+bead);
+416     \}
+417 
+418     \textcolor{keywordflow}{return} \textcolor{keyword}{true};
+419 \}
+\end{DoxyCode}
+\index{Result\+Manager@{Result\+Manager}!Save\+Section@{Save\+Section}}
+\index{Save\+Section@{Save\+Section}!Result\+Manager@{Result\+Manager}}
+\subsubsection[{\texorpdfstring{Save\+Section(int start, int end, const char $\ast$beadposfile, const char $\ast$infofile)}{SaveSection(int start, int end, const char *beadposfile, const char *infofile)}}]{\setlength{\rightskip}{0pt plus 5cm}void Result\+Manager\+::\+Save\+Section (
+\begin{DoxyParamCaption}
+\item[{int}]{start, }
+\item[{int}]{end, }
+\item[{const char $\ast$}]{beadposfile, }
+\item[{const char $\ast$}]{infofile}
+\end{DoxyParamCaption}
+)}\hypertarget{class_result_manager_ab744ccc8dd33fc3b1880bd24e3981fcc}{}\label{class_result_manager_ab744ccc8dd33fc3b1880bd24e3981fcc}
+
+
+Save an interval of frames to a file. 
+
+\begin{DoxyWarning}{Warning}
+Unimplemented.
+\end{DoxyWarning}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em start} & Framenumber of the start of the interval to save. \\
+\hline
+\mbox{\tt in}  & {\em end} & Framenumber of the end of the interval to save. \\
+\hline
+\mbox{\tt in}  & {\em beadposfile} & String (char array) with full path and filename of desired output file for data. \\
+\hline
+\mbox{\tt in}  & {\em infofile} & String (char array) with full path and filename of desired output file for frame metadata. \\
+\hline
+\end{DoxyParams}
+\index{Result\+Manager@{Result\+Manager}!Set\+Tracker@{Set\+Tracker}}
+\index{Set\+Tracker@{Set\+Tracker}!Result\+Manager@{Result\+Manager}}
+\subsubsection[{\texorpdfstring{Set\+Tracker(\+Queued\+Tracker $\ast$qtrk)}{SetTracker(QueuedTracker *qtrk)}}]{\setlength{\rightskip}{0pt plus 5cm}void Result\+Manager\+::\+Set\+Tracker (
+\begin{DoxyParamCaption}
+\item[{{\bf Queued\+Tracker} $\ast$}]{qtrk}
+\end{DoxyParamCaption}
+)}\hypertarget{class_result_manager_a415bd4a67729b4347866be136dd413b5}{}\label{class_result_manager_a415bd4a67729b4347866be136dd413b5}
+
+
+Set the tracker from which to fetch results. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em qtrk} & Pointer to the \hyperlink{class_queued_tracker}{Queued\+Tracker} instance to fetch results from. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyCode}
+216 \{
+217     \hyperlink{class_result_manager_ab8b3508ac87e3990b0b6a70c9031719d}{trackerMutex}.\hyperlink{struct_threads_1_1_mutex_af3cb09072ecd935be502deb78f4519d5}{lock}();
+218     this->qtrk = \hyperlink{class_result_manager_a782d776e818e9be737c418d2151402ed}{qtrk};
+219     \hyperlink{class_result_manager_ab8b3508ac87e3990b0b6a70c9031719d}{trackerMutex}.\hyperlink{struct_threads_1_1_mutex_ad78fadce2239c6d359986e443822f6f6}{unlock}();
+220 \}
+\end{DoxyCode}
+\index{Result\+Manager@{Result\+Manager}!Store\+Frame\+Info@{Store\+Frame\+Info}}
+\index{Store\+Frame\+Info@{Store\+Frame\+Info}!Result\+Manager@{Result\+Manager}}
+\subsubsection[{\texorpdfstring{Store\+Frame\+Info(int frame, double timestamp, float $\ast$columns)}{StoreFrameInfo(int frame, double timestamp, float *columns)}}]{\setlength{\rightskip}{0pt plus 5cm}void Result\+Manager\+::\+Store\+Frame\+Info (
+\begin{DoxyParamCaption}
+\item[{int}]{frame, }
+\item[{double}]{timestamp, }
+\item[{float $\ast$}]{columns}
+\end{DoxyParamCaption}
+)}\hypertarget{class_result_manager_a0bbedc935395c1af29f175f81ab063c9}{}\label{class_result_manager_a0bbedc935395c1af29f175f81ab063c9}
+
+
+Store metadata for a frame. This data will be saved in the info file. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em frame} & Frame number for which to store the data. \\
+\hline
+\mbox{\tt in}  & {\em timestamp} & Timestamp for the frame. \\
+\hline
+\mbox{\tt in}  & {\em columns} & Array of float values for the metadata columns. Size must equal \hyperlink{struct_result_manager_config_a97e9e26724a91e3a6757957f18b8f8b7}{Result\+Manager\+Config\+::num\+Frame\+Info\+Columns}. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyCode}
+380 \{
+381     \hyperlink{class_result_manager_a736af7b3783f456fb05aa011bafc5bde}{resultMutex}.\hyperlink{struct_threads_1_1_mutex_af3cb09072ecd935be502deb78f4519d5}{lock}();
+382 
+383     \textcolor{keywordflow}{if} (\hyperlink{class_result_manager_ad274290b02aabcaae7cb1052f8aaad14}{CheckResultSpace}(frame)) \{
+384         FrameResult* fr = \hyperlink{class_result_manager_a2b7ba6801c7d9cfff0b4f8ee5ffc7569}{frameResults}[frame-\hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a91cdacd9e2418fc49cdebabc171a1aa6}{startFrame}];      
+385 
+386         \textcolor{keywordflow}{if} (!fr->hasFrameInfo) \{
+387             fr->timestamp = timestamp;
+388             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=0;i<\hyperlink{class_result_manager_a23c07e2966ffb6b48c5c043418b4c748}{config}.\hyperlink{struct_result_manager_config_a97e9e26724a91e3a6757957f18b8f8b7}{numFrameInfoColumns};i++)
+389                 fr->frameInfo[i]=columns[i];
+390             ++\hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_ae9b12ed92f9c0a9e72a51beaf9cca61f}{capturedFrames};
+391             fr->hasFrameInfo=\textcolor{keyword}{true};
+392         \}
+393     \}
+394 
+395     \hyperlink{class_result_manager_a736af7b3783f456fb05aa011bafc5bde}{resultMutex}.\hyperlink{struct_threads_1_1_mutex_ad78fadce2239c6d359986e443822f6f6}{unlock}();
+396 \}
+\end{DoxyCode}
+\index{Result\+Manager@{Result\+Manager}!Store\+Result@{Store\+Result}}
+\index{Store\+Result@{Store\+Result}!Result\+Manager@{Result\+Manager}}
+\subsubsection[{\texorpdfstring{Store\+Result(\+Localization\+Result $\ast$r)}{StoreResult(LocalizationResult *r)}}]{\setlength{\rightskip}{0pt plus 5cm}void Result\+Manager\+::\+Store\+Result (
+\begin{DoxyParamCaption}
+\item[{{\bf Localization\+Result} $\ast$}]{r}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_result_manager_aef219e3b0da98522795633ed3e38180c}{}\label{class_result_manager_aef219e3b0da98522795633ed3e38180c}
+
+
+Copies results from \hyperlink{class_queued_tracker}{Queued\+Tracker} to internal data structures. 
+
+Adds a result to the pre-\/allocated memory of frame results so it can later be saved on a per-\/frame basis.
+
+\begin{DoxyNote}{Note}
+Results are changed from pixel to physical values here, using input given on initialization through \hyperlink{struct_result_manager_config}{Result\+Manager\+Config}. 
+\end{DoxyNote}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em r} & A pointer to a \hyperlink{struct_localization_result}{Localization\+Result} of a single localization. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyCode}
+105 \{
+106     \textcolor{keywordflow}{if} (\hyperlink{class_result_manager_ad274290b02aabcaae7cb1052f8aaad14}{CheckResultSpace}(r->\hyperlink{struct_localization_result_a9a6b25c5cc92fe13bae3d0a5d37360f3}{job}.\hyperlink{struct_localization_job_a54df1ba33ab48b20dca664142a8cf619}{frame})) \{
+107 
+108         \hyperlink{struct_localization_result}{LocalizationResult} scaled = *r;
+109         \textcolor{comment}{// Make roi-centered pos}
+110         scaled.\hyperlink{struct_localization_result_a546f66485662c35bc75121513b6d1a60}{pos} = scaled.\hyperlink{struct_localization_result_a546f66485662c35bc75121513b6d1a60}{pos} - \hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f}( \hyperlink{namespaceqtrk}{qtrk}->cfg.width*0.5f, 
+      \hyperlink{namespaceqtrk}{qtrk}->cfg.height*0.5f, 0);
+111         scaled.\hyperlink{struct_localization_result_a546f66485662c35bc75121513b6d1a60}{pos} = ( scaled.\hyperlink{struct_localization_result_a546f66485662c35bc75121513b6d1a60}{pos} + \hyperlink{class_result_manager_a23c07e2966ffb6b48c5c043418b4c748}{config}.\hyperlink{struct_result_manager_config_ac7b28e680c90bc2a882a6e064d919a40}{offset} ) * \hyperlink{class_result_manager_a23c07e2966ffb6b48c5c043418b4c748}{config}.
+      \hyperlink{struct_result_manager_config_abb553f047043e2bd16b27ba6221f358e}{scaling};
+112         FrameResult* fr = \hyperlink{class_result_manager_a2b7ba6801c7d9cfff0b4f8ee5ffc7569}{frameResults}[r->\hyperlink{struct_localization_result_a9a6b25c5cc92fe13bae3d0a5d37360f3}{job}.\hyperlink{struct_localization_job_a54df1ba33ab48b20dca664142a8cf619}{frame} - \hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.
+      \hyperlink{struct_result_manager_1_1_frame_counters_a91cdacd9e2418fc49cdebabc171a1aa6}{startFrame}];
+113         fr->results[r->\hyperlink{struct_localization_result_a9a6b25c5cc92fe13bae3d0a5d37360f3}{job}.\hyperlink{struct_localization_job_afcf9f91b72597af0e2572f3ae74d9a99}{zlutIndex}] = scaled;
+114         fr->count++;
+115 
+116         \textcolor{comment}{// Advance processedFrames, either because measurements have been completed or because frames have
+       been lost}
+117         while (\hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a9170beb3735c4d08f00050377eeebef5}{processedFrames} - \hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a91cdacd9e2418fc49cdebabc171a1aa6}{startFrame} < (\textcolor{keywordtype}{int}) 
+      \hyperlink{class_result_manager_a2b7ba6801c7d9cfff0b4f8ee5ffc7569}{frameResults}.size() && 
+118             (\hyperlink{class_result_manager_a2b7ba6801c7d9cfff0b4f8ee5ffc7569}{frameResults}[\hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a9170beb3735c4d08f00050377eeebef5}{processedFrames}-\hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.
+      \hyperlink{struct_result_manager_1_1_frame_counters_a91cdacd9e2418fc49cdebabc171a1aa6}{startFrame}]->count == \hyperlink{class_result_manager_a23c07e2966ffb6b48c5c043418b4c748}{config}.\hyperlink{struct_result_manager_config_a790ecadd32a0c0242cb002752af806af}{numBeads} || \hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.
+      \hyperlink{struct_result_manager_1_1_frame_counters_ae9b12ed92f9c0a9e72a51beaf9cca61f}{capturedFrames} - \hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a9170beb3735c4d08f00050377eeebef5}{processedFrames} > 1000 ))
+119         \{
+120             \textcolor{keywordflow}{if} (\hyperlink{class_result_manager_a2b7ba6801c7d9cfff0b4f8ee5ffc7569}{frameResults}[\hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a9170beb3735c4d08f00050377eeebef5}{processedFrames}-
+      \hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a91cdacd9e2418fc49cdebabc171a1aa6}{startFrame}]->count < \hyperlink{class_result_manager_a23c07e2966ffb6b48c5c043418b4c748}{config}.\hyperlink{struct_result_manager_config_a790ecadd32a0c0242cb002752af806af}{numBeads})
+121                 \hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a843774dd839c1edc8c0245b830b9f469}{lostFrames} ++;
+122 
+123             \hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a9170beb3735c4d08f00050377eeebef5}{processedFrames} ++;
+124         \}
+125 
+126         \hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a9ab895a45863f01089a4fa47629e3998}{localizationsDone} ++;
+127     \} \textcolor{keywordflow}{else}
+128         \hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a843774dd839c1edc8c0245b830b9f469}{lostFrames}++;
+129 \}
+\end{DoxyCode}
+\index{Result\+Manager@{Result\+Manager}!Thread\+Loop@{Thread\+Loop}}
+\index{Thread\+Loop@{Thread\+Loop}!Result\+Manager@{Result\+Manager}}
+\subsubsection[{\texorpdfstring{Thread\+Loop(void $\ast$param)}{ThreadLoop(void *param)}}]{\setlength{\rightskip}{0pt plus 5cm}void Result\+Manager\+::\+Thread\+Loop (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{param}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}\hypertarget{class_result_manager_a0aff477d777703dd9f1e01ba0bd6f2d8}{}\label{class_result_manager_a0aff477d777703dd9f1e01ba0bd6f2d8}
+
+
+The base loop of the gathering and saving thread. 
+
+Called when initialization is done.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em param} & Pointer to the instance of \hyperlink{class_result_manager}{Result\+Manager} to work for. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyCode}
+273 \{
+274     \hyperlink{class_result_manager}{ResultManager}* rm = (\hyperlink{class_result_manager}{ResultManager}*)param;
+275 
+276     \textcolor{keywordflow}{while}(\textcolor{keyword}{true}) \{
+277         \textcolor{keywordflow}{if} (!rm->\hyperlink{class_result_manager_a96d36b8b947374edf13ede8e12822f10}{Update}())
+278             \hyperlink{struct_threads_a803a0b6899fb5e09ee7f56bd1986a287}{Threads::Sleep}(20);
+279 
+280         \textcolor{keywordflow}{if} (rm->\hyperlink{class_result_manager_a2e8af4e9f24aff29025adb24032d788e}{quit})
+281             \textcolor{keywordflow}{break};
+282     \}
+283 \}
+\end{DoxyCode}
+\index{Result\+Manager@{Result\+Manager}!Update@{Update}}
+\index{Update@{Update}!Result\+Manager@{Result\+Manager}}
+\subsubsection[{\texorpdfstring{Update()}{Update()}}]{\setlength{\rightskip}{0pt plus 5cm}bool Result\+Manager\+::\+Update (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_result_manager_a96d36b8b947374edf13ede8e12822f10}{}\label{class_result_manager_a96d36b8b947374edf13ede8e12822f10}
+
+
+General worker function called from \hyperlink{class_result_manager_a0aff477d777703dd9f1e01ba0bd6f2d8}{Thread\+Loop}. 
+
+Fetches results from \hyperlink{class_queued_tracker}{Queued\+Tracker} (\hyperlink{_shared_tests_8h_a309eb8d8c5b82f6f2e05b8a9e7594a74}{Fetch\+Results}), sorts them (\hyperlink{class_result_manager_aef219e3b0da98522795633ed3e38180c}{Store\+Result}) and saves them if needed (\hyperlink{class_result_manager_a6a43d521555ef47d76c8a7e9bb8ff87e}{Write}). 
+\begin{DoxyCode}
+223 \{
+224     \hyperlink{class_result_manager_ab8b3508ac87e3990b0b6a70c9031719d}{trackerMutex}.\hyperlink{struct_threads_1_1_mutex_af3cb09072ecd935be502deb78f4519d5}{lock}();
+225 
+226     \textcolor{keywordflow}{if} (!\hyperlink{namespaceqtrk}{qtrk}) \{
+227         \hyperlink{class_result_manager_ab8b3508ac87e3990b0b6a70c9031719d}{trackerMutex}.\hyperlink{struct_threads_1_1_mutex_ad78fadce2239c6d359986e443822f6f6}{unlock}();
+228         \textcolor{keywordflow}{return} 0;
+229     \}
+230 
+231     \textcolor{keyword}{const} \textcolor{keywordtype}{int} NResultBuf = 40;
+232     \hyperlink{struct_localization_result}{LocalizationResult} resultbuf[NResultBuf];
+233 
+234     \textcolor{keywordtype}{int} count = \hyperlink{namespaceqtrk}{qtrk}->FetchResults( resultbuf, NResultBuf );
+235 
+236     \hyperlink{class_result_manager_a736af7b3783f456fb05aa011bafc5bde}{resultMutex}.\hyperlink{struct_threads_1_1_mutex_af3cb09072ecd935be502deb78f4519d5}{lock}();
+237     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<count;i++)
+238         \hyperlink{class_result_manager_aef219e3b0da98522795633ed3e38180c}{StoreResult}(&resultbuf[i]);
+239 
+240     \hyperlink{class_result_manager_ab8b3508ac87e3990b0b6a70c9031719d}{trackerMutex}.\hyperlink{struct_threads_1_1_mutex_ad78fadce2239c6d359986e443822f6f6}{unlock}();
+241 
+242     \textcolor{keywordflow}{if} (\hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a9170beb3735c4d08f00050377eeebef5}{processedFrames} - \hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a529d0916bd3925ce9b60de516875ae2e}{lastSaveFrame} >= 
+      \hyperlink{class_result_manager_a23c07e2966ffb6b48c5c043418b4c748}{config}.\hyperlink{struct_result_manager_config_a24c57e2403e5012fc5900924db770611}{writeInterval}) \{
+243         \hyperlink{class_result_manager_a6a43d521555ef47d76c8a7e9bb8ff87e}{Write}();
+244     \}
+245 
+246     \textcolor{keywordflow}{if} (\hyperlink{class_result_manager_a23c07e2966ffb6b48c5c043418b4c748}{config}.\hyperlink{struct_result_manager_config_a11b7dd434bb6477aad45198b76593f59}{maxFramesInMemory}>0 && \hyperlink{class_result_manager_a2b7ba6801c7d9cfff0b4f8ee5ffc7569}{frameResults}.size () > 
+      \hyperlink{class_result_manager_a23c07e2966ffb6b48c5c043418b4c748}{config}.\hyperlink{struct_result_manager_config_a11b7dd434bb6477aad45198b76593f59}{maxFramesInMemory}) \{
+247 
+248         \textcolor{keywordtype}{int} del = \hyperlink{class_result_manager_a2b7ba6801c7d9cfff0b4f8ee5ffc7569}{frameResults}.size()-\hyperlink{class_result_manager_a23c07e2966ffb6b48c5c043418b4c748}{config}.\hyperlink{struct_result_manager_config_a11b7dd434bb6477aad45198b76593f59}{maxFramesInMemory};
+249 
+250         \textcolor{keywordflow}{if} (\hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a9170beb3735c4d08f00050377eeebef5}{processedFrames} < \hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a91cdacd9e2418fc49cdebabc171a1aa6}{startFrame}) \{
+251             \textcolor{comment}{// write away any results that might be in there, unfinished localizations will be zero.}
+252             \textcolor{keywordtype}{int} lost = \hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a91cdacd9e2418fc49cdebabc171a1aa6}{startFrame}-\hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a9170beb3735c4d08f00050377eeebef5}{processedFrames};
+253             \hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a9170beb3735c4d08f00050377eeebef5}{processedFrames} += lost;
+254             \hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a843774dd839c1edc8c0245b830b9f469}{lostFrames} += lost;
+255 
+256             \hyperlink{class_result_manager_a6a43d521555ef47d76c8a7e9bb8ff87e}{Write}();
+257         \}
+258 
+259         \textcolor{comment}{//dbgprintf("Removing %d frames from memory\(\backslash\)n", del);}
+260         
+261         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<del;i++)
+262             \textcolor{keyword}{delete} \hyperlink{class_result_manager_a2b7ba6801c7d9cfff0b4f8ee5ffc7569}{frameResults}[i];
+263         \hyperlink{class_result_manager_a2b7ba6801c7d9cfff0b4f8ee5ffc7569}{frameResults}.erase(\hyperlink{class_result_manager_a2b7ba6801c7d9cfff0b4f8ee5ffc7569}{frameResults}.begin(), 
+      \hyperlink{class_result_manager_a2b7ba6801c7d9cfff0b4f8ee5ffc7569}{frameResults}.begin()+del);
+264 
+265         \hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a91cdacd9e2418fc49cdebabc171a1aa6}{startFrame} += del;
+266     \}
+267     \hyperlink{class_result_manager_a736af7b3783f456fb05aa011bafc5bde}{resultMutex}.\hyperlink{struct_threads_1_1_mutex_ad78fadce2239c6d359986e443822f6f6}{unlock}();
+268 
+269     \textcolor{keywordflow}{return} count>0;
+270 \}
+\end{DoxyCode}
+\index{Result\+Manager@{Result\+Manager}!Write@{Write}}
+\index{Write@{Write}!Result\+Manager@{Result\+Manager}}
+\subsubsection[{\texorpdfstring{Write()}{Write()}}]{\setlength{\rightskip}{0pt plus 5cm}void Result\+Manager\+::\+Write (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_result_manager_a6a43d521555ef47d76c8a7e9bb8ff87e}{}\label{class_result_manager_a6a43d521555ef47d76c8a7e9bb8ff87e}
+
+
+Write available results to output files. 
+
+Chooses between \hyperlink{class_result_manager_aafdacba27b69bef50732f72053d21845}{Write\+Binary\+Results} and \hyperlink{class_result_manager_a8e0e6fb46d3d512b11663e1f4c7af5f1}{Write\+Text\+Results} depending on settings. 
+\begin{DoxyCode}
+194 \{
+195     \hyperlink{class_result_manager_a736af7b3783f456fb05aa011bafc5bde}{resultMutex}.\hyperlink{struct_threads_1_1_mutex_af3cb09072ecd935be502deb78f4519d5}{lock}();
+196     \textcolor{keywordflow}{if} (\hyperlink{class_result_manager_a23c07e2966ffb6b48c5c043418b4c748}{config}.\hyperlink{struct_result_manager_config_a292ca1e5db1a9599d5dc52e14e83c2eb}{binaryOutput})
+197         \hyperlink{class_result_manager_aafdacba27b69bef50732f72053d21845}{WriteBinaryResults}();
+198     \textcolor{keywordflow}{else}
+199         \hyperlink{class_result_manager_a8e0e6fb46d3d512b11663e1f4c7af5f1}{WriteTextResults}();
+200 
+201     \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"Saved frame %d to %d\(\backslash\)n"}, \hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a529d0916bd3925ce9b60de516875ae2e}{lastSaveFrame}, 
+      \hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a9170beb3735c4d08f00050377eeebef5}{processedFrames});
+202     \hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a529d0916bd3925ce9b60de516875ae2e}{lastSaveFrame} = \hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a9170beb3735c4d08f00050377eeebef5}{processedFrames};
+203 
+204     \hyperlink{class_result_manager_a736af7b3783f456fb05aa011bafc5bde}{resultMutex}.\hyperlink{struct_threads_1_1_mutex_ad78fadce2239c6d359986e443822f6f6}{unlock}();
+205 \}
+\end{DoxyCode}
+\index{Result\+Manager@{Result\+Manager}!Write\+Binary\+File\+Header@{Write\+Binary\+File\+Header}}
+\index{Write\+Binary\+File\+Header@{Write\+Binary\+File\+Header}!Result\+Manager@{Result\+Manager}}
+\subsubsection[{\texorpdfstring{Write\+Binary\+File\+Header()}{WriteBinaryFileHeader()}}]{\setlength{\rightskip}{0pt plus 5cm}void Result\+Manager\+::\+Write\+Binary\+File\+Header (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_result_manager_ad67d6303de94c15cbb8de23cf1837270}{}\label{class_result_manager_ad67d6303de94c15cbb8de23cf1837270}
+
+
+Writes metadata to the header of a binary data file. 
+
+The saved header for file version 3 is\+: \tabulinesep=1mm
+\begin{longtabu} spread 0pt [c]{*3{|X[-1]}|}
+\hline
+\rowcolor{\tableheadbgcolor}{\bf Name }&{\bf Description }&{\bf Size (bytes) }\\\cline{1-3}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\rowcolor{\tableheadbgcolor}{\bf Name }&{\bf Description }&{\bf Size (bytes) }\\\cline{1-3}
+\endhead
+version &Binary file version &4 (int) \\\cline{1-3}
+num\+Bead &Number of beads in the file &4 (int) \\\cline{1-3}
+num\+Frame\+Info\+Columns &Number of metadata columns &4 (int) \\\cline{1-3}
+data\+\_\+offset &File offset to starting point of frame data &8 (long) \\\cline{1-3}
+frame\+Info\+Names &The names/identifiers for the metadata columns &variable ({\itshape num\+Frame\+Info\+Columns} $\ast$ strings) \\\cline{1-3}
+\end{longtabu}
+
+\begin{DoxyCode}
+68 \{
+69     FILE* f = fopen(\hyperlink{class_result_manager_aa882de00c45911638edda0705fb54f36}{outputFile}.c\_str(), \textcolor{stringliteral}{"wb"});
+70     \textcolor{keywordflow}{if} (!f) \{
+71         \textcolor{keywordflow}{throw} std::runtime\_error( \hyperlink{utils_8cpp_aba26a6b64035ef7962a63b760dd9013e}{SPrintf}(\textcolor{stringliteral}{"Unable to open file %s"}, 
+      \hyperlink{class_result_manager_aa882de00c45911638edda0705fb54f36}{outputFile}.c\_str()));
+72     \}
+73 
+74     \textcolor{comment}{// Write file header}
+75     \textcolor{keywordtype}{int} version = \hyperlink{_result_manager_8cpp_afad8d07e0bdee1c2c74172f16404edb3}{BINFILE\_VERSION};
+76     fwrite(&version, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int}), 1, f);
+77     fwrite(&\hyperlink{class_result_manager_a23c07e2966ffb6b48c5c043418b4c748}{config}.\hyperlink{struct_result_manager_config_a790ecadd32a0c0242cb002752af806af}{numBeads}, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int}), 1, f);
+78     fwrite(&\hyperlink{class_result_manager_a23c07e2966ffb6b48c5c043418b4c748}{config}.\hyperlink{struct_result_manager_config_a97e9e26724a91e3a6757957f18b8f8b7}{numFrameInfoColumns}, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int}), 1, f);
+79     \textcolor{keywordtype}{long} data\_offset\_pos = ftell(f);
+80     \textcolor{keywordtype}{long} tmp=1234;
+81     fwrite(&tmp, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{long}), 1,f);
+82     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<\hyperlink{class_result_manager_a23c07e2966ffb6b48c5c043418b4c748}{config}.\hyperlink{struct_result_manager_config_a97e9e26724a91e3a6757957f18b8f8b7}{numFrameInfoColumns};i++) \{
+83         \textcolor{keyword}{auto}& n = \hyperlink{class_result_manager_a13591c71dc8de59c119c3a26de681e21}{frameInfoNames}[i];
+84         fwrite(n.c\_str(), n.length()+1, 1, f);
+85     \}
+86     \textcolor{keywordtype}{long} data\_offset = ftell(f);
+87     \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"frame data offset: %d\(\backslash\)n"}, data\_offset);
+88     fseek(f, data\_offset\_pos, SEEK\_SET);
+89     fwrite(&data\_offset, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{long}), 1, f);
+90     
+91     \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"writing %d beads and %d frame-info columns into file %s\(\backslash\)n"}, 
+      \hyperlink{class_result_manager_a23c07e2966ffb6b48c5c043418b4c748}{config}.\hyperlink{struct_result_manager_config_a790ecadd32a0c0242cb002752af806af}{numBeads}, \hyperlink{class_result_manager_a23c07e2966ffb6b48c5c043418b4c748}{config}.\hyperlink{struct_result_manager_config_a97e9e26724a91e3a6757957f18b8f8b7}{numFrameInfoColumns}, 
+      \hyperlink{class_result_manager_aa882de00c45911638edda0705fb54f36}{outputFile}.c\_str());
+92     fclose(f);
+93 \}
+\end{DoxyCode}
+\index{Result\+Manager@{Result\+Manager}!Write\+Binary\+Results@{Write\+Binary\+Results}}
+\index{Write\+Binary\+Results@{Write\+Binary\+Results}!Result\+Manager@{Result\+Manager}}
+\subsubsection[{\texorpdfstring{Write\+Binary\+Results()}{WriteBinaryResults()}}]{\setlength{\rightskip}{0pt plus 5cm}void Result\+Manager\+::\+Write\+Binary\+Results (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_result_manager_aafdacba27b69bef50732f72053d21845}{}\label{class_result_manager_aafdacba27b69bef50732f72053d21845}
+
+
+Write available data to a binary file. 
+
+\begin{DoxyWarning}{Warning}
+Does not update frame counters. Use \hyperlink{class_result_manager_a6a43d521555ef47d76c8a7e9bb8ff87e}{Write} and proper settings instead. 
+\end{DoxyWarning}
+
+\begin{DoxyCode}
+132 \{
+133     \textcolor{keywordflow}{if} (\hyperlink{class_result_manager_aa882de00c45911638edda0705fb54f36}{outputFile}.empty())
+134         \textcolor{keywordflow}{return};
+135 
+136     FILE* f = fopen(\hyperlink{class_result_manager_aa882de00c45911638edda0705fb54f36}{outputFile}.c\_str(), \textcolor{stringliteral}{"ab"});
+137     \textcolor{keywordflow}{if} (!f) \{
+138         \hyperlink{utils_8cpp_a4a7132c90e490d24edecb391a754a9c0}{dbgprintf}(\textcolor{stringliteral}{"ResultManager::WriteBinaryResult() Unable to open file %s\(\backslash\)n"}, 
+      \hyperlink{class_result_manager_aa882de00c45911638edda0705fb54f36}{outputFile}.c\_str());
+139         \hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a524c00c33ddf14ff4f3e467f4daaf7f8}{fileError} ++;
+140         \textcolor{keywordflow}{return};
+141     \}
+142 
+143     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} j=\hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a529d0916bd3925ce9b60de516875ae2e}{lastSaveFrame}; j<\hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a9170beb3735c4d08f00050377eeebef5}{processedFrames};j++)
+144     \{
+145         \textcolor{keyword}{auto} fr = \hyperlink{class_result_manager_a2b7ba6801c7d9cfff0b4f8ee5ffc7569}{frameResults}[j-\hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a91cdacd9e2418fc49cdebabc171a1aa6}{startFrame}];
+146         \textcolor{keywordflow}{if} (f) \{
+147             fwrite(&j, \textcolor{keyword}{sizeof}(\hyperlink{std__incl_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}), 1, f);
+148             fwrite(&fr->timestamp, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{double}), 1, f);
+149             fwrite(&fr->frameInfo[0], \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float}), \hyperlink{class_result_manager_a23c07e2966ffb6b48c5c043418b4c748}{config}.
+      \hyperlink{struct_result_manager_config_a97e9e26724a91e3a6757957f18b8f8b7}{numFrameInfoColumns}, f);
+150             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<\hyperlink{class_result_manager_a23c07e2966ffb6b48c5c043418b4c748}{config}.\hyperlink{struct_result_manager_config_a790ecadd32a0c0242cb002752af806af}{numBeads};i++) 
+151             \{
+152                 \hyperlink{struct_localization_result}{LocalizationResult} *r = &fr->results[i];
+153                 fwrite(&r->\hyperlink{struct_localization_result_a546f66485662c35bc75121513b6d1a60}{pos}, \textcolor{keyword}{sizeof}(\hyperlink{structvector3}{vector3f}), 1, f);
+154             \}
+155             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<\hyperlink{class_result_manager_a23c07e2966ffb6b48c5c043418b4c748}{config}.\hyperlink{struct_result_manager_config_a790ecadd32a0c0242cb002752af806af}{numBeads};i++)
+156                 fwrite(&fr->results[i].error, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int}), 1, f);
+157             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<\hyperlink{class_result_manager_a23c07e2966ffb6b48c5c043418b4c748}{config}.\hyperlink{struct_result_manager_config_a790ecadd32a0c0242cb002752af806af}{numBeads};i++) \{
+158                 fwrite(&fr->results[i].imageMean, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float}), 1, f);
+159             \}
+160         \}
+161     \}
+162     fclose(f);
+163 \}
+\end{DoxyCode}
+\index{Result\+Manager@{Result\+Manager}!Write\+Text\+Results@{Write\+Text\+Results}}
+\index{Write\+Text\+Results@{Write\+Text\+Results}!Result\+Manager@{Result\+Manager}}
+\subsubsection[{\texorpdfstring{Write\+Text\+Results()}{WriteTextResults()}}]{\setlength{\rightskip}{0pt plus 5cm}void Result\+Manager\+::\+Write\+Text\+Results (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_result_manager_a8e0e6fb46d3d512b11663e1f4c7af5f1}{}\label{class_result_manager_a8e0e6fb46d3d512b11663e1f4c7af5f1}
+
+
+Write available data to a text file. 
+
+\begin{DoxyWarning}{Warning}
+Does not update frame counters. Use \hyperlink{class_result_manager_a6a43d521555ef47d76c8a7e9bb8ff87e}{Write} and proper settings instead. 
+\end{DoxyWarning}
+
+\begin{DoxyCode}
+166 \{
+167     FILE* f = \hyperlink{class_result_manager_aa882de00c45911638edda0705fb54f36}{outputFile}.empty () ? 0 : fopen(\hyperlink{class_result_manager_aa882de00c45911638edda0705fb54f36}{outputFile}.c\_str(), \textcolor{stringliteral}{"a"});
+168     FILE* finfo = \hyperlink{class_result_manager_a204b1725be212dbad21eea374420270f}{frameInfoFile}.empty() ? 0 : fopen(\hyperlink{class_result_manager_a204b1725be212dbad21eea374420270f}{frameInfoFile}.c\_str(), \textcolor{stringliteral}{"a"});
+169 
+170     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} k=\hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a529d0916bd3925ce9b60de516875ae2e}{lastSaveFrame}; k<\hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a9170beb3735c4d08f00050377eeebef5}{processedFrames};k++)
+171     \{
+172         \textcolor{keyword}{auto} fr = \hyperlink{class_result_manager_a2b7ba6801c7d9cfff0b4f8ee5ffc7569}{frameResults}[k-\hyperlink{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{cnt}.\hyperlink{struct_result_manager_1_1_frame_counters_a91cdacd9e2418fc49cdebabc171a1aa6}{startFrame}];
+173         \textcolor{keywordflow}{if} (f) \{
+174             fprintf(f,\textcolor{stringliteral}{"%d\(\backslash\)t%f\(\backslash\)t"}, k, fr->timestamp);
+175             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<\hyperlink{class_result_manager_a23c07e2966ffb6b48c5c043418b4c748}{config}.\hyperlink{struct_result_manager_config_a790ecadd32a0c0242cb002752af806af}{numBeads};i++) 
+176             \{
+177                 \hyperlink{struct_localization_result}{LocalizationResult} *r = &fr->results[i];
+178                 fprintf(f, \textcolor{stringliteral}{"%.7f\(\backslash\)t%.7f\(\backslash\)t%.7f\(\backslash\)t"}, r->\hyperlink{struct_localization_result_a546f66485662c35bc75121513b6d1a60}{pos}.\hyperlink{structvector3_a5b466692e9550284d17a1bee6a6b8518}{x},r->\hyperlink{struct_localization_result_a546f66485662c35bc75121513b6d1a60}{pos}.\hyperlink{structvector3_a1faa20a703bae3d1a673856466758383}{y},r->
+      \hyperlink{struct_localization_result_a546f66485662c35bc75121513b6d1a60}{pos}.\hyperlink{structvector3_a90c50e80a32423d5cc76f40e5f53ffbe}{z});
+179             \}
+180             fputs(\textcolor{stringliteral}{"\(\backslash\)n"}, f);
+181         \}
+182         \textcolor{keywordflow}{if} (finfo) \{
+183             fprintf(finfo,\textcolor{stringliteral}{"%d\(\backslash\)t%f\(\backslash\)t"}, k, fr->timestamp);
+184             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0;i<\hyperlink{class_result_manager_a23c07e2966ffb6b48c5c043418b4c748}{config}.\hyperlink{struct_result_manager_config_a97e9e26724a91e3a6757957f18b8f8b7}{numFrameInfoColumns};i++)
+185                 fprintf(finfo, \textcolor{stringliteral}{"%.7f\(\backslash\)t"}, fr->frameInfo[i]);
+186             fputs(\textcolor{stringliteral}{"\(\backslash\)n"}, finfo);
+187         \}
+188     \}
+189     \textcolor{keywordflow}{if}(finfo) fclose(finfo);
+190     \textcolor{keywordflow}{if}(f) fclose(f);
+191 \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\index{Result\+Manager@{Result\+Manager}!cnt@{cnt}}
+\index{cnt@{cnt}!Result\+Manager@{Result\+Manager}}
+\subsubsection[{\texorpdfstring{cnt}{cnt}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Frame\+Counters} Result\+Manager\+::cnt\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}{}\label{class_result_manager_ad5f8491ff6c6f2e1e78f04c537c9474d}
+
+
+Local instance of \hyperlink{struct_result_manager_1_1_frame_counters}{Frame\+Counters} to maintain counts accross functions. 
+
+\index{Result\+Manager@{Result\+Manager}!config@{config}}
+\index{config@{config}!Result\+Manager@{Result\+Manager}}
+\subsubsection[{\texorpdfstring{config}{config}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Result\+Manager\+Config} Result\+Manager\+::config\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_result_manager_a23c07e2966ffb6b48c5c043418b4c748}{}\label{class_result_manager_a23c07e2966ffb6b48c5c043418b4c748}
+
+
+Local instance of \hyperlink{struct_result_manager_config}{Result\+Manager\+Config} with the settings used by this instance of \hyperlink{class_result_manager}{Result\+Manager}. 
+
+\index{Result\+Manager@{Result\+Manager}!frame\+Info\+File@{frame\+Info\+File}}
+\index{frame\+Info\+File@{frame\+Info\+File}!Result\+Manager@{Result\+Manager}}
+\subsubsection[{\texorpdfstring{frame\+Info\+File}{frameInfoFile}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string Result\+Manager\+::frame\+Info\+File\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_result_manager_a204b1725be212dbad21eea374420270f}{}\label{class_result_manager_a204b1725be212dbad21eea374420270f}
+
+
+Path and filename of the frame info (metadata) file. 
+
+\index{Result\+Manager@{Result\+Manager}!frame\+Info\+Names@{frame\+Info\+Names}}
+\index{frame\+Info\+Names@{frame\+Info\+Names}!Result\+Manager@{Result\+Manager}}
+\subsubsection[{\texorpdfstring{frame\+Info\+Names}{frameInfoNames}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$std\+::string$>$ Result\+Manager\+::frame\+Info\+Names\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_result_manager_a13591c71dc8de59c119c3a26de681e21}{}\label{class_result_manager_a13591c71dc8de59c119c3a26de681e21}
+
+
+Vector with frame info column names. See \hyperlink{class_result_manager_ad67d6303de94c15cbb8de23cf1837270}{Write\+Binary\+File\+Header}. 
+
+\index{Result\+Manager@{Result\+Manager}!frame\+Results@{frame\+Results}}
+\index{frame\+Results@{frame\+Results}!Result\+Manager@{Result\+Manager}}
+\subsubsection[{\texorpdfstring{frame\+Results}{frameResults}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::deque$<$ {\bf Frame\+Result}$\ast$ $>$ Result\+Manager\+::frame\+Results\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_result_manager_a2b7ba6801c7d9cfff0b4f8ee5ffc7569}{}\label{class_result_manager_a2b7ba6801c7d9cfff0b4f8ee5ffc7569}
+
+
+Vector to hold the results for all frames. 
+
+\index{Result\+Manager@{Result\+Manager}!output\+File@{output\+File}}
+\index{output\+File@{output\+File}!Result\+Manager@{Result\+Manager}}
+\subsubsection[{\texorpdfstring{output\+File}{outputFile}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string Result\+Manager\+::output\+File\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_result_manager_aa882de00c45911638edda0705fb54f36}{}\label{class_result_manager_aa882de00c45911638edda0705fb54f36}
+
+
+Path and filename of the main data output file. 
+
+\index{Result\+Manager@{Result\+Manager}!qtrk@{qtrk}}
+\index{qtrk@{qtrk}!Result\+Manager@{Result\+Manager}}
+\subsubsection[{\texorpdfstring{qtrk}{qtrk}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Queued\+Tracker}$\ast$ Result\+Manager\+::qtrk\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_result_manager_a782d776e818e9be737c418d2151402ed}{}\label{class_result_manager_a782d776e818e9be737c418d2151402ed}
+
+
+Pointer to the \hyperlink{class_queued_tracker}{Queued\+Tracker} instance to check. 
+
+\index{Result\+Manager@{Result\+Manager}!quit@{quit}}
+\index{quit@{quit}!Result\+Manager@{Result\+Manager}}
+\subsubsection[{\texorpdfstring{quit}{quit}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Atomic}$<$bool$>$ Result\+Manager\+::quit\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_result_manager_a2e8af4e9f24aff29025adb24032d788e}{}\label{class_result_manager_a2e8af4e9f24aff29025adb24032d788e}
+
+
+Flag to exit the threads. 
+
+\index{Result\+Manager@{Result\+Manager}!result\+File@{result\+File}}
+\index{result\+File@{result\+File}!Result\+Manager@{Result\+Manager}}
+\subsubsection[{\texorpdfstring{result\+File}{resultFile}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Result\+File}$\ast$ Result\+Manager\+::result\+File\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_result_manager_a886e75626ba90bb4aff4dcf661733b30}{}\label{class_result_manager_a886e75626ba90bb4aff4dcf661733b30}
+
+
+Local instance of \hyperlink{class_result_file}{Result\+File} to generalize output to text or binary files. Not used. 
+
+\index{Result\+Manager@{Result\+Manager}!result\+Mutex@{result\+Mutex}}
+\index{result\+Mutex@{result\+Mutex}!Result\+Manager@{Result\+Manager}}
+\subsubsection[{\texorpdfstring{result\+Mutex}{resultMutex}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Threads\+::\+Mutex} Result\+Manager\+::result\+Mutex\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_result_manager_a736af7b3783f456fb05aa011bafc5bde}{}\label{class_result_manager_a736af7b3783f456fb05aa011bafc5bde}
+
+
+Mutex to govern access to \hyperlink{class_result_manager_a2b7ba6801c7d9cfff0b4f8ee5ffc7569}{frame\+Results}. 
+
+\index{Result\+Manager@{Result\+Manager}!thread@{thread}}
+\index{thread@{thread}!Result\+Manager@{Result\+Manager}}
+\subsubsection[{\texorpdfstring{thread}{thread}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Threads\+::\+Handle}$\ast$ Result\+Manager\+::thread\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_result_manager_ab3ef361e61d16ef54726cd7b78f03cd5}{}\label{class_result_manager_ab3ef361e61d16ef54726cd7b78f03cd5}
+
+
+Handle to the thread running the \hyperlink{class_result_manager_a0aff477d777703dd9f1e01ba0bd6f2d8}{Thread\+Loop}. 
+
+\index{Result\+Manager@{Result\+Manager}!tracker\+Mutex@{tracker\+Mutex}}
+\index{tracker\+Mutex@{tracker\+Mutex}!Result\+Manager@{Result\+Manager}}
+\subsubsection[{\texorpdfstring{tracker\+Mutex}{trackerMutex}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Threads\+::\+Mutex} Result\+Manager\+::tracker\+Mutex\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_result_manager_ab8b3508ac87e3990b0b6a70c9031719d}{}\label{class_result_manager_ab8b3508ac87e3990b0b6a70c9031719d}
+
+
+Mutex to govern access to the linked \hyperlink{class_queued_tracker}{Queued\+Tracker} instance. 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+cputrack/\hyperlink{_result_manager_8h}{Result\+Manager.\+h}\item 
+cputrack/\hyperlink{_result_manager_8cpp}{Result\+Manager.\+cpp}\end{DoxyCompactItemize}

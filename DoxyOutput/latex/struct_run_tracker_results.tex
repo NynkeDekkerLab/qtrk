@@ -1,0 +1,59 @@
+\hypertarget{struct_run_tracker_results}{}\section{Run\+Tracker\+Results Struct Reference}
+\label{struct_run_tracker_results}\index{Run\+Tracker\+Results@{Run\+Tracker\+Results}}
+
+
+{\ttfamily \#include $<$Shared\+Tests.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{struct_run_tracker_results_af1b623cdd914d29f356a39beacac2c22}{compute\+Stats} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ \hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f} $>$ \hyperlink{struct_run_tracker_results_a60eded57e24f569a9f09647eb85242bb}{output}
+\item 
+std\+::vector$<$ \hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f} $>$ \hyperlink{struct_run_tracker_results_a3dea14e81b2d19737fbb8037e5416dfd}{truepos}
+\item 
+\hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f} \hyperlink{struct_run_tracker_results_aa54cf183d9405dec524ea3fbc9175763}{mean\+Err}
+\item 
+\hyperlink{std__incl_8h_a2feaef1d85a74bd5cf80df91b1a9a914}{vector3f} \hyperlink{struct_run_tracker_results_a655e8e8fc33c59f9341ea0fc8979fec6}{stdev}
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\index{Run\+Tracker\+Results@{Run\+Tracker\+Results}!compute\+Stats@{compute\+Stats}}
+\index{compute\+Stats@{compute\+Stats}!Run\+Tracker\+Results@{Run\+Tracker\+Results}}
+\subsubsection[{\texorpdfstring{compute\+Stats()}{computeStats()}}]{\setlength{\rightskip}{0pt plus 5cm}void Run\+Tracker\+Results\+::compute\+Stats (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{struct_run_tracker_results_af1b623cdd914d29f356a39beacac2c22}{}\label{struct_run_tracker_results_af1b623cdd914d29f356a39beacac2c22}
+
+\begin{DoxyCode}
+338                         \{
+339         \hyperlink{_shared_tests_8h_a771630e2d9a64612a46d3ae9722174de}{MeanStDevError}(\hyperlink{struct_run_tracker_results_a3dea14e81b2d19737fbb8037e5416dfd}{truepos},\hyperlink{struct_run_tracker_results_a60eded57e24f569a9f09647eb85242bb}{output},\hyperlink{struct_run_tracker_results_aa54cf183d9405dec524ea3fbc9175763}{meanErr},
+      \hyperlink{struct_run_tracker_results_a655e8e8fc33c59f9341ea0fc8979fec6}{stdev});
+340     \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\index{Run\+Tracker\+Results@{Run\+Tracker\+Results}!mean\+Err@{mean\+Err}}
+\index{mean\+Err@{mean\+Err}!Run\+Tracker\+Results@{Run\+Tracker\+Results}}
+\subsubsection[{\texorpdfstring{mean\+Err}{meanErr}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf vector3f} Run\+Tracker\+Results\+::mean\+Err}\hypertarget{struct_run_tracker_results_aa54cf183d9405dec524ea3fbc9175763}{}\label{struct_run_tracker_results_aa54cf183d9405dec524ea3fbc9175763}
+\index{Run\+Tracker\+Results@{Run\+Tracker\+Results}!output@{output}}
+\index{output@{output}!Run\+Tracker\+Results@{Run\+Tracker\+Results}}
+\subsubsection[{\texorpdfstring{output}{output}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<${\bf vector3f}$>$ Run\+Tracker\+Results\+::output}\hypertarget{struct_run_tracker_results_a60eded57e24f569a9f09647eb85242bb}{}\label{struct_run_tracker_results_a60eded57e24f569a9f09647eb85242bb}
+\index{Run\+Tracker\+Results@{Run\+Tracker\+Results}!stdev@{stdev}}
+\index{stdev@{stdev}!Run\+Tracker\+Results@{Run\+Tracker\+Results}}
+\subsubsection[{\texorpdfstring{stdev}{stdev}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf vector3f} Run\+Tracker\+Results\+::stdev}\hypertarget{struct_run_tracker_results_a655e8e8fc33c59f9341ea0fc8979fec6}{}\label{struct_run_tracker_results_a655e8e8fc33c59f9341ea0fc8979fec6}
+\index{Run\+Tracker\+Results@{Run\+Tracker\+Results}!truepos@{truepos}}
+\index{truepos@{truepos}!Run\+Tracker\+Results@{Run\+Tracker\+Results}}
+\subsubsection[{\texorpdfstring{truepos}{truepos}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<${\bf vector3f}$>$ Run\+Tracker\+Results\+::truepos}\hypertarget{struct_run_tracker_results_a3dea14e81b2d19737fbb8037e5416dfd}{}\label{struct_run_tracker_results_a3dea14e81b2d19737fbb8037e5416dfd}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+cputrack-\/test/\hyperlink{_shared_tests_8h}{Shared\+Tests.\+h}\end{DoxyCompactItemize}

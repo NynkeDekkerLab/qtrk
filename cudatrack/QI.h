@@ -21,6 +21,16 @@ public:
 		device_vec<float2> d_QIprofiles;
 		device_vec<float2> d_QIprofiles_reverse;
 		device_vec<float> d_quadrants;
+#ifdef GPU_DEBUG
+		// Extra device vector specifically for arbitrary debug output
+		// GPU_DEBUG is defined at the top of gpu_utils.h
+
+		// USAGE:
+		// Fill with any kind of data in a function
+		// Output in any host code to a csv file using:
+		// DbgOutputVectorToFile("D:\\TestImages\\imgmeans.csv", s->d_DebugOutput, append?);
+		// device_vec<float> d_DebugOutput;
+#endif
 		cufftHandle fftPlan; // a CUFFT plan can be used for both forward and inverse transforms
 
 		~StreamInstance() {
@@ -28,7 +38,9 @@ public:
 		}
 
 		int memsize() {
-			return d_QIprofiles.memsize() + d_QIprofiles_reverse.memsize() + d_quadrants.memsize();
+			size_t fftSize;
+			cufftGetSize(fftPlan,&fftSize);
+			return d_QIprofiles.memsize() + d_QIprofiles_reverse.memsize() + d_quadrants.memsize() + fftSize;
 		}
 		cudaStream_t stream;
 	};
@@ -46,7 +58,7 @@ public:
 	template<typename TImageSampler>
 	void Execute (BaseKernelParams& p, const QTrkComputedConfig& cfg, StreamInstance* s, DeviceInstance* d, device_vec<float3>* initial, device_vec<float3> *output);
 
-	void InitDevice(DeviceInstance*d,  QTrkComputedConfig& cc);
+	void InitDevice(DeviceInstance* d, QTrkComputedConfig& cc);
 	void InitStream(StreamInstance* s, QTrkComputedConfig& cc, cudaStream_t stream, int batchSize);
 	void Init(QTrkComputedConfig& cfg, int batchSize);
 

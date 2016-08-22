@@ -1,0 +1,85 @@
+\hypertarget{structvector2}{}\section{vector2$<$ T $>$ Struct Template Reference}
+\label{structvector2}\index{vector2$<$ T $>$@{vector2$<$ T $>$}}
+
+
+{\ttfamily \#include $<$std\+\_\+incl.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structvector2_a6e939afd4c849f78ff033065b778d4e0}{vector2} ()
+\item 
+{\footnotesize template$<$typename Tx , typename Ty $>$ }\\\hyperlink{structvector2_a224182db524d6395270aab145a678f33}{vector2} (Tx X, Ty Y)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{structvector2}{vector2} \hyperlink{structvector2_a23c7eca20e87c5224954ff8c918cb259}{random} (\hyperlink{structvector2}{vector2} center, T R)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+T \hyperlink{structvector2_a22b63498d8e4abf9a2da054a247965b9}{x}
+\item 
+T \hyperlink{structvector2_a00b3268bc895adddf0b72d6acd8274a7}{y}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{vector2@{vector2}!vector2@{vector2}}
+\index{vector2@{vector2}!vector2@{vector2}}
+\subsubsection[{\texorpdfstring{vector2()}{vector2()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ {\bf vector2}$<$ T $>$\+::{\bf vector2} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{structvector2_a6e939afd4c849f78ff033065b778d4e0}{}\label{structvector2_a6e939afd4c849f78ff033065b778d4e0}
+
+\begin{DoxyCode}
+25 \{\hyperlink{structvector2_a22b63498d8e4abf9a2da054a247965b9}{x}=\hyperlink{structvector2_a00b3268bc895adddf0b72d6acd8274a7}{y}=0.0; \}
+\end{DoxyCode}
+\index{vector2@{vector2}!vector2@{vector2}}
+\index{vector2@{vector2}!vector2@{vector2}}
+\subsubsection[{\texorpdfstring{vector2(\+Tx X, Ty Y)}{vector2(Tx X, Ty Y)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ template$<$typename Tx , typename Ty $>$ {\bf vector2}$<$ T $>$\+::{\bf vector2} (
+\begin{DoxyParamCaption}
+\item[{Tx}]{X, }
+\item[{Ty}]{Y}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{structvector2_a224182db524d6395270aab145a678f33}{}\label{structvector2_a224182db524d6395270aab145a678f33}
+
+\begin{DoxyCode}
+27 \{ \hyperlink{structvector2_a22b63498d8e4abf9a2da054a247965b9}{x}=(T)X;\hyperlink{structvector2_a00b3268bc895adddf0b72d6acd8274a7}{y}=(T)Y; \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\index{vector2@{vector2}!random@{random}}
+\index{random@{random}!vector2@{vector2}}
+\subsubsection[{\texorpdfstring{random(vector2 center, T R)}{random(vector2 center, T R)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ static {\bf vector2} {\bf vector2}$<$ T $>$\+::random (
+\begin{DoxyParamCaption}
+\item[{{\bf vector2}$<$ T $>$}]{center, }
+\item[{T}]{R}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}\hypertarget{structvector2_a23c7eca20e87c5224954ff8c918cb259}{}\label{structvector2_a23c7eca20e87c5224954ff8c918cb259}
+
+\begin{DoxyCode}
+31     \{
+32         T ang = rand\_uniform<T>() * 2 * 3.141593;
+33         T r = rand\_uniform<T>() * R;
+34 
+35         \textcolor{keywordflow}{return} \hyperlink{structvector2_a6e939afd4c849f78ff033065b778d4e0}{vector2}(center.\hyperlink{structvector2_a22b63498d8e4abf9a2da054a247965b9}{x} + r*(T)cos(ang), center.\hyperlink{structvector2_a00b3268bc895adddf0b72d6acd8274a7}{y} + r*(T)sin(ang));
+36     \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\index{vector2@{vector2}!x@{x}}
+\index{x@{x}!vector2@{vector2}}
+\subsubsection[{\texorpdfstring{x}{x}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ T {\bf vector2}$<$ T $>$\+::x}\hypertarget{structvector2_a22b63498d8e4abf9a2da054a247965b9}{}\label{structvector2_a22b63498d8e4abf9a2da054a247965b9}
+\index{vector2@{vector2}!y@{y}}
+\index{y@{y}!vector2@{vector2}}
+\subsubsection[{\texorpdfstring{y}{y}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ T {\bf vector2}$<$ T $>$\+::y}\hypertarget{structvector2_a00b3268bc895adddf0b72d6acd8274a7}{}\label{structvector2_a00b3268bc895adddf0b72d6acd8274a7}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+cputrack/\hyperlink{std__incl_8h}{std\+\_\+incl.\+h}\end{DoxyCompactItemize}

@@ -1,0 +1,299 @@
+\hypertarget{struct_q_trk_settings}{}\section{Q\+Trk\+Settings Struct Reference}
+\label{struct_q_trk_settings}\index{Q\+Trk\+Settings@{Q\+Trk\+Settings}}
+
+
+Structure for the settings used by the algorithms implemented in \hyperlink{class_queued_tracker}{Queued\+Tracker}.  
+
+
+
+
+{\ttfamily \#include $<$qtrk\+\_\+c\+\_\+api.\+h$>$}
+
+Inheritance diagram for Q\+Trk\+Settings\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{struct_q_trk_settings}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{struct_q_trk_settings_a5d3675dfece085b68b5c508697989b87}{Q\+Trk\+Settings} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width}
+\begin{DoxyCompactList}\small\item\em Width of regions of interest to be handled. Typically equals \hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{Q\+Trk\+Settings\+::height} (square R\+OI). \end{DoxyCompactList}\item 
+int \hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height}
+\begin{DoxyCompactList}\small\item\em Height of regions of interest to be handled. Typically equals \hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{Q\+Trk\+Settings\+::width} (square R\+OI). \end{DoxyCompactList}\item 
+int \hyperlink{struct_q_trk_settings_a8c6f1c671b527155afd5dad894c152da}{num\+Threads}
+\begin{DoxyCompactList}\small\item\em Number of threads/streams to use. Defaults differ between C\+PU and G\+PU implementations. \end{DoxyCompactList}\item 
+int \hyperlink{struct_q_trk_settings_a795682a80b672b594ebd225aebf3fb16}{cuda\+\_\+device}
+\begin{DoxyCompactList}\small\item\em C\+U\+DA only. Flag for device selection. \end{DoxyCompactList}\item 
+float \hyperlink{struct_q_trk_settings_a18ce353ffb049d1c86254a773a6fe49d}{com\+\_\+bgcorrection}
+\begin{DoxyCompactList}\small\item\em Background correction factor for C\+OM. Defines the number of standard deviations data needs to be away from the image mean to be taken into account. \end{DoxyCompactList}\item 
+float \hyperlink{struct_q_trk_settings_a1a14537a9e784c65eed512e72ee86c02}{zlut\+\_\+minradius}
+\begin{DoxyCompactList}\small\item\em Distance in pixels from the bead center from which to start sampling profiles. Default 1.\+0. \end{DoxyCompactList}\item 
+float \hyperlink{struct_q_trk_settings_ae57544152a8a129bae6cb934feead1c7}{zlut\+\_\+radial\+\_\+coverage}
+\begin{DoxyCompactList}\small\item\em Sampling points per radial pixel. Default 3.\+0. \end{DoxyCompactList}\item 
+float \hyperlink{struct_q_trk_settings_a8892aa193827371fc06ee94254e68b09}{zlut\+\_\+angular\+\_\+coverage}
+\begin{DoxyCompactList}\small\item\em Factor of the sampling perimeter to cover with angular sampling steps. Between 0 and 1, default 0.\+7. \end{DoxyCompactList}\item 
+float \hyperlink{struct_q_trk_settings_a33db8dee144b4a042f5440fa1f210e6a}{zlut\+\_\+roi\+\_\+coverage}
+\begin{DoxyCompactList}\small\item\em Factor of the R\+OI to include in sampling. Between 0 and 1, default 1. Maxradius = R\+O\+I/2$\ast$roi\+\_\+coverage. \end{DoxyCompactList}\item 
+int \hyperlink{struct_q_trk_settings_a12105babb328a9a7ec90f0eab074fabb}{qi\+\_\+iterations}
+\begin{DoxyCompactList}\small\item\em Number of times to run the QI algorithm, sampling around the last found position. \end{DoxyCompactList}\item 
+float \hyperlink{struct_q_trk_settings_a7b5f3e61b4dcab6330c56e7bcd96e82d}{qi\+\_\+minradius}
+\begin{DoxyCompactList}\small\item\em Distance in pixels from the bead center from which to start sampling profiles. Default 1.\+0. \end{DoxyCompactList}\item 
+float \hyperlink{struct_q_trk_settings_abee59fa2f68d9e514500062f73b1d512}{qi\+\_\+radial\+\_\+coverage}
+\begin{DoxyCompactList}\small\item\em Sampling points per radial pixel. Default 3.\+0. \end{DoxyCompactList}\item 
+float \hyperlink{struct_q_trk_settings_a08800ed7809dc4bde16d0a6fee08ecdd}{qi\+\_\+angular\+\_\+coverage}
+\begin{DoxyCompactList}\small\item\em Factor of the sampling perimeter to cover with angular sampling steps. Between 0 and 1, default 0.\+7. \end{DoxyCompactList}\item 
+float \hyperlink{struct_q_trk_settings_ab9567d21cc1517713a746c2173de4264}{qi\+\_\+roi\+\_\+coverage}
+\begin{DoxyCompactList}\small\item\em Factor of the R\+OI to include in sampling. Between 0 and 1, default 1. Maxradius = R\+O\+I/2$\ast$roi\+\_\+coverage. \end{DoxyCompactList}\item 
+float \hyperlink{struct_q_trk_settings_aceebf67ba9ecc215d49c6b2739afae3d}{qi\+\_\+angstep\+\_\+factor}
+\begin{DoxyCompactList}\small\item\em Factor to reduce angular steps on lower iterations. Default 1.\+0 (no effect). Increase for faster early iterations but more image noise sensitivity. \end{DoxyCompactList}\item 
+int \hyperlink{struct_q_trk_settings_a8f38457c4ec183f78a0191b247ab6b51}{xc1\+\_\+profile\+Length}
+\begin{DoxyCompactList}\small\item\em Profile length for the cross correlation. \end{DoxyCompactList}\item 
+int \hyperlink{struct_q_trk_settings_a80de240523eb79408593d26e6ef07ef7}{xc1\+\_\+profile\+Width}
+\begin{DoxyCompactList}\small\item\em Profile width for the cross correlation. \end{DoxyCompactList}\item 
+int \hyperlink{struct_q_trk_settings_a0bc4efdffbb8ad272d1c9facfdf0e171}{xc1\+\_\+iterations}
+\begin{DoxyCompactList}\small\item\em Number of times to run the cross correlation algorithm. \end{DoxyCompactList}\item 
+int \hyperlink{struct_q_trk_settings_aa5ae2b9e5700fe2eab58f9084389c3ad}{gauss2\+D\+\_\+iterations}
+\begin{DoxyCompactList}\small\item\em Number of times to run the 2D gaussian algorithm. \end{DoxyCompactList}\item 
+float \hyperlink{struct_q_trk_settings_a950fc67c972c608570ef2dd27fcfaf4d}{gauss2\+D\+\_\+sigma}
+\begin{DoxyCompactList}\small\item\em Standard deviation to use in the 2D gaussian algorithm. \end{DoxyCompactList}\item 
+int \hyperlink{struct_q_trk_settings_ad10a141ae7d18c2e6ce487f147dd7c02}{downsample}
+\begin{DoxyCompactList}\small\item\em Image downsampling factor. Applied before anything else. 0 = original, 1 = 1x (W=W/2,H=H/2). \end{DoxyCompactList}\item 
+bool \hyperlink{struct_q_trk_settings_aef52bd8e2fdba83af4ce3b4367180d9f}{test\+Run}
+\begin{DoxyCompactList}\small\item\em Flag to run a test run. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Structure for the settings used by the algorithms implemented in \hyperlink{class_queued_tracker}{Queued\+Tracker}. 
+
+Compiled without padding to line up with Lab\+V\+I\+EW alignment. \begin{DoxyWarning}{Warning}
+Changing this requires changing of the linked Lab\+V\+I\+EW cluster Q\+Trk\+Settings.\+ctl. 
+\end{DoxyWarning}
+\begin{DoxyNote}{Note}
+All settings are always defined, eventhough only one of the three 2D localization algorithms is used. 
+\end{DoxyNote}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Q\+Trk\+Settings@{Q\+Trk\+Settings}!Q\+Trk\+Settings@{Q\+Trk\+Settings}}
+\index{Q\+Trk\+Settings@{Q\+Trk\+Settings}!Q\+Trk\+Settings@{Q\+Trk\+Settings}}
+\subsubsection[{\texorpdfstring{Q\+Trk\+Settings()}{QTrkSettings()}}]{\setlength{\rightskip}{0pt plus 5cm}Q\+Trk\+Settings\+::\+Q\+Trk\+Settings (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{struct_q_trk_settings_a5d3675dfece085b68b5c508697989b87}{}\label{struct_q_trk_settings_a5d3675dfece085b68b5c508697989b87}
+Set default values on initialization 
+\begin{DoxyCode}
+75                    \{ 
+76         \hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{width} = \hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{height} = 100;
+77         \hyperlink{struct_q_trk_settings_a8c6f1c671b527155afd5dad894c152da}{numThreads} = -1;
+78         \hyperlink{struct_q_trk_settings_a8f38457c4ec183f78a0191b247ab6b51}{xc1\_profileLength} = 128;
+79         \hyperlink{struct_q_trk_settings_a80de240523eb79408593d26e6ef07ef7}{xc1\_profileWidth} = 32;
+80         \hyperlink{struct_q_trk_settings_a0bc4efdffbb8ad272d1c9facfdf0e171}{xc1\_iterations} = 2;
+81         \hyperlink{struct_q_trk_settings_a1a14537a9e784c65eed512e72ee86c02}{zlut\_minradius} = 1.0f;
+82         \hyperlink{struct_q_trk_settings_a8892aa193827371fc06ee94254e68b09}{zlut\_angular\_coverage} = 0.7f;
+83         \hyperlink{struct_q_trk_settings_ae57544152a8a129bae6cb934feead1c7}{zlut\_radial\_coverage} = 3.0f;
+84         \hyperlink{struct_q_trk_settings_a33db8dee144b4a042f5440fa1f210e6a}{zlut\_roi\_coverage} = 1.0f;
+85         \hyperlink{struct_q_trk_settings_a12105babb328a9a7ec90f0eab074fabb}{qi\_iterations} = 5;
+86         \hyperlink{struct_q_trk_settings_a7b5f3e61b4dcab6330c56e7bcd96e82d}{qi\_minradius} = 1;
+87         \hyperlink{struct_q_trk_settings_a08800ed7809dc4bde16d0a6fee08ecdd}{qi\_angular\_coverage} = 0.7f;
+88         \hyperlink{struct_q_trk_settings_abee59fa2f68d9e514500062f73b1d512}{qi\_radial\_coverage} = 3.0f; 
+89         \hyperlink{struct_q_trk_settings_ab9567d21cc1517713a746c2173de4264}{qi\_roi\_coverage} = 1.0f;
+90         \hyperlink{struct_q_trk_settings_aceebf67ba9ecc215d49c6b2739afae3d}{qi\_angstep\_factor} = 1.0f;
+91         \hyperlink{struct_q_trk_settings_a795682a80b672b594ebd225aebf3fb16}{cuda\_device} = -2;
+92         \hyperlink{struct_q_trk_settings_a18ce353ffb049d1c86254a773a6fe49d}{com\_bgcorrection} = 0.0f;
+93         \hyperlink{struct_q_trk_settings_aa5ae2b9e5700fe2eab58f9084389c3ad}{gauss2D\_iterations} = 6;
+94         \hyperlink{struct_q_trk_settings_a950fc67c972c608570ef2dd27fcfaf4d}{gauss2D\_sigma} = 4;
+95         \hyperlink{struct_q_trk_settings_ad10a141ae7d18c2e6ce487f147dd7c02}{downsample} = 0;
+96         \textcolor{comment}{//testRun = false; // CHANGED! Comment/remove when compiling for labview}
+97     \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\index{Q\+Trk\+Settings@{Q\+Trk\+Settings}!com\+\_\+bgcorrection@{com\+\_\+bgcorrection}}
+\index{com\+\_\+bgcorrection@{com\+\_\+bgcorrection}!Q\+Trk\+Settings@{Q\+Trk\+Settings}}
+\subsubsection[{\texorpdfstring{com\+\_\+bgcorrection}{com_bgcorrection}}]{\setlength{\rightskip}{0pt plus 5cm}float Q\+Trk\+Settings\+::com\+\_\+bgcorrection}\hypertarget{struct_q_trk_settings_a18ce353ffb049d1c86254a773a6fe49d}{}\label{struct_q_trk_settings_a18ce353ffb049d1c86254a773a6fe49d}
+
+
+Background correction factor for C\+OM. Defines the number of standard deviations data needs to be away from the image mean to be taken into account. 
+
+\index{Q\+Trk\+Settings@{Q\+Trk\+Settings}!cuda\+\_\+device@{cuda\+\_\+device}}
+\index{cuda\+\_\+device@{cuda\+\_\+device}!Q\+Trk\+Settings@{Q\+Trk\+Settings}}
+\subsubsection[{\texorpdfstring{cuda\+\_\+device}{cuda_device}}]{\setlength{\rightskip}{0pt plus 5cm}int Q\+Trk\+Settings\+::cuda\+\_\+device}\hypertarget{struct_q_trk_settings_a795682a80b672b594ebd225aebf3fb16}{}\label{struct_q_trk_settings_a795682a80b672b594ebd225aebf3fb16}
+
+
+C\+U\+DA only. Flag for device selection. 
+
+\tabulinesep=1mm
+\begin{longtabu} spread 0pt [c]{*2{|X[-1]}|}
+\hline
+cuda\+\_\+device $>$= 0&Use as hardware device index. \\\cline{1-2}
+cuda\+\_\+device $<$ 0&Use flags below \\\cline{1-2}
+\end{longtabu}
+
+
+\tabulinesep=1mm
+\begin{longtabu} spread 0pt [c]{*3{|X[-1]}|}
+\hline
+Q\+Trk\+C\+U\+D\+A\+\_\+\+Use\+List&-\/3&Use list defined by Set\+C\+U\+D\+A\+Devices \\\cline{1-3}
+Q\+Trk\+C\+U\+D\+A\+\_\+\+Use\+All&-\/2&Use all available devices. Default option. \\\cline{1-3}
+Q\+Trk\+C\+U\+D\+A\+\_\+\+Use\+Best&-\/1&Only use the best device. \\\cline{1-3}
+\end{longtabu}
+\index{Q\+Trk\+Settings@{Q\+Trk\+Settings}!downsample@{downsample}}
+\index{downsample@{downsample}!Q\+Trk\+Settings@{Q\+Trk\+Settings}}
+\subsubsection[{\texorpdfstring{downsample}{downsample}}]{\setlength{\rightskip}{0pt plus 5cm}int Q\+Trk\+Settings\+::downsample}\hypertarget{struct_q_trk_settings_ad10a141ae7d18c2e6ce487f147dd7c02}{}\label{struct_q_trk_settings_ad10a141ae7d18c2e6ce487f147dd7c02}
+
+
+Image downsampling factor. Applied before anything else. 0 = original, 1 = 1x (W=W/2,H=H/2). 
+
+\index{Q\+Trk\+Settings@{Q\+Trk\+Settings}!gauss2\+D\+\_\+iterations@{gauss2\+D\+\_\+iterations}}
+\index{gauss2\+D\+\_\+iterations@{gauss2\+D\+\_\+iterations}!Q\+Trk\+Settings@{Q\+Trk\+Settings}}
+\subsubsection[{\texorpdfstring{gauss2\+D\+\_\+iterations}{gauss2D_iterations}}]{\setlength{\rightskip}{0pt plus 5cm}int Q\+Trk\+Settings\+::gauss2\+D\+\_\+iterations}\hypertarget{struct_q_trk_settings_aa5ae2b9e5700fe2eab58f9084389c3ad}{}\label{struct_q_trk_settings_aa5ae2b9e5700fe2eab58f9084389c3ad}
+
+
+Number of times to run the 2D gaussian algorithm. 
+
+\index{Q\+Trk\+Settings@{Q\+Trk\+Settings}!gauss2\+D\+\_\+sigma@{gauss2\+D\+\_\+sigma}}
+\index{gauss2\+D\+\_\+sigma@{gauss2\+D\+\_\+sigma}!Q\+Trk\+Settings@{Q\+Trk\+Settings}}
+\subsubsection[{\texorpdfstring{gauss2\+D\+\_\+sigma}{gauss2D_sigma}}]{\setlength{\rightskip}{0pt plus 5cm}float Q\+Trk\+Settings\+::gauss2\+D\+\_\+sigma}\hypertarget{struct_q_trk_settings_a950fc67c972c608570ef2dd27fcfaf4d}{}\label{struct_q_trk_settings_a950fc67c972c608570ef2dd27fcfaf4d}
+
+
+Standard deviation to use in the 2D gaussian algorithm. 
+
+\index{Q\+Trk\+Settings@{Q\+Trk\+Settings}!height@{height}}
+\index{height@{height}!Q\+Trk\+Settings@{Q\+Trk\+Settings}}
+\subsubsection[{\texorpdfstring{height}{height}}]{\setlength{\rightskip}{0pt plus 5cm}int Q\+Trk\+Settings\+::height}\hypertarget{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{}\label{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}
+
+
+Height of regions of interest to be handled. Typically equals \hyperlink{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{Q\+Trk\+Settings\+::width} (square R\+OI). 
+
+\index{Q\+Trk\+Settings@{Q\+Trk\+Settings}!num\+Threads@{num\+Threads}}
+\index{num\+Threads@{num\+Threads}!Q\+Trk\+Settings@{Q\+Trk\+Settings}}
+\subsubsection[{\texorpdfstring{num\+Threads}{numThreads}}]{\setlength{\rightskip}{0pt plus 5cm}int Q\+Trk\+Settings\+::num\+Threads}\hypertarget{struct_q_trk_settings_a8c6f1c671b527155afd5dad894c152da}{}\label{struct_q_trk_settings_a8c6f1c671b527155afd5dad894c152da}
+
+
+Number of threads/streams to use. Defaults differ between C\+PU and G\+PU implementations. 
+
+\mbox{[}C\+PU\mbox{]}\+: Default -\/1 chooses {\itshape threads} equal to the number of C\+P\+Us available. ~\newline
+ \mbox{[}C\+U\+DA\mbox{]}\+: Default -\/1 chooses 4 {\itshape streams} per available device. \index{Q\+Trk\+Settings@{Q\+Trk\+Settings}!qi\+\_\+angstep\+\_\+factor@{qi\+\_\+angstep\+\_\+factor}}
+\index{qi\+\_\+angstep\+\_\+factor@{qi\+\_\+angstep\+\_\+factor}!Q\+Trk\+Settings@{Q\+Trk\+Settings}}
+\subsubsection[{\texorpdfstring{qi\+\_\+angstep\+\_\+factor}{qi_angstep_factor}}]{\setlength{\rightskip}{0pt plus 5cm}float Q\+Trk\+Settings\+::qi\+\_\+angstep\+\_\+factor}\hypertarget{struct_q_trk_settings_aceebf67ba9ecc215d49c6b2739afae3d}{}\label{struct_q_trk_settings_aceebf67ba9ecc215d49c6b2739afae3d}
+
+
+Factor to reduce angular steps on lower iterations. Default 1.\+0 (no effect). Increase for faster early iterations but more image noise sensitivity. 
+
+\index{Q\+Trk\+Settings@{Q\+Trk\+Settings}!qi\+\_\+angular\+\_\+coverage@{qi\+\_\+angular\+\_\+coverage}}
+\index{qi\+\_\+angular\+\_\+coverage@{qi\+\_\+angular\+\_\+coverage}!Q\+Trk\+Settings@{Q\+Trk\+Settings}}
+\subsubsection[{\texorpdfstring{qi\+\_\+angular\+\_\+coverage}{qi_angular_coverage}}]{\setlength{\rightskip}{0pt plus 5cm}float Q\+Trk\+Settings\+::qi\+\_\+angular\+\_\+coverage}\hypertarget{struct_q_trk_settings_a08800ed7809dc4bde16d0a6fee08ecdd}{}\label{struct_q_trk_settings_a08800ed7809dc4bde16d0a6fee08ecdd}
+
+
+Factor of the sampling perimeter to cover with angular sampling steps. Between 0 and 1, default 0.\+7. 
+
+\index{Q\+Trk\+Settings@{Q\+Trk\+Settings}!qi\+\_\+iterations@{qi\+\_\+iterations}}
+\index{qi\+\_\+iterations@{qi\+\_\+iterations}!Q\+Trk\+Settings@{Q\+Trk\+Settings}}
+\subsubsection[{\texorpdfstring{qi\+\_\+iterations}{qi_iterations}}]{\setlength{\rightskip}{0pt plus 5cm}int Q\+Trk\+Settings\+::qi\+\_\+iterations}\hypertarget{struct_q_trk_settings_a12105babb328a9a7ec90f0eab074fabb}{}\label{struct_q_trk_settings_a12105babb328a9a7ec90f0eab074fabb}
+
+
+Number of times to run the QI algorithm, sampling around the last found position. 
+
+\index{Q\+Trk\+Settings@{Q\+Trk\+Settings}!qi\+\_\+minradius@{qi\+\_\+minradius}}
+\index{qi\+\_\+minradius@{qi\+\_\+minradius}!Q\+Trk\+Settings@{Q\+Trk\+Settings}}
+\subsubsection[{\texorpdfstring{qi\+\_\+minradius}{qi_minradius}}]{\setlength{\rightskip}{0pt plus 5cm}float Q\+Trk\+Settings\+::qi\+\_\+minradius}\hypertarget{struct_q_trk_settings_a7b5f3e61b4dcab6330c56e7bcd96e82d}{}\label{struct_q_trk_settings_a7b5f3e61b4dcab6330c56e7bcd96e82d}
+
+
+Distance in pixels from the bead center from which to start sampling profiles. Default 1.\+0. 
+
+\index{Q\+Trk\+Settings@{Q\+Trk\+Settings}!qi\+\_\+radial\+\_\+coverage@{qi\+\_\+radial\+\_\+coverage}}
+\index{qi\+\_\+radial\+\_\+coverage@{qi\+\_\+radial\+\_\+coverage}!Q\+Trk\+Settings@{Q\+Trk\+Settings}}
+\subsubsection[{\texorpdfstring{qi\+\_\+radial\+\_\+coverage}{qi_radial_coverage}}]{\setlength{\rightskip}{0pt plus 5cm}float Q\+Trk\+Settings\+::qi\+\_\+radial\+\_\+coverage}\hypertarget{struct_q_trk_settings_abee59fa2f68d9e514500062f73b1d512}{}\label{struct_q_trk_settings_abee59fa2f68d9e514500062f73b1d512}
+
+
+Sampling points per radial pixel. Default 3.\+0. 
+
+\index{Q\+Trk\+Settings@{Q\+Trk\+Settings}!qi\+\_\+roi\+\_\+coverage@{qi\+\_\+roi\+\_\+coverage}}
+\index{qi\+\_\+roi\+\_\+coverage@{qi\+\_\+roi\+\_\+coverage}!Q\+Trk\+Settings@{Q\+Trk\+Settings}}
+\subsubsection[{\texorpdfstring{qi\+\_\+roi\+\_\+coverage}{qi_roi_coverage}}]{\setlength{\rightskip}{0pt plus 5cm}float Q\+Trk\+Settings\+::qi\+\_\+roi\+\_\+coverage}\hypertarget{struct_q_trk_settings_ab9567d21cc1517713a746c2173de4264}{}\label{struct_q_trk_settings_ab9567d21cc1517713a746c2173de4264}
+
+
+Factor of the R\+OI to include in sampling. Between 0 and 1, default 1. Maxradius = R\+O\+I/2$\ast$roi\+\_\+coverage. 
+
+\index{Q\+Trk\+Settings@{Q\+Trk\+Settings}!test\+Run@{test\+Run}}
+\index{test\+Run@{test\+Run}!Q\+Trk\+Settings@{Q\+Trk\+Settings}}
+\subsubsection[{\texorpdfstring{test\+Run}{testRun}}]{\setlength{\rightskip}{0pt plus 5cm}bool Q\+Trk\+Settings\+::test\+Run}\hypertarget{struct_q_trk_settings_aef52bd8e2fdba83af4ce3b4367180d9f}{}\label{struct_q_trk_settings_aef52bd8e2fdba83af4ce3b4367180d9f}
+
+
+Flag to run a test run. 
+
+A test run dumps a lot of intermediate data to the disk for algorithm inspection (only QI \& Z\+L\+UT). \begin{DoxyWarning}{Warning}
+C\+H\+A\+N\+G\+ED compared to Lab\+V\+I\+E\+W! Comment/remove when compiling for Lab\+V\+I\+EW. 
+\end{DoxyWarning}
+\begin{DoxyRefDesc}{Todo}
+\item[\hyperlink{todo__todo000001}{Todo}]Add to Lab\+V\+I\+EW cluster. \end{DoxyRefDesc}
+\index{Q\+Trk\+Settings@{Q\+Trk\+Settings}!width@{width}}
+\index{width@{width}!Q\+Trk\+Settings@{Q\+Trk\+Settings}}
+\subsubsection[{\texorpdfstring{width}{width}}]{\setlength{\rightskip}{0pt plus 5cm}int Q\+Trk\+Settings\+::width}\hypertarget{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}{}\label{struct_q_trk_settings_aef24eb3a4692bd67ff1aca8ef950e08d}
+
+
+Width of regions of interest to be handled. Typically equals \hyperlink{struct_q_trk_settings_a94c965d103e7a0a4f1fced8eee1324ce}{Q\+Trk\+Settings\+::height} (square R\+OI). 
+
+\index{Q\+Trk\+Settings@{Q\+Trk\+Settings}!xc1\+\_\+iterations@{xc1\+\_\+iterations}}
+\index{xc1\+\_\+iterations@{xc1\+\_\+iterations}!Q\+Trk\+Settings@{Q\+Trk\+Settings}}
+\subsubsection[{\texorpdfstring{xc1\+\_\+iterations}{xc1_iterations}}]{\setlength{\rightskip}{0pt plus 5cm}int Q\+Trk\+Settings\+::xc1\+\_\+iterations}\hypertarget{struct_q_trk_settings_a0bc4efdffbb8ad272d1c9facfdf0e171}{}\label{struct_q_trk_settings_a0bc4efdffbb8ad272d1c9facfdf0e171}
+
+
+Number of times to run the cross correlation algorithm. 
+
+\index{Q\+Trk\+Settings@{Q\+Trk\+Settings}!xc1\+\_\+profile\+Length@{xc1\+\_\+profile\+Length}}
+\index{xc1\+\_\+profile\+Length@{xc1\+\_\+profile\+Length}!Q\+Trk\+Settings@{Q\+Trk\+Settings}}
+\subsubsection[{\texorpdfstring{xc1\+\_\+profile\+Length}{xc1_profileLength}}]{\setlength{\rightskip}{0pt plus 5cm}int Q\+Trk\+Settings\+::xc1\+\_\+profile\+Length}\hypertarget{struct_q_trk_settings_a8f38457c4ec183f78a0191b247ab6b51}{}\label{struct_q_trk_settings_a8f38457c4ec183f78a0191b247ab6b51}
+
+
+Profile length for the cross correlation. 
+
+\index{Q\+Trk\+Settings@{Q\+Trk\+Settings}!xc1\+\_\+profile\+Width@{xc1\+\_\+profile\+Width}}
+\index{xc1\+\_\+profile\+Width@{xc1\+\_\+profile\+Width}!Q\+Trk\+Settings@{Q\+Trk\+Settings}}
+\subsubsection[{\texorpdfstring{xc1\+\_\+profile\+Width}{xc1_profileWidth}}]{\setlength{\rightskip}{0pt plus 5cm}int Q\+Trk\+Settings\+::xc1\+\_\+profile\+Width}\hypertarget{struct_q_trk_settings_a80de240523eb79408593d26e6ef07ef7}{}\label{struct_q_trk_settings_a80de240523eb79408593d26e6ef07ef7}
+
+
+Profile width for the cross correlation. 
+
+\index{Q\+Trk\+Settings@{Q\+Trk\+Settings}!zlut\+\_\+angular\+\_\+coverage@{zlut\+\_\+angular\+\_\+coverage}}
+\index{zlut\+\_\+angular\+\_\+coverage@{zlut\+\_\+angular\+\_\+coverage}!Q\+Trk\+Settings@{Q\+Trk\+Settings}}
+\subsubsection[{\texorpdfstring{zlut\+\_\+angular\+\_\+coverage}{zlut_angular_coverage}}]{\setlength{\rightskip}{0pt plus 5cm}float Q\+Trk\+Settings\+::zlut\+\_\+angular\+\_\+coverage}\hypertarget{struct_q_trk_settings_a8892aa193827371fc06ee94254e68b09}{}\label{struct_q_trk_settings_a8892aa193827371fc06ee94254e68b09}
+
+
+Factor of the sampling perimeter to cover with angular sampling steps. Between 0 and 1, default 0.\+7. 
+
+\index{Q\+Trk\+Settings@{Q\+Trk\+Settings}!zlut\+\_\+minradius@{zlut\+\_\+minradius}}
+\index{zlut\+\_\+minradius@{zlut\+\_\+minradius}!Q\+Trk\+Settings@{Q\+Trk\+Settings}}
+\subsubsection[{\texorpdfstring{zlut\+\_\+minradius}{zlut_minradius}}]{\setlength{\rightskip}{0pt plus 5cm}float Q\+Trk\+Settings\+::zlut\+\_\+minradius}\hypertarget{struct_q_trk_settings_a1a14537a9e784c65eed512e72ee86c02}{}\label{struct_q_trk_settings_a1a14537a9e784c65eed512e72ee86c02}
+
+
+Distance in pixels from the bead center from which to start sampling profiles. Default 1.\+0. 
+
+\index{Q\+Trk\+Settings@{Q\+Trk\+Settings}!zlut\+\_\+radial\+\_\+coverage@{zlut\+\_\+radial\+\_\+coverage}}
+\index{zlut\+\_\+radial\+\_\+coverage@{zlut\+\_\+radial\+\_\+coverage}!Q\+Trk\+Settings@{Q\+Trk\+Settings}}
+\subsubsection[{\texorpdfstring{zlut\+\_\+radial\+\_\+coverage}{zlut_radial_coverage}}]{\setlength{\rightskip}{0pt plus 5cm}float Q\+Trk\+Settings\+::zlut\+\_\+radial\+\_\+coverage}\hypertarget{struct_q_trk_settings_ae57544152a8a129bae6cb934feead1c7}{}\label{struct_q_trk_settings_ae57544152a8a129bae6cb934feead1c7}
+
+
+Sampling points per radial pixel. Default 3.\+0. 
+
+\index{Q\+Trk\+Settings@{Q\+Trk\+Settings}!zlut\+\_\+roi\+\_\+coverage@{zlut\+\_\+roi\+\_\+coverage}}
+\index{zlut\+\_\+roi\+\_\+coverage@{zlut\+\_\+roi\+\_\+coverage}!Q\+Trk\+Settings@{Q\+Trk\+Settings}}
+\subsubsection[{\texorpdfstring{zlut\+\_\+roi\+\_\+coverage}{zlut_roi_coverage}}]{\setlength{\rightskip}{0pt plus 5cm}float Q\+Trk\+Settings\+::zlut\+\_\+roi\+\_\+coverage}\hypertarget{struct_q_trk_settings_a33db8dee144b4a042f5440fa1f210e6a}{}\label{struct_q_trk_settings_a33db8dee144b4a042f5440fa1f210e6a}
+
+
+Factor of the R\+OI to include in sampling. Between 0 and 1, default 1. Maxradius = R\+O\+I/2$\ast$roi\+\_\+coverage. 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+cputrack/\hyperlink{qtrk__c__api_8h}{qtrk\+\_\+c\+\_\+api.\+h}\end{DoxyCompactItemize}
