@@ -27,3 +27,4 @@ cudatrack/Debug/qtrkcudad-labview.dll.embed.manifest.res
 *.zip
 bin/qtrkcudad.lib
 Debug/unit-test.ilk
+DoxyOutput/html/

@@ -47,7 +47,7 @@ CDLL_EXPORT int DLL_CALLCONV QTrkScheduleFrame(QueuedTracker* qtrk, void *imgptr
 // data can be zero to allocate ZLUT data. zcmp has to have 'zlut_radialsteps' elements
 CDLL_EXPORT void DLL_CALLCONV QTrkSetRadialZLUT(QueuedTracker* qtrk, float* data, int count, int planes, float* zcmp)
 {
-	qtrk->SetRadialZLUT(data, count, planes, zcmp);
+	qtrk->SetRadialZLUT(data, count, planes /*, zcmp*/);
 }
 
 CDLL_EXPORT void DLL_CALLCONV QTrkGetRadialZLUT(QueuedTracker* qtrk, float* dst)
@@ -63,7 +63,7 @@ CDLL_EXPORT void DLL_CALLCONV QTrkGetRadialZLUTSize(QueuedTracker* qtrk, int* co
 
 CDLL_EXPORT void DLL_CALLCONV QTrkBuildLUT(QueuedTracker* qtrk, void* data, int pitch, QTRK_PixelDataType pdt, bool imageLUT, int plane)
 {
-	qtrk->BuildLUT(data, pitch, pdt, imageLUT, plane);
+	qtrk->BuildLUT(data, pitch, pdt, /*imageLUT,*/ plane);
 }
 
 CDLL_EXPORT void DLL_CALLCONV QTrkFinalizeLUT(QueuedTracker* qtrk)

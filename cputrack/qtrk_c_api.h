@@ -21,12 +21,12 @@ enum LocalizeModeEnum {
 
 typedef int LocMode_t; // LocalizationModeEnum
 
-/// Flags for data type of image data
+/// Flags indicating the data type of image data
 enum QTRK_PixelDataType
 {
-	QTrkU8 = 0,
-	QTrkU16 = 1,
-	QTrkFloat = 2
+	QTrkU8 = 0,		///< 8 bit unsigned int
+	QTrkU16 = 1,	///< 16 bit unsigned int
+	QTrkFloat = 2	///< 64 bit float
 };
 
 

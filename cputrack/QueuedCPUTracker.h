@@ -47,7 +47,7 @@ public:
 	void SetPixelCalibrationFactors(float offsetFactor, float gainFactor) override;
 
 	int GetQueueLength(int *maxQueueLength=0) override; // In queue + in progress
-	int FetchResults(LocalizationResult* results, int maxResults) override;
+	int FetchResults(LocalizationResult* dstResult, int maxResults) override;
 	void ClearResults() override;
 	void Flush() override { };
 

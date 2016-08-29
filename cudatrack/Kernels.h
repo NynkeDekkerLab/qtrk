@@ -1,5 +1,7 @@
 #pragma once
 
+surface<void, cudaSurfaceType2DLayered> image_lut_surface;
+
 /** \defgroup kernels CUDA Kernels
 \brief All available CUDA Kernels to run on the GPU.
 */
@@ -257,8 +259,6 @@ __global__ void G2MLE_Compute(BaseKernelParams kp, float sigma, int iterations, 
 	if (I_bg) I_bg[jobIdx] = bg;
 	if (I_0) I_0[jobIdx] = I0;
 }
-
-surface<void, cudaSurfaceType2DLayered> image_lut_surface;
 
 template<typename TImageSampler, typename TImageLUT>
 __global__ void ImageLUT_Sample(BaseKernelParams kp, float2 ilut_scale, float3* positions, typename TImageLUT::KernelParams lut)

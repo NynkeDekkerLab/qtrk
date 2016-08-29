@@ -16,7 +16,7 @@
  * To ensure high speed data analysis, multiple algorithms have been implemented in multithreaded CPU and GPU (through CUDA) implementations, 
  * with a scheduling shell (QueuedCPUTracker and QueuedCUDATracker) and separate data gathering and saving thread (ResultManager).
  *
- * \section imple_sec Implementation
+ * \section algo_sec Algorithms
  * 
  * The goal is to find a 3 dimensional position of a bead from a microscopic image. A typical image of a single bead is displayed below:
  * \image html 00008153-s.jpg
@@ -47,7 +47,7 @@
  *
  * \section cred_sec Credits
  *
- * Original work by Jelmer Cnossen. Maintenance, testing, documentation and improvements by Jordi Wassenburg.
+ * Original work by Jelmer Cnossen \cite rsi:cnos. Maintenance, testing, documentation and improvements by Jordi Wassenburg.
  */
 #pragma once
 
@@ -76,7 +76,7 @@ public:
 
 	/*! \brief Select which algorithm is to be used.
 	
-	\param [in] locType An integer used as a bitmask for settings based on ::LocalizeModeEnum.
+	\param [in] locType An integer used as a bitmask for settings based on \ref LocalizeModeEnum.
 	*/
 	virtual void SetLocalizationMode(LocMode_t locType) = 0;
 
@@ -87,10 +87,10 @@ public:
 
 	/*! \brief Add a job to the queue to be processed. A job entails running the required algorithms on a single region of interest.
 
-	\param [in] data	Pointer to the data. Type specified by [pdt].
+	\param [in] data	Pointer to the data. Type specified by \p pdt.
 	\param [in] pitch	Distance in bytes between two successive rows of pixels (e.g. address of (0,0) - address of (0,1)).
-	\param [in] pdt		Type of [data], specified by ::QTRK_PixelDataType.
-	\param [in] jobInfo Structure with metadata for the ROI to be handled. See ::LocalizationJob.
+	\param [in] pdt		Type of \p data, specified by ::QTRK_PixelDataType.
+	\param [in] jobInfo Structure with metadata for the ROI to be handled. See \ref LocalizationJob.
 	*/
 	virtual void ScheduleLocalization(void* data, int pitch, QTRK_PixelDataType pdt, const LocalizationJob *jobInfo) = 0;
 	void ScheduleImageData(ImageData* data, const LocalizationJob *jobInfo); ///< Quick function to schedule a single ROI from an ::ImageData object.
@@ -127,15 +127,15 @@ public:
 	
 	/*!  \brief Get the radial lookup tables used for z tracking.
 
-	\param [in,out] dst	Pointer to the pre-allocated memory in which to save the data.
+	\param [out] dst	Pointer to the pre-allocated memory in which to save the data.
 	*/
 	virtual void GetRadialZLUT(float* dst) = 0; 
 
 	/*! \brief Get the dimensions of the radial lookup table data.
 
-	\param [in,out] count			Reference to pre-allocated int. Returns number of lookup tables.
-	\param [in,out] planes			Reference to pre-allocated int. Returns number of planes per lookup table.
-	\param [in,out] radialsteps		Reference to pre-allocated int. Returns number of steps per plane.
+	\param [out] count			Reference to pre-allocated int. Returns number of lookup tables.
+	\param [out] planes			Reference to pre-allocated int. Returns number of planes per lookup table.
+	\param [out] radialsteps		Reference to pre-allocated int. Returns number of steps per plane.
 	*/
 	virtual void GetRadialZLUTSize(int& count, int& planes, int& radialsteps) = 0;
 
@@ -167,7 +167,7 @@ public:
 
 	\note Use of image LUT is currently not clear. Radial ZLUT is always used.
 
-	\param [in,out] dims			Reference to pre-allocated int array. Returns [ count, planes, height, width ].
+	\param [out] dims Reference to pre-allocated int array. Returns [ count, planes, height, width ].
 	*/
 	virtual void GetImageZLUTSize(int* dims) {}
 
@@ -175,7 +175,7 @@ public:
 
 	\note Use of image LUT is currently not clear. Radial ZLUT is always used.
 
-	\param [in,out] dst	Pointer to the pre-allocated memory in which to save the data.
+	\param [out] dst	Pointer to the pre-allocated memory in which to save the data.
 	*/
 	virtual void GetImageZLUT(float* dst) {}
 
@@ -188,53 +188,209 @@ public:
 	\param [in] dims		Array of dimension sizes for the image LUT. See \ref GetImageZLUTSize.
 	*/
 	virtual bool SetImageZLUT(float* src, float *radial_zlut, int* dims) { return false; }
-
+	
 #define BUILDLUT_IMAGELUT 1
 #define BUILDLUT_FOURIER 2
 #define BUILDLUT_NORMALIZE 4
 #define BUILDLUT_BIASCORRECT 8
+	/*! \brief Setup to begin building a lookup table. 
+
+	Sets the flags by which the lookup table is built. Flags are defined in a uint bitmask format as:
+	<table>
+	<tr><th>Name				<th>Value	<th>Description
+	<tr><td>					<td>0		<td>Default, no special flags.
+	<tr><td>BUILDLUT_IMAGELUT	<td>1 (2^0)	<td>Build an image LUT.
+	<tr><td>BUILDLUT_FOURIER	<td>2 (2^1) <td>Build a fourier LUT.
+	<tr><td>BUILDLUT_NORMALIZE	<td>4 (2^2) <td>Normalize radial profiles. Irrelevant, since \ref FinalizeLUT always normalizes.
+	<tr><td>BUILDLUT_BIASCORRECT<td>8 (2^3) <td>Enable bias correction. Currently only partly implemented, \b don't \b use.
+	</table>
+
+	\param [in] flags UINT interpreted as a series of bits to set settings.
+	*/
 	virtual void BeginLUT(uint flags) = 0;
+
+	/*! \brief Add a new lookup table plane.
+
+	Takes a stack of ROI images through \p data. Determines and adds the profile for each ROI to its respective LUT.
+
+	\param [in] data		Pointer to the start of an image stack.
+	\param [in] pitch		Width of the data in memory so offsets can be calculated.
+	\param [in] pdt			Pixel data type for the data. See \ref QTRK_PixelDataType.
+	\param [in] plane		The plane number the ROIs are taken for.
+	\param [in] known_pos	Center position from which to start making the radial profile. A standard QI localization with applied settings is performed if 0 (default).
+	*/
 	virtual void BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, int plane, vector2f* known_pos=0) = 0;
+
+	/*! \brief Finalize the lookup tables in memory.
+
+	Normalizes the profiles for radial lookup tables and calculates derivates and adds boundary conditions for image LUTs.
+	*/
 	virtual void FinalizeLUT() = 0;
 	
+	/*! \brief Get the number of finished localization jobs (=results) available in memory.
+
+	\returns The number of available results.
+	*/
 	virtual int GetResultCount() = 0;
+
+	/*! \brief Fetch available results.
+
+	\note Removes results from internal QueuedTracker memory.
+
+	\param [in] results Array of pre-allocated \ref LocalizationResult to which to add the results.
+	\param [in] maxResults Maximum number of results to fetch. Corresponds to maximum size of \p dstResult.
+
+	\return Number of fetched results.
+	*/
 	virtual int FetchResults(LocalizationResult* results, int maxResults) = 0;
 
-	virtual int GetQueueLength(int *maxQueueLen=0) = 0;
-	virtual bool IsIdle() = 0;
+	/*! \brief Get the lengths of the queue of jobs to be handled.
 
-	virtual void SetConfigValue(std::string name, std::string value) = 0;
+	\param [out] maxQueueLen Pre-allocated integer that returns the maximum size of the queue if nonzero.
+
+	\return Number of jobs currently being handled and in the queue.
+	*/
+	virtual int GetQueueLength(int *maxQueueLen=0) = 0;
+
+	/*! \brief Test to see if the tracker is idle.
+
+	That is, \ref GetQueueLength == 0.
+	
+	\return Boolean indicating if the tracker is idle.
+	*/
+	virtual bool IsIdle() = 0;
+	
+	/*! \brief Datastructure used to return additional settings in a string-string key-value pair mapping. 
+	
+	Currently only two settings are available: \p use_texturecache for CUDA and \p trace for CPU.
+	*/
 	typedef std::map<std::string, std::string> ConfigValueMap;
+
+	/*! \brief Get the used additional configurations. */
 	virtual ConfigValueMap GetConfigValues() = 0;
 
+	/*! \brief Set an additional setting. 
+	
+	\param [in] name Name of the setting.
+	\param [in] value Value of the setting.
+	*/
+	virtual void SetConfigValue(std::string name, std::string value) = 0;
+	
+	/*! \brief Get the output of performance profiling.
+
+	Only implemented in CUDA at the moment.
+
+	\return String with the parsed profiling output.
+	*/
 	virtual std::string GetProfileReport() { return ""; }
+
+	/*! \brief Get a report of encountered errors.
+
+	\note Placeholder function, no warnings are generated or returned anywhere for now.
+
+	\return String with the parsed warning output.
+	*/
 	virtual std::string GetWarnings() { return ""; }
 
+	/*! \brief Get the debug image for a specific thread.
+
+	Debug image can be set in trackers by copying data into \p debugImage, for instance:
+	\code
+	#ifdef _DEBUG
+		std::copy(srcImage, srcImage+width*height, debugImage);
+	#endif
+	\endcode
+	\warning \p pData has to be cleared with delete[] in the calling function!
+
+	\param [in] ID Thread number from which to grab the image.
+	\param [out] w Pointer to an integer in which the image width will be stored.
+	\param [out] h Pointer to an integer in which the image height will be stored.
+	\param [out] pData Reference to where the data array will be saved.
+	
+	\return Boolean indicating if the debug image was succesfully returned.
+	*/
 	virtual bool GetDebugImage(int ID, int *w, int *h, float** pData) { return false; } // deallocate result with delete[] 
+	
+	/*! \brief Get the debug image as an \ref ImageData object.
+
+	\param [in] ID Thread number from which to grab the image.
+
+	\return An \ref ImageData instance with the debug image.
+	*/
 	ImageData DebugImage(int ID);
 
+	/*! \brief The settings used by this instance of QueuedTracker.
+	*/
 	QTrkComputedConfig cfg;
 
+	/*! \brief Add an image to the queue to be processed. Creates a job.
+
+	Creates a job and then calls \ref ScheduleLocalization(void*, int, QTRK_PixelDataType, const LocalizationJob*).
+
+	\param [in] data		Pointer to the data. Type specified by \p pdt.
+	\param [in] pitch		Distance in bytes between two successive rows of pixels (e.g. address of (0,0) - address of (0,1)).
+	\param [in] pdt			Type of \p data, specified by ::QTRK_PixelDataType.
+	\param [in] frame		Frame number this localization belongs to.
+	\param [in] timestamp	Timestamp for this job.
+	\param [in] initial		Initial position for the algorithms requiring one. If none is specified, a COM track is performed to determine one.
+	\param [in] zlutIndex	Number of the bead. Used to determine which ZLUT to use.
+	*/
 	void ScheduleLocalization(uchar* data, int pitch, QTRK_PixelDataType pdt, uint frame, uint timestamp, vector3f* initial, uint zlutIndex);
+
+	/** \defgroup zbias ZLUT Bias Correction
+	\brief Functions related to correcting the bias in the z lookup table scheme.
+
+	For more information, see Jelmer's paper on this software environment \cite rsi:cnos. This is not used on setups as far as I (Jordi) am aware,
+	since it was still in a development stage when Jelmer left.
+	*/
+
+	/** \addtogroup zbias
+		@{
+	*/
 	void ComputeZBiasCorrection(int bias_planes, CImageData* result, int smpPerPixel, bool useSplineInterp);
 	float ZLUTBiasCorrection(float z, int zlut_planes, int bead);
 	void SetZLUTBiasCorrection(const CImageData& data); // w=zlut_planes, h=zlut_count
-	CImageData *GetZLUTBiasCorrection();
+	CImageData* GetZLUTBiasCorrection();
 
 protected:
 	CImageData* zlut_bias_correction;
+
+	/** @} */
 };
 
+/*! \brief Copies image data from a generic QTRK_PixelDataType array to a float array.
+
+\param [in] data	Array with the data in the \p pdt type.
+\param [in] width	Width of the image.
+\param [in] height	Height of the image.
+\param [in] pitch	Width of the array in memory.
+\param [in] pdt		\ref QTRK_PixelDataType specifier for \p data.
+\param [in] dst		Pre-allocated float array in which to save the data.
+*/
 void CopyImageToFloat(uchar* data, int width, int height, int pitch, QTRK_PixelDataType pdt, float* dst);
+
+/*! \brief Helper function to create a QueuedTracker instance.
+
+Used to determine the creation of a CUDA or CPU instance through compiler definitions.
+*/
 QueuedTracker* CreateQueuedTracker(const QTrkComputedConfig& cc);
-void SetCUDADevices(int *devices, int numdev); // empty for CPU tracker
+
+/*! \brief Set the list of devices to be used when \ref QTrkComputedConfig::cuda_device is set to \ref QTrkCUDA_UseList.
+
+\note Empty for CPU tracker.
+\param [in] devices
+\param [in] numdev
+*/
+void SetCUDADevices(int *devices, int numdev);
 
 
-// Polynomial least-square fit weights, used for Z and QI fitting
-// Changes to this require rebuild of code
+/// Polynomial least-square fit weights, used for QI fitting
+/// Changes to this require rebuild of code
 #define QI_LSQFIT_WEIGHTS { 0.14f, 0.5f, 0.85f, 1.0f, 0.85f, 0.5f, 0.14f }
 #define QI_LSQFIT_NWEIGHTS 7
 
+/// Polynomial least-square fit weights, used for Z fitting
+/// Changes to this require rebuild of code
 //#define ZLUT_LSQFIT_NWEIGHTS 5
 //#define ZLUT_LSQFIT_WEIGHTS { 0.5f, 0.85f, 1.0f, 0.85f, 0.5f }
 
@@ -247,6 +403,11 @@ void SetCUDADevices(int *devices, int numdev); // empty for CPU tracker
 //#define ZLUT_LSQFIT_NWEIGHTS 9
 //#define ZLUT_LSQFIT_WEIGHTS {0.4f, 0.5f, 0.7f, 0.9f, 1.0f, 0.9f, 0.7f, 0.5f, 0.4f }
 
+/*! \brief sizeof() equivalent for the \ref QTRK_PixelDataType.
+
+\param [in] pdt The pixel data type used.
+\returns The size in bytes of the specified datatype.
+*/
 inline int PDT_BytesPerPixel(QTRK_PixelDataType pdt) {
 	const int pdtBytes[] = {1, 2, 4};
 	return pdtBytes[(int)pdt];

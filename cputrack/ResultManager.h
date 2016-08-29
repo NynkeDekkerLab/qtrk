@@ -137,10 +137,11 @@ public:
 	\param [in] startFrame Framenumber of the start of the interval to save.
 	\param [in] endFrame Framenumber of the end of the interval to save.
 	\param [in] bead Beadnumber of the bead for which the results are requested.
-	\param [in,out] r 
-	\parblock Array of LocalizationResult in which to store the data. <br>
+	\param [out] r \parblock Array of LocalizationResult in which to store the data. <br>
 	Has to be initialized before calling this function. Size has to be equal to \p endFrame - \p startFrame.
 	\endparblock
+
+	\return Number of results obtained.
 	*/
 	int GetBeadPositions(int startFrame, int endFrame, int bead, LocalizationResult* r);
 
@@ -148,10 +149,11 @@ public:
 
 	\param [in] startFrame Framenumber of the start of the interval to save.
 	\param [in] numResults Number of frames to save.
-	\param [in,out] results
-	\parblock Array of LocalizationResult in which to store the data. <br>
+	\param [out] results \parblock Array of LocalizationResult in which to store the data. <br>
 	Has to be initialized before calling this function. Size has to be equal to \p numResults.
 	\endparblock
+
+	\return Number of results obtained.
 	*/
 	int GetResults(LocalizationResult* results, int startFrame, int numResults);
 

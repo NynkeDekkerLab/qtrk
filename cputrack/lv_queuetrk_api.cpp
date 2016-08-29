@@ -1,4 +1,5 @@
-/*
+/**
+\file
 Labview API for the functionality in QueuedTracker.h
 */
 #include "std_incl.h"
@@ -555,7 +556,7 @@ CDLL_EXPORT void qtrk_find_beads(uint8_t* image, int pitch, int w,int h, int* sm
 }
 
 
-CDLL_EXPORT void test_array_passing(int n, LVArray<float>** flt1D, LVArray2D<float>** flt2D, LVArray<int>** int1D, LVArray2D<int>** int2D)
+CDLL_EXPORT void qtrk_test_array_passing(int n, LVArray<float>** flt1D, LVArray2D<float>** flt2D, LVArray<int>** int1D, LVArray2D<int>** int2D)
 {
 	for (int i=0;i<(*int2D)->dimSizes[0];i++)
 	{
@@ -632,23 +633,13 @@ CDLL_EXPORT void qtrk_simulate_tracking(QueuedTracker* qtrk, int nsmp, int beadI
 }
 
 
-#ifdef CUDA_TRACK
+#if defined(CUDA_TRACK) || defined(DOXYGEN)
 
 #include "cuda_runtime.h"
 
 CDLL_EXPORT void qtrkcuda_set_device_list(LVArray<int>** devices)
 {
 	SetCUDADevices( (*devices)->elem, (*devices)->dimSize );
-}
-
-static bool CheckCUDAErrorLV(cudaError err, ErrorCluster* e)
-{
-	if (err != cudaSuccess) {
-		const char* errstr = cudaGetErrorString(err);
-		FillErrorCluster(kAppErrorBase, SPrintf("CUDA error: %s", errstr).c_str(), e);
-		return false;
-	}
-	return true;
 }
 
 CDLL_EXPORT int qtrkcuda_device_count(ErrorCluster* e) 
@@ -679,7 +670,7 @@ CDLL_EXPORT void qtrkcuda_enable_texture_cache(QueuedTracker* qtrk, int enable, 
 	}
 }
 
-#else
+#else // Generate empty functions to prevent labview crashes
 
 CDLL_EXPORT int qtrkcuda_device_count(ErrorCluster* e) { return 0; }
 CDLL_EXPORT void qtrkcuda_get_device(int device, void *info, ErrorCluster* e) {}

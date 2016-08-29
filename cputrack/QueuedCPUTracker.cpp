@@ -9,7 +9,7 @@
 QueuedTracker* CreateQueuedTracker(const QTrkComputedConfig& cc){ 
 	return new QueuedCPUTracker(cc);
 }
-void SetCUDADevices(int* dev, int ndev) {
+void SetCUDADevices(int* dev, int numdev) {
 }
 #endif
 
