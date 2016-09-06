@@ -198,15 +198,24 @@ These DLLs are compiled by the \a cputrack and \a cudatrack projects.
 	@{
 */
 
-/*!\brief Create a QTrk instance and return a pointer to it. 
+/*! \brief Create a QueuedTracker instance and return a pointer to it. 
 
 \param [in] cfg Pointer to the structure with the desired tracking settings.
 \return Pointer to the created QTrk instance.
 */
 CDLL_EXPORT QueuedTracker* DLL_CALLCONV QTrkCreateInstance(QTrkSettings *cfg);
+
+/*! \brief Free a QueuedTracker instance.
+
+\param [in] qtrk Pointer to the qtrk instance of destroy.
+*/
 CDLL_EXPORT void DLL_CALLCONV QTrkFreeInstance(QueuedTracker* qtrk);
 
-// C API, mainly intended to allow binding to .NET
+/*! \brief Select which algorithm is to be used.
+
+\param [in] qtrk	A pointer to the QueuedTracker instance to use.
+\param [in] locType An integer used as a bitmask for settings based on \ref LocalizeModeEnum.
+*/
 CDLL_EXPORT void DLL_CALLCONV QTrkSetLocalizationMode(QueuedTracker* qtrk, LocMode_t locType);
 
 // Frame and timestamp are ignored by tracking code itself, but usable for the calling code
