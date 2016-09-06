@@ -98,6 +98,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:ga4f179d9a21e4d0878fb0b7b93d2ca758"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select which algorithm is to be used.  <a href="#ga4f179d9a21e4d0878fb0b7b93d2ca758">More...</a><br /></td></tr>
 <tr class="separator:ga4f179d9a21e4d0878fb0b7b93d2ca758"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gacbe5d60ebb4af5dc16a061e94ed321ab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="dllmacros_8h.html#af97e4004759ff877db017c3d1a855482">CDLL_EXPORT</a> void <a class="el" href="dllmacros_8h.html#a6596c37c55424b395798708344d63791">DLL_CALLCONV</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__c__api.html#gacbe5d60ebb4af5dc16a061e94ed321ab">QTrkScheduleLocalization</a> (<a class="el" href="class_queued_tracker.html">QueuedTracker</a> *qtrk, void *data, int pitch, <a class="el" href="qtrk__c__api_8h.html#aad82367b3ea592a142bb50a2fb538b0b">QTRK_PixelDataType</a> pdt, const <a class="el" href="struct_localization_job.html">LocalizationJob</a> *jobInfo)</td></tr>
+<tr class="memdesc:gacbe5d60ebb4af5dc16a061e94ed321ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a job to the queue to be processed. A job entails running the required algorithms on a single region of interest.  <a href="#gacbe5d60ebb4af5dc16a061e94ed321ab">More...</a><br /></td></tr>
 <tr class="separator:gacbe5d60ebb4af5dc16a061e94ed321ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaf26eb7c51cc81961c873246322dea1a4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="dllmacros_8h.html#af97e4004759ff877db017c3d1a855482">CDLL_EXPORT</a> void <a class="el" href="dllmacros_8h.html#a6596c37c55424b395798708344d63791">DLL_CALLCONV</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__c__api.html#gaf26eb7c51cc81961c873246322dea1a4">QTrkClearResults</a> (<a class="el" href="class_queued_tracker.html">QueuedTracker</a> *qtrk)</td></tr>
 <tr class="separator:gaf26eb7c51cc81961c873246322dea1a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -649,6 +650,19 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Add a job to the queue to be processed. A job entails running the required algorithms on a single region of interest. </p>
+<dl class="section note"><dt>Note</dt><dd>Frame and timestamp in <code>jobInfo</code> are ignored by tracking code itself, but usable for the calling code</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">qtrk</td><td>Pointer to the <a class="el" href="class_queued_tracker.html" title="Abstract tracker interface, implemented by QueuedCUDATracker and QueuedCPUTracker. ">QueuedTracker</a> instance to be used. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">data</td><td>Pointer to the data. Type specified by <code>pdt</code>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">pitch</td><td>Distance in bytes between two successive rows of pixels (e.g. address of (0,0) - address of (0,1)). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">pdt</td><td>Type of <code>data</code>, specified by <a class="el" href="qtrk__c__api_8h.html#aad82367b3ea592a142bb50a2fb538b0b" title="Flags indicating the data type of image data. ">QTRK_PixelDataType</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">jobInfo</td><td>Structure with metadata for the ROI to be handled. See <a class="el" href="struct_localization_job.html">LocalizationJob</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
 <div class="fragment"><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;{</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    qtrk-&gt;<a class="code" href="class_queued_tracker.html#a233dffd15fe3cef8a53c698bba9befb4">ScheduleLocalization</a>(data,pitch,pdt,jobInfo);</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;}</div><div class="ttc" id="class_queued_tracker_html_a233dffd15fe3cef8a53c698bba9befb4"><div class="ttname"><a href="class_queued_tracker.html#a233dffd15fe3cef8a53c698bba9befb4">QueuedTracker::ScheduleLocalization</a></div><div class="ttdeci">virtual void ScheduleLocalization(void *data, int pitch, QTRK_PixelDataType pdt, const LocalizationJob *jobInfo)=0</div><div class="ttdoc">Add a job to the queue to be processed. A job entails running the required algorithms on a single reg...</div></div>
 </div><!-- fragment -->
 </div>
