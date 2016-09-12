@@ -361,7 +361,7 @@ Functions</h2></td></tr>
 
 <p>Helper function to create a <a class="el" href="class_queued_tracker.html" title="Abstract tracker interface, implemented by QueuedCUDATracker and QueuedCPUTracker. ">QueuedTracker</a> instance. </p>
 <p>Used to determine the creation of a CUDA or CPU instance through compiler definitions. </p>
-<div class="fragment"><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;{</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="class_queued_c_u_d_a_tracker.html">QueuedCUDATracker</a>(cc);</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;}</div><div class="ttc" id="class_queued_c_u_d_a_tracker_html"><div class="ttname"><a href="class_queued_c_u_d_a_tracker.html">QueuedCUDATracker</a></div><div class="ttdoc">CUDA implementation of the QueuedTracker interface. </div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:66</div></div>
+<div class="fragment"><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;{</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="class_queued_c_u_d_a_tracker.html">QueuedCUDATracker</a>(cc);</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;}</div><div class="ttc" id="class_queued_c_u_d_a_tracker_html"><div class="ttname"><a href="class_queued_c_u_d_a_tracker.html">QueuedCUDATracker</a></div><div class="ttdoc">CUDA implementation of the QueuedTracker interface. </div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:125</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -395,7 +395,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The size in bytes of the specified datatype. </dd></dl>
-<div class="fragment"><div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;                                                     {</div><div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> pdtBytes[] = {1, 2, 4};</div><div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;    <span class="keywordflow">return</span> pdtBytes[(int)pdt];</div><div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;}</div></div><!-- fragment -->
+<div class="fragment"><div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;                                                     {</div><div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> pdtBytes[] = {1, 2, 4};</div><div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;    <span class="keywordflow">return</span> pdtBytes[(int)pdt];</div><div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;}</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="aec87b5e9402a6c3eedaae14087935794"></a>
@@ -431,7 +431,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<div class="fragment"><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                                          {</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <a class="code" href="_queued_c_u_d_a_tracker_8cu.html#ab36f2f7f7b4b97a02a4597f7baef4f7a">cudaDeviceList</a>.assign(dev,dev+numdev);</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;}</div><div class="ttc" id="_queued_c_u_d_a_tracker_8cu_html_ab36f2f7f7b4b97a02a4597f7baef4f7a"><div class="ttname"><a href="_queued_c_u_d_a_tracker_8cu.html#ab36f2f7f7b4b97a02a4597f7baef4f7a">cudaDeviceList</a></div><div class="ttdeci">static std::vector&lt; int &gt; cudaDeviceList</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.cu:82</div></div>
+<div class="fragment"><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                                          {</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <a class="code" href="_queued_c_u_d_a_tracker_8cu.html#ab36f2f7f7b4b97a02a4597f7baef4f7a">cudaDeviceList</a>.assign(dev,dev+numdev);</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;}</div><div class="ttc" id="_queued_c_u_d_a_tracker_8cu_html_ab36f2f7f7b4b97a02a4597f7baef4f7a"><div class="ttname"><a href="_queued_c_u_d_a_tracker_8cu.html#ab36f2f7f7b4b97a02a4597f7baef4f7a">cudaDeviceList</a></div><div class="ttdeci">static std::vector&lt; int &gt; cudaDeviceList</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.cu:46</div></div>
 </div><!-- fragment -->
 </div>
 </div>

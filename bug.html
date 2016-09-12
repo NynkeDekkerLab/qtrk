@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>QTrk: Todo List</title>
+<title>QTrk: Bug List</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -77,22 +77,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">Todo List </div>  </div>
+<div class="title">Bug List </div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><dl class="reflist">
-<dt><a class="anchor" id="_todo000004"></a>Class <a class="el" href="structcuda_image_list.html">cudaImageList&lt; T &gt;</a>  </dt>
-<dd>Maybe this should be converted into a 3D cudaArray?  </dd>
-<dt><a class="anchor" id="_todo000001"></a>Member <a class="el" href="struct_q_trk_settings.html#aef52bd8e2fdba83af4ce3b4367180d9f">QTrkSettings::testRun</a>  </dt>
-<dd>Add to LabVIEW cluster.  </dd>
-<dt><a class="anchor" id="_todo000005"></a>Member <a class="el" href="class_queued_c_u_d_a_tracker.html#a1e6e7939fc282165efd3adb6ace86ef3">QueuedCUDATracker::QueuedCUDATracker</a>  (const <a class="el" href="struct_q_trk_computed_config.html" title="Structure for derived settings computed from base settings in QTrkSettings. ">QTrkComputedConfig</a> &amp;cc, int batchSize=-1)</dt>
-<dd>Experiment with global values (settings) in global and/or shared device memory.  </dd>
-<dt><a class="anchor" id="_todo000003"></a>Class <a class="el" href="class_result_file.html">ResultFile</a>  </dt>
-<dd><p class="startdd">Actually make the implementation. </p>
-<p class="enddd">Rewrite resultmanager to use these classes.  </p>
-</dd>
-<dt><a class="anchor" id="_todo000002"></a>Member <a class="el" href="class_result_manager.html#aaa749abf3e879376677dc051745ed665">ResultManager::RemoveBeadResults</a>  (int bead)</dt>
-<dd>We need to modify the saved data file </dd>
+<dt><a class="anchor" id="_bug000001"></a>Member <a class="el" href="structcuda_image_list.html#aab7ac2329d20752d4364c87a21d76092">cudaImageList&lt; T &gt;::pixelAddress</a>  (int x, int y, int imgIndex)</dt>
+<dd>Possibly bugged, should be row + x * sizeof(T)? X is always 0 though, so never encountered. </dd>
 </dl>
 </div></div><!-- contents -->
 <!-- start footer part -->

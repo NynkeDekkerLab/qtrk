@@ -169,6 +169,8 @@ Functions</h2></td></tr>
 <tr class="separator:ga4d26499106cd9ee7e2197a1c785d2dc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga711129bac67367388d407aabb74d5734"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__lab__functions.html#ga711129bac67367388d407aabb74d5734">CheckCUDAErrorLV</a> (cudaError err, <a class="el" href="struct_error_cluster.html">ErrorCluster</a> *e)</td></tr>
 <tr class="separator:ga711129bac67367388d407aabb74d5734"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae24e96549aef9b709e568107a70a6c83"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__lab__functions.html#gae24e96549aef9b709e568107a70a6c83">ValidRM</a> (<a class="el" href="class_result_manager.html">ResultManager</a> *rm, <a class="el" href="struct_error_cluster.html">ErrorCluster</a> *err)</td></tr>
+<tr class="separator:gae24e96549aef9b709e568107a70a6c83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Definitions of datatypes and helper functions required for communication with LabVIEW. </p>
@@ -537,6 +539,42 @@ template&lt;typename T &gt; </div>
 <div class="fragment"><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;{</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordflow">if</span> (std::find(<a class="code" href="lv__queuetrk__api_8cpp.html#a4073ea3f0b6e969139041dca8b25c4cf">trackerList</a>.begin(), <a class="code" href="lv__queuetrk__api_8cpp.html#a4073ea3f0b6e969139041dca8b25c4cf">trackerList</a>.end(), tracker)==<a class="code" href="lv__queuetrk__api_8cpp.html#a4073ea3f0b6e969139041dca8b25c4cf">trackerList</a>.end()) {</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <a class="code" href="group__lab__functions.html#ga40d026eb54005767d41bee6c4a059e92">ArgumentErrorMsg</a>(e, <a class="code" href="utils_8cpp.html#aba26a6b64035ef7962a63b760dd9013e">SPrintf</a>(<span class="stringliteral">&quot;QTrk C++ function %s called with invalid tracker pointer: %p&quot;</span>, funcname, tracker));</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    }</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;}</div><div class="ttc" id="group__lab__functions_html_ga40d026eb54005767d41bee6c4a059e92"><div class="ttname"><a href="group__lab__functions.html#ga40d026eb54005767d41bee6c4a059e92">ArgumentErrorMsg</a></div><div class="ttdeci">void ArgumentErrorMsg(ErrorCluster *e, const std::string &amp;msg)</div><div class="ttdef"><b>Definition:</b> lv_queuetrk_api.cpp:61</div></div>
 <div class="ttc" id="lv__queuetrk__api_8cpp_html_a4073ea3f0b6e969139041dca8b25c4cf"><div class="ttname"><a href="lv__queuetrk__api_8cpp.html#a4073ea3f0b6e969139041dca8b25c4cf">trackerList</a></div><div class="ttdeci">static std::vector&lt; QueuedTracker * &gt; trackerList</div><div class="ttdef"><b>Definition:</b> lv_queuetrk_api.cpp:18</div></div>
 <div class="ttc" id="utils_8cpp_html_aba26a6b64035ef7962a63b760dd9013e"><div class="ttname"><a href="utils_8cpp.html#aba26a6b64035ef7962a63b760dd9013e">SPrintf</a></div><div class="ttdeci">std::string SPrintf(const char *fmt,...)</div><div class="ttdef"><b>Definition:</b> utils.cpp:132</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="gae24e96549aef9b709e568107a70a6c83"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool ValidRM </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_result_manager.html">ResultManager</a> *&#160;</td>
+          <td class="paramname"><em>rm</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_error_cluster.html">ErrorCluster</a> *&#160;</td>
+          <td class="paramname"><em>err</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="fragment"><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;{</div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keywordflow">if</span>(<a class="code" href="lv__resultmanager__api_8cpp.html#a6b7a9f56a827db279c5fd45f5e86797e">rm_instances</a>.find(rm) == <a class="code" href="lv__resultmanager__api_8cpp.html#a6b7a9f56a827db279c5fd45f5e86797e">rm_instances</a>.end()) {</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <a class="code" href="group__lab__functions.html#ga40d026eb54005767d41bee6c4a059e92">ArgumentErrorMsg</a>(err, <span class="stringliteral">&quot;Invalid ResultManager instance passed.&quot;</span>);</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    }</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;}</div><div class="ttc" id="group__lab__functions_html_ga40d026eb54005767d41bee6c4a059e92"><div class="ttname"><a href="group__lab__functions.html#ga40d026eb54005767d41bee6c4a059e92">ArgumentErrorMsg</a></div><div class="ttdeci">void ArgumentErrorMsg(ErrorCluster *e, const std::string &amp;msg)</div><div class="ttdef"><b>Definition:</b> lv_queuetrk_api.cpp:61</div></div>
+<div class="ttc" id="lv__resultmanager__api_8cpp_html_a6b7a9f56a827db279c5fd45f5e86797e"><div class="ttname"><a href="lv__resultmanager__api_8cpp.html#a6b7a9f56a827db279c5fd45f5e86797e">rm_instances</a></div><div class="ttdeci">static std::unordered_set&lt; ResultManager * &gt; rm_instances</div><div class="ttdef"><b>Definition:</b> lv_resultmanager_api.cpp:10</div></div>
 </div><!-- fragment -->
 </div>
 </div>

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>QTrk: Todo List</title>
+<title>QTrk: List of CUDA references</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -77,23 +77,35 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">Todo List </div>  </div>
+<div class="title">List of CUDA references </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><dl class="reflist">
-<dt><a class="anchor" id="_todo000004"></a>Class <a class="el" href="structcuda_image_list.html">cudaImageList&lt; T &gt;</a>  </dt>
-<dd>Maybe this should be converted into a 3D cudaArray?  </dd>
-<dt><a class="anchor" id="_todo000001"></a>Member <a class="el" href="struct_q_trk_settings.html#aef52bd8e2fdba83af4ce3b4367180d9f">QTrkSettings::testRun</a>  </dt>
-<dd>Add to LabVIEW cluster.  </dd>
-<dt><a class="anchor" id="_todo000005"></a>Member <a class="el" href="class_queued_c_u_d_a_tracker.html#a1e6e7939fc282165efd3adb6ace86ef3">QueuedCUDATracker::QueuedCUDATracker</a>  (const <a class="el" href="struct_q_trk_computed_config.html" title="Structure for derived settings computed from base settings in QTrkSettings. ">QTrkComputedConfig</a> &amp;cc, int batchSize=-1)</dt>
-<dd>Experiment with global values (settings) in global and/or shared device memory.  </dd>
-<dt><a class="anchor" id="_todo000003"></a>Class <a class="el" href="class_result_file.html">ResultFile</a>  </dt>
-<dd><p class="startdd">Actually make the implementation. </p>
-<p class="enddd">Rewrite resultmanager to use these classes.  </p>
-</dd>
-<dt><a class="anchor" id="_todo000002"></a>Member <a class="el" href="class_result_manager.html#aaa749abf3e879376677dc051745ed665">ResultManager::RemoveBeadResults</a>  (int bead)</dt>
-<dd>We need to modify the saved data file </dd>
-</dl>
+<div class="textblock"><p>General introductions:</p><ul>
+<li>David A. Patterson and John L. Hennessy. Computer Organization and Design, chapter Appendix A: Graphics and Computing GPUs. Morgan Kaufmann, 5th edition, 2013. <a class="el" href="citelist.html#CITEREF_book:CUDA">[2]</a></li>
+<li><a href="https://devblogs.nvidia.com/parallelforall/">https://devblogs.nvidia.com/parallelforall/</a><ol type="1">
+<li><a href="https://devblogs.nvidia.com/parallelforall/easy-introduction-cuda-c-and-c/">https://devblogs.nvidia.com/parallelforall/easy-introduction-cuda-c-and-c/</a></li>
+</ol>
+</li>
+<li><a href="http://www.graphics.stanford.edu/~hanrahan/talks/why/walk001.html">http://www.graphics.stanford.edu/~hanrahan/talks/why/walk001.html</a></li>
+</ul>
+<p>Specific optimimizations:</p><ul>
+<li><a href="http://on-demand.gputechconf.com/gtc/2014/presentations/S4158-cuda-streams-best-practices-common-pitfalls.pdf">http://on-demand.gputechconf.com/gtc/2014/presentations/S4158-cuda-streams-best-practices-common-pitfalls.pdf</a></li>
+<li><a href="http://cuda-programming.blogspot.nl/2013/02/texture-memory-in-cuda-what-is-texture.html">http://cuda-programming.blogspot.nl/2013/02/texture-memory-in-cuda-what-is-texture.html</a></li>
+<li><a href="https://devblogs.nvidia.com/parallelforall/">https://devblogs.nvidia.com/parallelforall/</a><ol type="1">
+<li><a href="https://devblogs.nvidia.com/parallelforall/how-access-global-memory-efficiently-cuda-c-kernels/">https://devblogs.nvidia.com/parallelforall/how-access-global-memory-efficiently-cuda-c-kernels/</a></li>
+<li><a href="https://devblogs.nvidia.com/parallelforall/using-shared-memory-cuda-cc/">https://devblogs.nvidia.com/parallelforall/using-shared-memory-cuda-cc/</a></li>
+<li><a href="https://devblogs.nvidia.com/parallelforall/efficient-matrix-transpose-cuda-cc/">https://devblogs.nvidia.com/parallelforall/efficient-matrix-transpose-cuda-cc/</a></li>
+</ol>
+</li>
+</ul>
+<p>Reference:</p><ul>
+<li><a href="http://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html">http://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html</a></li>
+</ul>
+<p>CUDA Version related:</p><ul>
+<li><a href="https://devtalk.nvidia.com/default/topic/858507/cuda-setup-and-installation/fft-libraries-for-win32-cuda-7-0-missing-/">https://devtalk.nvidia.com/default/topic/858507/cuda-setup-and-installation/fft-libraries-for-win32-cuda-7-0-missing-/</a></li>
+<li><a href="https://devblogs.nvidia.com/parallelforall/gpu-pro-tip-cuda-7-streams-simplify-concurrency/">https://devblogs.nvidia.com/parallelforall/gpu-pro-tip-cuda-7-streams-simplify-concurrency/</a></li>
+<li><a href="http://docs.roguewave.com/totalview/8.14.1/html/index.html#page/User_Guides/totalviewug-about-cuda.31.4.html">http://docs.roguewave.com/totalview/8.14.1/html/index.html#page/User_Guides/totalviewug-about-cuda.31.4.html</a> </li>
+</ul>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

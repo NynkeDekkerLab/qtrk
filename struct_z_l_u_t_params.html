@@ -117,6 +117,7 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a14a59385e3d76c6e50dd1d97ef5f3cac"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_queued_c_u_d_a_tracker_8h.html#a84de79f5d4b6e4c8d5622fe712c1bd69">cudaImageListf</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_z_l_u_t_params.html#a14a59385e3d76c6e50dd1d97ef5f3cac">img</a></td></tr>
 <tr class="separator:a14a59385e3d76c6e50dd1d97ef5f3cac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a18e5051a3a4b118b45854c69977e2dbe"><td class="memItemLeft" align="right" valign="top">float2 *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_z_l_u_t_params.html#a18e5051a3a4b118b45854c69977e2dbe">trigtable</a></td></tr>
+<tr class="memdesc:a18e5051a3a4b118b45854c69977e2dbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Array of precomputed radial spoke sampling points (cos,sin pairs).  <a href="#a18e5051a3a4b118b45854c69977e2dbe">More...</a><br /></td></tr>
 <tr class="separator:a18e5051a3a4b118b45854c69977e2dbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
@@ -151,7 +152,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;{ <span class="keywordflow">return</span> <a class="code" href="struct_z_l_u_t_params.html#a14a59385e3d76c6e50dd1d97ef5f3cac">img</a>.<a class="code" href="structcuda_image_list.html#aab7ac2329d20752d4364c87a21d76092">pixelAddress</a>(0, plane, bead); }</div><div class="ttc" id="struct_z_l_u_t_params_html_a14a59385e3d76c6e50dd1d97ef5f3cac"><div class="ttname"><a href="struct_z_l_u_t_params.html#a14a59385e3d76c6e50dd1d97ef5f3cac">ZLUTParams::img</a></div><div class="ttdeci">cudaImageListf img</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:46</div></div>
+<div class="fragment"><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;{ <span class="keywordflow">return</span> <a class="code" href="struct_z_l_u_t_params.html#a14a59385e3d76c6e50dd1d97ef5f3cac">img</a>.<a class="code" href="structcuda_image_list.html#aab7ac2329d20752d4364c87a21d76092">pixelAddress</a>(0, plane, bead); }</div><div class="ttc" id="struct_z_l_u_t_params_html_a14a59385e3d76c6e50dd1d97ef5f3cac"><div class="ttname"><a href="struct_z_l_u_t_params.html#a14a59385e3d76c6e50dd1d97ef5f3cac">ZLUTParams::img</a></div><div class="ttdeci">cudaImageListf img</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:64</div></div>
 <div class="ttc" id="structcuda_image_list_html_aab7ac2329d20752d4364c87a21d76092"><div class="ttname"><a href="structcuda_image_list.html#aab7ac2329d20752d4364c87a21d76092">cudaImageList::pixelAddress</a></div><div class="ttdeci">CUBOTH T * pixelAddress(int x, int y, int imgIndex)</div><div class="ttdef"><b>Definition:</b> cudaImageList.h:71</div></div>
 </div><!-- fragment -->
 </div>
@@ -176,8 +177,8 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;{ <span class="keywordflow">return</span> <a class="code" href="struct_z_l_u_t_params.html#a14a59385e3d76c6e50dd1d97ef5f3cac">img</a>.<a class="code" href="structcuda_image_list.html#a1fe4adbbd48678e07c6b58f50dbe8528">w</a>; }</div><div class="ttc" id="struct_z_l_u_t_params_html_a14a59385e3d76c6e50dd1d97ef5f3cac"><div class="ttname"><a href="struct_z_l_u_t_params.html#a14a59385e3d76c6e50dd1d97ef5f3cac">ZLUTParams::img</a></div><div class="ttdeci">cudaImageListf img</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:46</div></div>
-<div class="ttc" id="structcuda_image_list_html_a1fe4adbbd48678e07c6b58f50dbe8528"><div class="ttname"><a href="structcuda_image_list.html#a1fe4adbbd48678e07c6b58f50dbe8528">cudaImageList::w</a></div><div class="ttdeci">int w</div><div class="ttdef"><b>Definition:</b> cudaImageList.h:14</div></div>
+<div class="fragment"><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;{ <span class="keywordflow">return</span> <a class="code" href="struct_z_l_u_t_params.html#a14a59385e3d76c6e50dd1d97ef5f3cac">img</a>.<a class="code" href="structcuda_image_list.html#a1fe4adbbd48678e07c6b58f50dbe8528">w</a>; }</div><div class="ttc" id="struct_z_l_u_t_params_html_a14a59385e3d76c6e50dd1d97ef5f3cac"><div class="ttname"><a href="struct_z_l_u_t_params.html#a14a59385e3d76c6e50dd1d97ef5f3cac">ZLUTParams::img</a></div><div class="ttdeci">cudaImageListf img</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:64</div></div>
+<div class="ttc" id="structcuda_image_list_html_a1fe4adbbd48678e07c6b58f50dbe8528"><div class="ttname"><a href="structcuda_image_list.html#a1fe4adbbd48678e07c6b58f50dbe8528">cudaImageList::w</a></div><div class="ttdeci">int w</div><div class="ttdef"><b>Definition:</b> cudaImageList.h:13</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -251,6 +252,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Array of precomputed radial spoke sampling points (cos,sin pairs). </p>
 
 </div>
 </div>

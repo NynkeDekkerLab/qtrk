@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['queued_20tracker_20software',['Queued Tracker software',['../index.html',1,'']]]
+  ['list_20of_20cuda_20references',['List of CUDA references',['../CUDAReadings.html',1,'']]]
 ];
