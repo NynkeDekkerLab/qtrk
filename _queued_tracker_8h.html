@@ -395,7 +395,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The size in bytes of the specified datatype. </dd></dl>
-<div class="fragment"><div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;                                                     {</div><div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> pdtBytes[] = {1, 2, 4};</div><div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;    <span class="keywordflow">return</span> pdtBytes[(int)pdt];</div><div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;}</div></div><!-- fragment -->
+<div class="fragment"><div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;                                                     {</div><div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> pdtBytes[] = {1, 2, 4};</div><div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;    <span class="keywordflow">return</span> pdtBytes[(int)pdt];</div><div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;}</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="aec87b5e9402a6c3eedaae14087935794"></a>
@@ -423,11 +423,11 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Set the list of devices to be used when <a class="el" href="struct_q_trk_settings.html#a795682a80b672b594ebd225aebf3fb16">QTrkComputedConfig::cuda_device</a> is set to <a class="el" href="qtrk__c__api_8h.html#acc1340bb8a0e6db25194fc300e930b22">QTrkCUDA_UseList</a>. </p>
-<dl class="section note"><dt>Note</dt><dd>Empty for CPU tracker. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Empty for CPU tracker.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">devices</td><td></td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">numdev</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">devices</td><td>Array with index numbers of devices to be used. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">numdev</td><td>Amount of devices to use (= length of <code>devices</code>). </td></tr>
   </table>
   </dd>
 </dl>

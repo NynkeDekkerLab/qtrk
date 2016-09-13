@@ -82,7 +82,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="textblock"><dl class="reflist">
 <dt><a class="anchor" id="_bug000001"></a>Member <a class="el" href="structcuda_image_list.html#aab7ac2329d20752d4364c87a21d76092">cudaImageList&lt; T &gt;::pixelAddress</a>  (int x, int y, int imgIndex)</dt>
-<dd>Possibly bugged, should be row + x * sizeof(T)? X is always 0 though, so never encountered. </dd>
+<dd>Possibly bugged, should be row + x * sizeof(T)? X is always 0 though, so never encountered.  </dd>
+<dt><a class="anchor" id="_bug000002"></a>Member <a class="el" href="struct_queued_c_u_d_a_tracker_1_1_device.html#ab0aa256972dee41b7c7f0ed71bf038b1">QueuedCUDATracker::Device::SetRadialZLUT</a>  (float *data, int radialsteps, int planes, int numLUTs)</dt>
+<dd>Why is this copied per-image rather than one big copy? </dd>
 </dl>
 </div></div><!-- contents -->
 <!-- start footer part -->
