@@ -8,12 +8,18 @@
     <ClInclude Include="gpu_utils.h" />
     <ClInclude Include="simplefft.h" />
     <ClInclude Include="..\cputrack\std_incl.h" />
-    <ClInclude Include="QueuedCUDATrackerKernels.h" />
+    <ClInclude Include="..\cputrack\cpu_tracker.h" />
+    <ClInclude Include="..\cputrack\TeLibJpeg\jmemdstsrc.h" />
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="QueuedCUDATracker.cu" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cputrack\utils.cpp" />
+    <ClCompile Include="..\cputrack\QueuedTracker.cpp" />
+    <ClCompile Include="..\cputrack\cpu_tracker.cpp" />
+    <ClCompile Include="..\cputrack\fastjpg.cpp" />
+    <ClCompile Include="..\cputrack\TeLibJpeg\jmemdst.c" />
+    <ClCompile Include="..\cputrack\TeLibJpeg\jmemsrc.c" />
   </ItemGroup>
 </Project>

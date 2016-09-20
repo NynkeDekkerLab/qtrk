@@ -17,6 +17,7 @@ Specific optimimizations:
 
 Reference:
 - http://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html
+- http://docs.nvidia.com/cuda/cufft/
 
 CUDA Version related:
 - https://devtalk.nvidia.com/default/topic/858507/cuda-setup-and-installation/fft-libraries-for-win32-cuda-7-0-missing-/

@@ -21,9 +21,6 @@ CPU only tracker
 #include "random_distr.h"
 #include "CubicBSpline.h"
 
-#define SFFT_BOTH 
-#include "../cudatrack/simplefft.h"
-
 const float XCorScale = 1.0f; // keep this at 1, because linear oversampling was a bad idea..
 
 #include "DebugResultCompare.h"
