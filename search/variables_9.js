@@ -12,7 +12,6 @@ var searchData=
   ['imagecopydone',['imageCopyDone',['../struct_queued_c_u_d_a_tracker_1_1_stream.html#aca5f13276c563f05d5bf931de3fadc37',1,'QueuedCUDATracker::Stream']]],
   ['imagemean',['imageMean',['../struct_localization_result.html#aba2a42711bc890c8620419f7dc906db9',1,'LocalizationResult']]],
   ['images',['images',['../struct_base_kernel_params.html#abdd6b8722cb871a13069ba0e3cd3ab0b',1,'BaseKernelParams::images()'],['../struct_queued_c_u_d_a_tracker_1_1_stream.html#afde3d4a29b1e6d8074acb7115aee3ee0',1,'QueuedCUDATracker::Stream::images()'],['../structoutputter_1_1output_modes.html#a94bd7bdd78652c810d530372b124665d',1,'outputter::outputModes::Images()']]],
-  ['imapdone',['imapDone',['../struct_queued_c_u_d_a_tracker_1_1_stream.html#a0a1e98ff17e435f2a4febdef69481cd0',1,'QueuedCUDATracker::Stream']]],
   ['img',['img',['../struct_z_l_u_t_params.html#a14a59385e3d76c6e50dd1d97ef5f3cac',1,'ZLUTParams']]],
   ['img_5fdistance',['img_distance',['../struct_bead_finder_1_1_config.html#ad00f5cda73407df2aafe3a15c528a771',1,'BeadFinder::Config']]],
   ['img_5fmean',['img_mean',['../_benchmark_8cpp.html#aa5b98b6bea89c7867c716bd704d32743',1,'Benchmark.cpp']]],

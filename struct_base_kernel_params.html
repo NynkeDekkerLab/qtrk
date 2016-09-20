@@ -92,20 +92,29 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
+<p>Structure to group parameters to be passed to every kernel.  
+ <a href="struct_base_kernel_params.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="_queued_c_u_d_a_tracker_8h_source.html">QueuedCUDATracker.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:aec40d44810d0e0a6640c66038af1fbf2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_base_kernel_params.html#aec40d44810d0e0a6640c66038af1fbf2">njobs</a></td></tr>
+<tr class="memdesc:aec40d44810d0e0a6640c66038af1fbf2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of jobs in the batch.  <a href="#aec40d44810d0e0a6640c66038af1fbf2">More...</a><br /></td></tr>
 <tr class="separator:aec40d44810d0e0a6640c66038af1fbf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a199494e0d0548c8b69ee23350e6ece95"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_localization_params.html">LocalizationParams</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_base_kernel_params.html#a199494e0d0548c8b69ee23350e6ece95">locParams</a></td></tr>
+<tr class="memdesc:a199494e0d0548c8b69ee23350e6ece95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Additional localization parameters. Holds the ZLUT/bead index.  <a href="#a199494e0d0548c8b69ee23350e6ece95">More...</a><br /></td></tr>
 <tr class="separator:a199494e0d0548c8b69ee23350e6ece95"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa0c58be6d25ab55207ca83bb0047f4d9"><td class="memItemLeft" align="right" valign="top">float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_base_kernel_params.html#aa0c58be6d25ab55207ca83bb0047f4d9">imgmeans</a></td></tr>
+<tr class="memdesc:aa0c58be6d25ab55207ca83bb0047f4d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Array of image means.  <a href="#aa0c58be6d25ab55207ca83bb0047f4d9">More...</a><br /></td></tr>
 <tr class="separator:aa0c58be6d25ab55207ca83bb0047f4d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abdd6b8722cb871a13069ba0e3cd3ab0b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_queued_c_u_d_a_tracker_8h.html#a84de79f5d4b6e4c8d5622fe712c1bd69">cudaImageListf</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_base_kernel_params.html#abdd6b8722cb871a13069ba0e3cd3ab0b">images</a></td></tr>
+<tr class="memdesc:abdd6b8722cb871a13069ba0e3cd3ab0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The images for this batch.  <a href="#abdd6b8722cb871a13069ba0e3cd3ab0b">More...</a><br /></td></tr>
 <tr class="separator:abdd6b8722cb871a13069ba0e3cd3ab0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Data Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Structure to group parameters to be passed to every kernel. </p>
+</div><h2 class="groupheader">Member Data Documentation</h2>
 <a class="anchor" id="abdd6b8722cb871a13069ba0e3cd3ab0b"></a>
 <div class="memitem">
 <div class="memproto">
@@ -115,6 +124,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>The images for this batch. </p>
 
 </div>
 </div>
@@ -128,6 +139,8 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Array of image means. </p>
+
 </div>
 </div>
 <a class="anchor" id="a199494e0d0548c8b69ee23350e6ece95"></a>
@@ -140,6 +153,8 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Additional localization parameters. Holds the ZLUT/bead index. </p>
+
 </div>
 </div>
 <a class="anchor" id="aec40d44810d0e0a6640c66038af1fbf2"></a>
@@ -151,6 +166,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Number of jobs in the batch. </p>
 
 </div>
 </div>

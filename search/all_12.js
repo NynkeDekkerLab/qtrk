@@ -29,7 +29,7 @@ var searchData=
   ['resizelvarray2d',['ResizeLVArray2D',['../group__lab__functions.html#gaeb000b717bd3ec4502c7dd215ab5031e',1,'labview.h']]],
   ['resizelvarray3d',['ResizeLVArray3D',['../group__lab__functions.html#gabeb483ad1312a277d2b8c6740fbed35f',1,'labview.h']]],
   ['resultcount',['resultCount',['../class_queued_c_p_u_tracker.html#aa80e370d25cc7d379e29ab902a97caf5',1,'QueuedCPUTracker::resultCount()'],['../class_queued_c_u_d_a_tracker.html#abdb0a310718f7f1c8a47cf9a3f22728d',1,'QueuedCUDATracker::resultCount()']]],
-  ['resultfile',['ResultFile',['../class_result_file.html',1,'ResultFile'],['../class_result_manager.html#a886e75626ba90bb4aff4dcf661733b30',1,'ResultManager::resultFile()'],['../class_result_file.html#acb7a37621dfa56260e20d6742a74e616',1,'ResultFile::ResultFile()']]],
+  ['resultfile',['ResultFile',['../class_result_file.html',1,'ResultFile'],['../class_result_file.html#acb7a37621dfa56260e20d6742a74e616',1,'ResultFile::ResultFile()'],['../class_result_manager.html#a886e75626ba90bb4aff4dcf661733b30',1,'ResultManager::resultFile()']]],
   ['resultmanager',['ResultManager',['../class_result_manager.html',1,'ResultManager'],['../class_result_manager.html#a44c51e60829a40eb9d12d50dd7157cff',1,'ResultManager::ResultManager()']]],
   ['resultmanager_2ecpp',['ResultManager.cpp',['../_result_manager_8cpp.html',1,'']]],
   ['resultmanager_2eh',['ResultManager.h',['../_result_manager_8h.html',1,'']]],

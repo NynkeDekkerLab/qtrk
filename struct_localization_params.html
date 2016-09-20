@@ -92,16 +92,23 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
+<p>Structure to hold further information relevant for a localization job. Mostly to enable additions without needing to change kernel calls.  
+ <a href="struct_localization_params.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="_queued_c_u_d_a_tracker_8h_source.html">QueuedCUDATracker.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:ad7aa3c082a4f5295be937820fb8c58d2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_localization_params.html#ad7aa3c082a4f5295be937820fb8c58d2">zlutIndex</a></td></tr>
+<tr class="memdesc:ad7aa3c082a4f5295be937820fb8c58d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Index of the bead/zlut.  <a href="#ad7aa3c082a4f5295be937820fb8c58d2">More...</a><br /></td></tr>
 <tr class="separator:ad7aa3c082a4f5295be937820fb8c58d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aff5333ada3b2d21903ccef6f47cd9490"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_localization_params.html#aff5333ada3b2d21903ccef6f47cd9490">zlutPlane</a></td></tr>
+<tr class="memdesc:aff5333ada3b2d21903ccef6f47cd9490"><td class="mdescLeft">&#160;</td><td class="mdescRight">Plane number for LUT lookup. If &lt;0 then, no zlut for this job. <b>Not</b> <b>used</b>.  <a href="#aff5333ada3b2d21903ccef6f47cd9490">More...</a><br /></td></tr>
 <tr class="separator:aff5333ada3b2d21903ccef6f47cd9490"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Data Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Structure to hold further information relevant for a localization job. Mostly to enable additions without needing to change kernel calls. </p>
+</div><h2 class="groupheader">Member Data Documentation</h2>
 <a class="anchor" id="ad7aa3c082a4f5295be937820fb8c58d2"></a>
 <div class="memitem">
 <div class="memproto">
@@ -111,6 +118,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Index of the bead/zlut. </p>
 
 </div>
 </div>
@@ -123,6 +132,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Plane number for LUT lookup. If &lt;0 then, no zlut for this job. <b>Not</b> <b>used</b>. </p>
 
 </div>
 </div>

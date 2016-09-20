@@ -98,7 +98,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>Structure to maintain data for each stream.  
+<p>Structure to maintain data for each stream. Shell around CUDA native streams.  
  <a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_queued_c_u_d_a_tracker_8h_source.html">QueuedCUDATracker.h</a>&gt;</code></p>
@@ -108,86 +108,115 @@ Public Types</h2></td></tr>
 <tr class="memitem:a836e14e096ea57bd153e812ce1e0a1f2"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a836e14e096ea57bd153e812ce1e0a1f2">State</a> { <a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a836e14e096ea57bd153e812ce1e0a1f2a016601712772605b4535e857fddbab0f">StreamIdle</a>, 
 <a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a836e14e096ea57bd153e812ce1e0a1f2a871a26b9ee42c5b70b5d3d90b8fc35c4">StreamPendingExec</a>, 
 <a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a836e14e096ea57bd153e812ce1e0a1f2a62c88c473a98aed73b5fdf061753c63a">StreamExecuting</a>
- }</td></tr>
+ }<tr class="memdesc:a836e14e096ea57bd153e812ce1e0a1f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Possible stream states.  <a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a836e14e096ea57bd153e812ce1e0a1f2">More...</a><br /></td></tr>
+</td></tr>
 <tr class="separator:a836e14e096ea57bd153e812ce1e0a1f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a2c2931936619d274f8b5b9176ab81c63"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a2c2931936619d274f8b5b9176ab81c63">Stream</a> (int streamIndex)</td></tr>
+<tr class="memdesc:a2c2931936619d274f8b5b9176ab81c63"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor. Don't use directly, use <a class="el" href="class_queued_c_u_d_a_tracker.html#a6d4cd925c04dbf04b1eaad291f6218d2">CreateStream</a> instead.  <a href="#a2c2931936619d274f8b5b9176ab81c63">More...</a><br /></td></tr>
 <tr class="separator:a2c2931936619d274f8b5b9176ab81c63"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade688123c51556e0567b807bbd908000"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#ade688123c51556e0567b807bbd908000">~Stream</a> ()</td></tr>
+<tr class="memdesc:ade688123c51556e0567b807bbd908000"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delete the stream instance.  <a href="#ade688123c51556e0567b807bbd908000">More...</a><br /></td></tr>
 <tr class="separator:ade688123c51556e0567b807bbd908000"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac6ba04f617190c414e44c7ec7e8fa700"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#ac6ba04f617190c414e44c7ec7e8fa700">IsExecutionDone</a> ()</td></tr>
+<tr class="memdesc:ac6ba04f617190c414e44c7ec7e8fa700"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test to see if the stream's batch is finished.  <a href="#ac6ba04f617190c414e44c7ec7e8fa700">More...</a><br /></td></tr>
 <tr class="separator:ac6ba04f617190c414e44c7ec7e8fa700"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa86b9870b3eebae2b7518cac62c410ad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#aa86b9870b3eebae2b7518cac62c410ad">OutputMemoryUse</a> ()</td></tr>
+<tr class="memdesc:aa86b9870b3eebae2b7518cac62c410ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints the device and host allocated memory usage of a single stream to debug output.  <a href="#aa86b9870b3eebae2b7518cac62c410ad">More...</a><br /></td></tr>
 <tr class="separator:aa86b9870b3eebae2b7518cac62c410ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3102e3a6fae6fb4d3f515e0f592422cd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a3102e3a6fae6fb4d3f515e0f592422cd">JobCount</a> ()</td></tr>
+<tr class="memdesc:a3102e3a6fae6fb4d3f515e0f592422cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of jobs currently in this stream's queue.  <a href="#a3102e3a6fae6fb4d3f515e0f592422cd">More...</a><br /></td></tr>
 <tr class="separator:a3102e3a6fae6fb4d3f515e0f592422cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:ab9e7576fe16b9a1f6f24b126bf3a59b3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classpinned__array.html">pinned_array</a>&lt; float3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#ab9e7576fe16b9a1f6f24b126bf3a59b3">results</a></td></tr>
+<tr class="memdesc:ab9e7576fe16b9a1f6f24b126bf3a59b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">3D array in pinned host memory with the localization result values.  <a href="#ab9e7576fe16b9a1f6f24b126bf3a59b3">More...</a><br /></td></tr>
 <tr class="separator:ab9e7576fe16b9a1f6f24b126bf3a59b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a58594660a26d40c9f5aa81684c247cba"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classpinned__array.html">pinned_array</a>&lt; float3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a58594660a26d40c9f5aa81684c247cba">com</a></td></tr>
+<tr class="memdesc:a58594660a26d40c9f5aa81684c247cba"><td class="mdescLeft">&#160;</td><td class="mdescRight">3D array in pinned host memory with the center of mass results.  <a href="#a58594660a26d40c9f5aa81684c247cba">More...</a><br /></td></tr>
 <tr class="separator:a58594660a26d40c9f5aa81684c247cba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e7f0634fe87266d8dd9256746553e8c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classpinned__array.html">pinned_array</a>&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a6e7f0634fe87266d8dd9256746553e8c">imgMeans</a></td></tr>
+<tr class="memdesc:a6e7f0634fe87266d8dd9256746553e8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Array in pinned host memory with the ROI intensity means.  <a href="#a6e7f0634fe87266d8dd9256746553e8c">More...</a><br /></td></tr>
 <tr class="separator:a6e7f0634fe87266d8dd9256746553e8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2dd71f898a23fc752d4f4db4c4525412"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classpinned__array.html">pinned_array</a>&lt; <a class="el" href="struct_localization_params.html">LocalizationParams</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a2dd71f898a23fc752d4f4db4c4525412">locParams</a></td></tr>
+<tr class="memdesc:a2dd71f898a23fc752d4f4db4c4525412"><td class="mdescLeft">&#160;</td><td class="mdescRight">Array in pinned host memory with additional localization parameters.  <a href="#a2dd71f898a23fc752d4f4db4c4525412">More...</a><br /></td></tr>
 <tr class="separator:a2dd71f898a23fc752d4f4db4c4525412"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8dabea26c7edb25a6153e124ee93c0be"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classdevice__vec.html">device_vec</a>&lt; <a class="el" href="struct_localization_params.html">LocalizationParams</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a8dabea26c7edb25a6153e124ee93c0be">d_locParams</a></td></tr>
+<tr class="memdesc:a8dabea26c7edb25a6153e124ee93c0be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Array in device memory with additional localization parameters.  <a href="#a8dabea26c7edb25a6153e124ee93c0be">More...</a><br /></td></tr>
 <tr class="separator:a8dabea26c7edb25a6153e124ee93c0be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad0df16e9e337079195c343a5ae3b9680"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="struct_localization_job.html">LocalizationJob</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#ad0df16e9e337079195c343a5ae3b9680">jobs</a></td></tr>
+<tr class="memdesc:ad0df16e9e337079195c343a5ae3b9680"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vector of jobs. Filled with jobs then all jobs are executed at once and the vector is cleared.  <a href="#ad0df16e9e337079195c343a5ae3b9680">More...</a><br /></td></tr>
 <tr class="separator:ad0df16e9e337079195c343a5ae3b9680"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afde3d4a29b1e6d8074acb7115aee3ee0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_queued_c_u_d_a_tracker_8h.html#a84de79f5d4b6e4c8d5622fe712c1bd69">cudaImageListf</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#afde3d4a29b1e6d8074acb7115aee3ee0">images</a></td></tr>
+<tr class="memdesc:afde3d4a29b1e6d8074acb7115aee3ee0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Image list of all images belonging to the queued jobs.  <a href="#afde3d4a29b1e6d8074acb7115aee3ee0">More...</a><br /></td></tr>
 <tr class="separator:afde3d4a29b1e6d8074acb7115aee3ee0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a407663bf0a868f738c9a1d210858b41b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classpinned__array.html">pinned_array</a>&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a407663bf0a868f738c9a1d210858b41b">hostImageBuf</a></td></tr>
+<tr class="memdesc:a407663bf0a868f738c9a1d210858b41b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Buffer in pinned host memory holding the images for the image list <code>images</code>.  <a href="#a407663bf0a868f738c9a1d210858b41b">More...</a><br /></td></tr>
 <tr class="separator:a407663bf0a868f738c9a1d210858b41b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0365860faedfefd642a608292f43775e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_threads_1_1_mutex.html">Threads::Mutex</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a0365860faedfefd642a608292f43775e">imageBufMutex</a></td></tr>
+<tr class="memdesc:a0365860faedfefd642a608292f43775e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mutex for accesses to the images in memory.  <a href="#a0365860faedfefd642a608292f43775e">More...</a><br /></td></tr>
 <tr class="separator:a0365860faedfefd642a608292f43775e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af5b983f7fe37fab223588226b8cee4f3"><td class="memItemLeft" align="right" valign="top">cudaStream_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#af5b983f7fe37fab223588226b8cee4f3">stream</a></td></tr>
 <tr class="separator:af5b983f7fe37fab223588226b8cee4f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad478bc8507024424451506aa1b28108a"><td class="memItemLeft" align="right" valign="top">cudaEvent_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#ad478bc8507024424451506aa1b28108a">localizationDone</a></td></tr>
+<tr class="memdesc:ad478bc8507024424451506aa1b28108a"><td class="mdescLeft">&#160;</td><td class="mdescRight">CUDA event used to determine when a batch is finished.  <a href="#ad478bc8507024424451506aa1b28108a">More...</a><br /></td></tr>
 <tr class="separator:ad478bc8507024424451506aa1b28108a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aca5f13276c563f05d5bf931de3fadc37"><td class="memItemLeft" align="right" valign="top">cudaEvent_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#aca5f13276c563f05d5bf931de3fadc37">imageCopyDone</a></td></tr>
+<tr class="memdesc:aca5f13276c563f05d5bf931de3fadc37"><td class="mdescLeft">&#160;</td><td class="mdescRight">CUDA event for profiling of image copies.  <a href="#aca5f13276c563f05d5bf931de3fadc37">More...</a><br /></td></tr>
 <tr class="separator:aca5f13276c563f05d5bf931de3fadc37"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a00f82cbaf986970a7a37ab1b667f9d70"><td class="memItemLeft" align="right" valign="top">cudaEvent_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a00f82cbaf986970a7a37ab1b667f9d70">comDone</a></td></tr>
+<tr class="memdesc:a00f82cbaf986970a7a37ab1b667f9d70"><td class="mdescLeft">&#160;</td><td class="mdescRight">CUDA event for profiling of the center of mass algorithm.  <a href="#a00f82cbaf986970a7a37ab1b667f9d70">More...</a><br /></td></tr>
 <tr class="separator:a00f82cbaf986970a7a37ab1b667f9d70"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3bf78dd2104f2b82ecd8f1bc6697c818"><td class="memItemLeft" align="right" valign="top">cudaEvent_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a3bf78dd2104f2b82ecd8f1bc6697c818">qiDone</a></td></tr>
+<tr class="memdesc:a3bf78dd2104f2b82ecd8f1bc6697c818"><td class="mdescLeft">&#160;</td><td class="mdescRight">CUDA event for profiling of the quadrant interpolation algorithm.  <a href="#a3bf78dd2104f2b82ecd8f1bc6697c818">More...</a><br /></td></tr>
 <tr class="separator:a3bf78dd2104f2b82ecd8f1bc6697c818"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acfa8afce2f50edaab1379f929f250533"><td class="memItemLeft" align="right" valign="top">cudaEvent_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#acfa8afce2f50edaab1379f929f250533">qalignDone</a></td></tr>
+<tr class="memdesc:acfa8afce2f50edaab1379f929f250533"><td class="mdescLeft">&#160;</td><td class="mdescRight">CUDA event for profiling of the quadrant align algorithm.  <a href="#acfa8afce2f50edaab1379f929f250533">More...</a><br /></td></tr>
 <tr class="separator:acfa8afce2f50edaab1379f929f250533"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa61e1ea38a74c9bd32435bd1ba0eb4d4"><td class="memItemLeft" align="right" valign="top">cudaEvent_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#aa61e1ea38a74c9bd32435bd1ba0eb4d4">zcomputeDone</a></td></tr>
+<tr class="memdesc:aa61e1ea38a74c9bd32435bd1ba0eb4d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">CUDA event for profiling of the z localization.  <a href="#aa61e1ea38a74c9bd32435bd1ba0eb4d4">More...</a><br /></td></tr>
 <tr class="separator:aa61e1ea38a74c9bd32435bd1ba0eb4d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a1e98ff17e435f2a4febdef69481cd0"><td class="memItemLeft" align="right" valign="top">cudaEvent_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a0a1e98ff17e435f2a4febdef69481cd0">imapDone</a></td></tr>
-<tr class="separator:a0a1e98ff17e435f2a4febdef69481cd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae3b2a9742d05cd5fc60233c8db8e0230"><td class="memItemLeft" align="right" valign="top">cudaEvent_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#ae3b2a9742d05cd5fc60233c8db8e0230">batchStart</a></td></tr>
+<tr class="memdesc:ae3b2a9742d05cd5fc60233c8db8e0230"><td class="mdescLeft">&#160;</td><td class="mdescRight">CUDA event to record the start of a batch.  <a href="#ae3b2a9742d05cd5fc60233c8db8e0230">More...</a><br /></td></tr>
 <tr class="separator:ae3b2a9742d05cd5fc60233c8db8e0230"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1dc9a73b31e5bcef0003932f6ca84a65"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classdevice__vec.html">device_vec</a>&lt; float3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a1dc9a73b31e5bcef0003932f6ca84a65">d_resultpos</a></td></tr>
+<tr class="memdesc:a1dc9a73b31e5bcef0003932f6ca84a65"><td class="mdescLeft">&#160;</td><td class="mdescRight">3D vector in device memory to hold intermediate results.  <a href="#a1dc9a73b31e5bcef0003932f6ca84a65">More...</a><br /></td></tr>
 <tr class="separator:a1dc9a73b31e5bcef0003932f6ca84a65"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aed4fcb91ae993d720cbb4662afa4f644"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classdevice__vec.html">device_vec</a>&lt; float3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#aed4fcb91ae993d720cbb4662afa4f644">d_com</a></td></tr>
 <tr class="separator:aed4fcb91ae993d720cbb4662afa4f644"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a16cdaac6b5c2739e950d7255fe5aa1a2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_q_i_1_1_stream_instance.html">QI::StreamInstance</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a16cdaac6b5c2739e950d7255fe5aa1a2">qi_instance</a></td></tr>
+<tr class="memdesc:a16cdaac6b5c2739e950d7255fe5aa1a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linked stream of the <a class="el" href="class_q_i.html">QI</a> submodule.  <a href="#a16cdaac6b5c2739e950d7255fe5aa1a2">More...</a><br /></td></tr>
 <tr class="separator:a16cdaac6b5c2739e950d7255fe5aa1a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a72be2c83d41fce0530463c07bf37e853"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_q_i_1_1_stream_instance.html">QI::StreamInstance</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a72be2c83d41fce0530463c07bf37e853">qalign_instance</a></td></tr>
+<tr class="memdesc:a72be2c83d41fce0530463c07bf37e853"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linked stream of the <a class="el" href="class_q_i.html">QI</a> submodule used to perform quadrant alignment.  <a href="#a72be2c83d41fce0530463c07bf37e853">More...</a><br /></td></tr>
 <tr class="separator:a72be2c83d41fce0530463c07bf37e853"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a70ec8174f1c4c547c6c8b315c70a5514"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classdevice__vec.html">device_vec</a>&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a70ec8174f1c4c547c6c8b315c70a5514">d_imgmeans</a></td></tr>
+<tr class="memdesc:a70ec8174f1c4c547c6c8b315c70a5514"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vector in device memory to hold ROI means.  <a href="#a70ec8174f1c4c547c6c8b315c70a5514">More...</a><br /></td></tr>
 <tr class="separator:a70ec8174f1c4c547c6c8b315c70a5514"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a16050b06d8a08c292fc06c292efa8a16"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classdevice__vec.html">device_vec</a>&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a16050b06d8a08c292fc06c292efa8a16">d_radialprofiles</a></td></tr>
+<tr class="memdesc:a16050b06d8a08c292fc06c292efa8a16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vector in device memory to hold all calculated radial profiles. Size is [ radialsteps * njobs ].  <a href="#a16050b06d8a08c292fc06c292efa8a16">More...</a><br /></td></tr>
 <tr class="separator:a16050b06d8a08c292fc06c292efa8a16"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af740f229b42580b873f59ad5cd0b641a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classdevice__vec.html">device_vec</a>&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#af740f229b42580b873f59ad5cd0b641a">d_zlutcmpscores</a></td></tr>
+<tr class="memdesc:af740f229b42580b873f59ad5cd0b641a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vector in device memory to hold all calculated error curves. Size is [ zlutplanes * njobs ].  <a href="#af740f229b42580b873f59ad5cd0b641a">More...</a><br /></td></tr>
 <tr class="separator:af740f229b42580b873f59ad5cd0b641a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a70663b3059a1d37466919dfa495c8f62"><td class="memItemLeft" align="right" valign="top"><a class="el" href="std__incl_8h.html#a91ad9478d81a7aaf2593e8d9c3d06a14">uint</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a70663b3059a1d37466919dfa495c8f62">localizeFlags</a></td></tr>
+<tr class="memdesc:a70663b3059a1d37466919dfa495c8f62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flags for localization choices. See <a class="el" href="qtrk__c__api_8h.html#a9d32512eae44894026802d1a688c7e3b">LocalizeModeEnum</a>.  <a href="#a70663b3059a1d37466919dfa495c8f62">More...</a><br /></td></tr>
 <tr class="separator:a70663b3059a1d37466919dfa495c8f62"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a91f103ae49b436de6aab96d34d7d0204"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_queued_c_u_d_a_tracker_1_1_device.html">Device</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a91f103ae49b436de6aab96d34d7d0204">device</a></td></tr>
+<tr class="memdesc:a91f103ae49b436de6aab96d34d7d0204"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reference to the device instance this stream should run on.  <a href="#a91f103ae49b436de6aab96d34d7d0204">More...</a><br /></td></tr>
 <tr class="separator:a91f103ae49b436de6aab96d34d7d0204"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab609f91457378960151e374bd3d4f8c2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a836e14e096ea57bd153e812ce1e0a1f2">State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#ab609f91457378960151e374bd3d4f8c2">state</a></td></tr>
+<tr class="memdesc:ab609f91457378960151e374bd3d4f8c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">The state flag for the stream.  <a href="#ab609f91457378960151e374bd3d4f8c2">More...</a><br /></td></tr>
 <tr class="separator:ab609f91457378960151e374bd3d4f8c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Structure to maintain data for each stream. </p>
+<div class="textblock"><p>Structure to maintain data for each stream. Shell around CUDA native streams. </p>
 <p>Typically, there are 4 streams per available GPU.</p>
-<p>Streams are used to discretize all GPU transactions (memory transfer to device, calculations, transfer from device) into bigger batches to increase efficiency. Each stream has its own job queue and their batches can be executed individually from one another. On newer devices, streams can queue and run their operations concurrently, leading to higher effective calculation speeds by overlapping memory transfers and calculations.</p>
-<p><a class="el" href="class_queued_c_u_d_a_tracker.html#a8a038919d270228922e31f375c17cbbe" title="Add a job to the queue to be processed. A job entails running the required algorithms on a single reg...">QueuedCUDATracker::ScheduleLocalization</a> finds a currently available stream and adds the new job to its queue. When a stream's state is set to <a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a836e14e096ea57bd153e812ce1e0a1f2a871a26b9ee42c5b70b5d3d90b8fc35c4">StreamPendingExec</a>, it is automatically handled by the scheduling thread <a class="el" href="class_queued_c_u_d_a_tracker.html#ac52125061a2b042a6c149156977b8474">SchedulingThreadMain</a>. </p>
+<p>Streams are used to discretize all GPU transactions (memory transfer to device, calculations, transfer from device) into bigger batches to increase efficiency. Each stream has its own job queue and their batches can be executed individually from one another. On newer devices, streams can queue and run their operations concurrently, leading to higher effective calculation speeds by overlapping memory transfers and calculations. Host variables are maintained in <a href="https://devblogs.nvidia.com/parallelforall/how-optimize-data-transfers-cuda-cc/">pinned memory</a> to optimize transfer speeds.</p>
+<p><a class="el" href="class_queued_c_u_d_a_tracker.html#a8a038919d270228922e31f375c17cbbe" title="Add a job to the queue to be processed. A job entails running the required algorithms on a single reg...">QueuedCUDATracker::ScheduleLocalization</a> finds a currently available stream and adds the new job to its queue. When a stream's state is set to <a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a836e14e096ea57bd153e812ce1e0a1f2a871a26b9ee42c5b70b5d3d90b8fc35c4">StreamPendingExec</a>, it is automatically executed by the scheduling thread <a class="el" href="class_queued_c_u_d_a_tracker.html#ac52125061a2b042a6c149156977b8474">SchedulingThreadMain</a>. </p>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a class="anchor" id="a836e14e096ea57bd153e812ce1e0a1f2"></a>
 <div class="memitem">
@@ -198,17 +227,23 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Possible stream states. </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000007">Todo:</a></b></dt><dd>Why is there no StreamDoneExec state? </dd></dl>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a class="anchor" id="a836e14e096ea57bd153e812ce1e0a1f2a016601712772605b4535e857fddbab0f"></a>StreamIdle&#160;</td><td class="fielddoc">
+<p>The <a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html" title="Structure to maintain data for each stream. Shell around CUDA native streams. ">Stream</a> is idle and can accept more jobs. In other words, the queue is not full. </p>
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="a836e14e096ea57bd153e812ce1e0a1f2a871a26b9ee42c5b70b5d3d90b8fc35c4"></a>StreamPendingExec&#160;</td><td class="fielddoc">
+<p>The <a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html" title="Structure to maintain data for each stream. Shell around CUDA native streams. ">Stream</a> is ready to be executed. That is, the queue is full and the batch is ready or <a class="el" href="class_queued_c_u_d_a_tracker.html#a4407b12d3fc2e2969840ccc233ec96bc">Flush</a> was called. </p>
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="a836e14e096ea57bd153e812ce1e0a1f2a62c88c473a98aed73b5fdf061753c63a"></a>StreamExecuting&#160;</td><td class="fielddoc">
+<p>The <a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html" title="Structure to maintain data for each stream. Shell around CUDA native streams. ">Stream</a> is currently active on the GPU and executing its batch. </p>
 </td></tr>
 </table>
-<div class="fragment"><div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;                   {</div><div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;            <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a836e14e096ea57bd153e812ce1e0a1f2a016601712772605b4535e857fddbab0f">StreamIdle</a>,</div><div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;            <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a836e14e096ea57bd153e812ce1e0a1f2a871a26b9ee42c5b70b5d3d90b8fc35c4">StreamPendingExec</a>,</div><div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;            <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a836e14e096ea57bd153e812ce1e0a1f2a62c88c473a98aed73b5fdf061753c63a">StreamExecuting</a></div><div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;        };</div><div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_a836e14e096ea57bd153e812ce1e0a1f2a871a26b9ee42c5b70b5d3d90b8fc35c4"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a836e14e096ea57bd153e812ce1e0a1f2a871a26b9ee42c5b70b5d3d90b8fc35c4">QueuedCUDATracker::Stream::StreamPendingExec</a></div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:296</div></div>
-<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_a836e14e096ea57bd153e812ce1e0a1f2a016601712772605b4535e857fddbab0f"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a836e14e096ea57bd153e812ce1e0a1f2a016601712772605b4535e857fddbab0f">QueuedCUDATracker::Stream::StreamIdle</a></div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:295</div></div>
-<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_a836e14e096ea57bd153e812ce1e0a1f2a62c88c473a98aed73b5fdf061753c63a"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a836e14e096ea57bd153e812ce1e0a1f2a62c88c473a98aed73b5fdf061753c63a">QueuedCUDATracker::Stream::StreamExecuting</a></div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:297</div></div>
+<div class="fragment"><div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;                   {</div><div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;            <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a836e14e096ea57bd153e812ce1e0a1f2a016601712772605b4535e857fddbab0f">StreamIdle</a>,         </div><div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;            <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a836e14e096ea57bd153e812ce1e0a1f2a871a26b9ee42c5b70b5d3d90b8fc35c4">StreamPendingExec</a>,  </div><div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;            <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a836e14e096ea57bd153e812ce1e0a1f2a62c88c473a98aed73b5fdf061753c63a">StreamExecuting</a>     </div><div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;        };</div><div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_a836e14e096ea57bd153e812ce1e0a1f2a871a26b9ee42c5b70b5d3d90b8fc35c4"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a836e14e096ea57bd153e812ce1e0a1f2a871a26b9ee42c5b70b5d3d90b8fc35c4">QueuedCUDATracker::Stream::StreamPendingExec</a></div><div class="ttdoc">The Stream is ready to be executed. That is, the queue is full and the batch is ready or Flush was ca...</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:343</div></div>
+<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_a836e14e096ea57bd153e812ce1e0a1f2a016601712772605b4535e857fddbab0f"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a836e14e096ea57bd153e812ce1e0a1f2a016601712772605b4535e857fddbab0f">QueuedCUDATracker::Stream::StreamIdle</a></div><div class="ttdoc">The Stream is idle and can accept more jobs. In other words, the queue is not full. </div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:342</div></div>
+<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_a836e14e096ea57bd153e812ce1e0a1f2a62c88c473a98aed73b5fdf061753c63a"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a836e14e096ea57bd153e812ce1e0a1f2a62c88c473a98aed73b5fdf061753c63a">QueuedCUDATracker::Stream::StreamExecuting</a></div><div class="ttdoc">The Stream is currently active on the GPU and executing its batch. </div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:344</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -226,15 +261,23 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;    : <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a0365860faedfefd642a608292f43775e">imageBufMutex</a>(<a class="code" href="utils_8cpp.html#aba26a6b64035ef7962a63b760dd9013e">SPrintf</a>(<span class="stringliteral">&quot;imagebuf%d&quot;</span>, streamIndex).c_str())</div><div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;{ </div><div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;    <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a91f103ae49b436de6aab96d34d7d0204">device</a> = 0;</div><div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;    <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a407663bf0a868f738c9a1d210858b41b">hostImageBuf</a> = 0; </div><div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;    <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#afde3d4a29b1e6d8074acb7115aee3ee0">images</a>.<a class="code" href="structcuda_image_list.html#a5e32f3d282240b52b543b693723ee8ed">data</a>=0; </div><div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;    <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#af5b983f7fe37fab223588226b8cee4f3">stream</a>=0;</div><div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;    <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#ab609f91457378960151e374bd3d4f8c2">state</a>=<a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a836e14e096ea57bd153e812ce1e0a1f2a016601712772605b4535e857fddbab0f">StreamIdle</a>;</div><div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;    <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a70663b3059a1d37466919dfa495c8f62">localizeFlags</a>=0;</div><div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;}</div><div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_a70663b3059a1d37466919dfa495c8f62"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a70663b3059a1d37466919dfa495c8f62">QueuedCUDATracker::Stream::localizeFlags</a></div><div class="ttdeci">uint localizeFlags</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:291</div></div>
-<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_afde3d4a29b1e6d8074acb7115aee3ee0"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#afde3d4a29b1e6d8074acb7115aee3ee0">QueuedCUDATracker::Stream::images</a></div><div class="ttdeci">cudaImageListf images</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:267</div></div>
+
+<p>Constructor. Don't use directly, use <a class="el" href="class_queued_c_u_d_a_tracker.html#a6d4cd925c04dbf04b1eaad291f6218d2">CreateStream</a> instead. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">streamIndex</td><td>Index used of mutex name. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="fragment"><div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;    : <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a0365860faedfefd642a608292f43775e">imageBufMutex</a>(<a class="code" href="utils_8cpp.html#aba26a6b64035ef7962a63b760dd9013e">SPrintf</a>(<span class="stringliteral">&quot;imagebuf%d&quot;</span>, streamIndex).c_str())</div><div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;{ </div><div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;    <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a91f103ae49b436de6aab96d34d7d0204">device</a> = 0;</div><div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;    <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a407663bf0a868f738c9a1d210858b41b">hostImageBuf</a> = 0; </div><div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;    <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#afde3d4a29b1e6d8074acb7115aee3ee0">images</a>.<a class="code" href="structcuda_image_list.html#a5e32f3d282240b52b543b693723ee8ed">data</a>=0; </div><div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;    <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#af5b983f7fe37fab223588226b8cee4f3">stream</a>=0;</div><div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;    <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#ab609f91457378960151e374bd3d4f8c2">state</a>=<a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a836e14e096ea57bd153e812ce1e0a1f2a016601712772605b4535e857fddbab0f">StreamIdle</a>;</div><div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;    <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a70663b3059a1d37466919dfa495c8f62">localizeFlags</a>=0;</div><div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;}</div><div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_a70663b3059a1d37466919dfa495c8f62"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a70663b3059a1d37466919dfa495c8f62">QueuedCUDATracker::Stream::localizeFlags</a></div><div class="ttdeci">uint localizeFlags</div><div class="ttdoc">Flags for localization choices. See LocalizeModeEnum. </div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:334</div></div>
+<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_afde3d4a29b1e6d8074acb7115aee3ee0"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#afde3d4a29b1e6d8074acb7115aee3ee0">QueuedCUDATracker::Stream::images</a></div><div class="ttdeci">cudaImageListf images</div><div class="ttdoc">Image list of all images belonging to the queued jobs. </div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:305</div></div>
 <div class="ttc" id="structcuda_image_list_html_a5e32f3d282240b52b543b693723ee8ed"><div class="ttname"><a href="structcuda_image_list.html#a5e32f3d282240b52b543b693723ee8ed">cudaImageList::data</a></div><div class="ttdeci">T * data</div><div class="ttdef"><b>Definition:</b> cudaImageList.h:11</div></div>
-<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_ab609f91457378960151e374bd3d4f8c2"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#ab609f91457378960151e374bd3d4f8c2">QueuedCUDATracker::Stream::state</a></div><div class="ttdeci">State state</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:299</div></div>
-<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_a836e14e096ea57bd153e812ce1e0a1f2a016601712772605b4535e857fddbab0f"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a836e14e096ea57bd153e812ce1e0a1f2a016601712772605b4535e857fddbab0f">QueuedCUDATracker::Stream::StreamIdle</a></div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:295</div></div>
-<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_af5b983f7fe37fab223588226b8cee4f3"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#af5b983f7fe37fab223588226b8cee4f3">QueuedCUDATracker::Stream::stream</a></div><div class="ttdeci">cudaStream_t stream</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:273</div></div>
-<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_a91f103ae49b436de6aab96d34d7d0204"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a91f103ae49b436de6aab96d34d7d0204">QueuedCUDATracker::Stream::device</a></div><div class="ttdeci">Device * device</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:292</div></div>
-<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_a0365860faedfefd642a608292f43775e"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a0365860faedfefd642a608292f43775e">QueuedCUDATracker::Stream::imageBufMutex</a></div><div class="ttdeci">Threads::Mutex imageBufMutex</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:270</div></div>
-<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_a407663bf0a868f738c9a1d210858b41b"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a407663bf0a868f738c9a1d210858b41b">QueuedCUDATracker::Stream::hostImageBuf</a></div><div class="ttdeci">pinned_array&lt; float &gt; hostImageBuf</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:269</div></div>
+<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_ab609f91457378960151e374bd3d4f8c2"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#ab609f91457378960151e374bd3d4f8c2">QueuedCUDATracker::Stream::state</a></div><div class="ttdeci">State state</div><div class="ttdoc">The state flag for the stream. </div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:346</div></div>
+<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_a836e14e096ea57bd153e812ce1e0a1f2a016601712772605b4535e857fddbab0f"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a836e14e096ea57bd153e812ce1e0a1f2a016601712772605b4535e857fddbab0f">QueuedCUDATracker::Stream::StreamIdle</a></div><div class="ttdoc">The Stream is idle and can accept more jobs. In other words, the queue is not full. </div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:342</div></div>
+<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_af5b983f7fe37fab223588226b8cee4f3"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#af5b983f7fe37fab223588226b8cee4f3">QueuedCUDATracker::Stream::stream</a></div><div class="ttdeci">cudaStream_t stream</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:311</div></div>
+<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_a91f103ae49b436de6aab96d34d7d0204"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a91f103ae49b436de6aab96d34d7d0204">QueuedCUDATracker::Stream::device</a></div><div class="ttdeci">Device * device</div><div class="ttdoc">Reference to the device instance this stream should run on. </div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:335</div></div>
+<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_a0365860faedfefd642a608292f43775e"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a0365860faedfefd642a608292f43775e">QueuedCUDATracker::Stream::imageBufMutex</a></div><div class="ttdeci">Threads::Mutex imageBufMutex</div><div class="ttdoc">Mutex for accesses to the images in memory. </div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:308</div></div>
+<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_a407663bf0a868f738c9a1d210858b41b"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a407663bf0a868f738c9a1d210858b41b">QueuedCUDATracker::Stream::hostImageBuf</a></div><div class="ttdeci">pinned_array&lt; float &gt; hostImageBuf</div><div class="ttdoc">Buffer in pinned host memory holding the images for the image list images. </div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:307</div></div>
 <div class="ttc" id="utils_8cpp_html_aba26a6b64035ef7962a63b760dd9013e"><div class="ttname"><a href="utils_8cpp.html#aba26a6b64035ef7962a63b760dd9013e">SPrintf</a></div><div class="ttdeci">std::string SPrintf(const char *fmt,...)</div><div class="ttdef"><b>Definition:</b> utils.cpp:132</div></div>
 </div><!-- fragment -->
 </div>
@@ -251,19 +294,20 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;{</div><div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;    cudaSetDevice(<a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a91f103ae49b436de6aab96d34d7d0204">device</a>-&gt;<a class="code" href="struct_queued_c_u_d_a_tracker_1_1_device.html#a4e5ef8ff6e97b1f1b875ccbda3ca9bbb">index</a>);</div><div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;</div><div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;    <span class="keywordflow">if</span>(<a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#afde3d4a29b1e6d8074acb7115aee3ee0">images</a>.<a class="code" href="structcuda_image_list.html#a5e32f3d282240b52b543b693723ee8ed">data</a>) <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#afde3d4a29b1e6d8074acb7115aee3ee0">images</a>.<a class="code" href="structcuda_image_list.html#a9c8aaf572231ec29a583e1ecb3954288">free</a>();</div><div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;    cudaEventDestroy(<a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#ad478bc8507024424451506aa1b28108a">localizationDone</a>);</div><div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;    cudaEventDestroy(<a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a3bf78dd2104f2b82ecd8f1bc6697c818">qiDone</a>);</div><div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;    cudaEventDestroy(<a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a00f82cbaf986970a7a37ab1b667f9d70">comDone</a>);</div><div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;    cudaEventDestroy(<a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#aca5f13276c563f05d5bf931de3fadc37">imageCopyDone</a>);</div><div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;    cudaEventDestroy(<a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#aa61e1ea38a74c9bd32435bd1ba0eb4d4">zcomputeDone</a>);</div><div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;    cudaEventDestroy(<a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a0a1e98ff17e435f2a4febdef69481cd0">imapDone</a>);</div><div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;    cudaEventDestroy(<a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#ae3b2a9742d05cd5fc60233c8db8e0230">batchStart</a>);</div><div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;</div><div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#af5b983f7fe37fab223588226b8cee4f3">stream</a>)</div><div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;        cudaStreamDestroy(<a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#af5b983f7fe37fab223588226b8cee4f3">stream</a>); <span class="comment">// stream can be zero if in debugStream mode.</span></div><div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;}</div><div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_a0a1e98ff17e435f2a4febdef69481cd0"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a0a1e98ff17e435f2a4febdef69481cd0">QueuedCUDATracker::Stream::imapDone</a></div><div class="ttdeci">cudaEvent_t imapDone</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:278</div></div>
-<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_afde3d4a29b1e6d8074acb7115aee3ee0"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#afde3d4a29b1e6d8074acb7115aee3ee0">QueuedCUDATracker::Stream::images</a></div><div class="ttdeci">cudaImageListf images</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:267</div></div>
+
+<p>Delete the stream instance. </p>
+<div class="fragment"><div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;{</div><div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;    cudaSetDevice(<a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a91f103ae49b436de6aab96d34d7d0204">device</a>-&gt;<a class="code" href="struct_queued_c_u_d_a_tracker_1_1_device.html#a4e5ef8ff6e97b1f1b875ccbda3ca9bbb">index</a>);</div><div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;</div><div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;    <span class="keywordflow">if</span>(<a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#afde3d4a29b1e6d8074acb7115aee3ee0">images</a>.<a class="code" href="structcuda_image_list.html#a5e32f3d282240b52b543b693723ee8ed">data</a>) <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#afde3d4a29b1e6d8074acb7115aee3ee0">images</a>.<a class="code" href="structcuda_image_list.html#a9c8aaf572231ec29a583e1ecb3954288">free</a>();</div><div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;    cudaEventDestroy(<a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#ad478bc8507024424451506aa1b28108a">localizationDone</a>);</div><div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;    cudaEventDestroy(<a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a3bf78dd2104f2b82ecd8f1bc6697c818">qiDone</a>);</div><div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;    cudaEventDestroy(<a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a00f82cbaf986970a7a37ab1b667f9d70">comDone</a>);</div><div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;    cudaEventDestroy(<a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#aca5f13276c563f05d5bf931de3fadc37">imageCopyDone</a>);</div><div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;    cudaEventDestroy(<a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#aa61e1ea38a74c9bd32435bd1ba0eb4d4">zcomputeDone</a>);</div><div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;    cudaEventDestroy(<a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#ae3b2a9742d05cd5fc60233c8db8e0230">batchStart</a>);</div><div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;</div><div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#af5b983f7fe37fab223588226b8cee4f3">stream</a>)</div><div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;        cudaStreamDestroy(<a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#af5b983f7fe37fab223588226b8cee4f3">stream</a>); <span class="comment">// stream can be zero if in debugStream mode.</span></div><div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;}</div><div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_afde3d4a29b1e6d8074acb7115aee3ee0"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#afde3d4a29b1e6d8074acb7115aee3ee0">QueuedCUDATracker::Stream::images</a></div><div class="ttdeci">cudaImageListf images</div><div class="ttdoc">Image list of all images belonging to the queued jobs. </div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:305</div></div>
 <div class="ttc" id="structcuda_image_list_html_a5e32f3d282240b52b543b693723ee8ed"><div class="ttname"><a href="structcuda_image_list.html#a5e32f3d282240b52b543b693723ee8ed">cudaImageList::data</a></div><div class="ttdeci">T * data</div><div class="ttdef"><b>Definition:</b> cudaImageList.h:11</div></div>
-<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_device_html_a4e5ef8ff6e97b1f1b875ccbda3ca9bbb"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_device.html#a4e5ef8ff6e97b1f1b875ccbda3ca9bbb">QueuedCUDATracker::Device::index</a></div><div class="ttdeci">int index</div><div class="ttdoc">Device index of the device this instance is located on. </div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:238</div></div>
-<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_a00f82cbaf986970a7a37ab1b667f9d70"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a00f82cbaf986970a7a37ab1b667f9d70">QueuedCUDATracker::Stream::comDone</a></div><div class="ttdeci">cudaEvent_t comDone</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:278</div></div>
-<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_aa61e1ea38a74c9bd32435bd1ba0eb4d4"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#aa61e1ea38a74c9bd32435bd1ba0eb4d4">QueuedCUDATracker::Stream::zcomputeDone</a></div><div class="ttdeci">cudaEvent_t zcomputeDone</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:278</div></div>
+<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_device_html_a4e5ef8ff6e97b1f1b875ccbda3ca9bbb"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_device.html#a4e5ef8ff6e97b1f1b875ccbda3ca9bbb">QueuedCUDATracker::Device::index</a></div><div class="ttdeci">int index</div><div class="ttdoc">Device index of the device this instance is located on. </div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:253</div></div>
+<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_a00f82cbaf986970a7a37ab1b667f9d70"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a00f82cbaf986970a7a37ab1b667f9d70">QueuedCUDATracker::Stream::comDone</a></div><div class="ttdeci">cudaEvent_t comDone</div><div class="ttdoc">CUDA event for profiling of the center of mass algorithm. </div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:317</div></div>
+<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_aa61e1ea38a74c9bd32435bd1ba0eb4d4"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#aa61e1ea38a74c9bd32435bd1ba0eb4d4">QueuedCUDATracker::Stream::zcomputeDone</a></div><div class="ttdeci">cudaEvent_t zcomputeDone</div><div class="ttdoc">CUDA event for profiling of the z localization. </div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:320</div></div>
 <div class="ttc" id="structcuda_image_list_html_a9c8aaf572231ec29a583e1ecb3954288"><div class="ttname"><a href="structcuda_image_list.html#a9c8aaf572231ec29a583e1ecb3954288">cudaImageList::free</a></div><div class="ttdeci">void free()</div><div class="ttdef"><b>Definition:</b> cudaImageList.h:88</div></div>
-<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_af5b983f7fe37fab223588226b8cee4f3"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#af5b983f7fe37fab223588226b8cee4f3">QueuedCUDATracker::Stream::stream</a></div><div class="ttdeci">cudaStream_t stream</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:273</div></div>
-<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_a3bf78dd2104f2b82ecd8f1bc6697c818"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a3bf78dd2104f2b82ecd8f1bc6697c818">QueuedCUDATracker::Stream::qiDone</a></div><div class="ttdeci">cudaEvent_t qiDone</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:278</div></div>
-<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_ae3b2a9742d05cd5fc60233c8db8e0230"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#ae3b2a9742d05cd5fc60233c8db8e0230">QueuedCUDATracker::Stream::batchStart</a></div><div class="ttdeci">cudaEvent_t batchStart</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:278</div></div>
-<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_ad478bc8507024424451506aa1b28108a"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#ad478bc8507024424451506aa1b28108a">QueuedCUDATracker::Stream::localizationDone</a></div><div class="ttdeci">cudaEvent_t localizationDone</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:276</div></div>
-<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_aca5f13276c563f05d5bf931de3fadc37"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#aca5f13276c563f05d5bf931de3fadc37">QueuedCUDATracker::Stream::imageCopyDone</a></div><div class="ttdeci">cudaEvent_t imageCopyDone</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:278</div></div>
-<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_a91f103ae49b436de6aab96d34d7d0204"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a91f103ae49b436de6aab96d34d7d0204">QueuedCUDATracker::Stream::device</a></div><div class="ttdeci">Device * device</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:292</div></div>
+<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_af5b983f7fe37fab223588226b8cee4f3"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#af5b983f7fe37fab223588226b8cee4f3">QueuedCUDATracker::Stream::stream</a></div><div class="ttdeci">cudaStream_t stream</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:311</div></div>
+<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_a3bf78dd2104f2b82ecd8f1bc6697c818"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a3bf78dd2104f2b82ecd8f1bc6697c818">QueuedCUDATracker::Stream::qiDone</a></div><div class="ttdeci">cudaEvent_t qiDone</div><div class="ttdoc">CUDA event for profiling of the quadrant interpolation algorithm. </div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:318</div></div>
+<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_ae3b2a9742d05cd5fc60233c8db8e0230"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#ae3b2a9742d05cd5fc60233c8db8e0230">QueuedCUDATracker::Stream::batchStart</a></div><div class="ttdeci">cudaEvent_t batchStart</div><div class="ttdoc">CUDA event to record the start of a batch. </div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:321</div></div>
+<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_ad478bc8507024424451506aa1b28108a"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#ad478bc8507024424451506aa1b28108a">QueuedCUDATracker::Stream::localizationDone</a></div><div class="ttdeci">cudaEvent_t localizationDone</div><div class="ttdoc">CUDA event used to determine when a batch is finished. </div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:314</div></div>
+<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_aca5f13276c563f05d5bf931de3fadc37"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#aca5f13276c563f05d5bf931de3fadc37">QueuedCUDATracker::Stream::imageCopyDone</a></div><div class="ttdeci">cudaEvent_t imageCopyDone</div><div class="ttdoc">CUDA event for profiling of image copies. </div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:316</div></div>
+<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_a91f103ae49b436de6aab96d34d7d0204"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a91f103ae49b436de6aab96d34d7d0204">QueuedCUDATracker::Stream::device</a></div><div class="ttdeci">Device * device</div><div class="ttdoc">Reference to the device instance this stream should run on. </div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:335</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -280,9 +324,13 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;{</div><div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;    cudaSetDevice(<a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a91f103ae49b436de6aab96d34d7d0204">device</a>-&gt;<a class="code" href="struct_queued_c_u_d_a_tracker_1_1_device.html#a4e5ef8ff6e97b1f1b875ccbda3ca9bbb">index</a>);</div><div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;    <span class="keywordflow">return</span> cudaEventQuery(<a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#ad478bc8507024424451506aa1b28108a">localizationDone</a>) == cudaSuccess;</div><div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;}</div><div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_device_html_a4e5ef8ff6e97b1f1b875ccbda3ca9bbb"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_device.html#a4e5ef8ff6e97b1f1b875ccbda3ca9bbb">QueuedCUDATracker::Device::index</a></div><div class="ttdeci">int index</div><div class="ttdoc">Device index of the device this instance is located on. </div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:238</div></div>
-<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_ad478bc8507024424451506aa1b28108a"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#ad478bc8507024424451506aa1b28108a">QueuedCUDATracker::Stream::localizationDone</a></div><div class="ttdeci">cudaEvent_t localizationDone</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:276</div></div>
-<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_a91f103ae49b436de6aab96d34d7d0204"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a91f103ae49b436de6aab96d34d7d0204">QueuedCUDATracker::Stream::device</a></div><div class="ttdeci">Device * device</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:292</div></div>
+
+<p>Test to see if the stream's batch is finished. </p>
+<dl class="section note"><dt>Note</dt><dd>Also always returns true when not in <a class="el" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a836e14e096ea57bd153e812ce1e0a1f2a62c88c473a98aed73b5fdf061753c63a">StreamExecuting</a>.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Boolean flag indicating whether execution is done. </dd></dl>
+<div class="fragment"><div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;{</div><div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;    cudaSetDevice(<a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a91f103ae49b436de6aab96d34d7d0204">device</a>-&gt;<a class="code" href="struct_queued_c_u_d_a_tracker_1_1_device.html#a4e5ef8ff6e97b1f1b875ccbda3ca9bbb">index</a>);</div><div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;    <span class="keywordflow">return</span> cudaEventQuery(<a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#ad478bc8507024424451506aa1b28108a">localizationDone</a>) == cudaSuccess;</div><div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;}</div><div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_device_html_a4e5ef8ff6e97b1f1b875ccbda3ca9bbb"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_device.html#a4e5ef8ff6e97b1f1b875ccbda3ca9bbb">QueuedCUDATracker::Device::index</a></div><div class="ttdeci">int index</div><div class="ttdoc">Device index of the device this instance is located on. </div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:253</div></div>
+<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_ad478bc8507024424451506aa1b28108a"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#ad478bc8507024424451506aa1b28108a">QueuedCUDATracker::Stream::localizationDone</a></div><div class="ttdeci">cudaEvent_t localizationDone</div><div class="ttdoc">CUDA event used to determine when a batch is finished. </div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:314</div></div>
+<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_a91f103ae49b436de6aab96d34d7d0204"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a91f103ae49b436de6aab96d34d7d0204">QueuedCUDATracker::Stream::device</a></div><div class="ttdeci">Device * device</div><div class="ttdoc">Reference to the device instance this stream should run on. </div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:335</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -306,7 +354,11 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;{ <span class="keywordflow">return</span> <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#ad0df16e9e337079195c343a5ae3b9680">jobs</a>.size(); }</div><div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_ad0df16e9e337079195c343a5ae3b9680"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#ad0df16e9e337079195c343a5ae3b9680">QueuedCUDATracker::Stream::jobs</a></div><div class="ttdeci">std::vector&lt; LocalizationJob &gt; jobs</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:265</div></div>
+
+<p>Get the number of jobs currently in this stream's queue. </p>
+<p>The maximum queue size is <a class="el" href="class_queued_c_u_d_a_tracker.html#a19a027c0cc319821c25de1cb23e14a17">batchSize</a>.</p>
+<dl class="section return"><dt>Returns</dt><dd>The number of jobs in the queue. </dd></dl>
+<div class="fragment"><div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;{ <span class="keywordflow">return</span> <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#ad0df16e9e337079195c343a5ae3b9680">jobs</a>.size(); }</div><div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_ad0df16e9e337079195c343a5ae3b9680"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#ad0df16e9e337079195c343a5ae3b9680">QueuedCUDATracker::Stream::jobs</a></div><div class="ttdeci">std::vector&lt; LocalizationJob &gt; jobs</div><div class="ttdoc">Vector of jobs. Filled with jobs then all jobs are executed at once and the vector is cleared...</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:303</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -322,22 +374,24 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;{</div><div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;    <span class="keywordtype">int</span> deviceMem = <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#aed4fcb91ae993d720cbb4662afa4f644">d_com</a>.<a class="code" href="classdevice__vec.html#ab21a5b6ed647145a71a3db19d3c26156">memsize</a>() + <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a8dabea26c7edb25a6153e124ee93c0be">d_locParams</a>.<a class="code" href="classdevice__vec.html#ab21a5b6ed647145a71a3db19d3c26156">memsize</a>() + <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a16cdaac6b5c2739e950d7255fe5aa1a2">qi_instance</a>.<a class="code" href="struct_q_i_1_1_stream_instance.html#afb6bbb4e6f3617fe5f687f1031ee465f">memsize</a>() + <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a16050b06d8a08c292fc06c292efa8a16">d_radialprofiles</a>.<a class="code" href="classdevice__vec.html#ab21a5b6ed647145a71a3db19d3c26156">memsize</a>() +</div><div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;        <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a1dc9a73b31e5bcef0003932f6ca84a65">d_resultpos</a>.<a class="code" href="classdevice__vec.html#ab21a5b6ed647145a71a3db19d3c26156">memsize</a>() + <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#af740f229b42580b873f59ad5cd0b641a">d_zlutcmpscores</a>.<a class="code" href="classdevice__vec.html#ab21a5b6ed647145a71a3db19d3c26156">memsize</a>() + <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#afde3d4a29b1e6d8074acb7115aee3ee0">images</a>.<a class="code" href="structcuda_image_list.html#a6d7497e075d8501461099e602d69dc78">totalNumBytes</a>();</div><div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;</div><div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;    <span class="keywordtype">int</span> hostMem = <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a407663bf0a868f738c9a1d210858b41b">hostImageBuf</a>.<a class="code" href="classpinned__array.html#a9297c5f8756d0ac90ba4203370557549">memsize</a>() + <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a58594660a26d40c9f5aa81684c247cba">com</a>.<a class="code" href="classpinned__array.html#a9297c5f8756d0ac90ba4203370557549">memsize</a>() + <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a2dd71f898a23fc752d4f4db4c4525412">locParams</a>.<a class="code" href="classpinned__array.html#a9297c5f8756d0ac90ba4203370557549">memsize</a>() + <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#ab9e7576fe16b9a1f6f24b126bf3a59b3">results</a>.<a class="code" href="classpinned__array.html#a9297c5f8756d0ac90ba4203370557549">memsize</a>();</div><div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;</div><div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;    <a class="code" href="utils_8cpp.html#a4a7132c90e490d24edecb391a754a9c0">dbgprintf</a>(<span class="stringliteral">&quot;Stream memory use: %d MB on host, %d MB device memory (%d for images). \n&quot;</span>, hostMem/1024/1024, deviceMem/1024/1024, <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#afde3d4a29b1e6d8074acb7115aee3ee0">images</a>.<a class="code" href="structcuda_image_list.html#a6d7497e075d8501461099e602d69dc78">totalNumBytes</a>()/1024/1024);</div><div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;}</div><div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_afde3d4a29b1e6d8074acb7115aee3ee0"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#afde3d4a29b1e6d8074acb7115aee3ee0">QueuedCUDATracker::Stream::images</a></div><div class="ttdeci">cudaImageListf images</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:267</div></div>
-<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_a8dabea26c7edb25a6153e124ee93c0be"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a8dabea26c7edb25a6153e124ee93c0be">QueuedCUDATracker::Stream::d_locParams</a></div><div class="ttdeci">device_vec&lt; LocalizationParams &gt; d_locParams</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:264</div></div>
-<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_a58594660a26d40c9f5aa81684c247cba"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a58594660a26d40c9f5aa81684c247cba">QueuedCUDATracker::Stream::com</a></div><div class="ttdeci">pinned_array&lt; float3 &gt; com</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:261</div></div>
-<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_a1dc9a73b31e5bcef0003932f6ca84a65"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a1dc9a73b31e5bcef0003932f6ca84a65">QueuedCUDATracker::Stream::d_resultpos</a></div><div class="ttdeci">device_vec&lt; float3 &gt; d_resultpos</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:281</div></div>
+
+<p>Prints the device and host allocated memory usage of a single stream to debug output. </p>
+<div class="fragment"><div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;{</div><div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;    <span class="keywordtype">int</span> deviceMem = <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#aed4fcb91ae993d720cbb4662afa4f644">d_com</a>.<a class="code" href="classdevice__vec.html#ab21a5b6ed647145a71a3db19d3c26156">memsize</a>() + <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a8dabea26c7edb25a6153e124ee93c0be">d_locParams</a>.<a class="code" href="classdevice__vec.html#ab21a5b6ed647145a71a3db19d3c26156">memsize</a>() + <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a16cdaac6b5c2739e950d7255fe5aa1a2">qi_instance</a>.<a class="code" href="struct_q_i_1_1_stream_instance.html#afb6bbb4e6f3617fe5f687f1031ee465f">memsize</a>() + <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a16050b06d8a08c292fc06c292efa8a16">d_radialprofiles</a>.<a class="code" href="classdevice__vec.html#ab21a5b6ed647145a71a3db19d3c26156">memsize</a>() +</div><div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;        <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a1dc9a73b31e5bcef0003932f6ca84a65">d_resultpos</a>.<a class="code" href="classdevice__vec.html#ab21a5b6ed647145a71a3db19d3c26156">memsize</a>() + <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#af740f229b42580b873f59ad5cd0b641a">d_zlutcmpscores</a>.<a class="code" href="classdevice__vec.html#ab21a5b6ed647145a71a3db19d3c26156">memsize</a>() + <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#afde3d4a29b1e6d8074acb7115aee3ee0">images</a>.<a class="code" href="structcuda_image_list.html#a6d7497e075d8501461099e602d69dc78">totalNumBytes</a>();</div><div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;</div><div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;    <span class="keywordtype">int</span> hostMem = <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a407663bf0a868f738c9a1d210858b41b">hostImageBuf</a>.<a class="code" href="classpinned__array.html#a9297c5f8756d0ac90ba4203370557549">memsize</a>() + <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a58594660a26d40c9f5aa81684c247cba">com</a>.<a class="code" href="classpinned__array.html#a9297c5f8756d0ac90ba4203370557549">memsize</a>() + <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a2dd71f898a23fc752d4f4db4c4525412">locParams</a>.<a class="code" href="classpinned__array.html#a9297c5f8756d0ac90ba4203370557549">memsize</a>() + <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#ab9e7576fe16b9a1f6f24b126bf3a59b3">results</a>.<a class="code" href="classpinned__array.html#a9297c5f8756d0ac90ba4203370557549">memsize</a>();</div><div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;</div><div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;    <a class="code" href="utils_8cpp.html#a4a7132c90e490d24edecb391a754a9c0">dbgprintf</a>(<span class="stringliteral">&quot;Stream memory use: %d MB on host, %d MB device memory (%d for images). \n&quot;</span>, hostMem/1024/1024, deviceMem/1024/1024, <a class="code" href="struct_queued_c_u_d_a_tracker_1_1_stream.html#afde3d4a29b1e6d8074acb7115aee3ee0">images</a>.<a class="code" href="structcuda_image_list.html#a6d7497e075d8501461099e602d69dc78">totalNumBytes</a>()/1024/1024);</div><div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;}</div><div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_afde3d4a29b1e6d8074acb7115aee3ee0"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#afde3d4a29b1e6d8074acb7115aee3ee0">QueuedCUDATracker::Stream::images</a></div><div class="ttdeci">cudaImageListf images</div><div class="ttdoc">Image list of all images belonging to the queued jobs. </div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:305</div></div>
+<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_a8dabea26c7edb25a6153e124ee93c0be"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a8dabea26c7edb25a6153e124ee93c0be">QueuedCUDATracker::Stream::d_locParams</a></div><div class="ttdeci">device_vec&lt; LocalizationParams &gt; d_locParams</div><div class="ttdoc">Array in device memory with additional localization parameters. </div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:302</div></div>
+<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_a58594660a26d40c9f5aa81684c247cba"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a58594660a26d40c9f5aa81684c247cba">QueuedCUDATracker::Stream::com</a></div><div class="ttdeci">pinned_array&lt; float3 &gt; com</div><div class="ttdoc">3D array in pinned host memory with the center of mass results. </div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:299</div></div>
+<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_a1dc9a73b31e5bcef0003932f6ca84a65"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a1dc9a73b31e5bcef0003932f6ca84a65">QueuedCUDATracker::Stream::d_resultpos</a></div><div class="ttdeci">device_vec&lt; float3 &gt; d_resultpos</div><div class="ttdoc">3D vector in device memory to hold intermediate results. </div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:324</div></div>
 <div class="ttc" id="classpinned__array_html_a9297c5f8756d0ac90ba4203370557549"><div class="ttname"><a href="classpinned__array.html#a9297c5f8756d0ac90ba4203370557549">pinned_array::memsize</a></div><div class="ttdeci">size_t memsize()</div><div class="ttdef"><b>Definition:</b> gpu_utils.h:239</div></div>
-<div class="ttc" id="struct_q_i_1_1_stream_instance_html_afb6bbb4e6f3617fe5f687f1031ee465f"><div class="ttname"><a href="struct_q_i_1_1_stream_instance.html#afb6bbb4e6f3617fe5f687f1031ee465f">QI::StreamInstance::memsize</a></div><div class="ttdeci">int memsize()</div><div class="ttdef"><b>Definition:</b> QI.h:40</div></div>
-<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_ab9e7576fe16b9a1f6f24b126bf3a59b3"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#ab9e7576fe16b9a1f6f24b126bf3a59b3">QueuedCUDATracker::Stream::results</a></div><div class="ttdeci">pinned_array&lt; float3 &gt; results</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:260</div></div>
-<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_a16cdaac6b5c2739e950d7255fe5aa1a2"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a16cdaac6b5c2739e950d7255fe5aa1a2">QueuedCUDATracker::Stream::qi_instance</a></div><div class="ttdeci">QI::StreamInstance qi_instance</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:284</div></div>
-<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_a16050b06d8a08c292fc06c292efa8a16"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a16050b06d8a08c292fc06c292efa8a16">QueuedCUDATracker::Stream::d_radialprofiles</a></div><div class="ttdeci">device_vec&lt; float &gt; d_radialprofiles</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:288</div></div>
+<div class="ttc" id="struct_q_i_1_1_stream_instance_html_afb6bbb4e6f3617fe5f687f1031ee465f"><div class="ttname"><a href="struct_q_i_1_1_stream_instance.html#afb6bbb4e6f3617fe5f687f1031ee465f">QI::StreamInstance::memsize</a></div><div class="ttdeci">int memsize()</div><div class="ttdef"><b>Definition:</b> QI.h:38</div></div>
+<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_ab9e7576fe16b9a1f6f24b126bf3a59b3"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#ab9e7576fe16b9a1f6f24b126bf3a59b3">QueuedCUDATracker::Stream::results</a></div><div class="ttdeci">pinned_array&lt; float3 &gt; results</div><div class="ttdoc">3D array in pinned host memory with the localization result values. </div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:298</div></div>
+<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_a16cdaac6b5c2739e950d7255fe5aa1a2"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a16cdaac6b5c2739e950d7255fe5aa1a2">QueuedCUDATracker::Stream::qi_instance</a></div><div class="ttdeci">QI::StreamInstance qi_instance</div><div class="ttdoc">Linked stream of the QI submodule. </div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:327</div></div>
+<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_a16050b06d8a08c292fc06c292efa8a16"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a16050b06d8a08c292fc06c292efa8a16">QueuedCUDATracker::Stream::d_radialprofiles</a></div><div class="ttdeci">device_vec&lt; float &gt; d_radialprofiles</div><div class="ttdoc">Vector in device memory to hold all calculated radial profiles. Size is [ radialsteps * njobs ]...</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:331</div></div>
 <div class="ttc" id="structcuda_image_list_html_a6d7497e075d8501461099e602d69dc78"><div class="ttname"><a href="structcuda_image_list.html#a6d7497e075d8501461099e602d69dc78">cudaImageList::totalNumBytes</a></div><div class="ttdeci">CUBOTH int totalNumBytes()</div><div class="ttdef"><b>Definition:</b> cudaImageList.h:141</div></div>
-<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_a2dd71f898a23fc752d4f4db4c4525412"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a2dd71f898a23fc752d4f4db4c4525412">QueuedCUDATracker::Stream::locParams</a></div><div class="ttdeci">pinned_array&lt; LocalizationParams &gt; locParams</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:263</div></div>
+<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_a2dd71f898a23fc752d4f4db4c4525412"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a2dd71f898a23fc752d4f4db4c4525412">QueuedCUDATracker::Stream::locParams</a></div><div class="ttdeci">pinned_array&lt; LocalizationParams &gt; locParams</div><div class="ttdoc">Array in pinned host memory with additional localization parameters. </div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:301</div></div>
 <div class="ttc" id="utils_8cpp_html_a4a7132c90e490d24edecb391a754a9c0"><div class="ttname"><a href="utils_8cpp.html#a4a7132c90e490d24edecb391a754a9c0">dbgprintf</a></div><div class="ttdeci">void dbgprintf(const char *fmt,...)</div><div class="ttdef"><b>Definition:</b> utils.cpp:149</div></div>
-<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_aed4fcb91ae993d720cbb4662afa4f644"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#aed4fcb91ae993d720cbb4662afa4f644">QueuedCUDATracker::Stream::d_com</a></div><div class="ttdeci">device_vec&lt; float3 &gt; d_com</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:282</div></div>
-<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_af740f229b42580b873f59ad5cd0b641a"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#af740f229b42580b873f59ad5cd0b641a">QueuedCUDATracker::Stream::d_zlutcmpscores</a></div><div class="ttdeci">device_vec&lt; float &gt; d_zlutcmpscores</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:289</div></div>
+<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_aed4fcb91ae993d720cbb4662afa4f644"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#aed4fcb91ae993d720cbb4662afa4f644">QueuedCUDATracker::Stream::d_com</a></div><div class="ttdeci">device_vec&lt; float3 &gt; d_com</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:325</div></div>
+<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_af740f229b42580b873f59ad5cd0b641a"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#af740f229b42580b873f59ad5cd0b641a">QueuedCUDATracker::Stream::d_zlutcmpscores</a></div><div class="ttdeci">device_vec&lt; float &gt; d_zlutcmpscores</div><div class="ttdoc">Vector in device memory to hold all calculated error curves. Size is [ zlutplanes * njobs ]...</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:332</div></div>
 <div class="ttc" id="classdevice__vec_html_ab21a5b6ed647145a71a3db19d3c26156"><div class="ttname"><a href="classdevice__vec.html#ab21a5b6ed647145a71a3db19d3c26156">device_vec::memsize</a></div><div class="ttdeci">size_t memsize()</div><div class="ttdef"><b>Definition:</b> gpu_utils.h:152</div></div>
-<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_a407663bf0a868f738c9a1d210858b41b"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a407663bf0a868f738c9a1d210858b41b">QueuedCUDATracker::Stream::hostImageBuf</a></div><div class="ttdeci">pinned_array&lt; float &gt; hostImageBuf</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:269</div></div>
+<div class="ttc" id="struct_queued_c_u_d_a_tracker_1_1_stream_html_a407663bf0a868f738c9a1d210858b41b"><div class="ttname"><a href="struct_queued_c_u_d_a_tracker_1_1_stream.html#a407663bf0a868f738c9a1d210858b41b">QueuedCUDATracker::Stream::hostImageBuf</a></div><div class="ttdeci">pinned_array&lt; float &gt; hostImageBuf</div><div class="ttdoc">Buffer in pinned host memory holding the images for the image list images. </div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:307</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -352,6 +406,8 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>CUDA event to record the start of a batch. </p>
+
 </div>
 </div>
 <a class="anchor" id="a58594660a26d40c9f5aa81684c247cba"></a>
@@ -364,6 +420,8 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>3D array in pinned host memory with the center of mass results. </p>
+
 </div>
 </div>
 <a class="anchor" id="a00f82cbaf986970a7a37ab1b667f9d70"></a>
@@ -375,6 +433,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>CUDA event for profiling of the center of mass algorithm. </p>
 
 </div>
 </div>
@@ -400,6 +460,8 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Vector in device memory to hold ROI means. </p>
+
 </div>
 </div>
 <a class="anchor" id="a8dabea26c7edb25a6153e124ee93c0be"></a>
@@ -411,6 +473,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Array in device memory with additional localization parameters. </p>
 
 </div>
 </div>
@@ -424,6 +488,8 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Vector in device memory to hold all calculated radial profiles. Size is [ radialsteps * njobs ]. </p>
+
 </div>
 </div>
 <a class="anchor" id="a1dc9a73b31e5bcef0003932f6ca84a65"></a>
@@ -435,6 +501,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>3D vector in device memory to hold intermediate results. </p>
 
 </div>
 </div>
@@ -448,6 +516,8 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Vector in device memory to hold all calculated error curves. Size is [ zlutplanes * njobs ]. </p>
+
 </div>
 </div>
 <a class="anchor" id="a91f103ae49b436de6aab96d34d7d0204"></a>
@@ -459,6 +529,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Reference to the device instance this stream should run on. </p>
 
 </div>
 </div>
@@ -472,6 +544,8 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Buffer in pinned host memory holding the images for the image list <code>images</code>. </p>
+
 </div>
 </div>
 <a class="anchor" id="a0365860faedfefd642a608292f43775e"></a>
@@ -483,6 +557,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Mutex for accesses to the images in memory. </p>
 
 </div>
 </div>
@@ -496,6 +572,8 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>CUDA event for profiling of image copies. </p>
+
 </div>
 </div>
 <a class="anchor" id="afde3d4a29b1e6d8074acb7115aee3ee0"></a>
@@ -508,17 +586,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<a class="anchor" id="a0a1e98ff17e435f2a4febdef69481cd0"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">cudaEvent_t QueuedCUDATracker::Stream::imapDone</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
+<p>Image list of all images belonging to the queued jobs. </p>
 
 </div>
 </div>
@@ -532,6 +600,8 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Array in pinned host memory with the ROI intensity means. </p>
+
 </div>
 </div>
 <a class="anchor" id="ad0df16e9e337079195c343a5ae3b9680"></a>
@@ -543,6 +613,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Vector of jobs. Filled with jobs then all jobs are executed at once and the vector is cleared. </p>
 
 </div>
 </div>
@@ -556,6 +628,8 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>CUDA event used to determine when a batch is finished. </p>
+
 </div>
 </div>
 <a class="anchor" id="a70663b3059a1d37466919dfa495c8f62"></a>
@@ -567,6 +641,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Flags for localization choices. See <a class="el" href="qtrk__c__api_8h.html#a9d32512eae44894026802d1a688c7e3b">LocalizeModeEnum</a>. </p>
 
 </div>
 </div>
@@ -580,6 +656,8 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Array in pinned host memory with additional localization parameters. </p>
+
 </div>
 </div>
 <a class="anchor" id="a72be2c83d41fce0530463c07bf37e853"></a>
@@ -591,6 +669,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Linked stream of the <a class="el" href="class_q_i.html">QI</a> submodule used to perform quadrant alignment. </p>
 
 </div>
 </div>
@@ -604,6 +684,8 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>CUDA event for profiling of the quadrant align algorithm. </p>
+
 </div>
 </div>
 <a class="anchor" id="a16cdaac6b5c2739e950d7255fe5aa1a2"></a>
@@ -615,6 +697,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Linked stream of the <a class="el" href="class_q_i.html">QI</a> submodule. </p>
 
 </div>
 </div>
@@ -628,6 +712,8 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>CUDA event for profiling of the quadrant interpolation algorithm. </p>
+
 </div>
 </div>
 <a class="anchor" id="ab9e7576fe16b9a1f6f24b126bf3a59b3"></a>
@@ -640,6 +726,8 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>3D array in pinned host memory with the localization result values. </p>
+
 </div>
 </div>
 <a class="anchor" id="ab609f91457378960151e374bd3d4f8c2"></a>
@@ -651,6 +739,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>The state flag for the stream. </p>
 
 </div>
 </div>
@@ -675,6 +765,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>CUDA event for profiling of the z localization. </p>
 
 </div>
 </div>

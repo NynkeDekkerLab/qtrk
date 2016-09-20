@@ -93,34 +93,47 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
+<p>Structure to group parameters about the ZLUT.  
+ <a href="struct_z_l_u_t_params.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="_queued_c_u_d_a_tracker_8h_source.html">QueuedCUDATracker.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a2a35427b775e56a0079b9029d1afbb9e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="gpu__utils_8h.html#ac50b87a58396e77c6168aa6f3be3c189">CUBOTH</a> float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_z_l_u_t_params.html#a2a35427b775e56a0079b9029d1afbb9e">GetRadialZLUT</a> (int bead, int plane)</td></tr>
+<tr class="memdesc:a2a35427b775e56a0079b9029d1afbb9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the radial profile saved in the LUT for a particular bead and plane.  <a href="#a2a35427b775e56a0079b9029d1afbb9e">More...</a><br /></td></tr>
 <tr class="separator:a2a35427b775e56a0079b9029d1afbb9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9579a1f453fa4966bbd7ca5c04a389d9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="gpu__utils_8h.html#ac50b87a58396e77c6168aa6f3be3c189">CUBOTH</a> int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_z_l_u_t_params.html#a9579a1f453fa4966bbd7ca5c04a389d9">radialSteps</a> ()</td></tr>
+<tr class="memdesc:a9579a1f453fa4966bbd7ca5c04a389d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of radial steps in the lookup table.  <a href="#a9579a1f453fa4966bbd7ca5c04a389d9">More...</a><br /></td></tr>
 <tr class="separator:a9579a1f453fa4966bbd7ca5c04a389d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a1e53b221a353b5543b95ab8472c0e27f"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_z_l_u_t_params.html#a1e53b221a353b5543b95ab8472c0e27f">minRadius</a></td></tr>
+<tr class="memdesc:a1e53b221a353b5543b95ab8472c0e27f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Radius in pixels of the starting point of the sampling area.  <a href="#a1e53b221a353b5543b95ab8472c0e27f">More...</a><br /></td></tr>
 <tr class="separator:a1e53b221a353b5543b95ab8472c0e27f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a828d7befc2a73cbe77d5fead8987b916"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_z_l_u_t_params.html#a828d7befc2a73cbe77d5fead8987b916">maxRadius</a></td></tr>
+<tr class="memdesc:a828d7befc2a73cbe77d5fead8987b916"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum radial distance in pixels of the sampling area.  <a href="#a828d7befc2a73cbe77d5fead8987b916">More...</a><br /></td></tr>
 <tr class="separator:a828d7befc2a73cbe77d5fead8987b916"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5e4fca6a1f41e9dee7ba0614ab4c202d"><td class="memItemLeft" align="right" valign="top">float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_z_l_u_t_params.html#a5e4fca6a1f41e9dee7ba0614ab4c202d">zcmpwindow</a></td></tr>
+<tr class="memdesc:a5e4fca6a1f41e9dee7ba0614ab4c202d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The radial weights to use for the error curve calculation.  <a href="#a5e4fca6a1f41e9dee7ba0614ab4c202d">More...</a><br /></td></tr>
 <tr class="separator:a5e4fca6a1f41e9dee7ba0614ab4c202d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a01c4d68849034d30553c2bbb353b9376"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_z_l_u_t_params.html#a01c4d68849034d30553c2bbb353b9376">angularSteps</a></td></tr>
+<tr class="memdesc:a01c4d68849034d30553c2bbb353b9376"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of angular steps used to generate the lookup table.  <a href="#a01c4d68849034d30553c2bbb353b9376">More...</a><br /></td></tr>
 <tr class="separator:a01c4d68849034d30553c2bbb353b9376"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab00dffe1d70415e23bbf989d664495ab"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_z_l_u_t_params.html#ab00dffe1d70415e23bbf989d664495ab">planes</a></td></tr>
+<tr class="memdesc:ab00dffe1d70415e23bbf989d664495ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of planes per lookup table.  <a href="#ab00dffe1d70415e23bbf989d664495ab">More...</a><br /></td></tr>
 <tr class="separator:ab00dffe1d70415e23bbf989d664495ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a14a59385e3d76c6e50dd1d97ef5f3cac"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_queued_c_u_d_a_tracker_8h.html#a84de79f5d4b6e4c8d5622fe712c1bd69">cudaImageListf</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_z_l_u_t_params.html#a14a59385e3d76c6e50dd1d97ef5f3cac">img</a></td></tr>
+<tr class="memdesc:a14a59385e3d76c6e50dd1d97ef5f3cac"><td class="mdescLeft">&#160;</td><td class="mdescRight">The imagelist holding the LUTs.  <a href="#a14a59385e3d76c6e50dd1d97ef5f3cac">More...</a><br /></td></tr>
 <tr class="separator:a14a59385e3d76c6e50dd1d97ef5f3cac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a18e5051a3a4b118b45854c69977e2dbe"><td class="memItemLeft" align="right" valign="top">float2 *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_z_l_u_t_params.html#a18e5051a3a4b118b45854c69977e2dbe">trigtable</a></td></tr>
-<tr class="memdesc:a18e5051a3a4b118b45854c69977e2dbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Array of precomputed radial spoke sampling points (cos,sin pairs).  <a href="#a18e5051a3a4b118b45854c69977e2dbe">More...</a><br /></td></tr>
+<tr class="memdesc:a18e5051a3a4b118b45854c69977e2dbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Array of precomputed radial spoke sampling points (cos,sin pairs)  <a href="#a18e5051a3a4b118b45854c69977e2dbe">More...</a><br /></td></tr>
 <tr class="separator:a18e5051a3a4b118b45854c69977e2dbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Structure to group parameters about the ZLUT. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a2a35427b775e56a0079b9029d1afbb9e"></a>
 <div class="memitem">
 <div class="memproto">
@@ -152,7 +165,16 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;{ <span class="keywordflow">return</span> <a class="code" href="struct_z_l_u_t_params.html#a14a59385e3d76c6e50dd1d97ef5f3cac">img</a>.<a class="code" href="structcuda_image_list.html#aab7ac2329d20752d4364c87a21d76092">pixelAddress</a>(0, plane, bead); }</div><div class="ttc" id="struct_z_l_u_t_params_html_a14a59385e3d76c6e50dd1d97ef5f3cac"><div class="ttname"><a href="struct_z_l_u_t_params.html#a14a59385e3d76c6e50dd1d97ef5f3cac">ZLUTParams::img</a></div><div class="ttdeci">cudaImageListf img</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:64</div></div>
+
+<p>Get the radial profile saved in the LUT for a particular bead and plane. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">bead</td><td>The bead for which to get the profile. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">plane</td><td>The plane to retrieve. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="fragment"><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;{ <span class="keywordflow">return</span> <a class="code" href="struct_z_l_u_t_params.html#a14a59385e3d76c6e50dd1d97ef5f3cac">img</a>.<a class="code" href="structcuda_image_list.html#aab7ac2329d20752d4364c87a21d76092">pixelAddress</a>(0, plane, bead); }</div><div class="ttc" id="struct_z_l_u_t_params_html_a14a59385e3d76c6e50dd1d97ef5f3cac"><div class="ttname"><a href="struct_z_l_u_t_params.html#a14a59385e3d76c6e50dd1d97ef5f3cac">ZLUTParams::img</a></div><div class="ttdeci">cudaImageListf img</div><div class="ttdoc">The imagelist holding the LUTs. </div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:74</div></div>
 <div class="ttc" id="structcuda_image_list_html_aab7ac2329d20752d4364c87a21d76092"><div class="ttname"><a href="structcuda_image_list.html#aab7ac2329d20752d4364c87a21d76092">cudaImageList::pixelAddress</a></div><div class="ttdeci">CUBOTH T * pixelAddress(int x, int y, int imgIndex)</div><div class="ttdef"><b>Definition:</b> cudaImageList.h:71</div></div>
 </div><!-- fragment -->
 </div>
@@ -177,9 +199,9 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;{ <span class="keywordflow">return</span> <a class="code" href="struct_z_l_u_t_params.html#a14a59385e3d76c6e50dd1d97ef5f3cac">img</a>.<a class="code" href="structcuda_image_list.html#a1fe4adbbd48678e07c6b58f50dbe8528">w</a>; }</div><div class="ttc" id="struct_z_l_u_t_params_html_a14a59385e3d76c6e50dd1d97ef5f3cac"><div class="ttname"><a href="struct_z_l_u_t_params.html#a14a59385e3d76c6e50dd1d97ef5f3cac">ZLUTParams::img</a></div><div class="ttdeci">cudaImageListf img</div><div class="ttdef"><b>Definition:</b> QueuedCUDATracker.h:64</div></div>
-<div class="ttc" id="structcuda_image_list_html_a1fe4adbbd48678e07c6b58f50dbe8528"><div class="ttname"><a href="structcuda_image_list.html#a1fe4adbbd48678e07c6b58f50dbe8528">cudaImageList::w</a></div><div class="ttdeci">int w</div><div class="ttdef"><b>Definition:</b> cudaImageList.h:13</div></div>
-</div><!-- fragment -->
+
+<p>Number of radial steps in the lookup table. </p>
+
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
@@ -193,6 +215,8 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>The number of angular steps used to generate the lookup table. </p>
+
 </div>
 </div>
 <a class="anchor" id="a14a59385e3d76c6e50dd1d97ef5f3cac"></a>
@@ -204,6 +228,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>The imagelist holding the LUTs. </p>
 
 </div>
 </div>
@@ -217,6 +243,8 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Maximum radial distance in pixels of the sampling area. </p>
+
 </div>
 </div>
 <a class="anchor" id="a1e53b221a353b5543b95ab8472c0e27f"></a>
@@ -228,6 +256,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Radius in pixels of the starting point of the sampling area. </p>
 
 </div>
 </div>
@@ -241,6 +271,8 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>The number of planes per lookup table. </p>
+
 </div>
 </div>
 <a class="anchor" id="a18e5051a3a4b118b45854c69977e2dbe"></a>
@@ -253,7 +285,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Array of precomputed radial spoke sampling points (cos,sin pairs). </p>
+<p>Array of precomputed radial spoke sampling points (cos,sin pairs) </p>
 
 </div>
 </div>
@@ -266,6 +298,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>The radial weights to use for the error curve calculation. </p>
 
 </div>
 </div>

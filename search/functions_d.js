@@ -12,6 +12,6 @@ var searchData=
   ['numelem',['numElem',['../struct_l_v_array2_d.html#aa2c7e8ee477197eedc04a29788f05707',1,'LVArray2D::numElem()'],['../struct_l_v_array3_d.html#a5ac741d85ae108263873fdf62f57aa06',1,'LVArray3D::numElem()'],['../struct_l_v_array_n_d.html#a60b85212c2d61e358e3aad4abfe7ecff',1,'LVArrayND::numElem()']]],
   ['numfilesindir',['NumFilesInDir',['../testutils_8cpp.html#ab7790d00c6ca2c2de517aa3b6ce68a30',1,'NumFilesInDir(const std::string &amp;dirName_in):&#160;testutils.cpp'],['../testutils_8h.html#ab7790d00c6ca2c2de517aa3b6ce68a30',1,'NumFilesInDir(const std::string &amp;dirName_in):&#160;testutils.cpp']]],
   ['numjpgindir',['NumJpgInDir',['../testutils_8cpp.html#aada7cca60290a9533e8f1ff0eb19516e',1,'NumJpgInDir(const std::string &amp;dirName_in):&#160;testutils.cpp'],['../testutils_8h.html#aada7cca60290a9533e8f1ff0eb19516e',1,'NumJpgInDir(const std::string &amp;dirName_in):&#160;testutils.cpp']]],
-  ['numpixels',['numpixels',['../structcuda_image_list.html#a7f29b098dc0916fff9a396c8250c560c',1,'cudaImageList::numpixels()'],['../struct_t_image_data.html#a778a4b0170c0a225b89692c7cedd2440',1,'TImageData::numPixels()']]],
+  ['numpixels',['numPixels',['../struct_t_image_data.html#a778a4b0170c0a225b89692c7cedd2440',1,'TImageData::numPixels()'],['../structcuda_image_list.html#a7f29b098dc0916fff9a396c8250c560c',1,'cudaImageList::numpixels()']]],
   ['numthreads',['NumThreads',['../class_queued_c_p_u_tracker.html#ab72dd2ac1e12de11115f1cd96c9e51cd',1,'QueuedCPUTracker']]]
 ];

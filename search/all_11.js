@@ -39,7 +39,6 @@ var searchData=
   ['qicomplex_5ft',['qicomplex_t',['../_q_i_8h.html#ad57806420787f160bbbe768dbd72d115',1,'QI.h']]],
   ['qidone',['qiDone',['../struct_queued_c_u_d_a_tracker_1_1_stream.html#a3bf78dd2104f2b82ecd8f1bc6697c818',1,'QueuedCUDATracker::Stream']]],
   ['qiparams',['QIParams',['../struct_q_i_params.html',1,'']]],
-  ['qivalue_5ft',['qivalue_t',['../_q_i_8h.html#ad93d92c9630ef2cebed8fe55e284e3ed',1,'QI.h']]],
   ['qiweights',['QIWeights',['../cpu__tracker_8cpp.html#a4d62cbde784e969529c728aed83f85e3',1,'cpu_tracker.cpp']]],
   ['qselect',['qselect',['../utils_8h.html#a4b0a27d7d56f378a09fa03dd12191278',1,'utils.h']]],
   ['qtrk',['qtrk',['../namespaceqtrk.html',1,'qtrk'],['../class_result_manager.html#a782d776e818e9be737c418d2151402ed',1,'ResultManager::qtrk()']]],
