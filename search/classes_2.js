@@ -2,7 +2,6 @@ var searchData=
 [
   ['cimagedata',['CImageData',['../class_c_image_data.html',1,'']]],
   ['coeff',['Coeff',['../struct_lsq_sq_quad_fit_1_1_coeff.html',1,'LsqSqQuadFit']]],
-  ['complex',['complex',['../structsfft_1_1complex.html',1,'sfft']]],
   ['computemaxinterp',['ComputeMaxInterp',['../class_compute_max_interp.html',1,'']]],
   ['config',['Config',['../struct_bead_finder_1_1_config.html',1,'BeadFinder']]],
   ['cputracker',['CPUTracker',['../class_c_p_u_tracker.html',1,'']]],

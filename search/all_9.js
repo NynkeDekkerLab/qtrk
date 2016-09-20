@@ -1,7 +1,6 @@
 var searchData=
 [
   ['i0',['I0',['../struct_c_p_u_tracker_1_1_gauss2_d_result.html#a0d28ea277cd7675a56bb8c4851bae2e7',1,'CPUTracker::Gauss2DResult']]],
-  ['imag',['imag',['../structsfft_1_1complex.html#a5009deeeef4a74a8f75db6e78d832fcc',1,'sfft::complex::imag()'],['../structsfft_1_1complex.html#a7902faacfb7ac78d69a9ce5859943e01',1,'sfft::complex::imag() const ']]],
   ['image4dcudaarray',['Image4DCudaArray',['../struct_image4_d_cuda_array.html',1,'Image4DCudaArray&lt; T &gt;'],['../struct_image4_d_cuda_array.html#a111e6a02aa56ecac3edb020a7628f38f',1,'Image4DCudaArray::Image4DCudaArray()']]],
   ['image4dmemory',['Image4DMemory',['../class_image4_d_memory.html',1,'Image4DMemory&lt; T &gt;'],['../class_image4_d_memory.html#ab0301a129aff5a180d2259bb0b8f265e',1,'Image4DMemory::Image4DMemory()']]],
   ['image_5flut',['image_lut',['../class_queued_c_p_u_tracker.html#af7ac0b5f68de59f97fa76a02c11763fe',1,'QueuedCPUTracker']]],
@@ -39,7 +38,7 @@ var searchData=
   ['imgmeans',['imgmeans',['../struct_base_kernel_params.html#aa0c58be6d25ab55207ca83bb0047f4d9',1,'BaseKernelParams::imgmeans()'],['../struct_queued_c_u_d_a_tracker_1_1_stream.html#a6e7f0634fe87266d8dd9256746553e8c',1,'QueuedCUDATracker::Stream::imgMeans()']]],
   ['imgw',['imgw',['../struct_image4_d_cuda_array.html#a7f23302d874ffff216e49e33e9b5ca41',1,'Image4DCudaArray::imgw()'],['../struct_image4_d_cuda_array_1_1_kernel_inst.html#aada9791bd402e67c6d9a2dd2e5fa28b5',1,'Image4DCudaArray::KernelInst::imgw()'],['../struct_image4_d_memory_1_1_kernel_params.html#aa622909a1be6fbeefc4d05378433f289',1,'Image4DMemory::KernelParams::imgw()']]],
   ['indebugmode',['InDebugMode',['../main_8cpp.html#a6b657569c85f548bb37c94326f1c3f7a',1,'main.cpp']]],
-  ['index',['Index',['../class_image_sampler___mem_copy.html#a85cff4a0610403a769cce196e7c90d13',1,'ImageSampler_MemCopy::Index()'],['../class_image_sampler___simple_texture_read.html#a50a31c29c6e18f167b4e303e8d6a9b75',1,'ImageSampler_SimpleTextureRead::Index()'],['../class_image_sampler___interpolated_texture.html#a015b3cb6e76967a2873739de232950d2',1,'ImageSampler_InterpolatedTexture::Index()'],['../struct_queued_c_u_d_a_tracker_1_1_device.html#a4e5ef8ff6e97b1f1b875ccbda3ca9bbb',1,'QueuedCUDATracker::Device::index()']]],
+  ['index',['index',['../struct_queued_c_u_d_a_tracker_1_1_device.html#a4e5ef8ff6e97b1f1b875ccbda3ca9bbb',1,'QueuedCUDATracker::Device::index()'],['../class_image_sampler___mem_copy.html#a85cff4a0610403a769cce196e7c90d13',1,'ImageSampler_MemCopy::Index()'],['../class_image_sampler___simple_texture_read.html#a50a31c29c6e18f167b4e303e8d6a9b75',1,'ImageSampler_SimpleTextureRead::Index()'],['../class_image_sampler___interpolated_texture.html#a015b3cb6e76967a2873739de232950d2',1,'ImageSampler_InterpolatedTexture::Index()']]],
   ['init',['init',['../classoutputter.html#adc33d05d4ac18787a65bf3c503cc4fbc',1,'outputter::init()'],['../classdevice__vec.html#af37488e2aa53aedb69505c2ce3602f96',1,'device_vec::init()'],['../classpinned__array.html#afcb2e45a55852c293d11c67de5064007',1,'pinned_array::init()'],['../class_q_i.html#a4d2c72e4f110d37299c01da8480671f4',1,'QI::Init()']]],
   ['initdevice',['InitDevice',['../class_q_i.html#a20a5d23a269c8c5cc1dcce1f5d931e20',1,'QI']]],
   ['initializedevicelist',['InitializeDeviceList',['../class_queued_c_u_d_a_tracker.html#ae7806b9e8d79fb4add720019ed4e72ed',1,'QueuedCUDATracker']]],

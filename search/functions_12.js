@@ -58,6 +58,5 @@ var searchData=
   ['storeresult',['StoreResult',['../class_result_manager.html#aef219e3b0da98522795633ed3e38180c',1,'ResultManager']]],
   ['stream',['Stream',['../struct_queued_c_u_d_a_tracker_1_1_stream.html#a2c2931936619d274f8b5b9176ab81c63',1,'QueuedCUDATracker::Stream']]],
   ['streamupdatezlutsize',['StreamUpdateZLUTSize',['../class_queued_c_u_d_a_tracker.html#ab1feeeb058f9652ef11053958f01062f',1,'QueuedCUDATracker']]],
-  ['sum_5fdiff',['sum_diff',['../cpu__tracker_8cpp.html#a36e8f56bddc577021ffa6f199519652a',1,'cpu_tracker.cpp']]],
-  ['swap',['swap',['../namespacesfft.html#a6fd4eed54bb67483098b21032bf68bf5',1,'sfft']]]
+  ['sum_5fdiff',['sum_diff',['../cpu__tracker_8cpp.html#a36e8f56bddc577021ffa6f199519652a',1,'cpu_tracker.cpp']]]
 ];

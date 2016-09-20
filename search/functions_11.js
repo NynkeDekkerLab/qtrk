@@ -13,7 +13,6 @@ var searchData=
   ['readsurfacepixel',['readSurfacePixel',['../struct_image4_d_cuda_array_1_1_kernel_inst.html#a67dd42510494400ec1a5a438ac6fbd6f',1,'Image4DCudaArray::KernelInst']]],
   ['readtobytebuffer',['ReadToByteBuffer',['../utils_8cpp.html#afc3a35e21ebcc6c29a05f25c58c74157',1,'ReadToByteBuffer(const char *filename):&#160;utils.cpp'],['../utils_8h.html#afc3a35e21ebcc6c29a05f25c58c74157',1,'ReadToByteBuffer(const char *filename):&#160;utils.cpp']]],
   ['readvector3csv',['ReadVector3CSV',['../utils_8cpp.html#abc30341e16799156a1b3b6093ea7d3d5',1,'ReadVector3CSV(const char *file, char sep):&#160;utils.cpp'],['../utils_8h.html#ade675d97d337ee739562ee7ca4a50808',1,'ReadVector3CSV(const char *file, char sep=&apos;\t&apos;):&#160;utils.cpp']]],
-  ['real',['real',['../structsfft_1_1complex.html#ab7b8596da4ba20a31758a4c0a103d011',1,'sfft::complex::real()'],['../structsfft_1_1complex.html#a2a5ad98469d109a88b115419dab31ef6',1,'sfft::complex::real() const ']]],
   ['recenterandfilter',['RecenterAndFilter',['../_bead_finder_8cpp.html#adfad9807250c401f6ec50af3caafeabd',1,'BeadFinder.cpp']]],
   ['removebeadresults',['RemoveBeadResults',['../class_result_manager.html#aaa749abf3e879376677dc051745ed665',1,'ResultManager']]],
   ['resamplelut',['ResampleLUT',['../_shared_tests_8h.html#a6a1246e8a5604b97c4f6dff6d3790272',1,'SharedTests.h']]],

@@ -6,7 +6,6 @@ var searchData=
   ['_7edevice_5fvec',['~device_vec',['../classdevice__vec.html#a2e2e639f54add3bf887fd2e8ba58d6ea',1,'device_vec']]],
   ['_7edeviceinstance',['~DeviceInstance',['../struct_q_i_1_1_device_instance.html#ab321e6992b8172848d1ad48a909a8c0a',1,'QI::DeviceInstance']]],
   ['_7efft2d',['~FFT2D',['../class_c_p_u_tracker_1_1_f_f_t2_d.html#aacd75903885ff9c5aa45402a833b024e',1,'CPUTracker::FFT2D']]],
-  ['_7efft2dtracker',['~FFT2DTracker',['../class_f_f_t2_d_tracker.html#a79355155c2ca3268cac22e272f8ca550',1,'FFT2DTracker']]],
   ['_7eimage4dcudaarray',['~Image4DCudaArray',['../struct_image4_d_cuda_array.html#a217d7dd1db0434b6ec0e41c9b1723a89',1,'Image4DCudaArray']]],
   ['_7eimage4dmemory',['~Image4DMemory',['../class_image4_d_memory.html#a793aec57044547a4eafced7d89119a4f',1,'Image4DMemory']]],
   ['_7ejob',['~Job',['../struct_queued_c_p_u_tracker_1_1_job.html#ae866edd05cae4d56049867d0e9f856ec',1,'QueuedCPUTracker::Job']]],

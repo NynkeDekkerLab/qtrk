@@ -1,13 +1,9 @@
 var searchData=
 [
   ['fetchresults',['FetchResults',['../class_queued_c_p_u_tracker.html#a253b1d5d116dabad6b7b82ae41294a53',1,'QueuedCPUTracker::FetchResults()'],['../class_queued_tracker.html#a171688832558d40838790c90ba9f8fc0',1,'QueuedTracker::FetchResults()'],['../class_queued_c_u_d_a_tracker.html#acc1a34b83a9f7cc84ede58ce7eaec45e',1,'QueuedCUDATracker::FetchResults()'],['../_shared_tests_8h.html#a309eb8d8c5b82f6f2e05b8a9e7594a74',1,'FetchResults():&#160;SharedTests.h']]],
-  ['fft',['fft',['../namespacesfft.html#afe126ab208ddda6ebf1082ba5fccf97c',1,'sfft']]],
   ['fft2d',['FFT2D',['../class_c_p_u_tracker_1_1_f_f_t2_d.html#ab9f86290796485ee06126ec71d3a5b5c',1,'CPUTracker::FFT2D::FFT2D()'],['../_bead_finder_8cpp.html#aecf220354d51380bea7873a57bc29862',1,'FFT2D():&#160;BeadFinder.cpp']]],
-  ['fft2dtracker',['FFT2DTracker',['../class_f_f_t2_d_tracker.html#aaa109a807ec00addd7e1c0b5faf583c5',1,'FFT2DTracker']]],
-  ['fft_5fforward',['fft_forward',['../namespacesfft.html#af570d5b3d61e3da21700a7ba5773e00a',1,'sfft']]],
-  ['fft_5finverse',['fft_inverse',['../namespacesfft.html#aa248f213f81b23b17801fc26fd2e0324',1,'sfft']]],
   ['file_5fext',['file_ext',['../utils_8cpp.html#abb4af55bf064f76f19025b5d9a70f723',1,'file_ext(const char *f):&#160;utils.cpp'],['../utils_8h.html#abb4af55bf064f76f19025b5d9a70f723',1,'file_ext(const char *f):&#160;utils.cpp']]],
-  ['fill_5ftwiddles',['fill_twiddles',['../structkissfft__utils_1_1traits.html#a963aa6e0faf253b4db8cf348e1853c0c',1,'kissfft_utils::traits::fill_twiddles()'],['../namespacesfft.html#adb7a1a523f70985b8e7c17bcb6e1c30f',1,'sfft::fill_twiddles()']]],
+  ['fill_5ftwiddles',['fill_twiddles',['../structkissfft__utils_1_1traits.html#a963aa6e0faf253b4db8cf348e1853c0c',1,'kissfft_utils::traits']]],
   ['fillerrorcluster',['FillErrorCluster',['../group__lab__functions.html#ga1363f444ed040befa4d285e576743907',1,'FillErrorCluster(MgErr err, const char *message, ErrorCluster *error):&#160;lv_queuetrk_api.cpp'],['../group__lab__functions.html#ga1363f444ed040befa4d285e576743907',1,'FillErrorCluster(MgErr err, const char *message, ErrorCluster *error):&#160;lv_queuetrk_api.cpp']]],
   ['finalizelut',['FinalizeLUT',['../class_queued_c_p_u_tracker.html#a9d94101b69e1f514473bfedc012ec785',1,'QueuedCPUTracker::FinalizeLUT()'],['../class_queued_tracker.html#aa856650c99d15216ad3246d3485b9d9e',1,'QueuedTracker::FinalizeLUT()'],['../class_queued_c_u_d_a_tracker.html#a628a79df6cce9a1df9a4da78da266578',1,'QueuedCUDATracker::FinalizeLUT()']]],
   ['find',['Find',['../namespace_bead_finder.html#ab23a6df0dccd8f6af8e78f79d2f05b69',1,'BeadFinder::Find(ImageData *img, float *sample, Config *cfg)'],['../namespace_bead_finder.html#abfee549a957611e22b398fdcb1e28178',1,'BeadFinder::Find(uint8_t *img, int pitch, int w, int h, int smpCornerX, int smpCornerY, Config *cfg)']]],

@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['imagesampler_2eh',['ImageSampler.h',['../_image_sampler_8h.html',1,'']]]
+  ['kernels_2eh',['Kernels.h',['../_kernels_8h.html',1,'']]],
+  ['kissfft_2eh',['kissfft.h',['../kissfft_8h.html',1,'']]]
 ];

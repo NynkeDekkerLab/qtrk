@@ -15,7 +15,6 @@ var searchData=
   ['message',['message',['../struct_error_cluster.html#a1352bf4f7aea60ac5d0b873961831260',1,'ErrorCluster']]],
   ['minor',['minor',['../struct_c_u_d_a_device_info.html#aece001b941ba540febcdd704bd6b6e86',1,'CUDADeviceInfo']]],
   ['minradius',['minRadius',['../struct_q_i_params.html#a4c3b954348ae3ee381eab69122983515',1,'QIParams::minRadius()'],['../struct_z_l_u_t_params.html#a1e53b221a353b5543b95ab8472c0e27f',1,'ZLUTParams::minRadius()']]],
-  ['mirror2d',['mirror2D',['../class_f_f_t2_d_tracker.html#a9e3e37029c015de1f4750964a3ed5701',1,'FFT2DTracker']]],
   ['modes',['modes',['../classoutputter.html#af7a6f40d233bfb34919dbfb5a474f988',1,'outputter']]],
   ['multiproccount',['multiProcCount',['../struct_c_u_d_a_device_info.html#aa49e12b08b205bd073e1d0fbf9f06815',1,'CUDADeviceInfo']]],
   ['mutex',['mutex',['../struct_queued_c_p_u_tracker_1_1_thread.html#a230c0eecf62744fe0fe2b9892412a122',1,'QueuedCPUTracker::Thread']]]

@@ -4,9 +4,6 @@ var searchData=
   ['half_5fof',['HALF_OF',['../classkissfft.html#aca22ce3dafcd91ffca189121367fd026',1,'kissfft']]],
   ['handle',['Handle',['../struct_threads_1_1_handle.html',1,'Threads']]],
   ['hasframeinfo',['hasFrameInfo',['../struct_result_manager_1_1_frame_result.html#ac2f96ff6a7017bd7dd4a6e9ab14dbd0b',1,'ResultManager::FrameResult']]],
-  ['hash_5fmap',['hash_map',['../classqtrk_1_1hash__map.html',1,'qtrk']]],
-  ['hash_5fset',['hash_set',['../classqtrk_1_1hash__set.html',1,'qtrk']]],
-  ['hash_5ftemplates_2eh',['hash_templates.h',['../hash__templates_8h.html',1,'']]],
-  ['height',['height',['../class_c_p_u_tracker.html#a5d1e01c6a878ff7f0c138f011b0ca5d3',1,'CPUTracker::height()'],['../class_f_f_t2_d_tracker.html#a027298d540cbb086c92c63a70e04c40a',1,'FFT2DTracker::height()'],['../struct_q_trk_settings.html#a94c965d103e7a0a4f1fced8eee1324ce',1,'QTrkSettings::height()']]],
+  ['height',['height',['../class_c_p_u_tracker.html#a5d1e01c6a878ff7f0c138f011b0ca5d3',1,'CPUTracker::height()'],['../struct_q_trk_settings.html#a94c965d103e7a0a4f1fced8eee1324ce',1,'QTrkSettings::height()']]],
   ['hostimagebuf',['hostImageBuf',['../struct_queued_c_u_d_a_tracker_1_1_stream.html#a407663bf0a868f738c9a1d210858b41b',1,'QueuedCUDATracker::Stream']]]
 ];

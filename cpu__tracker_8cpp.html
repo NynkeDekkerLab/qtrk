@@ -102,15 +102,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <code>#include &quot;<a class="el" href="_lsq_quadratic_fit_8h_source.html">LsqQuadraticFit.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="random__distr_8h_source.html">random_distr.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_cubic_b_spline_8h_source.html">CubicBSpline.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="simplefft_8h_source.html">../cudatrack/simplefft.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_debug_result_compare_8h_source.html">DebugResultCompare.h</a>&quot;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:ab1092e0ccd55ae591f00b5a2cb11f9c0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cpu__tracker_8cpp.html#ab1092e0ccd55ae591f00b5a2cb11f9c0">ZLUT_CMPDATA</a></td></tr>
 <tr class="separator:ab1092e0ccd55ae591f00b5a2cb11f9c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acfebaca1d9d8f48864704773594876b7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cpu__tracker_8cpp.html#acfebaca1d9d8f48864704773594876b7">SFFT_BOTH</a></td></tr>
-<tr class="separator:acfebaca1d9d8f48864704773594876b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa3a2421044dd92edaeb8b590afd92b84"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cpu__tracker_8cpp.html#aa3a2421044dd92edaeb8b590afd92b84">MARKPIXEL</a>(x,  y)</td></tr>
 <tr class="separator:aa3a2421044dd92edaeb8b590afd92b84"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a836b0d44a08a0508ab0581612404f960"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cpu__tracker_8cpp.html#a836b0d44a08a0508ab0581612404f960">MARKPIXELI</a>(x,  y)</td></tr>
@@ -193,18 +190,6 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="acfebaca1d9d8f48864704773594876b7"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define SFFT_BOTH</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a class="anchor" id="ab1092e0ccd55ae591f00b5a2cb11f9c0"></a>
 <div class="memitem">
 <div class="memproto">
@@ -255,7 +240,7 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;{ <span class="keywordflow">return</span> std::max(a, std::min(b, v)); }</div></div><!-- fragment -->
+<div class="fragment"><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{ <span class="keywordflow">return</span> std::max(a, std::min(b, v)); }</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="acbdcd9cf414b5dca4a7c2b9cae44832c"></a>
@@ -273,7 +258,7 @@ template&lt;typename T &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;{ <span class="keywordflow">return</span> T(v.real(),-v.imag()); }</div></div><!-- fragment -->
+<div class="fragment"><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{ <span class="keywordflow">return</span> T(v.real(),-v.imag()); }</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="adc2065673036c4907eaf912bbbc4d0bb"></a>
@@ -297,7 +282,7 @@ template&lt;typename T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{ <span class="keywordflow">return</span> (<span class="keywordtype">int</span>)(f+0.5f); }</div></div><!-- fragment -->
+<div class="fragment"><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;{ <span class="keywordflow">return</span> (<span class="keywordtype">int</span>)(f+0.5f); }</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a36e8f56bddc577021ffa6f199519652a"></a>
@@ -331,7 +316,7 @@ template&lt;typename T &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;{</div><div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;    <span class="keywordtype">double</span> sd = 0.0;</div><div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;    <span class="keywordflow">for</span> (T* i = begin; i != end; i++, other++) {</div><div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;        T d = *i - *other;</div><div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;        sd += <a class="code" href="_bead_finder_8cpp.html#aade100f3798a339fdf25b22a55f85bbc">abs</a>(d.real()) + <a class="code" href="_bead_finder_8cpp.html#aade100f3798a339fdf25b22a55f85bbc">abs</a>(d.imag());</div><div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;    }</div><div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;    <span class="keywordflow">return</span> sd;</div><div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;}</div><div class="ttc" id="_bead_finder_8cpp_html_aade100f3798a339fdf25b22a55f85bbc"><div class="ttname"><a href="_bead_finder_8cpp.html#aade100f3798a339fdf25b22a55f85bbc">abs</a></div><div class="ttdeci">float abs(std::complex&lt; float &gt; x)</div><div class="ttdef"><b>Definition:</b> BeadFinder.cpp:19</div></div>
+<div class="fragment"><div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;{</div><div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;    <span class="keywordtype">double</span> sd = 0.0;</div><div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;    <span class="keywordflow">for</span> (T* i = begin; i != end; i++, other++) {</div><div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;        T d = *i - *other;</div><div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;        sd += <a class="code" href="_bead_finder_8cpp.html#aade100f3798a339fdf25b22a55f85bbc">abs</a>(d.real()) + <a class="code" href="_bead_finder_8cpp.html#aade100f3798a339fdf25b22a55f85bbc">abs</a>(d.imag());</div><div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;    }</div><div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;    <span class="keywordflow">return</span> sd;</div><div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;}</div><div class="ttc" id="_bead_finder_8cpp_html_aade100f3798a339fdf25b22a55f85bbc"><div class="ttname"><a href="_bead_finder_8cpp.html#aade100f3798a339fdf25b22a55f85bbc">abs</a></div><div class="ttdeci">float abs(std::complex&lt; float &gt; x)</div><div class="ttdef"><b>Definition:</b> BeadFinder.cpp:19</div></div>
 </div><!-- fragment -->
 </div>
 </div>

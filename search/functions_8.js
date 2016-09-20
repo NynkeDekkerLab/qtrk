@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['imag',['imag',['../structsfft_1_1complex.html#a5009deeeef4a74a8f75db6e78d832fcc',1,'sfft::complex::imag()'],['../structsfft_1_1complex.html#a7902faacfb7ac78d69a9ce5859943e01',1,'sfft::complex::imag() const ']]],
   ['image4dcudaarray',['Image4DCudaArray',['../struct_image4_d_cuda_array.html#a111e6a02aa56ecac3edb020a7628f38f',1,'Image4DCudaArray']]],
   ['image4dmemory',['Image4DMemory',['../class_image4_d_memory.html#ab0301a129aff5a180d2259bb0b8f265e',1,'Image4DMemory']]],
   ['image_5fsampler_5ftexture_5flinear',['image_sampler_texture_linear',['../_image_sampler_8h.html#aada512cb7ef9473ec9a876ef0d901525',1,'ImageSampler.h']]],

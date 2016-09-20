@@ -52,12 +52,9 @@ var searchData=
   ['settracker',['SetTracker',['../class_result_manager.html#a415bd4a67729b4347866be136dd413b5',1,'ResultManager']]],
   ['settrackerimage',['SetTrackerImage',['../class_queued_c_p_u_tracker.html#a7817003628ae040aaed49716d6ad7d6c',1,'QueuedCPUTracker']]],
   ['setzlutbiascorrection',['SetZLUTBiasCorrection',['../group__zbias.html#ga44b2acf1496f571f7139141c11e39ba0',1,'QueuedTracker']]],
-  ['sfft',['sfft',['../namespacesfft.html',1,'']]],
-  ['sfft_5fboth',['SFFT_BOTH',['../cpu__tracker_8cpp.html#acfebaca1d9d8f48864704773594876b7',1,'SFFT_BOTH():&#160;cpu_tracker.cpp'],['../simplefft_8h.html#acfebaca1d9d8f48864704773594876b7',1,'SFFT_BOTH():&#160;simplefft.h']]],
   ['sharedtests_2eh',['SharedTests.h',['../_shared_tests_8h.html',1,'']]],
   ['showcudaerror',['ShowCUDAError',['../test_8cu.html#a5ec21c062fbb718eb272432b5473813a',1,'test.cu']]],
   ['similarity',['similarity',['../struct_bead_finder_1_1_config.html#ace5e499578ca57df89b304adab763a3e',1,'BeadFinder::Config']]],
-  ['simplefft_2eh',['simplefft.h',['../simplefft_8h.html',1,'']]],
   ['simplekernel',['SimpleKernel',['../test_8cu.html#a225b948eb316b51ce89ef78d73bf1114',1,'test.cu']]],
   ['simpletest',['SimpleTest',['../main_8cpp.html#a6edb955f584bcbddfc4aee183c7df8ce',1,'main.cpp']]],
   ['size',['size',['../classdevice__vec.html#a1452496fe02af53427d0284e2bb6ca6e',1,'device_vec::size()'],['../classpinned__array.html#aa57ce93b5413ac43025d474fcff85855',1,'pinned_array::size()']]],
@@ -99,6 +96,5 @@ var searchData=
   ['streams',['streams',['../class_queued_c_u_d_a_tracker.html#a06cc0da8192d0f8ff5d9edcad1158f58',1,'QueuedCUDATracker']]],
   ['streamupdatezlutsize',['StreamUpdateZLUTSize',['../class_queued_c_u_d_a_tracker.html#ab1feeeb058f9652ef11053958f01062f',1,'QueuedCUDATracker']]],
   ['strncasecmp',['STRNCASECMP',['../std__incl_8h.html#a9af901db56190e28d0bb87847215287c',1,'std_incl.h']]],
-  ['sum_5fdiff',['sum_diff',['../cpu__tracker_8cpp.html#a36e8f56bddc577021ffa6f199519652a',1,'cpu_tracker.cpp']]],
-  ['swap',['swap',['../namespacesfft.html#a6fd4eed54bb67483098b21032bf68bf5',1,'sfft']]]
+  ['sum_5fdiff',['sum_diff',['../cpu__tracker_8cpp.html#a36e8f56bddc577021ffa6f199519652a',1,'cpu_tracker.cpp']]]
 ];

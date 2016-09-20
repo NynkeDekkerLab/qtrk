@@ -32,12 +32,11 @@ var searchData=
   ['minor',['minor',['../struct_c_u_d_a_device_info.html#aece001b941ba540febcdd704bd6b6e86',1,'CUDADeviceInfo']]],
   ['minpixeldistance',['MinPixelDistance',['../struct_bead_finder_1_1_config.html#acb90a601bdb1ca9547d7e1948c0ea9f6',1,'BeadFinder::Config']]],
   ['minradius',['minRadius',['../struct_q_i_params.html#a4c3b954348ae3ee381eab69122983515',1,'QIParams::minRadius()'],['../struct_z_l_u_t_params.html#a1e53b221a353b5543b95ab8472c0e27f',1,'ZLUTParams::minRadius()']]],
-  ['mirror2d',['mirror2D',['../class_f_f_t2_d_tracker.html#a9e3e37029c015de1f4750964a3ed5701',1,'FFT2DTracker']]],
   ['modes',['modes',['../classoutputter.html#af7a6f40d233bfb34919dbfb5a474f988',1,'outputter']]],
   ['msg',['msg',['../struct_threads_1_1_mutex.html#a55226184bf80652bf23cf8790edd4b86',1,'Threads::Mutex']]],
   ['mul_5fconjugate',['mul_conjugate',['../test_8cu.html#a417f15fefe4dac05048eac1780fd902c',1,'test.cu']]],
   ['multiproccount',['multiProcCount',['../struct_c_u_d_a_device_info.html#aa49e12b08b205bd073e1d0fbf9f06815',1,'CUDADeviceInfo']]],
-  ['mutex',['Mutex',['../struct_threads_1_1_mutex.html#ad6a21c572100a6241fa34f1d265a2725',1,'Threads::Mutex::Mutex()'],['../struct_queued_c_p_u_tracker_1_1_thread.html#a230c0eecf62744fe0fe2b9892412a122',1,'QueuedCPUTracker::Thread::mutex()']]],
   ['mutex',['Mutex',['../struct_threads_1_1_mutex.html',1,'Threads']]],
+  ['mutex',['Mutex',['../struct_threads_1_1_mutex.html#ad6a21c572100a6241fa34f1d265a2725',1,'Threads::Mutex::Mutex()'],['../struct_queued_c_p_u_tracker_1_1_thread.html#a230c0eecf62744fe0fe2b9892412a122',1,'QueuedCPUTracker::Thread::mutex()']]],
   ['my_5ferror_5fmgr',['my_error_mgr',['../structmy__error__mgr.html',1,'']]]
 ];

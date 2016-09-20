@@ -3,8 +3,6 @@ var searchData=
   ['f',['f',['../class_text_result_file.html#a47f9fe9269ce091f44368108c39e3022',1,'TextResultFile::f()'],['../class_binary_result_file.html#a52c8b61cea0019e62f0e6c3530c2937d',1,'BinaryResultFile::f()']]],
   ['fft2d',['fft2d',['../class_c_p_u_tracker.html#a62ed72a32b90914199ba06c3df929dd6',1,'CPUTracker']]],
   ['fft_5fbackward',['fft_backward',['../class_x_cor1_d_buffer.html#afc27a4abe914d01397a98e174983916a',1,'XCor1DBuffer']]],
-  ['fft_5fbuf',['fft_buf',['../class_f_f_t2_d_tracker.html#ad9f4ba4806399035ae865bc6dcfdfce4',1,'FFT2DTracker']]],
-  ['fft_5fbuf_5fmirrored',['fft_buf_mirrored',['../class_f_f_t2_d_tracker.html#a5d416515e26ec5f4415778227209d52a',1,'FFT2DTracker']]],
   ['fft_5fforward',['fft_forward',['../class_x_cor1_d_buffer.html#ab7aa1608417f91f44fdc4acc963e6d3b',1,'XCor1DBuffer']]],
   ['fftplan',['fftPlan',['../struct_q_i_1_1_stream_instance.html#acef1717596e0bd4e736707949d1e7d10',1,'QI::StreamInstance']]],
   ['file',['File',['../structoutputter_1_1output_modes.html#ad15be616f241db4682a34fe26f893958',1,'outputter::outputModes']]],

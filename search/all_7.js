@@ -22,7 +22,6 @@ var searchData=
   ['get',['get',['../struct_l_v_array2_d.html#aa02c6c90d405b359f1670b8b766be436',1,'LVArray2D::get()'],['../class_atomic.html#a50d5b1eadc07bf419245a5e11d718486',1,'Atomic::get()'],['../structcuda_image_list.html#a5e6745abe38ecdfab4b5e9913e26c952',1,'cudaImageList::get()']]],
   ['get_5fdebug_5fimg_5fas_5farray',['get_debug_img_as_array',['../lv__cputrack__api_8cpp.html#af248b516d51520bcce6d64ff534bc6de',1,'lv_cputrack_api.cpp']]],
   ['get_5fzlut',['get_ZLUT',['../lv__cputrack__api_8cpp.html#aa82a91d1374a6e7458900cd76e54c30d',1,'lv_cputrack_api.cpp']]],
-  ['getautoconvresults',['GetAutoConvResults',['../class_f_f_t2_d_tracker.html#adffbefc9db10af5151b0c8a4862b6a4f',1,'FFT2DTracker']]],
   ['getbeadpositions',['GetBeadPositions',['../class_result_manager.html#aa258efc5ddd5e737fd6a00bf3372dd81',1,'ResultManager']]],
   ['getbestcudadevice',['GetBestCUDADevice',['../_queued_c_u_d_a_tracker_8cu.html#a19fc494f75b9dffe835d70fa70daae57',1,'QueuedCUDATracker.cu']]],
   ['getconfigvalues',['GetConfigValues',['../class_queued_c_p_u_tracker.html#af06013bc5f92d5570aa6244ca1768fcf',1,'QueuedCPUTracker::GetConfigValues()'],['../class_queued_tracker.html#afdb95cbf31f14716b3872e15a2319d62',1,'QueuedTracker::GetConfigValues()'],['../class_queued_c_u_d_a_tracker.html#a16a5fb006a594f950484df6a9d1cfd2f',1,'QueuedCUDATracker::GetConfigValues()']]],

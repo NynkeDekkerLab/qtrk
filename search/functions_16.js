@@ -4,7 +4,7 @@ var searchData=
   ['waitforfinish',['WaitForFinish',['../_shared_tests_8h.html#ad10b5a63fc1239e5638eae0f0ea30f84',1,'SharedTests.h']]],
   ['waituntildone',['WaitUntilDone',['../class_thread_pool.html#a12e588b81c0cf6bf93f4ac2f0c50b4e8',1,'ThreadPool']]],
   ['workerthreadmain',['WorkerThreadMain',['../class_queued_c_p_u_tracker.html#ac6d5c0b441567c7da19bb864b885ecb3',1,'QueuedCPUTracker']]],
-  ['write',['write',['../class_image4_d_memory.html#a980280ae643f9bf0b4e2ae921f7a0e9c',1,'Image4DMemory::write()'],['../class_result_manager.html#a6a43d521555ef47d76c8a7e9bb8ff87e',1,'ResultManager::Write()']]],
+  ['write',['Write',['../class_result_manager.html#a6a43d521555ef47d76c8a7e9bb8ff87e',1,'ResultManager::Write()'],['../class_image4_d_memory.html#a980280ae643f9bf0b4e2ae921f7a0e9c',1,'Image4DMemory::write()']]],
   ['writearrayascsvrow',['WriteArrayAsCSVRow',['../utils_8cpp.html#aa0fb8da4922e3042928ed9f6388bc09a',1,'WriteArrayAsCSVRow(const char *file, float *d, int len, bool append):&#160;utils.cpp'],['../utils_8h.html#aa0fb8da4922e3042928ed9f6388bc09a',1,'WriteArrayAsCSVRow(const char *file, float *d, int len, bool append):&#160;utils.cpp']]],
   ['writeascsv',['writeAsCSV',['../struct_t_image_data.html#aa324cc320e1a5b2d8f42ae56a197dca9',1,'TImageData']]],
   ['writebinaryfileheader',['WriteBinaryFileHeader',['../class_result_manager.html#ad67d6303de94c15cbb8de23cf1837270',1,'ResultManager']]],

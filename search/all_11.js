@@ -41,7 +41,7 @@ var searchData=
   ['qiparams',['QIParams',['../struct_q_i_params.html',1,'']]],
   ['qiweights',['QIWeights',['../cpu__tracker_8cpp.html#a4d62cbde784e969529c728aed83f85e3',1,'cpu_tracker.cpp']]],
   ['qselect',['qselect',['../utils_8h.html#a4b0a27d7d56f378a09fa03dd12191278',1,'utils.h']]],
-  ['qtrk',['qtrk',['../namespaceqtrk.html',1,'qtrk'],['../class_result_manager.html#a782d776e818e9be737c418d2151402ed',1,'ResultManager::qtrk()']]],
+  ['qtrk',['qtrk',['../class_result_manager.html#a782d776e818e9be737c418d2151402ed',1,'ResultManager']]],
   ['qtrk_5fbuild_5flut_5fplane',['qtrk_build_lut_plane',['../group__lab___a_p_i__luts.html#gace72b3965bbca6fb616b9854fc466c29',1,'qtrk_build_lut_plane(QueuedTracker *qtrk, LVArray3D&lt; float &gt; **data, uint flags, int plane, ErrorCluster *err):&#160;lv_queuetrk_api.cpp'],['../group__lab___a_p_i__luts.html#gace72b3965bbca6fb616b9854fc466c29',1,'qtrk_build_lut_plane(QueuedTracker *qtrk, LVArray3D&lt; float &gt; **data, uint flags, int plane, ErrorCluster *err):&#160;lv_queuetrk_api.cpp']]],
   ['qtrk_5fc_5fapi_2ecpp',['qtrk_c_api.cpp',['../qtrk__c__api_8cpp.html',1,'']]],
   ['qtrk_5fc_5fapi_2eh',['qtrk_c_api.h',['../qtrk__c__api_8h.html',1,'']]],

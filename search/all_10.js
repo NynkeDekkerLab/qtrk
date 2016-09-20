@@ -15,8 +15,6 @@ var searchData=
   ['pixel_5ft',['pixel_t',['../cpu__tracker_8h.html#a2c78c9bbad19d28cffe9d662ce7d1813',1,'cpu_tracker.h']]],
   ['pixeladdress',['pixelAddress',['../structcuda_image_list.html#aab7ac2329d20752d4364c87a21d76092',1,'cudaImageList']]],
   ['pixelationerrortest',['PixelationErrorTest',['../main_8cpp.html#af54759018db57821aa5c9c0631e7cc02',1,'main.cpp']]],
-  ['plan_5fbw2d',['plan_bw2D',['../class_f_f_t2_d_tracker.html#a90c38a2c90a3e0212a85ce7b2d645215',1,'FFT2DTracker']]],
-  ['plan_5ffw2d',['plan_fw2D',['../class_f_f_t2_d_tracker.html#ac204a75a497e87e7c43fc38758fba7d2',1,'FFT2DTracker']]],
   ['planes',['planes',['../struct_z_l_u_t_params.html#ab00dffe1d70415e23bbf989d664495ab',1,'ZLUTParams::planes()'],['../struct_image_l_u_t_config.html#a72137ca4186a2909e2ecbcb7ea7b5f01',1,'ImageLUTConfig::planes()']]],
   ['pos',['pos',['../struct_c_p_u_tracker_1_1_gauss2_d_result.html#a7b4664668842daa04882ca2dd1d91fce',1,'CPUTracker::Gauss2DResult::pos()'],['../struct_localization_result.html#a546f66485662c35bc75121513b6d1a60',1,'LocalizationResult::pos()']]],
   ['pos2d',['pos2D',['../struct_localization_result.html#a40b7da4cbde78ccc9a013b1bcc608e60',1,'LocalizationResult']]],
