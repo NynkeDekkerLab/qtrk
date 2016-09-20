@@ -1,11 +1,9 @@
-
 #pragma once
 
-
-// Types used by QI algorithm
-typedef float qivalue_t;
+/// Datatype for representation of complex values. 2D Float.
 typedef float2 qicomplex_t;
 
+/// Structure to hold QI settings
 struct QIParams {
 	float minRadius, maxRadius;
 	int radialSteps, iterations, trigtablesize;

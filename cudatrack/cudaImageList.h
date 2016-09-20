@@ -2,13 +2,12 @@
 
 #include "gpu_utils.h"
 
-//cudaImageList stores a large number of small images into a single large memory space, allocated using cudaMallocPitch. 
-// It has no constructor/destructor, so it can be passed to CUDA kernels. 
-// It allows binding to a texture
-// NOTE: Maybe this should be converted into a 3D cudaArray?
+/*! \brief Stores a large number of small images into a single large memory space. Optimizes GPU memory copies.
+It has no constructor/destructor, so it can be passed to CUDA kernels. The memory is allocated using cudaMallocPitch. It allows binding to a texture.
+\todo Maybe this should be converted into a 3D cudaArray?
+*/
 template<typename T>
 struct cudaImageList {
-	// No constructor used to allow passing as CUDA kernel argument
 	T* data;
 	size_t pitch;
 	int w,h;
@@ -68,6 +67,7 @@ struct cudaImageList {
 		return row[x];
 	}
 
+	/// \bug Possibly bugged, should be row + x * sizeof(T)? X is always 0 though, so never encountered.
 	CUBOTH T* pixelAddress(int x,int y, int imgIndex) {
 		computeImagePos(x,y,imgIndex);
 		T* row = (T*) ( (char*)data + y*pitch );

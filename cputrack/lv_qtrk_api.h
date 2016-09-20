@@ -8,7 +8,7 @@
 	@{
 */
 enum QueueFrameFlags {
-	QFF_Force32Bit = 0x7fffffff
+	QFF_Force32Bit = 0x7fffffff		///< ???
 };
 
 #pragma pack(push,1)
@@ -22,6 +22,7 @@ struct CUDADeviceInfo
 #pragma pack(pop)
 
 #if defined(CUDA_TRACK) || defined(DOXYGEN)
+#include <cuda_runtime_api.h>
 static bool CheckCUDAErrorLV(cudaError err, ErrorCluster* e)
 {
 	if (err != cudaSuccess) {
@@ -42,6 +43,11 @@ These DLLs are compiled by the \a lvcputrack and \a lvcudatrack projects.
 
 /** \addtogroup lab_API
 	@{
+*/
+
+/** \defgroup lab_API_RM Result Manager
+\ingroup lab_API
+\brief Result manager (RM) API functions available to LabVIEW. 
 */
 
 /** \defgroup lab_API_general General
@@ -120,7 +126,19 @@ CDLL_EXPORT int DLL_CALLCONV	qtrk_idle(QueuedTracker* qtrk, ErrorCluster* e);
 */
 CDLL_EXPORT void DLL_CALLCONV	qtrk_set_logfile_path(const char* path);
 CDLL_EXPORT void DLL_CALLCONV	qtrk_get_computed_config(QueuedTracker* qtrk, QTrkComputedConfig* cc, ErrorCluster *err);
+
+/*! \brief Set pixel calibration factors.
+
+The offset and gain factors provided will be used to scale incoming images to reduce background influence.
+
+Use together with \ref qtrk_set_pixel_calib. If manual factors are not given, 1.0 (no change) is used as default.
+*/
 CDLL_EXPORT void DLL_CALLCONV	qtrk_set_pixel_calib_factors(QueuedTracker* qtrk, float offsetFactor, float gainFactor, ErrorCluster* e);
+
+/*! \brief Set pixel calibration images.
+
+The offset and gain provided will be used to scale incoming images to reduce background influence.
+*/
 CDLL_EXPORT void DLL_CALLCONV	qtrk_set_pixel_calib(QueuedTracker* qtrk, LVArray3D<float>** offset, LVArray3D<float>** gain, ErrorCluster* e);
 CDLL_EXPORT void DLL_CALLCONV	qtrk_dump_memleaks();
 CDLL_EXPORT void				qtrk_get_profile_report(QueuedTracker* qtrk, LStrHandle str);

@@ -33,7 +33,8 @@
 														<br/>CPUTracker::LUTProfileCompare			<td>::ZLUT_RadialProfileKernel
 																									<br/>::ZLUT_ComputeZ					<td>			<td>Only available method for z localization.
  </table>
- *
+ * In practice, the most used algorithm is %QI. It has been most thoroughly tested and optimized and is always the recommended choice except in very special cases.
+ * 
  * \section soft_sec Required software
  * 
  * To be able to compile the DLLs, you need:
@@ -67,7 +68,15 @@ class CImageData;
 #define MIN_RADPROFILE_SMP_COUNT 4
 
 
-/*! \brief Abstract tracker interface, implemented by QueuedCUDATracker and QueuedCPUTracker. */
+/*! \brief Abstract tracker interface, implemented by QueuedCUDATracker and QueuedCPUTracker. 
+
+In general, it holds a queue of "jobs" (\ref LocalizationJob) to perform.
+These jobs are created and automatically queued using \ref ScheduleLocalization(uchar*, int, QTRK_PixelDataType, uint, uint, vector3f*, uint).
+Internally, a scheduling thread divides the work over multiple threads to speed up the calculations.
+When jobs are completed, their results become available to retrieve from memory. Usage of the \ref ResultManager class is recommended to handle this process.
+
+Queue and result related functionalities are exposed to an API, see \ref lab_API and \ref c_api.
+*/
 class QueuedTracker
 {
 public:
@@ -80,13 +89,30 @@ public:
 	*/
 	virtual void SetLocalizationMode(LocMode_t locType) = 0;
 
-	// These are per-bead! So both gain and offset are sized [width*height*numbeads], similar to ZLUT
-	// result=gain*(pixel+offset)
+	/*! \brief Set the pixel calibration images.
+
+	These images are used to scale the input image to get rid of background influences in the image.
+	The values are per-pixel-per-ROI. Result = gain*(pixel+offset).
+
+	\param [in] offset	Array of the offset values to use per pixel. Size and order is [width*height*numbeads].
+	\param [in] gain	Array of gain values to use per pixel. Size and order is [width*height*numbeads].
+	*/
 	virtual void SetPixelCalibrationImages(float* offset, float* gain) = 0;
+
+	/*! \brief Set the pixel calibration factors.
+
+	The factors can be used to increase or decrease the effects of the images supplied through \ref SetPixelCalibrationImages for further finetuning.
+	These only have an effect when an image is actually set through that function.
+
+	\param [in] offsetFactor	Factor by which to scale the offset values.
+	\param [in] gainFactor		Factor by which to scale the gain values.
+	*/
 	virtual void SetPixelCalibrationFactors(float offsetFactor, float gainFactor) = 0;
 
 	/*! \brief Add a job to the queue to be processed. A job entails running the required algorithms on a single region of interest.
 
+	If a localization can not be added to the queue because it is full, the thread will be put to sleep and periodically try again.
+	
 	\param [in] data	Pointer to the data. Type specified by \p pdt.
 	\param [in] pitch	Distance in bytes between two successive rows of pixels (e.g. address of (0,0) - address of (0,1)).
 	\param [in] pdt		Type of \p data, specified by ::QTRK_PixelDataType.
@@ -378,8 +404,9 @@ QueuedTracker* CreateQueuedTracker(const QTrkComputedConfig& cc);
 /*! \brief Set the list of devices to be used when \ref QTrkComputedConfig::cuda_device is set to \ref QTrkCUDA_UseList.
 
 \note Empty for CPU tracker.
-\param [in] devices
-\param [in] numdev
+
+\param [in] devices Array with index numbers of devices to be used.
+\param [in] numdev  Amount of devices to use (= length of \p devices).
 */
 void SetCUDADevices(int *devices, int numdev);
 

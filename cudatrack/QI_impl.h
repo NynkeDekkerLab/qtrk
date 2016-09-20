@@ -168,7 +168,8 @@ __global__ void QI_ComputeQuadrants(BaseKernelParams kp, float3* positions, floa
 	// Ori: dst[i], i = radial index
 	// float* img_qdr = &dst_quadrants[ jobIdx * params->radialSteps * 4 ];
 	// float* dst = &img_qdr[quadrant*params->radialSteps];
-	// dst[rIdx] = rIdx;//count >= MIN_RADPROFILE_SMP_COUNT ? sum/count : kp.imgmeans[jobIdx];
+	// dst[rIdx] = rIdx;
+	//count >= MIN_RADPROFILE_SMP_COUNT ? sum/count : kp.imgmeans[jobIdx];
 
 	if (jobIdx < kp.njobs && rIdx < params->radialSteps && quadrant < 4) {
 		// The variables below could go in shared memory
@@ -278,25 +279,27 @@ void QI::Execute (BaseKernelParams& p, const QTrkComputedConfig& cfg, QI::Stream
 template<typename TImageSampler>
 void QI::Iterate(BaseKernelParams& p, device_vec<float3>* initial, device_vec<float3>* newpos, StreamInstance *s, DeviceInstance* d, int angularSteps)
 {
-	if (1) {
-		// This part makes better use of parallelism (computing every quadrant's radial bin in a seperate thread)			
-		dim3 qdrThreads(16, 8, 4);
-		dim3 qdrDim( (p.njobs + qdrThreads.x - 1) / qdrThreads.x, (params.radialSteps + qdrThreads.y - 1) / qdrThreads.y);
+	/* Old method of calculating quadrant profiles.
+	QIParams dp = params;
+	dp.cos_sin_table = d->qi_trigtable.data;
 
-		QI_ComputeQuadrants<TImageSampler> <<< qdrDim , qdrThreads, 0, s->stream >>> 
-			(p, initial->data, s->d_quadrants.data, d->d_qiparams, angularSteps);
+	QI_ComputeProfile <TImageSampler> <<< blocks(p.njobs), threads(), 0, s->stream >>> (p, initial->data, 
+		s->d_quadrants.data, s->d_QIprofiles.data, s->d_QIprofiles_reverse.data, dp, d->d_radialweights.data, angularSteps);
+	// DbgOutputVectorToFile("D:\\TestImages\\gpu_qi_prof_old.csv", s->d_quadrants, true);
+	*/
+
+	/// Huge speedup achieved by calculating each quadrant's radial bin in a seperate thread.
+	/// This leads to more, smaller kernels running concurrently so more memory latency hiding can be achieved through higher occupancy.
+	/// For a visual display of this, try running the NVidia Visual Profiler with both versions of quadrant profile kernels.
+	dim3 qdrThreads(16, 8, 4);
+	dim3 qdrDim( (p.njobs + qdrThreads.x - 1) / qdrThreads.x, (params.radialSteps + qdrThreads.y - 1) / qdrThreads.y);
+
+	QI_ComputeQuadrants<TImageSampler> <<< qdrDim , qdrThreads, 0, s->stream >>> 
+		(p, initial->data, s->d_quadrants.data, d->d_qiparams, angularSteps);
 		
-		QI_QuadrantsToProfiles <<< blocks(p.njobs), threads(), 0, s->stream >>> 
-			(p, s->d_quadrants.data, s->d_QIprofiles.data, s->d_QIprofiles_reverse.data, d->d_radialweights.data, d->d_qiparams);
-		// DbgOutputVectorToFile("D:\\TestImages\\gpu_qi_prof_new.csv", s->d_quadrants, true);
-	} else {
-		QIParams dp = params;
-		dp.cos_sin_table = d->qi_trigtable.data;
-
-		QI_ComputeProfile <TImageSampler> <<< blocks(p.njobs), threads(), 0, s->stream >>> (p, initial->data, 
-			s->d_quadrants.data, s->d_QIprofiles.data, s->d_QIprofiles_reverse.data, dp, d->d_radialweights.data, angularSteps);
-		// DbgOutputVectorToFile("D:\\TestImages\\gpu_qi_prof_old.csv", s->d_quadrants, true);
-	}
+	QI_QuadrantsToProfiles <<< blocks(p.njobs), threads(), 0, s->stream >>> 
+		(p, s->d_quadrants.data, s->d_QIprofiles.data, s->d_QIprofiles_reverse.data, d->d_radialweights.data, d->d_qiparams);
+	// DbgOutputVectorToFile("D:\\TestImages\\gpu_qi_prof_new.csv", s->d_quadrants, true);
 
 #ifdef QI_DEBUG
 	DbgCopyResult(s->d_QIprofiles, cmp_gpu_qi_prof);

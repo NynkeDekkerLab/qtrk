@@ -8,15 +8,23 @@ enum LocalizeModeEnum {
 	LT_XCor1D = 1,		///< COM+XCor1D
 	LT_QI = 2,			///< COM+QI
 	LT_Gaussian2D = 4,	///< 2D Gaussian localization
-	LT_ZLUTAlign = 8,	///< XYZ Alignment with ZLUT
+	
+	/*! \brief Enable ZLUT align.
 
-	LT_LocalizeZ = 16,
-	LT_NormalizeProfile = 64,
-	LT_ClearFirstFourPixels = 128,
-	LT_FourierLUT = 256,
-	LT_LocalizeZWeighted = 512,
+	Quadrant align uses the %QI scheme to find an (x,y) position based on the profile saved in the lookup table rather than
+	expected symmetry in the image. It correlates the quadrant profiles from the image with the interpolated profile from the 
+	lookup table at a found z position instead of mirroring the quadrants. Doing this iteratively together with finding a z 
+	position based on sampling from the new (x,y) position can increase algorithm accuracy at a severe speed cost.
+	*/
+	LT_ZLUTAlign = 8,	
 
-	LT_Force32Bit = 0xffffffff
+	LT_LocalizeZ = 16,				///< Enable z localization
+	LT_NormalizeProfile = 64,		///< Normalize found radial profiles
+	LT_ClearFirstFourPixels = 128,	///< Ignore the first four pixels of a frame. Some cameras save timestamps rather than image data in the first four pixels.
+	LT_FourierLUT = 256,			///< Make a fourier based lookup table
+	LT_LocalizeZWeighted = 512,		///< Do a ZLUT lookup with adjusted weights, for testing purposes.
+
+	LT_Force32Bit = 0xffffffff		///< ???
 };
 
 typedef int LocMode_t; // LocalizationModeEnum
@@ -95,8 +103,8 @@ struct QTrkSettings {
 		downsample = 0;
 		//testRun = false; // CHANGED! Comment/remove when compiling for labview
 	}
-	int width;		///< Width of regions of interest to be handled. Typically equals QTrkSettings::height (square ROI).
-	int height;		///< Height of regions of interest to be handled. Typically equals QTrkSettings::width (square ROI).
+	int width;		///< Width of regions of interest to be handled. Typically equals \ref height (square ROI).
+	int height;		///< Height of regions of interest to be handled. Typically equals \ref width (square ROI).
 	
 	/*! \brief Number of threads/streams to use. Defaults differ between CPU and GPU implementations.
 
@@ -115,7 +123,7 @@ struct QTrkSettings {
 	</table>
 
 	<table>
-	<tr><td>QTrkCUDA_UseList<td>-3<td>Use list defined by SetCUDADevices
+	<tr><td>QTrkCUDA_UseList<td>-3<td>Use list defined by SetCUDADevices.
 	<tr><td>QTrkCUDA_UseAll<td>-2<td>Use all available devices. Default option.
 	<tr><td>QTrkCUDA_UseBest<td>-1<td>Only use the best device.
 	</table>
@@ -218,9 +226,16 @@ CDLL_EXPORT void DLL_CALLCONV QTrkFreeInstance(QueuedTracker* qtrk);
 */
 CDLL_EXPORT void DLL_CALLCONV QTrkSetLocalizationMode(QueuedTracker* qtrk, LocMode_t locType);
 
-// Frame and timestamp are ignored by tracking code itself, but usable for the calling code
-// Pitch: Distance in bytes between two successive rows of pixels (e.g. address of (0,0) -  address of (0,1) )
-// ZlutIndex: Which ZLUT to use for ComputeZ/BuildZLUT
+/*! \brief Add a job to the queue to be processed. A job entails running the required algorithms on a single region of interest.
+
+\note Frame and timestamp in \p jobInfo are ignored by tracking code itself, but usable for the calling code
+
+\param [in] qtrk	Pointer to the QueuedTracker instance to be used.
+\param [in] data	Pointer to the data. Type specified by \p pdt.
+\param [in] pitch	Distance in bytes between two successive rows of pixels (e.g. address of (0,0) - address of (0,1)).
+\param [in] pdt		Type of \p data, specified by ::QTRK_PixelDataType.
+\param [in] jobInfo Structure with metadata for the ROI to be handled. See \ref LocalizationJob.
+*/
 CDLL_EXPORT void DLL_CALLCONV QTrkScheduleLocalization(QueuedTracker* qtrk, void* data, int pitch, QTRK_PixelDataType pdt, const LocalizationJob *jobInfo);
 CDLL_EXPORT void DLL_CALLCONV QTrkClearResults(QueuedTracker* qtrk);
 CDLL_EXPORT void DLL_CALLCONV QTrkFlush(QueuedTracker* qtrk); // stop waiting for more jobs to do, and just process the current batch

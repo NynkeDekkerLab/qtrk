@@ -1,39 +1,3 @@
-/*
-CUDA implementations of a variety of tracking algorithms: COM, Quadrant Interpolation, 2D Gaussian with Max-Likelihood estimation.
-Copyright 2012-2013, Jelmer Cnossen
-
-It will automatically use all available CUDA devices if using the QTrkCUDA_UseAll value for QTrkSettings::cuda_device
-
-Method:
-
--Load images into host-side image buffer
--Scheduling thread executes any batch that is filled
-
-- Mutexes:
-	* JobQueueMutex: controlling access to state and jobs. 
-		Used by ScheduleLocalization, scheduler thread, and GetQueueLen
-	* ResultMutex: controlling access to the results list, 
-		locked by the scheduler whenever results come available, and by calling threads when they run GetResults/Count
-
--Running batch:
-	- Async copy host-side buffer to device
-	- Bind image
-	- Run COM kernel
-	- QI loop: {
-		- Run QI kernel: Sample from texture into quadrant profiles
-		- Run CUFFT. Each iteration per axis does 2x forward FFT, and 1x backward FFT.
-		- Run QI kernel: Compute positions
-	}
-	- Compute ZLUT profiles
-	- Depending on localize flags:
-		- copy ZLUT profiles (for ComputeBuildZLUT flag)
-		- generate compare profile kernel + compute Z kernel (for ComputeZ flag)
-	- Unbind image
-	- Async copy results to host
-
-Issues:
-- Due to FPU operations on texture coordinates, there are small numerical differences between localizations of the same image at a different position in the batch
-*/
 #include "std_incl.h"
 #include <algorithm>
 #include "cuda_runtime.h"
@@ -143,7 +107,8 @@ QueuedCUDATracker::QueuedCUDATracker(const QTrkComputedConfig& cc, int batchSize
 
 	InitializeDeviceList();
 
-	// We take numThreads to be the number of CUDA streams
+	/// We use \ref QTrkComputedConfig::numThreads for the number of CUDA streams.
+	/// Default (\p numThreads < 1) is 4 streams per CUDA device.
 	if (cfg.numThreads < 1) {
 		cfg.numThreads = devices.size()*4;
 	}
@@ -151,31 +116,38 @@ QueuedCUDATracker::QueuedCUDATracker(const QTrkComputedConfig& cc, int batchSize
 
 	cudaGetDeviceProperties(&deviceProp, devices[0]->index);
 
+	// Commented out because disabling timeout protection causes a bug that disables stream concurrency.
+	// Only useful for debugging anyway; no single kernel should take longer than 2 seconds unless breakpointed.
 	//if (deviceProp.kernelExecTimeoutEnabled) 
 	//	throw std::runtime_error(SPrintf("CUDA Tracker init error: CUDA Kernel execution timeout is enabled for %s. Disable WDDM Time-out Detection and Recovery (TDR) in the nVidia NSight Monitor before running this code", deviceProp.name));
 	if (deviceProp.major < 2)
 		throw std::runtime_error("CUDA Tracker init error: GPU not supported, capability < 2.0");
 
+	/// Number of threads per thread block is a single warp so each block can be executed concurrently on a single SM.
+	/// Assuming no code branching, which should hold for kernels doing nothing but the same calculations on different locations in memory.
 	numThreads = deviceProp.warpSize;
 	
-	if(batchSize<0) batchSize = (int)(deviceProp.maxTexture2D[1]/cfg.height * 0.99f);
-	//while (batchSize * cfg.height > deviceProp.maxTexture2D[1]) {
-	//	batchSize/=2;
-	//}
+	if(batchSize<0) /// Calculate maximum \ref batchSize based on available texture memory. Factor 0.99 is empirical, 100% of maximum does not work for some reason.
+		batchSize = (int)(deviceProp.maxTexture2D[1]/cfg.height * 0.99f); 
 	this->batchSize = batchSize;
 
 	dbgprintf("CUDA Hardware: %s. \n# of CUDA processors: %d. Using %d streams\n", deviceProp.name, deviceProp.multiProcessorCount, numStreams);
 	dbgprintf("Warp size: %d. Max threads: %d, Batch size: %d\n", deviceProp.warpSize, deviceProp.maxThreadsPerBlock, batchSize);
 	// dbgprintf("Mem: %u MB. Per block: %u B\n", deviceProp.totalGlobalMem/1024/1024, deviceProp.sharedMemPerBlock); // Total memory available in Mbytes
 	
+	/// Initialize the QI module to handle the Quadrant Interpolation algorithm.
 	qi.Init(cfg, batchSize);
 
+	/// Pre-calculate the radial sampling grid based on radial and angular step settings from the passed \ref QTrkComputedConfig.
 	std::vector<float2> zlut_radialgrid(cfg.zlut_angularsteps);
 	for (int i=0;i<cfg.zlut_angularsteps;i++) {
 		float ang = 2*3.141593f*i/(float)cfg.zlut_angularsteps;
 		zlut_radialgrid[i]=make_float2(cos(ang),sin(ang));
 	}
 
+	/// Initialize the available CUDA devices.
+	/// Copy the sampling table to device memory.
+	/// \todo Experiment with global values (settings) in global and/or shared device memory.
 	for (uint i=0;i<devices.size();i++) {
 		Device* d = devices[i];
 		cudaSetDevice(d->index);
@@ -183,9 +155,10 @@ QueuedCUDATracker::QueuedCUDATracker(const QTrkComputedConfig& cc, int batchSize
 		d->zlut_trigtable = zlut_radialgrid;
 	}
 	
-	dbgprintf("\n");
-	outputTotalGPUMemUse("pre-streams");
+	//dbgprintf("\n");
+	//outputTotalGPUMemUse("pre-streams");
 
+	/// Initialize streams.
 	streams.reserve(numStreams);
 	try {
 		for (int i=0;i<numStreams;i++)
@@ -196,23 +169,26 @@ QueuedCUDATracker::QueuedCUDATracker(const QTrkComputedConfig& cc, int batchSize
 		throw std::runtime_error("CUDA Tracker init error: Failed to create GPU streams.");
 	}
 
-	dbgprintf("\n");
-	streams[0]->OutputMemoryUse();
-	dbgprintf("\n");
-	outputTotalGPUMemUse("post-streams");
-	dbgprintf("\n");
+	//dbgprintf("\n");
+	//streams[0]->OutputMemoryUse();
+	//dbgprintf("\n");
+	//outputTotalGPUMemUse("post-streams");
+	//dbgprintf("\n");
 
 	batchesDone = 0;
+	/// Texture cache is enabled by default. Use \ref EnableTextureCache to disable if required.
 	useTextureCache = true;
 	resultCount = 0;
 	zlut_build_flags=0;
 
 	quitScheduler = false;
+	/// Start the scheduling thread running \ref SchedulingThreadMain.
 	schedulingThread = Threads::Create(SchedulingThreadEntryPoint, this);
 
 	gc_offsetFactor = gc_gainFactor = 1.0f;
 	localizeMode = LT_OnlyCOM;
 
+	/// Run an empty kernel to startup driver and get rid of first run overhead.
 	ForceCUDAKernelsToLoad <<< dim3(),dim3() >>> ();
 }
 
@@ -307,7 +283,6 @@ QueuedCUDATracker::Stream::~Stream()
 	cudaEventDestroy(comDone);
 	cudaEventDestroy(imageCopyDone);
 	cudaEventDestroy(zcomputeDone);
-	cudaEventDestroy(imapDone);
 	cudaEventDestroy(batchStart);
 
 	if (stream)
@@ -347,7 +322,6 @@ QueuedCUDATracker::Stream* QueuedCUDATracker::CreateStream(Device* device, int s
 		s->com.init(batchSize);
 		s->d_com.init(batchSize);
 		s->d_resultpos.init(batchSize);
-		s->results.init(batchSize);
 		s->locParams.init(batchSize);
 		s->imgMeans.init(batchSize);
 		s->d_imgmeans.init(batchSize);
@@ -362,7 +336,6 @@ QueuedCUDATracker::Stream* QueuedCUDATracker::CreateStream(Device* device, int s
 		cudaEventCreate(&s->imageCopyDone);
 		cudaEventCreate(&s->zcomputeDone);
 		cudaEventCreate(&s->qiDone);
-		cudaEventCreate(&s->imapDone);
 		cudaEventCreate(&s->batchStart);
 	} catch (...) {
 		delete s;
@@ -600,6 +573,7 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 
 	cudaEventRecord(s->batchStart, s->stream);
 //	dbgprintf("copying %d jobs to gpu\n", s->JobCount());
+
 	s->d_locParams.copyToDevice(s->locParams.data(), s->JobCount(), true, s->stream);
 
 	{ScopedCPUProfiler p(&cpu_time.imageCopy);
@@ -621,6 +595,7 @@ void QueuedCUDATracker::ExecuteBatch(Stream *s)
 	}
 
 	cudaEventRecord(s->imageCopyDone, s->stream);
+
 
 	TImageSampler::BindTexture(s->images);
 	{ ScopedCPUProfiler p(&cpu_time.com);
@@ -839,7 +814,7 @@ void QueuedCUDATracker::Device::SetRadialZLUT(float *data, int radialsteps, int 
 
 	radial_zlut.free();
 	radial_zlut = cudaImageListf::alloc(radialsteps, planes, numLUTs);
-	if (data) {
+	if (data) { /// \bug Why is this copied per-image rather than one big copy?
 		for (int i=0;i<numLUTs;i++)
 			radial_zlut.copyImageToDevice(i, &data[planes*radialsteps*i]);
 	}
