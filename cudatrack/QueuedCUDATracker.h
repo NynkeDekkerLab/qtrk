@@ -161,7 +161,6 @@ public:
 	void ScheduleLocalization(void* data, int pitch, QTRK_PixelDataType pdt, const LocalizationJob *jobInfo) override;
 	void ClearResults() override;
 
-	// data can be zero to allocate ZLUT data.
 	void SetRadialZLUT(float* data,  int numLUTs, int planes) override; 
 	void SetRadialWeights(float *zcmp) override;
 	void GetRadialZLUT(float* data) override; // delete[] memory afterwards
@@ -259,10 +258,12 @@ protected:
 	Typically, there are 4 streams per available GPU.
 
 	Streams are used to discretize all GPU transactions (memory transfer to device, calculations, transfer from device) into
-	bigger batches to increase efficiency. Each stream has its own job queue and their batches can be executed 
-	individually from one another. On newer devices, streams can queue and run their operations concurrently, leading 
-	to higher effective calculation speeds by overlapping memory transfers and calculations. Host variables are maintained in 
-	<a href="https://devblogs.nvidia.com/parallelforall/how-optimize-data-transfers-cuda-cc/">pinned memory</a> to optimize transfer speeds.
+	bigger batches to increase efficiency. Each stream has its own job queue, pre-allocated memory for a whole batch, 
+	and their batches can be executed individually from one another. On newer devices, streams can queue and 
+	run their operations concurrently, leading to higher effective calculation speeds by overlapping memory 
+	transfers and calculations. Host variables are maintained in 
+	<a href="https://devblogs.nvidia.com/parallelforall/how-optimize-data-transfers-cuda-cc/">pinned memory</a> 
+	to optimize transfer speeds.
 
 	QueuedCUDATracker::ScheduleLocalization finds a currently available stream and adds the new job to its queue.
 	When a stream's state is set to \ref StreamPendingExec, it is automatically executed by the scheduling thread \ref SchedulingThreadMain.
@@ -476,7 +477,7 @@ protected:
 
 
 public:
-	// Profiling
+	/// Structure used to hold profiling data.
 	struct KernelProfileTime {
 		KernelProfileTime() {com=qi=imageCopy=zcompute=zlutAlign=getResults=0.0;}
 		double com, qi, imageCopy, zcompute, zlutAlign, getResults;

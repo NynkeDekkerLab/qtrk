@@ -22,7 +22,7 @@ __device__ void ComputeQuadrantProfile(cudaImageListf& images, int idx, float* d
 	//for (int i=0;i<params.radialSteps;i++)
 	//	dst[i]=0.0f;
 	
-	float asf = (float)params.trigtablesize / angularSteps;
+	float asf = (float)params.maxAngularSteps / angularSteps;
 	float rstep = (params.maxRadius - params.minRadius) / params.radialSteps;
 	for (int i=0;i<params.radialSteps; i++) {
 		float sum = 0.0f;
@@ -173,7 +173,7 @@ __global__ void QI_ComputeQuadrants(BaseKernelParams kp, float3* positions, floa
 
 	if (jobIdx < kp.njobs && rIdx < params->radialSteps && quadrant < 4) {
 		// The variables below could go in shared memory
-		float asf = (float)params->trigtablesize / angularSteps;
+		float asf = (float)params->maxAngularSteps / angularSteps;
 		float rstep = (params->maxRadius - params->minRadius) / params->radialSteps;
 		const int qmat[] = {
 			1, 1,
@@ -364,8 +364,8 @@ void QI::InitStream(StreamInstance* s, QTrkComputedConfig& cc, cudaStream_t stre
 {
 	int fftlen = cc.qi_radialsteps*2;
 	s->stream = stream;
-	s->d_quadrants.init(fftlen*batchSize*2);
-	s->d_QIprofiles.init(batchSize*2*fftlen); // (2 axis) * (2 radialsteps) = 8 * nr = 2 * fftlen
+	s->d_quadrants.init(fftlen*batchSize*2); // 4 quadrants * radialSteps * batchSize
+	s->d_QIprofiles.init(batchSize*2*fftlen); // (2 axis) * (2 radialsteps) = 4 * nr = 2 * fftlen
 	s->d_QIprofiles_reverse.init(batchSize*2*fftlen);
 	s->d_shiftbuffer.init(fftlen * batchSize);
 
@@ -387,7 +387,7 @@ void QI::InitStream(StreamInstance* s, QTrkComputedConfig& cc, cudaStream_t stre
 void QI::Init(QTrkComputedConfig& cfg, int batchSize)
 {
 	QIParams& qi = params;
-	qi.trigtablesize = cfg.qi_angstepspq;
+	qi.maxAngularSteps = cfg.qi_angstepspq;
 	qi.iterations = cfg.qi_iterations;
 	qi.maxRadius = cfg.qi_maxradius;
 	qi.minRadius = cfg.qi_minradius;

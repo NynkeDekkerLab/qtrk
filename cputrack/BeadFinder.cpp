@@ -106,7 +106,7 @@ void RecenterAndFilter(ImageData* img, std::vector<Position> & pts, Config *cfg 
 	int roi = cfg->roi;
 	std::list<Position> newlist;
 
-	for (int i=0;i<pts.size();i++) {
+	for (uint i=0;i<pts.size();i++) {
 
 		// Compute COM
 //		for (int 

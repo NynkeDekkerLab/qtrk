@@ -548,7 +548,7 @@ CDLL_EXPORT void qtrk_find_beads(uint8_t* image, int pitch, int w,int h, int* sm
 	auto results = BeadFinder::Find(image, pitch, w,h, smpCornerPos[0], smpCornerPos[1], &cfg);
 
 	ResizeLVArray2D(output, results.size(), 2);
-	for (int i=0;i<results.size();i++)
+	for (uint i=0;i<results.size();i++)
 	{
 		(*output)->get(i, 0) = results[i].x;
 		(*output)->get(i, 1) = results[i].y;

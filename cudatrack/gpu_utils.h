@@ -62,6 +62,7 @@ inline void dbgCUDAErrorCheck(cudaError_t e) { CheckCUDAError(e); }
 inline void dbgCUDAErrorCheck(cudaError_t e) {}
 #endif
 
+/// \todo Delete or free() not called explicitly anywhere. Needed?
 template<typename T>
 class device_vec {
 public:

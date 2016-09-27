@@ -502,7 +502,7 @@ std::vector<vector3f> ReadVector3CSV( const char *file, char sep )
 
 	std::vector<vector3f> r(data.size());
 
-	for (int i=0;i<data.size();i++){
+	for (uint i=0;i<data.size();i++){
 		r[i]=vector3f(data[i][0],data[i][1],data[i][2]);
 	}
 	return r;
@@ -529,7 +529,7 @@ void WriteVectorAsCSVRow(const char *file, std::vector<float> d, bool append)
 {
 	FILE *f = fopen(file, append?"a":"w");
 	if(f) {
-		for (int i=0;i<d.size();i++)
+		for (uint i=0;i<d.size();i++)
 			fprintf(f, "%1.7f\t", d[i]);
 
 		fprintf(f, "\n");

@@ -22,18 +22,18 @@
  * \image html 00008153-s.jpg
  * To perform the tracking, specific algorithms exist and have been implemented. Currently the available options are:
  * <table>
- <tr><th>Algorithm						<th>Dimensions	<th>CPU										<th>CUDA								<th>Reference	<th>Notes
- <tr><td>Starting point					<td>			<td>QueuedCPUTracker::ProcessJob			<td>QueuedCUDATracker::ExecuteBatch		<td>			<td>Functions from which the algorithms are called dependent on settings.
+ <tr><th>Algorithm						<th>Dimensions	<th>CPU										<th>CUDA								<th>Reference		<th>Notes
+ <tr><td>Starting point					<td>			<td>QueuedCPUTracker::ProcessJob			<td>QueuedCUDATracker::ExecuteBatch		<td>				<td>Functions from which the algorithms are called dependent on settings.
  <tr><td>
- <tr><td>Center of Mass	(COM)			<td>x,y			<td>CPUTracker::ComputeMeanAndCOM			<td>::BgCorrectedCOM					<td>			<td>Always executed for first guess.
- <tr><td>1D Cross Correlation (XCor1D)	<td>x,y			<td>CPUTracker::ComputeXCorInterpolated		<td>Not implemented						<td>			<td>
- <tr><td>Quadrant Interpolation (%QI)	<td>x,y			<td>CPUTracker::ComputeQI					<td>::QI, QI::Execute					<td>			<td>Recommended algorithm. Optimized for speed and accuracy.
- <tr><td>2D Gaussian fit				<td>x,y			<td>CPUTracker::Compute2DGaussianMLE		<td>::G2MLE_Compute						<td>			<td>
+ <tr><td>Center of Mass	(COM)			<td>x,y			<td>CPUTracker::ComputeMeanAndCOM			<td>::BgCorrectedCOM					<td>https://en.wikipedia.org/wiki/Image_moment<td>Always executed for first guess.
+ <tr><td>1D Cross Correlation (XCor1D)	<td>x,y			<td>CPUTracker::ComputeXCorInterpolated		<td>Not implemented						<td>https://en.wikipedia.org/wiki/Cross-correlation<td>
+ <tr><td>Quadrant Interpolation (%QI)	<td>x,y			<td>CPUTracker::ComputeQI					<td>::QI, QI::Execute					<td>\cite loen:QI	<td>Recommended algorithm. Optimized for speed and accuracy.
+ <tr><td>2D Gaussian fit				<td>x,y			<td>CPUTracker::Compute2DGaussianMLE		<td>::G2MLE_Compute						<td>https://en.wikipedia.org/wiki/Gaussian_function#Two-dimensional_Gaussian_function<td>
  <tr><td>Lookup table (LUT)				<td>z			<td>CPUTracker::ComputeRadialProfile
 														<br/>CPUTracker::LUTProfileCompare			<td>::ZLUT_RadialProfileKernel
-																									<br/>::ZLUT_ComputeZ					<td>			<td>Only available method for z localization.
+																									<br/>::ZLUT_ComputeZ					<td>\cite loen:QI	<td>Only available method for z localization.
  </table>
- * In practice, the most used algorithm is %QI. It has been most thoroughly tested and optimized and is always the recommended choice except in very special cases.
+ * Internally, %QI has grown to be the most used and verified algorithm. Usage of it is recommended for data equality.
  * 
  * \section soft_sec Required software
  * 
@@ -45,6 +45,12 @@
  * by the system, i.e. they need to be in the same folder.
  * We are currently limited to CUDA 6.5 at the highest due to the fact that we have a 32 bit LabVIEW version on setups
  * and 32 bit cuFFT has been deprecated in newer CUDA versions.
+ *
+ * \section disclaimer Disclaimer
+ *
+ * Code is provided as-is. Bugs may be encountered. Maintenance and support at the discretion of lab members.
+ *
+ * This code and documentation is intended for internal use and provided publicly in the interest of transparency.
  *
  * \section cred_sec Credits
  *

@@ -273,6 +273,7 @@ QueuedCUDATracker::Stream::Stream(int streamIndex)
 	localizeFlags=0;
 }
 
+/// \bug Why aren't QI instances and device vectors deleted?
 QueuedCUDATracker::Stream::~Stream() 
 {
 	cudaSetDevice(device->index);

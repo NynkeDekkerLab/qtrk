@@ -142,7 +142,19 @@ struct QTrkSettings {
 	float qi_radial_coverage;		///< Sampling points per radial pixel. Default 3.0.
 	float qi_angular_coverage;		///< Factor of the sampling perimeter to cover with angular sampling steps. Between 0 and 1, default 0.7.
 	float qi_roi_coverage;			///< Factor of the ROI to include in sampling. Between 0 and 1, default 1. Maxradius = ROI/2*roi_coverage.
-	float qi_angstep_factor;		///< Factor to reduce angular steps on lower iterations. Default 1.0 (no effect). Increase for faster early iterations but more image noise sensitivity.
+	
+	/*! \brief Factor to reduce angular steps on lower iterations. Default 1.0 (no effect). 
+	
+	Using this will scale the number of angular steps actually taken per iteration. 
+	The final number, \ref QTrkComputedConfig::qi_angstepspq is taken on the final iteration.
+	A starting number is calculated such that \f[
+	angstepspq = start * angstepFactor^{iterations}
+	\f]
+	That is, the amount of steps used is increased by this factor on every iteration until the maximum is reached on the final iteration.
+
+	Increase for faster early iterations but more image noise sensitivity.
+	*/
+	float qi_angstep_factor;		
 
 	int xc1_profileLength;			///< Profile length for the cross correlation.
 	int xc1_profileWidth;			///< Profile width for the cross correlation.
@@ -188,7 +200,7 @@ struct QTrkComputedConfig : public QTrkSettings
 	float zlut_maxradius;	///< Max radius in pixels of the sampling circle.
 	
 	int qi_radialsteps;		///< Number of radial steps to sample on.
-	int qi_angstepspq;		///< Number of angular steps to sample on.
+	int qi_angstepspq;		///< Number of angular steps to sample on per quadrant.
 	float qi_maxradius;		///< Max radius in pixels of the sampling circle.
 };
 

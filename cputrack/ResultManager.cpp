@@ -370,7 +370,7 @@ bool ResultManager::CheckResultSpace(int fr)
 		return false;
 	}
 
-	while (fr >= cnt.startFrame + frameResults.size()) {
+	while ((uint)fr >= cnt.startFrame + frameResults.size()) {
 		frameResults.push_back (new FrameResult( config.numBeads, config.numFrameInfoColumns));
 	}
 	return true;
