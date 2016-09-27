@@ -19,7 +19,7 @@ var searchData=
   ['generatesample',['GenerateSample',['../class_benchmark_l_u_t.html#ac2994fc6e33a4340057793a7d020a117',1,'BenchmarkLUT']]],
   ['generatetestimage',['GenerateTestImage',['../class_queued_c_p_u_tracker.html#a0901736328051388ed2dceb94a3b378f',1,'QueuedCPUTracker::GenerateTestImage()'],['../utils_8cpp.html#a2bb752417033483e1acda83da3bc800e',1,'GenerateTestImage(ImageData &amp;img, float xp, float yp, float size, float SNratio):&#160;utils.cpp'],['../utils_8h.html#a4295710d6f01ca4fd27a41dd51a6d3b9',1,'GenerateTestImage(ImageData &amp;img, float xp, float yp, float size, float MaxPhotons):&#160;utils.cpp']]],
   ['generatezlutfittingcurve',['GenerateZLUTFittingCurve',['../main_8cpp.html#a33c4c5760d4fa7f0408fa1bb7195caf3',1,'main.cpp']]],
-  ['get',['get',['../struct_l_v_array2_d.html#aa02c6c90d405b359f1670b8b766be436',1,'LVArray2D::get()'],['../class_atomic.html#a50d5b1eadc07bf419245a5e11d718486',1,'Atomic::get()'],['../structcuda_image_list.html#a5e6745abe38ecdfab4b5e9913e26c952',1,'cudaImageList::get()']]],
+  ['get',['get',['../struct_l_v_array2_d.html#aa02c6c90d405b359f1670b8b766be436',1,'LVArray2D::get()'],['../class_atomic.html#ab99d547bb71994618d7f55f1002f09da',1,'Atomic::get()'],['../structcuda_image_list.html#a5e6745abe38ecdfab4b5e9913e26c952',1,'cudaImageList::get()']]],
   ['get_5fdebug_5fimg_5fas_5farray',['get_debug_img_as_array',['../lv__cputrack__api_8cpp.html#af248b516d51520bcce6d64ff534bc6de',1,'lv_cputrack_api.cpp']]],
   ['get_5fzlut',['get_ZLUT',['../lv__cputrack__api_8cpp.html#aa82a91d1374a6e7458900cd76e54c30d',1,'lv_cputrack_api.cpp']]],
   ['getbeadpositions',['GetBeadPositions',['../class_result_manager.html#aa258efc5ddd5e737fd6a00bf3372dd81',1,'ResultManager']]],

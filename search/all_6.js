@@ -13,7 +13,7 @@ var searchData=
   ['fileerror',['fileError',['../struct_result_manager_1_1_frame_counters.html#a524c00c33ddf14ff4f3e467f4daaf7f8',1,'ResultManager::FrameCounters']]],
   ['filename',['filename',['../struct_path_seperator.html#a969fd95b83c553bf3e355c657ed742af',1,'PathSeperator']]],
   ['files',['Files',['../testutils_8h.html#aea9b255b3e6f4b82762a3c35b821b2b1a49ce9e101fea37ab1954e5b3b9975c09',1,'testutils.h']]],
-  ['fill_5ftwiddles',['fill_twiddles',['../structkissfft__utils_1_1traits.html#a963aa6e0faf253b4db8cf348e1853c0c',1,'kissfft_utils::traits']]],
+  ['fill_5ftwiddles',['fill_twiddles',['../structkissfft__utils_1_1traits.html#a4a42165c195ee3e62a748dffc52a54fa',1,'kissfft_utils::traits']]],
   ['fillerrorcluster',['FillErrorCluster',['../group__lab__functions.html#ga1363f444ed040befa4d285e576743907',1,'FillErrorCluster(MgErr err, const char *message, ErrorCluster *error):&#160;lv_queuetrk_api.cpp'],['../group__lab__functions.html#ga1363f444ed040befa4d285e576743907',1,'FillErrorCluster(MgErr err, const char *message, ErrorCluster *error):&#160;lv_queuetrk_api.cpp']]],
   ['finalizelut',['FinalizeLUT',['../class_queued_c_p_u_tracker.html#a9d94101b69e1f514473bfedc012ec785',1,'QueuedCPUTracker::FinalizeLUT()'],['../class_queued_tracker.html#aa856650c99d15216ad3246d3485b9d9e',1,'QueuedTracker::FinalizeLUT()'],['../class_queued_c_u_d_a_tracker.html#a628a79df6cce9a1df9a4da78da266578',1,'QueuedCUDATracker::FinalizeLUT()']]],
   ['find',['Find',['../namespace_bead_finder.html#ab23a6df0dccd8f6af8e78f79d2f05b69',1,'BeadFinder::Find(ImageData *img, float *sample, Config *cfg)'],['../namespace_bead_finder.html#abfee549a957611e22b398fdcb1e28178',1,'BeadFinder::Find(uint8_t *img, int pitch, int w, int h, int smpCornerX, int smpCornerY, Config *cfg)']]],

@@ -53,7 +53,7 @@ var searchData=
   ['roidis',['ROIDis',['../main_8cpp.html#a44111c317cc6bb28715701cc508210a0a00df22d90650aae18bcee851c3e3ef82',1,'main.cpp']]],
   ['roiposition',['ROIPosition',['../struct_r_o_i_position.html',1,'']]],
   ['round',['round',['../cpu__tracker_8cpp.html#adc2065673036c4907eaf912bbbc4d0bb',1,'cpu_tracker.cpp']]],
-  ['row',['row',['../class_matrix3_x3.html#a7ea824cc29ab1b8a79745f88782b46bb',1,'Matrix3X3::row(int i)'],['../class_matrix3_x3.html#a5e4c85454a8bbf3422c5d3d9152b7bc1',1,'Matrix3X3::row(int i) const ']]],
+  ['row',['row',['../class_matrix3_x3.html#a7ea824cc29ab1b8a79745f88782b46bb',1,'Matrix3X3::row(int i)'],['../class_matrix3_x3.html#a7a44913c252c9e75d551c6a50e80bc5a',1,'Matrix3X3::row(int i) const']]],
   ['rows',['rows',['../class_image4_d_memory.html#af556b18c289647e31907875c19c13fd3',1,'Image4DMemory']]],
   ['runcomandqi',['RunCOMAndQI',['../main_8cpp.html#aa31d450c1fa4e9c96cd7ebb64818a07b',1,'main.cpp']]],
   ['runningvistaorbetter',['RunningVistaOrBetter',['../struct_threads.html#aa2200fb0ef6f3664863e72b05849c8cb',1,'Threads']]],

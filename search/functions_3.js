@@ -11,11 +11,11 @@ var searchData=
   ['debugimage',['DebugImage',['../class_queued_tracker.html#a37756db08d454ad904193dd4e6f652b1',1,'QueuedTracker']]],
   ['deleteallelems',['DeleteAllElems',['../utils_8h.html#a79b36225c16ffe10c47c2aae8bee2d99',1,'utils.h']]],
   ['destroy_5ftracker',['destroy_tracker',['../lv__cputrack__api_8cpp.html#a1cd574e0d21ae96d30e4ec38a61188f4',1,'lv_cputrack_api.cpp']]],
-  ['determinant',['Determinant',['../class_matrix3_x3.html#a84f01c6d99bde6d7a3b95a3439018c38',1,'Matrix3X3']]],
+  ['determinant',['Determinant',['../class_matrix3_x3.html#a8a6929cbffd2c718b16bf110df463ecc',1,'Matrix3X3']]],
   ['device',['Device',['../struct_queued_c_u_d_a_tracker_1_1_device.html#a2f469c266e353b76379b233d3c6b8975',1,'QueuedCUDATracker::Device']]],
   ['device_5fvec',['device_vec',['../classdevice__vec.html#a5a35735d73712612a808a14be715b0d8',1,'device_vec::device_vec()'],['../classdevice__vec.html#ae849d2c03629659600de03d5f1e380df',1,'device_vec::device_vec(size_t N)'],['../classdevice__vec.html#a610a2ac053f01179ad1087f63ca48155',1,'device_vec::device_vec(const device_vec&lt; T &gt; &amp;src)'],['../classdevice__vec.html#abb16a39b663bec4c218ae65a54e34b11',1,'device_vec::device_vec(const std::vector&lt; T &gt; &amp;src)']]],
   ['deviceinstance',['DeviceInstance',['../struct_q_i_1_1_device_instance.html#a629e845ff5f15a64d69932c49466bec5',1,'QI::DeviceInstance']]],
-  ['diag',['diag',['../class_matrix3_x3.html#a9ae9d007341bbf8b82f0043d3e791ba7',1,'Matrix3X3']]],
+  ['diag',['diag',['../class_matrix3_x3.html#adc02beecf0846ca9c0bd23943091b3c3',1,'Matrix3X3']]],
   ['direxists',['DirExists',['../testutils_8cpp.html#ae0227d822e77bc01e8d7c75cda38426a',1,'DirExists(const std::string &amp;dirName_in):&#160;testutils.cpp'],['../testutils_8h.html#ae0227d822e77bc01e8d7c75cda38426a',1,'DirExists(const std::string &amp;dirName_in):&#160;testutils.cpp']]],
   ['distance',['distance',['../testutils_8cpp.html#ab217842a9cc002cd973da58b5c544f80',1,'distance(vector2f a, vector2f b):&#160;testutils.cpp'],['../testutils_8h.html#adeda4df648759aba098bc45398ffad63',1,'distance(T x, T y):&#160;testutils.h'],['../testutils_8h.html#ab217842a9cc002cd973da58b5c544f80',1,'distance(vector2f a, vector2f b):&#160;testutils.cpp']]]
 ];

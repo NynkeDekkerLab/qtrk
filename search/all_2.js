@@ -14,7 +14,7 @@ var searchData=
   ['beadfinder',['BeadFinder',['../namespace_bead_finder.html',1,'']]],
   ['beadfinder_2ecpp',['BeadFinder.cpp',['../_bead_finder_8cpp.html',1,'']]],
   ['beadfinder_2eh',['BeadFinder.h',['../_bead_finder_8h.html',1,'']]],
-  ['begin',['begin',['../classpinned__array.html#aba04baaa6a150019df690ddbec8258f5',1,'pinned_array::begin()'],['../classpinned__array.html#a5993a75c9b22d7e63907670453259e09',1,'pinned_array::begin() const ']]],
+  ['begin',['begin',['../classpinned__array.html#aba04baaa6a150019df690ddbec8258f5',1,'pinned_array::begin()'],['../classpinned__array.html#aee495a7c9109c6e44491aa0fef07e632',1,'pinned_array::begin() const']]],
   ['beginlut',['BeginLUT',['../class_queued_c_p_u_tracker.html#af4b7390a38d56cc45670a60586e20051',1,'QueuedCPUTracker::BeginLUT()'],['../class_queued_tracker.html#aee4863d19778314cd30499cb85bd5251',1,'QueuedTracker::BeginLUT()'],['../class_queued_c_u_d_a_tracker.html#ac6a9934c5a2bd06ecb503abace83c222',1,'QueuedCUDATracker::BeginLUT()']]],
   ['benchmark_2ecpp',['Benchmark.cpp',['../_benchmark_8cpp.html',1,'']]],
   ['benchmarkconfigparamrange',['BenchmarkConfigParamRange',['../_benchmark_8cpp.html#ad872cee47158969e0d3b42b25f249d1e',1,'Benchmark.cpp']]],

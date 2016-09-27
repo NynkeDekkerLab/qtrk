@@ -40,7 +40,7 @@ var searchData=
   ['showcudaerror',['ShowCUDAError',['../test_8cu.html#a5ec21c062fbb718eb272432b5473813a',1,'test.cu']]],
   ['simplekernel',['SimpleKernel',['../test_8cu.html#a225b948eb316b51ce89ef78d73bf1114',1,'test.cu']]],
   ['simpletest',['SimpleTest',['../main_8cpp.html#a6edb955f584bcbddfc4aee183c7df8ce',1,'main.cpp']]],
-  ['size',['size',['../classpinned__array.html#aa57ce93b5413ac43025d474fcff85855',1,'pinned_array']]],
+  ['size',['size',['../classpinned__array.html#a5da36c8f9bc430ab98aa843b7fab938f',1,'pinned_array']]],
   ['skewimage',['SkewImage',['../testutils_8cpp.html#a10722eb0046e4455a5b55741489d9f4e',1,'SkewImage(ImageData img, float fact):&#160;testutils.cpp'],['../testutils_8h.html#a10722eb0046e4455a5b55741489d9f4e',1,'SkewImage(ImageData img, float fact):&#160;testutils.cpp']]],
   ['skewparam',['SkewParam',['../main_8cpp.html#ab46d55f91395e4179bdee41400ff713a',1,'main.cpp']]],
   ['sleep',['Sleep',['../struct_threads.html#a803a0b6899fb5e09ee7f56bd1986a287',1,'Threads']]],

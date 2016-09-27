@@ -57,7 +57,7 @@ var searchData=
   ['similarity',['similarity',['../struct_bead_finder_1_1_config.html#ace5e499578ca57df89b304adab763a3e',1,'BeadFinder::Config']]],
   ['simplekernel',['SimpleKernel',['../test_8cu.html#a225b948eb316b51ce89ef78d73bf1114',1,'test.cu']]],
   ['simpletest',['SimpleTest',['../main_8cpp.html#a6edb955f584bcbddfc4aee183c7df8ce',1,'main.cpp']]],
-  ['size',['size',['../classdevice__vec.html#a1452496fe02af53427d0284e2bb6ca6e',1,'device_vec::size()'],['../classpinned__array.html#aa57ce93b5413ac43025d474fcff85855',1,'pinned_array::size()']]],
+  ['size',['size',['../classdevice__vec.html#a1452496fe02af53427d0284e2bb6ca6e',1,'device_vec::size()'],['../classpinned__array.html#a5da36c8f9bc430ab98aa843b7fab938f',1,'pinned_array::size()']]],
   ['skew',['Skew',['../main_8cpp.html#a44111c317cc6bb28715701cc508210a0aed8f900c8b5a442257e9931e44577bbf',1,'main.cpp']]],
   ['skewimage',['SkewImage',['../testutils_8cpp.html#a10722eb0046e4455a5b55741489d9f4e',1,'SkewImage(ImageData img, float fact):&#160;testutils.cpp'],['../testutils_8h.html#a10722eb0046e4455a5b55741489d9f4e',1,'SkewImage(ImageData img, float fact):&#160;testutils.cpp']]],
   ['skewparam',['SkewParam',['../main_8cpp.html#ab46d55f91395e4179bdee41400ff713a',1,'main.cpp']]],

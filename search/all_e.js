@@ -21,6 +21,6 @@ var searchData=
   ['numframeinfocolumns',['numFrameInfoColumns',['../struct_result_manager_config.html#a97e9e26724a91e3a6757957f18b8f8b7',1,'ResultManagerConfig']]],
   ['numimg',['numImg',['../struct_image4_d_cuda_array.html#acc1ba710635bc84af3d3032b7a38dea3',1,'Image4DCudaArray']]],
   ['numjpgindir',['NumJpgInDir',['../testutils_8cpp.html#aada7cca60290a9533e8f1ff0eb19516e',1,'NumJpgInDir(const std::string &amp;dirName_in):&#160;testutils.cpp'],['../testutils_8h.html#aada7cca60290a9533e8f1ff0eb19516e',1,'NumJpgInDir(const std::string &amp;dirName_in):&#160;testutils.cpp']]],
-  ['numpixels',['numPixels',['../struct_t_image_data.html#a778a4b0170c0a225b89692c7cedd2440',1,'TImageData::numPixels()'],['../structcuda_image_list.html#a7f29b098dc0916fff9a396c8250c560c',1,'cudaImageList::numpixels()']]],
+  ['numpixels',['numPixels',['../struct_t_image_data.html#a5dde50f90dd383c0d8e96e173f8f1cce',1,'TImageData::numPixels()'],['../structcuda_image_list.html#a7f29b098dc0916fff9a396c8250c560c',1,'cudaImageList::numpixels()']]],
   ['numthreads',['NumThreads',['../class_queued_c_p_u_tracker.html#ab72dd2ac1e12de11115f1cd96c9e51cd',1,'QueuedCPUTracker::NumThreads()'],['../struct_q_trk_settings.html#a8c6f1c671b527155afd5dad894c152da',1,'QTrkSettings::numThreads()'],['../class_q_i.html#afd1c6359668f2de142a18caf2a0e76e0',1,'QI::numThreads()'],['../class_queued_c_u_d_a_tracker.html#a1bbaf466f197bd745411786578b743bc',1,'QueuedCUDATracker::numThreads()']]]
 ];

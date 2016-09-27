@@ -57,7 +57,6 @@ var searchData=
   ['traits_5ftype',['traits_type',['../classkissfft.html#aa5a17184447b2a77c41e61f2d491bad5',1,'kissfft']]],
   ['transform',['transform',['../classkissfft.html#ad2db80b9c9b087fb36fbe8b3b0078df8',1,'kissfft']]],
   ['trigtable',['trigtable',['../struct_z_l_u_t_params.html#a18e5051a3a4b118b45854c69977e2dbe',1,'ZLUTParams']]],
-  ['trigtablesize',['trigtablesize',['../struct_q_i_params.html#a2078879365690b162cac67e45837a29d',1,'QIParams']]],
   ['trk_5fprofile',['TRK_PROFILE',['../_queued_c_u_d_a_tracker_8cu.html#af56066d48cd335420540dfaad1b7bbc9',1,'QueuedCUDATracker.cu']]],
   ['truepos',['truepos',['../struct_run_tracker_results.html#a3dea14e81b2d19737fbb8037e5416dfd',1,'RunTrackerResults']]]
 ];

@@ -13,6 +13,7 @@ var searchData=
   ['max_5fa',['max_a',['../class_benchmark_l_u_t.html#a0db0d7dfca5146b0d10b2c2f11364203',1,'BenchmarkLUT']]],
   ['max_5fb',['max_b',['../class_benchmark_l_u_t.html#a9c4c87c9ba7e98d01109e5db7a8538bd',1,'BenchmarkLUT']]],
   ['max_5fc',['max_c',['../class_benchmark_l_u_t.html#a279c5583569ce6db1f1b921906de7ce5',1,'BenchmarkLUT']]],
+  ['maxangularsteps',['maxAngularSteps',['../struct_q_i_params.html#a1c058b65cd15ff4ab3801551309f9647',1,'QIParams']]],
   ['maxframesinmemory',['maxFramesInMemory',['../struct_result_manager_config.html#a11b7dd434bb6477aad45198b76593f59',1,'ResultManagerConfig']]],
   ['maximagewidth',['MaxImageWidth',['../structcuda_image_list.html#a1b8db76e0fc065a9133a753dcf8664b6a197720e0aff172992408e8de3cbd6e4a',1,'cudaImageList']]],
   ['maxpos',['maxPos',['../class_lsq_sq_quad_fit.html#a91c3733e1e6485615966eb64e61305ae',1,'LsqSqQuadFit']]],
