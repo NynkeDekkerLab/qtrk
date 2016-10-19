@@ -6,7 +6,7 @@ var searchData=
   ['xc1_5fprofilewidth',['xc1_profileWidth',['../struct_q_trk_settings.html#a80de240523eb79408593d26e6ef07ef7',1,'QTrkSettings']]],
   ['xcor1dbuffer',['XCor1DBuffer',['../class_x_cor1_d_buffer.html',1,'XCor1DBuffer'],['../class_x_cor1_d_buffer.html#a9b53783159f4a512cc5c4713d436a76c',1,'XCor1DBuffer::XCor1DBuffer()']]],
   ['xcorbuffer',['xcorBuffer',['../class_c_p_u_tracker.html#a50c41b873db189fb3cb01068025a2764',1,'CPUTracker']]],
-  ['xcorffthelper',['XCorFFTHelper',['../class_x_cor1_d_buffer.html#a4c14e7a041865cb0405f460881d738b6',1,'XCor1DBuffer']]],
+  ['xcorffthelper',['XCorFFTHelper',['../class_x_cor1_d_buffer.html#aa7c03610b253ca5a07fffe23679dbf87',1,'XCor1DBuffer']]],
   ['xcorscale',['XCorScale',['../cpu__tracker_8cpp.html#a77e160342e10850dcb9757230b309c24',1,'cpu_tracker.cpp']]],
   ['xcorw',['xcorw',['../class_x_cor1_d_buffer.html#a3a5d68c065a62d412b4d615647b30788',1,'XCor1DBuffer::xcorw()'],['../class_c_p_u_tracker.html#a31994d45332742dd422f876f5897233b',1,'CPUTracker::xcorw()']]],
   ['xfft',['xfft',['../class_c_p_u_tracker_1_1_f_f_t2_d.html#aaf92fefc5608fec68b29fb85ca688e58',1,'CPUTracker::FFT2D']]],

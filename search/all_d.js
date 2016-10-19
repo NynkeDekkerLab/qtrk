@@ -15,7 +15,7 @@ var searchData=
   ['max_5fc',['max_c',['../class_benchmark_l_u_t.html#a279c5583569ce6db1f1b921906de7ce5',1,'BenchmarkLUT']]],
   ['maxangularsteps',['maxAngularSteps',['../struct_q_i_params.html#a1c058b65cd15ff4ab3801551309f9647',1,'QIParams']]],
   ['maxframesinmemory',['maxFramesInMemory',['../struct_result_manager_config.html#a11b7dd434bb6477aad45198b76593f59',1,'ResultManagerConfig']]],
-  ['maximagewidth',['MaxImageWidth',['../structcuda_image_list.html#a1b8db76e0fc065a9133a753dcf8664b6a197720e0aff172992408e8de3cbd6e4a',1,'cudaImageList']]],
+  ['maximagewidth',['MaxImageWidth',['../structcuda_image_list.html#addcb912e9753be7359e5f1aa876fb3a5a197720e0aff172992408e8de3cbd6e4a',1,'cudaImageList']]],
   ['maxpos',['maxPos',['../class_lsq_sq_quad_fit.html#a91c3733e1e6485615966eb64e61305ae',1,'LsqSqQuadFit']]],
   ['maxqueuesize',['maxQueueSize',['../class_queued_c_p_u_tracker.html#a0ab1a06cd49f58c5551d9327e50bb904',1,'QueuedCPUTracker']]],
   ['maxradius',['maxRadius',['../struct_q_i_params.html#a59a4abd887cfec3392bb5ecd6891d7d6',1,'QIParams::maxRadius()'],['../struct_z_l_u_t_params.html#a828d7befc2a73cbe77d5fead8987b916',1,'ZLUTParams::maxRadius()']]],
@@ -38,6 +38,6 @@ var searchData=
   ['mul_5fconjugate',['mul_conjugate',['../test_8cu.html#a417f15fefe4dac05048eac1780fd902c',1,'test.cu']]],
   ['multiproccount',['multiProcCount',['../struct_c_u_d_a_device_info.html#aa49e12b08b205bd073e1d0fbf9f06815',1,'CUDADeviceInfo']]],
   ['mutex',['Mutex',['../struct_threads_1_1_mutex.html',1,'Threads']]],
-  ['mutex',['Mutex',['../struct_threads_1_1_mutex.html#ad6a21c572100a6241fa34f1d265a2725',1,'Threads::Mutex::Mutex()'],['../struct_queued_c_p_u_tracker_1_1_thread.html#a230c0eecf62744fe0fe2b9892412a122',1,'QueuedCPUTracker::Thread::mutex()']]],
+  ['mutex',['mutex',['../struct_queued_c_p_u_tracker_1_1_thread.html#a230c0eecf62744fe0fe2b9892412a122',1,'QueuedCPUTracker::Thread::mutex()'],['../struct_threads_1_1_mutex.html#ad6a21c572100a6241fa34f1d265a2725',1,'Threads::Mutex::Mutex()']]],
   ['my_5ferror_5fmgr',['my_error_mgr',['../structmy__error__mgr.html',1,'']]]
 ];

@@ -1,10 +1,13 @@
 var searchData=
 [
-  ['w',['w',['../struct_t_image_data.html#aa46faa6f66f9d6f93c65e14aea643eb3',1,'TImageData::w()'],['../structcuda_image_list.html#a1fe4adbbd48678e07c6b58f50dbe8528',1,'cudaImageList::w()'],['../struct_image_l_u_t_config.html#a3ec6c4f9e7f8774031877239a7b4872a',1,'ImageLUTConfig::w()']]],
-  ['width',['width',['../class_c_p_u_tracker.html#afb77fe1c7e1a38d25d5aadded5a36fb9',1,'CPUTracker::width()'],['../struct_q_trk_settings.html#aef24eb3a4692bd67ff1aca8ef950e08d',1,'QTrkSettings::width()']]],
-  ['winhdl',['winhdl',['../struct_threads_1_1_handle.html#ae96b38f14dd31c440d926bd664e3e950',1,'Threads::Handle']]],
-  ['work',['work',['../class_thread_pool.html#a65b1014672bad573aa4b161e9258f121',1,'ThreadPool']]],
-  ['worker',['worker',['../class_thread_pool.html#acf21a97033a7a3dc8852c2621dc10e7f',1,'ThreadPool']]],
-  ['workmutex',['workMutex',['../class_thread_pool.html#ae889b134298a051739ae1bdfa211f6c9',1,'ThreadPool']]],
-  ['writeinterval',['writeInterval',['../struct_result_manager_config.html#a24c57e2403e5012fc5900924db770611',1,'ResultManagerConfig']]]
+  ['x',['x',['../struct_bead_finder_1_1_position.html#a47ada55a5d19ee4090ca76f701c5f20a',1,'BeadFinder::Position::x()'],['../struct_r_o_i_position.html#a7ec9344e32faa05e10a72705ed24e9f5',1,'ROIPosition::x()'],['../structvector2.html#a22b63498d8e4abf9a2da054a247965b9',1,'vector2::x()'],['../structvector3.html#a5b466692e9550284d17a1bee6a6b8518',1,'vector3::x()']]],
+  ['xc1_5fiterations',['xc1_iterations',['../struct_q_trk_settings.html#a0bc4efdffbb8ad272d1c9facfdf0e171',1,'QTrkSettings']]],
+  ['xc1_5fprofilelength',['xc1_profileLength',['../struct_q_trk_settings.html#a8f38457c4ec183f78a0191b247ab6b51',1,'QTrkSettings']]],
+  ['xc1_5fprofilewidth',['xc1_profileWidth',['../struct_q_trk_settings.html#a80de240523eb79408593d26e6ef07ef7',1,'QTrkSettings']]],
+  ['xcorbuffer',['xcorBuffer',['../class_c_p_u_tracker.html#a50c41b873db189fb3cb01068025a2764',1,'CPUTracker']]],
+  ['xcorscale',['XCorScale',['../cpu__tracker_8cpp.html#a77e160342e10850dcb9757230b309c24',1,'cpu_tracker.cpp']]],
+  ['xcorw',['xcorw',['../class_x_cor1_d_buffer.html#a3a5d68c065a62d412b4d615647b30788',1,'XCor1DBuffer::xcorw()'],['../class_c_p_u_tracker.html#a31994d45332742dd422f876f5897233b',1,'CPUTracker::xcorw()']]],
+  ['xfft',['xfft',['../class_c_p_u_tracker_1_1_f_f_t2_d.html#aaf92fefc5608fec68b29fb85ca688e58',1,'CPUTracker::FFT2D']]],
+  ['xoffset',['xoffset',['../class_lsq_sq_quad_fit.html#aaa34bae332c501e7d18cca96fb51f403',1,'LsqSqQuadFit']]],
+  ['xscale',['xscale',['../struct_image_l_u_t_config.html#a6acaec2b516bb387269973af678c9b6d',1,'ImageLUTConfig']]]
 ];

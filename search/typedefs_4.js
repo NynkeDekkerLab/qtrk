@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['qicomplex_5ft',['qicomplex_t',['../_q_i_8h.html#ad57806420787f160bbbe768dbd72d115',1,'QI.h']]]
+  ['scalar_5ft',['scalar_t',['../scalar__types_8h.html#a03fcef84665498b9cfcf9c7cc25574e9',1,'scalar_types.h']]]
 ];

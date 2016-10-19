@@ -83,7 +83,10 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a91bdacb37b263197f8a8f05e73481fc4"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_path_seperator.html#a91bdacb37b263197f8a8f05e73481fc4">directory</a></td></tr>
 <tr class="separator:a91bdacb37b263197f8a8f05e73481fc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock">
+<p>Definition at line <a class="el" href="utils_8h_source.html#l00178">178</a> of file <a class="el" href="utils_8h_source.html">utils.h</a>.</p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ae1fb743b506a73b6f3984aa2ddc7f3df"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae1fb743b506a73b6f3984aa2ddc7f3df">&sect;&nbsp;</a></span>PathSeperator()</h2>
 
@@ -99,9 +102,11 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;{</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordtype">int</span> filenameEnd = fullpath.size();</div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordtype">int</span> filenameStart = 0;</div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = fullpath.size()-1; i&gt;=0; i--) {</div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="keywordflow">if</span> (fullpath[i] == <span class="charliteral">&#39;.&#39;</span> &amp;&amp; <a class="code" href="struct_path_seperator.html#a986f1ce49f0ad6233a525562fbbc25a6">extension</a>.empty()) {</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            <a class="code" href="struct_path_seperator.html#a986f1ce49f0ad6233a525562fbbc25a6">extension</a> = fullpath.substr(i+1);</div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            filenameEnd = i;</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        }</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="keywordflow">if</span> (fullpath[i] == <span class="charliteral">&#39;/&#39;</span> || fullpath[i] == <span class="charliteral">&#39;\\&#39;</span>)  {</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            <a class="code" href="struct_path_seperator.html#a91bdacb37b263197f8a8f05e73481fc4">directory</a> = fullpath.substr(0,i+1);</div><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            filenameStart = i+1;</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            <span class="keywordflow">break</span>;</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        }</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    }</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <a class="code" href="struct_path_seperator.html#a969fd95b83c553bf3e355c657ed742af">filename</a> = fullpath.substr(filenameStart, filenameEnd - filenameStart);</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;}</div><div class="ttc" id="struct_path_seperator_html_a969fd95b83c553bf3e355c657ed742af"><div class="ttname"><a href="struct_path_seperator.html#a969fd95b83c553bf3e355c657ed742af">PathSeperator::filename</a></div><div class="ttdeci">std::string filename</div><div class="ttdef"><b>Definition:</b> utils.h:180</div></div>
-<div class="ttc" id="struct_path_seperator_html_a91bdacb37b263197f8a8f05e73481fc4"><div class="ttname"><a href="struct_path_seperator.html#a91bdacb37b263197f8a8f05e73481fc4">PathSeperator::directory</a></div><div class="ttdeci">std::string directory</div><div class="ttdef"><b>Definition:</b> utils.h:180</div></div>
-<div class="ttc" id="struct_path_seperator_html_a986f1ce49f0ad6233a525562fbbc25a6"><div class="ttname"><a href="struct_path_seperator.html#a986f1ce49f0ad6233a525562fbbc25a6">PathSeperator::extension</a></div><div class="ttdeci">std::string extension</div><div class="ttdef"><b>Definition:</b> utils.h:180</div></div>
+
+<p>Definition at line <a class="el" href="utils_8cpp_source.html#l00070">70</a> of file <a class="el" href="utils_8cpp_source.html">utils.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;{</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordtype">int</span> filenameEnd = fullpath.size();</div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordtype">int</span> filenameStart = 0;</div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = fullpath.size()-1; i&gt;=0; i--) {</div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="keywordflow">if</span> (fullpath[i] == <span class="charliteral">&#39;.&#39;</span> &amp;&amp; <a class="code" href="struct_path_seperator.html#a986f1ce49f0ad6233a525562fbbc25a6">extension</a>.empty()) {</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            <a class="code" href="struct_path_seperator.html#a986f1ce49f0ad6233a525562fbbc25a6">extension</a> = fullpath.substr(i+1);</div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            filenameEnd = i;</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        }</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="keywordflow">if</span> (fullpath[i] == <span class="charliteral">&#39;/&#39;</span> || fullpath[i] == <span class="charliteral">&#39;\\&#39;</span>)  {</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            <a class="code" href="struct_path_seperator.html#a91bdacb37b263197f8a8f05e73481fc4">directory</a> = fullpath.substr(0,i+1);</div><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            filenameStart = i+1;</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            <span class="keywordflow">break</span>;</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        }</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    }</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <a class="code" href="struct_path_seperator.html#a969fd95b83c553bf3e355c657ed742af">filename</a> = fullpath.substr(filenameStart, filenameEnd - filenameStart);</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;}</div><div class="ttc" id="struct_path_seperator_html_a969fd95b83c553bf3e355c657ed742af"><div class="ttname"><a href="struct_path_seperator.html#a969fd95b83c553bf3e355c657ed742af">PathSeperator::filename</a></div><div class="ttdeci">std::string filename</div><div class="ttdef"><b>Definition:</b> <a href="utils_8h_source.html#l00180">utils.h:180</a></div></div>
+<div class="ttc" id="struct_path_seperator_html_a91bdacb37b263197f8a8f05e73481fc4"><div class="ttname"><a href="struct_path_seperator.html#a91bdacb37b263197f8a8f05e73481fc4">PathSeperator::directory</a></div><div class="ttdeci">std::string directory</div><div class="ttdef"><b>Definition:</b> <a href="utils_8h_source.html#l00180">utils.h:180</a></div></div>
+<div class="ttc" id="struct_path_seperator_html_a986f1ce49f0ad6233a525562fbbc25a6"><div class="ttname"><a href="struct_path_seperator.html#a986f1ce49f0ad6233a525562fbbc25a6">PathSeperator::extension</a></div><div class="ttdeci">std::string extension</div><div class="ttdef"><b>Definition:</b> <a href="utils_8h_source.html#l00180">utils.h:180</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -118,6 +123,8 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Definition at line <a class="el" href="utils_8h_source.html#l00180">180</a> of file <a class="el" href="utils_8h_source.html">utils.h</a>.</p>
+
 </div>
 </div>
 <a id="a986f1ce49f0ad6233a525562fbbc25a6"></a>
@@ -131,6 +138,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="utils_8h_source.html#l00180">180</a> of file <a class="el" href="utils_8h_source.html">utils.h</a>.</p>
 
 </div>
 </div>
@@ -146,11 +155,13 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Definition at line <a class="el" href="utils_8h_source.html#l00180">180</a> of file <a class="el" href="utils_8h_source.html">utils.h</a>.</p>
+
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following files:<ul>
 <li>cputrack/<a class="el" href="utils_8h_source.html">utils.h</a></li>
-<li>cputrack/<a class="el" href="utils_8cpp.html">utils.cpp</a></li>
+<li>cputrack/<a class="el" href="utils_8cpp_source.html">utils.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

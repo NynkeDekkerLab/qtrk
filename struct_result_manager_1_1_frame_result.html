@@ -102,6 +102,8 @@ Public Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Structure to save all bead results of a single frame in memory. </p>
+
+<p>Definition at line <a class="el" href="_result_manager_8h_source.html#l00278">278</a> of file <a class="el" href="_result_manager_8h_source.html">ResultManager.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a2d8d206f9a774cd500cb3a3c5301b0e6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2d8d206f9a774cd500cb3a3c5301b0e6">&sect;&nbsp;</a></span>FrameResult()</h2>
@@ -145,11 +147,13 @@ Public Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<div class="fragment"><div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;: <a class="code" href="struct_result_manager_1_1_frame_result.html#a8ad3ac9ceb60b928bffae4e978b87eb0">frameInfo</a>(nFrameInfo), <a class="code" href="struct_result_manager_1_1_frame_result.html#a090e9b69a382702cb7d551566d3bee76">results</a>(nResult) { <a class="code" href="struct_result_manager_1_1_frame_result.html#a0f8a4a4c5ba0eb70faa74b2074d1d7d1">count</a>=0; <a class="code" href="struct_result_manager_1_1_frame_result.html#a6ed8062b8120c1bb853f6d14d8b904e7">timestamp</a>=0; <a class="code" href="struct_result_manager_1_1_frame_result.html#ac2f96ff6a7017bd7dd4a6e9ab14dbd0b">hasFrameInfo</a>=<span class="keyword">false</span>;}</div><div class="ttc" id="struct_result_manager_1_1_frame_result_html_ac2f96ff6a7017bd7dd4a6e9ab14dbd0b"><div class="ttname"><a href="struct_result_manager_1_1_frame_result.html#ac2f96ff6a7017bd7dd4a6e9ab14dbd0b">ResultManager::FrameResult::hasFrameInfo</a></div><div class="ttdeci">bool hasFrameInfo</div><div class="ttdoc">Flag (boolean) indicating whether frame info columns exist. </div><div class="ttdef"><b>Definition:</b> ResultManager.h:290</div></div>
-<div class="ttc" id="struct_result_manager_1_1_frame_result_html_a0f8a4a4c5ba0eb70faa74b2074d1d7d1"><div class="ttname"><a href="struct_result_manager_1_1_frame_result.html#a0f8a4a4c5ba0eb70faa74b2074d1d7d1">ResultManager::FrameResult::count</a></div><div class="ttdeci">int count</div><div class="ttdoc">Number of completed localizations for this frame. </div><div class="ttdef"><b>Definition:</b> ResultManager.h:288</div></div>
-<div class="ttc" id="struct_result_manager_1_1_frame_result_html_a6ed8062b8120c1bb853f6d14d8b904e7"><div class="ttname"><a href="struct_result_manager_1_1_frame_result.html#a6ed8062b8120c1bb853f6d14d8b904e7">ResultManager::FrameResult::timestamp</a></div><div class="ttdeci">double timestamp</div><div class="ttdoc">Timestamp at which the frame was taken. Set through StoreFrameInfo. </div><div class="ttdef"><b>Definition:</b> ResultManager.h:289</div></div>
-<div class="ttc" id="struct_result_manager_1_1_frame_result_html_a8ad3ac9ceb60b928bffae4e978b87eb0"><div class="ttname"><a href="struct_result_manager_1_1_frame_result.html#a8ad3ac9ceb60b928bffae4e978b87eb0">ResultManager::FrameResult::frameInfo</a></div><div class="ttdeci">std::vector&lt; float &gt; frameInfo</div><div class="ttdoc">Vector of frame info values. To be filled through StoreFrameInfo. </div><div class="ttdef"><b>Definition:</b> ResultManager.h:287</div></div>
-<div class="ttc" id="struct_result_manager_1_1_frame_result_html_a090e9b69a382702cb7d551566d3bee76"><div class="ttname"><a href="struct_result_manager_1_1_frame_result.html#a090e9b69a382702cb7d551566d3bee76">ResultManager::FrameResult::results</a></div><div class="ttdeci">std::vector&lt; LocalizationResult &gt; results</div><div class="ttdoc">Vector of LocalizationResult. To be filled with tracking results. </div><div class="ttdef"><b>Definition:</b> ResultManager.h:286</div></div>
+
+<p>Definition at line <a class="el" href="_result_manager_8h_source.html#l00285">285</a> of file <a class="el" href="_result_manager_8h_source.html">ResultManager.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;: <a class="code" href="struct_result_manager_1_1_frame_result.html#a8ad3ac9ceb60b928bffae4e978b87eb0">frameInfo</a>(nFrameInfo), <a class="code" href="struct_result_manager_1_1_frame_result.html#a090e9b69a382702cb7d551566d3bee76">results</a>(nResult) { <a class="code" href="struct_result_manager_1_1_frame_result.html#a0f8a4a4c5ba0eb70faa74b2074d1d7d1">count</a>=0; <a class="code" href="struct_result_manager_1_1_frame_result.html#a6ed8062b8120c1bb853f6d14d8b904e7">timestamp</a>=0; <a class="code" href="struct_result_manager_1_1_frame_result.html#ac2f96ff6a7017bd7dd4a6e9ab14dbd0b">hasFrameInfo</a>=<span class="keyword">false</span>;}</div><div class="ttc" id="struct_result_manager_1_1_frame_result_html_ac2f96ff6a7017bd7dd4a6e9ab14dbd0b"><div class="ttname"><a href="struct_result_manager_1_1_frame_result.html#ac2f96ff6a7017bd7dd4a6e9ab14dbd0b">ResultManager::FrameResult::hasFrameInfo</a></div><div class="ttdeci">bool hasFrameInfo</div><div class="ttdoc">Flag (boolean) indicating whether frame info columns exist. </div><div class="ttdef"><b>Definition:</b> <a href="_result_manager_8h_source.html#l00290">ResultManager.h:290</a></div></div>
+<div class="ttc" id="struct_result_manager_1_1_frame_result_html_a0f8a4a4c5ba0eb70faa74b2074d1d7d1"><div class="ttname"><a href="struct_result_manager_1_1_frame_result.html#a0f8a4a4c5ba0eb70faa74b2074d1d7d1">ResultManager::FrameResult::count</a></div><div class="ttdeci">int count</div><div class="ttdoc">Number of completed localizations for this frame. </div><div class="ttdef"><b>Definition:</b> <a href="_result_manager_8h_source.html#l00288">ResultManager.h:288</a></div></div>
+<div class="ttc" id="struct_result_manager_1_1_frame_result_html_a6ed8062b8120c1bb853f6d14d8b904e7"><div class="ttname"><a href="struct_result_manager_1_1_frame_result.html#a6ed8062b8120c1bb853f6d14d8b904e7">ResultManager::FrameResult::timestamp</a></div><div class="ttdeci">double timestamp</div><div class="ttdoc">Timestamp at which the frame was taken. Set through StoreFrameInfo. </div><div class="ttdef"><b>Definition:</b> <a href="_result_manager_8h_source.html#l00289">ResultManager.h:289</a></div></div>
+<div class="ttc" id="struct_result_manager_1_1_frame_result_html_a8ad3ac9ceb60b928bffae4e978b87eb0"><div class="ttname"><a href="struct_result_manager_1_1_frame_result.html#a8ad3ac9ceb60b928bffae4e978b87eb0">ResultManager::FrameResult::frameInfo</a></div><div class="ttdeci">std::vector&lt; float &gt; frameInfo</div><div class="ttdoc">Vector of frame info values. To be filled through StoreFrameInfo. </div><div class="ttdef"><b>Definition:</b> <a href="_result_manager_8h_source.html#l00287">ResultManager.h:287</a></div></div>
+<div class="ttc" id="struct_result_manager_1_1_frame_result_html_a090e9b69a382702cb7d551566d3bee76"><div class="ttname"><a href="struct_result_manager_1_1_frame_result.html#a090e9b69a382702cb7d551566d3bee76">ResultManager::FrameResult::results</a></div><div class="ttdeci">std::vector&lt; LocalizationResult &gt; results</div><div class="ttdoc">Vector of LocalizationResult. To be filled with tracking results. </div><div class="ttdef"><b>Definition:</b> <a href="_result_manager_8h_source.html#l00286">ResultManager.h:286</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -168,6 +172,8 @@ Public Attributes</h2></td></tr>
 
 <p>Number of completed localizations for this frame. </p>
 
+<p>Definition at line <a class="el" href="_result_manager_8h_source.html#l00288">288</a> of file <a class="el" href="_result_manager_8h_source.html">ResultManager.h</a>.</p>
+
 </div>
 </div>
 <a id="a8ad3ac9ceb60b928bffae4e978b87eb0"></a>
@@ -183,6 +189,8 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Vector of frame info values. To be filled through <a class="el" href="class_result_manager.html#a0bbedc935395c1af29f175f81ab063c9">StoreFrameInfo</a>. </p>
+
+<p>Definition at line <a class="el" href="_result_manager_8h_source.html#l00287">287</a> of file <a class="el" href="_result_manager_8h_source.html">ResultManager.h</a>.</p>
 
 </div>
 </div>
@@ -200,6 +208,8 @@ Public Attributes</h2></td></tr>
 
 <p>Flag (boolean) indicating whether frame info columns exist. </p>
 
+<p>Definition at line <a class="el" href="_result_manager_8h_source.html#l00290">290</a> of file <a class="el" href="_result_manager_8h_source.html">ResultManager.h</a>.</p>
+
 </div>
 </div>
 <a id="a090e9b69a382702cb7d551566d3bee76"></a>
@@ -216,6 +226,8 @@ Public Attributes</h2></td></tr>
 
 <p>Vector of <a class="el" href="struct_localization_result.html">LocalizationResult</a>. To be filled with tracking results. </p>
 
+<p>Definition at line <a class="el" href="_result_manager_8h_source.html#l00286">286</a> of file <a class="el" href="_result_manager_8h_source.html">ResultManager.h</a>.</p>
+
 </div>
 </div>
 <a id="a6ed8062b8120c1bb853f6d14d8b904e7"></a>
@@ -231,6 +243,8 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Timestamp at which the frame was taken. Set through <a class="el" href="class_result_manager.html#a0bbedc935395c1af29f175f81ab063c9">StoreFrameInfo</a>. </p>
+
+<p>Definition at line <a class="el" href="_result_manager_8h_source.html#l00289">289</a> of file <a class="el" href="_result_manager_8h_source.html">ResultManager.h</a>.</p>
 
 </div>
 </div>

@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['_5finverse',['_inverse',['../classkissfft.html#af0fce7031f3363ac6305d9c1f5da0008',1,'kissfft']]],
-  ['_5fnfft',['_nfft',['../classkissfft.html#abbfab972dff7a11d401150233e54041d',1,'kissfft']]],
-  ['_5fstageradix',['_stageRadix',['../classkissfft.html#a89d4645ae457422179835a92f2e4bf7c',1,'kissfft']]],
-  ['_5fstageremainder',['_stageRemainder',['../classkissfft.html#a112fd0185ddaaf837cab9e7abb839d13',1,'kissfft']]],
-  ['_5ftwiddles',['_twiddles',['../classkissfft.html#abd5d6e3a0d08f56c711590d890fdd740',1,'kissfft']]]
+  ['a',['a',['../class_lsq_sq_quad_fit.html#aed5761aec0a7a0f48c00668e07018f5f',1,'LsqSqQuadFit']]],
+  ['acc',['acc',['../struct_speed_acc_result.html#a3126444f87be7af1cfa4e8667d2074ca',1,'SpeedAccResult']]],
+  ['angstepf',['ANGSTEPF',['../main_8cpp.html#a1b7853708431123d1a6b7868e0d63830',1,'main.cpp']]],
+  ['angularsteps',['angularSteps',['../struct_z_l_u_t_params.html#a01c4d68849034d30553c2bbb353b9376',1,'ZLUTParams']]],
+  ['array',['array',['../struct_image4_d_cuda_array.html#a4043697cb965dc8bd3dbc33f3840dd92',1,'Image4DCudaArray']]]
 ];

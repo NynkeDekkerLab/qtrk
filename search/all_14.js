@@ -53,9 +53,6 @@ var searchData=
   ['trackerlist',['trackerList',['../lv__queuetrk__api_8cpp.html#a4073ea3f0b6e969139041dca8b25c4cf',1,'lv_queuetrk_api.cpp']]],
   ['trackerlistmutex',['trackerListMutex',['../lv__queuetrk__api_8cpp.html#a21d8c99fba75f15e505c81963ff0ed05',1,'lv_queuetrk_api.cpp']]],
   ['trackermutex',['trackerMutex',['../class_result_manager.html#ab8b3508ac87e3990b0b6a70c9031719d',1,'ResultManager']]],
-  ['traits',['traits',['../structkissfft__utils_1_1traits.html',1,'kissfft_utils']]],
-  ['traits_5ftype',['traits_type',['../classkissfft.html#aa5a17184447b2a77c41e61f2d491bad5',1,'kissfft']]],
-  ['transform',['transform',['../classkissfft.html#ad2db80b9c9b087fb36fbe8b3b0078df8',1,'kissfft']]],
   ['trigtable',['trigtable',['../struct_z_l_u_t_params.html#a18e5051a3a4b118b45854c69977e2dbe',1,'ZLUTParams']]],
   ['trk_5fprofile',['TRK_PROFILE',['../_queued_c_u_d_a_tracker_8cu.html#af56066d48cd335420540dfaad1b7bbc9',1,'QueuedCUDATracker.cu']]],
   ['truepos',['truepos',['../struct_run_tracker_results.html#a3dea14e81b2d19737fbb8037e5416dfd',1,'RunTrackerResults']]]

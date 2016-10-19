@@ -35,7 +35,6 @@ var searchData=
   ['zlut_5fres',['zlut_res',['../class_c_p_u_tracker.html#a058eae282c9bf847cd8e39664688c5bc',1,'CPUTracker']]],
   ['zlut_5froi_5fcoverage',['zlut_roi_coverage',['../struct_q_trk_settings.html#a33db8dee144b4a042f5440fa1f210e6a',1,'QTrkSettings']]],
   ['zlut_5ftrigtable',['zlut_trigtable',['../struct_queued_c_u_d_a_tracker_1_1_device.html#aad5b6289612d3e8a24ed0558562a3bca',1,'QueuedCUDATracker::Device']]],
-  ['zlut_5fusecorrelation',['zlut_useCorrelation',['../class_c_p_u_tracker.html#a324e4b9cfe1337d9c33bf9690e6c1ef6',1,'CPUTracker']]],
   ['zlutalign',['zlutAlign',['../struct_queued_c_u_d_a_tracker_1_1_kernel_profile_time.html#a140d7024006f4957e23b2cb85cba0edc',1,'QueuedCUDATracker::KernelProfileTime']]],
   ['zlutbiascorrection',['ZLUTBiasCorrection',['../group__zbias.html#ga5db67617f39aba7d9874222d3fa1c02f',1,'QueuedTracker']]],
   ['zlutindex',['zlutIndex',['../struct_localization_job.html#afcf9f91b72597af0e2572f3ae74d9a99',1,'LocalizationJob::zlutIndex()'],['../struct_localization_params.html#ad7aa3c082a4f5295be937820fb8c58d2',1,'LocalizationParams::zlutIndex()']]],

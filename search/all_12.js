@@ -3,7 +3,6 @@ var searchData=
   ['results',['Results',['../group__lab___a_p_i__results.html',1,'']]],
   ['result_20manager',['Result Manager',['../group__lab___a_p_i___r_m.html',1,'']]],
   ['radial_5fzlut',['radial_zlut',['../struct_queued_c_u_d_a_tracker_1_1_device.html#a930b4affeadfa6517df189cde0cdce2b',1,'QueuedCUDATracker::Device']]],
-  ['radialdirs',['radialDirs',['../class_c_p_u_tracker.html#a88ec0839b0866df86fb12603e553a9b9',1,'CPUTracker']]],
   ['radialsteps',['radialSteps',['../struct_q_i_params.html#a19b7d550113364de4e4f11e2c9cfea0e',1,'QIParams::radialSteps()'],['../struct_z_l_u_t_params.html#a9579a1f453fa4966bbd7ca5c04a389d9',1,'ZLUTParams::radialSteps()']]],
   ['rand_5fnormal',['rand_normal',['../random__distr_8h.html#ae83163e30e8f71fae429917830a50763',1,'random_distr.h']]],
   ['rand_5fpoisson',['rand_poisson',['../random__distr_8h.html#af8d7b9bf635d185f355094d12378ffc0',1,'random_distr.h']]],

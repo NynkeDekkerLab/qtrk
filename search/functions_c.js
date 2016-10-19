@@ -1,17 +1,16 @@
 var searchData=
 [
-  ['main',['main',['../main_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4',1,'main():&#160;main.cpp'],['../test_8cu.html#a0ddf1224851353fc92bfbff6f499fa97',1,'main(int argc, char *argv[]):&#160;test.cu']]],
-  ['mantest',['ManTest',['../main_8cpp.html#a01cd171810983f79bf6ff0c5f4973207',1,'main.cpp']]],
-  ['matrix3x3',['Matrix3X3',['../class_matrix3_x3.html#aefc0ab5df027c540ff7aa18ca7f2e2ec',1,'Matrix3X3::Matrix3X3()'],['../class_matrix3_x3.html#a804adaed742d23be9e1ba18c474b395b',1,'Matrix3X3::Matrix3X3(vector3f x, vector3f y, vector3f z)']]],
-  ['max_5f',['max_',['../class_compute_max_interp.html#aca1d7eb7e01f35799fb57a6ba12703a2',1,'ComputeMaxInterp']]],
-  ['maxpos',['maxPos',['../class_lsq_sq_quad_fit.html#a91c3733e1e6485615966eb64e61305ae',1,'LsqSqQuadFit']]],
-  ['mean',['mean',['../struct_t_image_data.html#a3b6f4073306aa6f7f819b270196b9bae',1,'TImageData']]],
-  ['meanstdeverror',['MeanStDevError',['../_shared_tests_8h.html#a771630e2d9a64612a46d3ae9722174de',1,'SharedTests.h']]],
-  ['measuretime',['MeasureTime',['../struct_measure_time.html#a8c29cb2653887746c723a2c2f8dd3038',1,'MeasureTime']]],
-  ['memsize',['memsize',['../classdevice__vec.html#ab21a5b6ed647145a71a3db19d3c26156',1,'device_vec::memsize()'],['../classpinned__array.html#a9297c5f8756d0ac90ba4203370557549',1,'pinned_array::memsize()'],['../struct_q_i_1_1_stream_instance.html#afb6bbb4e6f3617fe5f687f1031ee465f',1,'QI::StreamInstance::memsize()']]],
-  ['min_5f',['min_',['../class_compute_max_interp.html#a7182479e13541d98b5d0ba6f65eff902',1,'ComputeMaxInterp']]],
-  ['minpixeldistance',['MinPixelDistance',['../struct_bead_finder_1_1_config.html#acb90a601bdb1ca9547d7e1948c0ea9f6',1,'BeadFinder::Config']]],
-  ['msg',['msg',['../struct_threads_1_1_mutex.html#a55226184bf80652bf23cf8790edd4b86',1,'Threads::Mutex']]],
-  ['mul_5fconjugate',['mul_conjugate',['../test_8cu.html#a417f15fefe4dac05048eac1780fd902c',1,'test.cu']]],
-  ['mutex',['Mutex',['../struct_threads_1_1_mutex.html#ad6a21c572100a6241fa34f1d265a2725',1,'Threads::Mutex']]]
+  ['nearestpowerof2',['NearestPowerOf2',['../utils_8cpp.html#a93409977ae90735769d0d2f37b19604e',1,'NearestPowerOf2(int v):&#160;utils.cpp'],['../utils_8h.html#a93409977ae90735769d0d2f37b19604e',1,'NearestPowerOf2(int v):&#160;utils.cpp']]],
+  ['nearestpowerof3',['NearestPowerOf3',['../utils_8cpp.html#a5f7925a9c145be917c154215435e26fc',1,'NearestPowerOf3(int v):&#160;utils.cpp'],['../utils_8h.html#a5f7925a9c145be917c154215435e26fc',1,'NearestPowerOf3(int v):&#160;utils.cpp']]],
+  ['nearestpoweroftwo',['NearestPowerOfTwo',['../test_8cu.html#a734d595c55ad19e5588166314c407985',1,'test.cu']]],
+  ['newfile',['newFile',['../classoutputter.html#afab1703273f2af21817699fa68381d5a',1,'outputter']]],
+  ['nextpowerof2',['NextPowerOf2',['../_bead_finder_8cpp.html#aad803495a7d339a6441f165b24443421',1,'BeadFinder.cpp']]],
+  ['normalize',['normalize',['../struct_t_image_data.html#ac987182fb87787d7d274a30cf4a198d4',1,'TImageData::normalize()'],['../class_c_p_u_tracker.html#a86461dca5334095dc16624d13e9e859d',1,'CPUTracker::Normalize()'],['../utils_8h.html#a32b5810b69072511c66006593bcf7a89',1,'normalize():&#160;utils.h']]],
+  ['normalizeradialprofile',['NormalizeRadialProfile',['../utils_8cpp.html#a404fa660440d30ed70566aebf9f9e94a',1,'NormalizeRadialProfile(scalar_t *prof, int rsteps):&#160;utils.cpp'],['../utils_8h.html#a61c3769ab239eae69caa17b97454aee3',1,'NormalizeRadialProfile(float *prof, int rsteps):&#160;utils.cpp']]],
+  ['normalizezlut',['NormalizeZLUT',['../utils_8cpp.html#a394f1ad70cd62465e18850f87c93351c',1,'NormalizeZLUT(float *zlut, int numBeads, int planes, int radialsteps):&#160;utils.cpp'],['../utils_8h.html#a676d4c7bb55f26c3629e9f060b2cfef5',1,'NormalizeZLUT(float *zlut, int numLUTs, int planes, int radialsteps):&#160;utils.cpp']]],
+  ['numelem',['numElem',['../struct_l_v_array2_d.html#aa2c7e8ee477197eedc04a29788f05707',1,'LVArray2D::numElem()'],['../struct_l_v_array3_d.html#a5ac741d85ae108263873fdf62f57aa06',1,'LVArray3D::numElem()'],['../struct_l_v_array_n_d.html#a60b85212c2d61e358e3aad4abfe7ecff',1,'LVArrayND::numElem()']]],
+  ['numfilesindir',['NumFilesInDir',['../testutils_8cpp.html#ab7790d00c6ca2c2de517aa3b6ce68a30',1,'NumFilesInDir(const std::string &amp;dirName_in):&#160;testutils.cpp'],['../testutils_8h.html#ab7790d00c6ca2c2de517aa3b6ce68a30',1,'NumFilesInDir(const std::string &amp;dirName_in):&#160;testutils.cpp']]],
+  ['numjpgindir',['NumJpgInDir',['../testutils_8cpp.html#aada7cca60290a9533e8f1ff0eb19516e',1,'NumJpgInDir(const std::string &amp;dirName_in):&#160;testutils.cpp'],['../testutils_8h.html#aada7cca60290a9533e8f1ff0eb19516e',1,'NumJpgInDir(const std::string &amp;dirName_in):&#160;testutils.cpp']]],
+  ['numpixels',['numPixels',['../struct_t_image_data.html#a5dde50f90dd383c0d8e96e173f8f1cce',1,'TImageData::numPixels()'],['../structcuda_image_list.html#a7f29b098dc0916fff9a396c8250c560c',1,'cudaImageList::numpixels()']]],
+  ['numthreads',['NumThreads',['../class_queued_c_p_u_tracker.html#ab72dd2ac1e12de11115f1cd96c9e51cd',1,'QueuedCPUTracker']]]
 ];

@@ -93,7 +93,13 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a0a6639d306e4ed5593c5d497edf6fda6"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_image4_d_memory_1_1_kernel_params.html#a0a6639d306e4ed5593c5d497edf6fda6">imgh</a></td></tr>
 <tr class="separator:a0a6639d306e4ed5593c5d497edf6fda6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;typename T&gt;<br />
+struct Image4DMemory&lt; T &gt;::KernelParams</h3>
+
+
+<p>Definition at line <a class="el" href="cuda_image_list_8h_source.html#l00407">407</a> of file <a class="el" href="cuda_image_list_8h_source.html">cudaImageList.h</a>.</p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="ab17ae55e8bc2fe7d01b2e3e364cfdd2a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab17ae55e8bc2fe7d01b2e3e364cfdd2a">&sect;&nbsp;</a></span>GetImagePos()</h2>
 
@@ -129,10 +135,12 @@ template&lt;typename T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;                                              {</div><div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;            <span class="keywordtype">int</span> img = z+<a class="code" href="struct_image4_d_memory_1_1_kernel_params.html#a9b5896a9e13cdd7f2c628b2a52d5c880">depth</a>*l;</div><div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;            <span class="keywordflow">return</span> make_int2( (img % <a class="code" href="struct_image4_d_memory_1_1_kernel_params.html#ab0645fa45e43206965496ca17eb86723">cols</a>) * <a class="code" href="struct_image4_d_memory_1_1_kernel_params.html#aa622909a1be6fbeefc4d05378433f289">imgw</a>, (img / cols) * <a class="code" href="struct_image4_d_memory_1_1_kernel_params.html#a0a6639d306e4ed5593c5d497edf6fda6">imgh</a>);</div><div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;        }</div><div class="ttc" id="struct_image4_d_memory_1_1_kernel_params_html_ab0645fa45e43206965496ca17eb86723"><div class="ttname"><a href="struct_image4_d_memory_1_1_kernel_params.html#ab0645fa45e43206965496ca17eb86723">Image4DMemory::KernelParams::cols</a></div><div class="ttdeci">int cols</div><div class="ttdef"><b>Definition:</b> cudaImageList.h:410</div></div>
-<div class="ttc" id="struct_image4_d_memory_1_1_kernel_params_html_aa622909a1be6fbeefc4d05378433f289"><div class="ttname"><a href="struct_image4_d_memory_1_1_kernel_params.html#aa622909a1be6fbeefc4d05378433f289">Image4DMemory::KernelParams::imgw</a></div><div class="ttdeci">int imgw</div><div class="ttdef"><b>Definition:</b> cudaImageList.h:412</div></div>
-<div class="ttc" id="struct_image4_d_memory_1_1_kernel_params_html_a0a6639d306e4ed5593c5d497edf6fda6"><div class="ttname"><a href="struct_image4_d_memory_1_1_kernel_params.html#a0a6639d306e4ed5593c5d497edf6fda6">Image4DMemory::KernelParams::imgh</a></div><div class="ttdeci">int imgh</div><div class="ttdef"><b>Definition:</b> cudaImageList.h:412</div></div>
-<div class="ttc" id="struct_image4_d_memory_1_1_kernel_params_html_a9b5896a9e13cdd7f2c628b2a52d5c880"><div class="ttname"><a href="struct_image4_d_memory_1_1_kernel_params.html#a9b5896a9e13cdd7f2c628b2a52d5c880">Image4DMemory::KernelParams::depth</a></div><div class="ttdeci">int depth</div><div class="ttdef"><b>Definition:</b> cudaImageList.h:411</div></div>
+
+<p>Definition at line <a class="el" href="cuda_image_list_8h_source.html#l00414">414</a> of file <a class="el" href="cuda_image_list_8h_source.html">cudaImageList.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;                                              {</div><div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;            <span class="keywordtype">int</span> img = z+<a class="code" href="struct_image4_d_memory_1_1_kernel_params.html#a9b5896a9e13cdd7f2c628b2a52d5c880">depth</a>*l;</div><div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;            <span class="keywordflow">return</span> make_int2( (img % <a class="code" href="struct_image4_d_memory_1_1_kernel_params.html#ab0645fa45e43206965496ca17eb86723">cols</a>) * <a class="code" href="struct_image4_d_memory_1_1_kernel_params.html#aa622909a1be6fbeefc4d05378433f289">imgw</a>, (img / cols) * <a class="code" href="struct_image4_d_memory_1_1_kernel_params.html#a0a6639d306e4ed5593c5d497edf6fda6">imgh</a>);</div><div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;        }</div><div class="ttc" id="struct_image4_d_memory_1_1_kernel_params_html_ab0645fa45e43206965496ca17eb86723"><div class="ttname"><a href="struct_image4_d_memory_1_1_kernel_params.html#ab0645fa45e43206965496ca17eb86723">Image4DMemory::KernelParams::cols</a></div><div class="ttdeci">int cols</div><div class="ttdef"><b>Definition:</b> <a href="cuda_image_list_8h_source.html#l00410">cudaImageList.h:410</a></div></div>
+<div class="ttc" id="struct_image4_d_memory_1_1_kernel_params_html_aa622909a1be6fbeefc4d05378433f289"><div class="ttname"><a href="struct_image4_d_memory_1_1_kernel_params.html#aa622909a1be6fbeefc4d05378433f289">Image4DMemory::KernelParams::imgw</a></div><div class="ttdeci">int imgw</div><div class="ttdef"><b>Definition:</b> <a href="cuda_image_list_8h_source.html#l00412">cudaImageList.h:412</a></div></div>
+<div class="ttc" id="struct_image4_d_memory_1_1_kernel_params_html_a0a6639d306e4ed5593c5d497edf6fda6"><div class="ttname"><a href="struct_image4_d_memory_1_1_kernel_params.html#a0a6639d306e4ed5593c5d497edf6fda6">Image4DMemory::KernelParams::imgh</a></div><div class="ttdeci">int imgh</div><div class="ttdef"><b>Definition:</b> <a href="cuda_image_list_8h_source.html#l00412">cudaImageList.h:412</a></div></div>
+<div class="ttc" id="struct_image4_d_memory_1_1_kernel_params_html_a9b5896a9e13cdd7f2c628b2a52d5c880"><div class="ttname"><a href="struct_image4_d_memory_1_1_kernel_params.html#a9b5896a9e13cdd7f2c628b2a52d5c880">Image4DMemory::KernelParams::depth</a></div><div class="ttdeci">int depth</div><div class="ttdef"><b>Definition:</b> <a href="cuda_image_list_8h_source.html#l00411">cudaImageList.h:411</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -151,6 +159,8 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
+<p>Definition at line <a class="el" href="cuda_image_list_8h_source.html#l00410">410</a> of file <a class="el" href="cuda_image_list_8h_source.html">cudaImageList.h</a>.</p>
+
 </div>
 </div>
 <a id="ab938c44c035ecfd8ebdcf2e799392214"></a>
@@ -166,6 +176,8 @@ template&lt;typename T &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="cuda_image_list_8h_source.html#l00408">408</a> of file <a class="el" href="cuda_image_list_8h_source.html">cudaImageList.h</a>.</p>
 
 </div>
 </div>
@@ -183,6 +195,8 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
+<p>Definition at line <a class="el" href="cuda_image_list_8h_source.html#l00411">411</a> of file <a class="el" href="cuda_image_list_8h_source.html">cudaImageList.h</a>.</p>
+
 </div>
 </div>
 <a id="a0a6639d306e4ed5593c5d497edf6fda6"></a>
@@ -198,6 +212,8 @@ template&lt;typename T &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="cuda_image_list_8h_source.html#l00412">412</a> of file <a class="el" href="cuda_image_list_8h_source.html">cudaImageList.h</a>.</p>
 
 </div>
 </div>
@@ -215,6 +231,8 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
+<p>Definition at line <a class="el" href="cuda_image_list_8h_source.html#l00412">412</a> of file <a class="el" href="cuda_image_list_8h_source.html">cudaImageList.h</a>.</p>
+
 </div>
 </div>
 <a id="a9ec3499adf40c6b9538dbd81149dc3ea"></a>
@@ -230,6 +248,8 @@ template&lt;typename T &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="cuda_image_list_8h_source.html#l00409">409</a> of file <a class="el" href="cuda_image_list_8h_source.html">cudaImageList.h</a>.</p>
 
 </div>
 </div>

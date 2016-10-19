@@ -79,7 +79,10 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a015b3cb6e76967a2873739de232950d2"><td class="memItemLeft" align="right" valign="top">static __device__ float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_image_sampler___interpolated_texture.html#a015b3cb6e76967a2873739de232950d2">Index</a> (<a class="el" href="_queued_c_u_d_a_tracker_8h.html#a84de79f5d4b6e4c8d5622fe712c1bd69">cudaImageListf</a> &amp;images, int x, int y, int img)</td></tr>
 <tr class="separator:a015b3cb6e76967a2873739de232950d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock">
+<p>Definition at line <a class="el" href="_image_sampler_8h_source.html#l00057">57</a> of file <a class="el" href="_image_sampler_8h_source.html">ImageSampler.h</a>.</p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="adc69b3f5ec38ed7fdfe3f8cd0a94fb64"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adc69b3f5ec38ed7fdfe3f8cd0a94fb64">&sect;&nbsp;</a></span>BindTexture()</h2>
 
@@ -103,8 +106,10 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_image_sampler_8h_source.html#l00059">59</a> of file <a class="el" href="_image_sampler_8h_source.html">ImageSampler.h</a>.</p>
 <div class="fragment"><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;{ images.<a class="code" href="structcuda_image_list.html#a36a72cb4f9e988aa7ce04866592aa55d">bind</a>(<a class="code" href="_image_sampler_8h.html#a7de6f4af580ecfe3df9ef9e65faac7e8">image_sampler_texture_nearest</a>); }</div><div class="ttc" id="_image_sampler_8h_html_a7de6f4af580ecfe3df9ef9e65faac7e8"><div class="ttname"><a href="_image_sampler_8h.html#a7de6f4af580ecfe3df9ef9e65faac7e8">image_sampler_texture_nearest</a></div><div class="ttdeci">texture&lt; float, cudaTextureType2D, cudaReadModeElementType &gt; image_sampler_texture_nearest(0, cudaFilterModePoint)</div></div>
-<div class="ttc" id="structcuda_image_list_html_a36a72cb4f9e988aa7ce04866592aa55d"><div class="ttname"><a href="structcuda_image_list.html#a36a72cb4f9e988aa7ce04866592aa55d">cudaImageList::bind</a></div><div class="ttdeci">void bind(texture&lt; T, cudaTextureType2D, cudaReadModeElementType &gt; &amp;texref)</div><div class="ttdef"><b>Definition:</b> cudaImageList.h:166</div></div>
+<div class="ttc" id="structcuda_image_list_html_a36a72cb4f9e988aa7ce04866592aa55d"><div class="ttname"><a href="structcuda_image_list.html#a36a72cb4f9e988aa7ce04866592aa55d">cudaImageList::bind</a></div><div class="ttdeci">void bind(texture&lt; T, cudaTextureType2D, cudaReadModeElementType &gt; &amp;texref)</div><div class="ttdef"><b>Definition:</b> <a href="cuda_image_list_8h_source.html#l00166">cudaImageList.h:166</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -153,8 +158,10 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_image_sampler_8h_source.html#l00069">69</a> of file <a class="el" href="_image_sampler_8h_source.html">ImageSampler.h</a>.</p>
 <div class="fragment"><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    {</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="keywordflow">return</span> tex2D(<a class="code" href="_image_sampler_8h.html#a7de6f4af580ecfe3df9ef9e65faac7e8">image_sampler_texture_nearest</a>, x+0.5f,y+0.5f + img*images.<a class="code" href="structcuda_image_list.html#a90c8a96b431b4faa4759987f44d06123">h</a>);</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    }</div><div class="ttc" id="_image_sampler_8h_html_a7de6f4af580ecfe3df9ef9e65faac7e8"><div class="ttname"><a href="_image_sampler_8h.html#a7de6f4af580ecfe3df9ef9e65faac7e8">image_sampler_texture_nearest</a></div><div class="ttdeci">texture&lt; float, cudaTextureType2D, cudaReadModeElementType &gt; image_sampler_texture_nearest(0, cudaFilterModePoint)</div></div>
-<div class="ttc" id="structcuda_image_list_html_a90c8a96b431b4faa4759987f44d06123"><div class="ttname"><a href="structcuda_image_list.html#a90c8a96b431b4faa4759987f44d06123">cudaImageList::h</a></div><div class="ttdeci">int h</div><div class="ttdef"><b>Definition:</b> cudaImageList.h:13</div></div>
+<div class="ttc" id="structcuda_image_list_html_a90c8a96b431b4faa4759987f44d06123"><div class="ttname"><a href="structcuda_image_list.html#a90c8a96b431b4faa4759987f44d06123">cudaImageList::h</a></div><div class="ttdeci">int h</div><div class="ttdef"><b>Definition:</b> <a href="cuda_image_list_8h_source.html#l00013">cudaImageList.h:13</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -209,8 +216,10 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_image_sampler_8h_source.html#l00063">63</a> of file <a class="el" href="_image_sampler_8h_source.html">ImageSampler.h</a>.</p>
 <div class="fragment"><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    {</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordflow">return</span> images.<a class="code" href="structcuda_image_list.html#a0c1befe3e606950d6dd8d78da273ffd8">interpolateFromTexture</a> (<a class="code" href="_image_sampler_8h.html#a7de6f4af580ecfe3df9ef9e65faac7e8">image_sampler_texture_nearest</a>, x, y, img, outside);</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    }</div><div class="ttc" id="_image_sampler_8h_html_a7de6f4af580ecfe3df9ef9e65faac7e8"><div class="ttname"><a href="_image_sampler_8h.html#a7de6f4af580ecfe3df9ef9e65faac7e8">image_sampler_texture_nearest</a></div><div class="ttdeci">texture&lt; float, cudaTextureType2D, cudaReadModeElementType &gt; image_sampler_texture_nearest(0, cudaFilterModePoint)</div></div>
-<div class="ttc" id="structcuda_image_list_html_a0c1befe3e606950d6dd8d78da273ffd8"><div class="ttname"><a href="structcuda_image_list.html#a0c1befe3e606950d6dd8d78da273ffd8">cudaImageList::interpolateFromTexture</a></div><div class="ttdeci">__device__ T interpolateFromTexture(texture&lt; T, cudaTextureType2D, cudaReadModeElementType &gt; texref, float x, float y, int idx, bool &amp;outside)</div><div class="ttdef"><b>Definition:</b> cudaImageList.h:180</div></div>
+<div class="ttc" id="structcuda_image_list_html_a0c1befe3e606950d6dd8d78da273ffd8"><div class="ttname"><a href="structcuda_image_list.html#a0c1befe3e606950d6dd8d78da273ffd8">cudaImageList::interpolateFromTexture</a></div><div class="ttdeci">__device__ T interpolateFromTexture(texture&lt; T, cudaTextureType2D, cudaReadModeElementType &gt; texref, float x, float y, int idx, bool &amp;outside)</div><div class="ttdef"><b>Definition:</b> <a href="cuda_image_list_8h_source.html#l00180">cudaImageList.h:180</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -237,8 +246,10 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_image_sampler_8h_source.html#l00060">60</a> of file <a class="el" href="_image_sampler_8h_source.html">ImageSampler.h</a>.</p>
 <div class="fragment"><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;{ images.<a class="code" href="structcuda_image_list.html#a5fd1e6014eb7f4a91e04344e208c70fe">unbind</a>(<a class="code" href="_image_sampler_8h.html#a7de6f4af580ecfe3df9ef9e65faac7e8">image_sampler_texture_nearest</a>);  }</div><div class="ttc" id="_image_sampler_8h_html_a7de6f4af580ecfe3df9ef9e65faac7e8"><div class="ttname"><a href="_image_sampler_8h.html#a7de6f4af580ecfe3df9ef9e65faac7e8">image_sampler_texture_nearest</a></div><div class="ttdeci">texture&lt; float, cudaTextureType2D, cudaReadModeElementType &gt; image_sampler_texture_nearest(0, cudaFilterModePoint)</div></div>
-<div class="ttc" id="structcuda_image_list_html_a5fd1e6014eb7f4a91e04344e208c70fe"><div class="ttname"><a href="structcuda_image_list.html#a5fd1e6014eb7f4a91e04344e208c70fe">cudaImageList::unbind</a></div><div class="ttdeci">void unbind(texture&lt; T, cudaTextureType2D, cudaReadModeElementType &gt; &amp;texref)</div><div class="ttdef"><b>Definition:</b> cudaImageList.h:170</div></div>
+<div class="ttc" id="structcuda_image_list_html_a5fd1e6014eb7f4a91e04344e208c70fe"><div class="ttname"><a href="structcuda_image_list.html#a5fd1e6014eb7f4a91e04344e208c70fe">cudaImageList::unbind</a></div><div class="ttdeci">void unbind(texture&lt; T, cudaTextureType2D, cudaReadModeElementType &gt; &amp;texref)</div><div class="ttdef"><b>Definition:</b> <a href="cuda_image_list_8h_source.html#l00170">cudaImageList.h:170</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>

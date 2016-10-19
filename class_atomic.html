@@ -89,7 +89,13 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:aeb248989b8f2d011dbd057dc66b82d8e"><td class="memItemLeft" align="right" valign="top">T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_atomic.html#aeb248989b8f2d011dbd057dc66b82d8e">data</a></td></tr>
 <tr class="separator:aeb248989b8f2d011dbd057dc66b82d8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;typename T&gt;<br />
+class Atomic&lt; T &gt;</h3>
+
+
+<p>Definition at line <a class="el" href="threads_8h_source.html#l00156">156</a> of file <a class="el" href="threads_8h_source.html">threads.h</a>.</p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a2dfd3129fef6bcbfb132945505058955"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2dfd3129fef6bcbfb132945505058955">&sect;&nbsp;</a></span>Atomic()</h2>
 
@@ -115,7 +121,9 @@ template&lt;typename T&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;: <a class="code" href="class_atomic.html#aeb248989b8f2d011dbd057dc66b82d8e">data</a>(o) {} <span class="comment">// no need for locking: the object is not allowed to be used before the constructor is done anyway</span></div><div class="ttc" id="class_atomic_html_aeb248989b8f2d011dbd057dc66b82d8e"><div class="ttname"><a href="class_atomic.html#aeb248989b8f2d011dbd057dc66b82d8e">Atomic::data</a></div><div class="ttdeci">T data</div><div class="ttdef"><b>Definition:</b> threads.h:158</div></div>
+
+<p>Definition at line <a class="el" href="threads_8h_source.html#l00160">160</a> of file <a class="el" href="threads_8h_source.html">threads.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;: <a class="code" href="class_atomic.html#aeb248989b8f2d011dbd057dc66b82d8e">data</a>(o) {} <span class="comment">// no need for locking: the object is not allowed to be used before the constructor is done anyway</span></div><div class="ttc" id="class_atomic_html_aeb248989b8f2d011dbd057dc66b82d8e"><div class="ttname"><a href="class_atomic.html#aeb248989b8f2d011dbd057dc66b82d8e">Atomic::data</a></div><div class="ttdeci">T data</div><div class="ttdef"><b>Definition:</b> <a href="threads_8h_source.html#l00158">threads.h:158</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -144,10 +152,12 @@ template&lt;typename T&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;                  {</div><div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        <a class="code" href="class_atomic.html#abae1e58efe0a8b71805ed84d8e8f155a">m</a>.<a class="code" href="struct_threads_1_1_mutex.html#af3cb09072ecd935be502deb78f4519d5">lock</a>();</div><div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        T x=<a class="code" href="class_atomic.html#aeb248989b8f2d011dbd057dc66b82d8e">data</a>;</div><div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        <a class="code" href="class_atomic.html#abae1e58efe0a8b71805ed84d8e8f155a">m</a>.<a class="code" href="struct_threads_1_1_mutex.html#ad78fadce2239c6d359986e443822f6f6">unlock</a>();</div><div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        <span class="keywordflow">return</span> x;</div><div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    }</div><div class="ttc" id="struct_threads_1_1_mutex_html_af3cb09072ecd935be502deb78f4519d5"><div class="ttname"><a href="struct_threads_1_1_mutex.html#af3cb09072ecd935be502deb78f4519d5">Threads::Mutex::lock</a></div><div class="ttdeci">void lock()</div><div class="ttdef"><b>Definition:</b> threads.h:74</div></div>
-<div class="ttc" id="class_atomic_html_aeb248989b8f2d011dbd057dc66b82d8e"><div class="ttname"><a href="class_atomic.html#aeb248989b8f2d011dbd057dc66b82d8e">Atomic::data</a></div><div class="ttdeci">T data</div><div class="ttdef"><b>Definition:</b> threads.h:158</div></div>
-<div class="ttc" id="struct_threads_1_1_mutex_html_ad78fadce2239c6d359986e443822f6f6"><div class="ttname"><a href="struct_threads_1_1_mutex.html#ad78fadce2239c6d359986e443822f6f6">Threads::Mutex::unlock</a></div><div class="ttdeci">void unlock()</div><div class="ttdef"><b>Definition:</b> threads.h:79</div></div>
-<div class="ttc" id="class_atomic_html_abae1e58efe0a8b71805ed84d8e8f155a"><div class="ttname"><a href="class_atomic.html#abae1e58efe0a8b71805ed84d8e8f155a">Atomic::m</a></div><div class="ttdeci">Threads::Mutex m</div><div class="ttdef"><b>Definition:</b> threads.h:157</div></div>
+
+<p>Definition at line <a class="el" href="threads_8h_source.html#l00168">168</a> of file <a class="el" href="threads_8h_source.html">threads.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;                  {</div><div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        <a class="code" href="class_atomic.html#abae1e58efe0a8b71805ed84d8e8f155a">m</a>.<a class="code" href="struct_threads_1_1_mutex.html#af3cb09072ecd935be502deb78f4519d5">lock</a>();</div><div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        T x=<a class="code" href="class_atomic.html#aeb248989b8f2d011dbd057dc66b82d8e">data</a>;</div><div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        <a class="code" href="class_atomic.html#abae1e58efe0a8b71805ed84d8e8f155a">m</a>.<a class="code" href="struct_threads_1_1_mutex.html#ad78fadce2239c6d359986e443822f6f6">unlock</a>();</div><div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        <span class="keywordflow">return</span> x;</div><div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    }</div><div class="ttc" id="struct_threads_1_1_mutex_html_af3cb09072ecd935be502deb78f4519d5"><div class="ttname"><a href="struct_threads_1_1_mutex.html#af3cb09072ecd935be502deb78f4519d5">Threads::Mutex::lock</a></div><div class="ttdeci">void lock()</div><div class="ttdef"><b>Definition:</b> <a href="threads_8h_source.html#l00074">threads.h:74</a></div></div>
+<div class="ttc" id="class_atomic_html_aeb248989b8f2d011dbd057dc66b82d8e"><div class="ttname"><a href="class_atomic.html#aeb248989b8f2d011dbd057dc66b82d8e">Atomic::data</a></div><div class="ttdeci">T data</div><div class="ttdef"><b>Definition:</b> <a href="threads_8h_source.html#l00158">threads.h:158</a></div></div>
+<div class="ttc" id="struct_threads_1_1_mutex_html_ad78fadce2239c6d359986e443822f6f6"><div class="ttname"><a href="struct_threads_1_1_mutex.html#ad78fadce2239c6d359986e443822f6f6">Threads::Mutex::unlock</a></div><div class="ttdeci">void unlock()</div><div class="ttdef"><b>Definition:</b> <a href="threads_8h_source.html#l00079">threads.h:79</a></div></div>
+<div class="ttc" id="class_atomic_html_abae1e58efe0a8b71805ed84d8e8f155a"><div class="ttname"><a href="class_atomic.html#abae1e58efe0a8b71805ed84d8e8f155a">Atomic::m</a></div><div class="ttdeci">Threads::Mutex m</div><div class="ttdef"><b>Definition:</b> <a href="threads_8h_source.html#l00157">threads.h:157</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -175,6 +185,8 @@ template&lt;typename T&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="threads_8h_source.html#l00161">161</a> of file <a class="el" href="threads_8h_source.html">threads.h</a>.</p>
 <div class="fragment"><div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;{ <span class="keywordflow">return</span> <span class="keyword">get</span>(); };</div></div><!-- fragment -->
 </div>
 </div>
@@ -203,6 +215,8 @@ template&lt;typename T&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="threads_8h_source.html#l00162">162</a> of file <a class="el" href="threads_8h_source.html">threads.h</a>.</p>
 <div class="fragment"><div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;{ <span class="keyword">set</span>(x); <span class="keywordflow">return</span> *<span class="keyword">this</span>; }</div></div><!-- fragment -->
 </div>
 </div>
@@ -231,10 +245,12 @@ template&lt;typename T&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;                         {</div><div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;        <a class="code" href="class_atomic.html#abae1e58efe0a8b71805ed84d8e8f155a">m</a>.<a class="code" href="struct_threads_1_1_mutex.html#af3cb09072ecd935be502deb78f4519d5">lock</a>();</div><div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;        <a class="code" href="class_atomic.html#aeb248989b8f2d011dbd057dc66b82d8e">data</a>=x;</div><div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        <a class="code" href="class_atomic.html#abae1e58efe0a8b71805ed84d8e8f155a">m</a>.<a class="code" href="struct_threads_1_1_mutex.html#ad78fadce2239c6d359986e443822f6f6">unlock</a>();</div><div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    }</div><div class="ttc" id="struct_threads_1_1_mutex_html_af3cb09072ecd935be502deb78f4519d5"><div class="ttname"><a href="struct_threads_1_1_mutex.html#af3cb09072ecd935be502deb78f4519d5">Threads::Mutex::lock</a></div><div class="ttdeci">void lock()</div><div class="ttdef"><b>Definition:</b> threads.h:74</div></div>
-<div class="ttc" id="class_atomic_html_aeb248989b8f2d011dbd057dc66b82d8e"><div class="ttname"><a href="class_atomic.html#aeb248989b8f2d011dbd057dc66b82d8e">Atomic::data</a></div><div class="ttdeci">T data</div><div class="ttdef"><b>Definition:</b> threads.h:158</div></div>
-<div class="ttc" id="struct_threads_1_1_mutex_html_ad78fadce2239c6d359986e443822f6f6"><div class="ttname"><a href="struct_threads_1_1_mutex.html#ad78fadce2239c6d359986e443822f6f6">Threads::Mutex::unlock</a></div><div class="ttdeci">void unlock()</div><div class="ttdef"><b>Definition:</b> threads.h:79</div></div>
-<div class="ttc" id="class_atomic_html_abae1e58efe0a8b71805ed84d8e8f155a"><div class="ttname"><a href="class_atomic.html#abae1e58efe0a8b71805ed84d8e8f155a">Atomic::m</a></div><div class="ttdeci">Threads::Mutex m</div><div class="ttdef"><b>Definition:</b> threads.h:157</div></div>
+
+<p>Definition at line <a class="el" href="threads_8h_source.html#l00163">163</a> of file <a class="el" href="threads_8h_source.html">threads.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;                         {</div><div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;        <a class="code" href="class_atomic.html#abae1e58efe0a8b71805ed84d8e8f155a">m</a>.<a class="code" href="struct_threads_1_1_mutex.html#af3cb09072ecd935be502deb78f4519d5">lock</a>();</div><div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;        <a class="code" href="class_atomic.html#aeb248989b8f2d011dbd057dc66b82d8e">data</a>=x;</div><div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        <a class="code" href="class_atomic.html#abae1e58efe0a8b71805ed84d8e8f155a">m</a>.<a class="code" href="struct_threads_1_1_mutex.html#ad78fadce2239c6d359986e443822f6f6">unlock</a>();</div><div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    }</div><div class="ttc" id="struct_threads_1_1_mutex_html_af3cb09072ecd935be502deb78f4519d5"><div class="ttname"><a href="struct_threads_1_1_mutex.html#af3cb09072ecd935be502deb78f4519d5">Threads::Mutex::lock</a></div><div class="ttdeci">void lock()</div><div class="ttdef"><b>Definition:</b> <a href="threads_8h_source.html#l00074">threads.h:74</a></div></div>
+<div class="ttc" id="class_atomic_html_aeb248989b8f2d011dbd057dc66b82d8e"><div class="ttname"><a href="class_atomic.html#aeb248989b8f2d011dbd057dc66b82d8e">Atomic::data</a></div><div class="ttdeci">T data</div><div class="ttdef"><b>Definition:</b> <a href="threads_8h_source.html#l00158">threads.h:158</a></div></div>
+<div class="ttc" id="struct_threads_1_1_mutex_html_ad78fadce2239c6d359986e443822f6f6"><div class="ttname"><a href="struct_threads_1_1_mutex.html#ad78fadce2239c6d359986e443822f6f6">Threads::Mutex::unlock</a></div><div class="ttdeci">void unlock()</div><div class="ttdef"><b>Definition:</b> <a href="threads_8h_source.html#l00079">threads.h:79</a></div></div>
+<div class="ttc" id="class_atomic_html_abae1e58efe0a8b71805ed84d8e8f155a"><div class="ttname"><a href="class_atomic.html#abae1e58efe0a8b71805ed84d8e8f155a">Atomic::m</a></div><div class="ttdeci">Threads::Mutex m</div><div class="ttdef"><b>Definition:</b> <a href="threads_8h_source.html#l00157">threads.h:157</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -261,6 +277,8 @@ template&lt;typename T&gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>Definition at line <a class="el" href="threads_8h_source.html#l00158">158</a> of file <a class="el" href="threads_8h_source.html">threads.h</a>.</p>
+
 </div>
 </div>
 <a id="abae1e58efe0a8b71805ed84d8e8f155a"></a>
@@ -284,6 +302,8 @@ template&lt;typename T&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="threads_8h_source.html#l00157">157</a> of file <a class="el" href="threads_8h_source.html">threads.h</a>.</p>
 
 </div>
 </div>

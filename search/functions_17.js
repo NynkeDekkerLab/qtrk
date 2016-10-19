@@ -1,6 +1,10 @@
 var searchData=
 [
-  ['xcor1dbuffer',['XCor1DBuffer',['../class_x_cor1_d_buffer.html#a9b53783159f4a512cc5c4713d436a76c',1,'XCor1DBuffer']]],
-  ['xcorffthelper',['XCorFFTHelper',['../class_x_cor1_d_buffer.html#a4c14e7a041865cb0405f460881d738b6',1,'XCor1DBuffer']]],
-  ['xy',['xy',['../struct_l_v_array2_d.html#a68745c123554ef7e99a357744ff0f876',1,'LVArray2D::xy()'],['../structvector3.html#a08becc53916249d8c8bf6eb5a83ac21e',1,'vector3::xy()']]]
+  ['zlut_5fcomputeprofilematchscores',['ZLUT_ComputeProfileMatchScores',['../group__kernels.html#gab39221cb109c517ef2c550742f25fae3',1,'Kernels.h']]],
+  ['zlut_5fcomputez',['ZLUT_ComputeZ',['../group__kernels.html#gad0ba2ca03fcfe17bda05c872842afaae',1,'Kernels.h']]],
+  ['zlut_5fnormalizeprofiles',['ZLUT_NormalizeProfiles',['../group__kernels.html#ga4cdd8d9a41123399c9a91d90785d9274',1,'Kernels.h']]],
+  ['zlut_5fprofilestozlut',['ZLUT_ProfilesToZLUT',['../group__kernels.html#ga9b32b8197dc8895328e9850cafa295c3',1,'Kernels.h']]],
+  ['zlut_5fradialprofilekernel',['ZLUT_RadialProfileKernel',['../group__kernels.html#gadf9148f47982d2685fa156a957fc21c2',1,'Kernels.h']]],
+  ['zlutbiascorrection',['ZLUTBiasCorrection',['../group__zbias.html#ga5db67617f39aba7d9874222d3fa1c02f',1,'QueuedTracker']]],
+  ['zlutselftest',['ZLUTSelfTest',['../class_queued_c_p_u_tracker.html#adc3feb62a374abea02f4f9502c08c42c',1,'QueuedCPUTracker']]]
 ];

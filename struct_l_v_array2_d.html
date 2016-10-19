@@ -67,6 +67,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>LabVIEW 2D Array template.  
+ <a href="struct_l_v_array2_d.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="labview_8h_source.html">labview.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -85,7 +88,14 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:ac8ad3b86f939ed4fc2c5529b727c419f"><td class="memItemLeft" align="right" valign="top">T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_l_v_array2_d.html#ac8ad3b86f939ed4fc2c5529b727c419f">elem</a> [1]</td></tr>
 <tr class="separator:ac8ad3b86f939ed4fc2c5529b727c419f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;typename T&gt;<br />
+struct LVArray2D&lt; T &gt;</h3>
+
+<p>LabVIEW 2D Array template. </p>
+
+<p>Definition at line <a class="el" href="labview_8h_source.html#l00041">41</a> of file <a class="el" href="labview_8h_source.html">labview.h</a>.</p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="aa02c6c90d405b359f1670b8b766be436"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa02c6c90d405b359f1670b8b766be436">&sect;&nbsp;</a></span>get()</h2>
 
@@ -121,8 +131,10 @@ template&lt;typename T&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                             {</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="struct_l_v_array2_d.html#ac8ad3b86f939ed4fc2c5529b727c419f">elem</a>[row*<a class="code" href="struct_l_v_array2_d.html#ae697948bfe264453c305d4838a158cbb">dimSizes</a>[1]+col];</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    }</div><div class="ttc" id="struct_l_v_array2_d_html_ae697948bfe264453c305d4838a158cbb"><div class="ttname"><a href="struct_l_v_array2_d.html#ae697948bfe264453c305d4838a158cbb">LVArray2D::dimSizes</a></div><div class="ttdeci">int32_t dimSizes[2]</div><div class="ttdef"><b>Definition:</b> labview.h:37</div></div>
-<div class="ttc" id="struct_l_v_array2_d_html_ac8ad3b86f939ed4fc2c5529b727c419f"><div class="ttname"><a href="struct_l_v_array2_d.html#ac8ad3b86f939ed4fc2c5529b727c419f">LVArray2D::elem</a></div><div class="ttdeci">T elem[1]</div><div class="ttdef"><b>Definition:</b> labview.h:38</div></div>
+
+<p>Definition at line <a class="el" href="labview_8h_source.html#l00048">48</a> of file <a class="el" href="labview_8h_source.html">labview.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                             {</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="struct_l_v_array2_d.html#ac8ad3b86f939ed4fc2c5529b727c419f">elem</a>[row*<a class="code" href="struct_l_v_array2_d.html#ae697948bfe264453c305d4838a158cbb">dimSizes</a>[1]+col];</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    }</div><div class="ttc" id="struct_l_v_array2_d_html_ae697948bfe264453c305d4838a158cbb"><div class="ttname"><a href="struct_l_v_array2_d.html#ae697948bfe264453c305d4838a158cbb">LVArray2D::dimSizes</a></div><div class="ttdeci">int32_t dimSizes[2]</div><div class="ttdef"><b>Definition:</b> <a href="labview_8h_source.html#l00042">labview.h:42</a></div></div>
+<div class="ttc" id="struct_l_v_array2_d_html_ac8ad3b86f939ed4fc2c5529b727c419f"><div class="ttname"><a href="struct_l_v_array2_d.html#ac8ad3b86f939ed4fc2c5529b727c419f">LVArray2D::elem</a></div><div class="ttdeci">T elem[1]</div><div class="ttdef"><b>Definition:</b> <a href="labview_8h_source.html#l00043">labview.h:43</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -150,7 +162,9 @@ template&lt;typename T&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;{ <span class="keywordflow">return</span> <a class="code" href="struct_l_v_array2_d.html#ae697948bfe264453c305d4838a158cbb">dimSizes</a>[0]*<a class="code" href="struct_l_v_array2_d.html#ae697948bfe264453c305d4838a158cbb">dimSizes</a>[1]; }</div><div class="ttc" id="struct_l_v_array2_d_html_ae697948bfe264453c305d4838a158cbb"><div class="ttname"><a href="struct_l_v_array2_d.html#ae697948bfe264453c305d4838a158cbb">LVArray2D::dimSizes</a></div><div class="ttdeci">int32_t dimSizes[2]</div><div class="ttdef"><b>Definition:</b> labview.h:37</div></div>
+
+<p>Definition at line <a class="el" href="labview_8h_source.html#l00051">51</a> of file <a class="el" href="labview_8h_source.html">labview.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;{ <span class="keywordflow">return</span> <a class="code" href="struct_l_v_array2_d.html#ae697948bfe264453c305d4838a158cbb">dimSizes</a>[0]*<a class="code" href="struct_l_v_array2_d.html#ae697948bfe264453c305d4838a158cbb">dimSizes</a>[1]; }</div><div class="ttc" id="struct_l_v_array2_d_html_ae697948bfe264453c305d4838a158cbb"><div class="ttname"><a href="struct_l_v_array2_d.html#ae697948bfe264453c305d4838a158cbb">LVArray2D::dimSizes</a></div><div class="ttdeci">int32_t dimSizes[2]</div><div class="ttdef"><b>Definition:</b> <a href="labview_8h_source.html#l00042">labview.h:42</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -189,8 +203,10 @@ template&lt;typename T&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                             {</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="struct_l_v_array2_d.html#ac8ad3b86f939ed4fc2c5529b727c419f">elem</a>[row*<a class="code" href="struct_l_v_array2_d.html#ae697948bfe264453c305d4838a158cbb">dimSizes</a>[1]+col];</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    }</div><div class="ttc" id="struct_l_v_array2_d_html_ae697948bfe264453c305d4838a158cbb"><div class="ttname"><a href="struct_l_v_array2_d.html#ae697948bfe264453c305d4838a158cbb">LVArray2D::dimSizes</a></div><div class="ttdeci">int32_t dimSizes[2]</div><div class="ttdef"><b>Definition:</b> labview.h:37</div></div>
-<div class="ttc" id="struct_l_v_array2_d_html_ac8ad3b86f939ed4fc2c5529b727c419f"><div class="ttname"><a href="struct_l_v_array2_d.html#ac8ad3b86f939ed4fc2c5529b727c419f">LVArray2D::elem</a></div><div class="ttdeci">T elem[1]</div><div class="ttdef"><b>Definition:</b> labview.h:38</div></div>
+
+<p>Definition at line <a class="el" href="labview_8h_source.html#l00045">45</a> of file <a class="el" href="labview_8h_source.html">labview.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                             {</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="struct_l_v_array2_d.html#ac8ad3b86f939ed4fc2c5529b727c419f">elem</a>[row*<a class="code" href="struct_l_v_array2_d.html#ae697948bfe264453c305d4838a158cbb">dimSizes</a>[1]+col];</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    }</div><div class="ttc" id="struct_l_v_array2_d_html_ae697948bfe264453c305d4838a158cbb"><div class="ttname"><a href="struct_l_v_array2_d.html#ae697948bfe264453c305d4838a158cbb">LVArray2D::dimSizes</a></div><div class="ttdeci">int32_t dimSizes[2]</div><div class="ttdef"><b>Definition:</b> <a href="labview_8h_source.html#l00042">labview.h:42</a></div></div>
+<div class="ttc" id="struct_l_v_array2_d_html_ac8ad3b86f939ed4fc2c5529b727c419f"><div class="ttname"><a href="struct_l_v_array2_d.html#ac8ad3b86f939ed4fc2c5529b727c419f">LVArray2D::elem</a></div><div class="ttdeci">T elem[1]</div><div class="ttdef"><b>Definition:</b> <a href="labview_8h_source.html#l00043">labview.h:43</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -209,6 +225,8 @@ template&lt;typename T&gt; </div>
       </table>
 </div><div class="memdoc">
 
+<p>Definition at line <a class="el" href="labview_8h_source.html#l00042">42</a> of file <a class="el" href="labview_8h_source.html">labview.h</a>.</p>
+
 </div>
 </div>
 <a id="ac8ad3b86f939ed4fc2c5529b727c419f"></a>
@@ -224,6 +242,8 @@ template&lt;typename T&gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="labview_8h_source.html#l00043">43</a> of file <a class="el" href="labview_8h_source.html">labview.h</a>.</p>
 
 </div>
 </div>

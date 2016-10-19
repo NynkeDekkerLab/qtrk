@@ -159,6 +159,8 @@ Public Attributes</h2></td></tr>
 <div class="textblock"><p>Structure for the settings used by the algorithms implemented in <a class="el" href="class_queued_tracker.html" title="Abstract tracker interface, implemented by QueuedCUDATracker and QueuedCPUTracker. ">QueuedTracker</a>. </p>
 <p>Compiled without padding to line up with LabVIEW alignment. </p><dl class="section warning"><dt>Warning</dt><dd>Changing this requires changing of the linked LabVIEW cluster QTrkSettings.ctl. </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>All settings are always defined, eventhough only one of the three 2D localization algorithms is used. </dd></dl>
+
+<p>Definition at line <a class="el" href="qtrk__c__api_8h_source.html#l00082">82</a> of file <a class="el" href="qtrk__c__api_8h_source.html">qtrk_c_api.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a5d3675dfece085b68b5c508697989b87"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5d3675dfece085b68b5c508697989b87">&sect;&nbsp;</a></span>QTrkSettings()</h2>
@@ -183,27 +185,29 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Set default values on initialization </p>
-<div class="fragment"><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                   { </div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <a class="code" href="struct_q_trk_settings.html#aef24eb3a4692bd67ff1aca8ef950e08d">width</a> = <a class="code" href="struct_q_trk_settings.html#a94c965d103e7a0a4f1fced8eee1324ce">height</a> = 100;</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <a class="code" href="struct_q_trk_settings.html#a8c6f1c671b527155afd5dad894c152da">numThreads</a> = -1;</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <a class="code" href="struct_q_trk_settings.html#a8f38457c4ec183f78a0191b247ab6b51">xc1_profileLength</a> = 128;</div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <a class="code" href="struct_q_trk_settings.html#a80de240523eb79408593d26e6ef07ef7">xc1_profileWidth</a> = 32;</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <a class="code" href="struct_q_trk_settings.html#a0bc4efdffbb8ad272d1c9facfdf0e171">xc1_iterations</a> = 2;</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <a class="code" href="struct_q_trk_settings.html#a1a14537a9e784c65eed512e72ee86c02">zlut_minradius</a> = 1.0f;</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        <a class="code" href="struct_q_trk_settings.html#a8892aa193827371fc06ee94254e68b09">zlut_angular_coverage</a> = 0.7f;</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <a class="code" href="struct_q_trk_settings.html#ae57544152a8a129bae6cb934feead1c7">zlut_radial_coverage</a> = 3.0f;</div><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <a class="code" href="struct_q_trk_settings.html#a33db8dee144b4a042f5440fa1f210e6a">zlut_roi_coverage</a> = 1.0f;</div><div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        <a class="code" href="struct_q_trk_settings.html#a12105babb328a9a7ec90f0eab074fabb">qi_iterations</a> = 5;</div><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <a class="code" href="struct_q_trk_settings.html#a7b5f3e61b4dcab6330c56e7bcd96e82d">qi_minradius</a> = 1;</div><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        <a class="code" href="struct_q_trk_settings.html#a08800ed7809dc4bde16d0a6fee08ecdd">qi_angular_coverage</a> = 0.7f;</div><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <a class="code" href="struct_q_trk_settings.html#abee59fa2f68d9e514500062f73b1d512">qi_radial_coverage</a> = 3.0f; </div><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        <a class="code" href="struct_q_trk_settings.html#ab9567d21cc1517713a746c2173de4264">qi_roi_coverage</a> = 1.0f;</div><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        <a class="code" href="struct_q_trk_settings.html#aceebf67ba9ecc215d49c6b2739afae3d">qi_angstep_factor</a> = 1.0f;</div><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        <a class="code" href="struct_q_trk_settings.html#a795682a80b672b594ebd225aebf3fb16">cuda_device</a> = -2;</div><div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <a class="code" href="struct_q_trk_settings.html#a18ce353ffb049d1c86254a773a6fe49d">com_bgcorrection</a> = 0.0f;</div><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        <a class="code" href="struct_q_trk_settings.html#aa5ae2b9e5700fe2eab58f9084389c3ad">gauss2D_iterations</a> = 6;</div><div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        <a class="code" href="struct_q_trk_settings.html#a950fc67c972c608570ef2dd27fcfaf4d">gauss2D_sigma</a> = 4;</div><div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        <a class="code" href="struct_q_trk_settings.html#ad10a141ae7d18c2e6ce487f147dd7c02">downsample</a> = 0;</div><div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        <span class="comment">//testRun = false; // CHANGED! Comment/remove when compiling for labview</span></div><div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    }</div><div class="ttc" id="struct_q_trk_settings_html_aa5ae2b9e5700fe2eab58f9084389c3ad"><div class="ttname"><a href="struct_q_trk_settings.html#aa5ae2b9e5700fe2eab58f9084389c3ad">QTrkSettings::gauss2D_iterations</a></div><div class="ttdeci">int gauss2D_iterations</div><div class="ttdoc">Number of times to run the 2D gaussian algorithm. </div><div class="ttdef"><b>Definition:</b> qtrk_c_api.h:163</div></div>
-<div class="ttc" id="struct_q_trk_settings_html_a1a14537a9e784c65eed512e72ee86c02"><div class="ttname"><a href="struct_q_trk_settings.html#a1a14537a9e784c65eed512e72ee86c02">QTrkSettings::zlut_minradius</a></div><div class="ttdeci">float zlut_minradius</div><div class="ttdoc">Distance in pixels from the bead center from which to start sampling profiles. Default 1...</div><div class="ttdef"><b>Definition:</b> qtrk_c_api.h:135</div></div>
-<div class="ttc" id="struct_q_trk_settings_html_a7b5f3e61b4dcab6330c56e7bcd96e82d"><div class="ttname"><a href="struct_q_trk_settings.html#a7b5f3e61b4dcab6330c56e7bcd96e82d">QTrkSettings::qi_minradius</a></div><div class="ttdeci">float qi_minradius</div><div class="ttdoc">Distance in pixels from the bead center from which to start sampling profiles. Default 1...</div><div class="ttdef"><b>Definition:</b> qtrk_c_api.h:141</div></div>
-<div class="ttc" id="struct_q_trk_settings_html_aef24eb3a4692bd67ff1aca8ef950e08d"><div class="ttname"><a href="struct_q_trk_settings.html#aef24eb3a4692bd67ff1aca8ef950e08d">QTrkSettings::width</a></div><div class="ttdeci">int width</div><div class="ttdoc">Width of regions of interest to be handled. Typically equals height (square ROI). ...</div><div class="ttdef"><b>Definition:</b> qtrk_c_api.h:106</div></div>
-<div class="ttc" id="struct_q_trk_settings_html_ad10a141ae7d18c2e6ce487f147dd7c02"><div class="ttname"><a href="struct_q_trk_settings.html#ad10a141ae7d18c2e6ce487f147dd7c02">QTrkSettings::downsample</a></div><div class="ttdeci">int downsample</div><div class="ttdoc">Image downsampling factor. Applied before anything else. 0 = original, 1 = 1x (W=W/2,H=H/2). </div><div class="ttdef"><b>Definition:</b> qtrk_c_api.h:166</div></div>
-<div class="ttc" id="struct_q_trk_settings_html_a94c965d103e7a0a4f1fced8eee1324ce"><div class="ttname"><a href="struct_q_trk_settings.html#a94c965d103e7a0a4f1fced8eee1324ce">QTrkSettings::height</a></div><div class="ttdeci">int height</div><div class="ttdoc">Height of regions of interest to be handled. Typically equals width (square ROI). ...</div><div class="ttdef"><b>Definition:</b> qtrk_c_api.h:107</div></div>
-<div class="ttc" id="struct_q_trk_settings_html_a18ce353ffb049d1c86254a773a6fe49d"><div class="ttname"><a href="struct_q_trk_settings.html#a18ce353ffb049d1c86254a773a6fe49d">QTrkSettings::com_bgcorrection</a></div><div class="ttdeci">float com_bgcorrection</div><div class="ttdoc">Background correction factor for COM. Defines the number of standard deviations data needs to be away...</div><div class="ttdef"><b>Definition:</b> qtrk_c_api.h:133</div></div>
-<div class="ttc" id="struct_q_trk_settings_html_a33db8dee144b4a042f5440fa1f210e6a"><div class="ttname"><a href="struct_q_trk_settings.html#a33db8dee144b4a042f5440fa1f210e6a">QTrkSettings::zlut_roi_coverage</a></div><div class="ttdeci">float zlut_roi_coverage</div><div class="ttdoc">Factor of the ROI to include in sampling. Between 0 and 1, default 1. Maxradius = ROI/2*roi_coverage...</div><div class="ttdef"><b>Definition:</b> qtrk_c_api.h:138</div></div>
-<div class="ttc" id="struct_q_trk_settings_html_a795682a80b672b594ebd225aebf3fb16"><div class="ttname"><a href="struct_q_trk_settings.html#a795682a80b672b594ebd225aebf3fb16">QTrkSettings::cuda_device</a></div><div class="ttdeci">int cuda_device</div><div class="ttdoc">CUDA only. Flag for device selection. </div><div class="ttdef"><b>Definition:</b> qtrk_c_api.h:131</div></div>
-<div class="ttc" id="struct_q_trk_settings_html_abee59fa2f68d9e514500062f73b1d512"><div class="ttname"><a href="struct_q_trk_settings.html#abee59fa2f68d9e514500062f73b1d512">QTrkSettings::qi_radial_coverage</a></div><div class="ttdeci">float qi_radial_coverage</div><div class="ttdoc">Sampling points per radial pixel. Default 3.0. </div><div class="ttdef"><b>Definition:</b> qtrk_c_api.h:142</div></div>
-<div class="ttc" id="struct_q_trk_settings_html_a8892aa193827371fc06ee94254e68b09"><div class="ttname"><a href="struct_q_trk_settings.html#a8892aa193827371fc06ee94254e68b09">QTrkSettings::zlut_angular_coverage</a></div><div class="ttdeci">float zlut_angular_coverage</div><div class="ttdoc">Factor of the sampling perimeter to cover with angular sampling steps. Between 0 and 1...</div><div class="ttdef"><b>Definition:</b> qtrk_c_api.h:137</div></div>
-<div class="ttc" id="struct_q_trk_settings_html_ab9567d21cc1517713a746c2173de4264"><div class="ttname"><a href="struct_q_trk_settings.html#ab9567d21cc1517713a746c2173de4264">QTrkSettings::qi_roi_coverage</a></div><div class="ttdeci">float qi_roi_coverage</div><div class="ttdoc">Factor of the ROI to include in sampling. Between 0 and 1, default 1. Maxradius = ROI/2*roi_coverage...</div><div class="ttdef"><b>Definition:</b> qtrk_c_api.h:144</div></div>
-<div class="ttc" id="struct_q_trk_settings_html_a12105babb328a9a7ec90f0eab074fabb"><div class="ttname"><a href="struct_q_trk_settings.html#a12105babb328a9a7ec90f0eab074fabb">QTrkSettings::qi_iterations</a></div><div class="ttdeci">int qi_iterations</div><div class="ttdoc">Number of times to run the QI algorithm, sampling around the last found position. ...</div><div class="ttdef"><b>Definition:</b> qtrk_c_api.h:140</div></div>
-<div class="ttc" id="struct_q_trk_settings_html_a0bc4efdffbb8ad272d1c9facfdf0e171"><div class="ttname"><a href="struct_q_trk_settings.html#a0bc4efdffbb8ad272d1c9facfdf0e171">QTrkSettings::xc1_iterations</a></div><div class="ttdeci">int xc1_iterations</div><div class="ttdoc">Number of times to run the cross correlation algorithm. </div><div class="ttdef"><b>Definition:</b> qtrk_c_api.h:161</div></div>
-<div class="ttc" id="struct_q_trk_settings_html_aceebf67ba9ecc215d49c6b2739afae3d"><div class="ttname"><a href="struct_q_trk_settings.html#aceebf67ba9ecc215d49c6b2739afae3d">QTrkSettings::qi_angstep_factor</a></div><div class="ttdeci">float qi_angstep_factor</div><div class="ttdoc">Factor to reduce angular steps on lower iterations. Default 1.0 (no effect). </div><div class="ttdef"><b>Definition:</b> qtrk_c_api.h:157</div></div>
-<div class="ttc" id="struct_q_trk_settings_html_a80de240523eb79408593d26e6ef07ef7"><div class="ttname"><a href="struct_q_trk_settings.html#a80de240523eb79408593d26e6ef07ef7">QTrkSettings::xc1_profileWidth</a></div><div class="ttdeci">int xc1_profileWidth</div><div class="ttdoc">Profile width for the cross correlation. </div><div class="ttdef"><b>Definition:</b> qtrk_c_api.h:160</div></div>
-<div class="ttc" id="struct_q_trk_settings_html_a950fc67c972c608570ef2dd27fcfaf4d"><div class="ttname"><a href="struct_q_trk_settings.html#a950fc67c972c608570ef2dd27fcfaf4d">QTrkSettings::gauss2D_sigma</a></div><div class="ttdeci">float gauss2D_sigma</div><div class="ttdoc">Standard deviation to use in the 2D gaussian algorithm. </div><div class="ttdef"><b>Definition:</b> qtrk_c_api.h:164</div></div>
-<div class="ttc" id="struct_q_trk_settings_html_a8c6f1c671b527155afd5dad894c152da"><div class="ttname"><a href="struct_q_trk_settings.html#a8c6f1c671b527155afd5dad894c152da">QTrkSettings::numThreads</a></div><div class="ttdeci">int numThreads</div><div class="ttdoc">Number of threads/streams to use. Defaults differ between CPU and GPU implementations. </div><div class="ttdef"><b>Definition:</b> qtrk_c_api.h:114</div></div>
-<div class="ttc" id="struct_q_trk_settings_html_ae57544152a8a129bae6cb934feead1c7"><div class="ttname"><a href="struct_q_trk_settings.html#ae57544152a8a129bae6cb934feead1c7">QTrkSettings::zlut_radial_coverage</a></div><div class="ttdeci">float zlut_radial_coverage</div><div class="ttdoc">Sampling points per radial pixel. Default 3.0. </div><div class="ttdef"><b>Definition:</b> qtrk_c_api.h:136</div></div>
-<div class="ttc" id="struct_q_trk_settings_html_a08800ed7809dc4bde16d0a6fee08ecdd"><div class="ttname"><a href="struct_q_trk_settings.html#a08800ed7809dc4bde16d0a6fee08ecdd">QTrkSettings::qi_angular_coverage</a></div><div class="ttdeci">float qi_angular_coverage</div><div class="ttdoc">Factor of the sampling perimeter to cover with angular sampling steps. Between 0 and 1...</div><div class="ttdef"><b>Definition:</b> qtrk_c_api.h:143</div></div>
-<div class="ttc" id="struct_q_trk_settings_html_a8f38457c4ec183f78a0191b247ab6b51"><div class="ttname"><a href="struct_q_trk_settings.html#a8f38457c4ec183f78a0191b247ab6b51">QTrkSettings::xc1_profileLength</a></div><div class="ttdeci">int xc1_profileLength</div><div class="ttdoc">Profile length for the cross correlation. </div><div class="ttdef"><b>Definition:</b> qtrk_c_api.h:159</div></div>
+
+<p>Definition at line <a class="el" href="qtrk__c__api_8h_source.html#l00083">83</a> of file <a class="el" href="qtrk__c__api_8h_source.html">qtrk_c_api.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                   { </div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <a class="code" href="struct_q_trk_settings.html#aef24eb3a4692bd67ff1aca8ef950e08d">width</a> = <a class="code" href="struct_q_trk_settings.html#a94c965d103e7a0a4f1fced8eee1324ce">height</a> = 100;</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <a class="code" href="struct_q_trk_settings.html#a8c6f1c671b527155afd5dad894c152da">numThreads</a> = -1;</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <a class="code" href="struct_q_trk_settings.html#a8f38457c4ec183f78a0191b247ab6b51">xc1_profileLength</a> = 128;</div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <a class="code" href="struct_q_trk_settings.html#a80de240523eb79408593d26e6ef07ef7">xc1_profileWidth</a> = 32;</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <a class="code" href="struct_q_trk_settings.html#a0bc4efdffbb8ad272d1c9facfdf0e171">xc1_iterations</a> = 2;</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <a class="code" href="struct_q_trk_settings.html#a1a14537a9e784c65eed512e72ee86c02">zlut_minradius</a> = 1.0f;</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        <a class="code" href="struct_q_trk_settings.html#a8892aa193827371fc06ee94254e68b09">zlut_angular_coverage</a> = 0.7f;</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <a class="code" href="struct_q_trk_settings.html#ae57544152a8a129bae6cb934feead1c7">zlut_radial_coverage</a> = 3.0f;</div><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <a class="code" href="struct_q_trk_settings.html#a33db8dee144b4a042f5440fa1f210e6a">zlut_roi_coverage</a> = 1.0f;</div><div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        <a class="code" href="struct_q_trk_settings.html#a12105babb328a9a7ec90f0eab074fabb">qi_iterations</a> = 5;</div><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <a class="code" href="struct_q_trk_settings.html#a7b5f3e61b4dcab6330c56e7bcd96e82d">qi_minradius</a> = 1;</div><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        <a class="code" href="struct_q_trk_settings.html#a08800ed7809dc4bde16d0a6fee08ecdd">qi_angular_coverage</a> = 0.7f;</div><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <a class="code" href="struct_q_trk_settings.html#abee59fa2f68d9e514500062f73b1d512">qi_radial_coverage</a> = 3.0f; </div><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        <a class="code" href="struct_q_trk_settings.html#ab9567d21cc1517713a746c2173de4264">qi_roi_coverage</a> = 1.0f;</div><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        <a class="code" href="struct_q_trk_settings.html#aceebf67ba9ecc215d49c6b2739afae3d">qi_angstep_factor</a> = 1.0f;</div><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        <a class="code" href="struct_q_trk_settings.html#a795682a80b672b594ebd225aebf3fb16">cuda_device</a> = -2;</div><div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <a class="code" href="struct_q_trk_settings.html#a18ce353ffb049d1c86254a773a6fe49d">com_bgcorrection</a> = 0.0f;</div><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        <a class="code" href="struct_q_trk_settings.html#aa5ae2b9e5700fe2eab58f9084389c3ad">gauss2D_iterations</a> = 6;</div><div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        <a class="code" href="struct_q_trk_settings.html#a950fc67c972c608570ef2dd27fcfaf4d">gauss2D_sigma</a> = 4;</div><div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        <a class="code" href="struct_q_trk_settings.html#ad10a141ae7d18c2e6ce487f147dd7c02">downsample</a> = 0;</div><div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        <span class="comment">//testRun = false; // CHANGED! Comment/remove when compiling for labview</span></div><div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    }</div><div class="ttc" id="struct_q_trk_settings_html_aa5ae2b9e5700fe2eab58f9084389c3ad"><div class="ttname"><a href="struct_q_trk_settings.html#aa5ae2b9e5700fe2eab58f9084389c3ad">QTrkSettings::gauss2D_iterations</a></div><div class="ttdeci">int gauss2D_iterations</div><div class="ttdoc">Number of times to run the 2D gaussian algorithm. </div><div class="ttdef"><b>Definition:</b> <a href="qtrk__c__api_8h_source.html#l00163">qtrk_c_api.h:163</a></div></div>
+<div class="ttc" id="struct_q_trk_settings_html_a1a14537a9e784c65eed512e72ee86c02"><div class="ttname"><a href="struct_q_trk_settings.html#a1a14537a9e784c65eed512e72ee86c02">QTrkSettings::zlut_minradius</a></div><div class="ttdeci">float zlut_minradius</div><div class="ttdoc">Distance in pixels from the bead center from which to start sampling profiles. Default 1...</div><div class="ttdef"><b>Definition:</b> <a href="qtrk__c__api_8h_source.html#l00135">qtrk_c_api.h:135</a></div></div>
+<div class="ttc" id="struct_q_trk_settings_html_a7b5f3e61b4dcab6330c56e7bcd96e82d"><div class="ttname"><a href="struct_q_trk_settings.html#a7b5f3e61b4dcab6330c56e7bcd96e82d">QTrkSettings::qi_minradius</a></div><div class="ttdeci">float qi_minradius</div><div class="ttdoc">Distance in pixels from the bead center from which to start sampling profiles. Default 1...</div><div class="ttdef"><b>Definition:</b> <a href="qtrk__c__api_8h_source.html#l00141">qtrk_c_api.h:141</a></div></div>
+<div class="ttc" id="struct_q_trk_settings_html_aef24eb3a4692bd67ff1aca8ef950e08d"><div class="ttname"><a href="struct_q_trk_settings.html#aef24eb3a4692bd67ff1aca8ef950e08d">QTrkSettings::width</a></div><div class="ttdeci">int width</div><div class="ttdoc">Width of regions of interest to be handled. Typically equals height (square ROI). ...</div><div class="ttdef"><b>Definition:</b> <a href="qtrk__c__api_8h_source.html#l00106">qtrk_c_api.h:106</a></div></div>
+<div class="ttc" id="struct_q_trk_settings_html_ad10a141ae7d18c2e6ce487f147dd7c02"><div class="ttname"><a href="struct_q_trk_settings.html#ad10a141ae7d18c2e6ce487f147dd7c02">QTrkSettings::downsample</a></div><div class="ttdeci">int downsample</div><div class="ttdoc">Image downsampling factor. Applied before anything else. 0 = original, 1 = 1x (W=W/2,H=H/2). </div><div class="ttdef"><b>Definition:</b> <a href="qtrk__c__api_8h_source.html#l00166">qtrk_c_api.h:166</a></div></div>
+<div class="ttc" id="struct_q_trk_settings_html_a94c965d103e7a0a4f1fced8eee1324ce"><div class="ttname"><a href="struct_q_trk_settings.html#a94c965d103e7a0a4f1fced8eee1324ce">QTrkSettings::height</a></div><div class="ttdeci">int height</div><div class="ttdoc">Height of regions of interest to be handled. Typically equals width (square ROI). ...</div><div class="ttdef"><b>Definition:</b> <a href="qtrk__c__api_8h_source.html#l00107">qtrk_c_api.h:107</a></div></div>
+<div class="ttc" id="struct_q_trk_settings_html_a18ce353ffb049d1c86254a773a6fe49d"><div class="ttname"><a href="struct_q_trk_settings.html#a18ce353ffb049d1c86254a773a6fe49d">QTrkSettings::com_bgcorrection</a></div><div class="ttdeci">float com_bgcorrection</div><div class="ttdoc">Background correction factor for COM. Defines the number of standard deviations data needs to be away...</div><div class="ttdef"><b>Definition:</b> <a href="qtrk__c__api_8h_source.html#l00133">qtrk_c_api.h:133</a></div></div>
+<div class="ttc" id="struct_q_trk_settings_html_a33db8dee144b4a042f5440fa1f210e6a"><div class="ttname"><a href="struct_q_trk_settings.html#a33db8dee144b4a042f5440fa1f210e6a">QTrkSettings::zlut_roi_coverage</a></div><div class="ttdeci">float zlut_roi_coverage</div><div class="ttdoc">Factor of the ROI to include in sampling. Between 0 and 1, default 1. Maxradius = ROI/2*roi_coverage...</div><div class="ttdef"><b>Definition:</b> <a href="qtrk__c__api_8h_source.html#l00138">qtrk_c_api.h:138</a></div></div>
+<div class="ttc" id="struct_q_trk_settings_html_a795682a80b672b594ebd225aebf3fb16"><div class="ttname"><a href="struct_q_trk_settings.html#a795682a80b672b594ebd225aebf3fb16">QTrkSettings::cuda_device</a></div><div class="ttdeci">int cuda_device</div><div class="ttdoc">CUDA only. Flag for device selection. </div><div class="ttdef"><b>Definition:</b> <a href="qtrk__c__api_8h_source.html#l00131">qtrk_c_api.h:131</a></div></div>
+<div class="ttc" id="struct_q_trk_settings_html_abee59fa2f68d9e514500062f73b1d512"><div class="ttname"><a href="struct_q_trk_settings.html#abee59fa2f68d9e514500062f73b1d512">QTrkSettings::qi_radial_coverage</a></div><div class="ttdeci">float qi_radial_coverage</div><div class="ttdoc">Sampling points per radial pixel. Default 3.0. </div><div class="ttdef"><b>Definition:</b> <a href="qtrk__c__api_8h_source.html#l00142">qtrk_c_api.h:142</a></div></div>
+<div class="ttc" id="struct_q_trk_settings_html_a8892aa193827371fc06ee94254e68b09"><div class="ttname"><a href="struct_q_trk_settings.html#a8892aa193827371fc06ee94254e68b09">QTrkSettings::zlut_angular_coverage</a></div><div class="ttdeci">float zlut_angular_coverage</div><div class="ttdoc">Factor of the sampling perimeter to cover with angular sampling steps. Between 0 and 1...</div><div class="ttdef"><b>Definition:</b> <a href="qtrk__c__api_8h_source.html#l00137">qtrk_c_api.h:137</a></div></div>
+<div class="ttc" id="struct_q_trk_settings_html_ab9567d21cc1517713a746c2173de4264"><div class="ttname"><a href="struct_q_trk_settings.html#ab9567d21cc1517713a746c2173de4264">QTrkSettings::qi_roi_coverage</a></div><div class="ttdeci">float qi_roi_coverage</div><div class="ttdoc">Factor of the ROI to include in sampling. Between 0 and 1, default 1. Maxradius = ROI/2*roi_coverage...</div><div class="ttdef"><b>Definition:</b> <a href="qtrk__c__api_8h_source.html#l00144">qtrk_c_api.h:144</a></div></div>
+<div class="ttc" id="struct_q_trk_settings_html_a12105babb328a9a7ec90f0eab074fabb"><div class="ttname"><a href="struct_q_trk_settings.html#a12105babb328a9a7ec90f0eab074fabb">QTrkSettings::qi_iterations</a></div><div class="ttdeci">int qi_iterations</div><div class="ttdoc">Number of times to run the QI algorithm, sampling around the last found position. ...</div><div class="ttdef"><b>Definition:</b> <a href="qtrk__c__api_8h_source.html#l00140">qtrk_c_api.h:140</a></div></div>
+<div class="ttc" id="struct_q_trk_settings_html_a0bc4efdffbb8ad272d1c9facfdf0e171"><div class="ttname"><a href="struct_q_trk_settings.html#a0bc4efdffbb8ad272d1c9facfdf0e171">QTrkSettings::xc1_iterations</a></div><div class="ttdeci">int xc1_iterations</div><div class="ttdoc">Number of times to run the cross correlation algorithm. </div><div class="ttdef"><b>Definition:</b> <a href="qtrk__c__api_8h_source.html#l00161">qtrk_c_api.h:161</a></div></div>
+<div class="ttc" id="struct_q_trk_settings_html_aceebf67ba9ecc215d49c6b2739afae3d"><div class="ttname"><a href="struct_q_trk_settings.html#aceebf67ba9ecc215d49c6b2739afae3d">QTrkSettings::qi_angstep_factor</a></div><div class="ttdeci">float qi_angstep_factor</div><div class="ttdoc">Factor to reduce angular steps on lower iterations. Default 1.0 (no effect). </div><div class="ttdef"><b>Definition:</b> <a href="qtrk__c__api_8h_source.html#l00157">qtrk_c_api.h:157</a></div></div>
+<div class="ttc" id="struct_q_trk_settings_html_a80de240523eb79408593d26e6ef07ef7"><div class="ttname"><a href="struct_q_trk_settings.html#a80de240523eb79408593d26e6ef07ef7">QTrkSettings::xc1_profileWidth</a></div><div class="ttdeci">int xc1_profileWidth</div><div class="ttdoc">Profile width for the cross correlation. </div><div class="ttdef"><b>Definition:</b> <a href="qtrk__c__api_8h_source.html#l00160">qtrk_c_api.h:160</a></div></div>
+<div class="ttc" id="struct_q_trk_settings_html_a950fc67c972c608570ef2dd27fcfaf4d"><div class="ttname"><a href="struct_q_trk_settings.html#a950fc67c972c608570ef2dd27fcfaf4d">QTrkSettings::gauss2D_sigma</a></div><div class="ttdeci">float gauss2D_sigma</div><div class="ttdoc">Standard deviation to use in the 2D gaussian algorithm. </div><div class="ttdef"><b>Definition:</b> <a href="qtrk__c__api_8h_source.html#l00164">qtrk_c_api.h:164</a></div></div>
+<div class="ttc" id="struct_q_trk_settings_html_a8c6f1c671b527155afd5dad894c152da"><div class="ttname"><a href="struct_q_trk_settings.html#a8c6f1c671b527155afd5dad894c152da">QTrkSettings::numThreads</a></div><div class="ttdeci">int numThreads</div><div class="ttdoc">Number of threads/streams to use. Defaults differ between CPU and GPU implementations. </div><div class="ttdef"><b>Definition:</b> <a href="qtrk__c__api_8h_source.html#l00114">qtrk_c_api.h:114</a></div></div>
+<div class="ttc" id="struct_q_trk_settings_html_ae57544152a8a129bae6cb934feead1c7"><div class="ttname"><a href="struct_q_trk_settings.html#ae57544152a8a129bae6cb934feead1c7">QTrkSettings::zlut_radial_coverage</a></div><div class="ttdeci">float zlut_radial_coverage</div><div class="ttdoc">Sampling points per radial pixel. Default 3.0. </div><div class="ttdef"><b>Definition:</b> <a href="qtrk__c__api_8h_source.html#l00136">qtrk_c_api.h:136</a></div></div>
+<div class="ttc" id="struct_q_trk_settings_html_a08800ed7809dc4bde16d0a6fee08ecdd"><div class="ttname"><a href="struct_q_trk_settings.html#a08800ed7809dc4bde16d0a6fee08ecdd">QTrkSettings::qi_angular_coverage</a></div><div class="ttdeci">float qi_angular_coverage</div><div class="ttdoc">Factor of the sampling perimeter to cover with angular sampling steps. Between 0 and 1...</div><div class="ttdef"><b>Definition:</b> <a href="qtrk__c__api_8h_source.html#l00143">qtrk_c_api.h:143</a></div></div>
+<div class="ttc" id="struct_q_trk_settings_html_a8f38457c4ec183f78a0191b247ab6b51"><div class="ttname"><a href="struct_q_trk_settings.html#a8f38457c4ec183f78a0191b247ab6b51">QTrkSettings::xc1_profileLength</a></div><div class="ttdeci">int xc1_profileLength</div><div class="ttdoc">Profile length for the cross correlation. </div><div class="ttdef"><b>Definition:</b> <a href="qtrk__c__api_8h_source.html#l00159">qtrk_c_api.h:159</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -221,6 +225,8 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Background correction factor for COM. Defines the number of standard deviations data needs to be away from the image mean to be taken into account. </p>
+
+<p>Definition at line <a class="el" href="qtrk__c__api_8h_source.html#l00133">133</a> of file <a class="el" href="qtrk__c__api_8h_source.html">qtrk_c_api.h</a>.</p>
 
 </div>
 </div>
@@ -252,6 +258,8 @@ Public Attributes</h2></td></tr>
 <td>QTrkCUDA_UseBest</td><td>-1</td><td>Only use the best device. </td></tr>
 </table>
 
+<p>Definition at line <a class="el" href="qtrk__c__api_8h_source.html#l00131">131</a> of file <a class="el" href="qtrk__c__api_8h_source.html">qtrk_c_api.h</a>.</p>
+
 </div>
 </div>
 <a id="ad10a141ae7d18c2e6ce487f147dd7c02"></a>
@@ -267,6 +275,8 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Image downsampling factor. Applied before anything else. 0 = original, 1 = 1x (W=W/2,H=H/2). </p>
+
+<p>Definition at line <a class="el" href="qtrk__c__api_8h_source.html#l00166">166</a> of file <a class="el" href="qtrk__c__api_8h_source.html">qtrk_c_api.h</a>.</p>
 
 </div>
 </div>
@@ -284,6 +294,8 @@ Public Attributes</h2></td></tr>
 
 <p>Number of times to run the 2D gaussian algorithm. </p>
 
+<p>Definition at line <a class="el" href="qtrk__c__api_8h_source.html#l00163">163</a> of file <a class="el" href="qtrk__c__api_8h_source.html">qtrk_c_api.h</a>.</p>
+
 </div>
 </div>
 <a id="a950fc67c972c608570ef2dd27fcfaf4d"></a>
@@ -300,6 +312,8 @@ Public Attributes</h2></td></tr>
 
 <p>Standard deviation to use in the 2D gaussian algorithm. </p>
 
+<p>Definition at line <a class="el" href="qtrk__c__api_8h_source.html#l00164">164</a> of file <a class="el" href="qtrk__c__api_8h_source.html">qtrk_c_api.h</a>.</p>
+
 </div>
 </div>
 <a id="a94c965d103e7a0a4f1fced8eee1324ce"></a>
@@ -315,6 +329,8 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Height of regions of interest to be handled. Typically equals <a class="el" href="struct_q_trk_settings.html#aef24eb3a4692bd67ff1aca8ef950e08d">width</a> (square ROI). </p>
+
+<p>Definition at line <a class="el" href="qtrk__c__api_8h_source.html#l00107">107</a> of file <a class="el" href="qtrk__c__api_8h_source.html">qtrk_c_api.h</a>.</p>
 
 </div>
 </div>
@@ -333,6 +349,8 @@ Public Attributes</h2></td></tr>
 <p>Number of threads/streams to use. Defaults differ between CPU and GPU implementations. </p>
 <p>[CPU]: Default -1 chooses <em>threads</em> equal to the number of CPUs available. <br />
  [CUDA]: Default -1 chooses 4 <em>streams</em> per available device. </p>
+
+<p>Definition at line <a class="el" href="qtrk__c__api_8h_source.html#l00114">114</a> of file <a class="el" href="qtrk__c__api_8h_source.html">qtrk_c_api.h</a>.</p>
 
 </div>
 </div>
@@ -355,6 +373,8 @@ Public Attributes</h2></td></tr>
 <p> That is, the amount of steps used is increased by this factor on every iteration until the maximum is reached on the final iteration.</p>
 <p>Increase for faster early iterations but more image noise sensitivity. </p>
 
+<p>Definition at line <a class="el" href="qtrk__c__api_8h_source.html#l00157">157</a> of file <a class="el" href="qtrk__c__api_8h_source.html">qtrk_c_api.h</a>.</p>
+
 </div>
 </div>
 <a id="a08800ed7809dc4bde16d0a6fee08ecdd"></a>
@@ -370,6 +390,8 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Factor of the sampling perimeter to cover with angular sampling steps. Between 0 and 1, default 0.7. </p>
+
+<p>Definition at line <a class="el" href="qtrk__c__api_8h_source.html#l00143">143</a> of file <a class="el" href="qtrk__c__api_8h_source.html">qtrk_c_api.h</a>.</p>
 
 </div>
 </div>
@@ -387,6 +409,8 @@ Public Attributes</h2></td></tr>
 
 <p>Number of times to run the QI algorithm, sampling around the last found position. </p>
 
+<p>Definition at line <a class="el" href="qtrk__c__api_8h_source.html#l00140">140</a> of file <a class="el" href="qtrk__c__api_8h_source.html">qtrk_c_api.h</a>.</p>
+
 </div>
 </div>
 <a id="a7b5f3e61b4dcab6330c56e7bcd96e82d"></a>
@@ -402,6 +426,8 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Distance in pixels from the bead center from which to start sampling profiles. Default 1.0. </p>
+
+<p>Definition at line <a class="el" href="qtrk__c__api_8h_source.html#l00141">141</a> of file <a class="el" href="qtrk__c__api_8h_source.html">qtrk_c_api.h</a>.</p>
 
 </div>
 </div>
@@ -419,6 +445,8 @@ Public Attributes</h2></td></tr>
 
 <p>Sampling points per radial pixel. Default 3.0. </p>
 
+<p>Definition at line <a class="el" href="qtrk__c__api_8h_source.html#l00142">142</a> of file <a class="el" href="qtrk__c__api_8h_source.html">qtrk_c_api.h</a>.</p>
+
 </div>
 </div>
 <a id="ab9567d21cc1517713a746c2173de4264"></a>
@@ -435,6 +463,8 @@ Public Attributes</h2></td></tr>
 
 <p>Factor of the ROI to include in sampling. Between 0 and 1, default 1. Maxradius = ROI/2*roi_coverage. </p>
 
+<p>Definition at line <a class="el" href="qtrk__c__api_8h_source.html#l00144">144</a> of file <a class="el" href="qtrk__c__api_8h_source.html">qtrk_c_api.h</a>.</p>
+
 </div>
 </div>
 <a id="aef52bd8e2fdba83af4ce3b4367180d9f"></a>
@@ -450,8 +480,10 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Flag to run a test run. </p>
-<p>A test run dumps a lot of intermediate data to the disk for algorithm inspection (only QI &amp; ZLUT). </p><dl class="section warning"><dt>Warning</dt><dd>CHANGED compared to LabVIEW! Comment/remove when compiling for LabVIEW. </dd></dl>
+<p>A test run dumps a lot of intermediate data to the disk for algorithm inspection (only QI &amp; ZLUT). See <a class="el" href="class_c_p_u_tracker.html#a5dd04ccf64ee6885b2dc272553c29644">CPUTracker::testRun</a>. </p><dl class="section warning"><dt>Warning</dt><dd>CHANGED compared to LabVIEW! Comment/remove when compiling for LabVIEW. </dd></dl>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>Add to LabVIEW cluster. </dd></dl>
+
+<p>Definition at line <a class="el" href="qtrk__c__api_8h_source.html#l00174">174</a> of file <a class="el" href="qtrk__c__api_8h_source.html">qtrk_c_api.h</a>.</p>
 
 </div>
 </div>
@@ -469,6 +501,8 @@ Public Attributes</h2></td></tr>
 
 <p>Width of regions of interest to be handled. Typically equals <a class="el" href="struct_q_trk_settings.html#a94c965d103e7a0a4f1fced8eee1324ce">height</a> (square ROI). </p>
 
+<p>Definition at line <a class="el" href="qtrk__c__api_8h_source.html#l00106">106</a> of file <a class="el" href="qtrk__c__api_8h_source.html">qtrk_c_api.h</a>.</p>
+
 </div>
 </div>
 <a id="a0bc4efdffbb8ad272d1c9facfdf0e171"></a>
@@ -484,6 +518,8 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Number of times to run the cross correlation algorithm. </p>
+
+<p>Definition at line <a class="el" href="qtrk__c__api_8h_source.html#l00161">161</a> of file <a class="el" href="qtrk__c__api_8h_source.html">qtrk_c_api.h</a>.</p>
 
 </div>
 </div>
@@ -501,6 +537,8 @@ Public Attributes</h2></td></tr>
 
 <p>Profile length for the cross correlation. </p>
 
+<p>Definition at line <a class="el" href="qtrk__c__api_8h_source.html#l00159">159</a> of file <a class="el" href="qtrk__c__api_8h_source.html">qtrk_c_api.h</a>.</p>
+
 </div>
 </div>
 <a id="a80de240523eb79408593d26e6ef07ef7"></a>
@@ -516,6 +554,8 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Profile width for the cross correlation. </p>
+
+<p>Definition at line <a class="el" href="qtrk__c__api_8h_source.html#l00160">160</a> of file <a class="el" href="qtrk__c__api_8h_source.html">qtrk_c_api.h</a>.</p>
 
 </div>
 </div>
@@ -533,6 +573,8 @@ Public Attributes</h2></td></tr>
 
 <p>Factor of the sampling perimeter to cover with angular sampling steps. Between 0 and 1, default 0.7. </p>
 
+<p>Definition at line <a class="el" href="qtrk__c__api_8h_source.html#l00137">137</a> of file <a class="el" href="qtrk__c__api_8h_source.html">qtrk_c_api.h</a>.</p>
+
 </div>
 </div>
 <a id="a1a14537a9e784c65eed512e72ee86c02"></a>
@@ -548,6 +590,8 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Distance in pixels from the bead center from which to start sampling profiles. Default 1.0. </p>
+
+<p>Definition at line <a class="el" href="qtrk__c__api_8h_source.html#l00135">135</a> of file <a class="el" href="qtrk__c__api_8h_source.html">qtrk_c_api.h</a>.</p>
 
 </div>
 </div>
@@ -565,6 +609,8 @@ Public Attributes</h2></td></tr>
 
 <p>Sampling points per radial pixel. Default 3.0. </p>
 
+<p>Definition at line <a class="el" href="qtrk__c__api_8h_source.html#l00136">136</a> of file <a class="el" href="qtrk__c__api_8h_source.html">qtrk_c_api.h</a>.</p>
+
 </div>
 </div>
 <a id="a33db8dee144b4a042f5440fa1f210e6a"></a>
@@ -580,6 +626,8 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Factor of the ROI to include in sampling. Between 0 and 1, default 1. Maxradius = ROI/2*roi_coverage. </p>
+
+<p>Definition at line <a class="el" href="qtrk__c__api_8h_source.html#l00138">138</a> of file <a class="el" href="qtrk__c__api_8h_source.html">qtrk_c_api.h</a>.</p>
 
 </div>
 </div>

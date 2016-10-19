@@ -63,9 +63,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#typedef-members">Typedefs</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#nested-classes">Classes</a>  </div>
   <div class="headertitle">
 <div class="title">cpu_tracker.h File Reference</div>  </div>
 </div><!--header-->
@@ -73,81 +71,25 @@ $(function() {
 <div class="textblock"><code>#include &quot;<a class="el" href="_queued_tracker_8h_source.html">QueuedTracker.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="utils_8h_source.html">utils.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="scalar__types_8h_source.html">scalar_types.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="kissfft_8h_source.html">kissfft.h</a>&quot;</code><br />
+<code>#include &quot;kissfft.h&quot;</code><br />
 </div>
 <p><a href="cpu__tracker_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_x_cor1_d_buffer.html">XCor1DBuffer</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class to facilitate 1D cross correlation calculations.  <a href="class_x_cor1_d_buffer.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_p_u_tracker.html">CPUTracker</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class with all CPU algorithm implementations.  <a href="class_c_p_u_tracker.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_p_u_tracker_1_1_f_f_t2_d.html">CPUTracker::FFT2D</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class to facilitate 2D Fourier transforms.  <a href="class_c_p_u_tracker_1_1_f_f_t2_d.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_c_p_u_tracker_1_1_gauss2_d_result.html">CPUTracker::Gauss2DResult</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure to group results from the 2D Gaussian fit.  <a href="struct_c_p_u_tracker_1_1_gauss2_d_result.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:a2c78c9bbad19d28cffe9d662ce7d1813"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="std__incl_8h.html#a65f85814a8290f9797005d3b28e7e5fc">uchar</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cpu__tracker_8h.html#a2c78c9bbad19d28cffe9d662ce7d1813">pixel_t</a></td></tr>
-<tr class="separator:a2c78c9bbad19d28cffe9d662ce7d1813"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a1007e66b8d96ed5bfcdb1e4799f70721"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_c_p_u_tracker.html">CPUTracker</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cpu__tracker_8h.html#a1007e66b8d96ed5bfcdb1e4799f70721">CreateCPUTrackerInstance</a> (int w, int h, int xcorw)</td></tr>
-<tr class="separator:a1007e66b8d96ed5bfcdb1e4799f70721"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Typedef Documentation</h2>
-<a id="a2c78c9bbad19d28cffe9d662ce7d1813"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2c78c9bbad19d28cffe9d662ce7d1813">&sect;&nbsp;</a></span>pixel_t</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef <a class="el" href="std__incl_8h.html#a65f85814a8290f9797005d3b28e7e5fc">uchar</a> <a class="el" href="cpu__tracker_8h.html#a2c78c9bbad19d28cffe9d662ce7d1813">pixel_t</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a1007e66b8d96ed5bfcdb1e4799f70721"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1007e66b8d96ed5bfcdb1e4799f70721">&sect;&nbsp;</a></span>CreateCPUTrackerInstance()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_c_p_u_tracker.html">CPUTracker</a>* CreateCPUTrackerInstance </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>w</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>h</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>xcorw</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

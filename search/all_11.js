@@ -2,7 +2,7 @@ var searchData=
 [
   ['queued_20tracker_20software',['Queued Tracker software',['../index.html',1,'']]],
   ['queueing',['Queueing',['../group__lab___a_p_i__queueing.html',1,'']]],
-  ['qa_5ffft_5fbackward',['qa_fft_backward',['../class_c_p_u_tracker.html#aca16d9dc92365498d092b937d6959d7e',1,'CPUTracker']]],
+  ['qa_5ffft_5fbackward',['qa_fft_backward',['../class_c_p_u_tracker.html#aacd10f60e0fc5c885b1da8b1bb890056',1,'CPUTracker']]],
   ['qa_5ffft_5fforward',['qa_fft_forward',['../class_c_p_u_tracker.html#af3a10b319bc4de18d2429f9e30544c4a',1,'CPUTracker']]],
   ['qalign',['qalign',['../class_queued_c_u_d_a_tracker.html#a4ad3ddecc21aa3c9b7a706bd18364f7d',1,'QueuedCUDATracker']]],
   ['qalign_5finstance',['qalign_instance',['../struct_queued_c_u_d_a_tracker_1_1_device.html#a228b16792c301dc97510624ccdd18b01',1,'QueuedCUDATracker::Device::qalign_instance()'],['../struct_queued_c_u_d_a_tracker_1_1_stream.html#a72be2c83d41fce0530463c07bf37e853',1,'QueuedCUDATracker::Stream::qalign_instance()']]],
@@ -17,7 +17,7 @@ var searchData=
   ['qi_5fcomputeoffset',['QI_ComputeOffset',['../class_c_p_u_tracker.html#ac714cf7bcefab595734cc2768a4d4236',1,'CPUTracker']]],
   ['qi_5fcomputeprofile',['QI_ComputeProfile',['../group__kernels.html#ga491f07d70a63e0fb356201b5b76ae3d5',1,'QI_impl.h']]],
   ['qi_5fcomputequadrants',['QI_ComputeQuadrants',['../group__kernels.html#gaa7f87ffff59ddad03f962165afc5ee08',1,'QI_impl.h']]],
-  ['qi_5ffft_5fbackward',['qi_fft_backward',['../class_c_p_u_tracker.html#aa0ff71d20678c294eeeebb0b0eec1fc8',1,'CPUTracker']]],
+  ['qi_5ffft_5fbackward',['qi_fft_backward',['../class_c_p_u_tracker.html#ae0fbeffcd5902c8e5b7c6f29690f7186',1,'CPUTracker']]],
   ['qi_5ffft_5fforward',['qi_fft_forward',['../class_c_p_u_tracker.html#a1b17351aec1bcd117d6f1e304904b282',1,'CPUTracker']]],
   ['qi_5ffft_5flength',['qi_FFT_length',['../class_q_i.html#a9959b6d60486da504fca5c3c86fb2fdd',1,'QI']]],
   ['qi_5fimpl_2eh',['QI_impl.h',['../_q_i__impl_8h.html',1,'']]],

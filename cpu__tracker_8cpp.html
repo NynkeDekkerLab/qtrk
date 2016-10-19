@@ -79,7 +79,9 @@ $(function() {
 <code>#include &quot;<a class="el" href="random__distr_8h_source.html">random_distr.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_cubic_b_spline_8h_source.html">CubicBSpline.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_debug_result_compare_8h_source.html">DebugResultCompare.h</a>&quot;</code><br />
-</div><table class="memberdecls">
+</div>
+<p><a href="cpu__tracker_8cpp_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:ab1092e0ccd55ae591f00b5a2cb11f9c0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cpu__tracker_8cpp.html#ab1092e0ccd55ae591f00b5a2cb11f9c0">ZLUT_CMPDATA</a></td></tr>
@@ -140,6 +142,8 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Definition at line <a class="el" href="cpu__tracker_8cpp_source.html#l00132">132</a> of file <a class="el" href="cpu__tracker_8cpp_source.html">cpu_tracker.cpp</a>.</p>
+
 </div>
 </div>
 <a id="a836b0d44a08a0508ab0581612404f960"></a>
@@ -168,6 +172,8 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Definition at line <a class="el" href="cpu__tracker_8cpp_source.html#l00133">133</a> of file <a class="el" href="cpu__tracker_8cpp_source.html">cpu_tracker.cpp</a>.</p>
+
 </div>
 </div>
 <a id="ab1092e0ccd55ae591f00b5a2cb11f9c0"></a>
@@ -181,6 +187,8 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="cpu__tracker_8cpp_source.html#l00014">14</a> of file <a class="el" href="cpu__tracker_8cpp_source.html">cpu_tracker.cpp</a>.</p>
 
 </div>
 </div>
@@ -224,6 +232,8 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="cpu__tracker_8cpp_source.html#l00036">36</a> of file <a class="el" href="cpu__tracker_8cpp_source.html">cpu_tracker.cpp</a>.</p>
 <div class="fragment"><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{ <span class="keywordflow">return</span> std::max(a, std::min(b, v)); }</div></div><!-- fragment -->
 </div>
 </div>
@@ -244,6 +254,8 @@ template&lt;typename T &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="cpu__tracker_8cpp_source.html#l00030">30</a> of file <a class="el" href="cpu__tracker_8cpp_source.html">cpu_tracker.cpp</a>.</p>
 <div class="fragment"><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{ <span class="keywordflow">return</span> T(v.real(),-v.imag()); }</div></div><!-- fragment -->
 </div>
 </div>
@@ -270,6 +282,8 @@ template&lt;typename T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="cpu__tracker_8cpp_source.html#l00028">28</a> of file <a class="el" href="cpu__tracker_8cpp_source.html">cpu_tracker.cpp</a>.</p>
 <div class="fragment"><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;{ <span class="keywordflow">return</span> (<span class="keywordtype">int</span>)(f+0.5f); }</div></div><!-- fragment -->
 </div>
 </div>
@@ -306,7 +320,9 @@ template&lt;typename T &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;{</div><div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;    <span class="keywordtype">double</span> sd = 0.0;</div><div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;    <span class="keywordflow">for</span> (T* i = begin; i != end; i++, other++) {</div><div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;        T d = *i - *other;</div><div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;        sd += <a class="code" href="_bead_finder_8cpp.html#aade100f3798a339fdf25b22a55f85bbc">abs</a>(d.real()) + <a class="code" href="_bead_finder_8cpp.html#aade100f3798a339fdf25b22a55f85bbc">abs</a>(d.imag());</div><div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;    }</div><div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;    <span class="keywordflow">return</span> sd;</div><div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;}</div><div class="ttc" id="_bead_finder_8cpp_html_aade100f3798a339fdf25b22a55f85bbc"><div class="ttname"><a href="_bead_finder_8cpp.html#aade100f3798a339fdf25b22a55f85bbc">abs</a></div><div class="ttdeci">float abs(std::complex&lt; float &gt; x)</div><div class="ttdef"><b>Definition:</b> BeadFinder.cpp:19</div></div>
+
+<p>Definition at line <a class="el" href="cpu__tracker_8cpp_source.html#l00340">340</a> of file <a class="el" href="cpu__tracker_8cpp_source.html">cpu_tracker.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;{</div><div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;    <span class="keywordtype">double</span> sd = 0.0;</div><div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;    <span class="keywordflow">for</span> (T* i = begin; i != end; i++, other++) {</div><div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;        T d = *i - *other;</div><div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;        sd += <a class="code" href="_bead_finder_8cpp.html#aade100f3798a339fdf25b22a55f85bbc">abs</a>(d.real()) + <a class="code" href="_bead_finder_8cpp.html#aade100f3798a339fdf25b22a55f85bbc">abs</a>(d.imag());</div><div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;    }</div><div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;    <span class="keywordflow">return</span> sd;</div><div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;}</div><div class="ttc" id="_bead_finder_8cpp_html_aade100f3798a339fdf25b22a55f85bbc"><div class="ttname"><a href="_bead_finder_8cpp.html#aade100f3798a339fdf25b22a55f85bbc">abs</a></div><div class="ttdeci">float abs(std::complex&lt; float &gt; x)</div><div class="ttdef"><b>Definition:</b> <a href="_bead_finder_8cpp_source.html#l00019">BeadFinder.cpp:19</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -323,6 +339,8 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
+<p>Definition at line <a class="el" href="cpu__tracker_8cpp_source.html#l00032">32</a> of file <a class="el" href="cpu__tracker_8cpp_source.html">cpu_tracker.cpp</a>.</p>
+
 </div>
 </div>
 <a id="a77e160342e10850dcb9757230b309c24"></a>
@@ -336,6 +354,8 @@ template&lt;typename T &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="cpu__tracker_8cpp_source.html#l00024">24</a> of file <a class="el" href="cpu__tracker_8cpp_source.html">cpu_tracker.cpp</a>.</p>
 
 </div>
 </div>
@@ -351,6 +371,8 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
+<p>Definition at line <a class="el" href="cpu__tracker_8cpp_source.html#l00033">33</a> of file <a class="el" href="cpu__tracker_8cpp_source.html">cpu_tracker.cpp</a>.</p>
+
 </div>
 </div>
 <a id="a79c9b3cd0d6bf4409d49ad9b784f7f87"></a>
@@ -364,6 +386,8 @@ template&lt;typename T &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="cpu__tracker_8cpp_source.html#l00034">34</a> of file <a class="el" href="cpu__tracker_8cpp_source.html">cpu_tracker.cpp</a>.</p>
 
 </div>
 </div>

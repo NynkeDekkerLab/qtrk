@@ -10,7 +10,7 @@ var searchData=
   ['dbgsetlogfile',['dbgsetlogfile',['../utils_8cpp.html#ab8de7c8e4f80ba5a6b1fcf8da603cd67',1,'dbgsetlogfile(const char *path):&#160;utils.cpp'],['../utils_8h.html#ab8de7c8e4f80ba5a6b1fcf8da603cd67',1,'dbgsetlogfile(const char *path):&#160;utils.cpp']]],
   ['debugimage',['DebugImage',['../class_queued_tracker.html#a37756db08d454ad904193dd4e6f652b1',1,'QueuedTracker']]],
   ['deleteallelems',['DeleteAllElems',['../utils_8h.html#a79b36225c16ffe10c47c2aae8bee2d99',1,'utils.h']]],
-  ['destroy_5ftracker',['destroy_tracker',['../lv__cputrack__api_8cpp.html#a1cd574e0d21ae96d30e4ec38a61188f4',1,'lv_cputrack_api.cpp']]],
+  ['destroy_5ftracker',['destroy_tracker',['../group__lab___c_p_u_tracker_only.html#ga1cd574e0d21ae96d30e4ec38a61188f4',1,'lv_cputrack_api.cpp']]],
   ['determinant',['Determinant',['../class_matrix3_x3.html#a8a6929cbffd2c718b16bf110df463ecc',1,'Matrix3X3']]],
   ['device',['Device',['../struct_queued_c_u_d_a_tracker_1_1_device.html#a2f469c266e353b76379b233d3c6b8975',1,'QueuedCUDATracker::Device']]],
   ['device_5fvec',['device_vec',['../classdevice__vec.html#a5a35735d73712612a808a14be715b0d8',1,'device_vec::device_vec()'],['../classdevice__vec.html#ae849d2c03629659600de03d5f1e380df',1,'device_vec::device_vec(size_t N)'],['../classdevice__vec.html#a610a2ac053f01179ad1087f63ca48155',1,'device_vec::device_vec(const device_vec&lt; T &gt; &amp;src)'],['../classdevice__vec.html#abb16a39b663bec4c218ae65a54e34b11',1,'device_vec::device_vec(const std::vector&lt; T &gt; &amp;src)']]],

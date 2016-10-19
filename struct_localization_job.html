@@ -98,6 +98,8 @@ Public Attributes</h2></td></tr>
 <div class="textblock"><p>Structure for region of interest metadata. </p>
 <p>Compiled without padding to line up with LabVIEW alignment. Size is 24 bytes. </p><dl class="section warning"><dt>Warning</dt><dd>Changing this requires changing of the linked LabVIEW cluster QTrkLocalizationJob.ctl. </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>Frame and timestamp are ignored by tracking code itself, but usable for the calling code. </dd></dl>
+
+<p>Definition at line <a class="el" href="qtrk__c__api_8h_source.html#l00049">49</a> of file <a class="el" href="qtrk__c__api_8h_source.html">qtrk_c_api.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a6d5cf048c3b2c413e58606d7d4ad0d29"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6d5cf048c3b2c413e58606d7d4ad0d29">&sect;&nbsp;</a></span>LocalizationJob() <span class="overload">[1/2]</span></h2>
@@ -121,9 +123,11 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                      {</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <a class="code" href="struct_localization_job.html#a54df1ba33ab48b20dca664142a8cf619">frame</a>=<a class="code" href="struct_localization_job.html#a82f4cdb35dd3b6765df52dd045007286">timestamp</a>=<a class="code" href="struct_localization_job.html#afcf9f91b72597af0e2572f3ae74d9a99">zlutIndex</a>=0; </div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    }</div><div class="ttc" id="struct_localization_job_html_afcf9f91b72597af0e2572f3ae74d9a99"><div class="ttname"><a href="struct_localization_job.html#afcf9f91b72597af0e2572f3ae74d9a99">LocalizationJob::zlutIndex</a></div><div class="ttdeci">int zlutIndex</div><div class="ttdoc">Bead number of this ROI. Used to get the right ZLUT from memory. </div><div class="ttdef"><b>Definition:</b> qtrk_c_api.h:58</div></div>
-<div class="ttc" id="struct_localization_job_html_a82f4cdb35dd3b6765df52dd045007286"><div class="ttname"><a href="struct_localization_job.html#a82f4cdb35dd3b6765df52dd045007286">LocalizationJob::timestamp</a></div><div class="ttdeci">uint timestamp</div><div class="ttdoc">Time stamp of the frame. </div><div class="ttdef"><b>Definition:</b> qtrk_c_api.h:57</div></div>
-<div class="ttc" id="struct_localization_job_html_a54df1ba33ab48b20dca664142a8cf619"><div class="ttname"><a href="struct_localization_job.html#a54df1ba33ab48b20dca664142a8cf619">LocalizationJob::frame</a></div><div class="ttdeci">uint frame</div><div class="ttdoc">Frame number this ROI belongs to. </div><div class="ttdef"><b>Definition:</b> qtrk_c_api.h:56</div></div>
+
+<p>Definition at line <a class="el" href="qtrk__c__api_8h_source.html#l00050">50</a> of file <a class="el" href="qtrk__c__api_8h_source.html">qtrk_c_api.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                      {</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <a class="code" href="struct_localization_job.html#a54df1ba33ab48b20dca664142a8cf619">frame</a>=<a class="code" href="struct_localization_job.html#a82f4cdb35dd3b6765df52dd045007286">timestamp</a>=<a class="code" href="struct_localization_job.html#afcf9f91b72597af0e2572f3ae74d9a99">zlutIndex</a>=0; </div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    }</div><div class="ttc" id="struct_localization_job_html_afcf9f91b72597af0e2572f3ae74d9a99"><div class="ttname"><a href="struct_localization_job.html#afcf9f91b72597af0e2572f3ae74d9a99">LocalizationJob::zlutIndex</a></div><div class="ttdeci">int zlutIndex</div><div class="ttdoc">Bead number of this ROI. Used to get the right ZLUT from memory. </div><div class="ttdef"><b>Definition:</b> <a href="qtrk__c__api_8h_source.html#l00058">qtrk_c_api.h:58</a></div></div>
+<div class="ttc" id="struct_localization_job_html_a82f4cdb35dd3b6765df52dd045007286"><div class="ttname"><a href="struct_localization_job.html#a82f4cdb35dd3b6765df52dd045007286">LocalizationJob::timestamp</a></div><div class="ttdeci">uint timestamp</div><div class="ttdoc">Time stamp of the frame. </div><div class="ttdef"><b>Definition:</b> <a href="qtrk__c__api_8h_source.html#l00057">qtrk_c_api.h:57</a></div></div>
+<div class="ttc" id="struct_localization_job_html_a54df1ba33ab48b20dca664142a8cf619"><div class="ttname"><a href="struct_localization_job.html#a54df1ba33ab48b20dca664142a8cf619">LocalizationJob::frame</a></div><div class="ttdeci">uint frame</div><div class="ttdoc">Frame number this ROI belongs to. </div><div class="ttdef"><b>Definition:</b> <a href="qtrk__c__api_8h_source.html#l00056">qtrk_c_api.h:56</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -172,9 +176,11 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                                                                                :</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <a class="code" href="struct_localization_job.html#a54df1ba33ab48b20dca664142a8cf619">frame</a> (<a class="code" href="struct_localization_job.html#a54df1ba33ab48b20dca664142a8cf619">frame</a>), <a class="code" href="struct_localization_job.html#a82f4cdb35dd3b6765df52dd045007286">timestamp</a>(<a class="code" href="struct_localization_job.html#a82f4cdb35dd3b6765df52dd045007286">timestamp</a>), <a class="code" href="struct_localization_job.html#afcf9f91b72597af0e2572f3ae74d9a99">zlutIndex</a>(<a class="code" href="struct_localization_job.html#afcf9f91b72597af0e2572f3ae74d9a99">zlutIndex</a>) </div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    {}</div><div class="ttc" id="struct_localization_job_html_afcf9f91b72597af0e2572f3ae74d9a99"><div class="ttname"><a href="struct_localization_job.html#afcf9f91b72597af0e2572f3ae74d9a99">LocalizationJob::zlutIndex</a></div><div class="ttdeci">int zlutIndex</div><div class="ttdoc">Bead number of this ROI. Used to get the right ZLUT from memory. </div><div class="ttdef"><b>Definition:</b> qtrk_c_api.h:58</div></div>
-<div class="ttc" id="struct_localization_job_html_a82f4cdb35dd3b6765df52dd045007286"><div class="ttname"><a href="struct_localization_job.html#a82f4cdb35dd3b6765df52dd045007286">LocalizationJob::timestamp</a></div><div class="ttdeci">uint timestamp</div><div class="ttdoc">Time stamp of the frame. </div><div class="ttdef"><b>Definition:</b> qtrk_c_api.h:57</div></div>
-<div class="ttc" id="struct_localization_job_html_a54df1ba33ab48b20dca664142a8cf619"><div class="ttname"><a href="struct_localization_job.html#a54df1ba33ab48b20dca664142a8cf619">LocalizationJob::frame</a></div><div class="ttdeci">uint frame</div><div class="ttdoc">Frame number this ROI belongs to. </div><div class="ttdef"><b>Definition:</b> qtrk_c_api.h:56</div></div>
+
+<p>Definition at line <a class="el" href="qtrk__c__api_8h_source.html#l00053">53</a> of file <a class="el" href="qtrk__c__api_8h_source.html">qtrk_c_api.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                                                                                :</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <a class="code" href="struct_localization_job.html#a54df1ba33ab48b20dca664142a8cf619">frame</a> (<a class="code" href="struct_localization_job.html#a54df1ba33ab48b20dca664142a8cf619">frame</a>), <a class="code" href="struct_localization_job.html#a82f4cdb35dd3b6765df52dd045007286">timestamp</a>(<a class="code" href="struct_localization_job.html#a82f4cdb35dd3b6765df52dd045007286">timestamp</a>), <a class="code" href="struct_localization_job.html#afcf9f91b72597af0e2572f3ae74d9a99">zlutIndex</a>(<a class="code" href="struct_localization_job.html#afcf9f91b72597af0e2572f3ae74d9a99">zlutIndex</a>) </div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    {}</div><div class="ttc" id="struct_localization_job_html_afcf9f91b72597af0e2572f3ae74d9a99"><div class="ttname"><a href="struct_localization_job.html#afcf9f91b72597af0e2572f3ae74d9a99">LocalizationJob::zlutIndex</a></div><div class="ttdeci">int zlutIndex</div><div class="ttdoc">Bead number of this ROI. Used to get the right ZLUT from memory. </div><div class="ttdef"><b>Definition:</b> <a href="qtrk__c__api_8h_source.html#l00058">qtrk_c_api.h:58</a></div></div>
+<div class="ttc" id="struct_localization_job_html_a82f4cdb35dd3b6765df52dd045007286"><div class="ttname"><a href="struct_localization_job.html#a82f4cdb35dd3b6765df52dd045007286">LocalizationJob::timestamp</a></div><div class="ttdeci">uint timestamp</div><div class="ttdoc">Time stamp of the frame. </div><div class="ttdef"><b>Definition:</b> <a href="qtrk__c__api_8h_source.html#l00057">qtrk_c_api.h:57</a></div></div>
+<div class="ttc" id="struct_localization_job_html_a54df1ba33ab48b20dca664142a8cf619"><div class="ttname"><a href="struct_localization_job.html#a54df1ba33ab48b20dca664142a8cf619">LocalizationJob::frame</a></div><div class="ttdeci">uint frame</div><div class="ttdoc">Frame number this ROI belongs to. </div><div class="ttdef"><b>Definition:</b> <a href="qtrk__c__api_8h_source.html#l00056">qtrk_c_api.h:56</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -193,6 +199,8 @@ Public Attributes</h2></td></tr>
 
 <p>Frame number this ROI belongs to. </p>
 
+<p>Definition at line <a class="el" href="qtrk__c__api_8h_source.html#l00056">56</a> of file <a class="el" href="qtrk__c__api_8h_source.html">qtrk_c_api.h</a>.</p>
+
 </div>
 </div>
 <a id="a6374e6cba33c93846a757328b13aa509"></a>
@@ -208,6 +216,8 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Optional (Not used) </p>
+
+<p>Definition at line <a class="el" href="qtrk__c__api_8h_source.html#l00059">59</a> of file <a class="el" href="qtrk__c__api_8h_source.html">qtrk_c_api.h</a>.</p>
 
 </div>
 </div>
@@ -225,6 +235,8 @@ Public Attributes</h2></td></tr>
 
 <p>Time stamp of the frame. </p>
 
+<p>Definition at line <a class="el" href="qtrk__c__api_8h_source.html#l00057">57</a> of file <a class="el" href="qtrk__c__api_8h_source.html">qtrk_c_api.h</a>.</p>
+
 </div>
 </div>
 <a id="afcf9f91b72597af0e2572f3ae74d9a99"></a>
@@ -240,6 +252,8 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Bead number of this ROI. Used to get the right ZLUT from memory. </p>
+
+<p>Definition at line <a class="el" href="qtrk__c__api_8h_source.html#l00058">58</a> of file <a class="el" href="qtrk__c__api_8h_source.html">qtrk_c_api.h</a>.</p>
 
 </div>
 </div>

@@ -107,6 +107,8 @@ Public Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Structure to keep track of frame counts. </p>
+
+<p>Definition at line <a class="el" href="_result_manager_8h_source.html#l00168">168</a> of file <a class="el" href="_result_manager_8h_source.html">ResultManager.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a1297cf822a66ec485d2cc70ec801098a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1297cf822a66ec485d2cc70ec801098a">&sect;&nbsp;</a></span>FrameCounters()</h2>
@@ -122,13 +124,15 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <a class="code" href="struct_result_manager_1_1_frame_counters.html#a91cdacd9e2418fc49cdebabc171a1aa6">startFrame</a> = 0;</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <a class="code" href="struct_result_manager_1_1_frame_counters.html#a529d0916bd3925ce9b60de516875ae2e">lastSaveFrame</a> = 0;</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <a class="code" href="struct_result_manager_1_1_frame_counters.html#a9170beb3735c4d08f00050377eeebef5">processedFrames</a> = 0;</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <a class="code" href="struct_result_manager_1_1_frame_counters.html#ae9b12ed92f9c0a9e72a51beaf9cca61f">capturedFrames</a> = 0;</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <a class="code" href="struct_result_manager_1_1_frame_counters.html#a9ab895a45863f01089a4fa47629e3998">localizationsDone</a> = 0;</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <a class="code" href="struct_result_manager_1_1_frame_counters.html#a843774dd839c1edc8c0245b830b9f469">lostFrames</a> = 0;</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <a class="code" href="struct_result_manager_1_1_frame_counters.html#a524c00c33ddf14ff4f3e467f4daaf7f8">fileError</a> = 0;</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;}</div><div class="ttc" id="struct_result_manager_1_1_frame_counters_html_a529d0916bd3925ce9b60de516875ae2e"><div class="ttname"><a href="struct_result_manager_1_1_frame_counters.html#a529d0916bd3925ce9b60de516875ae2e">ResultManager::FrameCounters::lastSaveFrame</a></div><div class="ttdeci">int lastSaveFrame</div><div class="ttdoc">Index of the last frame saved to the output file. </div><div class="ttdef"><b>Definition:</b> ResultManager.h:172</div></div>
-<div class="ttc" id="struct_result_manager_1_1_frame_counters_html_a524c00c33ddf14ff4f3e467f4daaf7f8"><div class="ttname"><a href="struct_result_manager_1_1_frame_counters.html#a524c00c33ddf14ff4f3e467f4daaf7f8">ResultManager::FrameCounters::fileError</a></div><div class="ttdeci">int fileError</div><div class="ttdoc">Count of reported errors while handling output files. Currently only counts on error when opening bin...</div><div class="ttdef"><b>Definition:</b> ResultManager.h:176</div></div>
-<div class="ttc" id="struct_result_manager_1_1_frame_counters_html_a9ab895a45863f01089a4fa47629e3998"><div class="ttname"><a href="struct_result_manager_1_1_frame_counters.html#a9ab895a45863f01089a4fa47629e3998">ResultManager::FrameCounters::localizationsDone</a></div><div class="ttdeci">int localizationsDone</div><div class="ttdoc">Amount of localizations finished by the linked QueuedTracker instance. </div><div class="ttdef"><b>Definition:</b> ResultManager.h:174</div></div>
-<div class="ttc" id="struct_result_manager_1_1_frame_counters_html_a9170beb3735c4d08f00050377eeebef5"><div class="ttname"><a href="struct_result_manager_1_1_frame_counters.html#a9170beb3735c4d08f00050377eeebef5">ResultManager::FrameCounters::processedFrames</a></div><div class="ttdeci">int processedFrames</div><div class="ttdoc">Number of frames processed by the ResultManager. </div><div class="ttdef"><b>Definition:</b> ResultManager.h:171</div></div>
-<div class="ttc" id="struct_result_manager_1_1_frame_counters_html_a91cdacd9e2418fc49cdebabc171a1aa6"><div class="ttname"><a href="struct_result_manager_1_1_frame_counters.html#a91cdacd9e2418fc49cdebabc171a1aa6">ResultManager::FrameCounters::startFrame</a></div><div class="ttdeci">int startFrame</div><div class="ttdoc">Index of the first frame for which results are available. </div><div class="ttdef"><b>Definition:</b> ResultManager.h:170</div></div>
-<div class="ttc" id="struct_result_manager_1_1_frame_counters_html_a843774dd839c1edc8c0245b830b9f469"><div class="ttname"><a href="struct_result_manager_1_1_frame_counters.html#a843774dd839c1edc8c0245b830b9f469">ResultManager::FrameCounters::lostFrames</a></div><div class="ttdeci">int lostFrames</div><div class="ttdoc">Number of frames deleted from memory before results were finished and/or saved. </div><div class="ttdef"><b>Definition:</b> ResultManager.h:175</div></div>
-<div class="ttc" id="struct_result_manager_1_1_frame_counters_html_ae9b12ed92f9c0a9e72a51beaf9cca61f"><div class="ttname"><a href="struct_result_manager_1_1_frame_counters.html#ae9b12ed92f9c0a9e72a51beaf9cca61f">ResultManager::FrameCounters::capturedFrames</a></div><div class="ttdeci">int capturedFrames</div><div class="ttdoc">Number of frames captured. Counted through calls to StoreFrameInfo. </div><div class="ttdef"><b>Definition:</b> ResultManager.h:173</div></div>
+
+<p>Definition at line <a class="el" href="_result_manager_8cpp_source.html#l00031">31</a> of file <a class="el" href="_result_manager_8cpp_source.html">ResultManager.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <a class="code" href="struct_result_manager_1_1_frame_counters.html#a91cdacd9e2418fc49cdebabc171a1aa6">startFrame</a> = 0;</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <a class="code" href="struct_result_manager_1_1_frame_counters.html#a529d0916bd3925ce9b60de516875ae2e">lastSaveFrame</a> = 0;</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <a class="code" href="struct_result_manager_1_1_frame_counters.html#a9170beb3735c4d08f00050377eeebef5">processedFrames</a> = 0;</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <a class="code" href="struct_result_manager_1_1_frame_counters.html#ae9b12ed92f9c0a9e72a51beaf9cca61f">capturedFrames</a> = 0;</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <a class="code" href="struct_result_manager_1_1_frame_counters.html#a9ab895a45863f01089a4fa47629e3998">localizationsDone</a> = 0;</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <a class="code" href="struct_result_manager_1_1_frame_counters.html#a843774dd839c1edc8c0245b830b9f469">lostFrames</a> = 0;</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <a class="code" href="struct_result_manager_1_1_frame_counters.html#a524c00c33ddf14ff4f3e467f4daaf7f8">fileError</a> = 0;</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;}</div><div class="ttc" id="struct_result_manager_1_1_frame_counters_html_a529d0916bd3925ce9b60de516875ae2e"><div class="ttname"><a href="struct_result_manager_1_1_frame_counters.html#a529d0916bd3925ce9b60de516875ae2e">ResultManager::FrameCounters::lastSaveFrame</a></div><div class="ttdeci">int lastSaveFrame</div><div class="ttdoc">Index of the last frame saved to the output file. </div><div class="ttdef"><b>Definition:</b> <a href="_result_manager_8h_source.html#l00172">ResultManager.h:172</a></div></div>
+<div class="ttc" id="struct_result_manager_1_1_frame_counters_html_a524c00c33ddf14ff4f3e467f4daaf7f8"><div class="ttname"><a href="struct_result_manager_1_1_frame_counters.html#a524c00c33ddf14ff4f3e467f4daaf7f8">ResultManager::FrameCounters::fileError</a></div><div class="ttdeci">int fileError</div><div class="ttdoc">Count of reported errors while handling output files. Currently only counts on error when opening bin...</div><div class="ttdef"><b>Definition:</b> <a href="_result_manager_8h_source.html#l00176">ResultManager.h:176</a></div></div>
+<div class="ttc" id="struct_result_manager_1_1_frame_counters_html_a9ab895a45863f01089a4fa47629e3998"><div class="ttname"><a href="struct_result_manager_1_1_frame_counters.html#a9ab895a45863f01089a4fa47629e3998">ResultManager::FrameCounters::localizationsDone</a></div><div class="ttdeci">int localizationsDone</div><div class="ttdoc">Amount of localizations finished by the linked QueuedTracker instance. </div><div class="ttdef"><b>Definition:</b> <a href="_result_manager_8h_source.html#l00174">ResultManager.h:174</a></div></div>
+<div class="ttc" id="struct_result_manager_1_1_frame_counters_html_a9170beb3735c4d08f00050377eeebef5"><div class="ttname"><a href="struct_result_manager_1_1_frame_counters.html#a9170beb3735c4d08f00050377eeebef5">ResultManager::FrameCounters::processedFrames</a></div><div class="ttdeci">int processedFrames</div><div class="ttdoc">Number of frames processed by the ResultManager. </div><div class="ttdef"><b>Definition:</b> <a href="_result_manager_8h_source.html#l00171">ResultManager.h:171</a></div></div>
+<div class="ttc" id="struct_result_manager_1_1_frame_counters_html_a91cdacd9e2418fc49cdebabc171a1aa6"><div class="ttname"><a href="struct_result_manager_1_1_frame_counters.html#a91cdacd9e2418fc49cdebabc171a1aa6">ResultManager::FrameCounters::startFrame</a></div><div class="ttdeci">int startFrame</div><div class="ttdoc">Index of the first frame for which results are available. </div><div class="ttdef"><b>Definition:</b> <a href="_result_manager_8h_source.html#l00170">ResultManager.h:170</a></div></div>
+<div class="ttc" id="struct_result_manager_1_1_frame_counters_html_a843774dd839c1edc8c0245b830b9f469"><div class="ttname"><a href="struct_result_manager_1_1_frame_counters.html#a843774dd839c1edc8c0245b830b9f469">ResultManager::FrameCounters::lostFrames</a></div><div class="ttdeci">int lostFrames</div><div class="ttdoc">Number of frames deleted from memory before results were finished and/or saved. </div><div class="ttdef"><b>Definition:</b> <a href="_result_manager_8h_source.html#l00175">ResultManager.h:175</a></div></div>
+<div class="ttc" id="struct_result_manager_1_1_frame_counters_html_ae9b12ed92f9c0a9e72a51beaf9cca61f"><div class="ttname"><a href="struct_result_manager_1_1_frame_counters.html#ae9b12ed92f9c0a9e72a51beaf9cca61f">ResultManager::FrameCounters::capturedFrames</a></div><div class="ttdeci">int capturedFrames</div><div class="ttdoc">Number of frames captured. Counted through calls to StoreFrameInfo. </div><div class="ttdef"><b>Definition:</b> <a href="_result_manager_8h_source.html#l00173">ResultManager.h:173</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -147,6 +151,8 @@ Public Attributes</h2></td></tr>
 
 <p>Number of frames captured. Counted through calls to <a class="el" href="class_result_manager.html#a0bbedc935395c1af29f175f81ab063c9">StoreFrameInfo</a>. </p>
 
+<p>Definition at line <a class="el" href="_result_manager_8h_source.html#l00173">173</a> of file <a class="el" href="_result_manager_8h_source.html">ResultManager.h</a>.</p>
+
 </div>
 </div>
 <a id="a524c00c33ddf14ff4f3e467f4daaf7f8"></a>
@@ -162,6 +168,8 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Count of reported errors while handling output files. Currently only counts on error when opening binary files. </p>
+
+<p>Definition at line <a class="el" href="_result_manager_8h_source.html#l00176">176</a> of file <a class="el" href="_result_manager_8h_source.html">ResultManager.h</a>.</p>
 
 </div>
 </div>
@@ -179,6 +187,8 @@ Public Attributes</h2></td></tr>
 
 <p>Index of the last frame saved to the output file. </p>
 
+<p>Definition at line <a class="el" href="_result_manager_8h_source.html#l00172">172</a> of file <a class="el" href="_result_manager_8h_source.html">ResultManager.h</a>.</p>
+
 </div>
 </div>
 <a id="a9ab895a45863f01089a4fa47629e3998"></a>
@@ -194,6 +204,8 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Amount of localizations finished by the linked <a class="el" href="class_queued_tracker.html" title="Abstract tracker interface, implemented by QueuedCUDATracker and QueuedCPUTracker. ">QueuedTracker</a> instance. </p>
+
+<p>Definition at line <a class="el" href="_result_manager_8h_source.html#l00174">174</a> of file <a class="el" href="_result_manager_8h_source.html">ResultManager.h</a>.</p>
 
 </div>
 </div>
@@ -211,6 +223,8 @@ Public Attributes</h2></td></tr>
 
 <p>Number of frames deleted from memory before results were finished and/or saved. </p>
 
+<p>Definition at line <a class="el" href="_result_manager_8h_source.html#l00175">175</a> of file <a class="el" href="_result_manager_8h_source.html">ResultManager.h</a>.</p>
+
 </div>
 </div>
 <a id="a9170beb3735c4d08f00050377eeebef5"></a>
@@ -226,6 +240,8 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Number of frames processed by the <a class="el" href="class_result_manager.html" title="Class that handles data gathering and saving from QueuedTracker instances. ">ResultManager</a>. </p>
+
+<p>Definition at line <a class="el" href="_result_manager_8h_source.html#l00171">171</a> of file <a class="el" href="_result_manager_8h_source.html">ResultManager.h</a>.</p>
 
 </div>
 </div>
@@ -243,11 +259,13 @@ Public Attributes</h2></td></tr>
 
 <p>Index of the first frame for which results are available. </p>
 
+<p>Definition at line <a class="el" href="_result_manager_8h_source.html#l00170">170</a> of file <a class="el" href="_result_manager_8h_source.html">ResultManager.h</a>.</p>
+
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following files:<ul>
 <li>cputrack/<a class="el" href="_result_manager_8h_source.html">ResultManager.h</a></li>
-<li>cputrack/<a class="el" href="_result_manager_8cpp.html">ResultManager.cpp</a></li>
+<li>cputrack/<a class="el" href="_result_manager_8cpp_source.html">ResultManager.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

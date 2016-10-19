@@ -77,17 +77,17 @@ Algorithms</h1>
 <tr>
 <th>Algorithm </th><th>Dimensions </th><th>CPU </th><th>CUDA </th><th>Reference </th><th>Notes </th></tr>
 <tr>
-<td>Starting point </td><td></td><td><a class="el" href="class_queued_c_p_u_tracker.html#a3c827ffb590b8e80b7e5a585f432ace9">QueuedCPUTracker::ProcessJob</a> </td><td><a class="el" href="class_queued_c_u_d_a_tracker.html#a66c822d85cceb3b20793a9f5be76aae0" title="Execute the queued batch on a stream. ">QueuedCUDATracker::ExecuteBatch</a> </td><td></td><td>Functions from which the algorithms are called dependent on settings. </td></tr>
+<td>Starting point </td><td></td><td><a class="el" href="class_queued_c_p_u_tracker.html#a3c827ffb590b8e80b7e5a585f432ace9" title="Process a job. ">QueuedCPUTracker::ProcessJob</a> </td><td><a class="el" href="class_queued_c_u_d_a_tracker.html#a66c822d85cceb3b20793a9f5be76aae0" title="Execute the queued batch on a stream. ">QueuedCUDATracker::ExecuteBatch</a> </td><td></td><td>Functions from which the algorithms are called dependent on settings. </td></tr>
 <tr>
 <td></td></tr>
 <tr>
 <td>Center of Mass (COM) </td><td>x,y </td><td><a class="el" href="class_c_p_u_tracker.html#a18c3c6ec23abbbfb018d30b166ed140e">CPUTracker::ComputeMeanAndCOM</a> </td><td><a class="el" href="group__kernels.html#gaadfa5148ca9461daab04dbf9e0394791">BgCorrectedCOM</a> </td><td><a href="https://en.wikipedia.org/wiki/Image_moment">https://en.wikipedia.org/wiki/Image_moment</a></td><td>Always executed for first guess. </td></tr>
 <tr>
-<td>1D Cross Correlation (XCor1D) </td><td>x,y </td><td><a class="el" href="class_c_p_u_tracker.html#aeb547c7da30e1621b2869634182c0900">CPUTracker::ComputeXCorInterpolated</a> </td><td>Not implemented </td><td><a href="https://en.wikipedia.org/wiki/Cross-correlation">https://en.wikipedia.org/wiki/Cross-correlation</a></td><td></td></tr>
+<td>1D Cross Correlation (XCor1D) </td><td>x,y </td><td><a class="el" href="class_c_p_u_tracker.html#aeb547c7da30e1621b2869634182c0900" title="Compute the cross correlation offsets and resulting position. ">CPUTracker::ComputeXCorInterpolated</a> </td><td>Not implemented </td><td><a href="https://en.wikipedia.org/wiki/Cross-correlation">https://en.wikipedia.org/wiki/Cross-correlation</a></td><td></td></tr>
 <tr>
-<td>Quadrant Interpolation (QI) </td><td>x,y </td><td><a class="el" href="class_c_p_u_tracker.html#ab856aa12313a07c083f2e193180fd5b6">CPUTracker::ComputeQI</a> </td><td><a class="el" href="class_q_i.html">QI</a>, <a class="el" href="class_q_i.html#a084274d952e1430627110818f398a3d4" title="Execute a batch of QI calculations. Runs Iterate the correct number of times and recalculates the num...">QI::Execute</a> </td><td><a class="el" href="citelist.html#CITEREF_loen:QI">[3]</a> </td><td>Recommended algorithm. Optimized for speed and accuracy. </td></tr>
+<td>Quadrant Interpolation (QI) </td><td>x,y </td><td><a class="el" href="class_c_p_u_tracker.html#ab856aa12313a07c083f2e193180fd5b6" title="Execute the quadrant interpolation algorithm. ">CPUTracker::ComputeQI</a> </td><td><a class="el" href="class_q_i.html" title="Class to specifically perform quadrant interpolation calculations on the GPU. ">QI</a>, <a class="el" href="class_q_i.html#a084274d952e1430627110818f398a3d4" title="Execute a batch of QI calculations. Runs Iterate the correct number of times and recalculates the num...">QI::Execute</a> </td><td><a class="el" href="citelist.html#CITEREF_loen:QI">[3]</a> </td><td>Recommended algorithm. Optimized for speed and accuracy. </td></tr>
 <tr>
-<td>2D Gaussian fit </td><td>x,y </td><td><a class="el" href="class_c_p_u_tracker.html#a99567e8137e89ff9ee084558e9f26344">CPUTracker::Compute2DGaussianMLE</a> </td><td><a class="el" href="group__kernels.html#gaf3546eed501c5227c765beb290ed2549">G2MLE_Compute</a> </td><td><a href="https://en.wikipedia.org/wiki/Gaussian_function#Two-dimensional_Gaussian_function">https://en.wikipedia.org/wiki/Gaussian_function#Two-dimensional_Gaussian_function</a></td><td></td></tr>
+<td>2D Gaussian fit </td><td>x,y </td><td><a class="el" href="class_c_p_u_tracker.html#a99567e8137e89ff9ee084558e9f26344" title="Calculate a 2D Gaussian fit on the image. ">CPUTracker::Compute2DGaussianMLE</a> </td><td><a class="el" href="group__kernels.html#gaf3546eed501c5227c765beb290ed2549">G2MLE_Compute</a> </td><td><a href="https://en.wikipedia.org/wiki/Gaussian_function#Two-dimensional_Gaussian_function">https://en.wikipedia.org/wiki/Gaussian_function#Two-dimensional_Gaussian_function</a></td><td></td></tr>
 <tr>
 <td>Lookup table (LUT) </td><td>z </td><td><a class="el" href="class_c_p_u_tracker.html#a425db1a2a66d9635d2b4b565ecfdc3b0">CPUTracker::ComputeRadialProfile</a> <br />
 <a class="el" href="class_c_p_u_tracker.html#a605758e0bf1f897f86f38b65e99e320b">CPUTracker::LUTProfileCompare</a> </td><td><a class="el" href="group__kernels.html#gadf9148f47982d2685fa156a957fc21c2">ZLUT_RadialProfileKernel</a> <br />
@@ -100,7 +100,7 @@ Required software</h1>
 <li>Visual Studio (2010)</li>
 <li>CUDA (6.5)</li>
 </ul>
-<p>To be able to use the CUDA DLLs, the cudart32_65.dll and cufft32_65.dll (or 64 bit versions if compiled with that) need to be known and accessible by the system, i.e. they need to be in the same folder. We are currently limited to CUDA 6.5 at the highest due to the fact that we have a 32 bit LabVIEW version on setups and 32 bit cuFFT has been deprecated in newer CUDA versions.</p>
+<p>To be able to use the CUDA DLLs, the cudart32_65.dll and cufft32_65.dll (or 64 bit versions if compiled with that) need to be known and accessible by the system, i.e. they need to be in the same folder. We are currently limited to using CUDA 6.5 instead of newer versions due to the fact that we have a 32 bit LabVIEW version on setups and 32 bit cuFFT has been deprecated in newer CUDA versions.</p>
 <h1><a class="anchor" id="disclaimer"></a>
 Disclaimer</h1>
 <p>Code is provided as-is. Bugs may be encountered. Maintenance and support at the discretion of lab members.</p>

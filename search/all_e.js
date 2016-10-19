@@ -7,7 +7,6 @@ var searchData=
   ['nearestpoweroftwo',['NearestPowerOfTwo',['../test_8cu.html#a734d595c55ad19e5588166314c407985',1,'test.cu']]],
   ['newfile',['newFile',['../classoutputter.html#afab1703273f2af21817699fa68381d5a',1,'outputter']]],
   ['nextpowerof2',['NextPowerOf2',['../_bead_finder_8cpp.html#aad803495a7d339a6441f165b24443421',1,'BeadFinder.cpp']]],
-  ['nfft',['nfft',['../classkissfft.html#a387da366ef44c52769e5052e327009dc',1,'kissfft']]],
   ['njobs',['njobs',['../struct_base_kernel_params.html#aec40d44810d0e0a6640c66038af1fbf2',1,'BaseKernelParams']]],
   ['nlayers',['nlayers',['../struct_image4_d_cuda_array.html#a2cc68c6d8492e7a0d2fa194cc3a58187',1,'Image4DCudaArray']]],
   ['nluts',['nLUTs',['../struct_image_l_u_t_config.html#ab441a37dad64016dcb53341011197c67',1,'ImageLUTConfig']]],
@@ -22,5 +21,5 @@ var searchData=
   ['numimg',['numImg',['../struct_image4_d_cuda_array.html#acc1ba710635bc84af3d3032b7a38dea3',1,'Image4DCudaArray']]],
   ['numjpgindir',['NumJpgInDir',['../testutils_8cpp.html#aada7cca60290a9533e8f1ff0eb19516e',1,'NumJpgInDir(const std::string &amp;dirName_in):&#160;testutils.cpp'],['../testutils_8h.html#aada7cca60290a9533e8f1ff0eb19516e',1,'NumJpgInDir(const std::string &amp;dirName_in):&#160;testutils.cpp']]],
   ['numpixels',['numPixels',['../struct_t_image_data.html#a5dde50f90dd383c0d8e96e173f8f1cce',1,'TImageData::numPixels()'],['../structcuda_image_list.html#a7f29b098dc0916fff9a396c8250c560c',1,'cudaImageList::numpixels()']]],
-  ['numthreads',['NumThreads',['../class_queued_c_p_u_tracker.html#ab72dd2ac1e12de11115f1cd96c9e51cd',1,'QueuedCPUTracker::NumThreads()'],['../struct_q_trk_settings.html#a8c6f1c671b527155afd5dad894c152da',1,'QTrkSettings::numThreads()'],['../class_q_i.html#afd1c6359668f2de142a18caf2a0e76e0',1,'QI::numThreads()'],['../class_queued_c_u_d_a_tracker.html#a1bbaf466f197bd745411786578b743bc',1,'QueuedCUDATracker::numThreads()']]]
+  ['numthreads',['numThreads',['../struct_q_trk_settings.html#a8c6f1c671b527155afd5dad894c152da',1,'QTrkSettings::numThreads()'],['../class_q_i.html#afd1c6359668f2de142a18caf2a0e76e0',1,'QI::numThreads()'],['../class_queued_c_u_d_a_tracker.html#a1bbaf466f197bd745411786578b743bc',1,'QueuedCUDATracker::numThreads()'],['../class_queued_c_p_u_tracker.html#ab72dd2ac1e12de11115f1cd96c9e51cd',1,'QueuedCPUTracker::NumThreads()']]]
 ];
