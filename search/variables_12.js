@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['s00',['s00',['../struct_lsq_sq_quad_fit_1_1_coeff.html#a7197a54e45e95e5e09092555f147cbbe',1,'LsqSqQuadFit::Coeff']]],
+  ['s01',['s01',['../struct_lsq_sq_quad_fit_1_1_coeff.html#af9640f1f631cb95b9f5c689f2c92ed82',1,'LsqSqQuadFit::Coeff']]],
+  ['s10',['s10',['../struct_lsq_sq_quad_fit_1_1_coeff.html#a450e15b091158e154e6f7f935fbad006',1,'LsqSqQuadFit::Coeff']]],
+  ['s11',['s11',['../struct_lsq_sq_quad_fit_1_1_coeff.html#a50a6f1c130d5358398fb7cd01097fe03',1,'LsqSqQuadFit::Coeff']]],
+  ['s20',['s20',['../struct_lsq_sq_quad_fit_1_1_coeff.html#a837251d5f164597eb5ff2759df1d8882',1,'LsqSqQuadFit::Coeff']]],
+  ['s21',['s21',['../struct_lsq_sq_quad_fit_1_1_coeff.html#a91d41e9b15e90da177f5c5f245508723',1,'LsqSqQuadFit::Coeff']]],
+  ['s30',['s30',['../struct_lsq_sq_quad_fit_1_1_coeff.html#ac756c374b5be8c857aab50c63b025307',1,'LsqSqQuadFit::Coeff']]],
+  ['s40',['s40',['../struct_lsq_sq_quad_fit_1_1_coeff.html#ae352321176113dcbe22edfb94cb0974a',1,'LsqSqQuadFit::Coeff']]],
+  ['scaling',['scaling',['../struct_result_manager_config.html#abb553f047043e2bd16b27ba6221f358e',1,'ResultManagerConfig']]],
+  ['sched_5fcpu',['sched_cpu',['../struct_speed_info.html#a847cb8b35291af8f0f3bfa1b1bd888d0',1,'SpeedInfo']]],
+  ['sched_5fgpu',['sched_gpu',['../struct_speed_info.html#a9703e36873f697d0157eb318c1316fba',1,'SpeedInfo']]],
+  ['schedulingthread',['schedulingThread',['../class_queued_c_u_d_a_tracker.html#a419b8e04e631f1711fdfad84943df22c',1,'QueuedCUDATracker']]],
+  ['similarity',['similarity',['../struct_bead_finder_1_1_config.html#ace5e499578ca57df89b304adab763a3e',1,'BeadFinder::Config']]],
+  ['size',['size',['../classdevice__vec.html#a1452496fe02af53427d0284e2bb6ca6e',1,'device_vec']]],
+  ['speed',['speed',['../struct_speed_acc_result.html#acff2d93f39aef032dfb530636ca78463',1,'SpeedAccResult']]],
+  ['speed_5fcpu',['speed_cpu',['../struct_speed_info.html#a083482c754c5ab95f6f25238610f803c',1,'SpeedInfo']]],
+  ['speed_5fgpu',['speed_gpu',['../struct_speed_info.html#aaa8f95513c3132d321801bfff20f11a4',1,'SpeedInfo']]],
+  ['srcimage',['srcImage',['../class_c_p_u_tracker.html#a393778bc9b49eb6d5014fd814c5dfcdf',1,'CPUTracker']]],
+  ['start',['start',['../class_scoped_c_p_u_profiler.html#a8faf698c2f3bd4538d9f8acb61e82d1e',1,'ScopedCPUProfiler']]],
+  ['startframe',['startFrame',['../struct_result_manager_1_1_frame_counters.html#a91cdacd9e2418fc49cdebabc171a1aa6',1,'ResultManager::FrameCounters']]],
+  ['state',['state',['../struct_queued_c_u_d_a_tracker_1_1_stream.html#ab609f91457378960151e374bd3d4f8c2',1,'QueuedCUDATracker::Stream']]],
+  ['status',['status',['../struct_error_cluster.html#a332d9ef24869985771e4114428871035',1,'ErrorCluster']]],
+  ['stdev',['stdev',['../class_c_p_u_tracker.html#ae5697cf2319755515193ae21d0c8995f',1,'CPUTracker::stdev()'],['../struct_run_tracker_results.html#a655e8e8fc33c59f9341ea0fc8979fec6',1,'RunTrackerResults::stdev()']]],
+  ['stream',['stream',['../struct_q_i_1_1_stream_instance.html#a86a26550ce70d9da353d52c3d8945918',1,'QI::StreamInstance::stream()'],['../struct_queued_c_u_d_a_tracker_1_1_stream.html#af5b983f7fe37fab223588226b8cee4f3',1,'QueuedCUDATracker::Stream::stream()']]],
+  ['streams',['streams',['../class_queued_c_u_d_a_tracker.html#a06cc0da8192d0f8ff5d9edcad1158f58',1,'QueuedCUDATracker']]]
+];
