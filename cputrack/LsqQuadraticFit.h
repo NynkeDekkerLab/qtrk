@@ -9,7 +9,7 @@ template<typename T>
 class LsqSqQuadFit
 {
 public:
-	T a,b,c,d;
+	T a,b,c,d,h,k;
 	float xoffset;
 
 	struct Coeff {
@@ -57,6 +57,14 @@ public:
 	CUDA_SUPPORTED_FUNC T maxPos()
 	{
 		return -b/(2*a);
+	}
+
+	CUDA_SUPPORTED_FUNC T vertexForm()
+	{
+		// Find equation in form a(x-h)^2+k
+		h = -b/(2*a);
+		k = c - a*h*h;		
+		return k;
 	}
    
 private:

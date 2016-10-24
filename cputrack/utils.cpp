@@ -164,8 +164,8 @@ void GenerateTestImage(ImageData& img, float xp, float yp, float size, float SNr
 	float S = 1.0f/sqrt(size);
 	for (int y=0;y<img.h;y++) {
 		for (int x=0;x<img.w;x++) {
-			float X = x - xp;
-			float Y = y - yp;
+			float X = x - xp;// + 0.5;
+			float Y = y - yp;// + 0.5;
 			float r = sqrtf(X*X+Y*Y)+1;
 			float v = sinf(r/(5*S)) * expf(-r*r*S*0.001f);
 			img.at(x,y)=v;
@@ -177,8 +177,6 @@ void GenerateTestImage(ImageData& img, float xp, float yp, float size, float SNr
 	}
 	img.normalize();
 }
-
-
 
 void ComputeCRP(float* dst, int radialSteps, int angularSteps, float minradius, float maxradius,
 	vector2f center, ImageData* img, float paddingValue, float*crpmap)
@@ -315,6 +313,9 @@ void ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float m
 	bool trace=false;
 	float rstep = (maxradius-minradius) / radialSteps;
 	int totalsmp = 0;
+
+	//FILE* f = fopen("D:\\TestImages\\test.csv","w");
+
 	for (int i=0;i<radialSteps; i++) {
 		double sum = 0.0f;
 
@@ -329,6 +330,8 @@ void ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float m
 				sum += v;
 				nsamples++;
 			}
+
+			//fprintf(f,"%d\t%d\t%f\n",i,a,v);
 		}
 
 		if (trace) {
@@ -340,10 +343,11 @@ void ComputeRadialProfile(float* dst, int radialSteps, int angularSteps, float m
 	if(trace)
 		dbgprintf("\n");
 
+	//fclose(f);
+
 	if (normalize) 
 		NormalizeRadialProfile(dst, radialSteps);
 }
-
 
 inline float sq(float x) { return x*x; }
 
@@ -413,7 +417,6 @@ void GenerateImageFromLUT(ImageData* image, ImageData* zlut, float minradius, fl
 			image->at(x,y) = s/(oversampleWidth*oversampleHeight); 
 		}
 }
-
 
 void GenerateGaussianSpotImage(ImageData* img, vector2f pos, float sigma, float I0, float Ibg)
 {
@@ -488,14 +491,13 @@ std::vector< std::vector<float> > ReadCSV(const char *filename, char sep)
 	return r;
 }
 
-
 std::vector<vector3f> ReadVector3CSV( const char *file, char sep )
 {
 	auto data=ReadCSV(file ,sep);
 
 	std::vector<vector3f> r(data.size());
 
-	for (int i=0;i<data.size();i++){
+	for (uint i=0;i<data.size();i++){
 		r[i]=vector3f(data[i][0],data[i][1],data[i][2]);
 	}
 	return r;
@@ -518,6 +520,20 @@ void WriteTrace(std::string filename, vector3f* results, int nResults)
 	fclose(f);
 }
 
+void WriteVectorAsCSVRow(const char *file, std::vector<float> d, bool append)
+{
+	FILE *f = fopen(file, append?"a":"w");
+	if(f) {
+		for (uint i=0;i<d.size();i++)
+			fprintf(f, "%1.7f\t", d[i]);
+
+		fprintf(f, "\n");
+		fclose(f);
+	}
+	else
+		dbgprintf("WriteArrayAsCSVRow: Unable to open file %s\n", file);
+}
+
 void WriteArrayAsCSVRow(const char *file, float* d, int len, bool append)
 {
 	FILE *f = fopen(file, append?"a":"w");
@@ -528,6 +544,8 @@ void WriteArrayAsCSVRow(const char *file, float* d, int len, bool append)
 		fprintf(f, "\n");
 		fclose(f);
 	}
+	else
+		dbgprintf("WriteArrayAsCSVRow: Unable to open file %s\n", file);
 }
 
 void WriteImageAsCSV(const char* file, float* d, int w,int h, const char* labels[])
@@ -557,7 +575,6 @@ void WriteImageAsCSV(const char* file, float* d, int w,int h, const char* labels
 	else
 		dbgprintf("WriteImageAsCSV: Unable to open file %s\n", file);
 }
-
 
 void WriteComplexImageAsCSV(const char* file, std::complex<float>* d, int w,int h, const char* labels[])
 {
@@ -606,7 +623,6 @@ std::vector<uchar> ReadToByteBuffer(const char *filename)
 	return buf;
 }
 
-
 ImageData ReadJPEGFile(const char*fn)
 {
 	int w, h;
@@ -621,7 +637,6 @@ ImageData ReadJPEGFile(const char*fn)
 
 	return ImageData(fbuf,w,h);
 }
-
 
 void CopyImageToFloat(uchar* data, int width, int height, int pitch, QTRK_PixelDataType pdt, float* dst)
 {
@@ -651,8 +666,6 @@ void CopyImageToFloat(uchar* data, int width, int height, int pitch, QTRK_PixelD
 	}
 }
 
-
-
 double GetPreciseTime()
 {
 	uint64_t freq, time;
@@ -662,9 +675,6 @@ double GetPreciseTime()
 
 	return (double)time / (double)freq;
 }
-
-
-
 
 int NearestPowerOf2(int v)
 {
@@ -686,7 +696,13 @@ int NearestPowerOf3(int v)
 	return r/3;
 }
 
+/*! \brief Calculate the radial weights for ZLUT profile comparisons.
 
+Calculates a mask, a so-called 'Stetson window', to reduce the effect of the edges of the profile in the
+calculation of error curves.
+
+\param [in] rsteps The number of radial steps in the window.
+*/
 std::vector<float> ComputeRadialBinWindow(int rsteps)
 {
 	std::vector<float> wnd(rsteps);
@@ -700,7 +716,6 @@ std::vector<float> ComputeRadialBinWindow(int rsteps)
 	}
 	return wnd;
 }
-
 
 ImageData ReadLUTFile(const char *lutfile)
 {
@@ -733,4 +748,3 @@ ImageData ReadLUTFile(const char *lutfile)
 		return lut;
 	}
 }
-

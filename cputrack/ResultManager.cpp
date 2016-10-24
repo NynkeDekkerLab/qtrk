@@ -77,8 +77,8 @@ void ResultManager::WriteBinaryFileHeader()
 	fwrite(&config.numBeads, sizeof(int), 1, f);
 	fwrite(&config.numFrameInfoColumns, sizeof(int), 1, f);
 	long data_offset_pos = ftell(f);
-	int tmp=1234;
-	fwrite(&tmp,sizeof(int), 1,f);
+	long tmp=1234;
+	fwrite(&tmp, sizeof(long), 1,f);
 	for (int i=0;i<config.numFrameInfoColumns;i++) {
 		auto& n = frameInfoNames[i];
 		fwrite(n.c_str(), n.length()+1, 1, f);
@@ -188,7 +188,6 @@ void ResultManager::WriteTextResults()
 	}
 	if(finfo) fclose(finfo);
 	if(f) fclose(f);
-
 }
 
 void ResultManager::Write()
@@ -257,7 +256,7 @@ bool ResultManager::Update()
 			Write();
 		}
 
-		dbgprintf("Removing %d frames from memory\n", del);
+		//dbgprintf("Removing %d frames from memory\n", del);
 		
 		for (int i=0;i<del;i++)
 			delete frameResults[i];
@@ -371,7 +370,7 @@ bool ResultManager::CheckResultSpace(int fr)
 		return false;
 	}
 
-	while (fr >= cnt.startFrame + frameResults.size()) {
+	while ((uint)fr >= cnt.startFrame + frameResults.size()) {
 		frameResults.push_back (new FrameResult( config.numBeads, config.numFrameInfoColumns));
 	}
 	return true;
@@ -407,7 +406,7 @@ int ResultManager::GetFrameCount()
 
 bool ResultManager::RemoveBeadResults(int bead)
 {
-	// TODO: We need to modify the saved data file
+	/// \todo We need to modify the saved data file
 
 	for (uint i=0;i<frameResults.size();i++) {
 		auto fr = frameResults[i];

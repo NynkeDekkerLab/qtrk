@@ -307,8 +307,9 @@ static double WaitForFinish(QueuedTracker* qtrk, int N)
 			if(displayrc%std::max(1,N/10)==0) dbgprintf("Done: %d / %d\n", displayrc, N);
 			displayrc++;
 		}
-		Threads::Sleep(50);
+		Threads::Sleep(10);
 	}
+	dbgprintf("Done: %d / %d\n", displayrc, N);
 	double t1 = GetPreciseTime();
 	return t1-t0;
 }
@@ -472,7 +473,7 @@ struct SpeedAccResult{
 	void Compute(const std::vector<vector3f>& results, std::function< vector3f(int x) > truepos) {
 
 		vector3f s;
-		for(int i=0;i<results.size();i++) {
+		for(uint i=0;i<results.size();i++) {
 			s+=results[i]-truepos(i);
 		}
 		s*=1.0f/results.size();
@@ -499,7 +500,7 @@ static SpeedAccResult SpeedAccTest(ImageData& lut, QTrkSettings *cfg, int N, vec
 	std::vector<vector3f> results, truepos (NImg);
 
 	std::vector<ImageData> imgs(NImg);
-	const float R=5;
+//	const float R=5;
 	
 	QueuedTracker* trk = new QueuedCPUTracker(*cfg);// CreateQueuedTracker(*cfg);
 
@@ -536,13 +537,11 @@ static SpeedAccResult SpeedAccTest(ImageData& lut, QTrkSettings *cfg, int N, vec
 	trk->SetLocalizationMode((LocMode_t)flags);
 	double tstart=GetPreciseTime();
 
-	int img=0;
 	for (int i=0;i<N;i++)
 	{
 		LocalizationJob job(i, 0, 0, 0);
 		trk->ScheduleLocalization((uchar*)imgs[i%NImg].data, sizeof(float)*cfg->width, QTrkFloat, &job);
 	}
-
 
 	WaitForFinish(trk, N);
 	double tend = GetPreciseTime();

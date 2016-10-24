@@ -20,6 +20,23 @@ std::vector<BeadPos> read_beadlist(std::string fn)
 	return beads;
 }
 
+std::vector<BeadPos> read_labview_beadlist(std::string fn)
+{
+	FILE *f = fopen(fn.c_str(), "r");
+	std::vector<BeadPos> beads;
+
+	if (!f) return beads;
+
+	while (!feof(f)) {
+		BeadPos bp;
+		fscanf(f, "%d,0000\t%d,0000\n", &bp.x,&bp.y);
+		beads.push_back(bp);
+	}
+
+	fclose(f);
+	return beads;
+}
+
 void extract_regions(std::vector<BeadPos> beads, int size, int frame, ImageData* img, process_image_cb cb)
 {
 	ImageData roi = ImageData::alloc(size,size);

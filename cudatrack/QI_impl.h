@@ -4,24 +4,9 @@
 #include "ImageSampler.h"
 #include "DebugResultCompare.h"
 
-#ifdef QI_DEBUG
-inline void DbgCopyResult(device_vec<float2>& src, std::vector< std::complex<float> >& dst) {
-	cudaDeviceSynchronize();
-	std::vector<float2> x(src.size);
-	src.copyToHost(x,false,0);
-	dst.resize(src.size);
-	for(int i=0;i<x.size();i++)
-		dst[i]=std::complex<float>(x[i].x,x[i].y);
-}
-inline void DbgCopyResult(device_vec<float>& src, std::vector< float >& dst) {
-	cudaDeviceSynchronize();
-	src.copyToHost(dst,false,0);
-}
-#else
-inline void DbgCopyResult(device_vec<float2> src, std::vector< std::complex<float> >& dst) {} 
-inline void DbgCopyResult(device_vec<float> src, std::vector< float>& dst) {}
-#endif
-
+/** \addtogroup kernels
+	@{
+*/
 
 template<typename TImageSampler>
 __device__ void ComputeQuadrantProfile(cudaImageListf& images, int idx, float* dst, const QIParams& params, int quadrant, float2 center, float mean, int angularSteps)
@@ -34,11 +19,10 @@ __device__ void ComputeQuadrantProfile(cudaImageListf& images, int idx, float* d
 	int mx = qmat[2*quadrant+0];
 	int my = qmat[2*quadrant+1];
 
-	for (int i=0;i<params.radialSteps;i++)
-		dst[i]=0.0f;
+	//for (int i=0;i<params.radialSteps;i++)
+	//	dst[i]=0.0f;
 	
-	float asf = (float)params.trigtablesize / angularSteps;
-	float total = 0.0f;
+	float asf = (float)params.maxAngularSteps / angularSteps;
 	float rstep = (params.maxRadius - params.minRadius) / params.radialSteps;
 	for (int i=0;i<params.radialSteps; i++) {
 		float sum = 0.0f;
@@ -58,7 +42,6 @@ __device__ void ComputeQuadrantProfile(cudaImageListf& images, int idx, float* d
 		}
 
 		dst[i] = count >= MIN_RADPROFILE_SMP_COUNT ? sum/count : mean;
-		total += dst[i];
 	}
 }
 
@@ -109,22 +92,23 @@ __global__ void QI_ComputeProfile(BaseKernelParams kp, float3* positions, float*
 			y0[nr-r-1] = make_float2( rw * (q2[r]+q3[r]),0);
 		}
 
-		for(int r=0;r<nr*2;r++)
+		for(int r=0;r<nr*2;r++)	
 			xrev[r] = x0[nr*2-r-1];
 		for(int r=0;r<nr*2;r++)
 			yrev[r] = y0[nr*2-r-1];
 	}
 }
 
-
 __global__ void QI_MultiplyWithConjugate(int n, cufftComplex* a, cufftComplex* b)
 {
+	//int idx = (threadIdx.y + threadIdx.x << 4) + (blockIdx.x + blockIdx.y *( (int)sqrt( (double)(n / (blockDim.x * blockDim.y)) ) + 1)) << 8;
+	//int idx = (threadIdx.x + threadIdx.y * blockDim.x) + (blockIdx.x + blockIdx.y *( (int)sqrt( (double)(n / (blockDim.x * blockDim.y)) ) + 1)) * blockDim.x * blockDim.y;
 	int idx = threadIdx.x + blockIdx.x * blockDim.x;
 	if (idx < n) {
 		cufftComplex A = a[idx];
 		cufftComplex B = b[idx];
-	
-		a[idx] = make_float2(A.x*B.x + A.y*B.y, A.y*B.x -A.x*B.y); // multiplying with conjugate
+		
+		a[idx] = make_float2(A.x*B.x + A.y*B.y, A.y*B.x - A.x*B.y); // multiplying with conjugate
 	}
 }
 
@@ -166,8 +150,6 @@ __global__ void QI_OffsetPositions(int njobs, float3* current, float3* dst, cuff
 	}
 }
 
-
-
 /*
 		q0: xprof[r], yprof[r]
 		q1: xprof[len-r-1], yprof[r]
@@ -177,55 +159,70 @@ __global__ void QI_OffsetPositions(int njobs, float3* current, float3* dst, cuff
 	kernel gets called with dim3(images.count, radialsteps, 4) elements
 */
 template<typename TImageSampler>
-__global__ void QI_ComputeQuadrants(BaseKernelParams kp, float3* positions, float* dst_quadrants, const QIParams params, int angularSteps)
+__global__ void QI_ComputeQuadrants(BaseKernelParams kp, float3* positions, float* dst_quadrants, const QIParams* params, int angularSteps)
 {
 	int jobIdx = threadIdx.x + blockIdx.x * blockDim.x;
 	int rIdx = threadIdx.y + blockIdx.y * blockDim.y;
 	int quadrant = threadIdx.z;
+	
+	// Ori: dst[i], i = radial index
+	// float* img_qdr = &dst_quadrants[ jobIdx * params->radialSteps * 4 ];
+	// float* dst = &img_qdr[quadrant*params->radialSteps];
+	// dst[rIdx] = rIdx;
+	//count >= MIN_RADPROFILE_SMP_COUNT ? sum/count : kp.imgmeans[jobIdx];
 
-	if (jobIdx < kp.njobs && rIdx < params.radialSteps && quadrant < 4) {
-
+	if (jobIdx < kp.njobs && rIdx < params->radialSteps && quadrant < 4) {
+		// The variables below could go in shared memory
+		float asf = (float)params->maxAngularSteps / angularSteps;
+		float rstep = (params->maxRadius - params->minRadius) / params->radialSteps;
 		const int qmat[] = {
 			1, 1,
 			-1, 1,
 			-1, -1,
 			1, -1 };
 
+		// --Stop--
+
 		int mx = qmat[2*quadrant+0];
 		int my = qmat[2*quadrant+1];
-		float* qdr = &dst_quadrants[ (jobIdx * 4 + quadrant) * params.radialSteps ];
 
-		float rstep = (params.maxRadius - params.minRadius) / params.radialSteps;
+		// Ori: dst[i], i = radial index
+		// float* img_qdr = &quadrants[ idx * qp.radialSteps * 4 ];
+		// dst = &img_qdr[q*qp.radialSteps]
+		float* qdr = &dst_quadrants[ (jobIdx * 4 + quadrant) * params->radialSteps ];
+		
 		float sum = 0.0f;
-		float r = params.minRadius + rstep * rIdx;
+		float r = params->minRadius + rstep * rIdx;
 		float3 pos = positions[jobIdx];
 //		float mean = imgmeans[jobIdx];
 
 		int count=0;
 		for (int a=0;a<angularSteps;a++) {
-			float x = pos.x + mx*params.cos_sin_table[a].x * r;
-			float y = pos.y + my*params.cos_sin_table[a].y * r;
+			int j = (int)(asf * a);
+			float x = pos.x + mx*params->cos_sin_table[j].x * r;
+			float y = pos.y + my*params->cos_sin_table[j].y * r;
 			bool outside=false;
-			sum += TImageSampler::Interpolated(kp.images, x,y,jobIdx, outside);
-			if (!outside) count++;
+			float v = TImageSampler::Interpolated(kp.images, x,y,jobIdx, outside);
+			if (!outside) {
+				sum += v;
+				count++;
+			}
 		}
-		qdr[rIdx] = count>MIN_RADPROFILE_SMP_COUNT ? sum/count : kp.imgmeans[jobIdx];
+		qdr[rIdx] = count >= MIN_RADPROFILE_SMP_COUNT ? sum/count : kp.imgmeans[jobIdx];
 	}
 }
 
-
-
-__global__ void QI_QuadrantsToProfiles(BaseKernelParams kp, float* quadrants, float2* profiles, float2* reverseProfiles, const QIParams params)
+__global__ void QI_QuadrantsToProfiles(BaseKernelParams kp, float* quadrants, float2* profiles, float2* reverseProfiles, float* d_radialweights, const QIParams* params)
 {
 //ComputeQuadrantProfile(cudaImageListf& images, int idx, float* dst, const QIParams& params, int quadrant, float2 center)
 	int idx = threadIdx.x + blockDim.x * blockIdx.x;
 	if (idx < kp.njobs) {
-		int fftlen = params.radialSteps*2;
-		float* img_qdr = &quadrants[ idx * params.radialSteps * 4 ];
+		int fftlen = params->radialSteps*2;
+		float* img_qdr = &quadrants[ idx * params->radialSteps * 4 ];
 	//	for (int q=0;q<4;q++)
-			//ComputeQuadrantProfile<TImageSampler> (images, idx, &img_qdr[q*params.radialSteps], params, q, img_means[idx], make_float2(positions[idx].x, positions[idx].y));
+			//ComputeQuadrantProfile<TImageSampler> (images, idx, &img_qdr[q*params->radialSteps], params, q, img_means[idx], make_float2(positions[idx].x, positions[idx].y));
 
-		int nr = params.radialSteps;
+		int nr = params->radialSteps;
 		qicomplex_t* imgprof = (qicomplex_t*) &profiles[idx * fftlen*2];
 		qicomplex_t* x0 = imgprof;
 		qicomplex_t* x1 = imgprof + nr*1;
@@ -245,15 +242,17 @@ __global__ void QI_QuadrantsToProfiles(BaseKernelParams kp, float* quadrants, fl
 		// qL = q1 + q2   (concat0)
 		// qR = q0 + q3   (concat1)
 		for(int r=0;r<nr;r++) {
-			x0[nr-r-1] = make_float2(q1[r]+q2[r],0);
-			x1[r] = make_float2(q0[r]+q3[r],0);
+			float rw = d_radialweights[r];
+			x0[nr-r-1] = make_float2( rw * (q1[r]+q2[r]), 0);
+			x1[r] = make_float2( rw * (q0[r]+q3[r]),0);
 		}
 		// Build Iy = [ qB(-r)  qT(r) ]
 		// qT = q0 + q1
 		// qB = q2 + q3
 		for(int r=0;r<nr;r++) {
-			y1[r] = make_float2(q0[r]+q1[r],0);
-			y0[nr-r-1] = make_float2(q2[r]+q3[r],0);
+			float rw = d_radialweights[r];
+			y1[r] = make_float2( rw * (q0[r]+q1[r]),0);
+			y0[nr-r-1] = make_float2( rw * (q2[r]+q3[r]),0);
 		}
 
 		for(int r=0;r<nr*2;r++)
@@ -262,6 +261,8 @@ __global__ void QI_QuadrantsToProfiles(BaseKernelParams kp, float* quadrants, fl
 			yrev[r] = y0[nr*2-r-1];
 	}
 }
+
+/** @} */
 
 template<typename TImageSampler>
 void QI::Execute (BaseKernelParams& p, const QTrkComputedConfig& cfg, QI::StreamInstance* s, QI::DeviceInstance* d, device_vec<float3>* initial, device_vec<float3> *output) 
@@ -278,39 +279,56 @@ void QI::Execute (BaseKernelParams& p, const QTrkComputedConfig& cfg, QI::Stream
 template<typename TImageSampler>
 void QI::Iterate(BaseKernelParams& p, device_vec<float3>* initial, device_vec<float3>* newpos, StreamInstance *s, DeviceInstance* d, int angularSteps)
 {
-	if (0) {
-	/*	
-		This part makes better use of parallelism (computing every quadrants radial bin in a seperate thread, but still has a bug somewhere...
-	
-		dim3 qdrThreads(16, 8);
-		dim3 qdrDim( (p.njobs + qdrThreads.x - 1) / qdrThreads.x, (params.radialSteps + qdrThreads.y - 1) / qdrThreads.y, 4 );
-		QI_ComputeQuadrants<TImageSampler> <<< qdrDim , qdrThreads, 0, s->stream >>> 
-			(p, initial->data, s->d_quadrants.data, d->d_qiparams);
+	/* Old method of calculating quadrant profiles.
+	QIParams dp = params;
+	dp.cos_sin_table = d->qi_trigtable.data;
 
-		QI_QuadrantsToProfiles <<< blocks(p.njobs), threads(), 0, s->stream >>> 
-			(p, s->d_quadrants.data, s->d_QIprofiles.data, s->d_QIprofiles_reverse.data, d->d_qiparams);*/
-	}
-	else {
-		QIParams dp = params;
-		dp.cos_sin_table = d->qi_trigtable.data;
+	QI_ComputeProfile <TImageSampler> <<< blocks(p.njobs), threads(), 0, s->stream >>> (p, initial->data, 
+		s->d_quadrants.data, s->d_QIprofiles.data, s->d_QIprofiles_reverse.data, dp, d->d_radialweights.data, angularSteps);
+	// DbgOutputVectorToFile("D:\\TestImages\\gpu_qi_prof_old.csv", s->d_quadrants, true);
+	*/
 
-		QI_ComputeProfile <TImageSampler> <<< blocks(p.njobs), threads(), 0, s->stream >>> (p, initial->data, 
-			s->d_quadrants.data, s->d_QIprofiles.data, s->d_QIprofiles_reverse.data, dp, d->d_radialweights.data, angularSteps);
+	/// Huge speedup achieved by calculating each quadrant's radial bin in a seperate thread.
+	/// This leads to more, smaller kernels running concurrently so more memory latency hiding can be achieved through higher occupancy.
+	/// For a visual display of this, try running the NVidia Visual Profiler with both versions of quadrant profile kernels.
+	dim3 qdrThreads(16, 8, 4);
+	dim3 qdrDim( (p.njobs + qdrThreads.x - 1) / qdrThreads.x, (params.radialSteps + qdrThreads.y - 1) / qdrThreads.y);
+
+	QI_ComputeQuadrants<TImageSampler> <<< qdrDim , qdrThreads, 0, s->stream >>> 
+		(p, initial->data, s->d_quadrants.data, d->d_qiparams, angularSteps);
+		
+	QI_QuadrantsToProfiles <<< blocks(p.njobs), threads(), 0, s->stream >>> 
+		(p, s->d_quadrants.data, s->d_QIprofiles.data, s->d_QIprofiles_reverse.data, d->d_radialweights.data, d->d_qiparams);
+	// DbgOutputVectorToFile("D:\\TestImages\\gpu_qi_prof_new.csv", s->d_quadrants, true);
 
 #ifdef QI_DEBUG
-		DbgCopyResult(s->d_quadrants, cmp_gpu_qi_prof);
+	DbgCopyResult(s->d_QIprofiles, cmp_gpu_qi_prof);
 #endif
-	}
 
 	cufftComplex* prof = (cufftComplex*)s->d_QIprofiles.data;
 	cufftComplex* revprof = (cufftComplex*)s->d_QIprofiles_reverse.data;
+	CheckCUDAError(cufftExecC2C(s->fftPlan, prof, prof, CUFFT_FORWARD));
+	CheckCUDAError(cufftExecC2C(s->fftPlan, revprof, revprof, CUFFT_FORWARD));
 
-	cufftExecC2C(s->fftPlan, prof, prof, CUFFT_FORWARD);
-	cufftExecC2C(s->fftPlan, revprof, revprof, CUFFT_FORWARD);
-
-	int nval = qi_FFT_length * 2 * batchSize, nthread=256;
+	int nval = qi_FFT_length * 2 * batchSize;
+	int nthread = 256;
 	QI_MultiplyWithConjugate<<< dim3( (nval + nthread - 1)/nthread ), dim3(nthread), 0, s->stream >>>(nval, prof, revprof);
-	cufftExecC2C(s->fftPlan, prof, prof, CUFFT_INVERSE);
+	/* 
+	Experiment to see the effect of different block sizes.
+	Seems that if the whole parameter space is covered, block sizes don't matter for execution speed.
+
+	dim3 threadsDim = dim3(16, 16);
+	int numBlocks = nval / (threadsDim.x * threadsDim.y);
+	dim3 blocksDim = dim3( sqrt((double)numBlocks)+1, sqrt((double)numBlocks)+1 );
+		
+	if(nval > threadsDim.x * threadsDim.y * blocksDim.x * blocksDim.y){
+		printf("\nNot whole space covered: nval > total threads\n");
+		printf("nval: %d, nthread: %d, block (%d,%d), threads (%d,%d)\n", nval, nthread, blocksDim.x, blocksDim.y, threadsDim.x, threadsDim.y);
+	}
+	QI_MultiplyWithConjugate<<< blocksDim, threadsDim, 0, s->stream >>> (nval, prof, revprof);
+	*/
+	
+	CheckCUDAError(cufftExecC2C(s->fftPlan, prof, prof, CUFFT_INVERSE));
 
 #ifdef QI_DEBUG
 	DbgCopyResult(s->d_QIprofiles, cmp_gpu_qi_fft_out);
@@ -323,7 +341,7 @@ void QI::Iterate(BaseKernelParams& p, device_vec<float3>* initial, device_vec<fl
 		(p.njobs, initial->data, newpos->data, prof, qi_FFT_length, d_offsets, pixelsPerProfLen, s->d_shiftbuffer.data); 
 }
 
-void QI::InitDevice(DeviceInstance*d, QTrkComputedConfig& cc)
+void QI::InitDevice(DeviceInstance* d, QTrkComputedConfig& cc)
 {
 	std::vector<float2> qi_radialgrid(cc.qi_angstepspq);
 	for (int i=0;i<cc.qi_angstepspq;i++)  {
@@ -346,20 +364,22 @@ void QI::InitStream(StreamInstance* s, QTrkComputedConfig& cc, cudaStream_t stre
 {
 	int fftlen = cc.qi_radialsteps*2;
 	s->stream = stream;
-	s->d_quadrants.init(fftlen*batchSize*2);
-	s->d_QIprofiles.init(batchSize*2*fftlen); // (2 axis) * (2 radialsteps) = 8 * nr = 2 * fftlen
+	s->d_quadrants.init(fftlen*batchSize*2); // 4 quadrants * radialSteps * batchSize
+	s->d_QIprofiles.init(batchSize*2*fftlen); // (2 axis) * (2 radialsteps) = 4 * nr = 2 * fftlen
 	s->d_QIprofiles_reverse.init(batchSize*2*fftlen);
 	s->d_shiftbuffer.init(fftlen * batchSize);
-		
+
 	// 2* batchSize, since X & Y both need an FFT transform
-	//cufftResult_t r = cufftPlanMany(&s->fftPlan, 1, &fftlen, 0, 1, fftlen, 0, 1, fftlen, CUFFT_C2C, batchSize*4);
-	cufftResult_t r = cufftPlan1d(&s->fftPlan, fftlen, CUFFT_C2C, batchSize*2);
+	// cufftPlanMany and 1d with batch argument are equivalent in memory usage and speed
+	// Using Many because the batch argument for 1d is strictly speaking deprecated (see cufft.h)
+	cufftResult_t r = cufftPlanMany(&s->fftPlan, 1, &fftlen, 0, 1, fftlen, 0, 1, fftlen, CUFFT_C2C, batchSize*2);
+	//cufftResult_t r = cufftPlan1d(&s->fftPlan, fftlen, CUFFT_C2C, batchSize*2);
 
 	if(r != CUFFT_SUCCESS) {
-		throw std::runtime_error( SPrintf("CUFFT plan creation failed. FFT len: %d. Batchsize: %d\n", fftlen, batchSize*4));
+		throw std::runtime_error( SPrintf("CUFFT plan creation failed. FFT len: %d. Batchsize: %d\n", fftlen, batchSize*2));
 	}
-	cufftSetCompatibilityMode(s->fftPlan, CUFFT_COMPATIBILITY_NATIVE);
-	cufftSetStream(s->fftPlan, stream);
+	CheckCUDAError(cufftSetCompatibilityMode(s->fftPlan, CUFFT_COMPATIBILITY_NATIVE));
+	CheckCUDAError(cufftSetStream(s->fftPlan, stream));
 
 	this->qi_FFT_length = fftlen;
 }
@@ -367,7 +387,7 @@ void QI::InitStream(StreamInstance* s, QTrkComputedConfig& cc, cudaStream_t stre
 void QI::Init(QTrkComputedConfig& cfg, int batchSize)
 {
 	QIParams& qi = params;
-	qi.trigtablesize = cfg.qi_angstepspq;
+	qi.maxAngularSteps = cfg.qi_angstepspq;
 	qi.iterations = cfg.qi_iterations;
 	qi.maxRadius = cfg.qi_maxradius;
 	qi.minRadius = cfg.qi_minradius;
@@ -379,5 +399,3 @@ void QI::Init(QTrkComputedConfig& cfg, int batchSize)
 
 	this->batchSize = batchSize;
 }
-
-

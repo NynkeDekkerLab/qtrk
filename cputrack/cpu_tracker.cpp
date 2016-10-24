@@ -21,9 +21,6 @@ CPU only tracker
 #include "random_distr.h"
 #include "CubicBSpline.h"
 
-#define SFFT_BOTH 
-#include "../cudatrack/simplefft.h"
-
 const float XCorScale = 1.0f; // keep this at 1, because linear oversampling was a bad idea..
 
 #include "DebugResultCompare.h"
@@ -39,10 +36,9 @@ const double ZLUTWeights_d[ZLUT_LSQFIT_NWEIGHTS] = ZLUT_LSQFIT_WEIGHTS;
 static int clamp(int v, int a,int b) { return std::max(a, std::min(b, v)); }
 
 
-CPUTracker::CPUTracker(int w, int h, int xcorwindow)
+CPUTracker::CPUTracker(int w, int h, int xcorwindow, bool testMode)
+	: width(w), height(h), xcorw(xcorwindow), testRun(testMode)
 {
-	width = w;
-	height = h;
 	trackerID = 0;
 
 	xcorBuffer = 0;
@@ -56,7 +52,7 @@ CPUTracker::CPUTracker(int w, int h, int xcorwindow)
 	zluts = 0;
 	zlut_planes = zlut_res = zlut_count = 0;
 	zlut_minradius = zlut_maxradius = 0.0f;
-	xcorw = xcorwindow;
+
 	qa_fft_forward = qa_fft_backward = 0;
 
 	qi_radialsteps = 0;
@@ -156,28 +152,6 @@ void XCor1DBuffer::XCorFFTHelper(complex_t* prof, complex_t *prof_rev, scalar_t*
 
 	for (int x=0;x<xcorw;x++)
 		result[x] = fft_out_rev[ (x+xcorw/2) % xcorw ].real();
-}
-
-// Returns true if bounds are crossed
-bool CPUTracker::KeepInsideBoundaries(vector2f* center, float radius)
-{
-	bool boundaryHit = center->x + radius >= width ||
-		center->x - radius < 0 ||
-		center->y + radius >= height ||
-		center->y - radius < 0;
-
-	if (center->x - radius < 0.0f)
-		center->x = radius;
-
-	if (center->y - radius < 0.0f)
-		center->y = radius;
-
-	if (center->x + radius >= width)
-		center->x = width-radius-1;
-
-	if (center->y + radius >= height)
-		center->y = height-radius-1;
-	return boundaryHit;
 }
 
 bool CPUTracker::CheckBoundaries(vector2f center, float radius)
@@ -320,6 +294,7 @@ vector2f CPUTracker::ComputeQI(vector2f initial, int iterations, int radialSteps
 
 		for (int q=0;q<4;q++) {
 			ComputeQuadrantProfile(buf+q*nr, nr, angsteps, q, minRadius, maxRadius, center, radialWeights);
+			//NormalizeRadialProfile(buf+q*nr, nr);
 		}
 #ifdef QI_DEBUG
 		cmp_cpu_qi_prof.assign (buf,buf+4*nr);
@@ -402,6 +377,13 @@ scalar_t CPUTracker::QI_ComputeOffset(complex_t* profile, int nr, int axisForDeb
 		autoconv[x] = fft_out2[(x+nr)%(nr*2)].real();
 	}
 
+	float* profileReal = ALLOCA_ARRAY(float, nr*2);
+	for(int x=0;x<nr*2;x++)  {
+		profileReal[x] = profile[x].real();
+	}
+	//WriteArrayAsCSVRow(SPrintf("D:\\TestImages\\AutoconvProf-%d.txt",axisForDebug).c_str()	,profileReal,nr*2,false);
+	//WriteArrayAsCSVRow(SPrintf("D:\\TestImages\\Autoconv-%d.txt",axisForDebug).c_str()		,autoconv,nr*2,false); // */
+	
 	scalar_t maxPos = ComputeMaxInterp<scalar_t, QI_LSQFIT_NWEIGHTS>::Compute(autoconv, nr*2, QIWeights);
 	return (maxPos - nr) * (3.14159265359f / 4);
 }
@@ -671,12 +653,10 @@ void CPUTracker::ComputeQuadrantProfile(scalar_t* dst, int radialSteps, int angu
 		if (radialWeights) dst[i] *= radialWeights[i];
 		total += dst[i];
 	}
-	#ifdef QI_DBG_EXPORT
-	WriteImageAsCSV(SPrintf("qprof%d.txt", quadrant).c_str(), dst, 1, radialSteps);
-	#endif
+	
+	//WriteImageAsCSV(SPrintf("D:\\TestImages\\qprof%d.txt", quadrant).c_str(), dst, 1, radialSteps);	
+	//WriteArrayAsCSVRow("D:\\TestImages\\radialWeights.csv",radialWeights,radialSteps,false);
 }
-
-
 
 vector2f CPUTracker::ComputeMeanAndCOM(float bgcorrection)
 {
@@ -708,15 +688,19 @@ vector2f CPUTracker::ComputeMeanAndCOM(float bgcorrection)
 	for(int y=0;y<height;y++)
 		xmom[y]=0;*/
 
-	vector2f centre = vector2f(width/2,height/2);
-	float sigma = width/4; // Suppress to 5% at edges
-	float devi = 1/(2*sigma*sigma);
+	// Comments: Gaussian mask not currently used
+	//vector2f centre = vector2f((float)width/2,(float)height/2);
+	//float sigma = (float)width/4; // Suppress to 5% at edges
+	//float devi = 1/(2*sigma*sigma);
+	
 	for(int x=0;x<width;x++) {
 		for (int y=0;y<height;y++) {
 			float v = GetPixel(x,y);
-			float xabs = (x-centre.x); float yabs = (y-centre.y);
-			float gaussfact = expf(- xabs*xabs*devi - yabs*yabs*devi);
-			v = std::max(0.0f, fabs(v-mean)-bgcorrection*stdev)*gaussfact;
+			
+			//float xabs = (x-centre.x); float yabs = (y-centre.y);
+			//float gaussfact = 1.0f;//expf(- xabs*xabs*devi - yabs*yabs*devi);
+			
+			v =  std::max(0.0f, fabs(v-mean)-bgcorrection*stdev);
 			sum += v;
 	//		xmom[y] += x*v;
 	//		ymom[x] += y*v;
@@ -725,8 +709,6 @@ vector2f CPUTracker::ComputeMeanAndCOM(float bgcorrection)
 		}
 	}
 	
-	//for (int 
-
 	vector2f com;
 	com.x = (float)( momentX / sum );
 	com.y = (float)( momentY / sum );
@@ -772,7 +754,6 @@ void CPUTracker::SetRadialZLUT(float* data, int planes, int res, int numLUTs, fl
 	zlut_count = numLUTs;
 	zlut_minradius = minradius;
 	zlut_maxradius = maxradius;
-	zlut_useCorrelation = useCorrelation;
 
 	if (qa_fft_backward) {
 		delete qa_fft_backward;
@@ -792,51 +773,8 @@ void CPUTracker::SetRadialWeights(float* radweights)
 		zlut_radialweights.clear();
 }
 
-float CPUTracker::LUTProfileCompare (float* rprof, int zlutIndex, float* cmpProf, LUTProfileMaxComputeMode maxPosComputeMode, float* fitcurve, int *maxPos, int frameNum)
+void CPUTracker::CalculateErrorCurve(double* errorcurve_dest, float* profile, float* zlut_sel)
 {
-	/* From this function save:
-		- Frame number?
-		
-		- Original image
-		- Profile
-		- LUT
-		- Error curve
-		- Final value
-	*/
-
-	bool diagMode = true;
-	bool freeMem = false;
-	std::string outputName;
-
-	if(diagMode){
-		outputName = SPrintf("%s%05d-%05d",GetCurrentOutputPath().c_str(),zlutIndex,frameNum);
-		
-		if (FILE *file = fopen(SPrintf("%s.jpg",outputName.c_str()).c_str(), "r")) {
-			fclose(file);
-			printf("File exists\n");
-		}
-		SaveImage(SPrintf("%s.jpg",outputName.c_str()).c_str());
-		FloatToJPEGFile(SPrintf("%s-prof.jpg",outputName.c_str()).c_str(), rprof, zlut_res, 1);
-
-		if(!fitcurve){
-			fitcurve = new float[zlut_planes];
-			freeMem = true;
-		}
-	}
-
-	if (!zluts)
-		return 0.0f;
-
-	double* rprof_diff = ALLOCA_ARRAY(double, zlut_planes);
-	//WriteImageAsCSV("zlutradprof-cpu.txt", rprof, zlut_res, 1);
-
-	// Now compare the radial profile to the profiles stored in Z
-	float* zlut_sel = GetRadialZLUT(zlutIndex);
-
-	if(diagMode){
-		FloatToJPEGFile(SPrintf("%s-zlut.jpg",outputName.c_str()).c_str(),zlut_sel,zlut_res,zlut_planes);
-	}
-
 #if 0
 	float* zlut_norm = ALLOCA_ARRAY(float, zlut_res);
 	float* prof_norm = ALLOCA_ARRAY(float, zlut_res);
@@ -867,15 +805,111 @@ float CPUTracker::LUTProfileCompare (float* rprof, int zlutIndex, float* cmpProf
 	for (int k=0;k<zlut_planes;k++) {
 		double diffsum = 0.0f;
 		for (int r = 0; r<zlut_res;r++) {
-			double d = rprof[r]-zlut_sel[k*zlut_res+r];
+			double d = profile[r]-zlut_sel[k*zlut_res+r];
 			if (!zlut_radialweights.empty())
 				d*=zlut_radialweights[r];
 			d = -d*d;
 			diffsum += d;
 		}
-		rprof_diff[k] = diffsum;
+		errorcurve_dest[k] = diffsum;
 	}
 #endif
+}
+
+void CPUTracker::CalculateInterpolatedZLUTProfile(float* profile_dest, float z, int zlutIndex)
+{
+	float* zlut_sel = GetRadialZLUT(zlutIndex);
+	for (int r = 0; r<zlut_res;r++) {
+		if ( z < 0 )
+			profile_dest[r] = 0;
+		else if( ((int)z+1) < zlut_planes ) // Index out of bounds if z > LUT resolution
+			profile_dest[r] = Lerp(zlut_sel[(int)z*zlut_res+r],zlut_sel[((int)z+1)*zlut_res+r],z-(int)z);
+		else
+			profile_dest[r] = zlut_sel[(zlut_planes-1)*zlut_res+r];
+	}
+	NormalizeRadialProfile(profile_dest,zlut_res);
+}
+
+float CPUTracker::CalculateErrorFlag(double* prof1, double* prof2)
+{
+	// 		sum(abs(expectedCurve-errorCurve))/size(errorCurve,2)
+	float flag = 0.0f;
+	for(int ii = 0; ii < zlut_res; ii++){
+		flag += std::abs(prof1[ii]-prof2[ii]);
+	}	
+	return flag/zlut_res;
+}
+
+float CPUTracker::LUTProfileCompare (float* rprof, int zlutIndex, float* cmpProf, LUTProfileMaxComputeMode maxPosComputeMode, float* fitcurve, int *maxPos, int frameNum)
+{
+	/* From this function save:
+		- Frame number?
+		
+		- Original image
+		- Profile
+		- LUT
+		- Error curve
+		- Final value
+	*/
+
+	bool freeMem = false;
+	std::string outputName;
+	float zOffset;
+
+	if(testRun){
+		outputName = SPrintf("%s%05d-%05d",GetCurrentOutputPath().c_str(),zlutIndex,frameNum);
+		
+		if (FILE *file = fopen(SPrintf("%s.jpg",outputName.c_str()).c_str(), "r")) {
+			fclose(file);
+			printf("File exists\n");
+		}
+		SaveImage(SPrintf("%s.jpg",outputName.c_str()).c_str());
+		//FloatToJPEGFile(SPrintf("%s-prof.jpg",outputName.c_str()).c_str(), rprof, zlut_res, 1);
+		WriteArrayAsCSVRow(SPrintf("%s-prof.txt",outputName.c_str()).c_str(), rprof, zlut_res, 0);
+
+		if(!fitcurve){
+			fitcurve = new float[zlut_planes];
+			freeMem = true;
+		}
+
+		/* 
+			For testing, we want to introduce a fixed height offset of xx nm, regardless of amount of zlut planes
+			Z is in zlut planes here, so calculate back
+
+			int numImgInStack = 1218;
+			int numPositions = 1001; // ~10nm/frame
+			float range = 10.0f; // total range 25.0 um -> 35.0 um
+			float umPerImg = range/numImgInStack; //
+			
+			int zplanes = 50;
+			int startFrame = 400;
+		*/
+		float range = 10.0f; // total range 25.0 um -> 35.0 um
+		int numImgInStack = 1218;
+		float umPerImg = range/numImgInStack;
+		int startFrame = 400;
+		int usedFrames = numImgInStack-startFrame;
+		float rangeInLUT = usedFrames*umPerImg; // Total um of LUT range
+		float umPerPlane = rangeInLUT/zlut_planes;
+
+		float error = 0.000f; // Forced error in um
+		zOffset = error/umPerPlane; // um * planes / um
+	}
+
+	if (!zluts)
+		return 0.0f;
+
+	double* rprof_diff = ALLOCA_ARRAY(double, zlut_planes);
+	//WriteImageAsCSV("zlutradprof-cpu.txt", rprof, zlut_res, 1);
+
+	// Now compare the radial profile to the profiles stored in Z
+	float* zlut_sel = GetRadialZLUT(zlutIndex);
+
+	if(testRun){
+		FloatToJPEGFile(SPrintf("%s-zlut.jpg",outputName.c_str()).c_str(),zlut_sel,zlut_res,zlut_planes);
+	}
+
+	CalculateErrorCurve(rprof_diff, rprof, zlut_sel);
 
 	if (cmpProf) {
 		//cmpProf->resize(zlut_planes);
@@ -889,17 +923,41 @@ float CPUTracker::LUTProfileCompare (float* rprof, int zlutIndex, float* cmpProf
 
 		if (fitcurve) {
 			LsqSqQuadFit<double> fit;
-			float z= ComputeMaxInterp<double, ZLUT_LSQFIT_NWEIGHTS>::Compute(rprof_diff, zlut_planes, ZLUTWeights_d, &fit);
+			float z = ComputeMaxInterp<double, ZLUT_LSQFIT_NWEIGHTS>::Compute(rprof_diff, zlut_planes, ZLUTWeights_d, &fit);
+
 			int iMax = std::max_element(rprof_diff, rprof_diff+zlut_planes) - rprof_diff;
 			for (int i=0;i<zlut_planes;i++)
 				fitcurve[i] = fit.compute(i-iMax);
 			
-			if(diagMode){
+			if(testRun)	{
+				z += zOffset; // For testing purposes
+
+				// Calculate errorcurve of found ZLUT plane
+				float* int_prof = ALLOCA_ARRAY(float, zlut_res);
+				CalculateInterpolatedZLUTProfile(int_prof, z, zlutIndex);
+
+				double* plane_auto_diff = ALLOCA_ARRAY(double, zlut_planes);
+				CalculateErrorCurve(plane_auto_diff, int_prof, zlut_sel);
+				/*for (int k=0;k<zlut_planes;k++) {
+					double diffsum = 0.0f;
+					for (int r = 0; r<zlut_res;r++) {
+						double d = int_prof[r] - zlut_sel[k*zlut_res+r];
+						if (!zlut_radialweights.empty())
+							d*=zlut_radialweights[r];
+						d = -d*d;
+						diffsum += d;
+					}
+					plane_auto_diff[k] = diffsum;
+				}*/
+
+				//float errorFlag = CalculateErrorFlag(rprof_diff, plane_auto_diff);
+
+				WriteArrayAsCSVRow(SPrintf("%s-int-prof.txt",outputName.c_str()).c_str(), int_prof, zlut_res, 0);
+
 				FILE* f = fopen(SPrintf("%s-out.txt",outputName.c_str()).c_str(),"w+");
 				fprintf_s(f,"z: %f\n",z);
 				for (int i=0;i<zlut_planes;i++)
-					fprintf_s(f,"%f\t%f\n",rprof_diff[i],fitcurve[i]);
-
+					fprintf_s(f,"%f\t%f\t%f\t%f\t%f\n",rprof_diff[i],fitcurve[i],plane_auto_diff[i],fit.a,fit.vertexForm());
 				fclose(f);
 
 				if(freeMem)
@@ -917,7 +975,6 @@ float CPUTracker::LUTProfileCompare (float* rprof, int zlutIndex, float* cmpProf
 	} else 
 		return ComputeSplineFitMaxPos(rprof_diff, zlut_planes);
 }
-
 
 float CPUTracker::LUTProfileCompareAdjustedWeights(float* rprof, int zlutIndex, float z_estim)
 {
@@ -951,12 +1008,10 @@ float CPUTracker::LUTProfileCompareAdjustedWeights(float* rprof, int zlutIndex, 
 	return ComputeMaxInterp<double, ZLUT_LSQFIT_NWEIGHTS>::Compute(rprof_diff, zlut_planes, ZLUTWeights_d);
 }
 
-
 void CPUTracker::SaveImage(const char *filename)
 {
 	FloatToJPEGFile(filename, srcImage, width, height);
 }
-
 
 void CPUTracker::FourierTransform2D()
 {

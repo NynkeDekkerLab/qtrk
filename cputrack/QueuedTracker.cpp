@@ -115,16 +115,12 @@ void QueuedTracker::ScheduleLocalization(uchar* data, int pitch, QTRK_PixelDataT
 	ScheduleLocalization(data,pitch,pdt,&j);
 }
 
-
-
 ImageData QueuedTracker::DebugImage(int ID)
 {
 	ImageData img;
 	GetDebugImage(ID, &img.w, &img.h, &img.data);
 	return img;
 }
-
-
 
 int QueuedTracker::ScheduleFrame(void *imgptr, int pitch, int width, int height, ROIPosition *positions, int numROI, QTRK_PixelDataType pdt, const LocalizationJob *jobInfo)
 {
@@ -147,8 +143,6 @@ int QueuedTracker::ScheduleFrame(void *imgptr, int pitch, int width, int height,
 	}
 	return count;
 }
-
-
 
 float QueuedTracker::ZLUTBiasCorrection(float z, int zlut_planes, int bead)
 {
@@ -176,8 +170,6 @@ float QueuedTracker::ZLUTBiasCorrection(float z, int zlut_planes, int bead)
 	}
 	return pos;
 }
-
-
 void QueuedTracker::ComputeZBiasCorrection(int bias_planes, CImageData* result, int smpPerPixel, bool useSplineInterp)
 {
 	int count,zlut_planes,radialsteps;
@@ -225,7 +217,6 @@ void QueuedTracker::ComputeZBiasCorrection(int bias_planes, CImageData* result, 
 	if (result)
 		*result = *zlut_bias_correction;
 }
-
 
 void QueuedTracker::SetZLUTBiasCorrection(const CImageData& bc)
 {

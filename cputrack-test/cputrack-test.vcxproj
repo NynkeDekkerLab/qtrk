@@ -5,9 +5,17 @@
       <Configuration>Debug-Single</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug-Single|x64">
+      <Configuration>Debug-Single</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release-Single|Win32">
       <Configuration>Release-Single</Configuration>
       <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release-Single|x64">
+      <Configuration>Release-Single</Configuration>
+      <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -21,23 +29,60 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug-Single|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug-Single|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug-Single|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug-Single|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)\bin\</OutDir>
-    <TargetName>$(ProjectName)-sd</TargetName>
+    <OutDir>$(SolutionDir)\bin\test\</OutDir>
+    <TargetName>$(ProjectName)-d</TargetName>
+    <IntDir>$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug-Single|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)\bin\test\</OutDir>
+    <TargetName>$(ProjectName)-d</TargetName>
+    <IntDir>$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-Single|Win32'">
-    <OutDir>$(SolutionDir)\bin</OutDir>
+    <OutDir>$(SolutionDir)\bin\test\</OutDir>
     <TargetName>$(ProjectName)</TargetName>
+    <IntDir>$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-Single|x64'">
+    <OutDir>$(SolutionDir)\bin\test\</OutDir>
+    <TargetName>$(ProjectName)</TargetName>
+    <IntDir>$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug-Single|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>QTRK_EXPORTS;USE_MEMDBG;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../libs/libjpeg-turbo/include;../libs/pthreads/include;../libs/fftw;../libs/math;../cputrack;</AdditionalIncludeDirectories>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>../libs/libjpeg-turbo/lib/jpeg-static.lib;../libs/pthreads/lib/x86/pthreadVSE2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug-Single|x64'">
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
@@ -70,6 +115,23 @@
       <MultiProcessorCompilation>false</MultiProcessorCompilation>
     </ClCompile>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release-Single|x64'">
+    <Link>
+      <AdditionalDependencies>../libs/libjpeg-turbo/lib/jpeg-static.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <ClCompile>
+      <AdditionalIncludeDirectories>../libs/libjpeg-turbo/include;../libs/math;../cputrack;</AdditionalIncludeDirectories>
+      <Optimization>MaxSpeed</Optimization>
+      <PreprocessorDefinitions>QTRK_EXPORTS;USE_MEMDBG;WIN32;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <WarningLevel>Level2</WarningLevel>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cputrack\BeadFinder.cpp" />
     <ClCompile Include="..\cputrack\BenchmarkLUT.cpp" />
@@ -78,6 +140,7 @@
     <ClCompile Include="..\cputrack\memdbg.cpp" />
     <ClCompile Include="..\cputrack\QueuedCPUTracker.cpp" />
     <ClCompile Include="..\cputrack\QueuedTracker.cpp" />
+    <ClCompile Include="..\cputrack\ResultManager.cpp" />
     <ClCompile Include="..\cputrack\TeLibJpeg\jmemdst.c" />
     <ClCompile Include="..\cputrack\TeLibJpeg\jmemsrc.c" />
     <ClCompile Include="..\cputrack\utils.cpp" />
@@ -94,6 +157,7 @@
     <ClInclude Include="..\cputrack\kissfft.h" />
     <ClInclude Include="..\cputrack\QueuedCPUTracker.h" />
     <ClInclude Include="..\cputrack\QueuedTracker.h" />
+    <ClInclude Include="..\cputrack\ResultManager.h" />
     <ClInclude Include="..\cputrack\std_incl.h" />
     <ClInclude Include="..\cputrack\TeLibJpeg\jmemdstsrc.h" />
     <ClInclude Include="..\cputrack\utils.h" />

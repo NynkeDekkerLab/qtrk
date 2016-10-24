@@ -17,3 +17,14 @@ cputrack-test/Debug-Single/cputrack-test-sd.exe.embed.manifest.res
 *.deps
 cudatrack/Debug/qtrkcudad-labview.dll.embed.manifest.res
 *.ipch
+*.res
+*.resources
+*.txt
+*.dll
+*.exe
+*.csv
+*.jpg
+*.zip
+bin/qtrkcudad.lib
+Debug/unit-test.ilk
+DoxyOutput/html/

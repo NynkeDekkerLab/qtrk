@@ -1,11 +1,14 @@
 #pragma once
 
-#include "../cputrack/std_incl.h"
-#include "../cputrack/QueuedCPUTracker.h"
-
+#include "std_incl.h"
+#include "QueuedCPUTracker.h"
 
 template<typename T> T sq(T x) { return x*x; }
 template<typename T> T distance(T x, T y) { return sqrt(x*x+y*y); }
+
+bool DirExists(const std::string& dirName_in);
+int NumFilesInDir(const std::string& dirName_in);
+int NumJpgInDir(const std::string& dirName_in);
 
 float distance(vector2f a,vector2f b);
 
@@ -31,7 +34,9 @@ public:
 		outputString(out.str());
 	}
 
-	void newFile(std::string filename, const char* mode = "w+");
+	void newFile(std::string filename, const char* mode = "a");
+
+	std::string folder;
 private:
 	void init(int mode);
 	struct outputModes{
@@ -41,14 +46,13 @@ private:
 	};
 	outputModes modes;
 	FILE* outputFile;
-	std::string folder;
 };
 
 ImageData CropImage(ImageData img, int x, int y, int w, int h);
 ImageData ResizeImage(ImageData img, int factor);
 ImageData AddImages(ImageData img1, ImageData img2, vector2f displacement);
 ImageData GaussMask(ImageData img, float sigma);
-ImageData SkewImage(ImageData img, int fact);
+ImageData SkewImage(ImageData img, float fact);
 
 void GetOuterEdges(float* out,int size, ImageData img);
 float BackgroundMedian(ImageData img);
