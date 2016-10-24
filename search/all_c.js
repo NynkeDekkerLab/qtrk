@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['list_20of_20cuda_20references',['List of CUDA references',['../_c_u_d_a_readings.html',1,'']]],
+  ['list_20of_20cuda_20references',['List of CUDA references',['../cudareadings.html',1,'']]],
   ['labview_20datatypes_20and_20helper_20functions',['LabVIEW datatypes and helper functions',['../group__lab__functions.html',1,'']]],
   ['labview_2eh',['labview.h',['../labview_8h.html',1,'']]],
   ['lastsaveframe',['lastSaveFrame',['../struct_result_manager_1_1_frame_counters.html#a529d0916bd3925ce9b60de516875ae2e',1,'ResultManager::FrameCounters']]],
