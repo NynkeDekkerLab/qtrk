@@ -12,6 +12,13 @@ static  std::unordered_set<ResultManager*> rm_instances;
 /** \addtogroup lab_functions
 	@{
 */
+/*! \brief Verify the referenced resultmanager is a valid ResultManager instance.
+
+\param [in] rm		The instance to verify.
+\param [in] err		The LabVIEW error cluster for this call.
+
+\return True if the supplied pointer can be used.
+*/
 static bool ValidRM(ResultManager* rm, ErrorCluster* err)
 {
 	if(rm_instances.find(rm) == rm_instances.end()) {

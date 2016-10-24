@@ -10,7 +10,9 @@ Labview API for CPU tracker
 #include "labview.h"
 #include "cpu_tracker.h"
 
-
+/** \addtogroup lab_CPUTrackerOnly
+	@{
+*/
 
 CDLL_EXPORT CPUTracker* DLL_CALLCONV create_tracker(uint w, uint h, uint xcorw)
 {
@@ -36,7 +38,6 @@ CDLL_EXPORT void DLL_CALLCONV destroy_tracker(CPUTracker* tracker)
 	}
 }
 
-
 CDLL_EXPORT void DLL_CALLCONV compute_com(CPUTracker* tracker, float* out)
 {
 	vector2f com = tracker->ComputeMeanAndCOM();
@@ -52,7 +53,6 @@ CDLL_EXPORT int DLL_CALLCONV compute_xcor(CPUTracker* tracker, vector2f* positio
 	return boundaryHit ? 1 : 0;
 }
 
-
 CDLL_EXPORT int DLL_CALLCONV compute_qi(CPUTracker* tracker, vector2f* position, int iterations, int radialSteps, int angularStepsPerQ, float minRadius, float maxRadius, LVArray<float>** radialweights)
 {
 	bool boundaryHit;
@@ -65,7 +65,6 @@ CDLL_EXPORT int DLL_CALLCONV compute_qi(CPUTracker* tracker, vector2f* position,
 	return boundaryHit ? 1 : 0;
 }
 
-
 CDLL_EXPORT void DLL_CALLCONV set_image_from_memory(CPUTracker* tracker, LVArray2D<uchar>** pData, ErrorCluster* error)
 {
 	LVArray2D<uchar>* data = *pData;
@@ -75,8 +74,6 @@ CDLL_EXPORT void DLL_CALLCONV set_image_from_memory(CPUTracker* tracker, LVArray
 	}
 	tracker->SetImage8Bit( data->elem, tracker->GetWidth() );
 }
-
-
 
 CDLL_EXPORT void DLL_CALLCONV set_image_u8(CPUTracker* tracker, LVArray2D<uchar>** pData, ErrorCluster* error)
 {
@@ -108,7 +105,6 @@ CDLL_EXPORT void DLL_CALLCONV set_image_float(CPUTracker* tracker, LVArray2D<flo
 	tracker->SetImageFloat( data->elem );
 }
 
-
 CDLL_EXPORT float DLL_CALLCONV compute_z(CPUTracker* tracker, float* center, int angularSteps, int zlut_index, uint *error, LVArray<float>** profile, int* bestIndex, LVArray<float>** errorCurve)
 {
 	bool boundaryHit=false;
@@ -131,7 +127,6 @@ CDLL_EXPORT float DLL_CALLCONV compute_z(CPUTracker* tracker, float* center, int
 	return z;
 }
 
-
 CDLL_EXPORT void DLL_CALLCONV get_debug_img_as_array(CPUTracker* tracker, LVArray2D<float>** pdbgImg)
 {
 	float* src = tracker->GetDebugImage();
@@ -149,7 +144,6 @@ CDLL_EXPORT void DLL_CALLCONV compute_crp(CPUTracker* tracker, LVArray<float>** 
 {
 }
 
-
 CDLL_EXPORT float DLL_CALLCONV compute_asymmetry(CPUTracker* tracker, LVArray<float>** result, int radialSteps, float *radii, float* center, uint* boundaryHit)
 {
 	LVArray<float>* dst = *result;
@@ -159,7 +153,6 @@ CDLL_EXPORT float DLL_CALLCONV compute_asymmetry(CPUTracker* tracker, LVArray<fl
 	return asym;
 }
 
-
 CDLL_EXPORT void DLL_CALLCONV compute_radial_profile(CPUTracker* tracker, LVArray<float>** result, int angularSteps, float *radii, float* center, uint* boundaryHit)
 {
 	LVArray<float>* dst = *result;
@@ -168,9 +161,6 @@ CDLL_EXPORT void DLL_CALLCONV compute_radial_profile(CPUTracker* tracker, LVArra
 
 	if (boundaryHit) *boundaryHit = bhit ? 1 : 0;
 }
-
-
-
 
 CDLL_EXPORT void DLL_CALLCONV set_ZLUT(CPUTracker* tracker, LVArray3D<float>** pZlut, float *radii, int angular_steps, bool useCorrelation, LVArray<float>** radialweights, bool normalize)
 {
@@ -196,7 +186,6 @@ CDLL_EXPORT void DLL_CALLCONV get_ZLUT(CPUTracker* tracker, int zlutIndex, LVArr
 	 std::copy(zlut, zlut+(tracker->zlut_planes*tracker->zlut_res), (*dst)->elem);
 }
 
-
 CDLL_EXPORT void DLL_CALLCONV generate_test_image(LVArray2D<float> **img, float xp, float yp, float size, float photoncount)
 {
 	try {
@@ -208,9 +197,6 @@ CDLL_EXPORT void DLL_CALLCONV generate_test_image(LVArray2D<float> **img, float 
 		dbgout("Exception: " + std::string(e.what()) + "\n");
 	}
 }
-
-
-
 
 CDLL_EXPORT void DLL_CALLCONV generate_image_from_lut(LVArray2D<float>** image, LVArray2D<float>** lut, 
 					float *LUTradii, vector3f* position, float pixel_max, int useSplineInterp, int samplesPerPixel)
@@ -225,3 +211,4 @@ CDLL_EXPORT void DLL_CALLCONV generate_image_from_lut(LVArray2D<float>** image, 
 	}
 }
 
+/** @} */

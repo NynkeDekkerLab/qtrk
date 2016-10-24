@@ -1,4 +1,4 @@
-/*! \page CUDAReadings List of CUDA references
+/*! \page cudareadings List of CUDA references
 
 General introductions:
 - David A. Patterson and John L. Hennessy. Computer Organization and Design, chapter Appendix A: Graphics and Computing GPUs. Morgan Kaufmann, 5th edition, 2013. \cite book:CUDA
@@ -77,6 +77,7 @@ struct ZLUTParams {
 	float2* trigtable;		///< Array of precomputed radial spoke sampling points (cos,sin pairs)
 };
 
+/*! \brief Structure to define Image LUT settings. */
 struct ImageLUTConfig
 {
 	static ImageLUTConfig empty() {
@@ -327,7 +328,7 @@ protected:
 		device_vec<float3> d_com; // z is zero		///< 3D vector in device memory to hold COM results. COM only performs 2D localizations, so \p z is always 0.
 
 		QI::StreamInstance qi_instance;				///< Linked stream of the QI submodule.
-		QI::StreamInstance qalign_instance;			///< Linked stream of the QI submodule used to perform quadrant alignment.
+		QI::StreamInstance qalign_instance;			///< Linked stream of the QI submodule used to perform quadrant alignment. See \ref LT_ZLUTAlign.
 
 		device_vec<float> d_imgmeans;				///< Vector in device memory to hold ROI means.
 		device_vec<float> d_radialprofiles;			///< Vector in device memory to hold all calculated radial profiles. Size is [ radialsteps * njobs ].

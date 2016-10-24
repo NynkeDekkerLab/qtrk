@@ -37,9 +37,8 @@ static int clamp(int v, int a,int b) { return std::max(a, std::min(b, v)); }
 
 
 CPUTracker::CPUTracker(int w, int h, int xcorwindow, bool testMode)
+	: width(w), height(h), xcorw(xcorwindow), testRun(testMode)
 {
-	width = w;
-	height = h;
 	trackerID = 0;
 
 	xcorBuffer = 0;
@@ -53,15 +52,13 @@ CPUTracker::CPUTracker(int w, int h, int xcorwindow, bool testMode)
 	zluts = 0;
 	zlut_planes = zlut_res = zlut_count = 0;
 	zlut_minradius = zlut_maxradius = 0.0f;
-	xcorw = xcorwindow;
+
 	qa_fft_forward = qa_fft_backward = 0;
 
 	qi_radialsteps = 0;
 	qi_fft_forward = qi_fft_backward = 0;
 
 	fft2d=0;
-
-	testRun = testMode;
 }
 
 CPUTracker::~CPUTracker()
@@ -155,28 +152,6 @@ void XCor1DBuffer::XCorFFTHelper(complex_t* prof, complex_t *prof_rev, scalar_t*
 
 	for (int x=0;x<xcorw;x++)
 		result[x] = fft_out_rev[ (x+xcorw/2) % xcorw ].real();
-}
-
-// Returns true if bounds are crossed
-bool CPUTracker::KeepInsideBoundaries(vector2f* center, float radius)
-{
-	bool boundaryHit = center->x + radius >= width ||
-		center->x - radius < 0 ||
-		center->y + radius >= height ||
-		center->y - radius < 0;
-
-	if (center->x - radius < 0.0f)
-		center->x = radius;
-
-	if (center->y - radius < 0.0f)
-		center->y = radius;
-
-	if (center->x + radius >= width)
-		center->x = width-radius-1;
-
-	if (center->y + radius >= height)
-		center->y = height-radius-1;
-	return boundaryHit;
 }
 
 bool CPUTracker::CheckBoundaries(vector2f center, float radius)
@@ -779,7 +754,6 @@ void CPUTracker::SetRadialZLUT(float* data, int planes, int res, int numLUTs, fl
 	zlut_count = numLUTs;
 	zlut_minradius = minradius;
 	zlut_maxradius = maxradius;
-	zlut_useCorrelation = useCorrelation;
 
 	if (qa_fft_backward) {
 		delete qa_fft_backward;

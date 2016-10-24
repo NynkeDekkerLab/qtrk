@@ -470,9 +470,9 @@ void QueuedCUDATracker::BuildLUT(void* data, int pitch, QTRK_PixelDataType pdt, 
 
 		CPU_ApplyOffsetGain(&trk, i);
 
-		if(known_pos)
+		if(known_pos) {
 			positions[i] = known_pos[i];
-		else {
+		} else {
 			vector2f com = trk.ComputeMeanAndCOM();
 			bool bhit;
 			positions[i] = trk.ComputeQI(com, cfg.qi_iterations, cfg.qi_radialsteps, cfg.qi_angstepspq, cfg.qi_angstep_factor, cfg.qi_minradius, cfg.qi_maxradius, bhit);

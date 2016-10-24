@@ -12,6 +12,7 @@
 #define CUDA_SUPPORTED_FUNC __device__ __host__
 #include "LsqQuadraticFit.h"
 
+/// Kernel is callable from both device and host code.
 #define CUBOTH __device__ __host__
 
 inline void outputTotalGPUMemUse(std::string info = "")

@@ -43,7 +43,7 @@
  *
  * To be able to use the CUDA DLLs, the cudart32_65.dll and cufft32_65.dll (or 64 bit versions if compiled with that) need to be known and accessible
  * by the system, i.e. they need to be in the same folder.
- * We are currently limited to CUDA 6.5 at the highest due to the fact that we have a 32 bit LabVIEW version on setups
+ * We are currently limited to using CUDA 6.5 instead of newer versions due to the fact that we have a 32 bit LabVIEW version on setups
  * and 32 bit cuFFT has been deprecated in newer CUDA versions.
  *
  * \section disclaimer Disclaimer
@@ -100,8 +100,8 @@ public:
 	These images are used to scale the input image to get rid of background influences in the image.
 	The values are per-pixel-per-ROI. Result = gain*(pixel+offset).
 
-	\param [in] offset	Array of the offset values to use per pixel. Size and order is [width*height*numbeads].
-	\param [in] gain	Array of gain values to use per pixel. Size and order is [width*height*numbeads].
+	\param [in] offset	Array with the offset values to use per pixel. Size and order is [width*height*numbeads].
+	\param [in] gain	Array with gain values to use per pixel. Size and order is [width*height*numbeads].
 	*/
 	virtual void SetPixelCalibrationImages(float* offset, float* gain) = 0;
 
@@ -231,7 +231,7 @@ public:
 	<table>
 	<tr><th>Name				<th>Value	<th>Description
 	<tr><td>					<td>0		<td>Default, no special flags.
-	<tr><td>BUILDLUT_IMAGELUT	<td>1 (2^0)	<td>Build an image LUT.
+	<tr><td>BUILDLUT_IMAGELUT	<td>1 (2^0)	<td>Build an image LUT. An image LUT seems to be a \b work \b in \b progress to save ROIs rather than profiles in the LUT.
 	<tr><td>BUILDLUT_FOURIER	<td>2 (2^1) <td>Build a fourier LUT.
 	<tr><td>BUILDLUT_NORMALIZE	<td>4 (2^2) <td>Normalize radial profiles. Irrelevant, since \ref FinalizeLUT always normalizes.
 	<tr><td>BUILDLUT_BIASCORRECT<td>8 (2^3) <td>Enable bias correction. Currently only partly implemented, \b don't \b use.
@@ -310,7 +310,7 @@ public:
 	
 	/*! \brief Get the output of performance profiling.
 
-	Only implemented in CUDA at the moment.
+	\note Profiling is only implemented in CUDA at the moment.
 
 	\return String with the parsed profiling output.
 	*/

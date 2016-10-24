@@ -50,6 +50,12 @@ These DLLs are compiled by the \a lvcputrack and \a lvcudatrack projects.
 \brief Result manager (RM) API functions available to LabVIEW. 
 */
 
+/** \defgroup lab_CPUTrackerOnly CPU Tracker
+\ingroup lab_API
+\brief CPUTracker exclusive debug functions.
+*/
+
+
 /** \defgroup lab_API_general General
 \ingroup lab_API
 \brief General API functions available to LabVIEW. 

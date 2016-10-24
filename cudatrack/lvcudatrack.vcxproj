@@ -206,6 +206,7 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
   <ItemGroup>
     <ClInclude Include="..\cputrack\BeadFinder.h" />
     <ClInclude Include="..\cputrack\cpu_tracker.h" />
+    <ClInclude Include="..\cputrack\lv_qtrk_api.h" />
     <ClInclude Include="..\cputrack\qtrk_c_api.h" />
     <ClInclude Include="..\cputrack\QueuedTracker.h" />
     <ClInclude Include="..\cputrack\ResultManager.h" />
@@ -218,7 +219,6 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     <ClInclude Include="QI.h" />
     <ClInclude Include="QI_impl.h" />
     <ClInclude Include="QueuedCUDATracker.h" />
-    <ClInclude Include="simplefft.h" />
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="QueuedCUDATracker.cu" />

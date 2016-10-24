@@ -286,6 +286,7 @@ __global__ void ImageLUT_Sample(BaseKernelParams kp, float2 ilut_scale, float3* 
 	}
 }
 
+/// Empty kernel to initialize and get rid of driver overhead before calculations are started.
 __global__ void ForceCUDAKernelsToLoad()
 {
 }

@@ -8,7 +8,11 @@
 #include <complex>
 
 /** \defgroup lab_functions LabVIEW datatypes and helper functions
-\brief Definitions of datatypes and helper functions required for communication with LabVIEW. 
+\brief Definitions of datatypes and helper functions required for communication with LabVIEW.
+
+Wrappers around LabVIEW's cintools function calls and data types. 
+lv_prolog.h and lv_epilog.h set up the correct alignment for LabVIEW data.
+See https://zone.ni.com/reference/en-XX/help/371361L-01/lvexcodeconcepts/configuring_the_clf_node/ for some more information.
 */
 
 /** \addtogroup lab_functions
@@ -24,14 +28,15 @@ typedef struct {
 	LStrHandle message;
 } ErrorCluster;
 
-
+/// LabVIEW Array template
 template<typename T>
 struct LVArray {
 	int32_t dimSize;
 	T elem[1];
 };
-typedef LVArray<float> **ppFloatArray;
+//typedef LVArray<float> **ppFloatArray;
 
+/// LabVIEW 2D Array template
 template<typename T>
 struct LVArray2D {
 	int32_t dimSizes[2];
@@ -45,7 +50,9 @@ struct LVArray2D {
 	}
 	int numElem() { return dimSizes[0]*dimSizes[1]; }
 };
+//typedef LVArray2D<float> **ppFloatArray2;
 
+/// LabVIEW 3D Array template
 template<typename T>
 struct LVArray3D {
 	int32_t dimSizes[3];
@@ -54,6 +61,7 @@ struct LVArray3D {
 	int numElem() { return dimSizes[0]*dimSizes[1]*dimSizes[2]; }
 };
 
+/// LabVIEW N dimensions array template
 template<typename T, int N>
 struct LVArrayND {
 	int32_t dimSizes[N];
@@ -66,9 +74,11 @@ struct LVArrayND {
 	}
 };
 
+#ifndef DOXYGEN // Hide these structs from documentation (why not a single enum?)
+
 // Compile-time map of C++ types to Labview DataType codes
-template<typename T>
-struct LVDataType {};
+// https://zone.ni.com/reference/en-XX/help/371361J-01/lvexcode/numericarrayresize/
+template<typename T> struct LVDataType {};
 template<> struct LVDataType<float> { enum { code=9 }; };
 template<> struct LVDataType<double> { enum { code=10 }; };
 template<> struct LVDataType<int8_t> { enum { code=1 }; };
@@ -81,6 +91,8 @@ template<> struct LVDataType<uint32_t> { enum { code=7 }; };
 template<> struct LVDataType<uint64_t> { enum { code=8 }; };
 template<> struct LVDataType<std::complex<float> > { enum { code=0xc }; };
 template<> struct LVDataType<std::complex<double> > { enum { code=0xd }; };
+
+#endif
 
 template<typename T>
 void ResizeLVArray2D(LVArray2D<T>**& d, int rows, int cols) 
@@ -118,7 +130,6 @@ void ResizeLVArray(LVArray<T>**& d, int elems)
 	(*d)->dimSize = elems;
 }
 
-typedef LVArray2D<float> **ppFloatArray2;
 #include "lv_epilog.h"
 
 void ArgumentErrorMsg(ErrorCluster* e, const std::string& msg);
@@ -128,5 +139,13 @@ MgErr FillErrorCluster(MgErr err, const char *message, ErrorCluster *error);
 std::vector<std::string> LVGetStringArray(int count, LStrHandle *str);
 
 class QueuedTracker;
+/*! \brief Verify the referenced tracker is a valid QueuedTracker instance.
+
+\param [in] tracker		The instance to verify.
+\param [in] e			The LabVIEW error cluster for this call.
+\param [in] funcname	The name of the desired function.
+
+\return True if the supplied pointer can be used.
+*/
 bool ValidateTracker(QueuedTracker* tracker, ErrorCluster* e, const char *funcname);
 /** @} */

@@ -102,14 +102,17 @@ QueuedCPUTracker::QueuedCPUTracker(const QTrkComputedConfig& cc)
 			CreateDirectory((LPCTSTR)folder.c_str(),NULL);
 	}
 	
+	/// Copy the configuration.
 	cfg = cc;
 	quitWork = false;
 
+	/// If \ref QTrkComputedConfig::numThreads is not specified (<0), select one thread per CPU.
 	if (cfg.numThreads < 0) {
 		cfg.numThreads = Threads::GetCPUCount();
 		dbgprintf("Using %d threads\n", cfg.numThreads);
 	} 
 
+	/// Queue length is 250 per thread, min 500.
 	maxQueueSize = std::max(2,cfg.numThreads) * 250;
 	jobCount = 0;
 	resultCount = 0;
@@ -122,10 +125,12 @@ QueuedCPUTracker::QueuedCPUTracker(const QTrkComputedConfig& cc)
 	jobsInProgress = 0;
 	dbgPrintResults = false;
 
+	/// Calculate the radial profile weights from the amount of steps.
 	qi_radialbinweights = ComputeRadialBinWindow(cfg.qi_radialsteps);
 	
 	calib_gain = calib_offset = 0;
 	gc_gainFactor = gc_offsetFactor = 1.0f;
+	/// Initialize to only COM localizations.
 	localizeMode = LT_OnlyCOM;
 
 	for (int i=0;i<4;i++) image_lut_dims[i]=0;
@@ -136,6 +141,7 @@ QueuedCPUTracker::QueuedCPUTracker(const QTrkComputedConfig& cc)
 	downsampleWidth = cfg.width >> cfg.downsample;
 	downsampleHeight = cfg.height >> cfg.downsample;
 
+	/// Invoke the \ref Start function.
 	Start();
 }
 
@@ -273,9 +279,11 @@ void QueuedCPUTracker::ApplyOffsetGain(CPUTracker* trk, int beadIndex)
 
 void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 {
+	/// Choose the CPUTracker instance based on the specified thread.
 	CPUTracker* trk = th->tracker;
 	th->lock();
 
+	/// Set the tracker's image memory.
 	SetTrackerImage(trk, j);
 
 	//FloatToJPEGFile("dbg.jpg",(float*)j->data,cfg.width,cfg.height);
@@ -284,6 +292,7 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 		trk->srcImage[0]=trk->srcImage[1]=trk->srcImage[2]=trk->srcImage[3]=0;
 	}
 
+	/// Calibrate the images if needed.
 	ApplyOffsetGain(trk, j->job.zlutIndex);
 
 //	dbgprintf("Job: id %d, bead %d\n", j->id, j->zlut);
@@ -291,6 +300,7 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 	LocalizationResult result={};
 	result.job = j->job;
 
+	/// Always compute the COM.
 	vector2f com = trk->ComputeMeanAndCOM(cfg.com_bgcorrection);
 	result.imageMean = trk->mean;
 
@@ -299,6 +309,7 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 
 	bool boundaryHit = false;
 
+	/// Compute 1DXCor, QI or 2DGaussian based on settings.
 	if (localizeMode & LT_XCor1D) {
 		result.firstGuess = com;
 		vector2f resultPos = trk->ComputeXCorInterpolated(com, cfg.xc1_iterations, cfg.xc1_profileWidth, boundaryHit);
@@ -319,6 +330,7 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 		result.firstGuess.y = result.pos.y = com.y;
 	}
 
+	/// Compute Z profile and Z position if Z localization is requested.
 	bool normalizeProfile = (localizeMode & LT_NormalizeProfile)!=0;
 	if(localizeMode & LT_LocalizeZ) {
 		float* prof=ALLOCA_ARRAY(float,cfg.zlut_radialsteps);
@@ -358,13 +370,12 @@ void QueuedCPUTracker::ProcessJob(QueuedCPUTracker::Thread *th, Job* j)
 	th->unlock();
 
 	result.error = boundaryHit ? 1 : 0;
-
+	/// Add the results to the available results.
 	results_mutex.lock();
 	results.push_back(result);
 	resultCount++;
 	results_mutex.unlock();
 }
-
 
 void QueuedCPUTracker::SetRadialZLUT(float* data, int num_zluts, int planes)
 {
@@ -426,7 +437,6 @@ void QueuedCPUTracker::GetRadialZLUTSize(int &count, int& planes, int &rsteps)
 	rsteps = cfg.zlut_radialsteps;
 }
 
-
 void QueuedCPUTracker::GetRadialZLUT(float *zlut)
 {
 	int nElem = zlut_planes*cfg.zlut_radialsteps*zlut_count;
@@ -439,7 +449,7 @@ void QueuedCPUTracker::GetRadialZLUT(float *zlut)
 
 void QueuedCPUTracker::ScheduleLocalization(void* data, int pitch, QTRK_PixelDataType pdt, const LocalizationJob *jobInfo)
 {
-	if (processJobs) {
+	if (processJobs) { /// \bug So if process is stopped, it'll just queue regardless of queue sizes?
 		while(maxQueueSize != 0 && GetQueueLength () >= maxQueueSize)
 			Threads::Sleep(5);
 	}
@@ -473,14 +483,11 @@ int QueuedCPUTracker::FetchResults(LocalizationResult* dstResults, int maxResult
 	return numResults;
 }
 
-
-void QueuedCPUTracker::GenerateTestImage(float* dst, float xp,float yp, float z, float photoncount)
+void QueuedCPUTracker::GenerateTestImage(float* dst, float xp,float yp, float size, float SNratio)
 {
 	ImageData img(dst,cfg.width,cfg.height);
-	::GenerateTestImage(img,xp,yp,z,photoncount);
+	::GenerateTestImage(img,xp,yp,size,SNratio);
 }
-
-
 
 bool QueuedCPUTracker::GetDebugImage(int id, int *w, int *h,float** data)
 {
@@ -499,7 +506,6 @@ bool QueuedCPUTracker::GetDebugImage(int id, int *w, int *h,float** data)
 
 	return false;
 }
-
 
 QueuedTracker::ConfigValueMap QueuedCPUTracker::GetConfigValues()
 {
@@ -549,7 +555,6 @@ void QueuedCPUTracker::GetRadialZLUTCompareProfile(float* dst)
 	}
 }
 
-
 bool QueuedCPUTracker::SetImageZLUT(float* src, float *radial_lut, int* dims)
 {
 	if (image_lut)  {
@@ -575,7 +580,6 @@ bool QueuedCPUTracker::SetImageZLUT(float* src, float *radial_lut, int* dims)
 
 	return true; // returning true indicates this implementation supports ImageLUT
 }
-
 
 void QueuedCPUTracker::BeginLUT(uint flags)
 {
@@ -739,6 +743,3 @@ void QueuedCPUTracker::SetTrackerImage(CPUTracker* trk, Job* j)
 		trk->SetImageFloat((float*)j->data);
 	}
 }
-
-
-

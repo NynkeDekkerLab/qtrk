@@ -167,7 +167,7 @@ struct QTrkSettings {
 
 	/*! \brief 	Flag to run a test run. 
 	
-	A test run dumps a lot of intermediate data to the disk for algorithm inspection (only %QI & ZLUT).
+	A test run dumps a lot of intermediate data to the disk for algorithm inspection (only %QI & ZLUT). See \ref CPUTracker::testRun.
 	\warning CHANGED compared to LabVIEW! Comment/remove when compiling for LabVIEW.
 	\todo Add to LabVIEW cluster.
 	*/
