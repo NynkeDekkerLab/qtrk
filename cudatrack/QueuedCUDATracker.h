@@ -151,7 +151,7 @@ public:
 
 	/*! \brief Enable or disable the use of textures.
 
-	Texture cache provides a significant speedup due to 2D L1 caching as compared to normal linear memory caching (\ref CUDAReadings).
+	Texture cache provides a significant speedup due to 2D L1 caching as compared to normal linear memory caching (\ref cudareadings).
 
 	\param [in] useTextureCache Boolean to enable texture cache usage.
 	*/

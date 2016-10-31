@@ -40,8 +40,7 @@ public:
 		cufftHandle fftPlan; ///< Handle to make calls to [CUFFT](http://docs.nvidia.com/cuda/cufft/). A single CUFFT plan can be used for both forward and inverse transforms.
 
 		/*! \brief Delete the stream instance.
-		
-		\bug Why aren't the device_vec instances deleted?
+		 
 		*/
 		~StreamInstance() {
 			cufftDestroy(fftPlan);
