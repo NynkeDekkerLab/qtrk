@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cudatrack-test", "cudatrack-test\cudatrack-test.vcxproj", "{BEC9EC33-3C02-4F31-BDA6-B8068A215AA9}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cputrack", "cputrack\cputrack.vcxproj", "{1790E71E-B0EE-4BF9-8C27-0CD6C1B6DF4B}"
@@ -18,6 +20,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lvcudatrack", "cudatrack\lvcudatrack.vcxproj", "{74D6A840-874D-40D4-A85D-6241870EBCE9}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cudatrack", "cudatrack\cudatrack.vcxproj", "{ABB7D1D8-B6AD-4225-B2BB-345F1794BA88}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testResultManager", "testResultManager\testResultManager.vcxproj", "{2BBE0332-27FA-44C9-B7E5-34136ECC68E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -117,6 +121,24 @@ Global
 		{ABB7D1D8-B6AD-4225-B2BB-345F1794BA88}.Release|Win32.Build.0 = Release|Win32
 		{ABB7D1D8-B6AD-4225-B2BB-345F1794BA88}.Release|x64.ActiveCfg = Release|x64
 		{ABB7D1D8-B6AD-4225-B2BB-345F1794BA88}.Release|x86.ActiveCfg = Release|Win32
+		{2BBE0332-27FA-44C9-B7E5-34136ECC68E7}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{2BBE0332-27FA-44C9-B7E5-34136ECC68E7}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{2BBE0332-27FA-44C9-B7E5-34136ECC68E7}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{2BBE0332-27FA-44C9-B7E5-34136ECC68E7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2BBE0332-27FA-44C9-B7E5-34136ECC68E7}.Debug|Win32.Build.0 = Debug|Win32
+		{2BBE0332-27FA-44C9-B7E5-34136ECC68E7}.Debug|x64.ActiveCfg = Debug|x64
+		{2BBE0332-27FA-44C9-B7E5-34136ECC68E7}.Debug|x64.Build.0 = Debug|x64
+		{2BBE0332-27FA-44C9-B7E5-34136ECC68E7}.Debug|x86.ActiveCfg = Debug|Win32
+		{2BBE0332-27FA-44C9-B7E5-34136ECC68E7}.Debug|x86.Build.0 = Debug|Win32
+		{2BBE0332-27FA-44C9-B7E5-34136ECC68E7}.Release|Any CPU.ActiveCfg = Release|Win32
+		{2BBE0332-27FA-44C9-B7E5-34136ECC68E7}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{2BBE0332-27FA-44C9-B7E5-34136ECC68E7}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{2BBE0332-27FA-44C9-B7E5-34136ECC68E7}.Release|Win32.ActiveCfg = Release|Win32
+		{2BBE0332-27FA-44C9-B7E5-34136ECC68E7}.Release|Win32.Build.0 = Release|Win32
+		{2BBE0332-27FA-44C9-B7E5-34136ECC68E7}.Release|x64.ActiveCfg = Release|x64
+		{2BBE0332-27FA-44C9-B7E5-34136ECC68E7}.Release|x64.Build.0 = Release|x64
+		{2BBE0332-27FA-44C9-B7E5-34136ECC68E7}.Release|x86.ActiveCfg = Release|Win32
+		{2BBE0332-27FA-44C9-B7E5-34136ECC68E7}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -124,6 +146,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{A3EDBB02-24F8-4010-BE57-91A55A2F5981} = {76479AF6-64A8-447D-A170-FA9B1FBF8A5C}
 		{BEC9EC33-3C02-4F31-BDA6-B8068A215AA9} = {76479AF6-64A8-447D-A170-FA9B1FBF8A5C}
+		{2BBE0332-27FA-44C9-B7E5-34136ECC68E7} = {76479AF6-64A8-447D-A170-FA9B1FBF8A5C}
 		{1790E71E-B0EE-4BF9-8C27-0CD6C1B6DF4B} = {BF7A8579-0AE8-4F88-A069-F1D88DC10C1E}
 		{ABB7D1D8-B6AD-4225-B2BB-345F1794BA88} = {BF7A8579-0AE8-4F88-A069-F1D88DC10C1E}
 		{6F4803EC-15BB-459B-95A7-75F475B0928E} = {3D2A7C19-E408-440A-8ECA-FFC4DC67F5FF}
