@@ -38,7 +38,7 @@ struct cudaImageList {
 		imgl.count = amount;
 
 		if (cudaMallocPitch(&imgl.data, &imgl.pitch, sizeof(T)*imgl.fullwidth(), imgl.fullheight()) != cudaSuccess) {
-			throw std::bad_alloc(SPrintf("cudaImageListf<%s> alloc %dx%dx%d failed", typeid(T).name(), w, h, amount).c_str());
+			gpuUtilityBadAllocation(SPrintf("cudaImageListf<%s> alloc %dx%dx%d failed", typeid(T).name(), w, h, amount).c_str());
 		}
 		return imgl;
 	}
@@ -291,7 +291,7 @@ struct Image4DCudaArray
 		cudaError_t err = cudaMalloc3DArray(&array, &desc, getExtent(), cudaArrayLayered | cudaArraySurfaceLoadStore);
 		//cudaError_t err = cudaMalloc3DArray(&array, &desc, getExtent(), cudaArraySurfaceLoadStore);
 		if (err != cudaSuccess) {
-			throw std::bad_alloc(SPrintf("CUDA error during cudaSurf2DList(): %s", cudaGetErrorString(err)).c_str());
+			gpuUtilityBadAllocation(SPrintf("CUDA error during cudaSurf2DList(): %s", cudaGetErrorString(err)).c_str());
 		}
 	}
 

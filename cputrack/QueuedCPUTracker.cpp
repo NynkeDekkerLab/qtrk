@@ -1,8 +1,7 @@
 #include "std_incl.h"
 #include "QueuedCPUTracker.h"
 #include <float.h>
-#include <functional>
-
+#include <functional> 
 #include "DebugResultCompare.h"
 
 #ifndef CUDA_TRACK

@@ -14,8 +14,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <cstddef>
-#include <complex>
-
+#include <complex> 
 #include "random_distr.h"
 
 #pragma pack(push, 4)
