@@ -21,6 +21,21 @@
     <ClCompile Include="..\cputrack\ResultManager.cpp">
       <Filter>Master</Filter>
     </ClCompile>
+    <ClCompile Include="..\cputrack\cpu_tracker.cpp">
+      <Filter>Master</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cputrack\utils.cpp">
+      <Filter>Master</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cputrack\fastjpg.cpp">
+      <Filter>Master</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cputrack\TeLibJpeg\jmemdst.c">
+      <Filter>Master</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cputrack\TeLibJpeg\jmemsrc.c">
+      <Filter>Master</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\cputrack\QueuedCPUTracker.h">
@@ -36,6 +51,9 @@
       <Filter>Master</Filter>
     </ClInclude>
     <ClInclude Include="..\cputrack\std_incl.h">
+      <Filter>Master</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cputrack\cpu_tracker.h">
       <Filter>Master</Filter>
     </ClInclude>
   </ItemGroup>

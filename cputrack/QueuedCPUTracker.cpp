@@ -5,13 +5,13 @@
 #include "DebugResultCompare.h"
 
 #ifndef CUDA_TRACK
-QueuedTracker* CreateQueuedTracker(const QTrkComputedConfig& cc){ 
+QueuedTracker* CreateQueuedTracker(const QTrkComputedConfig& cc){
 	return new QueuedCPUTracker(cc);
 }
-void SetCUDADevices(int* dev, int numdev) {
+void SetCUDADevices(int* dev, int numdev)
+{
 }
 #endif
-
 bool QueuedCPUTracker::IsIdle()
 {
 	return GetQueueLength() == 0;
@@ -490,7 +490,7 @@ void QueuedCPUTracker::GenerateTestImage(float* dst, float xp,float yp, float si
 
 bool QueuedCPUTracker::GetDebugImage(int id, int *w, int *h,float** data)
 {
-	if (id >= 0 && id < threads.size()) {
+	if (id >= 0 && id < (int)threads.size()) {
 		threads[id].lock();
 
 		*w = cfg.width;

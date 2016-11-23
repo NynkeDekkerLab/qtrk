@@ -45,14 +45,16 @@
 
 static std::vector<int> cudaDeviceList; 
 
-void SetCUDADevices(int* dev, int numdev) {
-	cudaDeviceList.assign(dev,dev+numdev);
-}
-
+#ifdef CUDA_TRACK
 QueuedTracker* CreateQueuedTracker(const QTrkComputedConfig& cc)
 {
 	return new QueuedCUDATracker(cc);
 }
+void SetCUDADevices(int* dev, int numdev)
+{
+	cudaDeviceList.assign(dev, dev + numdev);
+}
+#endif
 
 static int GetBestCUDADevice()
 {
