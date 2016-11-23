@@ -131,10 +131,12 @@ void ResultManager::StoreResult(LocalizationResult *r)
 void ResultManager::WriteBinaryResults()
 {
 	if (outputFile.empty())
+	{
 		return;
-
+	}
 	FILE* f = fopen(outputFile.c_str(), "ab");
-	if (!f) {
+	if (!f)
+	{
 		dbgprintf("ResultManager::WriteBinaryResult() Unable to open file %s\n", outputFile.c_str());
 		cnt.fileError ++;
 		return;
@@ -143,7 +145,8 @@ void ResultManager::WriteBinaryResults()
 	for (int j=cnt.lastSaveFrame; j<cnt.processedFrames;j++)
 	{
 		auto fr = frameResults[j-cnt.startFrame];
-		if (f) {
+		if (f)
+		{
 			fwrite(&j, sizeof(uint), 1, f);
 			fwrite(&fr->timestamp, sizeof(double), 1, f);
 			fwrite(&fr->frameInfo[0], sizeof(float), config.numFrameInfoColumns, f);

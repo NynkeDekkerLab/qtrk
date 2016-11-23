@@ -149,7 +149,7 @@ QueuedCPUTracker::~QueuedCPUTracker()
 	// wait for threads to finish
 	quitWork = true;
 
-	for (int k=0;k<threads.size();k++) {
+	for (unsigned int k = 0; k<threads.size(); k++) {
 		delete threads[k].mutex;
 		Threads::WaitAndClose(threads[k].thread);
 		delete threads[k].tracker;
@@ -233,7 +233,7 @@ void QueuedCPUTracker::Start()
 		threads[k].tracker->trackerID = k;
 	}
 
-	for (int k=0;k<threads.size();k++) {
+	for (unsigned int k = 0; k<threads.size(); k++) {
 		threads[k].thread = Threads::Create(WorkerThreadMain, &threads[k]);
 		Threads::SetBackgroundPriority(threads[k].thread, true);
 	}
@@ -412,7 +412,7 @@ void QueuedCPUTracker::SetRadialWeights(float *rweights)
 	else
 		zcmp.clear();
 
-	for (int i=0;i<threads.size();i++){
+	for (unsigned int i = 0; i<threads.size(); i++){
 		threads[i].lock();
 		threads[i].tracker->SetRadialWeights(rweights);
 		threads[i].unlock();
@@ -422,7 +422,7 @@ void QueuedCPUTracker::SetRadialWeights(float *rweights)
 
 void QueuedCPUTracker::UpdateZLUTs()
 {
-	for (int i=0;i<threads.size();i++){
+	for (unsigned int i = 0; i<threads.size(); i++){
 		threads[i].lock();
 		threads[i].tracker->SetRadialZLUT(zluts, zlut_planes, cfg.zlut_radialsteps, zlut_count, cfg.zlut_minradius, cfg.zlut_maxradius, false, false);
 		threads[i].unlock();

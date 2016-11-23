@@ -14,7 +14,7 @@
 
 /// Kernel is callable from both device and host code.
 #define CUBOTH __device__ __host__
-
+ 
 inline void outputTotalGPUMemUse(std::string info = "")
 {
 	// show total memory usage of GPU
@@ -62,12 +62,6 @@ inline void dbgCUDAErrorCheck(cudaError_t e) { CheckCUDAError(e); }
 #else
 inline void dbgCUDAErrorCheck(cudaError_t e) {}
 #endif
-//The previous way of throwing allocation errors was wrong.
-void gpuUtilityBadAllocation(const char * message)
-{
-	fprintf(stderr, message);
-	throw std::bad_alloc();
-}
 /// \todo Delete or free() not called explicitly anywhere. Needed?
 template<typename T>
 class device_vec {
@@ -101,7 +95,8 @@ public:
 		}
 		if (s!=0) {
 			if (cudaMalloc(&data, sizeof(T)*s) != cudaSuccess) {
-				gpuUtilityBadAllocation(SPrintf("device_vec<%s> init %d elements failed", typeid(T).name(), s).c_str());
+				fprintf(stderr, SPrintf("device_vec<%s> init %d elements failed", typeid(T).name(), s).c_str());
+				throw std::bad_alloc();
 			}
 			size = s;
 		}
@@ -238,7 +233,8 @@ public:
 		if (d) free();
 		this->n = n;
 		if (cudaMallocHost(&d, sizeof(T)*n, flags) != cudaSuccess) {
-			gpuUtilityBadAllocation(SPrintf("%s init %d elements failed", typeid(*this).name(), n).c_str());
+			fprintf(stderr, SPrintf("%s init %d elements failed", typeid(*this).name(), n).c_str());
+			throw std::bad_alloc();
 		}
 	}
 	T& operator[](int i) {  return d[i]; }
@@ -256,7 +252,7 @@ inline void DbgCopyResult(device_vec<float2>& src, std::vector< std::complex<flo
 	std::vector<float2> x(src.size);
 	src.copyToHost(x,false,0);
 	dst.resize(src.size);
-	for(int i=0;i<x.size();i++)
+	for(unsigned int i=0;i<x.size();i++)
 		dst[i]=std::complex<float>(x[i].x,x[i].y);
 }
 inline void DbgCopyResult(device_vec<float>& src, std::vector< float >& dst) {

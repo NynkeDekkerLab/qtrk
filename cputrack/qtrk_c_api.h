@@ -64,7 +64,7 @@ struct LocalizationJob {
 Compiled without padding to line up with LabVIEW alignment. Size is 52 bytes.
 \warning Changing this requires changing of the linked LabVIEW cluster QTrkLocalizationResult.ctl.
 */
-struct LocalizationResult {
+struct LocalizationResult { 
 	LocalizationJob job;			///< Job metadata. See ::LocalizationJob.
 	vector3f pos;					///< Final 3D position found. If no z localization was performed, the value of z will be 0.
 	vector2f pos2D() { return vector2f(pos.x,pos.y); } ///< Final 2D position found.

@@ -38,7 +38,8 @@ struct cudaImageList {
 		imgl.count = amount;
 
 		if (cudaMallocPitch(&imgl.data, &imgl.pitch, sizeof(T)*imgl.fullwidth(), imgl.fullheight()) != cudaSuccess) {
-			gpuUtilityBadAllocation(SPrintf("cudaImageListf<%s> alloc %dx%dx%d failed", typeid(T).name(), w, h, amount).c_str());
+			fprintf(stderr, SPrintf("cudaImageListf<%s> alloc %dx%dx%d failed", typeid(T).name(), w, h, amount).c_str());
+			throw std::bad_alloc();
 		}
 		return imgl;
 	}

@@ -36,6 +36,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v100</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='x64_Dbg|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -152,6 +153,8 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     </CudaLink>
     <CudaLink>
       <Optimization>Od</Optimization>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </CudaLink>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='x64_Dbg|Win32'">
