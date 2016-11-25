@@ -1,14 +1,15 @@
 #include <iostream>
 #include <string>
-#include <ctime>
-#include <chrono> 
+#include <ctime> 
 #include "omp.h"
 #include <stdio.h>
 #include <boost/tokenizer.hpp>
 #include <fstream>
+#include <sys/stat.h>
 #include <vector>
 #include <boost/random/mersenne_twister.hpp>
 #include <boost/random/uniform_01.hpp> 
+#include <boost/filesystem/operations.hpp>
 #include "cuda_runtime.h"
 #include "device_launch_parameters.h"
 #include "../cputrack/ResultManager.h"
@@ -24,10 +25,9 @@ This file tests the Result Manager. It is pretty straightforward:
 
 
 
-*/
+*/ 
 int main(int argc, char* argv[])
-{
-	auto timeStart = std::chrono::high_resolution_clock::now();
+{ 
 	fprintf(stderr, "Note: Initialising ndlab/test/ResultManager (%d arguments).\n", argc);
 
 	//number of images/frames
@@ -53,7 +53,6 @@ int main(int argc, char* argv[])
 	// The GodFather manages your results.
 	ResultManager* manager = new ResultManager(file, frameinfo, cfg, colNames);
 	//The QueuedCPUTracker instance is required to retrieve the results. It needs settings.
-
 	QTrkComputedConfig settings;
 	settings.qi_iterations = 2;
 	settings.zlut_minradius = 1;
@@ -61,9 +60,19 @@ int main(int argc, char* argv[])
 	settings.width = settings.height = 100;
 	settings.Update();
 
-	//Let's load some image data.
-	auto data = ReadJPEGFile("exp.jpg");
+	std::string fileName = "./exp.jpg";
+	 
+	bool fileExists = boost::filesystem::exists(fileName);
+	
+	if (!fileExists)
+	{
+		fprintf(stderr, "File %s not found; is it in the directory of the executable?\n\n", fileName.c_str());
+		return 0;
+	}  
 
+	//Let's load some image data.
+	auto data = ReadJPEGFile("exp123.jpg");
+	 
 	QueuedTracker * qtrk;
 	if (argc == 3)
 	{
@@ -79,6 +88,10 @@ int main(int argc, char* argv[])
 			qtrk = new QueuedCPUTracker(settings);
 		}
 	}
+	else
+	{
+		fprintf(stderr, "Faulty arguments. Your mother was a hamster, %d th of her name.", argc);
+	} 
 	//localization Mode QI tracker
 	auto modeQI = (LocMode_t)(LT_QI | LT_NormalizeProfile | LT_LocalizeZ);
 
@@ -102,21 +115,16 @@ int main(int argc, char* argv[])
 	}
 	manager->SetTracker(qtrk);
 	//Process images (using Flush because Start is CPU only)
-	qtrk->Flush();
-	auto timeTrack = std::chrono::high_resolution_clock::now();
+	qtrk->Flush(); 
+	int i = 0;
 	while (manager->GetFrameCounters().localizationsDone < N)
-	{
-		auto timeEnd = std::chrono::high_resolution_clock::now();
-		auto microSeconds = (int)std::chrono::duration_cast<std::chrono::microseconds>(timeEnd - timeTrack).count();
-		if (microSeconds > 100000)
+	{ 
+		if (i > 100000)
 		{
-			auto sinceStart = (int)std::chrono::duration_cast<std::chrono::microseconds>(timeEnd - timeStart).count();
 			auto counters = manager->GetFrameCounters();
-
-			double time = sinceStart / 1000000;
-			fprintf(stderr, "Update[%.3f]: %d Localisations performed.\n", time, counters.localizationsDone);
-			timeTrack = timeEnd;
+			fprintf(stderr, "Update[%.3f]: %d Localisations performed.\n", i, counters.localizationsDone); 
 		}
+		i++;
 	}
 
 	//Assign tracker
@@ -130,31 +138,32 @@ int main(int argc, char* argv[])
 	//Pointer that will be filled with results
 	std::vector<LocalizationResult> results;
 
-	vector3f startPosition = { 0.0, 0.0, 0.0 };
-	vector2f initialGuess = { 50.0, 50.0 };
+	vector3f startPosition (0.0f, 0.0f, 0.0f );
+	vector2f initialGuess (50.0f, 50.0f );
 
 	for (int i = 0; i < N; i++)
 	{
-		results.push_back({ jobs.at(i), startPosition, initialGuess, 0.0, 0.0 });
+		LocalizationResult currentResult;
+		currentResult.job = jobs.at(i);
+		currentResult.pos = startPosition;
+		currentResult.firstGuess = initialGuess; 
+		currentResult.error = 0;
+		currentResult.imageMean = 0.0f;
+		results.push_back(currentResult	);
 	}
 
 	//Fill results array
 	manager->Flush();
 	//Wait untill all localizations have been performed.
-
-	timeTrack = std::chrono::high_resolution_clock::now();
+	 
+	i = 0;
 	while (manager->GetFrameCounters().lastSaveFrame  < N / 4)
-	{
-		auto timeEnd = std::chrono::high_resolution_clock::now();
-		auto microSeconds = (int)std::chrono::duration_cast<std::chrono::microseconds>(timeEnd - timeTrack).count();
-		if (microSeconds > 100000)
-		{
-			auto sinceStart = (int)std::chrono::duration_cast<std::chrono::microseconds>(timeEnd - timeStart).count();
+	{ 
+		if (i > 100000)
+		{ 
 			auto counters = manager->GetFrameCounters();
-
-			double time = sinceStart / 1000000;
-			fprintf(stderr, "Update[%.3f]: %d frames saved.\n", time, counters.lastSaveFrame);
-			timeTrack = timeEnd;
+			 
+			fprintf(stderr, "Update[%.3f]: %d frames saved.\n", i, counters.lastSaveFrame); 
 		}
 	}
 
@@ -172,9 +181,6 @@ int main(int argc, char* argv[])
 
 	printf("Frame counters:\n\t Started at %d, processed %d, finished on %d\n", counters.startFrame, counters.processedFrames, counters.lastSaveFrame);
 	printf("\tCaptured %d, localizations %d, lostFrames %d, file error %d.\n", counters.capturedFrames, counters.localizationsDone, counters.lostFrames, counters.fileError);
-	//report time, end program 
-	auto timeEnd = std::chrono::high_resolution_clock::now();
-	auto microSeconds = std::chrono::duration_cast<std::chrono::microseconds>(timeEnd - timeStart).count();
-	fprintf(stderr, "Note: Elapsed time %ld microseconds. \n", (int)microSeconds);
+	// end program  
 	return 0;
 }
