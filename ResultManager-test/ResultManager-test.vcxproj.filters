@@ -36,6 +36,9 @@
     <ClInclude Include="..\cudatrack\cudaImageList.h">
       <Filter>Master</Filter>
     </ClInclude>
+    <ClInclude Include="..\cputrack\cpu_tracker.h">
+      <Filter>Master</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cputrack\ResultManager.cpp">
@@ -51,6 +54,9 @@
       <Filter>Master</Filter>
     </ClCompile>
     <ClCompile Include="..\cputrack\QueuedCPUTracker.cpp">
+      <Filter>Master</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cputrack\cpu_tracker.cpp">
       <Filter>Master</Filter>
     </ClCompile>
   </ItemGroup>
