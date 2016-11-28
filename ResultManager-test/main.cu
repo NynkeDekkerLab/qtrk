@@ -1,3 +1,7 @@
+
+#include "cuda_runtime.h"
+#include "device_launch_parameters.h" 
+#include <stdio.h>
 #include <iostream>
 #include <string>
 #include <ctime> 
@@ -9,9 +13,7 @@
 #include <vector>
 #include <boost/random/mersenne_twister.hpp>
 #include <boost/random/uniform_01.hpp> 
-#include <boost/filesystem/operations.hpp>
-#include "cuda_runtime.h"
-#include "device_launch_parameters.h"
+#include <boost/filesystem/operations.hpp> 
 #include "../cputrack/ResultManager.h"
 #include "../cputrack/QueuedTracker.h" 
 #include "../cputrack/QueuedCPUTracker.h" 
@@ -184,3 +186,4 @@ int main(int argc, char* argv[])
 	// end program  
 	return 0;
 }
+
