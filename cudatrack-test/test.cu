@@ -573,7 +573,8 @@ void BasicQTrkTest()
 		}
 	}
 
-	dbgprintf("Errors: %d/%d (%f%%)\n", count, N, (float)100*count/N);
+	dbgprintf("Position was (%.3f, %.3f) \n", pos_x, pos_y);
+	dbgprintf("Errors: %d/%d (%f%%)\n", count, N, (float)100 * count / N);
 	img.free();
 }
 

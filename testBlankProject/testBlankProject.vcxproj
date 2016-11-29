@@ -19,15 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{C6CAAD3C-F689-4A2E-ABA4-442FA22ED00C}</ProjectGuid>
-    <RootNamespace>ResultManager_test</RootNamespace>
+    <ProjectGuid>{9DD4E962-4075-4A70-A1D4-385CEECDB38D}</ProjectGuid>
+    <RootNamespace>testBlankProject</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v100</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -77,26 +77,16 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../libs;C:\Program Files (x86)\Microsoft SDKs\Windows;../libs/labview/cintools;../libs/fftw;../libs/pthreads/include;../libs/libjpeg-turbo/include;../cputrack;../cudatrack;C:\boost_1_51_0\;%(AdditionalIncludeDirectories);$(CudaToolkitIncludeDir)</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>../libs/libjpeg-turbo/lib/jpeg-static.lib;cudart.lib;cufft.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:/boost_1_51_0/stage/lib;%(AdditionalLibraryDirectories);$(CudaToolkitLibDir)</AdditionalLibraryDirectories>
-      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <IgnoreSpecificDefaultLibraries>libcmt.lib</IgnoreSpecificDefaultLibraries>
-      <ShowProgress>LinkVerboseLib</ShowProgress>
+      <AdditionalDependencies>cudart.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>echo copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"
 copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
-    <CudaCompile>
-      <CodeGeneration>compute_30,sm_30</CodeGeneration>
-    </CudaCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -161,31 +151,7 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CudaCompile Include="..\cudatrack\QueuedCUDATracker.cu" />
-    <CudaCompile Include="main.cu" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\cputrack\cpu_tracker.h" />
-    <ClInclude Include="..\cputrack\QueuedCPUTracker.h" />
-    <ClInclude Include="..\cputrack\QueuedTracker.h" />
-    <ClInclude Include="..\cputrack\ResultManager.h" />
-    <ClInclude Include="..\cputrack\std_incl.h" />
-    <ClInclude Include="..\cputrack\TeLibJpeg\jmemdstsrc.h" />
-    <ClInclude Include="..\cputrack\utils.h" />
-    <ClInclude Include="..\cudatrack\cudaImageList.h" />
-    <ClInclude Include="..\cudatrack\gpu_utils.h" />
-    <ClInclude Include="..\cudatrack\ImageSampler.h" />
-    <ClInclude Include="..\cudatrack\QueuedCUDATracker.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\cputrack\cpu_tracker.cpp" />
-    <ClCompile Include="..\cputrack\fastjpg.cpp" />
-    <ClCompile Include="..\cputrack\QueuedCPUTracker.cpp" />
-    <ClCompile Include="..\cputrack\QueuedTracker.cpp" />
-    <ClCompile Include="..\cputrack\ResultManager.cpp" />
-    <ClCompile Include="..\cputrack\TeLibJpeg\jmemdst.c" />
-    <ClCompile Include="..\cputrack\TeLibJpeg\jmemsrc.c" />
-    <ClCompile Include="..\cputrack\utils.cpp" />
+    <CudaCompile Include="kernel.cu" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

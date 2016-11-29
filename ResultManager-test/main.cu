@@ -1,4 +1,4 @@
-
+#include "std_incl.h"
 #include "cuda_runtime.h"
 #include "device_launch_parameters.h" 
 #include <stdio.h>
@@ -7,13 +7,15 @@
 #include <ctime> 
 #include "omp.h"
 #include <stdio.h>
-#include <boost/tokenizer.hpp>
 #include <fstream>
 #include <sys/stat.h>
 #include <vector>
+#include <boost/tokenizer.hpp>
 #include <boost/random/mersenne_twister.hpp>
 #include <boost/random/uniform_01.hpp> 
 #include <boost/filesystem/operations.hpp> 
+#include <boost/chrono.hpp> 
+#include <memory>
 #include "../cputrack/ResultManager.h"
 #include "../cputrack/QueuedTracker.h" 
 #include "../cputrack/QueuedCPUTracker.h" 
@@ -30,8 +32,14 @@ This file tests the Result Manager. It is pretty straightforward:
 */
 int main(int argc, char* argv[])
 {
+	auto timeStart = boost::chrono::high_resolution_clock::now();
 	fprintf(stderr, "Note: Initialising ndlab/test/ResultManager (%d arguments).\n", argc);
 
+	if (argc != 3)
+	{
+		fprintf(stderr, "You have to give in N, the number of images (multiple of 4) and \n\t gpu or cpu.\n");
+		return 0;
+	}
 	//number of images/frames
 	const int N = (int)atoi(argv[1]); //4 beads, 24 images; 6 frames per image?
 
@@ -39,7 +47,9 @@ int main(int argc, char* argv[])
 
 	const char* file = "./ResultManagerData.txt";
 	const char * frameinfo = "./ResultManagerFrameInfo.txt";
-	ResultManagerConfig * cfg = new ResultManagerConfig;
+	//shared_ptrs are far superior in terms of memory management etc.
+	// make_shared is exception safe.
+	std::shared_ptr<ResultManagerConfig> cfg = std::make_shared<ResultManagerConfig>();
 	cfg->numBeads = 4;
 	cfg->numFrameInfoColumns = 0;
 	cfg->scaling = vector3f(1.0, 1.0, 1.0);
@@ -52,8 +62,9 @@ int main(int argc, char* argv[])
 	std::string testName("Hey now");
 	colNames.push_back(testName);
 
+	fprintf(stderr, "Allocating Result Manager now. \n");
 	// The GodFather manages your results.
-	ResultManager* manager = new ResultManager(file, frameinfo, cfg, colNames);
+	std::shared_ptr<ResultManager> manager = std::make_shared<ResultManager>(file, frameinfo, cfg.get(), colNames);
 	//The QueuedCPUTracker instance is required to retrieve the results. It needs settings.
 	QTrkComputedConfig settings;
 	settings.qi_iterations = 2;
@@ -73,26 +84,36 @@ int main(int argc, char* argv[])
 	}
 
 	//Let's load some image data.
-	auto data = ReadJPEGFile("exp123.jpg");
+	auto data = ReadJPEGFile(fileName.c_str());
 
-	QueuedTracker * qtrk;
+	std::shared_ptr<QueuedTracker> qtrk;
+
 	if (argc == 3)
 	{
 		std::string argTracker = std::string(argv[2]);
 		if (argTracker == "gpu")
 		{
 			fprintf(stderr, "Using CUDA tracker (GPU).\n");
-			qtrk = new QueuedCUDATracker(settings);
+			std::shared_ptr<QueuedCUDATracker> cudaTracker = std::make_shared<QueuedCUDATracker>(settings);
+			cudaTracker->EnableTextureCache(true);
+
+			qtrk = cudaTracker;
+		}
+		else if(argTracker == "cpu")
+		{
+			fprintf(stderr, "Using CPU tracker (CPU).\n");
+			qtrk = std::make_shared<QueuedCPUTracker>(settings);
 		}
 		else
 		{
-			fprintf(stderr, "Using CPU tracker (CPU).\n");
-			qtrk = new QueuedCPUTracker(settings);
+			fprintf(stderr, "No tracker specified. Choose either cpu or gpu.\n");
+			return 0;
 		}
 	}
 	else
 	{
 		fprintf(stderr, "Faulty arguments. Your mother was a hamster, %d th of her name.", argc);
+		return 0;
 	}
 	//localization Mode QI tracker
 	auto modeQI = (LocMode_t)(LT_QI | LT_NormalizeProfile | LT_LocalizeZ);
@@ -115,7 +136,7 @@ int main(int argc, char* argv[])
 		jobs.push_back(job);
 		qtrk->ScheduleImageData(&data, &job);
 	}
-	manager->SetTracker(qtrk);
+	manager->SetTracker(qtrk.get());
 	//Process images (using Flush because Start is CPU only)
 	qtrk->Flush();
 	int i = 0;
@@ -124,7 +145,8 @@ int main(int argc, char* argv[])
 		if (i > 100000)
 		{
 			auto counters = manager->GetFrameCounters();
-			fprintf(stderr, "Update[%.3f]: %d Localisations performed.\n", i, counters.localizationsDone);
+			fprintf(stderr, "Update: %d Localisations performed.\n", counters.localizationsDone);
+			i = 0;
 		}
 		i++;
 	}
@@ -141,7 +163,7 @@ int main(int argc, char* argv[])
 	std::vector<LocalizationResult> results;
 
 	vector3f startPosition(0.0f, 0.0f, 0.0f);
-	vector2f initialGuess(50.0f, 50.0f);
+	vector2f initialGuess(45.0f, 50.0f);
 
 	for (int i = 0; i < N; i++)
 	{
@@ -183,7 +205,11 @@ int main(int argc, char* argv[])
 
 	printf("Frame counters:\n\t Started at %d, processed %d, finished on %d\n", counters.startFrame, counters.processedFrames, counters.lastSaveFrame);
 	printf("\tCaptured %d, localizations %d, lostFrames %d, file error %d.\n", counters.capturedFrames, counters.localizationsDone, counters.lostFrames, counters.fileError);
-	// end program  
+ 
+    //report time, end program 
+	auto timeEnd = boost::chrono::high_resolution_clock::now();
+	auto microSeconds = boost::chrono::duration_cast<boost::chrono::microseconds>(timeEnd - timeStart).count();
+	fprintf(stderr, "Note: Elapsed time %ld microseconds. \n", microSeconds);
 	return 0;
 }
 
