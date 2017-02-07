@@ -8,5 +8,5 @@ Original work by Jelmer Cnossen (jcnossen).
 Documentation located at:
 http://nynkedekkerlab.github.io/qtrk/index.html.
 
-For questions:
-j.p.a.(remove this)wassenburg@(remove this)tudelft.nl
+For questions, ask our Technician in Scientific Programming and Data Analysis, J. S. de Boer (josko.deboer@tudelft.nl).
+See also qtrk/ResultManager-test/main.cu 
