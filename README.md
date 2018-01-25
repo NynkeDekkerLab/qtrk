@@ -7,8 +7,9 @@ Documentation located at:
 http://nynkedekkerlab.github.io/qtrk/index.html.
 
 Current Developer:
-- J. S. de Boer (daimonie): Maintenance, development and support.  Questions and reports can be send to josko.deboer@tudelft.nl
+- Filip Asscher (filipasscher): maintenance.  Questions and reports can be send to f.m.asscher@tudelft.nl
 
 Previous Developers:
+- J. S. de Boer (daimonie): Maintenance, development and support
 - Jordi Wassenburg (jwassenburg): Maintenance
 - Jelmer Cnossen (jcnossen): Original Developer
